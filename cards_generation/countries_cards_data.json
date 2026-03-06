@@ -63,6 +63,14 @@
         "ressources": 10,
         "stability": 77
     },
+    "Argentina": {
+        "flag": "https://flagcdn.com/w320/ar.png",
+        "gdp": 67,
+        "innovation": 17,
+        "military": 75,
+        "ressources": 13,
+        "stability": 58
+    },
     "Arménie": {
         "flag": "https://flagcdn.com/w320/am.png",
         "gdp": 47,
@@ -263,6 +271,14 @@
         "ressources": 33,
         "stability": 77
     },
+    "Chad": {
+        "flag": "https://flagcdn.com/w320/td.png",
+        "gdp": 45,
+        "innovation": "à remplir",
+        "military": 67,
+        "ressources": 38,
+        "stability": 32
+    },
     "Chili": {
         "flag": "https://flagcdn.com/w320/cl.png",
         "gdp": 63,
@@ -302,6 +318,14 @@
         "military": "à remplir",
         "ressources": 12,
         "stability": 56
+    },
+    "Congo": {
+        "flag": "https://flagcdn.com/w320/cg.png",
+        "gdp": 44,
+        "innovation": 15,
+        "military": 67,
+        "ressources": 59,
+        "stability": 61
     },
     "Corée du Nord": {
         "flag": "https://flagcdn.com/w320/kp.png",
@@ -374,6 +398,14 @@
         "military": "à remplir",
         "ressources": 10,
         "stability": 84
+    },
+    "Egypt": {
+        "flag": "https://flagcdn.com/w320/eg.png",
+        "gdp": 64,
+        "innovation": 23,
+        "military": 74,
+        "ressources": 17,
+        "stability": 44
     },
     "El Salvador": {
         "flag": "https://flagcdn.com/w320/sv.png",
@@ -655,6 +687,14 @@
         "ressources": "à remplir",
         "stability": 68
     },
+    "Kyrgyzstan": {
+        "flag": "https://flagcdn.com/w320/kg.png",
+        "gdp": 44,
+        "innovation": 10,
+        "military": 68,
+        "ressources": 25,
+        "stability": 51
+    },
     "Laos": {
         "flag": "https://flagcdn.com/w320/la.png",
         "gdp": 44,
@@ -863,6 +903,14 @@
         "ressources": 30,
         "stability": 37
     },
+    "Myanmar": {
+        "flag": "https://flagcdn.com/w320/mm.png",
+        "gdp": 53,
+        "innovation": 10,
+        "military": 73,
+        "ressources": 21,
+        "stability": 21
+    },
     "Namibie": {
         "flag": "https://flagcdn.com/w320/na.png",
         "gdp": 43,
@@ -959,6 +1007,14 @@
         "ressources": 12,
         "stability": 25
     },
+    "Palau": {
+        "flag": "https://flagcdn.com/w320/pw.png",
+        "gdp": 19,
+        "innovation": "à remplir",
+        "military": "à remplir",
+        "ressources": 10,
+        "stability": 80
+    },
     "Palestine": {
         "flag": "https://flagcdn.com/w320/ps.png",
         "gdp": 45,
@@ -998,6 +1054,14 @@
         "military": 78,
         "ressources": 10,
         "stability": 72
+    },
+    "Peru": {
+        "flag": "https://flagcdn.com/w320/pe.png",
+        "gdp": 62,
+        "innovation": 12,
+        "military": 74,
+        "ressources": 27,
+        "stability": 51
     },
     "Philippines": {
         "flag": "https://flagcdn.com/w320/ph.png",
@@ -1086,6 +1150,14 @@
         "military": 75,
         "ressources": 11,
         "stability": 78
+    },
+    "Saint-Kitts-et-Nevis": {
+        "flag": "https://flagcdn.com/w320/kn.png",
+        "gdp": 27,
+        "innovation": "à remplir",
+        "military": "à remplir",
+        "ressources": 10,
+        "stability": 77
     },
     "Saint-Vincent-et-les Grenadines": {
         "flag": "https://flagcdn.com/w320/vc.png",
@@ -1183,6 +1255,14 @@
         "ressources": 27,
         "stability": 15
     },
+    "South Sudan": {
+        "flag": "https://flagcdn.com/w320/ss.png",
+        "gdp": "à remplir",
+        "innovation": "à remplir",
+        "military": 70,
+        "ressources": "à remplir",
+        "stability": 20
+    },
     "Spain": {
         "flag": "https://flagcdn.com/w320/es.png",
         "gdp": 73,
@@ -1215,6 +1295,22 @@
         "ressources": 12,
         "stability": 74
     },
+    "Switzerland": {
+        "flag": "https://flagcdn.com/w320/ch.png",
+        "gdp": 69,
+        "innovation": "à remplir",
+        "military": 76,
+        "ressources": 10,
+        "stability": 80
+    },
+    "Syria": {
+        "flag": "https://flagcdn.com/w320/sy.png",
+        "gdp": "à remplir",
+        "innovation": 11,
+        "military": "à remplir",
+        "ressources": "à remplir",
+        "stability": 10
+    },
     "São Tomé and Príncipe": {
         "flag": "https://flagcdn.com/w320/st.png",
         "gdp": 25,
@@ -1230,6 +1326,14 @@
         "military": 68,
         "ressources": 16,
         "stability": 58
+    },
+    "Taiwan": {
+        "flag": "https://flagcdn.com/w320/tw.png",
+        "gdp": "à remplir",
+        "innovation": "à remplir",
+        "military": "à remplir",
+        "ressources": "à remplir",
+        "stability": "à remplir"
     },
     "Tanzanie": {
         "flag": "https://flagcdn.com/w320/tz.png",
@@ -1247,6 +1351,14 @@
         "ressources": 12,
         "stability": 55
     },
+    "Timor-Leste": {
+        "flag": "https://flagcdn.com/w320/tl.png",
+        "gdp": 32,
+        "innovation": "à remplir",
+        "military": 62,
+        "ressources": 56,
+        "stability": 65
+    },
     "Togo": {
         "flag": "https://flagcdn.com/w320/tg.png",
         "gdp": 41,
@@ -1262,6 +1374,14 @@
         "military": "à remplir",
         "ressources": 10,
         "stability": 80
+    },
+    "Trinidad et Tobago": {
+        "flag": "https://flagcdn.com/w320/tt.png",
+        "gdp": 47,
+        "innovation": 10,
+        "military": 66,
+        "ressources": 20,
+        "stability": 68
     },
     "Tunisia": {
         "flag": "https://flagcdn.com/w320/tn.png",
