@@ -1,422 +1,482 @@
 [
-  {
-    "id": "ACT-001",
-    "nom": "Aide Humanitaire",
-    "type": "SOIN",
-    "cible": "JEU_ALLIE",
-    "val": 100,
-    "cond": null,
-    "description": "Restaure 100 PV à votre pays actif.",
-    "image": "images/ACT-001.png"
-  },
-  {
-    "id": "ACT-002",
-    "nom": "Réseau de Cliniques Mobiles",
-    "type": "SOIN",
-    "cible": "BANC_ALLIE",
-    "val": 50,
-    "cond": null,
-    "description": "Restaure 50 PV à toutes les cartes sur votre banc.",
-    "image": "images/ACT-002.png"
-  },
-  {
-    "id": "ACT-003",
-    "nom": "Plan National de Santé",
-    "type": "SOIN",
-    "cible": "ALLIE",
-    "val": 80,
-    "cond": null,
-    "description": "Soigne 80 PV à l'ensemble de vos pays en jeu et sur le banc.",
-    "image": "images/ACT-003.png"
-  },
-  {
-    "id": "ACT-004",
-    "nom": "Soutien du personnel soignant",
-    "type": "SOIN",
-    "cible": "JEU_ALLIE",
-    "val": 200,
-    "cond": "Type = Diplomatique",
-    "description": "Restaure 200 PV si votre pays actif est de type Diplomatique.",
-    "image": "images/ACT-004.png"
-  },
-  {
-    "id": "ACT-005",
-    "nom": "Réserve d'Urgence Sanitaire",
-    "type": "SOIN",
-    "cible": "ALLIE",
-    "val": 150,
-    "cond": "Etat < 200",
-    "description": "Restaure 150 PV si l'état de votre pays actif est critique (inférieur à 200).",
-    "image": "images/ACT-005.png"
-  },
-  {
-    "id": "ACT-006",
-    "nom": "Solidarité Régionale",
-    "type": "SOIN",
-    "cible": "BANC_ALLIE",
-    "val": 100,
-    "cond": "Rang = Émergent",
-    "description": "Restaure 100 PV au banc si votre pays actif est de Rang Émergent.",
-    "image": "images/ACT-006.png"
-  },
-  {
-    "id": "ACT-007",
-    "nom": "Accords de Libre Échange",
-    "type": "PIOCHE",
-    "cible": "DECK_ALLIE",
-    "val": 2,
-    "cond": null,
-    "description": "Piochez 2 cartes de votre deck.",
-    "image": "images/ACT-007.png"
-  },
-  {
-    "id": "ACT-008",
-    "nom": "Sommet Bilatéral",
-    "type": "PIOCHE",
-    "cible": "DECK_ALLIE",
-    "val": 1,
-    "cond": null,
-    "description": "Piochez 1 carte.",
-    "image": "images/ACT-008.png"
-  },
-  {
-    "id": "ACT-009",
-    "nom": "Recensement National",
-    "type": "PIOCHE",
-    "cible": "DECK_ALLIE",
-    "val": 3,
-    "cond": null,
-    "description": "Piochez 3 cartes.",
-    "image": "images/ACT-009.png"
-  },
-  {
-    "id": "ACT-010",
-    "nom": "Espionnage Industriel",
-    "type": "PIOCHE",
-    "cible": "DECK_ALLIE",
-    "val": 2,
-    "cond": "Type = Renseignement",
-    "description": "Piochez 2 cartes si votre pays actif est de type Renseignement.",
-    "image": "images/ACT-010.png"
-  },
-  {
-    "id": "ACT-011",
-    "nom": "Fuite de Cerveaux",
-    "type": "PIOCHE",
-    "cible": "DECK_ALLIE",
-    "val": 4,
-    "cond": "Cible_Adv = Superpuissance",
-    "description": "Piochez 4 cartes si le pays adverse est de Rang Superpuissance.",
-    "image": "images/ACT-011.png"
-  },
-  {
-    "id": "ACT-012",
-    "nom": "Think Tank",
-    "type": "PIOCHE",
-    "cible": "DECK_ALLIE",
-    "val": 2,
-    "cond": "Economie > 70",
-    "description": "Piochez 2 cartes si votre statistique Économie est supérieure à 70.",
-    "image": "images/ACT-012.png"
-  },
-  {
-    "id": "ACT-013",
-    "nom": "Paradis Fiscal",
-    "type": "FINANCE",
-    "cible": "ALLIE",
-    "val": 150,
-    "cond": null,
-    "description": "Vous gagnez 150 crédits immédiatement.",
-    "image": "images/ACT-013.png"
-  },
-  {
-    "id": "ACT-014",
-    "nom": "Sanction Économique",
-    "type": "FINANCE",
-    "cible": "JEU_ADVERSE",
-    "val": 100,
-    "cond": null,
-    "description": "L'adversaire perd 100 crédits de sa réserve.",
-    "image": "images/ACT-014.png"
-  },
-  {
-    "id": "ACT-015",
-    "nom": "Soutien du FMI",
-    "type": "FINANCE",
-    "cible": "ALLIE",
-    "val": 200,
-    "cond": null,
-    "description": "Vous recevez un financement d'urgence de 200 crédits.",
-    "image": "images/ACT-015.png"
-  },
-  {
-    "id": "ACT-016",
-    "nom": "Bulle Spéculative",
-    "type": "FINANCE",
-    "cible": "ALLIE",
-    "val": 400,
-    "cond": "Type = Économique",
-    "description": "Gagnez 400 crédits si votre pays actif est de type Économique.",
-    "image": "images/ACT-016.png"
-  },
-  {
-    "id": "ACT-017",
-    "nom": "Corruption de Haut Vol",
-    "type": "FINANCE",
-    "cible": "ADVERSE",
-    "val": 150,
-    "cond": "Stabilité < 30",
-    "description": "Volez 150 crédits à l'adversaire si sa Stabilité est inférieure à 30.",
-    "image": "images/ACT-017.png"
-  },
-  {
-    "id": "ACT-018",
-    "nom": "Exportation de Ressources",
-    "type": "FINANCE",
-    "cible": "ALLIE",
-    "val": 300,
-    "cond": "Terrain = 2",
-    "description": "Gagnez 300 crédits si le terrain actuel est Tropical.",
-    "image": "images/ACT-018.png"
-  },
-  {
-    "id": "ACT-019",
-    "nom": "Irrigation Massive",
-    "type": "TERRAIN",
-    "cible": "PLATEAU",
-    "val": 0,
-    "cond": null,
-    "description": "Le terrain devient 🏜️ Désertique.",
-    "image": "images/ACT-019.png"
-  },
-  {
-    "id": "ACT-020",
-    "nom": "Hiver Nucléaire",
-    "type": "TERRAIN",
-    "cible": "PLATEAU",
-    "val": 1,
-    "cond": null,
-    "description": "Le terrain devient 🧊 Glacial.",
-    "image": "images/ACT-020.png"
-  },
-  {
-    "id": "ACT-021",
-    "nom": "Déforestation Tropicale",
-    "type": "TERRAIN",
-    "cible": "PLATEAU",
-    "val": 2,
-    "cond": null,
-    "description": "Le terrain devient 🌴 Tropical.",
-    "image": "images/ACT-021.png"
-  },
-  {
-    "id": "ACT-022",
-    "nom": "Accord de Paris",
-    "type": "TERRAIN",
-    "cible": "PLATEAU",
-    "val": 3,
-    "cond": "Type = Isolationniste",
-    "description": "Le terrain devient 🍃 Tempéré si vous jouez un pays Isolationniste.",
-    "image": "images/ACT-022.png"
-  },
-  {
-    "id": "ACT-023",
-    "nom": "Montée des Eaux",
-    "type": "TERRAIN",
-    "cible": "PLATEAU",
-    "val": 5,
-    "cond": "Type = Économique",
-    "description": "Le terrain devient 🌊 Océanique si votre pays est Économique.",
-    "image": "images/ACT-023.png"
-  },
-  {
-    "id": "ACT-024",
-    "nom": "Forage de Haute Altitude",
-    "type": "TERRAIN",
-    "cible": "PLATEAU",
-    "val": 6,
-    "cond": "Type = Militaire",
-    "description": "Le terrain devient ⛰️ Montagneux si votre pays est Militaire.",
-    "image": "images/ACT-024.png"
-  },
-  {
-    "id": "ACT-025",
-    "nom": "Cyber-attaque",
-    "type": "DEFAUSSE",
-    "cible": "ADVERSE",
-    "val": 1,
-    "cond": null,
-    "description": "L'adversaire défausse 1 carte au hasard de sa main.",
-    "image": "images/ACT-025.png"
-  },
-  {
-    "id": "ACT-026",
-    "nom": "Rupture de Stock",
-    "type": "DEFAUSSE",
-    "cible": "DECK_ADVERSE",
-    "val": 2,
-    "cond": null,
-    "description": "Envoyez les 2 cartes du dessus du deck adverse en défausse.",
-    "image": "images/ACT-026.png"
-  },
-  {
-    "id": "ACT-027",
-    "nom": "Scandale Diplomatique",
-    "type": "DEFAUSSE",
-    "cible": "ADVERSE",
-    "val": 2,
-    "cond": null,
-    "description": "L'adversaire doit choisir et défausser 2 cartes de sa main.",
-    "image": "images/ACT-027.png"
-  },
-  {
-    "id": "ACT-028",
-    "nom": "Embargo Total",
-    "type": "DEFAUSSE",
-    "cible": "ADVERSE",
-    "val": 3,
-    "cond": "Type = Militaire",
-    "description": "L'adversaire défausse 3 cartes si votre pays actif est Militaire.",
-    "image": "images/ACT-028.png"
-  },
-  {
-    "id": "ACT-029",
-    "nom": "Propagande Intensive",
-    "type": "DEFAUSSE",
-    "cible": "ADVERSE",
-    "val": 2,
-    "cond": "Stabilité < 50",
-    "description": "Défausse 2 cartes de la main adverse si sa Stabilité est inférieure à 50.",
-    "image": "images/ACT-029.png"
-  },
-  {
-    "id": "ACT-030",
-    "nom": "Sabotage de Brevet",
-    "type": "DEFAUSSE",
-    "cible": "ADVERSE",
-    "val": 1,
-    "cond": "Technologie > 80",
-    "description": "Défausse la carte Outil équipée du pays adverse si votre Technologie est > 80.",
-    "image": "images/ACT-030.png"
-  },
-  {
-    "id": "ACT-031",
-    "nom": "Veto à l'ONU",
-    "type": "ANNULATION",
-    "cible": "JEU_ADVERSE",
-    "val": 0,
-    "cond": null,
-    "description": "Annule les effets de la dernière carte Action jouée par l'adversaire.",
-    "image": "images/ACT-031.png"
-  },
-  {
-    "id": "ACT-032",
-    "nom": "Cessez-le-feu",
-    "type": "ANNULATION",
-    "cible": "JEU_ADVERSE",
-    "val": 0,
-    "cond": null,
-    "description": "Bloque la prochaine attaque de base adverse.",
-    "image": "images/ACT-032.png"
-  },
-  {
-    "id": "ACT-033",
-    "nom": "Contre-Espionnage",
-    "type": "ANNULATION",
-    "cible": "ADVERSE",
-    "val": 0,
-    "cond": null,
-    "description": "Annule l'effet de pioche ou de regard de main de l'adversaire.",
-    "image": "images/ACT-033.png"
-  },
-  {
-    "id": "ACT-034",
-    "nom": "Bouclier Antimissile",
-    "type": "ANNULATION",
-    "cible": "JEU_ALLIE",
-    "val": 0,
-    "cond": "Type = Militaire",
-    "description": "Annule les dégâts de la prochaine attaque spéciale si vous êtes Militaire.",
-    "image": "images/ACT-034.png"
-  },
-  {
-    "id": "ACT-035",
-    "nom": "Souveraineté Numérique",
-    "type": "ANNULATION",
-    "cible": "JEU_ALLIE",
-    "val": 0,
-    "cond": "Technologie > Adversaire",
-    "description": "Immunise votre pays contre les débuffs si votre Technologie est supérieure à celle de l'adversaire.",
-    "image": "images/ACT-035.png"
-  },
-  {
-    "id": "ACT-036",
-    "nom": "Autarcie",
-    "type": "ANNULATION",
-    "cible": "JEU_ALLIE",
-    "val": 0,
-    "cond": "Type = Isolationniste",
-    "description": "Annule tout changement de terrain provoqué par l'adversaire si vous êtes Isolationniste.",
-    "image": "images/ACT-036.png"
-  },
-  {
-    "id": "ACT-037",
-    "nom": "Recyclage Industriel",
-    "type": "RECUPERATION",
-    "cible": "DECK_ALLIE",
-    "val": 1,
-    "cond": null,
-    "description": "Récupérez une carte Outil de votre défausse dans votre main.",
-    "image": "images/ACT-037.png"
-  },
-  {
-    "id": "ACT-038",
-    "nom": "Réhabilitation",
-    "type": "RECUPERATION",
-    "cible": "DECK_ALLIE",
-    "val": 1,
-    "cond": null,
-    "description": "Remettez une carte pays de votre défausse dans votre deck.",
-    "image": "images/ACT-038.png"
-  },
-  {
-    "id": "ACT-039",
-    "nom": "Archives Nationales",
-    "type": "RECUPERATION",
-    "cible": "DECK_ALLIE",
-    "val": 1,
-    "cond": null,
-    "description": "Reprenez la dernière carte Action jouée de votre défausse.",
-    "image": "images/ACT-039.png"
-  },
-  {
-    "id": "ACT-040",
-    "nom": "Plan Marshall",
-    "type": "RECUPERATION",
-    "cible": "BANC_ALLIE",
-    "val": 2,
-    "cond": "1 pays mort",
-    "description": "Récupérez 2 cartes de la défausse si au moins un de vos pays a été éliminé.",
-    "image": "images/ACT-040.png"
-  },
-  {
-    "id": "ACT-041",
-    "nom": "Alliance de Revers",
-    "type": "RECUPERATION",
-    "cible": "DECK_ALLIE",
-    "val": 1,
-    "cond": "Rang = Marginal",
-    "description": "Récupérez n'importe quelle carte si votre pays en jeu est de Rang Marginal.",
-    "image": "images/ACT-041.png"
-  },
-  {
-    "id": "ACT-042",
-    "nom": "Stimulus Économique",
-    "type": "RECUPERATION",
-    "cible": "ALLIE",
-    "val": 1,
-    "cond": "Crédits < 50",
-    "description": "Récupérez une carte de type Finance de la défausse si vous avez moins de 50 crédits.",
-    "image": "images/ACT-042.png"
-  }
+    {
+        "id": "ACT-001",
+        "nom": "Aide Humanitaire",
+        "type": "SOIN",
+        "cible": "JEU_ALLIE",
+        "val": 100,
+        "cond": null,
+        "description": "Restaure 100 PV à votre pays actif.",
+        "image": "images/action/ACT-001.png"
+    },
+    {
+        "id": "ACT-002",
+        "nom": "Réseau de Cliniques Mobiles",
+        "type": "SOIN",
+        "cible": "BANC_ALLIE",
+        "val": 50,
+        "cond": null,
+        "description": "Restaure 50 PV à toutes les cartes sur votre banc.",
+        "image": "images/action/ACT-002.png"
+    },
+    {
+        "id": "ACT-003",
+        "nom": "Plan National de Santé",
+        "type": "SOIN",
+        "cible": "ALLIE",
+        "val": 80,
+        "cond": null,
+        "description": "Soigne 80 PV à l'ensemble de vos pays en jeu et sur le banc.",
+        "image": "images/action/ACT-003.png"
+    },
+    {
+        "id": "ACT-004",
+        "nom": "Hôpital de Campagne",
+        "type": "SOIN",
+        "cible": "JEU_ALLIE",
+        "val": 120,
+        "cond": null,
+        "description": "Soigne 120 PV à votre pays actif.",
+        "image": "images/action/ACT-004.png"
+    },
+    {
+        "id": "ACT-005",
+        "nom": "Soutien du personnel soignant",
+        "type": "SOIN",
+        "cible": "JEU_ALLIE",
+        "val": 200,
+        "cond": "Type = Diplomatique",
+        "description": "Restaure 200 PV si votre pays actif est de type Diplomatique.",
+        "image": "images/action/ACT-005.png"
+    },
+    {
+        "id": "ACT-006",
+        "nom": "Réserve d'Urgence Sanitaire",
+        "type": "SOIN",
+        "cible": "ALLIE",
+        "val": 150,
+        "cond": "Etat < 200",
+        "description": "Restaure 150 PV si l'état de votre pays actif est critique (inférieur à 200).",
+        "image": "images/action/ACT-006.png"
+    },
+    {
+        "id": "ACT-007",
+        "nom": "Solidarité Régionale",
+        "type": "SOIN",
+        "cible": "BANC_ALLIE",
+        "val": 100,
+        "cond": "Rang = Émergent",
+        "description": "Restaure 100 PV au banc si votre pays actif est de Rang Émergent.",
+        "image": "images/action/ACT-007.png"
+    },
+    {
+        "id": "ACT-008",
+        "nom": "Confinement Sanitaire",
+        "type": "SOIN",
+        "cible": "ALLIE",
+        "val": 180,
+        "cond": "Type = Isolationniste",
+        "description": "Soigne 180 PV à l'ensemble de vos pays si vous êtes Isolationniste.",
+        "image": "images/action/ACT-008.png"
+    },
+    {
+        "id": "ACT-009",
+        "nom": "Accords de Libre Échange",
+        "type": "PIOCHE",
+        "cible": "DECK_ALLIE",
+        "val": 2,
+        "cond": null,
+        "description": "Piochez 2 cartes de votre deck.",
+        "image": "images/action/ACT-009.png"
+    },
+    {
+        "id": "ACT-010",
+        "nom": "Sommet Bilatéral",
+        "type": "PIOCHE",
+        "cible": "DECK_ALLIE",
+        "val": 1,
+        "cond": null,
+        "description": "Piochez 1 carte.",
+        "image": "images/action/ACT-010.png"
+    },
+    {
+        "id": "ACT-011",
+        "nom": "Recensement National",
+        "type": "PIOCHE",
+        "cible": "DECK_ALLIE",
+        "val": 3,
+        "cond": null,
+        "description": "Piochez 3 cartes.",
+        "image": "images/action/ACT-011.png"
+    },
+    {
+        "id": "ACT-012",
+        "nom": "Bibliothèque Universelle",
+        "type": "PIOCHE",
+        "cible": "DECK_ALLIE",
+        "val": 2,
+        "cond": null,
+        "description": "Piochez 2 cartes supplémentaires.",
+        "image": "images/action/ACT-012.png"
+    },
+    {
+        "id": "ACT-013",
+        "nom": "Espionnage Industriel",
+        "type": "PIOCHE",
+        "cible": "DECK_ALLIE",
+        "val": 2,
+        "cond": "Type = Renseignement",
+        "description": "Piochez 2 cartes si votre pays actif est de type Renseignement.",
+        "image": "images/action/ACT-013.png"
+    },
+    {
+        "id": "ACT-014",
+        "nom": "Fuite de Cerveaux",
+        "type": "PIOCHE",
+        "cible": "DECK_ALLIE",
+        "val": 4,
+        "cond": "Cible_Adv = Superpuissance",
+        "description": "Piochez 4 cartes si le pays adverse est de Rang Superpuissance.",
+        "image": "images/action/ACT-014.png"
+    },
+    {
+        "id": "ACT-015",
+        "nom": "Think Tank",
+        "type": "PIOCHE",
+        "cible": "DECK_ALLIE",
+        "val": 2,
+        "cond": "Economie > 70",
+        "description": "Piochez 2 cartes si votre statistique Économie est supérieure à 70.",
+        "image": "images/action/ACT-015.png"
+    },
+    {
+        "id": "ACT-016",
+        "nom": "Analyse de Données",
+        "type": "PIOCHE",
+        "cible": "DECK_ALLIE",
+        "val": 3,
+        "cond": "Technologie > 60",
+        "description": "Piochez 3 cartes si votre Technologie est supérieure à 60.",
+        "image": "images/action/ACT-016.png"
+    },
+    {
+        "id": "ACT-017",
+        "nom": "Irrigation Massive",
+        "type": "TERRAIN",
+        "cible": "PLATEAU",
+        "val": 0,
+        "cond": null,
+        "description": "Le terrain devient Désertique.",
+        "image": "images/action/ACT-017.png"
+    },
+    {
+        "id": "ACT-018",
+        "nom": "Hiver Nucléaire",
+        "type": "TERRAIN",
+        "cible": "PLATEAU",
+        "val": 1,
+        "cond": null,
+        "description": "Le terrain devient Glacial.",
+        "image": "images/action/ACT-018.png"
+    },
+    {
+        "id": "ACT-019",
+        "nom": "Déforestation Tropicale",
+        "type": "TERRAIN",
+        "cible": "PLATEAU",
+        "val": 2,
+        "cond": null,
+        "description": "Le terrain devient Tropical.",
+        "image": "images/action/ACT-019.png"
+    },
+    {
+        "id": "ACT-020",
+        "nom": "Urbanisation Galopante",
+        "type": "TERRAIN",
+        "cible": "PLATEAU",
+        "val": 4,
+        "cond": null,
+        "description": "Le terrain devient Urbain.",
+        "image": "images/action/ACT-020.png"
+    },
+    {
+        "id": "ACT-021",
+        "nom": "Accord de Paris",
+        "type": "TERRAIN",
+        "cible": "PLATEAU",
+        "val": 3,
+        "cond": "Type = Isolationniste",
+        "description": "Le terrain devient Tempéré si vous jouez un pays Isolationniste.",
+        "image": "images/action/ACT-021.png"
+    },
+    {
+        "id": "ACT-022",
+        "nom": "Montée des Eaux",
+        "type": "TERRAIN",
+        "cible": "PLATEAU",
+        "val": 5,
+        "cond": "Type = Économique",
+        "description": "Le terrain devient Océanique si votre pays est Économique.",
+        "image": "images/action/ACT-022.png"
+    },
+    {
+        "id": "ACT-023",
+        "nom": "Forage de Haute Altitude",
+        "type": "TERRAIN",
+        "cible": "PLATEAU",
+        "val": 6,
+        "cond": "Type = Militaire",
+        "description": "Le terrain devient Montagneux si votre pays est Militaire.",
+        "image": "images/action/ACT-023.png"
+    },
+    {
+        "id": "ACT-024",
+        "nom": "Sédimentation Marine",
+        "type": "TERRAIN",
+        "cible": "PLATEAU",
+        "val": 5,
+        "cond": "Rang = Marginal",
+        "description": "Le terrain devient Océanique si vous êtes de Rang Marginal.",
+        "image": "images/action/ACT-024.png"
+    },
+    {
+        "id": "ACT-025",
+        "nom": "Cyber-attaque",
+        "type": "DEFAUSSE",
+        "cible": "ADVERSE",
+        "val": 1,
+        "cond": null,
+        "description": "L'adversaire défausse 1 carte au hasard de sa main.",
+        "image": "images/action/ACT-025.png"
+    },
+    {
+        "id": "ACT-026",
+        "nom": "Rupture de Stock",
+        "type": "DEFAUSSE",
+        "cible": "DECK_ADVERSE",
+        "val": 2,
+        "cond": null,
+        "description": "Envoyez les 2 cartes du dessus du deck adverse en défausse.",
+        "image": "images/action/ACT-026.png"
+    },
+    {
+        "id": "ACT-027",
+        "nom": "Scandale Diplomatique",
+        "type": "DEFAUSSE",
+        "cible": "ADVERSE",
+        "val": 2,
+        "cond": null,
+        "description": "L'adversaire doit choisir et défausser 2 cartes de sa main.",
+        "image": "images/action/ACT-027.png"
+    },
+    {
+        "id": "ACT-028",
+        "nom": "Fuite d'Informations",
+        "type": "DEFAUSSE",
+        "cible": "ADVERSE",
+        "val": 1,
+        "cond": null,
+        "description": "L'adversaire défausse la première carte de sa pioche.",
+        "image": "images/action/ACT-028.png"
+    },
+    {
+        "id": "ACT-029",
+        "nom": "Embargo Total",
+        "type": "DEFAUSSE",
+        "cible": "ADVERSE",
+        "val": 3,
+        "cond": "Type = Militaire",
+        "description": "L'adversaire défausse 3 cartes si votre pays actif est Militaire.",
+        "image": "images/action/ACT-029.png"
+    },
+    {
+        "id": "ACT-030",
+        "nom": "Propagande Intensive",
+        "type": "DEFAUSSE",
+        "cible": "ADVERSE",
+        "val": 2,
+        "cond": "Stabilité < 50",
+        "description": "Défausse 2 cartes de la main adverse si sa Stabilité est inférieure à 50.",
+        "image": "images/action/ACT-030.png"
+    },
+    {
+        "id": "ACT-031",
+        "nom": "Sabotage de Brevet",
+        "type": "DEFAUSSE",
+        "cible": "ADVERSE",
+        "val": 1,
+        "cond": "Technologie > 80",
+        "description": "Défausse la carte Outil équipée du pays adverse si votre Technologie est > 80.",
+        "image": "images/action/ACT-031.png"
+    },
+    {
+        "id": "ACT-032",
+        "nom": "Censure d'État",
+        "type": "DEFAUSSE",
+        "cible": "ADVERSE",
+        "val": 2,
+        "cond": "Type = Renseignement",
+        "description": "Défausse 2 cartes au hasard de la main adverse si vous êtes de type Renseignement.",
+        "image": "images/action/ACT-032.png"
+    },
+    {
+        "id": "ACT-033",
+        "nom": "Veto à l'ONU",
+        "type": "ANNULATION",
+        "cible": "JEU_ADVERSE",
+        "val": 0,
+        "cond": null,
+        "description": "Annule les effets de la dernière carte Action jouée par l'adversaire.",
+        "image": "images/action/ACT-033.png"
+    },
+    {
+        "id": "ACT-034",
+        "nom": "Cessez-le-feu",
+        "type": "ANNULATION",
+        "cible": "JEU_ADVERSE",
+        "val": 0,
+        "cond": null,
+        "description": "Bloque la prochaine attaque de base adverse.",
+        "image": "images/action/ACT-034.png"
+    },
+    {
+        "id": "ACT-035",
+        "nom": "Contre-Espionnage",
+        "type": "ANNULATION",
+        "cible": "ADVERSE",
+        "val": 0,
+        "cond": null,
+        "description": "Annule l'effet de pioche ou de regard de main de l'adversaire.",
+        "image": "images/action/ACT-035.png"
+    },
+    {
+        "id": "ACT-036",
+        "nom": "Neutralité Diplomatique",
+        "type": "ANNULATION",
+        "cible": "ALLIE",
+        "val": 0,
+        "cond": null,
+        "description": "Annule la prochaine carte Action adverse qui vous cible directement.",
+        "image": "images/action/ACT-036.png"
+    },
+    {
+        "id": "ACT-037",
+        "nom": "Bouclier Antimissile",
+        "type": "ANNULATION",
+        "cible": "JEU_ALLIE",
+        "val": 0,
+        "cond": "Type = Militaire",
+        "description": "Annule les dégâts de la prochaine attaque spéciale si vous êtes Militaire.",
+        "image": "images/action/ACT-037.png"
+    },
+    {
+        "id": "ACT-038",
+        "nom": "Souveraineté Numérique",
+        "type": "ANNULATION",
+        "cible": "JEU_ALLIE",
+        "val": 0,
+        "cond": "Technologie > Adversaire",
+        "description": "Immunise votre pays contre les débuffs si votre Technologie est supérieure à celle de l'adversaire.",
+        "image": "images/action/ACT-038.png"
+    },
+    {
+        "id": "ACT-039",
+        "nom": "Autarcie",
+        "type": "ANNULATION",
+        "cible": "JEU_ALLIE",
+        "val": 0,
+        "cond": "Type = Isolationniste",
+        "description": "Annule tout changement de terrain provoqué par l'adversaire si vous êtes Isolationniste.",
+        "image": "images/action/ACT-039.png"
+    },
+    {
+        "id": "ACT-040",
+        "nom": "Protection des Frontières",
+        "type": "ANNULATION",
+        "cible": "JEU_ALLIE",
+        "val": 0,
+        "cond": "Type = Diplomatique",
+        "description": "Empêche l'adversaire de changer votre pays actif ce tour-ci si vous êtes Diplomatique.",
+        "image": "images/action/ACT-040.png"
+    },
+    {
+        "id": "ACT-041",
+        "nom": "Recyclage Industriel",
+        "type": "RECUPERATION",
+        "cible": "DECK_ALLIE",
+        "val": 1,
+        "cond": null,
+        "description": "Récupérez une carte Outil de votre défausse dans votre main.",
+        "image": "images/action/ACT-041.png"
+    },
+    {
+        "id": "ACT-042",
+        "nom": "Réhabilitation",
+        "type": "RECUPERATION",
+        "cible": "DECK_ALLIE",
+        "val": 1,
+        "cond": null,
+        "description": "Remettez une carte pays de votre défausse dans votre deck.",
+        "image": "images/action/ACT-042.png"
+    },
+    {
+        "id": "ACT-043",
+        "nom": "Archives Nationales",
+        "type": "RECUPERATION",
+        "cible": "DECK_ALLIE",
+        "val": 1,
+        "cond": null,
+        "description": "Reprenez la dernière carte Action jouée de votre défausse.",
+        "image": "images/action/ACT-043.png"
+    },
+    { 
+        "id": "ACT-044",
+        "nom": "Mémoire Collective",
+        "type": "RECUPERATION",
+        "cible": "DECK_ALLIE",
+        "val": 1,
+        "cond": null,
+        "description": "Reprenez la première carte de votre défausse.",
+        "image": "images/action/ACT-044.png"
+    },
+    {
+        "id": "ACT-045",
+        "nom": "Plan Marshall",
+        "type": "RECUPERATION",
+        "cible": "BANC_ALLIE",
+        "val": 2,
+        "cond": "1 pays mort",
+        "description": "Récupérez 2 cartes de la défausse si au moins un de vos pays a été éliminé.",
+        "image": "images/action/ACT-045.png"
+    },
+    {
+        "id": "ACT-046",
+        "nom": "Alliance de Revers",
+        "type": "RECUPERATION",
+        "cible": "DECK_ALLIE",
+        "val": 1,
+        "cond": "Rang = Marginal",
+        "description": "Récupérez n'importe quelle carte si votre pays en jeu est de Rang Marginal.",
+        "image": "images/action/ACT-046.png"
+    },
+    {
+        "id": "ACT-047",
+        "nom": "Stimulus Économique",
+        "type": "RECUPERATION",
+        "cible": "ALLIE",
+        "val": 1,
+        "cond": "Crédits < 50",
+        "description": "Récupérez une carte de type Finance de la défausse si vous avez moins de 50 crédits.",
+        "image": "images/action/ACT-047.png"
+    },
+    {
+        "id": "ACT-048",
+        "nom": "Héritage Culturel",
+        "type": "RECUPERATION",
+        "cible": "ALLIE",
+        "val": 2,
+        "cond": "Type = Diplomatique",
+        "description": "Récupérez 2 cartes Action de la défausse si vous êtes de type Diplomatique.",
+        "image": "images/action/ACT-048.png"
+    }
 ]
