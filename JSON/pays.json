@@ -16,11 +16,40 @@
             "stabilité": 15
         },
         "effet_spécial": {
-            "type": "debuff statistique(s) adverse",
             "nom": "Cimetière des Empires",
             "coût": 50,
-            "valeur": 49,
-            "lore": "Réduit la puissance militaire adverse grâce à sa topographie redoutable."
+            "condition" : "",
+            "description": "Réduit la puissance militaire adverse grâce à sa topographie redoutable.",
+            "cibles": {
+                "jeu": null,
+                "banc": null,
+                "main": null,
+                "deck": null,
+                "jeu_banc": null,
+                "credit": null,
+                "jeu_adverse": true,
+                "banc_adverse": null,
+                "main_adverse": null,
+                "deck_adverse": null,
+                "jeu_banc_adverse": null,
+                "credit_adverse": null,
+                "plateau": null
+            },
+            "variables": {
+                "etat": null,
+                "statistiques": {
+                    "puissance": true,
+                    "économie": null,
+                    "ressources": null,
+                    "technologie": null,
+                    "stabilité": null
+                },
+                "cout_pose": null,
+                "cout_effet": null,
+                "argent": null,
+                "emplacement": null
+            },
+            "valeur": -20
         },
         "lore": "Nation enclavée et montagneuse, reconnue pour sa résistance farouche aux invasions étrangères."
     },
