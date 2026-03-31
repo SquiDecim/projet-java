@@ -1,0 +1,4929 @@
+[
+    {
+        "id": "AF_001",
+        "nom": "Afghanistan",
+        "emoji": "🇦🇫",
+        "rang": "Marginal",
+        "type": "Isolationniste",
+        "image": "images/AF_001.png",
+        "coût_de_pose_en_credits": 150,
+        "etat_du_pays_initial": 298,
+        "statistiques": {
+            "puissance": 44,
+            "économie": 45,
+            "ressources": 11,
+            "technologie": 35,
+            "stabilité": 15
+        },
+        "effet_spécial": {
+            "type": "debuff statistique(s) adverse",
+            "nom": "Cimetière des Empires",
+            "coût_en_credit": 50,
+            "valeur": 49,
+            "lore/explication_effets": "Réduit la puissance militaire adverse grâce à sa topographie redoutable."
+        },
+        "lore": "Nation enclavée et montagneuse, reconnue pour sa résistance farouche aux invasions étrangères."
+    },
+    {
+        "id": "AF_002",
+        "nom": "Afrique du Sud",
+        "emoji": "🇿🇦",
+        "rang": "Émergent",
+        "type": "Économique",
+        "image": "images/AF_002.png",
+        "coût_de_pose_en_credits": 350,
+        "etat_du_pays_initial": 446,
+        "statistiques": {
+            "puissance": 73,
+            "économie": 64,
+            "ressources": 20,
+            "technologie": 18,
+            "stabilité": 48
+        },
+        "effet_spécial": {
+            "type": "debuff économique adverse",
+            "nom": "Monopole Minier",
+            "coût_en_credit": 116,
+            "valeur": 40,
+            "lore/explication_effets": "Gèle les avoirs adverses en bloquant l'exportation de métaux précieux."
+        },
+        "lore": "La nation arc-en-ciel est une puissance clé du continent, bâtie sur d'immenses richesses minières."
+    },
+    {
+        "id": "AL_003",
+        "nom": "Albanie",
+        "emoji": "🇦🇱",
+        "rang": "Marginal",
+        "type": "Isolationniste",
+        "image": "images/AL_003.png",
+        "coût_de_pose_en_credits": 150,
+        "etat_du_pays_initial": 454,
+        "statistiques": {
+            "puissance": 68,
+            "économie": 47,
+            "ressources": 12,
+            "technologie": 36,
+            "stabilité": 64
+        },
+        "effet_spécial": {
+            "type": "buff statistique(s) allié",
+            "nom": "Héritage des Bunkers",
+            "coût_en_credit": 50,
+            "valeur": 18,
+            "lore/explication_effets": "Augmente la stabilité du banc allié grâce à son réseau de défense historique."
+        },
+        "lore": "Petit pays des Balkans autrefois fermé, parsemé de dizaines de milliers de bunkers."
+    },
+    {
+        "id": "AL_004",
+        "nom": "Algérie",
+        "emoji": "🇩🇿",
+        "rang": "Émergent",
+        "type": "Militaire",
+        "image": "images/AL_004.png",
+        "coût_de_pose_en_credits": 350,
+        "etat_du_pays_initial": 540,
+        "statistiques": {
+            "puissance": 79,
+            "économie": 61,
+            "ressources": 40,
+            "technologie": 40,
+            "stabilité": 50
+        },
+        "effet_spécial": {
+            "type": "debuff économique adverse",
+            "nom": "Pression Gazière",
+            "coût_en_credit": 116,
+            "valeur": 35,
+            "lore/explication_effets": "Augmente les coûts de l'adversaire en limitant l'approvisionnement énergétique."
+        },
+        "lore": "Le plus vaste pays d'Afrique, force régionale majeure grâce à ses hydrocarbures."
+    },
+    {
+        "id": "AL_005",
+        "nom": "Allemagne",
+        "emoji": "🇩🇪",
+        "rang": "Dominant",
+        "type": "Économique",
+        "image": "images/AL_005.png",
+        "coût_de_pose_en_credits": 750,
+        "etat_du_pays_initial": 586,
+        "statistiques": {
+            "puissance": 82,
+            "économie": 79,
+            "ressources": 10,
+            "technologie": 51,
+            "stabilité": 71
+        },
+        "effet_spécial": {
+            "type": "buff économique allié",
+            "nom": "Moteur Européen",
+            "coût_en_credit": 250,
+            "valeur": 25,
+            "lore/explication_effets": "Génère des revenus massifs en soutenant les économies alliées."
+        },
+        "lore": "Cœur industriel de l'Europe, leader mondial des exportations de haute qualité."
+    },
+    {
+        "id": "AN_006",
+        "nom": "Andorre",
+        "emoji": "🇦🇩",
+        "rang": "Marginal",
+        "type": "Économique",
+        "image": "images/AN_006.png",
+        "coût_de_pose_en_credits": 150,
+        "etat_du_pays_initial": 394,
+        "statistiques": {
+            "puissance": 33,
+            "économie": 35,
+            "ressources": 10,
+            "technologie": 30,
+            "stabilité": 89
+        },
+        "effet_spécial": {
+            "type": "Effet sur la pioche",
+            "nom": "Secret Bancaire",
+            "coût_en_credit": 50,
+            "valeur": 20,
+            "lore/explication_effets": "Permet de piocher des cartes protégées des regards adverses."
+        },
+        "lore": "Principauté pyrénéenne prospère grâce à son tourisme et sa fiscalité attractive."
+    },
+    {
+        "id": "AN_007",
+        "nom": "Angola",
+        "emoji": "🇦🇴",
+        "rang": "Émergent",
+        "type": "Économique",
+        "image": "images/AN_007.png",
+        "coût_de_pose_en_credits": 350,
+        "etat_du_pays_initial": 510,
+        "statistiques": {
+            "puissance": 71,
+            "économie": 56,
+            "ressources": 49,
+            "technologie": 25,
+            "stabilité": 54
+        },
+        "effet_spécial": {
+            "type": "Soin sur l'état du pays allié",
+            "nom": "Pétro-diplomatie",
+            "coût_en_credit": 116,
+            "valeur": 39,
+            "lore/explication_effets": "Restaure la santé des alliés via le financement pétrolier."
+        },
+        "lore": "Puissance pétrolière africaine en reconstruction rapide après des décennies de conflit."
+    },
+    {
+        "id": "AN_008",
+        "nom": "Antigua-et-Barbuda",
+        "emoji": "🇦🇬",
+        "rang": "Marginal",
+        "type": "Diplomatique",
+        "image": "images/AN_008.png",
+        "coût_de_pose_en_credits": 150,
+        "etat_du_pays_initial": 300,
+        "statistiques": {
+            "puissance": 43,
+            "économie": 31,
+            "ressources": 10,
+            "technologie": 10,
+            "stabilité": 77
+        },
+        "effet_spécial": {
+            "type": "buff statistique(s) allié",
+            "nom": "Pavillon de Complaisance",
+            "coût_en_credit": 50,
+            "valeur": 36,
+            "lore/explication_effets": "Protège les échanges alliés en contournant les régulations."
+        },
+        "lore": "État insulaire des Caraïbes misant sur le tourisme et les services maritimes."
+    },
+    {
+        "id": "AR_009",
+        "nom": "Arabie saoudite",
+        "emoji": "🇸🇦",
+        "rang": "Établi",
+        "type": "Économique",
+        "image": "images/AR_009.png",
+        "coût_de_pose_en_credits": 550,
+        "etat_du_pays_initial": 540,
+        "statistiques": {
+            "puissance": 83,
+            "économie": 71,
+            "ressources": 44,
+            "technologie": 16,
+            "stabilité": 56
+        },
+        "effet_spécial": {
+            "type": "debuff économique adverse",
+            "nom": "Guerre des Prix",
+            "coût_en_credit": 183,
+            "valeur": 45,
+            "lore/explication_effets": "Inonde le marché de pétrole pour affaiblir l'économie adverse."
+        },
+        "lore": "Géant du Moyen-Orient, cœur de l'Islam et première puissance pétrolière mondiale."
+    },
+    {
+        "id": "AR_010",
+        "nom": "Argentine",
+        "emoji": "🇦🇷",
+        "rang": "Émergent",
+        "type": "Diplomatique",
+        "image": "images/AR_010.png",
+        "coût_de_pose_en_credits": 350,
+        "etat_du_pays_initial": 460,
+        "statistiques": {
+            "puissance": 75,
+            "économie": 67,
+            "ressources": 13,
+            "technologie": 17,
+            "stabilité": 58
+        },
+        "effet_spécial": {
+            "type": "debuff économique adverse",
+            "nom": "Inflation Exportée",
+            "coût_en_credit": 116,
+            "valeur": 42,
+            "lore/explication_effets": "Déstabilise le coût des capacités adverses sur le marché."
+        },
+        "lore": "Puissance sud-américaine riche en ressources agricoles mais sujette à l'instabilité économique."
+    },
+    {
+        "id": "AR_011",
+        "nom": "Arménie",
+        "emoji": "🇦🇲",
+        "rang": "Marginal",
+        "type": "Renseignement",
+        "image": "images/AR_011.png",
+        "coût_de_pose_en_credits": 150,
+        "etat_du_pays_initial": 388,
+        "statistiques": {
+            "puissance": 71,
+            "économie": 47,
+            "ressources": 19,
+            "technologie": 12,
+            "stabilité": 45
+        },
+        "effet_spécial": {
+            "type": "Dégât sur l'état du pays adverse",
+            "nom": "Réseau de la Diaspora",
+            "coût_en_credit": 50,
+            "valeur": 13,
+            "lore/explication_effets": "Mobilise ses expatriés pour saper l'influence de ses rivaux."
+        },
+        "lore": "Terre antique du Caucase s'appuyant sur l'influence mondiale de son immense diaspora."
+    },
+    {
+        "id": "AU_012",
+        "nom": "Australie",
+        "emoji": "🇦🇺",
+        "rang": "Établi",
+        "type": "Économique",
+        "image": "images/AU_012.png",
+        "coût_de_pose_en_credits": 550,
+        "etat_du_pays_initial": 606,
+        "statistiques": {
+            "puissance": 80,
+            "économie": 73,
+            "ressources": 28,
+            "technologie": 45,
+            "stabilité": 77
+        },
+        "effet_spécial": {
+            "type": "Soin sur l'état du pays allié",
+            "nom": "Isolement Stratégique",
+            "coût_en_credit": 183,
+            "valeur": 35,
+            "lore/explication_effets": "Restaure la santé des alliés en offrant une base arrière sécurisée."
+        },
+        "lore": "Île-continent stable, pilier de la sécurité dans le Pacifique et riche en minerais."
+    },
+    {
+        "id": "AU_013",
+        "nom": "Autriche",
+        "emoji": "🇦🇹",
+        "rang": "Établi",
+        "type": "Diplomatique",
+        "image": "images/AU_013.png",
+        "coût_de_pose_en_credits": 550,
+        "etat_du_pays_initial": 554,
+        "statistiques": {
+            "puissance": 75,
+            "économie": 66,
+            "ressources": 10,
+            "technologie": 52,
+            "stabilité": 74
+        },
+        "effet_spécial": {
+            "type": "bloque le tour adverse",
+            "nom": "Neutralité Perpétuelle",
+            "coût_en_credit": 183,
+            "valeur": 1,
+            "lore/explication_effets": "Empêche la prochaine attaque en invoquant son statut de pays neutre."
+        },
+        "lore": "Carrefour diplomatique européen, siège de nombreuses agences internationales."
+    },
+    {
+        "id": "AZ_014",
+        "nom": "Azerbaïdjan",
+        "emoji": "🇦🇿",
+        "rang": "Émergent",
+        "type": "Militaire",
+        "image": "images/AZ_014.png",
+        "coût_de_pose_en_credits": 350,
+        "etat_du_pays_initial": 450,
+        "statistiques": {
+            "puissance": 74,
+            "économie": 53,
+            "ressources": 49,
+            "technologie": 12,
+            "stabilité": 37
+        },
+        "effet_spécial": {
+            "type": "buff statistique(s) allié",
+            "nom": "Manne Pétrolière",
+            "coût_en_credit": 116,
+            "valeur": 20,
+            "lore/explication_effets": "Booste la puissance militaire alliée grâce aux revenus énergétiques."
+        },
+        "lore": "Nation du Caucase affirmant sa supériorité régionale via ses exportations de gaz."
+    },
+    {
+        "id": "BA_015",
+        "nom": "Bahamas",
+        "emoji": "🇧🇸",
+        "rang": "Marginal",
+        "type": "Économique",
+        "image": "images/BA_015.png",
+        "coût_de_pose_en_credits": 150,
+        "etat_du_pays_initial": 312,
+        "statistiques": {
+            "puissance": 10,
+            "économie": 44,
+            "ressources": 10,
+            "technologie": 13,
+            "stabilité": 79
+        },
+        "effet_spécial": {
+            "type": "debuff économique adverse",
+            "nom": "Paradis Fiscal",
+            "coût_en_credit": 50,
+            "valeur": 40,
+            "lore/explication_effets": "Siphonne les crédits adverses en attirant les capitaux étrangers."
+        },
+        "lore": "Archipel dont l'économie repose sur le tourisme de luxe et la finance offshore."
+    },
+    {
+        "id": "BA_016",
+        "nom": "Bahreïn",
+        "emoji": "🇧🇭",
+        "rang": "Marginal",
+        "type": "Diplomatique",
+        "image": "images/BA_016.png",
+        "coût_de_pose_en_credits": 150,
+        "etat_du_pays_initial": 440,
+        "statistiques": {
+            "puissance": 72,
+            "économie": 51,
+            "ressources": 32,
+            "technologie": 12,
+            "stabilité": 53
+        },
+        "effet_spécial": {
+            "type": "buff statistique(s) allié",
+            "nom": "Port d'Attache",
+            "coût_en_credit": 50,
+            "valeur": 24,
+            "lore/explication_effets": "Augmente la défense des alliés en accueillant leurs flottes."
+        },
+        "lore": "Petit royaume insulaire du Golfe, plaque tournante stratégique pour les marines alliées."
+    },
+    {
+        "id": "BA_017",
+        "nom": "Bangladesh",
+        "emoji": "🇧🇩",
+        "rang": "Émergent",
+        "type": "Économique",
+        "image": "images/BA_017.png",
+        "coût_de_pose_en_credits": 350,
+        "etat_du_pays_initial": 418,
+        "statistiques": {
+            "puissance": 74,
+            "économie": 65,
+            "ressources": 11,
+            "technologie": 15,
+            "stabilité": 44
+        },
+        "effet_spécial": {
+            "type": "buff économique allié",
+            "nom": "Atelier du Monde",
+            "coût_en_credit": 116,
+            "valeur": 35,
+            "lore/explication_effets": "Génère des crédits constants grâce à son industrie textile massive."
+        },
+        "lore": "Nation densément peuplée, devenue un moteur de l'industrie manufacturière mondiale."
+    },
+    {
+        "id": "BA_018",
+        "nom": "Barbade",
+        "emoji": "🇧🇧",
+        "rang": "Marginal",
+        "type": "Diplomatique",
+        "image": "images/BA_018.png",
+        "coût_de_pose_en_credits": 150,
+        "etat_du_pays_initial": 332,
+        "statistiques": {
+            "puissance": 24,
+            "économie": 39,
+            "ressources": 10,
+            "technologie": 15,
+            "stabilité": 82
+        },
+        "effet_spécial": {
+            "type": "Effet sur la pioche",
+            "nom": "Nouvelle République",
+            "coût_en_credit": 50,
+            "valeur": 1,
+            "lore/explication_effets": "L'émancipation diplomatique permet de piocher une carte supplémentaire."
+        },
+        "lore": "Jeune république caribéenne s'affirmant par son soft power culturel."
+    },
+    {
+        "id": "BE_019",
+        "nom": "Belgique",
+        "emoji": "🇧🇪",
+        "rang": "Établi",
+        "type": "Diplomatique",
+        "image": "images/BE_019.png",
+        "coût_de_pose_en_credits": 550,
+        "etat_du_pays_initial": 552,
+        "statistiques": {
+            "puissance": 76,
+            "économie": 67,
+            "ressources": 10,
+            "technologie": 55,
+            "stabilité": 68
+        },
+        "effet_spécial": {
+            "type": "buff statistique(s) allié",
+            "nom": "Cœur de l'Europe",
+            "coût_en_credit": 183,
+            "valeur": 25,
+            "lore/explication_effets": "Booste l'efficacité diplomatique de tout le banc allié."
+        },
+        "lore": "Siège des institutions majeures de l'UE et de l'OTAN, carrefour de l'Europe."
+    },
+    {
+        "id": "BE_020",
+        "nom": "Belize",
+        "emoji": "🇧🇿",
+        "rang": "Marginal",
+        "type": "Isolationniste",
+        "image": "images/BE_020.png",
+        "coût_de_pose_en_credits": 150,
+        "etat_du_pays_initial": 374,
+        "statistiques": {
+            "puissance": 60,
+            "économie": 34,
+            "ressources": 11,
+            "technologie": 18,
+            "stabilité": 71
+        },
+        "effet_spécial": {
+            "type": "Soin sur l'état du pays allié",
+            "nom": "Sanctuaire Tropical",
+            "coût_en_credit": 50,
+            "valeur": 40,
+            "lore/explication_effets": "Abrite et soigne un pays allié grâce à sa géographie préservée."
+        },
+        "lore": "Petit État d'Amérique centrale, discret et protégé par sa barrière de corail."
+    },
+    {
+        "id": "BE_021",
+        "nom": "Bénin",
+        "emoji": "🇧🇯",
+        "rang": "Marginal",
+        "type": "Diplomatique",
+        "image": "images/BE_021.png",
+        "coût_de_pose_en_credits": 150,
+        "etat_du_pays_initial": 404,
+        "statistiques": {
+            "puissance": 65,
+            "économie": 45,
+            "ressources": 13,
+            "technologie": 24,
+            "stabilité": 54
+        },
+        "effet_spécial": {
+            "type": "debuff économique adverse",
+            "nom": "Porte de l'Afrique",
+            "coût_en_credit": 50,
+            "valeur": 20,
+            "lore/explication_effets": "Taxe les flux commerciaux adverses passant par ses ports."
+        },
+        "lore": "Nation d'Afrique de l'Ouest reconnue pour sa stabilité démocratique historique."
+    },
+    {
+        "id": "BH_022",
+        "nom": "Bhoutan",
+        "emoji": "🇧🇹",
+        "rang": "Marginal",
+        "type": "Isolationniste",
+        "image": "images/BH_022.png",
+        "coût_de_pose_en_credits": 150,
+        "etat_du_pays_initial": 320,
+        "statistiques": {
+            "puissance": 10,
+            "économie": 34,
+            "ressources": 14,
+            "technologie": 24,
+            "stabilité": 78
+        },
+        "effet_spécial": {
+            "type": "debuff statistique(s) adverse",
+            "nom": "Bonheur National Brut",
+            "coût_en_credit": 50,
+            "valeur": 30,
+            "lore/explication_effets": "Réduit l'agressivité adverse face à sa stabilité spirituelle."
+        },
+        "lore": "Royaume himalayen privilégiant le bien-être et l'écologie à la croissance brute."
+    },
+    {
+        "id": "BI_023",
+        "nom": "Biélorussie",
+        "emoji": "🇧🇾",
+        "rang": "Émergent",
+        "type": "Isolationniste",
+        "image": "images/BI_023.png",
+        "coût_de_pose_en_credits": 350,
+        "etat_du_pays_initial": 440,
+        "statistiques": {
+            "puissance": 72,
+            "économie": 53,
+            "ressources": 12,
+            "technologie": 16,
+            "stabilité": 67
+        },
+        "effet_spécial": {
+            "type": "Effet sur la pioche",
+            "nom": "Zone Tampon",
+            "coût_en_credit": 116,
+            "valeur": 2,
+            "lore/explication_effets": "Force l'adversaire à défausser une carte action stratégique."
+        },
+        "lore": "État d'Europe de l'Est maintenant une économie très centralisée et des frontières fermées."
+    },
+    {
+        "id": "BI_024",
+        "nom": "Birmanie (Myanmar)",
+        "emoji": "🇲🇲",
+        "rang": "Marginal",
+        "type": "Militaire",
+        "image": "images/BI_024.png",
+        "coût_de_pose_en_credits": 150,
+        "etat_du_pays_initial": 356,
+        "statistiques": {
+            "puissance": 73,
+            "économie": 53,
+            "ressources": 21,
+            "technologie": 10,
+            "stabilité": 21
+        },
+        "effet_spécial": {
+            "type": "Dégât sur l'état du pays adverse",
+            "nom": "Loi Martiale",
+            "coût_en_credit": 50,
+            "valeur": 35,
+            "lore/explication_effets": "Inflige des dégâts brutaux via une mobilisation totale."
+        },
+        "lore": "Nation d'Asie du Sud-Est riche en jade, marquée par une gouvernance militaire stricte."
+    },
+    {
+        "id": "BO_025",
+        "nom": "Bolivie",
+        "emoji": "🇧🇴",
+        "rang": "Émergent",
+        "type": "Économique",
+        "image": "images/BO_025.png",
+        "coût_de_pose_en_credits": 350,
+        "etat_du_pays_initial": 448,
+        "statistiques": {
+            "puissance": 69,
+            "économie": 51,
+            "ressources": 22,
+            "technologie": 27,
+            "stabilité": 55
+        },
+        "effet_spécial": {
+            "type": "buff statistique(s) allié",
+            "nom": "Triangle du Lithium",
+            "coût_en_credit": 116,
+            "valeur": 28,
+            "lore/explication_effets": "Utilise ses ressources minérales pour améliorer la technologie du banc."
+        },
+        "lore": "Pays andin possédant les plus grandes réserves mondiales de lithium."
+    },
+    {
+        "id": "BO_026",
+        "nom": "Bosnie-Herzégovine",
+        "emoji": "🇧🇦",
+        "rang": "Marginal",
+        "type": "Diplomatique",
+        "image": "images/BO_026.png",
+        "coût_de_pose_en_credits": 150,
+        "etat_du_pays_initial": 380,
+        "statistiques": {
+            "puissance": 65,
+            "économie": 48,
+            "ressources": 11,
+            "technologie": 12,
+            "stabilité": 54
+        },
+        "effet_spécial": {
+            "type": "buff statistique(s) allié",
+            "nom": "Équilibre Fragile",
+            "coût_en_credit": 50,
+            "valeur": 20,
+            "lore/explication_effets": "Renforce la stabilité des alliés via une diplomatie de consensus."
+        },
+        "lore": "Nation des Balkans à l'histoire complexe, pivot de la stabilité régionale."
+    },
+    {
+        "id": "BO_027",
+        "nom": "Botswana",
+        "emoji": "🇧🇼",
+        "rang": "Marginal",
+        "type": "Économique",
+        "image": "images/BO_027.png",
+        "coût_de_pose_en_credits": 150,
+        "etat_du_pays_initial": 464,
+        "statistiques": {
+            "puissance": 68,
+            "économie": 45,
+            "ressources": 11,
+            "technologie": 29,
+            "stabilité": 79
+        },
+        "effet_spécial": {
+            "type": "buff économique allié",
+            "nom": "Diamants de la Paix",
+            "coût_en_credit": 50,
+            "valeur": 25,
+            "lore/explication_effets": "Génère des crédits sécurisés via une gestion exemplaire des ressources."
+        },
+        "lore": "Modèle de stabilité africaine, tirant sa richesse de diamants gérés éthiquement."
+    },
+    {
+        "id": "BR_028",
+        "nom": "Brésil",
+        "emoji": "🇧🇷",
+        "rang": "Établi",
+        "type": "Diplomatique",
+        "image": "images/BR_028.png",
+        "coût_de_pose_en_credits": 550,
+        "etat_du_pays_initial": 520,
+        "statistiques": {
+            "puissance": 79,
+            "économie": 74,
+            "ressources": 20,
+            "technologie": 34,
+            "stabilité": 53
+        },
+        "effet_spécial": {
+            "type": "buff économique allié",
+            "nom": "Géant des BRICS",
+            "coût_en_credit": 183,
+            "valeur": 47,
+            "lore/explication_effets": "Propulse l'économie des pays alliés émergents."
+        },
+        "lore": "Leader agro-industriel mondial et voix majeure du Sud Global."
+    },
+    {
+        "id": "BR_029",
+        "nom": "Brunei",
+        "emoji": "🇧🇳",
+        "rang": "Marginal",
+        "type": "Économique",
+        "image": "images/BR_029.png",
+        "coût_de_pose_en_credits": 150,
+        "etat_du_pays_initial": 516,
+        "statistiques": {
+            "puissance": 68,
+            "économie": 44,
+            "ressources": 42,
+            "technologie": 19,
+            "stabilité": 85
+        },
+        "effet_spécial": {
+            "type": "debuff économique adverse",
+            "nom": "Trésor du Sultan",
+            "coût_en_credit": 50,
+            "valeur": 26,
+            "lore/explication_effets": "Réduit les revenus adverses en manipulant les fonds souverains."
+        },
+        "lore": "Petit sultanat de Bornéo, immensément riche grâce à son pétrole offshore."
+    },
+    {
+        "id": "BU_030",
+        "nom": "Bulgarie",
+        "emoji": "🇧🇬",
+        "rang": "Marginal",
+        "type": "Renseignement",
+        "image": "images/BU_030.png",
+        "coût_de_pose_en_credits": 150,
+        "etat_du_pays_initial": 452,
+        "statistiques": {
+            "puissance": 72,
+            "économie": 56,
+            "ressources": 11,
+            "technologie": 20,
+            "stabilité": 67
+        },
+        "effet_spécial": {
+            "type": "debuff statistique(s) adverse",
+            "nom": "Carrefour Balkanique",
+            "coût_en_credit": 50,
+            "valeur": 25,
+            "lore/explication_effets": "Intercepte les flux d'informations pour réduire la technologie adverse."
+        },
+        "lore": "Ancien hub technologique de l'Est, devenu un partenaire stratégique en Europe."
+    },
+    {
+        "id": "BU_031",
+        "nom": "Burkina Faso",
+        "emoji": "🇧🇫",
+        "rang": "Marginal",
+        "type": "Militaire",
+        "image": "images/BU_031.png",
+        "coût_de_pose_en_credits": 150,
+        "etat_du_pays_initial": 390,
+        "statistiques": {
+            "puissance": 70,
+            "économie": 46,
+            "ressources": 36,
+            "technologie": 20,
+            "stabilité": 23
+        },
+        "effet_spécial": {
+            "type": "bloque le tour adverse",
+            "nom": "Résilience Populaire",
+            "coût_en_credit": 50,
+            "valeur": 1,
+            "lore/explication_effets": "Annule toute attaque diplomatique adverse ce tour-ci."
+        },
+        "lore": "Pays sahélien à la culture politique marquée par un fort esprit d'indépendance."
+    },
+    {
+        "id": "BU_032",
+        "nom": "Burundi",
+        "emoji": "🇧🇮",
+        "rang": "Marginal",
+        "type": "Isolationniste",
+        "image": "images/BU_032.png",
+        "coût_de_pose_en_credits": 150,
+        "etat_du_pays_initial": 414,
+        "statistiques": {
+            "puissance": 65,
+            "économie": 35,
+            "ressources": 28,
+            "technologie": 40,
+            "stabilité": 39
+        },
+        "effet_spécial": {
+            "type": "debuff économique adverse",
+            "nom": "Enclavement Protecteur",
+            "coût_en_credit": 50,
+            "valeur": 20,
+            "lore/explication_effets": "Handicape les pays adverses basés sur l'exportation."
+        },
+        "lore": "Petit État dense des Grands Lacs, confronté à d'importants défis géopolitiques."
+    },
+    {
+        "id": "CA_033",
+        "nom": "Cambodge",
+        "emoji": "🇰🇭",
+        "rang": "Marginal",
+        "type": "Économique",
+        "image": "images/CA_033.png",
+        "coût_de_pose_en_credits": 150,
+        "etat_du_pays_initial": 472,
+        "statistiques": {
+            "puissance": 69,
+            "économie": 50,
+            "ressources": 11,
+            "technologie": 45,
+            "stabilité": 61
+        },
+        "effet_spécial": {
+            "type": "buff économique allié",
+            "nom": "Essor Manufacturier",
+            "coût_en_credit": 50,
+            "valeur": 25,
+            "lore/explication_effets": "Génère des crédits constants via son industrie textile."
+        },
+        "lore": "Ancien royaume khmer en plein rebond économique en Asie du Sud-Est."
+    },
+    {
+        "id": "CA_034",
+        "nom": "Cameroun",
+        "emoji": "🇨🇲",
+        "rang": "Marginal",
+        "type": "Économique",
+        "image": "images/CA_034.png",
+        "coût_de_pose_en_credits": 150,
+        "etat_du_pays_initial": 440,
+        "statistiques": {
+            "puissance": 68,
+            "économie": 51,
+            "ressources": 17,
+            "technologie": 49,
+            "stabilité": 35
+        },
+        "effet_spécial": {
+            "type": "buff statistique(s) allié",
+            "nom": "Afrique en Miniature",
+            "coût_en_credit": 50,
+            "valeur": 22,
+            "lore/explication_effets": "Renforce la puissance diplomatique des alliés africains."
+        },
+        "lore": "Pivot central du continent, célèbre pour son incroyable diversité géographique."
+    },
+    {
+        "id": "CA_035",
+        "nom": "Canada",
+        "emoji": "🇨🇦",
+        "rang": "Dominant",
+        "type": "Diplomatique",
+        "image": "images/CA_035.png",
+        "coût_de_pose_en_credits": 750,
+        "etat_du_pays_initial": 554,
+        "statistiques": {
+            "puissance": 80,
+            "économie": 74,
+            "ressources": 16,
+            "technologie": 32,
+            "stabilité": 75
+        },
+        "effet_spécial": {
+            "type": "Soin sur l'état du pays allié",
+            "nom": "Casques Bleus",
+            "coût_en_credit": 250,
+            "valeur": 40,
+            "lore/explication_effets": "Déploie une aide massive pour restaurer un allié sur le banc."
+        },
+        "lore": "Géant nord-américain misant sur un soft power diplomatique influent."
+    },
+    {
+        "id": "CA_036",
+        "nom": "Cap-Vert",
+        "emoji": "🇨🇻",
+        "rang": "Marginal",
+        "type": "Diplomatique",
+        "image": "images/CA_036.png",
+        "coût_de_pose_en_credits": 150,
+        "etat_du_pays_initial": 434,
+        "statistiques": {
+            "puissance": 58,
+            "économie": 33,
+            "ressources": 33,
+            "technologie": 23,
+            "stabilité": 77
+        },
+        "effet_spécial": {
+            "type": "Effet sur la pioche",
+            "nom": "Carrefour Atlantique",
+            "coût_en_credit": 50,
+            "valeur": 1,
+            "lore/explication_effets": "Sa position sécurisée permet de piocher une carte supplémentaire."
+        },
+        "lore": "Archipel stable agissant comme un pont entre l'Afrique et l'Europe."
+    },
+    {
+        "id": "CH_037",
+        "nom": "Chili",
+        "emoji": "🇨🇱",
+        "rang": "Émergent",
+        "type": "Économique",
+        "image": "images/CH_037.png",
+        "coût_de_pose_en_credits": 350,
+        "etat_du_pays_initial": 560,
+        "statistiques": {
+            "puissance": 75,
+            "économie": 63,
+            "ressources": 32,
+            "technologie": 47,
+            "stabilité": 63
+        },
+        "effet_spécial": {
+            "type": "buff économique allié",
+            "nom": "Export de Cuivre",
+            "coût_en_credit": 116,
+            "valeur": 35,
+            "lore/explication_effets": "Assure des revenus massifs via le contrôle mondial du cuivre."
+        },
+        "lore": "L'une des économies les plus dynamiques et ouvertes d'Amérique latine."
+    },
+    {
+        "id": "CH_038",
+        "nom": "Chine",
+        "emoji": "🇨🇳",
+        "rang": "Superpuissance",
+        "type": "Économique",
+        "image": "images/CH_038.png",
+        "coût_de_pose_en_credits": 900,
+        "etat_du_pays_initial": 564,
+        "statistiques": {
+            "puissance": 87,
+            "économie": 88,
+            "ressources": 12,
+            "technologie": 44,
+            "stabilité": 51
+        },
+        "effet_spécial": {
+            "type": "debuff économique adverse",
+            "nom": "Routes de la Soie",
+            "coût_en_credit": 300,
+            "valeur": 50,
+            "lore/explication_effets": "Étouffe l'adversaire en contrôlant ses infrastructures clés."
+        },
+        "lore": "Géant mondial devenu un pôle technologique et militaire incontournable."
+    },
+    {
+        "id": "CH_039",
+        "nom": "Chypre",
+        "emoji": "🇨🇾",
+        "rang": "Marginal",
+        "type": "Renseignement",
+        "image": "images/CH_039.png",
+        "coût_de_pose_en_credits": 150,
+        "etat_du_pays_initial": 430,
+        "statistiques": {
+            "puissance": 69,
+            "économie": 49,
+            "ressources": 10,
+            "technologie": 19,
+            "stabilité": 68
+        },
+        "effet_spécial": {
+            "type": "bloque le tour adverse",
+            "nom": "Ligne Verte",
+            "coût_en_credit": 50,
+            "valeur": 1,
+            "lore/explication_effets": "La militarisation de l'île empêche une attaque directe."
+        },
+        "lore": "Île méditerranéenne stratégique, carrefour de la finance et de l'espionnage."
+    },
+    {
+        "id": "CO_040",
+        "nom": "Colombie",
+        "emoji": "🇨🇴",
+        "rang": "Émergent",
+        "type": "Militaire",
+        "image": "images/CO_040.png",
+        "coût_de_pose_en_credits": 350,
+        "etat_du_pays_initial": 448,
+        "statistiques": {
+            "puissance": 77,
+            "économie": 63,
+            "ressources": 17,
+            "technologie": 21,
+            "stabilité": 46
+        },
+        "effet_spécial": {
+            "type": "Dégât sur l'état du pays adverse",
+            "nom": "Guerre Asymétrique",
+            "coût_en_credit": 116,
+            "valeur": 35,
+            "lore/explication_effets": "Inflige des dégâts via des forces non conventionnelles."
+        },
+        "lore": "Pays d'Amérique latine aux forces armées endurcies par des décennies de luttes."
+    },
+    {
+        "id": "CO_041",
+        "nom": "Comores",
+        "emoji": "🇰🇲",
+        "rang": "Marginal",
+        "type": "Isolationniste",
+        "image": "images/CO_041.png",
+        "coût_de_pose_en_credits": 150,
+        "etat_du_pays_initial": 346,
+        "statistiques": {
+            "puissance": 33,
+            "économie": 29,
+            "ressources": 12,
+            "technologie": 43,
+            "stabilité": 56
+        },
+        "effet_spécial": {
+            "type": "debuff économique adverse",
+            "nom": "Monopole Vanillier",
+            "coût_en_credit": 50,
+            "valeur": 15,
+            "lore/explication_effets": "Réduit l'économie adverse via le marché des essences rares."
+        },
+        "lore": "Archipel volcanique de l'océan Indien au patrimoine aromatique mondial."
+    },
+    {
+        "id": "CO_042",
+        "nom": "Corée du Nord",
+        "emoji": "🇰🇵",
+        "rang": "Émergent",
+        "type": "Militaire",
+        "image": "images/CO_042.png",
+        "coût_de_pose_en_credits": 350,
+        "etat_du_pays_initial": 418,
+        "statistiques": {
+            "puissance": 85,
+            "économie": 15,
+            "ressources": 25,
+            "technologie": 30,
+            "stabilité": 54
+        },
+        "effet_spécial": {
+            "type": "Dégât sur l'état du pays adverse",
+            "nom": "Dissuasion Nucléaire",
+            "coût_en_credit": 116,
+            "valeur": 65,
+            "lore/explication_effets": "Dégâts massifs via la menace de son arsenal balistique."
+        },
+        "lore": "L'un des États les plus fermés, utilisant la puissance nucléaire pour sa survie."
+    },
+    {
+        "id": "CO_043",
+        "nom": "Corée du Sud",
+        "emoji": "🇰🇷",
+        "rang": "Dominant",
+        "type": "Économique",
+        "image": "images/CO_043.png",
+        "coût_de_pose_en_credits": 750,
+        "etat_du_pays_initial": 628,
+        "statistiques": {
+            "puissance": 81,
+            "économie": 73,
+            "ressources": 10,
+            "technologie": 79,
+            "stabilité": 71
+        },
+        "effet_spécial": {
+            "type": "buff statistique(s) allié",
+            "nom": "Hallyu Vague Culturelle",
+            "coût_en_credit": 250,
+            "valeur": 40,
+            "lore/explication_effets": "Renforce l'influence diplomatique alliée par son rayonnement."
+        },
+        "lore": "Géant technologique mondial possédant une armée ultra-moderne."
+    },
+    {
+        "id": "CO_044",
+        "nom": "Costa Rica",
+        "emoji": "🇨🇷",
+        "rang": "Marginal",
+        "type": "Diplomatique",
+        "image": "images/CO_044.png",
+        "coût_de_pose_en_credits": 150,
+        "etat_du_pays_initial": 334,
+        "statistiques": {
+            "puissance": 10,
+            "économie": 55,
+            "ressources": 11,
+            "technologie": 14,
+            "stabilité": 77
+        },
+        "effet_spécial": {
+            "type": "Soin sur l'état du pays allié",
+            "nom": "Nation Pacifiste",
+            "coût_en_credit": 50,
+            "valeur": 45,
+            "lore/explication_effets": "Soigne un allié en redirigeant les budgets militaires."
+        },
+        "lore": "Démocratie exemplaire ayant constitutionnellement aboli son armée en 1948."
+    },
+    {
+        "id": "CO_045",
+        "nom": "Côte d'Ivoire",
+        "emoji": "🇨🇮",
+        "rang": "Émergent",
+        "type": "Économique",
+        "image": "images/CO_045.png",
+        "coût_de_pose_en_credits": 350,
+        "etat_du_pays_initial": 434,
+        "statistiques": {
+            "puissance": 69,
+            "économie": 54,
+            "ressources": 16,
+            "technologie": 29,
+            "stabilité": 49
+        },
+        "effet_spécial": {
+            "type": "debuff économique adverse",
+            "nom": "Marché du Cacao",
+            "coût_en_credit": 116,
+            "valeur": 30,
+            "lore/explication_effets": "Manipule le marché agricole pour réduire les profits adverses."
+        },
+        "lore": "Locomotive de l'Afrique de l'Ouest, premier producteur mondial de cacao."
+    },
+    {
+        "id": "CR_046",
+        "nom": "Croatie",
+        "emoji": "🇭🇷",
+        "rang": "Émergent",
+        "type": "Diplomatique",
+        "image": "images/CR_046.png",
+        "coût_de_pose_en_credits": 350,
+        "etat_du_pays_initial": 472,
+        "statistiques": {
+            "puissance": 71,
+            "économie": 55,
+            "ressources": 11,
+            "technologie": 28,
+            "stabilité": 71
+        },
+        "effet_spécial": {
+            "type": "buff économique allié",
+            "nom": "Tourisme Adriatique",
+            "coût_en_credit": 116,
+            "valeur": 25,
+            "lore/explication_effets": "Attire des flux touristiques augmentant passivement les crédits."
+        },
+        "lore": "État charnière entre l'Europe centrale et la Méditerranée."
+    },
+    {
+        "id": "CU_047",
+        "nom": "Cuba",
+        "emoji": "🇨🇺",
+        "rang": "Marginal",
+        "type": "Isolationniste",
+        "image": "images/CU_047.png",
+        "coût_de_pose_en_credits": 150,
+        "etat_du_pays_initial": 352,
+        "statistiques": {
+            "puissance": 60,
+            "économie": 25,
+            "ressources": 20,
+            "technologie": 14,
+            "stabilité": 57
+        },
+        "effet_spécial": {
+            "type": "Soin sur l'état du pays allié",
+            "nom": "Diplomatie Médicale",
+            "coût_en_credit": 50,
+            "valeur": 35,
+            "lore/explication_effets": "Restaure la santé d'un allié via ses brigades médicales."
+        },
+        "lore": "Île résiliente célèbre pour l'exportation mondiale de ses médecins."
+    },
+    {
+        "id": "DA_048",
+        "nom": "Danemark",
+        "emoji": "🇩🇰",
+        "rang": "Établi",
+        "type": "Diplomatique",
+        "image": "images/DA_048.png",
+        "coût_de_pose_en_credits": 550,
+        "etat_du_pays_initial": 548,
+        "statistiques": {
+            "puissance": 76,
+            "économie": 64,
+            "ressources": 10,
+            "technologie": 48,
+            "stabilité": 76
+        },
+        "effet_spécial": {
+            "type": "bloque le tour adverse",
+            "nom": "Verrou du Détroit",
+            "coût_en_credit": 183,
+            "valeur": 1,
+            "lore/explication_effets": "Ferme l'accès maritime, empêchant l'attaque adverse ce tour."
+        },
+        "lore": "Nation nordique prospère contrôlant des voies maritimes vitales."
+    },
+    {
+        "id": "DJ_049",
+        "nom": "Djibouti",
+        "emoji": "🇩🇯",
+        "rang": "Marginal",
+        "type": "Renseignement",
+        "image": "images/DJ_049.png",
+        "coût_de_pose_en_credits": 150,
+        "etat_du_pays_initial": 282,
+        "statistiques": {
+            "puissance": 30,
+            "économie": 35,
+            "ressources": 10,
+            "technologie": 25,
+            "stabilité": 41
+        },
+        "effet_spécial": {
+            "type": "buff statistique(s) allié",
+            "nom": "Bases Étrangères",
+            "coût_en_credit": 50,
+            "valeur": 25,
+            "lore/explication_effets": "Booste la puissance alliée via son territoire stratégique."
+        },
+        "lore": "Point de passage crucial de la Mer Rouge louant son sol aux armées du monde."
+    },
+    {
+        "id": "DO_050",
+        "nom": "Dominique",
+        "emoji": "🇩🇲",
+        "rang": "Marginal",
+        "type": "Isolationniste",
+        "image": "images/DO_050.png",
+        "coût_de_pose_en_credits": 150,
+        "etat_du_pays_initial": 288,
+        "statistiques": {
+            "puissance": 10,
+            "économie": 25,
+            "ressources": 10,
+            "technologie": 15,
+            "stabilité": 84
+        },
+        "effet_spécial": {
+            "type": "Effet sur la pioche",
+            "nom": "Passeport Doré",
+            "coût_en_credit": 50,
+            "valeur": 1,
+            "lore/explication_effets": "Attire des investisseurs pour piocher secrètement une carte."
+        },
+        "lore": "L'île nature des Caraïbes misant sur son programme de citoyenneté."
+    },
+    {
+        "id": "EG_051",
+        "nom": "Égypte",
+        "emoji": "🇪🇬",
+        "rang": "Émergent",
+        "type": "Économique",
+        "image": "images/EG_051.png",
+        "coût_de_pose_en_credits": 350,
+        "etat_du_pays_initial": 444,
+        "statistiques": {
+            "puissance": 74,
+            "économie": 64,
+            "ressources": 17,
+            "technologie": 23,
+            "stabilité": 44
+        },
+        "effet_spécial": {
+            "type": "debuff économique adverse",
+            "nom": "Contrôle de Suez",
+            "coût_en_credit": 116,
+            "valeur": 40,
+            "lore/explication_effets": "Réduit les revenus de l'adversaire en limitant l'accès à une voie commerciale vitale."
+        },
+        "lore": "Puissance millénaire, gardienne du canal de Suez, l'une des artères les plus stratégiques du monde."
+    },
+    {
+        "id": "EM_052",
+        "nom": "Émirats arabes unis",
+        "emoji": "🇦🇪",
+        "rang": "Établi",
+        "type": "Économique",
+        "image": "images/EM_052.png",
+        "coût_de_pose_en_credits": 550,
+        "etat_du_pays_initial": 640,
+        "statistiques": {
+            "puissance": 72,
+            "économie": 78,
+            "ressources": 75,
+            "technologie": 60,
+            "stabilité": 35
+        },
+        "effet_spécial": {
+            "type": "buff économique allié",
+            "nom": "Hub de Dubaï",
+            "coût_en_credit": 183,
+            "valeur": 45,
+            "lore/explication_effets": "Génère des crédits massifs grâce à son attractivité financière mondiale."
+        },
+        "lore": "Fédération du Golfe devenue un symbole de modernité, de luxe et de puissance logistique globale."
+    },
+    {
+        "id": "EQ_053",
+        "nom": "Équateur",
+        "emoji": "🇪🇨",
+        "rang": "Marginal",
+        "type": "Économique",
+        "image": "images/EQ_053.png",
+        "coût_de_pose_en_credits": 150,
+        "etat_du_pays_initial": 426,
+        "statistiques": {
+            "puissance": 73,
+            "économie": 57,
+            "ressources": 19,
+            "technologie": 10,
+            "stabilité": 54
+        },
+        "effet_spécial": {
+            "type": "Effet sur la pioche",
+            "nom": "Centre du Monde",
+            "coût_en_credit": 50,
+            "valeur": 1,
+            "lore/explication_effets": "Sa position géographique unique permet d'attirer une nouvelle carte stratégique."
+        },
+        "lore": "Pays andin d'une biodiversité exceptionnelle, grand exportateur de pétrole et de produits agricoles."
+    },
+    {
+        "id": "ER_054",
+        "nom": "Érythrée",
+        "emoji": "🇪🇷",
+        "rang": "Marginal",
+        "type": "Isolationniste",
+        "image": "images/ER_054.png",
+        "coût_de_pose_en_credits": 150,
+        "etat_du_pays_initial": 332,
+        "statistiques": {
+            "puissance": 60,
+            "économie": 20,
+            "ressources": 30,
+            "technologie": 10,
+            "stabilité": 46
+        },
+        "effet_spécial": {
+            "type": "bloque le tour adverse",
+            "nom": "Rempart de la Corne",
+            "coût_en_credit": 50,
+            "valeur": 1,
+            "lore/explication_effets": "Annule tout effet d'espionnage grâce à un contrôle frontalier absolu."
+        },
+        "lore": "Nation hautement militarisée et fermée, occupant une position pivot sur la mer Rouge."
+    },
+    {
+        "id": "ES_055",
+        "nom": "Espagne",
+        "emoji": "🇪🇸",
+        "rang": "Établi",
+        "type": "Diplomatique",
+        "image": "images/ES_055.png",
+        "coût_de_pose_en_credits": 550,
+        "etat_du_pays_initial": 514,
+        "statistiques": {
+            "puissance": 79,
+            "économie": 73,
+            "ressources": 10,
+            "technologie": 29,
+            "stabilité": 66
+        },
+        "effet_spécial": {
+            "type": "buff économique allié",
+            "nom": "Porte de la Méditerranée",
+            "coût_en_credit": 183,
+            "valeur": 35,
+            "lore/explication_effets": "Améliore les échanges commerciaux pour générer des crédits supplémentaires."
+        },
+        "lore": "Grande nation européenne au carrefour de l'Europe et de l'Afrique, riche d'un patrimoine mondial."
+    },
+    {
+        "id": "ES_056",
+        "nom": "Estonie",
+        "emoji": "🇪🇪",
+        "rang": "Marginal",
+        "type": "Renseignement",
+        "image": "images/ES_056.png",
+        "coût_de_pose_en_credits": 150,
+        "etat_du_pays_initial": 476,
+        "statistiques": {
+            "puissance": 71,
+            "économie": 50,
+            "ressources": 12,
+            "technologie": 33,
+            "stabilité": 72
+        },
+        "effet_spécial": {
+            "type": "debuff statistique(s) adverse",
+            "nom": "Cyber-Bouclier",
+            "coût_en_credit": 50,
+            "valeur": 30,
+            "lore/explication_effets": "Désorganise l'innovation adverse grâce à une cyber-défense de pointe."
+        },
+        "lore": "Pionnière de l'e-gouvernance, cette nation balte est le centre mondial de la sécurité numérique."
+    },
+    {
+        "id": "ES_057",
+        "nom": "Eswatini",
+        "emoji": "🇸🇿",
+        "rang": "Marginal",
+        "type": "Isolationniste",
+        "image": "images/ES_057.png",
+        "coût_de_pose_en_credits": 150,
+        "etat_du_pays_initial": 370,
+        "statistiques": {
+            "puissance": 62,
+            "économie": 37,
+            "ressources": 14,
+            "technologie": 18,
+            "stabilité": 54
+        },
+        "effet_spécial": {
+            "type": "Soin sur l'état du pays allié",
+            "nom": "Monarchie de Paix",
+            "coût_en_credit": 50,
+            "valeur": 20,
+            "lore/explication_effets": "Restaure l'état du pays en s'appuyant sur ses traditions royales unificatrices."
+        },
+        "lore": "Petit royaume enclavé d'Afrique australe, l'une des dernières monarchies absolues du continent."
+    },
+    {
+        "id": "ET_058",
+        "nom": "États-Unis",
+        "emoji": "🇺🇸",
+        "rang": "Superpuissance",
+        "type": "Militaire",
+        "image": "images/ET_058.png",
+        "coût_de_pose_en_credits": 900,
+        "etat_du_pays_initial": 620,
+        "statistiques": {
+            "puissance": 90,
+            "économie": 90,
+            "ressources": 12,
+            "technologie": 57,
+            "stabilité": 61
+        },
+        "effet_spécial": {
+            "type": "Dégât sur l'état du pays adverse",
+            "nom": "Hégémonie Globale",
+            "coût_en_credit": 300,
+            "valeur": 80,
+            "lore/explication_effets": "Déploie une force de frappe écrasante combinant puissance militaire et financière."
+        },
+        "lore": "Première puissance mondiale, capable d'intervenir partout grâce à sa supériorité militaire et son dollar."
+    },
+    {
+        "id": "ET_059",
+        "nom": "Éthiopie",
+        "emoji": "🇪🇹",
+        "rang": "Émergent",
+        "type": "Diplomatique",
+        "image": "images/ET_059.png",
+        "coût_de_pose_en_credits": 350,
+        "etat_du_pays_initial": 376,
+        "statistiques": {
+            "puissance": 71,
+            "économie": 57,
+            "ressources": 18,
+            "technologie": 20,
+            "stabilité": 24
+        },
+        "effet_spécial": {
+            "type": "buff statistique(s) allié",
+            "nom": "Siège de l'Union",
+            "coût_en_credit": 116,
+            "valeur": 25,
+            "lore/explication_effets": "Augmente l'influence diplomatique de tous les alliés africains."
+        },
+        "lore": "Berceau de l'humanité et centre politique du continent, l'Éthiopie n'a jamais été colonisée."
+    },
+    {
+        "id": "FI_060",
+        "nom": "Fidji",
+        "emoji": "🇫🇯",
+        "rang": "Marginal",
+        "type": "Diplomatique",
+        "image": "images/FI_060.png",
+        "coût_de_pose_en_credits": 150,
+        "etat_du_pays_initial": 404,
+        "statistiques": {
+            "puissance": 63,
+            "économie": 38,
+            "ressources": 13,
+            "technologie": 14,
+            "stabilité": 74
+        },
+        "effet_spécial": {
+            "type": "Effet sur la pioche",
+            "nom": "Voix du Pacifique",
+            "coût_en_credit": 50,
+            "valeur": 1,
+            "lore/explication_effets": "Plaide pour l'action climatique, permettant de piocher une carte Action."
+        },
+        "lore": "Archipel océanien très actif dans la diplomatie environnementale mondiale."
+    },
+    {
+        "id": "FI_061",
+        "nom": "Finlande",
+        "emoji": "🇫🇮",
+        "rang": "Établi",
+        "type": "Militaire",
+        "image": "images/FI_061.png",
+        "coût_de_pose_en_credits": 550,
+        "etat_du_pays_initial": 540,
+        "statistiques": {
+            "puissance": 75,
+            "économie": 62,
+            "ressources": 11,
+            "technologie": 49,
+            "stabilité": 73
+        },
+        "effet_spécial": {
+            "type": "debuff statistique(s) adverse",
+            "nom": "Défense Totale",
+            "coût_en_credit": 183,
+            "valeur": 25,
+            "lore/explication_effets": "Annule une partie de la puissance d'invasion grâce à sa préparation nationale."
+        },
+        "lore": "Nation nordique résiliente, membre récent de l'OTAN, experte en défense et innovation."
+    },
+    {
+        "id": "FR_062",
+        "nom": "France",
+        "emoji": "🇫🇷",
+        "rang": "Dominant",
+        "type": "Diplomatique",
+        "image": "images/FR_062.png",
+        "coût_de_pose_en_credits": 750,
+        "etat_du_pays_initial": 550,
+        "statistiques": {
+            "puissance": 82,
+            "économie": 77,
+            "ressources": 10,
+            "technologie": 39,
+            "stabilité": 67
+        },
+        "effet_spécial": {
+            "type": "bloque le tour adverse",
+            "nom": "Droit de Veto",
+            "coût_en_credit": 250,
+            "valeur": 1,
+            "lore/explication_effets": "Utilise son poids institutionnel à l'ONU pour annuler la prochaine action adverse."
+        },
+        "lore": "Puissance nucléaire dotée d'une influence culturelle et diplomatique mondiale majeure."
+    },
+    {
+        "id": "GA_063",
+        "nom": "Gabon",
+        "emoji": "🇬🇦",
+        "rang": "Marginal",
+        "type": "Économique",
+        "image": "images/GA_063.png",
+        "coût_de_pose_en_credits": 150,
+        "etat_du_pays_initial": 456,
+        "statistiques": {
+            "puissance": 66,
+            "économie": 45,
+            "ressources": 34,
+            "technologie": 29,
+            "stabilité": 54
+        },
+        "effet_spécial": {
+            "type": "buff économique allié",
+            "nom": "Rente Pétrolière",
+            "coût_en_credit": 50,
+            "valeur": 20,
+            "lore/explication_effets": "Injecte des fonds pétroliers pour stabiliser l'économie alliée."
+        },
+        "lore": "Pays d'Afrique centrale peu peuplé, riche en ressources naturelles et en forêts tropicales."
+    },
+    {
+        "id": "GA_064",
+        "nom": "Gambie",
+        "emoji": "🇬🇲",
+        "rang": "Marginal",
+        "type": "Isolationniste",
+        "image": "images/GA_064.png",
+        "coût_de_pose_en_credits": 150,
+        "etat_du_pays_initial": 358,
+        "statistiques": {
+            "puissance": 58,
+            "économie": 32,
+            "ressources": 14,
+            "technologie": 15,
+            "stabilité": 60
+        },
+        "effet_spécial": {
+            "type": "Soin sur l'état du pays allié",
+            "nom": "Enclave Fluviale",
+            "coût_en_credit": 50,
+            "valeur": 15,
+            "lore/explication_effets": "Utilise sa géographie fluviale pour protéger et soigner discrètement le banc."
+        },
+        "lore": "Plus petit pays d'Afrique continentale, entièrement enclavé dans le Sénégal autour de son fleuve."
+    },
+    {
+        "id": "GO_065",
+        "nom": "Géorgie",
+        "emoji": "🇬🇪",
+        "rang": "Émergent",
+        "type": "Diplomatique",
+        "image": "images/GO_065.png",
+        "coût_de_pose_en_credits": 350,
+        "etat_du_pays_initial": 390,
+        "statistiques": {
+            "puissance": 68,
+            "économie": 48,
+            "ressources": 12,
+            "technologie": 13,
+            "stabilité": 54
+        },
+        "effet_spécial": {
+            "type": "Effet sur la pioche",
+            "nom": "Carrefour du Caucase",
+            "coût_en_credit": 116,
+            "valeur": 1,
+            "lore/explication_effets": "Sa position pivot permet de piocher une nouvelle carte stratégie."
+        },
+        "lore": "Nation montagneuse du Caucase, trait d'union complexe entre l'influence russe et l'Occident."
+    },
+    {
+        "id": "GH_066",
+        "nom": "Ghana",
+        "emoji": "🇬🇭",
+        "rang": "Émergent",
+        "type": "Économique",
+        "image": "images/GH_066.png",
+        "coût_de_pose_en_credits": 350,
+        "etat_du_pays_initial": 472,
+        "statistiques": {
+            "puissance": 67,
+            "économie": 54,
+            "ressources": 27,
+            "technologie": 28,
+            "stabilité": 60
+        },
+        "effet_spécial": {
+            "type": "buff économique allié",
+            "nom": "Côte de l'Or",
+            "coût_en_credit": 116,
+            "valeur": 30,
+            "lore/explication_effets": "Génère des revenus stables grâce à ses exportations d'or et de cacao."
+        },
+        "lore": "Démocratie stable d'Afrique de l'Ouest, moteur économique régional en forte croissance."
+    },
+    {
+        "id": "GR_067",
+        "nom": "Grèce",
+        "emoji": "🇬🇷",
+        "rang": "Établi",
+        "type": "Militaire",
+        "image": "images/GR_067.png",
+        "coût_de_pose_en_credits": 550,
+        "etat_du_pays_initial": 482,
+        "statistiques": {
+            "puissance": 76,
+            "économie": 61,
+            "ressources": 10,
+            "technologie": 29,
+            "stabilité": 65
+        },
+        "effet_spécial": {
+            "type": "bloque le tour adverse",
+            "nom": "Verrou Égéen",
+            "coût_en_credit": 183,
+            "valeur": 1,
+            "lore/explication_effets": "Utilise sa marine pour bloquer toute attaque maritime ou frontalière."
+        },
+        "lore": "Berceau de la civilisation occidentale, pilier de la stabilité en mer Égée."
+    },
+    {
+        "id": "GR_068",
+        "nom": "Grenade",
+        "emoji": "🇬🇩",
+        "rang": "Marginal",
+        "type": "Économique",
+        "image": "images/GR_068.png",
+        "coût_de_pose_en_credits": 150,
+        "etat_du_pays_initial": 384,
+        "statistiques": {
+            "puissance": 44,
+            "économie": 29,
+            "ressources": 10,
+            "technologie": 30,
+            "stabilité": 79
+        },
+        "effet_spécial": {
+            "type": "buff économique allié",
+            "nom": "Île aux Épices",
+            "coût_en_credit": 50,
+            "valeur": 27,
+            "lore/explication_effets": "Génère des revenus via son exportation mondiale de noix de muscade."
+        },
+        "lore": "Petite nation insulaire caribéenne célèbre pour sa production d'épices aromatiques."
+    },
+    {
+        "id": "GU_069",
+        "nom": "Guatemala",
+        "emoji": "🇬🇹",
+        "rang": "Marginal",
+        "type": "Isolationniste",
+        "image": "images/GU_069.png",
+        "coût_de_pose_en_credits": 150,
+        "etat_du_pays_initial": 428,
+        "statistiques": {
+            "puissance": 68,
+            "économie": 56,
+            "ressources": 13,
+            "technologie": 21,
+            "stabilité": 36
+        },
+        "effet_spécial": {
+            "type": "Soin sur l'état du pays allié",
+            "nom": "Résilience Maya",
+            "coût_en_credit": 50,
+            "valeur": 46,
+            "lore/explication_effets": "Soigne les alliés en s'appuyant sur sa culture ancestrale et résiliente."
+        },
+        "lore": "Pays d'Amérique centrale aux paysages volcaniques, héritier direct de la civilisation maya."
+    },
+    {
+        "id": "GU_070",
+        "nom": "Guinée",
+        "emoji": "🇬🇳",
+        "rang": "Marginal",
+        "type": "Économique",
+        "image": "images/GU_070.png",
+        "coût_de_pose_en_credits": 150,
+        "etat_du_pays_initial": 380,
+        "statistiques": {
+            "puissance": 68,
+            "économie": 46,
+            "ressources": 16,
+            "technologie": 16,
+            "stabilité": 44
+        },
+        "effet_spécial": {
+            "type": "debuff économique adverse",
+            "nom": "Géant de la Bauxite",
+            "coût_en_credit": 50,
+            "valeur": 37,
+            "lore/explication_effets": "Réduit l'industrie adverse en contrôlant l'exportation d'aluminium."
+        },
+        "lore": "Nation ouest-africaine possédant l'une des plus grandes réserves mondiales de bauxite."
+    },
+    {
+        "id": "GU_071",
+        "nom": "Guinée équatoriale",
+        "emoji": "🇬🇶",
+        "rang": "Marginal",
+        "type": "Économique",
+        "image": "images/GU_071.png",
+        "coût_de_pose_en_credits": 150,
+        "etat_du_pays_initial": 468,
+        "statistiques": {
+            "puissance": 65,
+            "économie": 43,
+            "ressources": 41,
+            "technologie": 29,
+            "stabilité": 56
+        },
+        "effet_spécial": {
+            "type": "buff économique allié",
+            "nom": "Manne Offshore",
+            "coût_en_credit": 50,
+            "valeur": 38,
+            "lore/explication_effets": "Injecte des bénéfices pétroliers directement dans l'économie alliée."
+        },
+        "lore": "Petit État d'Afrique centrale transformé par la découverte de gisements d'hydrocarbures."
+    },
+    {
+        "id": "GU_072",
+        "nom": "Guinée-Bissau",
+        "emoji": "🇬🇼",
+        "rang": "Marginal",
+        "type": "Isolationniste",
+        "image": "images/GU_072.png",
+        "coût_de_pose_en_credits": 150,
+        "etat_du_pays_initial": 370,
+        "statistiques": {
+            "puissance": 60,
+            "économie": 32,
+            "ressources": 24,
+            "technologie": 15,
+            "stabilité": 54
+        },
+        "effet_spécial": {
+            "type": "Dégât sur l'état du pays adverse",
+            "nom": "Trafic de l'Ombre",
+            "coût_en_credit": 50,
+            "valeur": 14,
+            "lore/explication_effets": "Utilise ses frontières poreuses pour perturber la stabilité adverse."
+        },
+        "lore": "Pays côtier d'Afrique de l'Ouest abritant l'archipel des Bijagos, luttant pour sa stabilité politique."
+    },
+    {
+        "id": "GU_073",
+        "nom": "Guyana",
+        "emoji": "🇬🇾",
+        "rang": "Émergent",
+        "type": "Économique",
+        "image": "images/GU_073.png",
+        "coût_de_pose_en_credits": 350,
+        "etat_du_pays_initial": 486,
+        "statistiques": {
+            "puissance": 64,
+            "économie": 45,
+            "ressources": 54,
+            "technologie": 21,
+            "stabilité": 59
+        },
+        "effet_spécial": {
+            "type": "buff économique allié",
+            "nom": "Eldorado Pétrolier",
+            "coût_en_credit": 116,
+            "valeur": 50,
+            "lore/explication_effets": "Crée une explosion économique via l'exploitation de nouveaux méga-gisements."
+        },
+        "lore": "État sud-américain connaissant l'une des croissances les plus rapides au monde grâce au pétrole."
+    },
+    {
+        "id": "HA_074",
+        "nom": "Haïti",
+        "emoji": "🇭🇹",
+        "rang": "Marginal",
+        "type": "Isolationniste",
+        "image": "images/HA_074.png",
+        "coût_de_pose_en_credits": 150,
+        "etat_du_pays_initial": 348,
+        "statistiques": {
+            "puissance": 57,
+            "économie": 45,
+            "ressources": 10,
+            "technologie": 28,
+            "stabilité": 34
+        },
+        "effet_spécial": {
+            "type": "Soin sur l'état du pays allié",
+            "nom": "Force Populaire",
+            "coût_en_credit": 50,
+            "valeur": 37,
+            "lore/explication_effets": "Restaure des PV grâce à l'incroyable résilience de son peuple face aux crises."
+        },
+        "lore": "Première république noire indépendante, dotée d'une culture riche et d'une force de caractère inouïe."
+    },
+    {
+        "id": "HO_075",
+        "nom": "Honduras",
+        "emoji": "🇭🇳",
+        "rang": "Marginal",
+        "type": "Économique",
+        "image": "images/HO_075.png",
+        "coût_de_pose_en_credits": 150,
+        "etat_du_pays_initial": 458,
+        "statistiques": {
+            "puissance": 68,
+            "économie": 49,
+            "ressources": 12,
+            "technologie": 48,
+            "stabilité": 52
+        },
+        "effet_spécial": {
+            "type": "debuff économique adverse",
+            "nom": "Monopole Fruitier",
+            "coût_en_credit": 50,
+            "valeur": 17,
+            "lore/explication_effets": "Réduit les revenus adverses en s'appropriant les circuits de distribution agricole."
+        },
+        "lore": "Pays montagneux d'Amérique centrale, dont l'histoire a été marquée par les grandes compagnies fruitières."
+    },
+    {
+        "id": "HO_076",
+        "nom": "Hongrie",
+        "emoji": "🇭🇺",
+        "rang": "Émergent",
+        "type": "Isolationniste",
+        "image": "images/HO_076.png",
+        "coût_de_pose_en_credits": 350,
+        "etat_du_pays_initial": 494,
+        "statistiques": {
+            "puissance": 74,
+            "économie": 60,
+            "ressources": 11,
+            "technologie": 28,
+            "stabilité": 74
+        },
+        "effet_spécial": {
+            "type": "bloque le tour adverse",
+            "nom": "Veto de Budapest",
+            "coût_en_credit": 116,
+            "valeur": 1,
+            "lore/explication_effets": "Utilise son droit de veto pour empêcher l'adversaire de jouer une carte Action."
+        },
+        "lore": "Nation d'Europe centrale fière, menant une politique affirmée au sein de l'Union Européenne."
+    },
+    {
+        "id": "IL_077",
+        "nom": "Îles Marshall",
+        "emoji": "🇲🇭",
+        "rang": "Marginal",
+        "type": "Diplomatique",
+        "image": "images/IL_077.png",
+        "coût_de_pose_en_credits": 150,
+        "etat_du_pays_initial": 292,
+        "statistiques": {
+            "puissance": 31,
+            "économie": 19,
+            "ressources": 10,
+            "technologie": 15,
+            "stabilité": 71
+        },
+        "effet_spécial": {
+            "type": "Soin sur l'état du pays allié",
+            "nom": "Héritage de l'Océan",
+            "coût_en_credit": 50,
+            "valeur": 30,
+            "lore/explication_effets": "Utilise l'isolement du Pacifique pour soigner un pays allié attaqué."
+        },
+        "lore": "Archipel océanien marqué par l'histoire nucléaire, aujourd'hui en première ligne climatique."
+    },
+    {
+        "id": "IL_078",
+        "nom": "Îles Salomon",
+        "emoji": "🇸🇧",
+        "rang": "Marginal",
+        "type": "Isolationniste",
+        "image": "images/IL_078.png",
+        "coût_de_pose_en_credits": 150,
+        "etat_du_pays_initial": 250,
+        "statistiques": {
+            "puissance": 15,
+            "économie": 20,
+            "ressources": 25,
+            "technologie": 10,
+            "stabilité": 55
+        },
+        "effet_spécial": {
+            "type": "Effet sur la pioche",
+            "nom": "Mer de Corail",
+            "coût_en_credit": 50,
+            "valeur": 1,
+            "lore/explication_effets": "La navigation dans ces eaux complexes donne un avantage tactique : pioche 1 carte."
+        },
+        "lore": "Théâtre historique de batailles décisives, aujourd'hui pivot stratégique dans le Pacifique."
+    },
+    {
+        "id": "IN_079",
+        "nom": "Inde",
+        "emoji": "🇮🇳",
+        "rang": "Superpuissance",
+        "type": "Économique",
+        "image": "images/IN_079.png",
+        "coût_de_pose_en_credits": 900,
+        "etat_du_pays_initial": 506,
+        "statistiques": {
+            "puissance": 83,
+            "économie": 78,
+            "ressources": 14,
+            "technologie": 29,
+            "stabilité": 49
+        },
+        "effet_spécial": {
+            "type": "buff économique allié",
+            "nom": "Géant Démographique",
+            "coût_en_credit": 300,
+            "valeur": 50,
+            "lore/explication_effets": "Génère des revenus massifs en mobilisant la plus grande force de travail mondiale."
+        },
+        "lore": "Puissance nucléaire et géant technologique, en passe de devenir la nouvelle locomotive mondiale."
+    },
+    {
+        "id": "IN_080",
+        "nom": "Indonésie",
+        "emoji": "🇮🇩",
+        "rang": "Établi",
+        "type": "Économique",
+        "image": "images/IN_080.png",
+        "coût_de_pose_en_credits": 550,
+        "etat_du_pays_initial": 500,
+        "statistiques": {
+            "puissance": 77,
+            "économie": 72,
+            "ressources": 17,
+            "technologie": 31,
+            "stabilité": 53
+        },
+        "effet_spécial": {
+            "type": "debuff économique adverse",
+            "nom": "Détroit de Malacca",
+            "coût_en_credit": 183,
+            "valeur": 35,
+            "lore/explication_effets": "Réduit les crédits adverses en taxant le passage maritime le plus fréquenté d'Asie."
+        },
+        "lore": "Plus grand archipel du monde, puissance émergente contrôlant des voies maritimes vitales."
+    },
+    {
+        "id": "IR_081",
+        "nom": "Irak",
+        "emoji": "🇮🇶",
+        "rang": "Marginal",
+        "type": "Militaire",
+        "image": "images/IR_081.png",
+        "coût_de_pose_en_credits": 150,
+        "etat_du_pays_initial": 500,
+        "statistiques": {
+            "puissance": 75,
+            "économie": 62,
+            "ressources": 67,
+            "technologie": 30,
+            "stabilité": 16
+        },
+        "effet_spécial": {
+            "type": "Dégât sur l'état du pays adverse",
+            "nom": "Terre de Conflit",
+            "coût_en_credit": 50,
+            "valeur": 30,
+            "lore/explication_effets": "Sacrifie ses ressources pour infliger des dégâts d'usure violents."
+        },
+        "lore": "Berceau de la Mésopotamie, nation pétrolière marquée par des décennies de reconstruction."
+    },
+    {
+        "id": "IR_082",
+        "nom": "Iran",
+        "emoji": "🇮🇷",
+        "rang": "Établi",
+        "type": "Renseignement",
+        "image": "images/IR_082.png",
+        "coût_de_pose_en_credits": 550,
+        "etat_du_pays_initial": 524,
+        "statistiques": {
+            "puissance": 76,
+            "économie": 65,
+            "ressources": 50,
+            "technologie": 42,
+            "stabilité": 29
+        },
+        "effet_spécial": {
+            "type": "Dégât sur l'état du pays adverse",
+            "nom": "Guerre de l'Ombre",
+            "coût_en_credit": 183,
+            "valeur": 45,
+            "lore/explication_effets": "Inflige des dégâts sans attaque directe en mobilisant ses réseaux régionaux."
+        },
+        "lore": "Puissance historique du Moyen-Orient, menant une diplomatie de l'ombre complexe."
+    },
+    {
+        "id": "IR_083",
+        "nom": "Irlande",
+        "emoji": "🇮🇪",
+        "rang": "Établi",
+        "type": "Économique",
+        "image": "images/IR_083.png",
+        "coût_de_pose_en_credits": 550,
+        "etat_du_pays_initial": 492,
+        "statistiques": {
+            "puissance": 71,
+            "économie": 66,
+            "ressources": 10,
+            "technologie": 22,
+            "stabilité": 77
+        },
+        "effet_spécial": {
+            "type": "buff économique allié",
+            "nom": "Tigre Celtique",
+            "coût_en_credit": 183,
+            "valeur": 30,
+            "lore/explication_effets": "Génère des revenus bonus en hébergeant les sièges mondiaux de la tech."
+        },
+        "lore": "Porte d'entrée européenne pour les multinationales grâce à sa fiscalité attractive."
+    },
+    {
+        "id": "IS_084",
+        "nom": "Islande",
+        "emoji": "🇮🇸",
+        "rang": "Marginal",
+        "type": "Isolationniste",
+        "image": "images/IS_084.png",
+        "coût_de_pose_en_credits": 150,
+        "etat_du_pays_initial": 388,
+        "statistiques": {
+            "puissance": 10,
+            "économie": 48,
+            "ressources": 10,
+            "technologie": 44,
+            "stabilité": 82
+        },
+        "effet_spécial": {
+            "type": "Soin sur l'état du pays allié",
+            "nom": "Refuge Arctique",
+            "coût_en_credit": 50,
+            "valeur": 40,
+            "lore/explication_effets": "Son éloignement géographique permet à un allié de se soigner à l'abri."
+        },
+        "lore": "Île volcanique paisible utilisant 100% d'énergies renouvelables pour sa stabilité."
+    },
+    {
+        "id": "IS_085",
+        "nom": "Israël",
+        "emoji": "🇮🇱",
+        "rang": "Dominant",
+        "type": "Renseignement",
+        "image": "images/IS_085.png",
+        "coût_de_pose_en_credits": 750,
+        "etat_du_pays_initial": 562,
+        "statistiques": {
+            "puissance": 80,
+            "économie": 66,
+            "ressources": 11,
+            "technologie": 90,
+            "stabilité": 34
+        },
+        "effet_spécial": {
+            "type": "bloque le tour adverse",
+            "nom": "Dôme de Fer",
+            "coût_en_credit": 250,
+            "valeur": 1,
+            "lore/explication_effets": "Intercepte et annule complètement la prochaine attaque adverse."
+        },
+        "lore": "Nation hautement militarisée et leader mondial de l'innovation de défense."
+    },
+    {
+        "id": "IT_086",
+        "nom": "Italie",
+        "emoji": "🇮🇹",
+        "rang": "Établi",
+        "type": "Diplomatique",
+        "image": "images/IT_086.png",
+        "coût_de_pose_en_credits": 550,
+        "etat_du_pays_initial": 530,
+        "statistiques": {
+            "puissance": 81,
+            "économie": 75,
+            "ressources": 10,
+            "technologie": 28,
+            "stabilité": 71
+        },
+        "effet_spécial": {
+            "type": "debuff statistique(s) adverse",
+            "nom": "Rayonnement Culturel",
+            "coût_en_credit": 183,
+            "valeur": 25,
+            "lore/explication_effets": "Utilise son soft power pour réduire l'agressivité et la stabilité adverse."
+        },
+        "lore": "Membre du G7, pilier de l'Europe rayonnant mondialement par son industrie de luxe."
+    },
+    {
+        "id": "JA_087",
+        "nom": "Jamaïque",
+        "emoji": "🇯🇲",
+        "rang": "Marginal",
+        "type": "Diplomatique",
+        "image": "images/JA_087.png",
+        "coût_de_pose_en_credits": 150,
+        "etat_du_pays_initial": 446,
+        "statistiques": {
+            "puissance": 66,
+            "économie": 46,
+            "ressources": 11,
+            "technologie": 33,
+            "stabilité": 67
+        },
+        "effet_spécial": {
+            "type": "Effet sur la pioche",
+            "nom": "Vibe Culturelle",
+            "coût_en_credit": 50,
+            "valeur": 1,
+            "lore/explication_effets": "Son influence musicale et sportive mondiale permet de piocher une carte Action."
+        },
+        "lore": "Petite nation caribéenne au rayonnement culturel disproportionné par rapport à sa taille."
+    },
+    {
+        "id": "JA_088",
+        "nom": "Japon",
+        "emoji": "🇯🇵",
+        "rang": "Dominant",
+        "type": "Économique",
+        "image": "images/JA_088.png",
+        "coût_de_pose_en_credits": 750,
+        "etat_du_pays_initial": 604,
+        "statistiques": {
+            "puissance": 81,
+            "économie": 78,
+            "ressources": 10,
+            "technologie": 55,
+            "stabilité": 78
+        },
+        "effet_spécial": {
+            "type": "buff économique allié",
+            "nom": "Zen Tech",
+            "coût_en_credit": 250,
+            "valeur": 35,
+            "lore/explication_effets": "Génère des revenus massifs en inondant le marché de ses innovations."
+        },
+        "lore": "3ème économie mondiale, alliant une culture millénaire à une technologie de pointe."
+    },
+    {
+        "id": "JO_089",
+        "nom": "Jordanie",
+        "emoji": "🇯🇴",
+        "rang": "Émergent",
+        "type": "Diplomatique",
+        "image": "images/JO_089.png",
+        "coût_de_pose_en_credits": 350,
+        "etat_du_pays_initial": 430,
+        "statistiques": {
+            "puissance": 73,
+            "économie": 51,
+            "ressources": 10,
+            "technologie": 24,
+            "stabilité": 57
+        },
+        "effet_spécial": {
+            "type": "Soin sur l'état du pays allié",
+            "nom": "Havre Arabe",
+            "coût_en_credit": 116,
+            "valeur": 30,
+            "lore/explication_effets": "Soigne un allié en lui offrant un sanctuaire sécurisé et une médiation."
+        },
+        "lore": "Royaume stable agissant comme un tampon géopolitique vital au Moyen-Orient."
+    },
+    {
+        "id": "KA_090",
+        "nom": "Kazakhstan",
+        "emoji": "🇰🇿",
+        "rang": "Émergent",
+        "type": "Économique",
+        "image": "images/KA_090.png",
+        "coût_de_pose_en_credits": 350,
+        "etat_du_pays_initial": 486,
+        "statistiques": {
+            "puissance": 71,
+            "économie": 61,
+            "ressources": 45,
+            "technologie": 11,
+            "stabilité": 55
+        },
+        "effet_spécial": {
+            "type": "buff économique allié",
+            "nom": "Pont des Steppes",
+            "coût_en_credit": 116,
+            "valeur": 40,
+            "lore/explication_effets": "Augmente les crédits via l'exportation massive d'uranium et de minerais."
+        },
+        "lore": "Plus grand pays enclavé, trait d'union stratégique entre l'Europe et l'Asie."
+    },
+    {
+        "id": "KE_091",
+        "nom": "Kenya",
+        "emoji": "🇰🇪",
+        "rang": "Émergent",
+        "type": "Économique",
+        "image": "images/KE_091.png",
+        "coût_de_pose_en_credits": 350,
+        "etat_du_pays_initial": 392,
+        "statistiques": {
+            "puissance": 70,
+            "économie": 56,
+            "ressources": 12,
+            "technologie": 15,
+            "stabilité": 43
+        },
+        "effet_spécial": {
+            "type": "buff statistique(s) allié",
+            "nom": "Savannah Silicon",
+            "coût_en_credit": 116,
+            "valeur": 25,
+            "lore/explication_effets": "Booste l'innovation du banc grâce à son hub numérique dynamique."
+        },
+        "lore": "Locomotive d'Afrique de l'Est, pionnier du paiement mobile et hub technologique."
+    },
+    {
+        "id": "KI_092",
+        "nom": "Kirghizistan",
+        "emoji": "🇰🇬",
+        "rang": "Marginal",
+        "type": "Isolationniste",
+        "image": "images/KI_092.png",
+        "coût_de_pose_en_credits": 150,
+        "etat_du_pays_initial": 396,
+        "statistiques": {
+            "puissance": 68,
+            "économie": 44,
+            "ressources": 25,
+            "technologie": 10,
+            "stabilité": 51
+        },
+        "effet_spécial": {
+            "type": "bloque le tour adverse",
+            "nom": "Monts Célestes",
+            "coût_en_credit": 50,
+            "valeur": 1,
+            "lore/explication_effets": "Le relief infranchissable annule la prochaine attaque militaire frontale."
+        },
+        "lore": "Surnommée la Suisse de l'Asie centrale pour ses paysages montagneux majestueux."
+    },
+    {
+        "id": "KI_093",
+        "nom": "Kiribati",
+        "emoji": "🇰🇮",
+        "rang": "Marginal",
+        "type": "Diplomatique",
+        "image": "images/KI_093.png",
+        "coût_de_pose_en_credits": 150,
+        "etat_du_pays_initial": 288,
+        "statistiques": {
+            "puissance": 24,
+            "économie": 19,
+            "ressources": 10,
+            "technologie": 11,
+            "stabilité": 80
+        },
+        "effet_spécial": {
+            "type": "Effet sur la pioche",
+            "nom": "Alerte Climatique",
+            "coût_en_credit": 50,
+            "valeur": 1,
+            "lore/explication_effets": "Attire l'attention mondiale sur son sort pour piocher une nouvelle carte."
+        },
+        "lore": "Archipel océanien menacé par la montée des eaux, figure de proue de l'écologie."
+    },
+    {
+        "id": "KO_094",
+        "nom": "Kosovo",
+        "emoji": "🇽🇰",
+        "rang": "Marginal",
+        "type": "Diplomatique",
+        "image": "images/KO_094.png",
+        "coût_de_pose_en_credits": 150,
+        "etat_du_pays_initial": 300,
+        "statistiques": {
+            "puissance": 45,
+            "économie": 30,
+            "ressources": 15,
+            "technologie": 15,
+            "stabilité": 45
+        },
+        "effet_spécial": {
+            "type": "Effet sur la pioche",
+            "nom": "Reconnaissance ONU",
+            "coût_en_credit": 50,
+            "valeur": 1,
+            "lore/explication_effets": "Ses victoires diplomatiques redonnent du souffle : pioche 1 carte."
+        },
+        "lore": "Plus jeune nation d'Europe, luttant pour sa reconnaissance internationale totale."
+    },
+    {
+        "id": "KO_095",
+        "nom": "Koweït",
+        "emoji": "🇰🇼",
+        "rang": "Établi",
+        "type": "Économique",
+        "image": "images/KO_095.png",
+        "coût_de_pose_en_credits": 550,
+        "etat_du_pays_initial": 504,
+        "statistiques": {
+            "puissance": 76,
+            "économie": 59,
+            "ressources": 38,
+            "technologie": 11,
+            "stabilité": 68
+        },
+        "effet_spécial": {
+            "type": "buff économique allié",
+            "nom": "Dinar Fort",
+            "coût_en_credit": 183,
+            "valeur": 45,
+            "lore/explication_effets": "Génère des crédits massifs via sa monnaie, la plus forte au monde."
+        },
+        "lore": "Petit émirat du Golfe doté d'immenses réserves pétrolières et d'un fonds souverain majeur."
+    },
+    {
+        "id": "LA_096",
+        "nom": "Laos",
+        "emoji": "🇱🇦",
+        "rang": "Marginal",
+        "type": "Isolationniste",
+        "image": "images/LA_096.png",
+        "coût_de_pose_en_credits": 150,
+        "etat_du_pays_initial": 382,
+        "statistiques": {
+            "puissance": 43,
+            "économie": 44,
+            "ressources": 17,
+            "technologie": 12,
+            "stabilité": 75
+        },
+        "effet_spécial": {
+            "type": "buff économique allié",
+            "nom": "Batterie de l'Asie",
+            "coût_en_credit": 50,
+            "valeur": 22,
+            "lore/explication_effets": "Fournit de l'énergie (crédits) alliée via son hydroélectricité."
+        },
+        "lore": "Pays enclavé traversé par le Mékong, misant sur l'énergie hydraulique pour se développer."
+    },
+    {
+        "id": "LE_097",
+        "nom": "Lesotho",
+        "emoji": "🇱🇸",
+        "rang": "Marginal",
+        "type": "Isolationniste",
+        "image": "images/LE_097.png",
+        "coût_de_pose_en_credits": 150,
+        "etat_du_pays_initial": 350,
+        "statistiques": {
+            "puissance": 60,
+            "économie": 32,
+            "ressources": 16,
+            "technologie": 12,
+            "stabilité": 55
+        },
+        "effet_spécial": {
+            "type": "buff statistique(s) allié",
+            "nom": "Sources du Ciel",
+            "coût_en_credit": 50,
+            "valeur": 18,
+            "lore/explication_effets": "Booste l'économie d'un allié en sécurisant son approvisionnement en eau."
+        },
+        "lore": "Royaume d'altitude entièrement enclavé dans l'Afrique du Sud, surnommé le royaume dans le ciel."
+    },
+    {
+        "id": "LE_098",
+        "nom": "Lettonie",
+        "emoji": "🇱🇻",
+        "rang": "Émergent",
+        "type": "Renseignement",
+        "image": "images/LE_098.png",
+        "coût_de_pose_en_credits": 350,
+        "etat_du_pays_initial": 448,
+        "statistiques": {
+            "puissance": 71,
+            "économie": 50,
+            "ressources": 12,
+            "technologie": 20,
+            "stabilité": 71
+        },
+        "effet_spécial": {
+            "type": "debuff statistique(s) adverse",
+            "nom": "Vigilance de Riga",
+            "coût_en_credit": 116,
+            "valeur": 25,
+            "lore/explication_effets": "Déstabilise le renseignement adverse via sa cyber-défense balte."
+        },
+        "lore": "État balte membre de l'OTAN, fortement numérisé et historiquement stratégique."
+    },
+    {
+        "id": "LI_099",
+        "nom": "Liban",
+        "emoji": "🇱🇧",
+        "rang": "Marginal",
+        "type": "Diplomatique",
+        "image": "images/LI_099.png",
+        "coût_de_pose_en_credits": 150,
+        "etat_du_pays_initial": 352,
+        "statistiques": {
+            "puissance": 67,
+            "économie": 46,
+            "ressources": 10,
+            "technologie": 20,
+            "stabilité": 33
+        },
+        "effet_spécial": {
+            "type": "Soin sur l'état du pays allié",
+            "nom": "Cèdre de Résilience",
+            "coût_en_credit": 50,
+            "valeur": 35,
+            "lore/explication_effets": "Restaure les PV grâce à la résilience historique de sa population."
+        },
+        "lore": "Ancienne Suisse du Moyen-Orient, carrefour multiculturel traversant des tempêtes continues."
+    },
+    {
+        "id": "LI_100",
+        "nom": "Libéria",
+        "emoji": "🇱🇷",
+        "rang": "Marginal",
+        "type": "Économique",
+        "image": "images/LI_100.png",
+        "coût_de_pose_en_credits": 150,
+        "etat_du_pays_initial": 414,
+        "statistiques": {
+            "puissance": 62,
+            "économie": 36,
+            "ressources": 39,
+            "technologie": 12,
+            "stabilité": 58
+        },
+        "effet_spécial": {
+            "type": "Effet sur la pioche",
+            "nom": "Pavillon Libérien",
+            "coût_en_credit": 50,
+            "valeur": 1,
+            "lore/explication_effets": "L'enregistrement de navires donne accès à de nouvelles ressources (pioche 1)."
+        },
+        "lore": "Plus ancienne république d'Afrique, fondée par des affranchis, aujourd'hui pôle maritime."
+    },
+    {
+        "id": "LI_101",
+        "nom": "Libye",
+        "emoji": "🇱🇾",
+        "rang": "Marginal",
+        "type": "Militaire",
+        "image": "images/LI_101.png",
+        "coût_de_pose_en_credits": 150,
+        "etat_du_pays_initial": 496,
+        "statistiques": {
+            "puissance": 72,
+            "économie": 50,
+            "ressources": 90,
+            "technologie": 15,
+            "stabilité": 21
+        },
+        "effet_spécial": {
+            "type": "Dégât sur l'état du pays adverse",
+            "nom": "Chaos Pétrolier",
+            "coût_en_credit": 50,
+            "valeur": 45,
+            "lore/explication_effets": "Convertit ses réserves et son instabilité en une attaque imprévisible."
+        },
+        "lore": "Vaste nation désertique assise sur des océans de pétrole, fragmentée par des conflits armés."
+    },
+    {
+        "id": "LI_102",
+        "nom": "Liechtenstein",
+        "emoji": "🇱🇮",
+        "rang": "Marginal",
+        "type": "Économique",
+        "image": "images/LI_102.png",
+        "coût_de_pose_en_credits": 150,
+        "etat_du_pays_initial": 410,
+        "statistiques": {
+            "puissance": 10,
+            "économie": 55,
+            "ressources": 10,
+            "technologie": 40,
+            "stabilité": 90
+        },
+        "effet_spécial": {
+            "type": "debuff économique adverse",
+            "nom": "Secret Bancaire",
+            "coût_en_credit": 50,
+            "valeur": 35,
+            "lore/explication_effets": "Détourne les fonds adverses vers des coffres intraçables."
+        },
+        "lore": "Minuscule principauté alpine, l'un des pays les plus riches par habitant grâce à sa finance."
+    },
+    {
+        "id": "LI_103",
+        "nom": "Lituanie",
+        "emoji": "🇱🇹",
+        "rang": "Émergent",
+        "type": "Renseignement",
+        "image": "images/LI_103.png",
+        "coût_de_pose_en_credits": 350,
+        "etat_du_pays_initial": 468,
+        "statistiques": {
+            "puissance": 72,
+            "économie": 54,
+            "ressources": 10,
+            "technologie": 24,
+            "stabilité": 74
+        },
+        "effet_spécial": {
+            "type": "debuff statistique(s) adverse",
+            "nom": "Vigilance Balte",
+            "coût_en_credit": 116,
+            "valeur": 25,
+            "lore/explication_effets": "Expose les stratégies adverses et réduit leur efficacité militaire."
+        },
+        "lore": "Plus grand des États baltes, menant une diplomatie courageuse face aux géants géopolitiques."
+    },
+    {
+        "id": "LU_104",
+        "nom": "Luxembourg",
+        "emoji": "🇱🇺",
+        "rang": "Établi",
+        "type": "Économique",
+        "image": "images/LU_104.png",
+        "coût_de_pose_en_credits": 550,
+        "etat_du_pays_initial": 474,
+        "statistiques": {
+            "puissance": 69,
+            "économie": 55,
+            "ressources": 10,
+            "technologie": 23,
+            "stabilité": 80
+        },
+        "effet_spécial": {
+            "type": "buff économique allié",
+            "nom": "Carrefour Financier",
+            "coût_en_credit": 183,
+            "valeur": 40,
+            "lore/explication_effets": "Génère des revenus passifs massifs en gérant les investissements du banc."
+        },
+        "lore": "Grand-duché prospère, siège de nombreuses institutions européennes et hub financier mondial."
+    },
+    {
+        "id": "MA_105",
+        "nom": "Macédoine du Nord",
+        "emoji": "🇲🇰",
+        "rang": "Marginal",
+        "type": "Diplomatique",
+        "image": "images/MA_105.png",
+        "coût_de_pose_en_credits": 150,
+        "etat_du_pays_initial": 396,
+        "statistiques": {
+            "puissance": 66,
+            "économie": 44,
+            "ressources": 10,
+            "technologie": 15,
+            "stabilité": 63
+        },
+        "effet_spécial": {
+            "type": "Soin sur l'état du pays allié",
+            "nom": "Pacte de Prespa",
+            "coût_en_credit": 50,
+            "valeur": 25,
+            "lore/explication_effets": "Restaure la santé politique des alliés via une diplomatie de compromis."
+        },
+        "lore": "Petite nation des Balkans ayant pacifié ses relations régionales pour intégrer l'Occident."
+    },
+    {
+        "id": "MA_106",
+        "nom": "Madagascar",
+        "emoji": "🇲🇬",
+        "rang": "Marginal",
+        "type": "Économique",
+        "image": "images/MA_106.png",
+        "coût_de_pose_en_credits": 150,
+        "etat_du_pays_initial": 382,
+        "statistiques": {
+            "puissance": 64,
+            "économie": 44,
+            "ressources": 17,
+            "technologie": 10,
+            "stabilité": 48
+        },
+        "effet_spécial": {
+            "type": "buff économique allié",
+            "nom": "Trésors Endémiques",
+            "coût_en_credit": 50,
+            "valeur": 22,
+            "lore/explication_effets": "Vend des ressources précieuses pour garantir un flux de crédits constant."
+        },
+        "lore": "La grande île rouge possède une biodiversité unique au monde mais lutte pour son développement."
+    },
+    {
+        "id": "MA_107",
+        "nom": "Malaisie",
+        "emoji": "🇲🇾",
+        "rang": "Émergent",
+        "type": "Économique",
+        "image": "images/MA_107.png",
+        "coût_de_pose_en_credits": 350,
+        "etat_du_pays_initial": 510,
+        "statistiques": {
+            "puissance": 74,
+            "économie": 64,
+            "ressources": 19,
+            "technologie": 35,
+            "stabilité": 63
+        },
+        "effet_spécial": {
+            "type": "buff économique allié",
+            "nom": "Tigre Asiatique",
+            "coût_en_credit": 116,
+            "valeur": 35,
+            "lore/explication_effets": "Propulse l'économie alliée via son industrie électronique dynamique."
+        },
+        "lore": "Économie diversifiée et dynamique, partagée entre la péninsule et l'île de Bornéo."
+    },
+    {
+        "id": "MA_108",
+        "nom": "Malawi",
+        "emoji": "🇲🇼",
+        "rang": "Marginal",
+        "type": "Isolationniste",
+        "image": "images/MA_108.png",
+        "coût_de_pose_en_credits": 150,
+        "etat_du_pays_initial": 384,
+        "statistiques": {
+            "puissance": 65,
+            "économie": 43,
+            "ressources": 16,
+            "technologie": 12,
+            "stabilité": 56
+        },
+        "effet_spécial": {
+            "type": "Soin sur l'état du pays allié",
+            "nom": "Cœur de l'Afrique",
+            "coût_en_credit": 50,
+            "valeur": 30,
+            "lore/explication_effets": "Apporte un soutien stabilisateur et pacifique pour soigner les alliés."
+        },
+        "lore": "Nation enclavée de la vallée du Rift, réputée pour l'hospitalité légendaire de son peuple."
+    },
+    {
+        "id": "MA_109",
+        "nom": "Maldives",
+        "emoji": "🇲🇻",
+        "rang": "Marginal",
+        "type": "Diplomatique",
+        "image": "images/MA_109.png",
+        "coût_de_pose_en_credits": 150,
+        "etat_du_pays_initial": 296,
+        "statistiques": {
+            "puissance": 10,
+            "économie": 39,
+            "ressources": 10,
+            "technologie": 19,
+            "stabilité": 70
+        },
+        "effet_spécial": {
+            "type": "Soin sur l'état du pays allié",
+            "nom": "Urgence Climatique",
+            "coût_en_credit": 50,
+            "valeur": 30,
+            "lore/explication_effets": "Attire l'aide internationale, permettant de soigner un allié en difficulté."
+        },
+        "lore": "Archipel paradisiaque mais vulnérable, leader mondial du plaidoyer environnemental."
+    },
+    {
+        "id": "MA_110",
+        "nom": "Mali",
+        "emoji": "🇲🇱",
+        "rang": "Marginal",
+        "type": "Militaire",
+        "image": "images/MA_110.png",
+        "coût_de_pose_en_credits": 150,
+        "etat_du_pays_initial": 342,
+        "statistiques": {
+            "puissance": 69,
+            "économie": 47,
+            "ressources": 34,
+            "technologie": 11,
+            "stabilité": 10
+        },
+        "effet_spécial": {
+            "type": "Dégât sur l'état du pays adverse",
+            "nom": "Guerre du Sahel",
+            "coût_en_credit": 50,
+            "valeur": 35,
+            "lore/explication_effets": "Déclenche une guérilla imprévisible ignorant la défense technologique."
+        },
+        "lore": "Vaste nation sahélienne riche en or, confrontée à une instabilité sécuritaire majeure."
+    },
+    {
+        "id": "MA_111",
+        "nom": "Malte",
+        "emoji": "🇲🇹",
+        "rang": "Marginal",
+        "type": "Économique",
+        "image": "images/MA_111.png",
+        "coût_de_pose_en_credits": 150,
+        "etat_du_pays_initial": 428,
+        "statistiques": {
+            "puissance": 64,
+            "économie": 46,
+            "ressources": 10,
+            "technologie": 18,
+            "stabilité": 76
+        },
+        "effet_spécial": {
+            "type": "buff économique allié",
+            "nom": "Pavillon de Malte",
+            "coût_en_credit": 50,
+            "valeur": 28,
+            "lore/explication_effets": "Booste les revenus via sa fiscalité attractive et son registre maritime."
+        },
+        "lore": "Petit État insulaire européen, carrefour stratégique et financier en Méditerranée."
+    },
+    {
+        "id": "MA_112",
+        "nom": "Maroc",
+        "emoji": "🇲🇦",
+        "rang": "Émergent",
+        "type": "Diplomatique",
+        "image": "images/MA_112.png",
+        "coût_de_pose_en_credits": 350,
+        "etat_du_pays_initial": 444,
+        "statistiques": {
+            "puissance": 75,
+            "économie": 58,
+            "ressources": 11,
+            "technologie": 24,
+            "stabilité": 54
+        },
+        "effet_spécial": {
+            "type": "Effet sur la pioche",
+            "nom": "Gardien du Détroit",
+            "coût_en_credit": 116,
+            "valeur": 1,
+            "lore/explication_effets": "Contrôle les flux géopolitiques et permet de piocher une nouvelle carte."
+        },
+        "lore": "Puissance régionale stable, premier exportateur de phosphates et pivot diplomatique."
+    },
+    {
+        "id": "MA_113",
+        "nom": "Maurice",
+        "emoji": "🇲🇺",
+        "rang": "Marginal",
+        "type": "Économique",
+        "image": "images/MA_113.png",
+        "coût_de_pose_en_credits": 150,
+        "etat_du_pays_initial": 432,
+        "statistiques": {
+            "puissance": 59,
+            "économie": 43,
+            "ressources": 10,
+            "technologie": 30,
+            "stabilité": 74
+        },
+        "effet_spécial": {
+            "type": "buff économique allié",
+            "nom": "Miracle Mauricien",
+            "coût_en_credit": 50,
+            "valeur": 25,
+            "lore/explication_effets": "Assure des revenus stables via un modèle de croissance robuste."
+        },
+        "lore": "Démocratie insulaire exemplaire pour sa réussite économique et sociale."
+    },
+    {
+        "id": "MA_114",
+        "nom": "Mauritanie",
+        "emoji": "🇲🇷",
+        "rang": "Marginal",
+        "type": "Isolationniste",
+        "image": "images/MA_114.png",
+        "coût_de_pose_en_credits": 150,
+        "etat_du_pays_initial": 392,
+        "statistiques": {
+            "puissance": 66,
+            "économie": 42,
+            "ressources": 25,
+            "technologie": 12,
+            "stabilité": 51
+        },
+        "effet_spécial": {
+            "type": "Soin sur l'état du pays allié",
+            "nom": "Immense Sahara",
+            "coût_en_credit": 50,
+            "valeur": 30,
+            "lore/explication_effets": "Utilise son territoire désertique pour absorber les chocs et soigner ses alliés."
+        },
+        "lore": "Trait d'union entre le Maghreb et l'Afrique subsaharienne, dominé par le fer et le désert."
+    },
+    {
+        "id": "ME_115",
+        "nom": "Mexique",
+        "emoji": "🇲🇽",
+        "rang": "Établi",
+        "type": "Économique",
+        "image": "images/ME_115.png",
+        "coût_de_pose_en_credits": 550,
+        "etat_du_pays_initial": 484,
+        "statistiques": {
+            "puissance": 77,
+            "économie": 73,
+            "ressources": 15,
+            "technologie": 28,
+            "stabilité": 49
+        },
+        "effet_spécial": {
+            "type": "buff économique allié",
+            "nom": "Maquiladoras",
+            "coût_en_credit": 183,
+            "valeur": 45,
+            "lore/explication_effets": "Génère des profits via l'exportation massive vers le marché nord-américain."
+        },
+        "lore": "Géant démographique et industriel, riche en culture mais aux prises avec des cartels puissants."
+    },
+    {
+        "id": "MI_116",
+        "nom": "Micronésie",
+        "emoji": "🇫🇲",
+        "rang": "Marginal",
+        "type": "Isolationniste",
+        "image": "images/MI_116.png",
+        "coût_de_pose_en_credits": 150,
+        "etat_du_pays_initial": 274,
+        "statistiques": {
+            "puissance": 10,
+            "économie": 22,
+            "ressources": 10,
+            "technologie": 15,
+            "stabilité": 80
+        },
+        "effet_spécial": {
+            "type": "buff statistique(s) allié",
+            "nom": "Défense Associée",
+            "coût_en_credit": 50,
+            "valeur": 25,
+            "lore/explication_effets": "Délègue sa défense à une superpuissance, boostant sa puissance virtuelle."
+        },
+        "lore": "Vaste archipel pacifique lié aux États-Unis pour sa sécurité stratégique."
+    },
+    {
+        "id": "MO_117",
+        "nom": "Moldavie",
+        "emoji": "🇲🇩",
+        "rang": "Marginal",
+        "type": "Renseignement",
+        "image": "images/MO_117.png",
+        "coût_de_pose_en_credits": 150,
+        "etat_du_pays_initial": 356,
+        "statistiques": {
+            "puissance": 63,
+            "économie": 44,
+            "ressources": 10,
+            "technologie": 13,
+            "stabilité": 48
+        },
+        "effet_spécial": {
+            "type": "Effet sur la pioche",
+            "nom": "Ligne de Fracture",
+            "coût_en_credit": 50,
+            "valeur": 1,
+            "lore/explication_effets": "Sa position géopolitique permet d'intercepter des informations (pioche 1)."
+        },
+        "lore": "Petit pays d'Europe de l'Est tiraillé entre influences européennes et russes."
+    },
+    {
+        "id": "MO_118",
+        "nom": "Monaco",
+        "emoji": "🇲🇨",
+        "rang": "Marginal",
+        "type": "Économique",
+        "image": "images/MO_118.png",
+        "coût_de_pose_en_credits": 150,
+        "etat_du_pays_initial": 346,
+        "statistiques": {
+            "puissance": 10,
+            "économie": 41,
+            "ressources": 10,
+            "technologie": 30,
+            "stabilité": 82
+        },
+        "effet_spécial": {
+            "type": "debuff économique adverse",
+            "nom": "Paradis Fiscal",
+            "coût_en_credit": 50,
+            "valeur": 35,
+            "lore/explication_effets": "Siphonne les crédits adverses en attirant les citoyens les plus riches."
+        },
+        "lore": "Symbole mondial de luxe et d'exclusivité, principauté enclavée dans la France."
+    },
+    {
+        "id": "MO_119",
+        "nom": "Mongolie",
+        "emoji": "🇲🇳",
+        "rang": "Marginal",
+        "type": "Économique",
+        "image": "images/MO_119.png",
+        "coût_de_pose_en_credits": 150,
+        "etat_du_pays_initial": 510,
+        "statistiques": {
+            "puissance": 64,
+            "économie": 46,
+            "ressources": 53,
+            "technologie": 21,
+            "stabilité": 71
+        },
+        "effet_spécial": {
+            "type": "buff économique allié",
+            "nom": "Ressources des Steppes",
+            "coût_en_credit": 50,
+            "valeur": 30,
+            "lore/explication_effets": "Exploite ses réserves minérales pour financer l'économie alliée."
+        },
+        "lore": "Vaste pays enclavé entre Russie et Chine, héritier d'un empire nomade légendaire."
+    },
+    {
+        "id": "MO_120",
+        "nom": "Monténégro",
+        "emoji": "🇲🇪",
+        "rang": "Marginal",
+        "type": "Diplomatique",
+        "image": "images/MO_120.png",
+        "coût_de_pose_en_credits": 150,
+        "etat_du_pays_initial": 404,
+        "statistiques": {
+            "puissance": 64,
+            "économie": 40,
+            "ressources": 11,
+            "technologie": 25,
+            "stabilité": 62
+        },
+        "effet_spécial": {
+            "type": "Soin sur l'état du pays allié",
+            "nom": "Ancrage OTAN",
+            "coût_en_credit": 50,
+            "valeur": 25,
+            "lore/explication_effets": "Apporte de la stabilité et soigne le banc via son intégration atlantique."
+        },
+        "lore": "Jeune république balkanique misant sur le tourisme côtier et l'Europe."
+    },
+    {
+        "id": "MO_121",
+        "nom": "Mozambique",
+        "emoji": "🇲🇿",
+        "rang": "Marginal",
+        "type": "Économique",
+        "image": "images/MO_121.png",
+        "coût_de_pose_en_credits": 150,
+        "etat_du_pays_initial": 392,
+        "statistiques": {
+            "puissance": 68,
+            "économie": 46,
+            "ressources": 30,
+            "technologie": 15,
+            "stabilité": 37
+        },
+        "effet_spécial": {
+            "type": "buff économique allié",
+            "nom": "Ressources Off-shore",
+            "coût_en_credit": 50,
+            "valeur": 28,
+            "lore/explication_effets": "Booste les crédits via de nouveaux projets d'exploitation gazière."
+        },
+        "lore": "Pays côtier d'Afrique australe doté d'immenses ressources mais freiné par des crises."
+    },
+    {
+        "id": "NA_122",
+        "nom": "Namibie",
+        "emoji": "🇳🇦",
+        "rang": "Marginal",
+        "type": "Économique",
+        "image": "images/NA_122.png",
+        "coût_de_pose_en_credits": 150,
+        "etat_du_pays_initial": 426,
+        "statistiques": {
+            "puissance": 67,
+            "économie": 43,
+            "ressources": 15,
+            "technologie": 18,
+            "stabilité": 70
+        },
+        "effet_spécial": {
+            "type": "debuff économique adverse",
+            "nom": "Uranium Stratégique",
+            "coût_en_credit": 50,
+            "valeur": 20,
+            "lore/explication_effets": "Fait pression sur le marché énergétique pour réduire les revenus adverses."
+        },
+        "lore": "Vaste territoire aride, grand producteur mondial d'uranium et de diamants."
+    },
+    {
+        "id": "NA_123",
+        "nom": "Nauru",
+        "emoji": "🇳🇷",
+        "rang": "Marginal",
+        "type": "Économique",
+        "image": "images/NA_123.png",
+        "coût_de_pose_en_credits": 150,
+        "etat_du_pays_initial": 256,
+        "statistiques": {
+            "puissance": 15,
+            "économie": 15,
+            "ressources": 10,
+            "technologie": 10,
+            "stabilité": 78
+        },
+        "effet_spécial": {
+            "type": "debuff économique adverse",
+            "nom": "Banque Offshore",
+            "coût_en_credit": 50,
+            "valeur": 25,
+            "lore/explication_effets": "Siphonne les réserves adverses via des services bancaires opaques."
+        },
+        "lore": "Plus petite république du monde, autrefois riche en phosphate, aujourd'hui dépendante."
+    },
+    {
+        "id": "NE_124",
+        "nom": "Népal",
+        "emoji": "🇳🇵",
+        "rang": "Marginal",
+        "type": "Isolationniste",
+        "image": "images/NE_124.png",
+        "coût_de_pose_en_credits": 150,
+        "etat_du_pays_initial": 400,
+        "statistiques": {
+            "puissance": 68,
+            "économie": 50,
+            "ressources": 11,
+            "technologie": 15,
+            "stabilité": 56
+        },
+        "effet_spécial": {
+            "type": "bloque le tour adverse",
+            "nom": "Sommet du Monde",
+            "coût_en_credit": 50,
+            "valeur": 1,
+            "lore/explication_effets": "La géographie de l'Himalaya empêche toute attaque militaire ce tour."
+        },
+        "lore": "Royaume himalayen mythique, berceau du bouddhisme servant de zone tampon entre géants."
+    },
+    {
+        "id": "NI_125",
+        "nom": "Nicaragua",
+        "emoji": "🇳🇮",
+        "rang": "Marginal",
+        "type": "Isolationniste",
+        "image": "images/NI_125.png",
+        "coût_de_pose_en_credits": 150,
+        "etat_du_pays_initial": 386,
+        "statistiques": {
+            "puissance": 63,
+            "économie": 45,
+            "ressources": 15,
+            "technologie": 12,
+            "stabilité": 58
+        },
+        "effet_spécial": {
+            "type": "Effet sur la pioche",
+            "nom": "Projet de Canal",
+            "coût_en_credit": 50,
+            "valeur": 1,
+            "lore/explication_effets": "Ouverture de routes commerciales permettant de piocher une carte."
+        },
+        "lore": "Pays des volcans marqué par une histoire de résistance aux ingérences."
+    },
+    {
+        "id": "NI_126",
+        "nom": "Niger",
+        "emoji": "🇳🇪",
+        "rang": "Marginal",
+        "type": "Militaire",
+        "image": "images/NI_126.png",
+        "coût_de_pose_en_credits": 150,
+        "etat_du_pays_initial": 338,
+        "statistiques": {
+            "puissance": 67,
+            "économie": 44,
+            "ressources": 18,
+            "technologie": 10,
+            "stabilité": 30
+        },
+        "effet_spécial": {
+            "type": "Dégât sur l'état du pays adverse",
+            "nom": "Soumission des Mines",
+            "coût_en_credit": 50,
+            "valeur": 32,
+            "lore/explication_effets": "Coupe l'accès aux matières premières pour affaiblir l'adversaire."
+        },
+        "lore": "Nation pivot du Sahel, riche en uranium mais confrontée à des défis sécuritaires majeurs."
+    },
+    {
+        "id": "NI_127",
+        "nom": "Nigéria",
+        "emoji": "🇳🇬",
+        "rang": "Émergent",
+        "type": "Économique",
+        "image": "images/NI_127.png",
+        "coût_de_pose_en_credits": 350,
+        "etat_du_pays_initial": 424,
+        "statistiques": {
+            "puissance": 73,
+            "économie": 65,
+            "ressources": 21,
+            "technologie": 25,
+            "stabilité": 28
+        },
+        "effet_spécial": {
+            "type": "buff économique allié",
+            "nom": "Géant Africain",
+            "coût_en_credit": 116,
+            "valeur": 45,
+            "lore/explication_effets": "Génère des crédits massifs via son pétrole et son boom démographique."
+        },
+        "lore": "Pays le plus peuplé d'Afrique, hyper-dynamique (Nollywood) mais fragmenté."
+    },
+    {
+        "id": "NO_128",
+        "nom": "Norvège",
+        "emoji": "🇳🇴",
+        "rang": "Établi",
+        "type": "Économique",
+        "image": "images/NO_128.png",
+        "coût_de_pose_en_credits": 550,
+        "etat_du_pays_initial": 544,
+        "statistiques": {
+            "puissance": 77,
+            "économie": 65,
+            "ressources": 23,
+            "technologie": 30,
+            "stabilité": 77
+        },
+        "effet_spécial": {
+            "type": "buff économique allié",
+            "nom": "Fonds Souverain",
+            "coût_en_credit": 183,
+            "valeur": 45,
+            "lore/explication_effets": "Injecte des revenus stratégiques issus de son épargne pétrolière."
+        },
+        "lore": "Nation prospère gérant l'un des plus grands fonds d'investissement mondiaux."
+    },
+    {
+        "id": "NO_129",
+        "nom": "Nouvelle-Zélande",
+        "emoji": "🇳🇿",
+        "rang": "Émergent",
+        "type": "Isolationniste",
+        "image": "images/NO_129.png",
+        "coût_de_pose_en_credits": 350,
+        "etat_du_pays_initial": 512,
+        "statistiques": {
+            "puissance": 73,
+            "économie": 61,
+            "ressources": 12,
+            "technologie": 25,
+            "stabilité": 85
+        },
+        "effet_spécial": {
+            "type": "Soin sur l'état du pays allié",
+            "nom": "Sanctuaire du Pacifique",
+            "coût_en_credit": 116,
+            "valeur": 35,
+            "lore/explication_effets": "Son isolement offre un refuge parfait pour soigner les cartes du banc."
+        },
+        "lore": "Archipel réputé pour sa stabilité politique et sa diplomatie pacifique exemplaire."
+    },
+    {
+        "id": "OM_130",
+        "nom": "Oman",
+        "emoji": "🇴🇲",
+        "rang": "Émergent",
+        "type": "Diplomatique",
+        "image": "images/OM_130.png",
+        "coût_de_pose_en_credits": 350,
+        "etat_du_pays_initial": 526,
+        "statistiques": {
+            "puissance": 75,
+            "économie": 56,
+            "ressources": 48,
+            "technologie": 13,
+            "stabilité": 71
+        },
+        "effet_spécial": {
+            "type": "bloque le tour adverse",
+            "nom": "Médiation d'Oman",
+            "coût_en_credit": 116,
+            "valeur": 1,
+            "lore/explication_effets": "Apaise les tensions régionales, empêchant l'attaque adverse ce tour."
+        },
+        "lore": "Sultanat connu pour sa stricte neutralité et son rôle de médiateur au Moyen-Orient."
+    },
+    {
+        "id": "OU_131",
+        "nom": "Ouganda",
+        "emoji": "🇺🇬",
+        "rang": "Marginal",
+        "type": "Militaire",
+        "image": "images/OU_131.png",
+        "coût_de_pose_en_credits": 150,
+        "etat_du_pays_initial": 408,
+        "statistiques": {
+            "puissance": 70,
+            "économie": 51,
+            "ressources": 20,
+            "technologie": 15,
+            "stabilité": 48
+        },
+        "effet_spécial": {
+            "type": "Dégât sur l'état du pays adverse",
+            "nom": "Intervention Rapide",
+            "coût_en_credit": 50,
+            "valeur": 25,
+            "lore/explication_effets": "Frappe de manière préventive l'adversaire via son armée aguerrie."
+        },
+        "lore": "Perle de l'Afrique, acteur militaire très actif dans la région des Grands Lacs."
+    },
+    {
+        "id": "OU_132",
+        "nom": "Ouzbékistan",
+        "emoji": "🇺🇿",
+        "rang": "Marginal",
+        "type": "Isolationniste",
+        "image": "images/OU_132.png",
+        "coût_de_pose_en_credits": 150,
+        "etat_du_pays_initial": 444,
+        "statistiques": {
+            "puissance": 60,
+            "économie": 56,
+            "ressources": 37,
+            "technologie": 12,
+            "stabilité": 57
+        },
+        "effet_spécial": {
+            "type": "buff économique allié",
+            "nom": "Cœur de la Soie",
+            "coût_en_credit": 50,
+            "valeur": 28,
+            "lore/explication_effets": "Sécurise ses voies terrestres pour garantir un flux de crédits continu."
+        },
+        "lore": "Cœur historique de la Route de la Soie, pays doublement enclavé aux ressources vastes."
+    },
+    {
+        "id": "PA_133",
+        "nom": "Pakistan",
+        "emoji": "🇵🇰",
+        "rang": "Émergent",
+        "type": "Militaire",
+        "image": "images/PA_133.png",
+        "coût_de_pose_en_credits": 350,
+        "etat_du_pays_initial": 392,
+        "statistiques": {
+            "puissance": 76,
+            "économie": 63,
+            "ressources": 12,
+            "technologie": 20,
+            "stabilité": 25
+        },
+        "effet_spécial": {
+            "type": "Dégât sur l'état du pays adverse",
+            "nom": "Force Atomique",
+            "coût_en_credit": 116,
+            "valeur": 45,
+            "lore/explication_effets": "Inflige des dégâts massifs en sacrifiant 10 points de sa propre stabilité."
+        },
+        "lore": "Puissance nucléaire d'Asie du Sud, dotée d'une armée puissante mais fragile politiquement."
+    },
+    {
+        "id": "PA_134",
+        "nom": "Palaos",
+        "emoji": "🇵🇼",
+        "rang": "Marginal",
+        "type": "Diplomatique",
+        "image": "images/PA_134.png",
+        "coût_de_pose_en_credits": 150,
+        "etat_du_pays_initial": 268,
+        "statistiques": {
+            "puissance": 10,
+            "économie": 19,
+            "ressources": 10,
+            "technologie": 15,
+            "stabilité": 80
+        },
+        "effet_spécial": {
+            "type": "buff statistique(s) allié",
+            "nom": "Parapluie de Défense",
+            "coût_en_credit": 50,
+            "valeur": 25,
+            "lore/explication_effets": "Sa puissance défensive augmente via ses accords de libre association."
+        },
+        "lore": "Petit archipel de Micronésie, pionnier de la protection de ses eaux territoriales."
+    },
+    {
+        "id": "PA_135",
+        "nom": "Palestine",
+        "emoji": "🇵🇸",
+        "rang": "Marginal",
+        "type": "Renseignement",
+        "image": "images/PA_135.png",
+        "coût_de_pose_en_credits": 150,
+        "etat_du_pays_initial": 232,
+        "statistiques": {
+            "puissance": 20,
+            "économie": 45,
+            "ressources": 10,
+            "technologie": 15,
+            "stabilité": 26
+        },
+        "effet_spécial": {
+            "type": "debuff statistique(s) adverse",
+            "nom": "Soutien Mondial",
+            "coût_en_credit": 50,
+            "valeur": 20,
+            "lore/explication_effets": "Mobilise l'opinion pour réduire la puissance diplomatique adverse."
+        },
+        "lore": "Territoire au cœur d'un conflit complexe, s'appuyant sur sa visibilité internationale."
+    },
+    {
+        "id": "PA_136",
+        "nom": "Panama",
+        "emoji": "🇵🇦",
+        "rang": "Marginal",
+        "type": "Économique",
+        "image": "images/PA_136.png",
+        "coût_de_pose_en_credits": 150,
+        "etat_du_pays_initial": 310,
+        "statistiques": {
+            "puissance": 10,
+            "économie": 54,
+            "ressources": 15,
+            "technologie": 12,
+            "stabilité": 64
+        },
+        "effet_spécial": {
+            "type": "debuff économique adverse",
+            "nom": "Taxe Interocéanique",
+            "coût_en_credit": 50,
+            "valeur": 35,
+            "lore/explication_effets": "Réduit considérablement la génération de crédits de l'adversaire."
+        },
+        "lore": "Contrôle une voie navigable artificielle cruciale pour le commerce mondial."
+    },
+    {
+        "id": "PA_137",
+        "nom": "Papouasie-Nouvelle-Guinée",
+        "emoji": "🇵🇬",
+        "rang": "Marginal",
+        "type": "Isolationniste",
+        "image": "images/PA_137.png",
+        "coût_de_pose_en_credits": 150,
+        "etat_du_pays_initial": 448,
+        "statistiques": {
+            "puissance": 63,
+            "économie": 48,
+            "ressources": 46,
+            "technologie": 15,
+            "stabilité": 52
+        },
+        "effet_spécial": {
+            "type": "buff économique allié",
+            "nom": "Minerais de Jungle",
+            "coût_en_credit": 50,
+            "valeur": 26,
+            "lore/explication_effets": "Exploite des ressources inaccessibles pour booster tes crédits."
+        },
+        "lore": "L'un des pays les plus diversifiés culturellement, couvert de forêts denses."
+    },
+    {
+        "id": "PA_138",
+        "nom": "Paraguay",
+        "emoji": "🇵🇾",
+        "rang": "Marginal",
+        "type": "Économique",
+        "image": "images/PA_138.png",
+        "coût_de_pose_en_credits": 150,
+        "etat_du_pays_initial": 414,
+        "statistiques": {
+            "puissance": 68,
+            "économie": 50,
+            "ressources": 12,
+            "technologie": 15,
+            "stabilité": 62
+        },
+        "effet_spécial": {
+            "type": "buff économique allié",
+            "nom": "Énergie d'Itaipu",
+            "coût_en_credit": 50,
+            "valeur": 25,
+            "lore/explication_effets": "Génère des revenus constants via sa production hydroélectrique."
+        },
+        "lore": "Pays enclavé d'Amérique du Sud et gigantesque exportateur d'électricité propre."
+    },
+    {
+        "id": "PA_139",
+        "nom": "Pays-Bas",
+        "emoji": "🇳🇱",
+        "rang": "Établi",
+        "type": "Économique",
+        "image": "images/PA_139.png",
+        "coût_de_pose_en_credits": 550,
+        "etat_du_pays_initial": 540,
+        "statistiques": {
+            "puissance": 78,
+            "économie": 70,
+            "ressources": 10,
+            "technologie": 40,
+            "stabilité": 72
+        },
+        "effet_spécial": {
+            "type": "buff économique allié",
+            "nom": "Port de Rotterdam",
+            "coût_en_credit": 183,
+            "valeur": 35,
+            "lore/explication_effets": "Facilite le commerce pour booster l'économie de tous les alliés."
+        },
+        "lore": "Petite nation par la taille mais géant commercial et maritime historique."
+    },
+    {
+        "id": "PE_140",
+        "nom": "Pérou",
+        "emoji": "🇵🇪",
+        "rang": "Émergent",
+        "type": "Économique",
+        "image": "images/PE_140.png",
+        "coût_de_pose_en_credits": 350,
+        "etat_du_pays_initial": 452,
+        "statistiques": {
+            "puissance": 74,
+            "économie": 62,
+            "ressources": 27,
+            "technologie": 12,
+            "stabilité": 51
+        },
+        "effet_spécial": {
+            "type": "debuff économique adverse",
+            "nom": "Monopole Minier",
+            "coût_en_credit": 116,
+            "valeur": 30,
+            "lore/explication_effets": "Contrôle l'export de minerais vitaux, augmentant les coûts adverses."
+        },
+        "lore": "Héritier de l'Empire Inca, grand producteur mondial de cuivre et d'argent."
+    },
+    {
+        "id": "PH_141",
+        "nom": "Philippines",
+        "emoji": "🇵🇭",
+        "rang": "Émergent",
+        "type": "Diplomatique",
+        "image": "images/PH_141.png",
+        "coût_de_pose_en_credits": 350,
+        "etat_du_pays_initial": 456,
+        "statistiques": {
+            "puissance": 75,
+            "économie": 65,
+            "ressources": 13,
+            "technologie": 25,
+            "stabilité": 50
+        },
+        "effet_spécial": {
+            "type": "Soin sur l'état du pays allié",
+            "nom": "Revenus de la Diaspora",
+            "coût_en_credit": 116,
+            "valeur": 35,
+            "lore/explication_effets": "Soigne l'économie via les envois de fonds de ses millions d'expatriés."
+        },
+        "lore": "Archipel stratégique de 7000 îles au cœur des tensions navales mondiales."
+    },
+    {
+        "id": "PO_142",
+        "nom": "Pologne",
+        "emoji": "🇵🇱",
+        "rang": "Établi",
+        "type": "Militaire",
+        "image": "images/PO_142.png",
+        "coût_de_pose_en_credits": 550,
+        "etat_du_pays_initial": 518,
+        "statistiques": {
+            "puissance": 80,
+            "économie": 68,
+            "ressources": 11,
+            "technologie": 29,
+            "stabilité": 71
+        },
+        "effet_spécial": {
+            "type": "bloque le tour adverse",
+            "nom": "Bouclier de l'Est",
+            "coût_en_credit": 183,
+            "valeur": 1,
+            "lore/explication_effets": "Déploie une défense qui annule totalement la prochaine agression."
+        },
+        "lore": "Puissance montante de l'OTAN, pilier de la défense terrestre européenne."
+    },
+    {
+        "id": "PO_143",
+        "nom": "Portugal",
+        "emoji": "🇵🇹",
+        "rang": "Émergent",
+        "type": "Diplomatique",
+        "image": "images/PO_143.png",
+        "coût_de_pose_en_credits": 350,
+        "etat_du_pays_initial": 502,
+        "statistiques": {
+            "puissance": 74,
+            "économie": 62,
+            "ressources": 10,
+            "technologie": 32,
+            "stabilité": 73
+        },
+        "effet_spécial": {
+            "type": "Effet sur la pioche",
+            "nom": "Réseau Lusophone",
+            "coût_en_credit": 116,
+            "valeur": 1,
+            "lore/explication_effets": "Utilise ses liens historiques pour piocher une carte supplémentaire."
+        },
+        "lore": "Ancienne puissance navale reconnue pour sa stabilité et sa diplomatie habile."
+    },
+    {
+        "id": "QA_144",
+        "nom": "Qatar",
+        "emoji": "🇶🇦",
+        "rang": "Émergent",
+        "type": "Renseignement",
+        "image": "images/QA_144.png",
+        "coût_de_pose_en_credits": 350,
+        "etat_du_pays_initial": 538,
+        "statistiques": {
+            "puissance": 55,
+            "économie": 60,
+            "ressources": 46,
+            "technologie": 30,
+            "stabilité": 78
+        },
+        "effet_spécial": {
+            "type": "debuff statistique(s) adverse",
+            "nom": "Soft Power Médiatique",
+            "coût_en_credit": 116,
+            "valeur": 30,
+            "lore/explication_effets": "Utilise ses réseaux mondiaux pour saper la stabilité adverse."
+        },
+        "lore": "Émirat gazier surpuissant, maître absolu de l'influence par les médias."
+    },
+    {
+        "id": "RE_145",
+        "nom": "République centrafricaine",
+        "emoji": "🇨🇫",
+        "rang": "Marginal",
+        "type": "Isolationniste",
+        "image": "images/RE_145.png",
+        "coût_de_pose_en_credits": 150,
+        "etat_du_pays_initial": 366,
+        "statistiques": {
+            "puissance": 62,
+            "économie": 35,
+            "ressources": 45,
+            "technologie": 10,
+            "stabilité": 31
+        },
+        "effet_spécial": {
+            "type": "Dégât sur l'état du pays adverse",
+            "nom": "Richesse de Conflit",
+            "coût_en_credit": 50,
+            "valeur": 35,
+            "lore/explication_effets": "Utilise ses ressources pour financer des attaques paramilitaires."
+        },
+        "lore": "Cœur du continent africain, riche en ressources mais miné par l'instabilité."
+    },
+    {
+        "id": "RE_146",
+        "nom": "République démocratique du Congo",
+        "emoji": "🇨🇩",
+        "rang": "Émergent",
+        "type": "Économique",
+        "image": "images/RE_146.png",
+        "coût_de_pose_en_credits": 350,
+        "etat_du_pays_initial": 454,
+        "statistiques": {
+            "puissance": 70,
+            "économie": 48,
+            "ressources": 85,
+            "technologie": 12,
+            "stabilité": 12
+        },
+        "effet_spécial": {
+            "type": "buff économique allié",
+            "nom": "Métaux Critiques",
+            "coût_en_credit": 116,
+            "valeur": 50,
+            "lore/explication_effets": "Génère des crédits colossaux via son monopole sur le cobalt."
+        },
+        "lore": "Géant d'Afrique centrale dont les minerais sont vitaux à la tech mondiale."
+    },
+    {
+        "id": "RE_147",
+        "nom": "République dominicaine",
+        "emoji": "🇩🇴",
+        "rang": "Émergent",
+        "type": "Économique",
+        "image": "images/RE_147.png",
+        "coût_de_pose_en_credits": 350,
+        "etat_du_pays_initial": 460,
+        "statistiques": {
+            "puissance": 68,
+            "économie": 60,
+            "ressources": 18,
+            "technologie": 26,
+            "stabilité": 58
+        },
+        "effet_spécial": {
+            "type": "buff économique allié",
+            "nom": "Pôle de Croissance",
+            "coût_en_credit": 116,
+            "valeur": 35,
+            "lore/explication_effets": "Booste les revenus réguliers grâce à son tourisme de masse dynamique."
+        },
+        "lore": "Plus grande économie des Caraïbes, réputée pour son attrait et sa croissance."
+    },
+    {
+        "id": "RE_148",
+        "nom": "République du Congo",
+        "emoji": "🇨🇬",
+        "rang": "Émergent",
+        "type": "Économique",
+        "image": "images/RE_148.png",
+        "coût_de_pose_en_credits": 350,
+        "etat_du_pays_initial": 492,
+        "statistiques": {
+            "puissance": 67,
+            "économie": 44,
+            "ressources": 59,
+            "technologie": 15,
+            "stabilité": 61
+        },
+        "effet_spécial": {
+            "type": "buff économique allié",
+            "nom": "Ressources Forestières",
+            "coût_en_credit": 116,
+            "valeur": 30,
+            "lore/explication_effets": "Génère des revenus via l'exportation durable de bois et pétrole."
+        },
+        "lore": "Pays d'Afrique centrale traversé par l'équateur, riche en hydrocarbures."
+    },
+    {
+        "id": "RE_149",
+        "nom": "République tchèque",
+        "emoji": "🇨🇿",
+        "rang": "Établi",
+        "type": "Militaire",
+        "image": "images/RE_149.png",
+        "coût_de_pose_en_credits": 550,
+        "etat_du_pays_initial": 526,
+        "statistiques": {
+            "puissance": 72,
+            "économie": 66,
+            "ressources": 10,
+            "technologie": 43,
+            "stabilité": 72
+        },
+        "effet_spécial": {
+            "type": "buff statistique(s) allié",
+            "nom": "Manufacture d'Armes",
+            "coût_en_credit": 183,
+            "valeur": 30,
+            "lore/explication_effets": "Augmente la puissance alliée via ses équipements de pointe."
+        },
+        "lore": "Nation industrielle historique disposant d'un secteur défense très développé."
+    },
+    {
+        "id": "RO_150",
+        "nom": "Roumanie",
+        "emoji": "🇷🇴",
+        "rang": "Émergent",
+        "type": "Diplomatique",
+        "image": "images/RO_150.png",
+        "coût_de_pose_en_credits": 350,
+        "etat_du_pays_initial": 464,
+        "statistiques": {
+            "puissance": 75,
+            "économie": 63,
+            "ressources": 11,
+            "technologie": 16,
+            "stabilité": 67
+        },
+        "effet_spécial": {
+            "type": "buff statistique(s) allié",
+            "nom": "Pivot de la Mer Noire",
+            "coût_en_credit": 116,
+            "valeur": 25,
+            "lore/explication_effets": "Augmente la puissance des alliés européens via son expertise logistique."
+        },
+        "lore": "Nation d'Europe de l'Est membre de l'OTAN, pivot stratégique au Danube."
+    },
+    {
+        "id": "RO_151",
+        "nom": "Royaume-Uni",
+        "emoji": "🇬🇧",
+        "rang": "Dominant",
+        "type": "Diplomatique",
+        "image": "images/RO_151.png",
+        "coût_de_pose_en_credits": 750,
+        "etat_du_pays_initial": 566,
+        "statistiques": {
+            "puissance": 83,
+            "économie": 77,
+            "ressources": 15,
+            "technologie": 58,
+            "stabilité": 50
+        },
+        "effet_spécial": {
+            "type": "Effet sur la pioche",
+            "nom": "Commonwealth",
+            "coût_en_credit": 250,
+            "valeur": 2,
+            "lore/explication_effets": "Mobilise ses réseaux historiques pour piocher deux cartes stratégiques."
+        },
+        "lore": "Ancienne puissance impériale, nation nucléaire et hub financier mondial de premier plan."
+    },
+    {
+        "id": "RU_152",
+        "nom": "Russie",
+        "emoji": "🇷🇺",
+        "rang": "Superpuissance",
+        "type": "Militaire",
+        "image": "images/RU_152.png",
+        "coût_de_pose_en_credits": 900,
+        "etat_du_pays_initial": 508,
+        "statistiques": {
+            "puissance": 84,
+            "économie": 74,
+            "ressources": 34,
+            "technologie": 22,
+            "stabilité": 40
+        },
+        "effet_spécial": {
+            "type": "Dégât sur l'état du pays adverse",
+            "nom": "Pression Énergétique",
+            "coût_en_credit": 300,
+            "valeur": 60,
+            "lore/explication_effets": "Inflige des dégâts d'usure massifs en perturbant l'approvisionnement énergétique adverse."
+        },
+        "lore": "Le plus vaste pays du monde, puissance nucléaire dotée d'immenses ressources naturelles."
+    },
+    {
+        "id": "RW_153",
+        "nom": "Rwanda",
+        "emoji": "🇷🇼",
+        "rang": "Marginal",
+        "type": "Économique",
+        "image": "images/RW_153.png",
+        "coût_de_pose_en_credits": 150,
+        "etat_du_pays_initial": 410,
+        "statistiques": {
+            "puissance": 65,
+            "économie": 43,
+            "ressources": 15,
+            "technologie": 20,
+            "stabilité": 62
+        },
+        "effet_spécial": {
+            "type": "buff économique allié",
+            "nom": "Hub Technologique",
+            "coût_en_credit": 50,
+            "valeur": 30,
+            "lore/explication_effets": "Optimise l'innovation et génère des crédits via ses infrastructures numériques."
+        },
+        "lore": "Surnommé le Singapour africain pour son développement rapide et sa stabilité exemplaire."
+    },
+    {
+        "id": "SA_154",
+        "nom": "Saint-Kitts-et-Nevis",
+        "emoji": "🇰🇳",
+        "rang": "Marginal",
+        "type": "Économique",
+        "image": "images/SA_154.png",
+        "coût_de_pose_en_credits": 150,
+        "etat_du_pays_initial": 332,
+        "statistiques": {
+            "puissance": 10,
+            "économie": 38,
+            "ressources": 10,
+            "technologie": 15,
+            "stabilité": 93
+        },
+        "effet_spécial": {
+            "type": "Soin sur l'état du pays allié",
+            "nom": "Passeport Doré",
+            "coût_en_credit": 50,
+            "valeur": 35,
+            "lore/explication_effets": "Restaure la santé d'un allié via l'injection de capitaux étrangers."
+        },
+        "lore": "Micro-État caribéen pionnier dans le développement économique par l'investissement citoyen."
+    },
+    {
+        "id": "SA_155",
+        "nom": "Sainte-Lucie",
+        "emoji": "🇱🇨",
+        "rang": "Marginal",
+        "type": "Diplomatique",
+        "image": "images/SA_155.png",
+        "coût_de_pose_en_credits": 150,
+        "etat_du_pays_initial": 322,
+        "statistiques": {
+            "puissance": 10,
+            "économie": 35,
+            "ressources": 10,
+            "technologie": 16,
+            "stabilité": 90
+        },
+        "effet_spécial": {
+            "type": "Effet sur la pioche",
+            "nom": "Attrait Touristique",
+            "coût_en_credit": 50,
+            "valeur": 1,
+            "lore/explication_effets": "Sa visibilité mondiale lui permet d'attirer une nouvelle carte Action."
+        },
+        "lore": "Île volcanique renommée pour sa beauté naturelle et sa stabilité démocratique."
+    },
+    {
+        "id": "SA_156",
+        "nom": "Saint-Marin",
+        "emoji": "🇸🇲",
+        "rang": "Marginal",
+        "type": "Isolationniste",
+        "image": "images/SA_156.png",
+        "coût_de_pose_en_credits": 150,
+        "etat_du_pays_initial": 344,
+        "statistiques": {
+            "puissance": 10,
+            "économie": 45,
+            "ressources": 10,
+            "technologie": 17,
+            "stabilité": 90
+        },
+        "effet_spécial": {
+            "type": "bloque le tour adverse",
+            "nom": "Neutralité Millénaire",
+            "coût_en_credit": 50,
+            "valeur": 1,
+            "lore/explication_effets": "Son statut historique de neutralité annule la prochaine attaque adverse."
+        },
+        "lore": "La plus ancienne république du monde, symbole de pérennité au cœur de l'Italie."
+    },
+    {
+        "id": "SA_157",
+        "nom": "Saint-Vincent-et-les-Grenadines",
+        "emoji": "🇻🇨",
+        "rang": "Marginal",
+        "type": "Diplomatique",
+        "image": "images/SA_157.png",
+        "coût_de_pose_en_credits": 150,
+        "etat_du_pays_initial": 308,
+        "statistiques": {
+            "puissance": 10,
+            "économie": 33,
+            "ressources": 10,
+            "technologie": 14,
+            "stabilité": 87
+        },
+        "effet_spécial": {
+            "type": "Soin sur l'état du pays allié",
+            "nom": "Refuge Archipélique",
+            "coût_en_credit": 50,
+            "valeur": 25,
+            "lore/explication_effets": "Utilise sa géographie pour protéger et soigner un pays allié."
+        },
+        "lore": "Archipel des Petites Antilles misant sur le tourisme et l'agriculture."
+    },
+    {
+        "id": "SA_158",
+        "nom": "Salvador",
+        "emoji": "🇸🇻",
+        "rang": "Marginal",
+        "type": "Militaire",
+        "image": "images/SA_158.png",
+        "coût_de_pose_en_credits": 150,
+        "etat_du_pays_initial": 398,
+        "statistiques": {
+            "puissance": 68,
+            "économie": 49,
+            "ressources": 11,
+            "technologie": 11,
+            "stabilité": 60
+        },
+        "effet_spécial": {
+            "type": "buff statistique(s) allié",
+            "nom": "Loi Sécuritaire",
+            "coût_en_credit": 50,
+            "valeur": 25,
+            "lore/explication_effets": "Augmente sa stabilité interne au détriment de l'économie."
+        },
+        "lore": "Petit pays d'Amérique centrale ayant radicalement transformé sa sécurité intérieure."
+    },
+    {
+        "id": "SA_159",
+        "nom": "Samoa",
+        "emoji": "🇼🇸",
+        "rang": "Marginal",
+        "type": "Isolationniste",
+        "image": "images/SA_159.png",
+        "coût_de_pose_en_credits": 150,
+        "etat_du_pays_initial": 312,
+        "statistiques": {
+            "puissance": 10,
+            "économie": 28,
+            "ressources": 12,
+            "technologie": 16,
+            "stabilité": 90
+        },
+        "effet_spécial": {
+            "type": "debuff statistique(s) adverse",
+            "nom": "Tradition Fa'a",
+            "coût_en_credit": 50,
+            "valeur": 20,
+            "lore/explication_effets": "Sa cohésion sociale affaiblit les tentatives de déstabilisation adverse."
+        },
+        "lore": "État polynésien fier de ses coutumes ancestrales et de son mode de vie communautaire."
+    },
+    {
+        "id": "SA_160",
+        "nom": "Sao Tomé-et-Principe",
+        "emoji": "🇸🇹",
+        "rang": "Marginal",
+        "type": "Isolationniste",
+        "image": "images/SA_160.png",
+        "coût_de_pose_en_credits": 150,
+        "etat_du_pays_initial": 314,
+        "statistiques": {
+            "puissance": 10,
+            "économie": 25,
+            "ressources": 15,
+            "technologie": 14,
+            "stabilité": 93
+        },
+        "effet_spécial": {
+            "type": "Soin sur l'état du pays allié",
+            "nom": "Calme Insulaire",
+            "coût_en_credit": 50,
+            "valeur": 30,
+            "lore/explication_effets": "Utilise sa tranquillité géographique pour soigner une carte du banc."
+        },
+        "lore": "Archipel volcanique paisible du golfe de Guinée, havre de biodiversité."
+    },
+    {
+        "id": "SE_161",
+        "nom": "Sénégal",
+        "emoji": "🇸🇳",
+        "rang": "Émergent",
+        "type": "Diplomatique",
+        "image": "images/SE_161.png",
+        "coût_de_pose_en_credits": 350,
+        "etat_du_pays_initial": 448,
+        "statistiques": {
+            "puissance": 64,
+            "économie": 52,
+            "ressources": 22,
+            "technologie": 26,
+            "stabilité": 60
+        },
+        "effet_spécial": {
+            "type": "Effet sur la pioche",
+            "nom": "Teranga",
+            "coût_en_credit": 116,
+            "valeur": 1,
+            "lore/explication_effets": "Son hospitalité et son influence régionale permettent de piocher une carte."
+        },
+        "lore": "Démocratie stable et pilier diplomatique majeur de l'Afrique de l'Ouest."
+    },
+    {
+        "id": "SE_162",
+        "nom": "Serbie",
+        "emoji": "🇷🇸",
+        "rang": "Émergent",
+        "type": "Militaire",
+        "image": "images/SE_162.png",
+        "coût_de_pose_en_credits": 350,
+        "etat_du_pays_initial": 462,
+        "statistiques": {
+            "puissance": 74,
+            "économie": 56,
+            "ressources": 14,
+            "technologie": 27,
+            "stabilité": 60
+        },
+        "effet_spécial": {
+            "type": "debuff statistique(s) adverse",
+            "nom": "Équilibre Balkanique",
+            "coût_en_credit": 116,
+            "valeur": 25,
+            "lore/explication_effets": "Joue sur ses alliances multiples pour désorganiser l'adversaire."
+        },
+        "lore": "Nation pivot des Balkans, possédant une armée historiquement forte et stratégique."
+    },
+    {
+        "id": "SE_163",
+        "nom": "Seychelles",
+        "emoji": "🇸🇨",
+        "rang": "Marginal",
+        "type": "Économique",
+        "image": "images/SE_163.png",
+        "coût_de_pose_en_credits": 150,
+        "etat_du_pays_initial": 362,
+        "statistiques": {
+            "puissance": 10,
+            "économie": 48,
+            "ressources": 10,
+            "technologie": 25,
+            "stabilité": 88
+        },
+        "effet_spécial": {
+            "type": "buff économique allié",
+            "nom": "Économie Bleue",
+            "coût_en_credit": 50,
+            "valeur": 35,
+            "lore/explication_effets": "Génère des revenus constants via son attractivité touristique mondiale."
+        },
+        "lore": "Archipel de l'océan Indien réputé pour sa stabilité et son haut développement."
+    },
+    {
+        "id": "SI_164",
+        "nom": "Sierra Leone",
+        "emoji": "🇸🇱",
+        "rang": "Marginal",
+        "type": "Économique",
+        "image": "images/SI_164.png",
+        "coût_de_pose_en_credits": 150,
+        "etat_du_pays_initial": 362,
+        "statistiques": {
+            "puissance": 59,
+            "économie": 33,
+            "ressources": 38,
+            "technologie": 12,
+            "stabilité": 39
+        },
+        "effet_spécial": {
+            "type": "buff économique allié",
+            "nom": "Richesse Minière",
+            "coût_en_credit": 50,
+            "valeur": 25,
+            "lore/explication_effets": "Sacrifie de la stabilité pour générer des crédits bonus via ses diamants."
+        },
+        "lore": "Pays doté d'immenses richesses minérales, en reconstruction après son histoire civile."
+    },
+    {
+        "id": "SI_165",
+        "nom": "Singapour",
+        "emoji": "🇸🇬",
+        "rang": "Établi",
+        "type": "Économique",
+        "image": "images/SI_165.png",
+        "coût_de_pose_en_credits": 550,
+        "etat_du_pays_initial": 530,
+        "statistiques": {
+            "puissance": 75,
+            "économie": 85,
+            "ressources": 10,
+            "technologie": 80,
+            "stabilité": 85
+        },
+        "effet_spécial": {
+            "type": "buff économique allié",
+            "nom": "Cité-État Finance",
+            "coût_en_credit": 183,
+            "valeur": 50,
+            "lore/explication_effets": "Booste massivement la production de crédits de tous les alliés."
+        },
+        "lore": "Hub logistique et financier mondial, symbole d'une réussite économique sans ressources naturelles."
+    },
+    {
+        "id": "SL_166",
+        "nom": "Slovaquie",
+        "emoji": "🇸🇰",
+        "rang": "Émergent",
+        "type": "Économique",
+        "image": "images/SL_166.png",
+        "coût_de_pose_en_credits": 350,
+        "etat_du_pays_initial": 482,
+        "statistiques": {
+            "puissance": 68,
+            "économie": 61,
+            "ressources": 12,
+            "technologie": 32,
+            "stabilité": 68
+        },
+        "effet_spécial": {
+            "type": "buff économique allié",
+            "nom": "Industrie Automobile",
+            "coût_en_credit": 116,
+            "valeur": 28,
+            "lore/explication_effets": "Génère des revenus stables via son cœur de production industrielle."
+        },
+        "lore": "Nation d'Europe centrale, centre névralgique de la chaîne de production automobile mondiale."
+    },
+    {
+        "id": "SL_167",
+        "nom": "Slovénie",
+        "emoji": "🇸🇮",
+        "rang": "Marginal",
+        "type": "Diplomatique",
+        "image": "images/SL_167.png",
+        "coût_de_pose_en_credits": 150,
+        "etat_du_pays_initial": 444,
+        "statistiques": {
+            "puissance": 62,
+            "économie": 58,
+            "ressources": 12,
+            "technologie": 36,
+            "stabilité": 90
+        },
+        "effet_spécial": {
+            "type": "Soin sur l'état du pays allié",
+            "nom": "Médiation Alpine",
+            "coût_en_credit": 50,
+            "valeur": 25,
+            "lore/explication_effets": "Utilise sa stabilité pour apaiser et soigner les tensions au sein du banc."
+        },
+        "lore": "Petit État européen montagneux et prospère, modèle de stabilité et d'écologie."
+    },
+    {
+        "id": "SO_168",
+        "nom": "Somalie",
+        "emoji": "🇸🇴",
+        "rang": "Marginal",
+        "type": "Militaire",
+        "image": "images/SO_168.png",
+        "coût_de_pose_en_credits": 150,
+        "etat_du_pays_initial": 354,
+        "statistiques": {
+            "puissance": 68,
+            "économie": 22,
+            "ressources": 25,
+            "technologie": 10,
+            "stabilité": 12
+        },
+        "effet_spécial": {
+            "type": "debuff économique adverse",
+            "nom": "Guerre de Course",
+            "coût_en_credit": 50,
+            "valeur": 35,
+            "lore/explication_effets": "Perturbe les routes maritimes pour siphonner les crédits de l'adversaire."
+        },
+        "lore": "Pays occupant une position géostratégique critique, marqué par de longs défis internes."
+    },
+    {
+        "id": "SO_169",
+        "nom": "Soudan",
+        "emoji": "🇸🇩",
+        "rang": "Marginal",
+        "type": "Militaire",
+        "image": "images/SO_169.png",
+        "coût_de_pose_en_credits": 150,
+        "etat_du_pays_initial": 432,
+        "statistiques": {
+            "puissance": 72,
+            "économie": 39,
+            "ressources": 45,
+            "technologie": 12,
+            "stabilité": 18
+        },
+        "effet_spécial": {
+            "type": "Dégât sur l'état du pays adverse",
+            "nom": "Luttes de Pouvoir",
+            "coût_en_credit": 50,
+            "valeur": 30,
+            "lore/explication_effets": "Inflige des dégâts imprévisibles en contournant les défenses technologiques."
+        },
+        "lore": "Vaste pays d'Afrique riche en or, traversé par les eaux vitales du Nil."
+    },
+    {
+        "id": "SO_170",
+        "nom": "Soudan du Sud",
+        "emoji": "🇸🇸",
+        "rang": "Marginal",
+        "type": "Militaire",
+        "image": "images/SO_170.png",
+        "coût_de_pose_en_credits": 150,
+        "etat_du_pays_initial": 310,
+        "statistiques": {
+            "puissance": 60,
+            "économie": 20,
+            "ressources": 65,
+            "technologie": 10,
+            "stabilité": 10
+        },
+        "effet_spécial": {
+            "type": "Dégât sur l'état du pays adverse",
+            "nom": "Choc Pétrolier",
+            "coût_en_credit": 50,
+            "valeur": 40,
+            "lore/explication_effets": "Inflige des dégâts en sacrifiant sa propre économie pour déstabiliser l'adversaire."
+        },
+        "lore": "La plus jeune nation du monde, possédant d'importantes réserves de pétrole."
+    },
+    {
+        "id": "SR_171",
+        "nom": "Sri Lanka",
+        "emoji": "🇱🇰",
+        "rang": "Marginal",
+        "type": "Diplomatique",
+        "image": "images/SR_171.png",
+        "coût_de_pose_en_credits": 150,
+        "etat_du_pays_initial": 396,
+        "statistiques": {
+            "puissance": 65,
+            "économie": 42,
+            "ressources": 18,
+            "technologie": 28,
+            "stabilité": 45
+        },
+        "effet_spécial": {
+            "type": "Effet sur la pioche",
+            "nom": "Route de la Soie",
+            "coût_en_credit": 50,
+            "valeur": 1,
+            "lore/explication_effets": "Sa position maritime stratégique lui permet de piocher une nouvelle carte Action."
+        },
+        "lore": "Île magnifique à la croisée des routes commerciales mondiales de l'océan Indien."
+    },
+    {
+        "id": "SU_172",
+        "nom": "Suède",
+        "emoji": "🇸🇪",
+        "rang": "Établi",
+        "type": "Renseignement",
+        "image": "images/SU_172.png",
+        "coût_de_pose_en_credits": 550,
+        "etat_du_pays_initial": 560,
+        "statistiques": {
+            "puissance": 78,
+            "économie": 68,
+            "ressources": 25,
+            "technologie": 65,
+            "stabilité": 84
+        },
+        "effet_spécial": {
+            "type": "buff statistique(s) allié",
+            "nom": "Innovation de Défense",
+            "coût_en_credit": 183,
+            "valeur": 35,
+            "lore/explication_effets": "Fournit une technologie qui augmente la puissance de frappe des alliés."
+        },
+        "lore": "Nation nordique innovante possédant une industrie de défense de haute technologie."
+    },
+    {
+        "id": "SU_173",
+        "nom": "Suisse",
+        "emoji": "🇨🇭",
+        "rang": "Établi",
+        "type": "Économique",
+        "image": "images/SU_173.png",
+        "coût_de_pose_en_credits": 550,
+        "etat_du_pays_initial": 564,
+        "statistiques": {
+            "puissance": 65,
+            "économie": 82,
+            "ressources": 10,
+            "technologie": 70,
+            "stabilité": 95
+        },
+        "effet_spécial": {
+            "type": "Soin sur l'état du pays allié",
+            "nom": "Neutralité Absolue",
+            "coût_en_credit": 183,
+            "valeur": 50,
+            "lore/explication_effets": "Utilise le droit international pour protéger et soigner totalement un allié."
+        },
+        "lore": "Pays alpin neutre, siège d'organisations mondiales et coffre-fort de la finance."
+    },
+    {
+        "id": "SU_174",
+        "nom": "Suriname",
+        "emoji": "🇸🇷",
+        "rang": "Marginal",
+        "type": "Isolationniste",
+        "image": "images/SU_174.png",
+        "coût_de_pose_en_credits": 150,
+        "etat_du_pays_initial": 380,
+        "statistiques": {
+            "puissance": 40,
+            "économie": 35,
+            "ressources": 45,
+            "technologie": 12,
+            "stabilité": 58
+        },
+        "effet_spécial": {
+            "type": "buff économique allié",
+            "nom": "Forêt Vierge",
+            "coût_en_credit": 50,
+            "valeur": 25,
+            "lore/explication_effets": "Génère des revenus via l'exportation contrôlée de ses matières premières."
+        },
+        "lore": "Petit pays sud-américain recouvert en grande partie par une jungle impénétrable."
+    },
+    {
+        "id": "SY_175",
+        "nom": "Syrie",
+        "emoji": "🇸🇾",
+        "rang": "Marginal",
+        "type": "Militaire",
+        "image": "images/SY_175.png",
+        "coût_de_pose_en_credits": 150,
+        "etat_du_pays_initial": 370,
+        "statistiques": {
+            "puissance": 74,
+            "économie": 15,
+            "ressources": 18,
+            "technologie": 15,
+            "stabilité": 12
+        },
+        "effet_spécial": {
+            "type": "Dégât sur l'état du pays adverse",
+            "nom": "Usure Totale",
+            "coût_en_credit": 50,
+            "valeur": 45,
+            "lore/explication_effets": "Inflige des dégâts lourds et continus au pays adverse ciblé."
+        },
+        "lore": "Carrefour historique du Levant, marqué par des années de conflits internationaux."
+    },
+    {
+        "id": "TA_176",
+        "nom": "Tadjikistan",
+        "emoji": "🇹🇯",
+        "rang": "Marginal",
+        "type": "Isolationniste",
+        "image": "images/TA_176.png",
+        "coût_de_pose_en_credits": 150,
+        "etat_du_pays_initial": 354,
+        "statistiques": {
+            "puissance": 61,
+            "économie": 30,
+            "ressources": 25,
+            "technologie": 10,
+            "stabilité": 51
+        },
+        "effet_spécial": {
+            "type": "bloque le tour adverse",
+            "nom": "Verrou du Pamir",
+            "coût_en_credit": 50,
+            "valeur": 1,
+            "lore/explication_effets": "Ses montagnes infranchissables annulent la prochaine attaque militaire frontale."
+        },
+        "lore": "Nation montagneuse d'Asie centrale, contrôlant d'importantes réserves d'eau douce."
+    },
+    {
+        "id": "TA_177",
+        "nom": "Taïwan",
+        "emoji": "🇹🇼",
+        "rang": "Émergent",
+        "type": "Économique",
+        "image": "images/TA_177.png",
+        "coût_de_pose_en_credits": 350,
+        "etat_du_pays_initial": 600,
+        "statistiques": {
+            "puissance": 70,
+            "économie": 75,
+            "ressources": 10,
+            "technologie": 85,
+            "stabilité": 60
+        },
+        "effet_spécial": {
+            "type": "buff statistique(s) allié",
+            "nom": "Semi-conducteurs",
+            "coût_en_credit": 116,
+            "valeur": 40,
+            "lore/explication_effets": "Fournit des puces de pointe, boostant la technologie de tout le banc."
+        },
+        "lore": "Superpuissance technologique contrôlant le marché mondial des semi-conducteurs."
+    },
+    {
+        "id": "TA_178",
+        "nom": "Tanzanie",
+        "emoji": "🇹🇿",
+        "rang": "Émergent",
+        "type": "Économique",
+        "image": "images/TA_178.png",
+        "coût_de_pose_en_credits": 350,
+        "etat_du_pays_initial": 444,
+        "statistiques": {
+            "puissance": 67,
+            "économie": 55,
+            "ressources": 35,
+            "technologie": 20,
+            "stabilité": 45
+        },
+        "effet_spécial": {
+            "type": "buff économique allié",
+            "nom": "Hub de Dar es Salam",
+            "coût_en_credit": 116,
+            "valeur": 30,
+            "lore/explication_effets": "Génère un flux de crédits régulier via son port stratégique."
+        },
+        "lore": "Moteur économique d'Afrique de l'Est, riche en ressources et en tourisme de nature."
+    },
+    {
+        "id": "TC_179",
+        "nom": "Tchad",
+        "emoji": "🇹🇩",
+        "rang": "Marginal",
+        "type": "Militaire",
+        "image": "images/TC_179.png",
+        "coût_de_pose_en_credits": 150,
+        "etat_du_pays_initial": 390,
+        "statistiques": {
+            "puissance": 67,
+            "économie": 45,
+            "ressources": 38,
+            "technologie": 13,
+            "stabilité": 32
+        },
+        "effet_spécial": {
+            "type": "Dégât sur l'état du pays adverse",
+            "nom": "Force du Désert",
+            "coût_en_credit": 50,
+            "valeur": 30,
+            "lore/explication_effets": "Déploie une force mobile qui inflige des dégâts directs en ignorant les défenses."
+        },
+        "lore": "Nation sahélienne dotée de l'une des armées les plus aguerries du continent africain."
+    },
+    {
+        "id": "TH_180",
+        "nom": "Thaïlande",
+        "emoji": "🇹🇭",
+        "rang": "Émergent",
+        "type": "Diplomatique",
+        "image": "images/TH_180.png",
+        "coût_de_pose_en_credits": 350,
+        "etat_du_pays_initial": 496,
+        "statistiques": {
+            "puissance": 72,
+            "économie": 65,
+            "ressources": 22,
+            "technologie": 35,
+            "stabilité": 54
+        },
+        "effet_spécial": {
+            "type": "debuff statistique(s) adverse",
+            "nom": "Diplomatie Bambou",
+            "coût_en_credit": 116,
+            "valeur": 30,
+            "lore/explication_effets": "Esquive une attaque et réduit la puissance offensive de l'adversaire."
+        },
+        "lore": "Puissance économique d'Asie du Sud-Est, habile à naviguer entre les grandes influences."
+    },
+    {
+        "id": "TI_181",
+        "nom": "Timor oriental",
+        "emoji": "🇹🇱",
+        "rang": "Marginal",
+        "type": "Isolationniste",
+        "image": "images/TI_181.png",
+        "coût_de_pose_en_credits": 150,
+        "etat_du_pays_initial": 306,
+        "statistiques": {
+            "puissance": 25,
+            "économie": 22,
+            "ressources": 38,
+            "technologie": 10,
+            "stabilité": 58
+        },
+        "effet_spécial": {
+            "type": "Soin sur l'état du pays allié",
+            "nom": "Esprit de Corps",
+            "coût_en_credit": 50,
+            "valeur": 25,
+            "lore/explication_effets": "Utilise sa cohésion nationale pour soigner un allié après une attaque."
+        },
+        "lore": "Jeune nation asiatique ayant lutté farouchement pour son indépendance souveraine."
+    },
+    {
+        "id": "TO_182",
+        "nom": "Togo",
+        "emoji": "🇹🇬",
+        "rang": "Marginal",
+        "type": "Économique",
+        "image": "images/TO_182.png",
+        "coût_de_pose_en_credits": 150,
+        "etat_du_pays_initial": 330,
+        "statistiques": {
+            "puissance": 45,
+            "économie": 35,
+            "ressources": 20,
+            "technologie": 15,
+            "stabilité": 50
+        },
+        "effet_spécial": {
+            "type": "buff économique allié",
+            "nom": "Eau Profonde",
+            "coût_en_credit": 50,
+            "valeur": 25,
+            "lore/explication_effets": "Facilite le commerce régional pour générer des revenus continus."
+        },
+        "lore": "Pays côtier d'Afrique de l'Ouest, misant sur ses infrastructures portuaires modernes."
+    },
+    {
+        "id": "TO_183",
+        "nom": "Tonga",
+        "emoji": "🇹🇴",
+        "rang": "Marginal",
+        "type": "Isolationniste",
+        "image": "images/TO_183.png",
+        "coût_de_pose_en_credits": 150,
+        "etat_du_pays_initial": 250,
+        "statistiques": {
+            "puissance": 15,
+            "économie": 25,
+            "ressources": 10,
+            "technologie": 15,
+            "stabilité": 60
+        },
+        "effet_spécial": {
+            "type": "Soin sur l'état du pays allié",
+            "nom": "Entraide Insulaire",
+            "coût_en_credit": 50,
+            "valeur": 30,
+            "lore/explication_effets": "Restaure la santé d'un pays allié grâce à la solidarité polynésienne."
+        },
+        "lore": "Seul royaume de Polynésie à n'avoir jamais perdu sa gouvernance autochtone complète."
+    },
+    {
+        "id": "TR_184",
+        "nom": "Trinité-et-Tobago",
+        "emoji": "🇹🇹",
+        "rang": "Émergent",
+        "type": "Économique",
+        "image": "images/TR_184.png",
+        "coût_de_pose_en_credits": 350,
+        "etat_du_pays_initial": 470,
+        "statistiques": {
+            "puissance": 30,
+            "économie": 55,
+            "ressources": 60,
+            "technologie": 25,
+            "stabilité": 65
+        },
+        "effet_spécial": {
+            "type": "buff économique allié",
+            "nom": "Raffinage Énergétique",
+            "coût_en_credit": 116,
+            "valeur": 40,
+            "lore/explication_effets": "Exporte des hydrocarbures pour fournir un flux de crédits massif au banc."
+        },
+        "lore": "Nation insulaire dotée d'une économie florissante grâce à ses réserves pétrolières."
+    },
+    {
+        "id": "TU_185",
+        "nom": "Tunisie",
+        "emoji": "🇹🇳",
+        "rang": "Marginal",
+        "type": "Diplomatique",
+        "image": "images/TU_185.png",
+        "coût_de_pose_en_credits": 150,
+        "etat_du_pays_initial": 360,
+        "statistiques": {
+            "puissance": 55,
+            "économie": 45,
+            "ressources": 15,
+            "technologie": 25,
+            "stabilité": 40
+        },
+        "effet_spécial": {
+            "type": "Effet sur la pioche",
+            "nom": "Modèle Politique",
+            "coût_en_credit": 50,
+            "valeur": 1,
+            "lore/explication_effets": "Inspire ses alliés, permettant de piocher une nouvelle carte stratégie."
+        },
+        "lore": "Pays d'Afrique du Nord à la riche histoire, berceau historique des révolutions arabes."
+    },
+    {
+        "id": "TU_186",
+        "nom": "Turkménistan",
+        "emoji": "🇹🇲",
+        "rang": "Marginal",
+        "type": "Isolationniste",
+        "image": "images/TU_186.png",
+        "coût_de_pose_en_credits": 150,
+        "etat_du_pays_initial": 380,
+        "statistiques": {
+            "puissance": 50,
+            "économie": 40,
+            "ressources": 70,
+            "technologie": 10,
+            "stabilité": 20
+        },
+        "effet_spécial": {
+            "type": "debuff économique adverse",
+            "nom": "Vannes Gazières",
+            "coût_en_credit": 50,
+            "valeur": 35,
+            "lore/explication_effets": "Utilise ses réserves de gaz pour faire pression sur l'économie adverse."
+        },
+        "lore": "L'un des États les plus fermés du monde, possédant d'immenses réserves énergétiques."
+    },
+    {
+        "id": "TU_187",
+        "nom": "Turquie",
+        "emoji": "🇹🇷",
+        "rang": "Établi",
+        "type": "Militaire",
+        "image": "images/TU_187.png",
+        "coût_de_pose_en_credits": 550,
+        "etat_du_pays_initial": 500,
+        "statistiques": {
+            "puissance": 80,
+            "économie": 65,
+            "ressources": 15,
+            "technologie": 45,
+            "stabilité": 45
+        },
+        "effet_spécial": {
+            "type": "bloque le tour adverse",
+            "nom": "Verrou du Bosphore",
+            "coût_en_credit": 183,
+            "valeur": 1,
+            "lore/explication_effets": "Ferme les détroits pour bloquer la prochaine attaque diplomatique adverse."
+        },
+        "lore": "Puissance incontournable agissant comme un pont stratégique entre l'Europe et l'Asie."
+    },
+    {
+        "id": "TU_188",
+        "nom": "Tuvalu",
+        "emoji": "🇹🇻",
+        "rang": "Marginal",
+        "type": "Économique",
+        "image": "images/TU_188.png",
+        "coût_de_pose_en_credits": 150,
+        "etat_du_pays_initial": 260,
+        "statistiques": {
+            "puissance": 5,
+            "économie": 15,
+            "ressources": 5,
+            "technologie": 30,
+            "stabilité": 75
+        },
+        "effet_spécial": {
+            "type": "buff économique allié",
+            "nom": "Extension .tv",
+            "coût_en_credit": 50,
+            "valeur": 30,
+            "lore/explication_effets": "Génère des revenus grâce à l'exploitation de sa souveraineté numérique."
+        },
+        "lore": "L'un des pays les moins peuplés au monde, luttant pour sa survie climatique."
+    },
+    {
+        "id": "UK_189",
+        "nom": "Ukraine",
+        "emoji": "🇺🇦",
+        "rang": "Émergent",
+        "type": "Militaire",
+        "image": "images/UK_189.png",
+        "coût_de_pose_en_credits": 350,
+        "etat_du_pays_initial": 474,
+        "statistiques": {
+            "puissance": 82,
+            "économie": 40,
+            "ressources": 50,
+            "technologie": 35,
+            "stabilité": 30
+        },
+        "effet_spécial": {
+            "type": "Dégât sur l'état du pays adverse",
+            "nom": "Résistance Totale",
+            "coût_en_credit": 116,
+            "valeur": 45,
+            "lore/explication_effets": "Inflige de lourds dégâts d'usure à une force militaire adverse supérieure."
+        },
+        "lore": "Le grenier à blé de l'Europe, dont l'armée possède une expérience de guerre inégalée."
+    },
+    {
+        "id": "UR_190",
+        "nom": "Uruguay",
+        "emoji": "🇺🇾",
+        "rang": "Marginal",
+        "type": "Diplomatique",
+        "image": "images/UR_190.png",
+        "coût_de_pose_en_credits": 150,
+        "etat_du_pays_initial": 410,
+        "statistiques": {
+            "puissance": 30,
+            "économie": 55,
+            "ressources": 25,
+            "technologie": 35,
+            "stabilité": 90
+        },
+        "effet_spécial": {
+            "type": "Soin sur l'état du pays allié",
+            "nom": "Démocratie Avancée",
+            "coût_en_credit": 50,
+            "valeur": 35,
+            "lore/explication_effets": "Apporte une stabilité permettant à un allié attaqué de se reconstruire."
+        },
+        "lore": "Petit pays sud-américain exemplaire pour ses réformes sociales et sa stabilité politique."
+    },
+    {
+        "id": "VA_191",
+        "nom": "Vanuatu",
+        "emoji": "🇻🇺",
+        "rang": "Marginal",
+        "type": "Isolationniste",
+        "image": "images/VA_191.png",
+        "coût_de_pose_en_credits": 150,
+        "etat_du_pays_initial": 240,
+        "statistiques": {
+            "puissance": 10,
+            "économie": 20,
+            "ressources": 15,
+            "technologie": 10,
+            "stabilité": 65
+        },
+        "effet_spécial": {
+            "type": "Effet sur la pioche",
+            "nom": "Philosophie de Vie",
+            "coût_en_credit": 50,
+            "valeur": 1,
+            "lore/explication_effets": "Sa sérénité culturelle permet de piocher une nouvelle carte stratégie."
+        },
+        "lore": "Archipel mélanésien volcanique, considéré comme l'un des peuples les plus heureux au monde."
+    },
+    {
+        "id": "VA_192",
+        "nom": "Vatican",
+        "emoji": "🇻🇦",
+        "rang": "Marginal",
+        "type": "Diplomatique",
+        "image": "images/VA_192.png",
+        "coût_de_pose_en_credits": 150,
+        "etat_du_pays_initial": 360,
+        "statistiques": {
+            "puissance": 10,
+            "économie": 40,
+            "ressources": 10,
+            "technologie": 25,
+            "stabilité": 95
+        },
+        "effet_spécial": {
+            "type": "bloque le tour adverse",
+            "nom": "Autorité Morale",
+            "coût_en_credit": 50,
+            "valeur": 1,
+            "lore/explication_effets": "Son influence papale annule la prochaine action ou attaque adverse."
+        },
+        "lore": "Le plus petit État du monde, siège spirituel doté d'une diplomatie séculaire."
+    },
+    {
+        "id": "VE_193",
+        "nom": "Venezuela",
+        "emoji": "🇻🇪",
+        "rang": "Marginal",
+        "type": "Économique",
+        "image": "images/VE_193.png",
+        "coût_de_pose_en_credits": 150,
+        "etat_du_pays_initial": 400,
+        "statistiques": {
+            "puissance": 60,
+            "économie": 30,
+            "ressources": 80,
+            "technologie": 15,
+            "stabilité": 15
+        },
+        "effet_spécial": {
+            "type": "debuff économique adverse",
+            "nom": "Outil Pétrolier",
+            "coût_en_credit": 50,
+            "valeur": 45,
+            "lore/explication_effets": "Fait chuter les revenus adverses en manipulant les marchés de l'or noir."
+        },
+        "lore": "Possède les plus grandes réserves de pétrole mondiales mais traverse une crise majeure."
+    },
+    {
+        "id": "VI_194",
+        "nom": "Viêt Nam",
+        "emoji": "🇻🇳",
+        "rang": "Émergent",
+        "type": "Économique",
+        "image": "images/VI_194.png",
+        "coût_de_pose_en_credits": 350,
+        "etat_du_pays_initial": 520,
+        "statistiques": {
+            "puissance": 75,
+            "économie": 65,
+            "ressources": 25,
+            "technologie": 30,
+            "stabilité": 65
+        },
+        "effet_spécial": {
+            "type": "buff économique allié",
+            "nom": "Ouverture Économique",
+            "coût_en_credit": 116,
+            "valeur": 35,
+            "lore/explication_effets": "Assure un flux de crédits très élevé grâce à son dynamisme industriel."
+        },
+        "lore": "Nation résiliente d'Asie du Sud-Est, connaissant une croissance économique fulgurante."
+    },
+    {
+        "id": "YE_195",
+        "nom": "Yémen",
+        "emoji": "🇾🇪",
+        "rang": "Marginal",
+        "type": "Militaire",
+        "image": "images/YE_195.png",
+        "coût_de_pose_en_credits": 150,
+        "etat_du_pays_initial": 240,
+        "statistiques": {
+            "puissance": 65,
+            "économie": 15,
+            "ressources": 20,
+            "technologie": 10,
+            "stabilité": 10
+        },
+        "effet_spécial": {
+            "type": "Dégât sur l'état du pays adverse",
+            "nom": "Blocus Maritime",
+            "coût_en_credit": 50,
+            "valeur": 40,
+            "lore/explication_effets": "Harcèle les voies commerciales pour infliger de lourds dégâts d'usure."
+        },
+        "lore": "Contrôle le détroit de Bab-el-Mandeb, nation marquée par une longue reconstruction."
+    },
+    {
+        "id": "ZA_196",
+        "nom": "Zambie",
+        "emoji": "🇿🇲",
+        "rang": "Marginal",
+        "type": "Économique",
+        "image": "images/ZA_196.png",
+        "coût_de_pose_en_credits": 150,
+        "etat_du_pays_initial": 440,
+        "statistiques": {
+            "puissance": 60,
+            "économie": 45,
+            "ressources": 60,
+            "technologie": 15,
+            "stabilité": 40
+        },
+        "effet_spécial": {
+            "type": "buff économique allié",
+            "nom": "Export de Cuivre",
+            "coût_en_credit": 50,
+            "valeur": 30,
+            "lore/explication_effets": "Exploite l'une des zones minières les plus riches pour financer le deck."
+        },
+        "lore": "Nation d'Afrique australe pacifique, célèbre pour ses exportations mondiales de cuivre."
+    },
+    {
+        "id": "ZI_197",
+        "nom": "Zimbabwe",
+        "emoji": "🇿🇼",
+        "rang": "Marginal",
+        "type": "Isolationniste",
+        "image": "images/ZI_197.png",
+        "coût_de_pose_en_credits": 150,
+        "etat_du_pays_initial": 360,
+        "statistiques": {
+            "puissance": 65,
+            "économie": 25,
+            "ressources": 40,
+            "technologie": 15,
+            "stabilité": 35
+        },
+        "effet_spécial": {
+            "type": "debuff économique adverse",
+            "nom": "Crise Monétaire",
+            "coût_en_credit": 50,
+            "valeur": 35,
+            "lore/explication_effets": "Fait fondre la valeur des crédits adverses lors de ce tour."
+        },
+        "lore": "Ancien grenier à blé d'Afrique, doté de ressources mais marqué par les crises monétaires."
+    }
+]
+
+
