@@ -1,0 +1,542 @@
+[
+  {
+    "id": "ACT-001",
+    "nom": "Aide Humanitaire d'Élite",
+    "cond": {"type": ["Diplomatique"]},
+    "cibles": ["jeu"],
+    "variables": ["etat"],
+    "valeurs": [250],
+    "description": "Restaure 250 PV à votre pays en jeu."
+  },
+  {
+    "id": "ACT-002",
+    "nom": "Ressources Médicales Tropicales",
+    "cond": {"terrain": ["Tropical"]},
+    "cibles": ["jeu"],
+    "variables": ["etat"],
+    "valeurs": [220],
+    "description": "Restaure 220 PV à votre pays en jeu."
+  },
+  {
+    "id": "ACT-003",
+    "nom": "Réformes Économiques",
+    "cond": {"type": ["Économique"]},
+    "cibles": ["jeu"],
+    "variables": ["etat"],
+    "valeurs": [230],
+    "description": "Restaure 230 PV à votre pays en jeu."
+  },
+  {
+    "id": "ACT-004",
+    "nom": "Premiers Secours",
+    "cond": null,
+    "cibles": ["jeu"],
+    "variables": ["etat"],
+    "valeurs": [120],
+    "description": "Restaure 120 PV à votre pays en jeu."
+  },
+  {
+    "id": "ACT-005",
+    "nom": "Convoi de Ravitaillement",
+    "cond": null,
+    "cibles": ["jeu"],
+    "variables": ["etat"],
+    "valeurs": [100],
+    "description": "Restaure 100 PV à votre pays en jeu."
+  },
+  {
+    "id": "ACT-006",
+    "nom": "Hôpital Mobile",
+    "cond": null,
+    "cibles": ["jeu"],
+    "variables": ["etat"],
+    "valeurs": [130],
+    "description": "Restaure 130 PV à votre pays en jeu."
+  },
+  {
+    "id": "ACT-007",
+    "nom": "Kits de Réparation",
+    "cond": null,
+    "cibles": ["jeu"],
+    "variables": ["etat"],
+    "valeurs": [110],
+    "description": "Restaure 110 PV à votre pays en jeu."
+  },
+  {
+    "id": "ACT-008",
+    "nom": "Soin Infrastructures",
+    "cond": null,
+    "cibles": ["jeu"],
+    "variables": ["etat"],
+    "valeurs": [140],
+    "description": "Restaure 140 PV à votre pays en jeu."
+  },
+  {
+    "id": "ACT-009",
+    "nom": "Trêve Humanitaire",
+    "cond": null,
+    "cibles": ["jeu"],
+    "variables": ["etat"],
+    "valeurs": [150],
+    "description": "Restaure 150 PV à votre pays en jeu."
+  },
+  {
+    "id": "ACT-010",
+    "nom": "Assistance Médicale",
+    "cond": null,
+    "cibles": ["jeu"],
+    "variables": ["etat"],
+    "valeurs": [90],
+    "description": "Restaure 90 PV à votre pays en jeu."
+  },
+  {
+    "id": "ACT-011",
+    "nom": "Soutien Populaire",
+    "cond": null,
+    "cibles": ["jeu"],
+    "variables": ["etat"],
+    "valeurs": [115],
+    "description": "Restaure 115 PV à votre pays en jeu."
+  },
+  {
+    "id": "ACT-012",
+    "nom": "Récupération Rapide",
+    "cond": null,
+    "cibles": ["jeu"],
+    "variables": ["etat"],
+    "valeurs": [125],
+    "description": "Restaure 125 PV à votre pays en jeu."
+  },
+  {
+    "id": "ACT-013",
+    "nom": "Cyber-Attaque Étatique",
+    "cond": {"type": ["Renseignement"]},
+    "cibles": ["outilA"],
+    "variables": [null],
+    "valeurs": [1],
+    "description": "Désactive la carte outil adverse pour le prochain tour."
+  },
+  {
+    "id": "ACT-014",
+    "nom": "Tempête de Sable",
+    "cond": {"terrain": ["Désertique"]},
+    "cibles": ["outilA"],
+    "variables": [null],
+    "valeurs": [1],
+    "description": "Désactive la carte outil adverse pour le prochain tour."
+  },
+  {
+    "id": "ACT-015",
+    "nom": "Sabotage Militaire",
+    "cond": {"type": ["Militaire"]},
+    "cibles": ["outilA"],
+    "variables": [null],
+    "valeurs": [1],
+    "description": "Désactive la carte outil adverse pour le prochain tour."
+  },
+  {
+    "id": "ACT-016",
+    "nom": "Brouilleur d'Ondes",
+    "cond": null,
+    "cibles": ["outilA"],
+    "variables": [null],
+    "valeurs": [1],
+    "description": "Désactive la carte outil adverse pour le prochain tour."
+  },
+  {
+    "id": "ACT-017",
+    "nom": "Court-Circuit",
+    "cond": null,
+    "cibles": ["outilA"],
+    "variables": [null],
+    "valeurs": [1],
+    "description": "Désactive la carte outil adverse pour le prochain tour."
+  },
+  {
+    "id": "ACT-018",
+    "nom": "Câbles Sectionnés",
+    "cond": null,
+    "cibles": ["outilA"],
+    "variables": [null],
+    "valeurs": [1],
+    "description": "Désactive la carte outil adverse pour le prochain tour."
+  },
+  {
+    "id": "ACT-019",
+    "nom": "Virus Informatique",
+    "cond": null,
+    "cibles": ["outilA"],
+    "variables": [null],
+    "valeurs": [1],
+    "description": "Désactive la carte outil adverse pour le prochain tour."
+  },
+  {
+    "id": "ACT-020",
+    "nom": "Panne de Secteur",
+    "cond": null,
+    "cibles": ["outilA"],
+    "variables": [null],
+    "valeurs": [1],
+    "description": "Désactive la carte outil adverse pour le prochain tour."
+  },
+  {
+    "id": "ACT-021",
+    "nom": "Dysfonctionnement",
+    "cond": null,
+    "cibles": ["outilA"],
+    "variables": [null],
+    "valeurs": [1],
+    "description": "Désactive la carte outil adverse pour le prochain tour."
+  },
+  {
+    "id": "ACT-022",
+    "nom": "Désynchronisation",
+    "cond": null,
+    "cibles": ["outilA"],
+    "variables": [null],
+    "valeurs": [1],
+    "description": "Désactive la carte outil adverse pour le prochain tour."
+  },
+  {
+    "id": "ACT-023",
+    "nom": "Interférences",
+    "cond": null,
+    "cibles": ["outilA"],
+    "variables": [null],
+    "valeurs": [1],
+    "description": "Désactive la carte outil adverse pour le prochain tour."
+  },
+  {
+    "id": "ACT-024",
+    "nom": "Surcharge",
+    "cond": null,
+    "cibles": ["outilA"],
+    "variables": [null],
+    "valeurs": [1],
+    "description": "Désactive la carte outil adverse pour le prochain tour."
+  },
+  {
+    "id": "ACT-025",
+    "nom": "Intelligence Artificielle",
+    "cond": {"type": ["Renseignement"]},
+    "cibles": ["main"],
+    "variables": [null],
+    "valeurs": [3],
+    "description": "Piochez 3 cartes depuis votre deck."
+  },
+  {
+    "id": "ACT-026",
+    "nom": "Routes Maritimes",
+    "cond": {"terrain": ["Océanique"]},
+    "cibles": ["main"],
+    "variables": [null],
+    "valeurs": [3],
+    "description": "Piochez 3 cartes depuis votre deck."
+  },
+  {
+    "id": "ACT-027",
+    "nom": "Analyse de Marché",
+    "cond": {"type": ["Économique"]},
+    "cibles": ["main"],
+    "variables": [null],
+    "valeurs": [3],
+    "description": "Piochez 3 cartes depuis votre deck."
+  },
+  {
+    "id": "ACT-028",
+    "nom": "Lecture de Rapport",
+    "cond": null,
+    "cibles": ["main"],
+    "variables": [null],
+    "valeurs": [1],
+    "description": "Piochez 1 carte depuis votre deck."
+  },
+  {
+    "id": "ACT-029",
+    "nom": "Briefing Stratégique",
+    "cond": null,
+    "cibles": ["main"],
+    "variables": [null],
+    "valeurs": [2],
+    "description": "Piochez 2 cartes depuis votre deck."
+  },
+  {
+    "id": "ACT-030",
+    "nom": "Espionnage Léger",
+    "cond": null,
+    "cibles": ["main"],
+    "variables": [null],
+    "valeurs": [1],
+    "description": "Piochez 1 carte depuis votre deck."
+  },
+  {
+    "id": "ACT-031",
+    "nom": "Veille Diplomatique",
+    "cond": null,
+    "cibles": ["main"],
+    "variables": [null],
+    "valeurs": [2],
+    "description": "Piochez 2 cartes depuis votre deck."
+  },
+  {
+    "id": "ACT-032",
+    "nom": "Récupération de Données",
+    "cond": null,
+    "cibles": ["main"],
+    "variables": [null],
+    "valeurs": [1],
+    "description": "Piochez 1 carte depuis votre deck."
+  },
+  {
+    "id": "ACT-033",
+    "nom": "Nouveaux Contacts",
+    "cond": null,
+    "cibles": ["main"],
+    "variables": [null],
+    "valeurs": [1],
+    "description": "Piochez 1 carte depuis votre deck."
+  },
+  {
+    "id": "ACT-034",
+    "nom": "Archives d'État",
+    "cond": null,
+    "cibles": ["main"],
+    "variables": [null],
+    "valeurs": [2],
+    "description": "Piochez 2 cartes depuis votre deck."
+  },
+  {
+    "id": "ACT-035",
+    "nom": "Flux d'Informations",
+    "cond": null,
+    "cibles": ["main"],
+    "variables": [null],
+    "valeurs": [1],
+    "description": "Piochez 1 carte depuis votre deck."
+  },
+  {
+    "id": "ACT-036",
+    "nom": "Analyse Satellite",
+    "cond": null,
+    "cibles": ["main"],
+    "variables": [null],
+    "valeurs": [2],
+    "description": "Piochez 2 cartes depuis votre deck."
+  },
+  {
+    "id": "ACT-037",
+    "nom": "Redéploiement Tactique",
+    "cond": {"type": ["Militaire"]},
+    "cibles": ["jeu"],
+    "variables": ["emplacement"],
+    "valeurs": [[1, "banc"]],
+    "description": "Échangez gratuitement votre pays actif avec une carte choisie de votre banc."
+  },
+  {
+    "id": "ACT-038",
+    "nom": "Passage de Glace",
+    "cond": {"terrain": ["Glacial"]},
+    "cibles": ["jeu"],
+    "variables": ["emplacement"],
+    "valeurs": [[1, "banc"]],
+    "description": "Échangez gratuitement votre pays actif avec une carte choisie de votre banc."
+  },
+  {
+    "id": "ACT-039",
+    "nom": "Sommet International",
+    "cond": {"type": ["Diplomatique"]},
+    "cibles": ["jeu"],
+    "variables": ["emplacement"],
+    "valeurs": [[1, "banc"]],
+    "description": "Échangez gratuitement votre pays actif avec une carte choisie de votre banc."
+  },
+  {
+    "id": "ACT-040",
+    "nom": "Relève de la Garde",
+    "cond": null,
+    "cibles": ["jeu"],
+    "variables": ["emplacement"],
+    "valeurs": [[1, "banc"]],
+    "description": "Échangez votre pays actif avec une carte de votre banc gratuitement."
+  },
+  {
+    "id": "ACT-041",
+    "nom": "Rotation de Troupes",
+    "cond": null,
+    "cibles": ["jeu"],
+    "variables": ["emplacement"],
+    "valeurs": [[1, "banc"]],
+    "description": "Échangez votre pays actif avec une carte de votre banc gratuitement."
+  },
+  {
+    "id": "ACT-042",
+    "nom": "Retrait Stratégique",
+    "cond": null,
+    "cibles": ["jeu"],
+    "variables": ["emplacement"],
+    "valeurs": [[1, "banc"]],
+    "description": "Échangez votre pays actif avec une carte de votre banc gratuitement."
+  },
+  {
+    "id": "ACT-043",
+    "nom": "Changement de Ministre",
+    "cond": null,
+    "cibles": ["jeu"],
+    "variables": ["emplacement"],
+    "valeurs": [[1, "banc"]],
+    "description": "Échangez votre pays actif avec une carte de votre banc gratuitement."
+  },
+  {
+    "id": "ACT-044",
+    "nom": "Substitution",
+    "cond": null,
+    "cibles": ["jeu"],
+    "variables": ["emplacement"],
+    "valeurs": [[1, "banc"]],
+    "description": "Échangez votre pays actif avec une carte de votre banc gratuitement."
+  },
+  {
+    "id": "ACT-045",
+    "nom": "Mise en Réserve",
+    "cond": null,
+    "cibles": ["jeu"],
+    "variables": ["emplacement"],
+    "valeurs": [[1, "banc"]],
+    "description": "Échangez votre pays actif avec une carte de votre banc gratuitement."
+  },
+  {
+    "id": "ACT-046",
+    "nom": "Relève Standard",
+    "cond": null,
+    "cibles": ["jeu"],
+    "variables": ["emplacement"],
+    "valeurs": [[1, "banc"]],
+    "description": "Échangez votre pays actif avec une carte de votre banc gratuitement."
+  },
+  {
+    "id": "ACT-047",
+    "nom": "Mouvement Interne",
+    "cond": null,
+    "cibles": ["jeu"],
+    "variables": ["emplacement"],
+    "valeurs": [[1, "banc"]],
+    "description": "Échangez votre pays actif avec une carte de votre banc gratuitement."
+  },
+  {
+    "id": "ACT-048",
+    "nom": "Passation",
+    "cond": null,
+    "cibles": ["jeu"],
+    "variables": ["emplacement"],
+    "valeurs": [[1, "banc"]],
+    "description": "Échangez votre pays actif avec une carte de votre banc gratuitement."
+  },
+  {
+    "id": "ACT-049",
+    "nom": "Coup d'État Imprévisible",
+    "cond": {"type": ["Isolationniste"]},
+    "cibles": ["jeu"],
+    "variables": ["emplacement"],
+    "valeurs": [[1, "banc"]],
+    "description": "Force l'échange aléatoire de votre pays actif avec une carte du banc."
+  },
+  {
+    "id": "ACT-050",
+    "nom": "Avalanche de Montagne",
+    "cond": {"terrain": ["Montagneux"]},
+    "cibles": ["jeu"],
+    "variables": ["emplacement"],
+    "valeurs": [[1, "banc"]],
+    "description": "Force l'échange aléatoire de votre pays actif avec une carte du banc."
+  },
+  {
+    "id": "ACT-051",
+    "nom": "Bulle Économique",
+    "cond": {"type": ["Économique"]},
+    "cibles": ["jeu"],
+    "variables": ["emplacement"],
+    "valeurs": [[1, "banc"]],
+    "description": "Force l'échange aléatoire de votre pays actif avec une carte du banc."
+  },
+  {
+    "id": "ACT-052",
+    "nom": "Chaleur de Désert",
+    "cond": {"terrain": ["Désertique"]},
+    "cibles": ["jeu"],
+    "variables": ["emplacement"],
+    "valeurs": [[1, "banc"]],
+    "description": "Force l'échange aléatoire de votre pays actif avec une carte du banc."
+  },
+  {
+    "id": "ACT-053",
+    "nom": "Troubles Civils",
+    "cond": null,
+    "cibles": ["jeu"],
+    "variables": ["emplacement"],
+    "valeurs": [[1, "banc"]],
+    "description": "Échangez aléatoirement votre pays actif avec une carte de votre banc."
+  },
+  {
+    "id": "ACT-054",
+    "nom": "Scandale Politique",
+    "cond": null,
+    "cibles": ["jeu"],
+    "variables": ["emplacement"],
+    "valeurs": [[1, "banc"]],
+    "description": "Échangez aléatoirement votre pays actif avec une carte de votre banc."
+  },
+  {
+    "id": "ACT-055",
+    "nom": "Révolte Inattendue",
+    "cond": null,
+    "cibles": ["jeu"],
+    "variables": ["emplacement"],
+    "valeurs": [[1, "banc"]],
+    "description": "Échangez aléatoirement votre pays actif avec une carte de votre banc."
+  },
+  {
+    "id": "ACT-056",
+    "nom": "Élections Surprise",
+    "cond": null,
+    "cibles": ["jeu"],
+    "variables": ["emplacement"],
+    "valeurs": [[1, "banc"]],
+    "description": "Échangez aléatoirement votre pays actif avec une carte de votre banc."
+  },
+  {
+    "id": "ACT-057",
+    "nom": "Manifestations",
+    "cond": null,
+    "cibles": ["jeu"],
+    "variables": ["emplacement"],
+    "valeurs": [[1, "banc"]],
+    "description": "Échangez aléatoirement votre pays actif avec une carte de votre banc."
+  },
+  {
+    "id": "ACT-058",
+    "nom": "Crise de Succession",
+    "cond": null,
+    "cibles": ["jeu"],
+    "variables": ["emplacement"],
+    "valeurs": [[1, "banc"]],
+    "description": "Échangez aléatoirement votre pays actif avec une carte de votre banc."
+  },
+  {
+    "id": "ACT-059",
+    "nom": "Remaniement",
+    "cond": null,
+    "cibles": ["jeu"],
+    "variables": ["emplacement"],
+    "valeurs": [[1, "banc"]],
+    "description": "Échangez aléatoirement votre pays actif avec une carte de votre banc."
+  },
+  {
+    "id": "ACT-060",
+    "nom": "Instabilité",
+    "cond": null,
+    "cibles": ["jeu"],
+    "variables": ["emplacement"],
+    "valeurs": [[1, "banc"]],
+    "description": "Échangez aléatoirement votre pays actif avec une carte de votre banc."
+  }
+]

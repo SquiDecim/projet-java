@@ -1,0 +1,29 @@
+[
+    {
+        "id": "OUT-001",
+        "nom": "Nouveau budget",
+        "cond": null,
+        "cibles": ["jeu"],
+        "variables": ["puissance"],
+        "valeurs": [14],
+        "description": "Le nouveau budget voté augment la puissance militaire de 14"
+    },
+    {
+        "id": "OUT-002",
+        "nom": "Espionnage industriel",
+        "cond": {"type" : "renseignement"},
+        "cibles": ["jeuA"],
+        "variables": ["technologie"],
+        "valeurs": [-10],
+        "description": "l'espionnage industruiel à porté ces fruit, la technologie adverse baisse de 10"
+    },
+    {
+        "id": "OUT-003",
+        "nom": "",
+        "cond": {"type" : "renseignement"},
+        "cibles": ["jeuA"],
+        "variables": ["technologie"],
+        "valeurs": [-10],
+        "description": "l'espionnage industruiel à porté ces fruit, la technologie adverse baisse de 10"
+    },
+]
