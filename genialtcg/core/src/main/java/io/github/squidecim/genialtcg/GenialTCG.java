@@ -8,12 +8,9 @@ import com.badlogic.gdx.utils.ScreenUtils;
 
 /** {@link com.badlogic.gdx.ApplicationListener} implementation shared by all platforms. */
 public class GenialTCG extends Game {
-    private SpriteBatch batch;
-    private Texture image;
-
     @Override
     public void create() {
-        setScreen(new MenuScreen(this));
+        setScreen(new GameView(this));
     }
 
 
