@@ -17,8 +17,8 @@ public class GameView implements Screen {
 
     private PerspectiveCamera cam;
 
-    private DecalBatch decalBatch;
-    private CardDecal card;
+    private DecalBatch worldBatch;
+    private DecalBatch handBatch;
 
     private Texture frontTexture;
     private Texture backTexture;
@@ -26,17 +26,21 @@ public class GameView implements Screen {
     private Array<CardDecal> tableCards  = new Array<>();
     private Array<CardDecal> benchTop    = new Array<>();
     private Array<CardDecal> benchBottom = new Array<>();
-    private CardDecal handCard;
+    private Array<CardDecal> handCards = new Array<>();
 
-    float tableCardW = 1.5f;  float tableCardH = 2.1f;  // cartes zone de jeu
-    float benchCardW = 1.1f;  float benchCardH = 1.54f; // cartes banc (environ 73%)
-    float benchGapX = 0.3f;
-    float benchGapZ = 0.3f;
-    float tableGap = 0.15f;
+    private static final float TABLE_CARD_W = 1.5f;
+    private static final float TABLE_CARD_H = 2.1f;
+    private static final float BENCH_CARD_W = 1.1f;
+    private static final float BENCH_CARD_H = 1.54f;
+    private static final float BENCH_GAP_X  = 0.3f;
+    private static final float BENCH_GAP_Z  = 0.3f;
+    private static final float TABLE_GAP    = 0.15f;
 
     //debug :
     private ModelBatch modelBatch;
     private ModelInstance debugPoint;
+
+    private CardDecal hoveredCard = null;
 
     public GameView(GenialTCG game) {
         this.game = game;
@@ -63,28 +67,32 @@ public class GameView implements Screen {
         debugPoint = new ModelInstance(sphereModel);
         debugPoint.transform.setToTranslation(0, 0, 0);
 
-        decalBatch = new DecalBatch(new CameraGroupStrategy(cam));
+        worldBatch = new DecalBatch(new CameraGroupStrategy(cam));
+        handBatch  = new DecalBatch(new InsertionOrderStrategy());
 
         frontTexture = new Texture("frontCardTexture.jpg");
         backTexture = new Texture("backCardTexture.png");
 
         for (int i = 0; i < 3; i++) {
-            float x = (i - 1) * (tableCardW + tableGap);
-            tableCards.add(createCard(x, 0, 0 + tableGap/2 + tableCardH/2, 0, -90f, 0, tableCardW, tableCardH));
-            tableCards.add(createCard(x, 0, 0 - tableGap/2 - tableCardH/2, 0, -90f, 0, tableCardW, tableCardH));
+            float x = (i - 1) * (TABLE_CARD_W + TABLE_GAP);
+            tableCards.add(createCard(x, 0, 0 + TABLE_GAP/2 + TABLE_CARD_H/2, 0, -90f, 0, TABLE_CARD_W, TABLE_CARD_H));
+            tableCards.add(createCard(x, 0, 0 - TABLE_GAP/2 - TABLE_CARD_H/2, 0, -90f, 0, TABLE_CARD_W, TABLE_CARD_H));
         }
 
         for (int i = 0; i < 4; i++) {
-            float x = (i - 1.5f) * (benchCardW + benchGapX);
-            benchBottom.add(createCard(x, 0, 0.5f + tableCardH + (benchGapZ * 2.5f), 0, -90f, 0, benchCardW, benchCardH));
+            float x = (i - 1.5f) * (BENCH_CARD_W + BENCH_GAP_X);
+            benchBottom.add(createCard(x, 0, 0.5f + TABLE_CARD_H + (BENCH_GAP_Z * 2.5f), 0, -90f, 0, BENCH_CARD_W, BENCH_CARD_H));
         }
 
         for (int i = 0; i < 4; i++) {
-            float x = (i - 1.5f) * (benchCardW + benchGapX);
-            benchTop.add(createCard(x, 0, -0.5f - tableCardH - (benchGapZ * 2.5f), 0, -90f, 0, benchCardW, benchCardH));
+            float x = (i - 1.5f) * (BENCH_CARD_W + BENCH_GAP_X);
+            benchTop.add(createCard(x, 0, -0.5f - TABLE_CARD_H - (BENCH_GAP_Z * 2.5f), 0, -90f, 0, BENCH_CARD_W, BENCH_CARD_H));
         }
 
-        handCard = createCard(0, 0.5f, 5f, 0, -50f, 0, benchCardW, benchCardH);
+        for (int i = 0; i < 5; i++) {
+            float x = (i - 2) * (BENCH_CARD_W - 0.2f);
+            handCards.add(createCard(x, 0.5f, 5f, 0, -50f, 0, BENCH_CARD_W, BENCH_CARD_H));
+        }
     }
 
     @Override
@@ -94,15 +102,26 @@ public class GameView implements Screen {
         Gdx.gl.glClear(Gdx.gl.GL_COLOR_BUFFER_BIT | Gdx.gl.GL_DEPTH_BUFFER_BIT);
         Gdx.gl.glEnable(Gdx.gl.GL_DEPTH_TEST);
 
-        for (CardDecal c : tableCards)  c.addToBatch(decalBatch);
-        for (CardDecal c : benchBottom) c.addToBatch(decalBatch);
-        for (CardDecal c : benchTop)    c.addToBatch(decalBatch);
-        handCard.addToBatch(decalBatch);
+        for (CardDecal card : tableCards)  card.addToBatch(worldBatch);
+        for (CardDecal card : benchBottom) card.addToBatch(worldBatch);
+        for (CardDecal card : benchTop)    card.addToBatch(worldBatch);
 
-        decalBatch.flush();
+
+        for (int i = handCards.size - 1; i >= 0; i--) {
+            CardDecal card = handCards.get(i);
+            card.update(delta);
+            if (card != hoveredCard)
+                card.addToBatch(handBatch);
+        }
+        if (hoveredCard != null)
+            hoveredCard.addToBatch(handBatch);
+
+
+        worldBatch.flush();
+        handBatch.flush();
 
         modelBatch.begin(cam);
-        //modelBatch.render(debugPoint);
+        modelBatch.render(debugPoint);
         modelBatch.end();
     }
 
@@ -130,10 +149,12 @@ public class GameView implements Screen {
 
     @Override
     public void dispose() {
-        decalBatch.dispose();
+        worldBatch.dispose();
         frontTexture.dispose();
         backTexture.dispose();
         modelBatch.dispose();
+        handBatch.dispose();
+
     }
 
     private CardDecal createCard(float x, float y, float z, float yaw, float pitch, float roll, float w, float h) {
@@ -143,4 +164,21 @@ public class GameView implements Screen {
         card.setRotation(yaw, pitch, roll);
         return card;
     }
+
+
+
+    public PerspectiveCamera getCam() { return cam; }
+    public Array<CardDecal> getHandCards() { return handCards; }
+
+    public void setHoveredCard(CardDecal card) {
+        if (hoveredCard != null && hoveredCard != card) {
+            hoveredCard.setHovered(false);
+        }
+        hoveredCard = card;
+        if (hoveredCard != null) {
+            hoveredCard.setHovered(true);
+        }
+    }
+
+
 }
