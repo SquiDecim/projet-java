@@ -1,0 +1,41 @@
+package io.github.squidecim.genialtcg;
+
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.InputProcessor;
+import com.badlogic.gdx.math.collision.Ray;
+
+public class GameController implements InputProcessor {
+    private GameView view;
+
+    public GameController(GameView view) {
+        this.view = view;
+        Gdx.input.setInputProcessor(this);
+    }
+
+    @Override
+    public boolean mouseMoved(int screenX, int screenY) {
+        Ray ray = view.getCam().getPickRay(screenX, screenY);
+
+        CardDecal hovered = null;
+        for (CardDecal card : view.getHandCards()) {
+            if (card.intersects(ray)) {
+
+                hovered = card;
+                break;
+            }
+        }
+
+        view.setHoveredCard(hovered);
+        return false;
+    }
+
+    // les autres méthodes d'InputProcessor — toutes retournent false pour l'instant
+    @Override public boolean keyDown(int k)                          { return false; }
+    @Override public boolean keyUp(int k)                           { return false; }
+    @Override public boolean keyTyped(char c)                       { return false; }
+    @Override public boolean touchDown(int x, int y, int p, int b)  { return false; }
+    @Override public boolean touchUp(int x, int y, int p, int b)    { return false; }
+    @Override public boolean touchDragged(int x, int y, int p)      { return false; }
+    @Override public boolean scrolled(float x, float y)             { return false; }
+    @Override public boolean touchCancelled(int x, int y, int p, int b) { return false; }
+}
