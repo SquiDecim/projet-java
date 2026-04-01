@@ -10,7 +10,9 @@ import com.badlogic.gdx.utils.ScreenUtils;
 public class GenialTCG extends Game {
     @Override
     public void create() {
-        setScreen(new GameView(this));
+        GameView view = new GameView(this);
+        GameController controller = new GameController(view);
+        setScreen(view);
     }
 
 
