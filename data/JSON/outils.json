@@ -1,0 +1,362 @@
+[
+  {
+    "id": "OUT-001",
+    "nom": "Effort de guerre",
+    "cond": null,
+    "cibles": ["jeu"],
+    "variables": ["puissance"],
+    "valeurs": [20],
+    "description": "La nation entière se mobilise, augmentant la puissance de la carte en jeu de 20."
+  },
+  {
+    "id": "OUT-002",
+    "nom": "Plan de relance",
+    "cond": null,
+    "cibles": ["banc"],
+    "variables": ["economie"],
+    "valeurs": [15],
+    "description": "Un plan économique audacieux booste les revenus. L'économie de votre banc augmente de 15."
+  },
+  {
+    "id": "OUT-003",
+    "nom": "Pénurie de composants",
+    "cond": null,
+    "cibles": ["jeuA"],
+    "variables": ["technologie"],
+    "valeurs": [-15],
+    "description": "Les chaînes d'approvisionnement adverses sont brisées, baissant leur technologie de 15."
+  },
+  {
+    "id": "OUT-004",
+    "nom": "Gisement inexploité",
+    "cond": null,
+    "cibles": ["jeu"],
+    "variables": ["ressources"],
+    "valeurs": [25],
+    "description": "La découverte d'un filon rare augmente massivement vos ressources de 25."
+  },
+  {
+    "id": "OUT-005",
+    "nom": "Scandale d'État",
+    "cond": null,
+    "cibles": ["jeuA"],
+    "variables": ["stabilité"],
+    "valeurs": [-20],
+    "description": "La presse révèle un vaste réseau de corruption, faisant chuter la stabilité adverse de 20."
+  },
+  {
+    "id": "OUT-006",
+    "nom": "Subventions massives",
+    "cond": null,
+    "cibles": ["banc"],
+    "variables": ["CoutP"],
+    "valeurs": [-15],
+    "description": "L'État prend en charge une partie des frais, réduisant le coût de pose de 15 pour une carte de votre banc."
+  },
+  {
+    "id": "OUT-007",
+    "nom": "Inflation galopante",
+    "cond": null,
+    "cibles": ["banc"],
+    "variables": ["CoutP"],
+    "valeurs": [20],
+    "description": "L'inflation détruit le pouvoir d'achat adverse. Leurs coûts de pose augmentent de 20."
+  },
+  {
+    "id": "OUT-008",
+    "nom": "Formation d'élite",
+    "cond": null,
+    "cibles": ["banc"],
+    "variables": ["puissance"],
+    "valeurs": [10],
+    "description": "Vos réserves suivent un entraînement drastique, augmentant la puissance du banc de 10."
+  },
+  {
+    "id": "OUT-009",
+    "nom": "Cyberattaque massive",
+    "cond": null,
+    "cibles": ["jeuA"],
+    "variables": ["CoutES"],
+    "valeurs": [30],
+    "description": "Les systèmes ennemis sont paralysés, augmentant le coût de leurs effets spéciaux de 30."
+  },
+  {
+    "id": "OUT-010",
+    "nom": "Innovation de rupture",
+    "cond": null,
+    "cibles": ["jeu"],
+    "variables": ["CoutES"],
+    "valeurs": [-25],
+    "description": "Une nouvelle technologie rend vos opérations plus efficaces. Le coût des effets spéciaux baisse de 25."
+  },
+  {
+    "id": "OUT-011",
+    "nom": "Propagande efficace",
+    "cond": null,
+    "cibles": ["banc"],
+    "variables": ["stabilité"],
+    "valeurs": [15],
+    "description": "Les médias de l'État rassurent la population, augmentant la stabilité de votre banc de 15."
+  },
+  {
+    "id": "OUT-012",
+    "nom": "Fuite des cerveaux",
+    "cond": null,
+    "cibles": ["bancA"],
+    "variables": ["technologie"],
+    "valeurs": [-20],
+    "description": "Les meilleurs chercheurs adverses s'exilent, réduisant la technologie de leur banc de 20."
+  },
+  {
+    "id": "OUT-013",
+    "nom": "Marché noir",
+    "cond": null,
+    "cibles": ["jeuA"],
+    "variables": ["economie"],
+    "valeurs": [-15],
+    "description": "L'économie souterraine draine les finances ennemies. L'économie adverse baisse de 15."
+  },
+  {
+    "id": "OUT-014",
+    "nom": "Accord commercial",
+    "cond": null,
+    "cibles": ["jeu"],
+    "variables": ["economie"],
+    "valeurs": [20],
+    "description": "Un nouveau traité fructueux augmente votre économie de 20."
+  },
+  {
+    "id": "OUT-015",
+    "nom": "Sabotage logistique",
+    "cond": null,
+    "cibles": ["bancA"],
+    "variables": ["ressources"],
+    "valeurs": [-15],
+    "description": "Des rebelles détruisent les entrepôts ennemis, réduisant leurs ressources de 15."
+  },
+  {
+    "id": "OUT-016",
+    "nom": "Désertion en masse",
+    "cond": null,
+    "cibles": ["bancA"],
+    "variables": ["puissance"],
+    "valeurs": [-20],
+    "description": "Le moral des troupes ennemies est au plus bas, réduisant la puissance de leur banc de 20."
+  },
+  {
+    "id": "OUT-017",
+    "nom": "Recyclage industriel",
+    "cond": null,
+    "cibles": ["banc"],
+    "variables": ["ressources"],
+    "valeurs": [15],
+    "description": "De nouvelles méthodes de gestion augmentent les ressources de votre banc de 15."
+  },
+  {
+    "id": "OUT-018",
+    "nom": "Pôle de recherche",
+    "cond": null,
+    "cibles": ["jeu"],
+    "variables": ["technologie"],
+    "valeurs": [25],
+    "description": "L'ouverture d'un complexe scientifique booste votre technologie de 25."
+  },
+  {
+    "id": "OUT-019",
+    "nom": "Bureaucratie lourde",
+    "cond": null,
+    "cibles": ["bancA"],
+    "variables": ["CoutP"],
+    "valeurs": [15],
+    "description": "L'administration adverse ralentit tout, augmentant leurs coûts de pose sur le banc de 15."
+  },
+  {
+    "id": "OUT-020",
+    "nom": "Soutien logistique",
+    "cond": null,
+    "cibles": ["banc"],
+    "variables": ["CoutP"],
+    "valeurs": [-10],
+    "description": "Une chaîne d'approvisionnement optimisée réduit vos coûts de pose sur le banc de 10."
+  },
+  {
+    "id": "OUT-021",
+    "nom": "Grève générale",
+    "cond": null,
+    "cibles": ["jeuA"],
+    "variables": ["stabilité"],
+    "valeurs": [-25],
+    "description": "Le pays ennemi est paralysé par les grèves. La stabilité en jeu chute de 25."
+  },
+  {
+    "id": "OUT-022",
+    "nom": "Boom touristique",
+    "cond": null,
+    "cibles": ["banc"],
+    "variables": ["economie"],
+    "valeurs": [10],
+    "description": "L'afflux de devises étrangères fait croître l'économie du banc de 10."
+  },
+  {
+    "id": "OUT-023",
+    "nom": "Détournement de fonds",
+    "cond": null,
+    "cibles": ["bancA"],
+    "variables": ["economie"],
+    "valeurs": [-20],
+    "description": "Un oligarque s'enfuit avec la caisse. L'économie du banc adverse perd 20."
+  },
+  {
+    "id": "OUT-024",
+    "nom": "Pacification",
+    "cond": null,
+    "cibles": ["jeu"],
+    "variables": ["stabilité"],
+    "valeurs": [20],
+    "description": "Le retour à l'ordre public augmente votre stabilité de 20."
+  },
+  {
+    "id": "OUT-025",
+    "nom": "Blocus naval",
+    "cond": null,
+    "cibles": ["jeuA"],
+    "variables": ["ressources"],
+    "valeurs": [-25],
+    "description": "Les navires ne passent plus. Les ressources de l'adversaire baissent de 25."
+  },
+  {
+    "id": "OUT-026",
+    "nom": "Soutien d'alliés",
+    "cond": null,
+    "cibles": ["jeu"],
+    "variables": ["puissance"],
+    "valeurs": [15],
+    "description": "Des renforts internationaux se joignent à vous. +15 en puissance."
+  },
+  {
+    "id": "OUT-027",
+    "nom": "Piratage informatique",
+    "cond": null,
+    "cibles": ["bancA"],
+    "variables": ["technologie"],
+    "valeurs": [-15],
+    "description": "Des données précieuses sont effacées, baissant la technologie du banc adverse de 15."
+  },
+  {
+    "id": "OUT-028",
+    "nom": "Taxes douanières",
+    "cond": null,
+    "cibles": ["bancA"],
+    "variables": ["CoutES"],
+    "valeurs": [20],
+    "description": "Les équipements coûtent plus cher à importer. Leurs effets spéciaux coûtent 20 de plus."
+  },
+  {
+    "id": "OUT-029",
+    "nom": "Infrastructures modernes",
+    "cond": null,
+    "cibles": ["banc"],
+    "variables": ["CoutES"],
+    "valeurs": [-15],
+    "description": "Un réseau modernisé facilite vos actions, réduisant le coût des effets spéciaux de 15."
+  },
+  {
+    "id": "OUT-030",
+    "nom": "Armement de pointe",
+    "cond": null,
+    "cibles": ["jeu"],
+    "variables": ["puissance"],
+    "valeurs": [25],
+    "description": "De nouvelles armes sortent des usines, offrant un gain de 25 en puissance."
+  },
+  {
+    "id": "OUT-031",
+    "nom": "Tempête de sable",
+    "cond": {"terrain" : "Désertique"},
+    "cibles": ["jeuA"],
+    "variables": ["puissance"],
+    "valeurs": [-20],
+    "description": "Les vents violents du désert immobilisent l'ennemi. Sa puissance chute de 20."
+  },
+  {
+    "id": "OUT-032",
+    "nom": "Réseau d'informateurs",
+    "cond": {"type" : "Renseignement"},
+    "cibles": ["jeuA"],
+    "variables": ["CoutP"],
+    "valeurs": [25],
+    "description": "Vos espions ont anticipé leurs mouvements, augmentant le coût de pose adverse de 25."
+  },
+  {
+    "id": "OUT-033",
+    "nom": "Brise-glace nucléaire",
+    "cond": {"terrain" : "Glacial"},
+    "cibles": ["jeu"],
+    "variables": ["technologie"],
+    "valeurs": [30],
+    "description": "La maîtrise des environnements extrêmes vous donne un avantage technologique de +30."
+  },
+  {
+    "id": "OUT-034",
+    "nom": "Embargo total",
+    "cond": {"type" : "Isolationniste"},
+    "cibles": ["bancA"],
+    "variables": ["economie"],
+    "valeurs": [-30],
+    "description": "Votre politique d'isolement asphyxie le commerce ennemi. Leur économie chute de 30."
+  },
+  {
+    "id": "OUT-035",
+    "nom": "Fièvre tropicale",
+    "cond": {"terrain" : "Tropical"},
+    "cibles": ["jeuA"],
+    "variables": ["stabilité"],
+    "valeurs": [-25],
+    "description": "Une épidémie ravage les rangs adverses en pleine jungle. Leur stabilité baisse de 25."
+  },
+  {
+    "id": "OUT-036",
+    "nom": "Frappe chirurgicale",
+    "cond": {"type" : "Militaire"},
+    "cibles": ["jeuA"],
+    "variables": ["CoutES"],
+    "valeurs": [35],
+    "description": "Un bombardement ciblé détruit les installations ennemies. Le coût de leurs effets spéciaux explose de +35."
+  },
+  {
+    "id": "OUT-037",
+    "nom": "Sommet pour la paix",
+    "cond": {"type" : "Diplomatique"},
+    "cibles": ["banc"],
+    "variables": ["stabilité"],
+    "valeurs": [25],
+    "description": "Vos efforts diplomatiques rassurent la scène internationale. La stabilité de votre banc augmente de 25."
+  },
+  {
+    "id": "OUT-038",
+    "nom": "Rendements agricoles",
+    "cond": {"terrain" : "Tempéré"},
+    "cibles": ["jeu"],
+    "variables": ["ressources"],
+    "valeurs": [30],
+    "description": "Un climat idéal permet des récoltes record, augmentant vos ressources de 30."
+  },
+  {
+    "id": "OUT-039",
+    "nom": "Guerre d'usure",
+    "cond": {"terrain" : "Montagneux"},
+    "cibles": ["bancA"],
+    "variables": ["puissance"],
+    "valeurs": [-15],
+    "description": "Le terrain escarpé fatigue les réserves ennemies, réduisant leur puissance de 15."
+  },
+  {
+    "id": "OUT-040",
+    "nom": "Paradis fiscal",
+    "cond": {"type" : "Économique"},
+    "cibles": ["jeu"],
+    "variables": ["CoutP"],
+    "valeurs": [-20],
+    "description": "Vos lois attractives font affluer les capitaux. Le coût de pose est réduit de 20."
+  }
+]

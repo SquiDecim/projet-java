@@ -1,0 +1,32 @@
+Cible possible : 
+
+jeu : Affecte seulement votre carte en jeu.
+banc : Affecte seulement votre banc.
+main : Affecte seulement votre main.
+deck : Affecte seulement votre deck
+credit : affecte vos crédits
+
+jeuA : Affecte seulement la carte en jeu adverse.
+bancA : Affecte seulement le banc adverse.
+mainA : Affecte seulement la main adverse.
+deckA : Affecte seulement le deck adverse.
+outilA : Affecte seulement l’outil adverse.
+creditA : Affecte les crédits adverse 
+
+plateau : Affecte les cartes en jeu ainsi que les bancs .
+
+variable affectable et valeur en fonction de la/les cible(s) : 
+
+Etat du pays : Entier positif ou négatif
+
+Puissance : Entier positif ou négatif
+Economie : 
+Entier positif : augmentation de la stat et donc des revenus du joueur
+Entier négatif : diminution de la stat et donc des revenus du joueur
+Ressources :Entier positif ou négatif
+Technologie : Entier positif ou négatif
+Stabilité : Entier positif ou négatif
+
+CoutP: Entier positif ou négatif
+CoutES: Entier positif ou négatif
+emplacement carte : String de la cible d’arrivée
