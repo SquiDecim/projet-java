@@ -34,12 +34,14 @@ public class GameView implements Screen {
     private Array<CardDecal> opponentHandCards = new Array<>();
     private CardsStackDecal deck;
     private CardsStackDecal opponentDeck;
+    private CardsStackDecal discard;
+    private CardsStackDecal opponentDiscard;
 
     private static final float TABLE_CARD_W = 1.5f;
     private static final float TABLE_CARD_H = 2.1f;
     private static final float BENCH_CARD_W = 1.1f;
     private static final float BENCH_CARD_H = 1.54f;
-    private static final float BENCH_GAP_X  = 0.3f;
+    private static final float BENCH_GAP_X  = 0.2f;
     private static final float BENCH_GAP_Z  = 0.3f;
     private static final float TABLE_GAP    = 0.15f;
 
@@ -56,10 +58,10 @@ public class GameView implements Screen {
     @Override
     public void show() {
 
-        cam = new PerspectiveCamera(75, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        cam = new PerspectiveCamera(70, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 
-        cam.position.set(0, 4, 6);
-        cam.lookAt(0, 0, 2);
+        cam.position.set(0, 5.5f, 5.75f);
+        cam.lookAt(0, 0, 2f);
         cam.near = 0.1f;
         cam.far = 1000f;
         cam.update();
@@ -119,9 +121,11 @@ public class GameView implements Screen {
             opponentHandCards.add(card);
         }
 
-        deck = createCardsStacks(new TextureRegion(backTexture), BENCH_CARD_W, BENCH_CARD_H, 50, 4f, 0, 3.25f);
-        opponentDeck = createCardsStacks(new TextureRegion(backTexture), BENCH_CARD_W, BENCH_CARD_H, 50, -4f, 0, -3.25f);
+        deck = createCardsStacks(new TextureRegion(backTexture), BENCH_CARD_W, BENCH_CARD_H, 50, 3.25f, 0, 3.2f);
+        opponentDeck = createCardsStacks(new TextureRegion(backTexture), BENCH_CARD_W, BENCH_CARD_H, 50, -3.25f, 0, -3.2f);
 
+        discard = createCardsStacks(new TextureRegion(frontTexture), BENCH_CARD_W, BENCH_CARD_H, 1, 4.75f, 0, 3.2f);
+        opponentDiscard = createCardsStacks(new TextureRegion(frontTexture), BENCH_CARD_W, BENCH_CARD_H, 1, -4.75f, 0, -3.2f);
     }
 
     @Override
@@ -153,6 +157,8 @@ public class GameView implements Screen {
         modelBatch.begin(cam);
         deck.render(modelBatch, environment);
         opponentDeck.render(modelBatch,environment);
+        discard.render(modelBatch, environment);
+        opponentDiscard.render(modelBatch,environment);
         modelBatch.end();
 
         worldBatch.flush();
