@@ -1,21 +1,14 @@
 package io.github.squidecim.genialtcg;
 
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.VertexAttributes;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.graphics.g3d.Material;
-import com.badlogic.gdx.graphics.g3d.Model;
-import com.badlogic.gdx.graphics.g3d.ModelInstance;
+import com.badlogic.gdx.graphics.g3d.*;
+import com.badlogic.gdx.graphics.g3d.attributes.ColorAttribute;
+import com.badlogic.gdx.graphics.g3d.attributes.IntAttribute;
 import com.badlogic.gdx.graphics.g3d.attributes.TextureAttribute;
-import com.badlogic.gdx.graphics.g3d.decals.Decal;
-import com.badlogic.gdx.graphics.g3d.decals.DecalBatch;
 import com.badlogic.gdx.graphics.g3d.utils.MeshPartBuilder;
 import com.badlogic.gdx.graphics.g3d.utils.ModelBuilder;
-import com.badlogic.gdx.math.Intersector;
-import com.badlogic.gdx.math.MathUtils;
-import com.badlogic.gdx.math.Plane;
-import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.math.collision.Ray;
 
 public class CardsStackDecal {
@@ -23,11 +16,11 @@ public class CardsStackDecal {
     private boolean hovered = false;
     private float currentY;
     private float baseY;
-    private float thickness = 0.035f;
+    private float thickness = 0.007f;
     private Model model;
     private ModelInstance instance;
 
-    public CardsStackDecal(TextureRegion cardTexture, float width, float height, float depth, int nbrCards) {
+    public CardsStackDecal(TextureRegion cardTexture, float width, float height, int nbrCards) {
         ModelBuilder builder = new ModelBuilder();
         builder.begin();
 
@@ -35,14 +28,60 @@ public class CardsStackDecal {
 
         mpb = builder.part("top", GL20.GL_TRIANGLES,
             VertexAttributes.Usage.Position | VertexAttributes.Usage.Normal | VertexAttributes.Usage.TextureCoordinates,
-            new Material(TextureAttribute.createDiffuse(cardTexture)));
+            new Material(
+                TextureAttribute.createDiffuse(cardTexture),
+                IntAttribute.createCullFace(GL20.GL_BACK)
+            ));
         mpb.rect(
-            -0.5f, thickness * nbrCards,  0.7f,
-            0.5f, thickness * nbrCards,  0.7f,
-            0.5f, thickness * nbrCards, -0.7f,
-            -0.5f, thickness * nbrCards, -0.7f,
+            -width/2, thickness * nbrCards,  height/2,
+            width/2, thickness * nbrCards,  height/2,
+            width/2, thickness * nbrCards, -height/2,
+            -width/2, thickness * nbrCards, -height/2,
             0, 1, 0
         );
+
+        mpb = builder.part("front side", GL20.GL_TRIANGLES,
+            VertexAttributes.Usage.Position | VertexAttributes.Usage.Normal,
+            new Material(
+                ColorAttribute.createDiffuse(0.26f, 0.17f , 0.09f, 1),
+                IntAttribute.createCullFace(GL20.GL_BACK)
+            ));
+        mpb.rect(
+            width/2, thickness * nbrCards,  height/2,
+            -width/2, thickness * nbrCards,  height/2,
+            -width/2, 0, height/2,
+            width/2, 0, height/2,
+            0, 0, 1
+        );
+
+        mpb = builder.part("left side", GL20.GL_TRIANGLES,
+            VertexAttributes.Usage.Position | VertexAttributes.Usage.Normal,
+            new Material(
+                ColorAttribute.createDiffuse(0.26f, 0.17f , 0.09f, 1),
+                IntAttribute.createCullFace(GL20.GL_BACK)
+            ));
+        mpb.rect(
+            -width/2, thickness * nbrCards,  height/2,
+            -width/2, thickness * nbrCards,  -height/2,
+            -width/2, 0, -height/2,
+            -width/2, 0, height/2,
+            1, 0, 0
+        );
+
+        mpb = builder.part("right side", GL20.GL_TRIANGLES,
+            VertexAttributes.Usage.Position | VertexAttributes.Usage.Normal,
+            new Material(
+                ColorAttribute.createDiffuse(0.26f, 0.17f , 0.09f, 1),
+                IntAttribute.createCullFace(GL20.GL_BACK)
+            ));
+        mpb.rect(
+            width/2, thickness * nbrCards,  -height/2,
+            width/2, thickness * nbrCards,  height/2,
+            width/2, 0, height/2,
+            width/2, 0, -height/2,
+            1, 0, 0
+        );
+
 
         model = builder.end();
         instance = new ModelInstance(model);
@@ -64,8 +103,8 @@ public class CardsStackDecal {
 
     }
 
-    public void addToBatch(DecalBatch batch) {
-        batch.add(instance);
+    public void render(ModelBatch batch, Environment env) {
+        batch.render(instance, env);
     }
 
     public boolean intersects(Ray ray) {

@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.g3d.*;
 import com.badlogic.gdx.graphics.g3d.attributes.ColorAttribute;
 import com.badlogic.gdx.graphics.g3d.decals.CameraGroupStrategy;
 import com.badlogic.gdx.graphics.g3d.decals.DecalBatch;
+import com.badlogic.gdx.graphics.g3d.environment.DirectionalLight;
 import com.badlogic.gdx.graphics.g3d.utils.ModelBuilder;
 import com.badlogic.gdx.utils.Array;
 
@@ -16,6 +17,8 @@ public class GameView implements Screen {
     private GenialTCG game;
 
     private PerspectiveCamera cam;
+
+    private Environment environment;
 
     private DecalBatch worldBatch;
     private DecalBatch handBatch;
@@ -30,6 +33,7 @@ public class GameView implements Screen {
     private Array<CardDecal> handCards = new Array<>();
     private Array<CardDecal> opponentHandCards = new Array<>();
     private CardsStackDecal deck;
+    private CardsStackDecal opponentDeck;
 
     private static final float TABLE_CARD_W = 1.5f;
     private static final float TABLE_CARD_H = 2.1f;
@@ -52,7 +56,7 @@ public class GameView implements Screen {
     @Override
     public void show() {
 
-        cam = new PerspectiveCamera(80, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        cam = new PerspectiveCamera(75, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 
         cam.position.set(0, 4, 6);
         cam.lookAt(0, 0, 2);
@@ -69,6 +73,16 @@ public class GameView implements Screen {
         );
         debugPoint = new ModelInstance(sphereModel);
         debugPoint.transform.setToTranslation(0, 0, 0);
+
+        environment = new Environment();
+        environment.set(new ColorAttribute(ColorAttribute.AmbientLight, 0.4f, 0.4f, 0.4f, 1f));
+        environment.add(new DirectionalLight()
+            .set(1f, 1f, 1f,
+                -1f, -0.8f, -0.2f));
+        environment.add(new DirectionalLight()
+            .set(1f, 1f, 1f,
+                1f, 0.8f, 0.2f));
+
 
         worldBatch = new DecalBatch(new CameraGroupStrategy(cam));
         handBatch  = new DecalBatch(new InsertionOrderStrategy());
@@ -105,7 +119,8 @@ public class GameView implements Screen {
             opponentHandCards.add(card);
         }
 
-        deck = createCardsStacks(new TextureRegion(frontTexture), 0, 0, 0, 2, 0, 0, 0);
+        deck = createCardsStacks(new TextureRegion(backTexture), BENCH_CARD_W, BENCH_CARD_H, 50, 4f, 0, 3.25f);
+        opponentDeck = createCardsStacks(new TextureRegion(backTexture), BENCH_CARD_W, BENCH_CARD_H, 50, -4f, 0, -3.25f);
 
     }
 
@@ -135,15 +150,14 @@ public class GameView implements Screen {
             card.addToBatch(opponentHandBatch);
         }
 
-        deck.addToBatch(worldBatch);
-
-        opponentHandBatch.flush();
-        worldBatch.flush();
-        handBatch.flush();
-
         modelBatch.begin(cam);
-        //modelBatch.render(debugPoint);
+        deck.render(modelBatch, environment);
+        opponentDeck.render(modelBatch,environment);
         modelBatch.end();
+
+        worldBatch.flush();
+        opponentHandBatch.flush();
+        handBatch.flush();
     }
 
     @Override
@@ -186,9 +200,10 @@ public class GameView implements Screen {
         return card;
     }
 
-    private CardsStackDecal createCardsStacks(TextureRegion cardTexture, float width, float height, float depth, int nbrCards, float x, float y, float z) {
+    private CardsStackDecal createCardsStacks(TextureRegion cardTexture, float width, float height, int nbrCards, float x, float y, float z) {
 
-        CardsStackDecal cardsStack = new CardsStackDecal(cardTexture, width, height, depth, nbrCards);
+        CardsStackDecal cardsStack = new CardsStackDecal(cardTexture, width, height, nbrCards);
+        cardsStack.setPosition(x, y, z);
         return cardsStack;
     }
 
