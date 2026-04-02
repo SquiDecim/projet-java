@@ -19,6 +19,7 @@ public class GameView implements Screen {
 
     private DecalBatch worldBatch;
     private DecalBatch handBatch;
+    private DecalBatch opponentHandBatch;
 
     private Texture frontTexture;
     private Texture backTexture;
@@ -27,6 +28,8 @@ public class GameView implements Screen {
     private Array<CardDecal> benchTop    = new Array<>();
     private Array<CardDecal> benchBottom = new Array<>();
     private Array<CardDecal> handCards = new Array<>();
+    private Array<CardDecal> opponentHandCards = new Array<>();
+    private CardsStackDecal deck;
 
     private static final float TABLE_CARD_W = 1.5f;
     private static final float TABLE_CARD_H = 2.1f;
@@ -69,15 +72,14 @@ public class GameView implements Screen {
 
         worldBatch = new DecalBatch(new CameraGroupStrategy(cam));
         handBatch  = new DecalBatch(new InsertionOrderStrategy());
+        opponentHandBatch = new DecalBatch(new InsertionOrderStrategy());
 
         frontTexture = new Texture("frontCardTexture.jpg");
         backTexture = new Texture("backCardTexture.png");
 
-        for (int i = 0; i < 3; i++) {
-            float x = (i - 1) * (TABLE_CARD_W + TABLE_GAP);
-            tableCards.add(createCard(x, 0, 0 + TABLE_GAP/2 + TABLE_CARD_H/2, 0, -90f, 0, TABLE_CARD_W, TABLE_CARD_H));
-            tableCards.add(createCard(x, 0, 0 - TABLE_GAP/2 - TABLE_CARD_H/2, 0, -90f, 0, TABLE_CARD_W, TABLE_CARD_H));
-        }
+
+        tableCards.add(createCard(0, 0, 0 + TABLE_GAP/2 + TABLE_CARD_H/2, 0, -90f, 0, TABLE_CARD_W, TABLE_CARD_H));
+        tableCards.add(createCard(0, 0, 0 - TABLE_GAP/2 - TABLE_CARD_H/2, 0, -90f, 0, TABLE_CARD_W, TABLE_CARD_H));
 
         for (int i = 0; i < 4; i++) {
             float x = (i - 1.5f) * (BENCH_CARD_W + BENCH_GAP_X);
@@ -89,10 +91,22 @@ public class GameView implements Screen {
             benchTop.add(createCard(x, 0, -0.5f - TABLE_CARD_H - (BENCH_GAP_Z * 2.5f), 0, -90f, 0, BENCH_CARD_W, BENCH_CARD_H));
         }
 
+        //Main du joueur
         for (int i = 0; i < 5; i++) {
             float x = (i - 2) * (BENCH_CARD_W - 0.2f);
             handCards.add(createCard(x, 0.5f, 5f, 0, -50f, 0, BENCH_CARD_W, BENCH_CARD_H));
         }
+
+        //Main adverse
+        for (int i = 0; i < 5; i++) {
+            float x = (i - 2) * (BENCH_CARD_W - 0.2f);
+            CardDecal card =  createCard(x, 0.75f, -4.5f, 0, -10f, 0, BENCH_CARD_W, BENCH_CARD_H);
+            card.flip();
+            opponentHandCards.add(card);
+        }
+
+        deck = createCardsStacks(new TextureRegion(frontTexture), 0, 0, 0, 2, 0, 0, 0);
+
     }
 
     @Override
@@ -116,12 +130,19 @@ public class GameView implements Screen {
         if (hoveredCard != null)
             hoveredCard.addToBatch(handBatch);
 
+        for (int i = 0; i < opponentHandCards.size; i++) {
+            CardDecal card = opponentHandCards.get(i);
+            card.addToBatch(opponentHandBatch);
+        }
 
+        deck.addToBatch(worldBatch);
+
+        opponentHandBatch.flush();
         worldBatch.flush();
         handBatch.flush();
 
         modelBatch.begin(cam);
-        modelBatch.render(debugPoint);
+        //modelBatch.render(debugPoint);
         modelBatch.end();
     }
 
@@ -165,6 +186,11 @@ public class GameView implements Screen {
         return card;
     }
 
+    private CardsStackDecal createCardsStacks(TextureRegion cardTexture, float width, float height, float depth, int nbrCards, float x, float y, float z) {
+
+        CardsStackDecal cardsStack = new CardsStackDecal(cardTexture, width, height, depth, nbrCards);
+        return cardsStack;
+    }
 
 
     public PerspectiveCamera getCam() { return cam; }
