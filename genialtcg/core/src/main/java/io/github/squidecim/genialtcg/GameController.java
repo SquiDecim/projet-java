@@ -15,17 +15,7 @@ public class GameController implements InputProcessor {
     @Override
     public boolean mouseMoved(int screenX, int screenY) {
         Ray ray = view.getCam().getPickRay(screenX, screenY);
-
-        CardDecal hovered = null;
-        for (CardDecal card : view.getHandCards()) {
-            if (card.intersects(ray)) {
-
-                hovered = card;
-                break;
-            }
-        }
-
-        view.setHoveredCard(hovered);
+        view.updateHover(ray);
         return false;
     }
 
