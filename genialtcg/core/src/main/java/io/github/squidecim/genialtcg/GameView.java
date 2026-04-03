@@ -10,6 +10,8 @@ import com.badlogic.gdx.graphics.g3d.decals.CameraGroupStrategy;
 import com.badlogic.gdx.graphics.g3d.decals.DecalBatch;
 import com.badlogic.gdx.graphics.g3d.environment.DirectionalLight;
 import com.badlogic.gdx.graphics.g3d.utils.ModelBuilder;
+import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.math.collision.Ray;
 import com.badlogic.gdx.utils.Array;
 
 public class GameView implements Screen {
@@ -27,9 +29,9 @@ public class GameView implements Screen {
     private Texture frontTexture;
     private Texture backTexture;
 
-    private Array<CardDecal> tableCards  = new Array<>();
-    private Array<CardDecal> benchTop    = new Array<>();
-    private Array<CardDecal> benchBottom = new Array<>();
+    private Array<CardSlot> tableSlots  = new Array<>();
+    private Array<CardSlot> benchTopSlots    = new Array<>();
+    private Array<CardSlot> benchBottomSlots = new Array<>();
     private Array<CardDecal> handCards = new Array<>();
     private Array<CardDecal> opponentHandCards = new Array<>();
     private CardsStackDecal deck;
@@ -94,17 +96,17 @@ public class GameView implements Screen {
         backTexture = new Texture("backCardTexture.png");
 
 
-        tableCards.add(createCard(0, 0, 0 + TABLE_GAP/2 + TABLE_CARD_H/2, 0, -90f, 0, TABLE_CARD_W, TABLE_CARD_H));
-        tableCards.add(createCard(0, 0, 0 - TABLE_GAP/2 - TABLE_CARD_H/2, 0, -90f, 0, TABLE_CARD_W, TABLE_CARD_H));
+        tableSlots.add(new CardSlot(new Vector3(0, 0, 0 + TABLE_GAP/2 + TABLE_CARD_H/2), 0, -90f, 0));
+        tableSlots.add(new CardSlot(new Vector3(0, 0, 0 - TABLE_GAP/2 - TABLE_CARD_H/2), 0, -90f, 0));
 
         for (int i = 0; i < 4; i++) {
             float x = (i - 1.5f) * (BENCH_CARD_W + BENCH_GAP_X);
-            benchBottom.add(createCard(x, 0, 0.5f + TABLE_CARD_H + (BENCH_GAP_Z * 2.5f), 0, -90f, 0, BENCH_CARD_W, BENCH_CARD_H));
+            benchBottomSlots.add(new CardSlot(new Vector3(x, 0, 0.5f + TABLE_CARD_H + (BENCH_GAP_Z * 2.5f)), 0, -90f, 0));
         }
 
         for (int i = 0; i < 4; i++) {
             float x = (i - 1.5f) * (BENCH_CARD_W + BENCH_GAP_X);
-            benchTop.add(createCard(x, 0, -0.5f - TABLE_CARD_H - (BENCH_GAP_Z * 2.5f), 0, -90f, 0, BENCH_CARD_W, BENCH_CARD_H));
+            benchTopSlots.add(new CardSlot(new Vector3(x, 0, -0.5f - TABLE_CARD_H - (BENCH_GAP_Z * 2.5f)), 0, -90f, 0));
         }
 
         //Main du joueur
@@ -135,10 +137,24 @@ public class GameView implements Screen {
         Gdx.gl.glClear(Gdx.gl.GL_COLOR_BUFFER_BIT | Gdx.gl.GL_DEPTH_BUFFER_BIT);
         Gdx.gl.glEnable(Gdx.gl.GL_DEPTH_TEST);
 
-        for (CardDecal card : tableCards)  card.addToBatch(worldBatch);
-        for (CardDecal card : benchBottom) card.addToBatch(worldBatch);
-        for (CardDecal card : benchTop)    card.addToBatch(worldBatch);
 
+        for (CardSlot slot : tableSlots) {
+            if (!slot.isEmpty()) {
+                slot.card.addToBatch(worldBatch);
+            }
+        }
+
+        for (CardSlot slot : benchBottomSlots) {
+            if (!slot.isEmpty()) {
+                slot.card.addToBatch(worldBatch);
+            }
+        }
+
+        for (CardSlot slot : benchTopSlots) {
+            if (!slot.isEmpty()) {
+                slot.card.addToBatch(worldBatch);
+            }
+        }
 
         for (int i = handCards.size - 1; i >= 0; i--) {
             CardDecal card = handCards.get(i);
@@ -195,7 +211,7 @@ public class GameView implements Screen {
         backTexture.dispose();
         modelBatch.dispose();
         handBatch.dispose();
-
+        opponentHandBatch.dispose();
     }
 
     private CardDecal createCard(float x, float y, float z, float yaw, float pitch, float roll, float w, float h) {
@@ -213,9 +229,16 @@ public class GameView implements Screen {
         return cardsStack;
     }
 
-
     public PerspectiveCamera getCam() { return cam; }
-    public Array<CardDecal> getHandCards() { return handCards; }
+
+    public CardDecal getHoveredCard(Ray ray) {
+        for (CardDecal card : handCards) {
+            if (card.intersects(ray)) {
+                return card;
+            }
+        }
+        return null;
+    }
 
     public void setHoveredCard(CardDecal card) {
         if (hoveredCard != null && hoveredCard != card) {
@@ -227,5 +250,9 @@ public class GameView implements Screen {
         }
     }
 
+    public void updateHover(Ray ray) {
+        CardDecal hovered = getHoveredCard(ray);
+        setHoveredCard(hovered);
+    }
 
 }
