@@ -9,18 +9,29 @@ import com.badlogic.gdx.graphics.g3d.attributes.IntAttribute;
 import com.badlogic.gdx.graphics.g3d.attributes.TextureAttribute;
 import com.badlogic.gdx.graphics.g3d.utils.MeshPartBuilder;
 import com.badlogic.gdx.graphics.g3d.utils.ModelBuilder;
+import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.math.collision.Ray;
 
 public class CardsStackDecal {
 
-    private boolean hovered = false;
-    private float currentY;
-    private float baseY;
     private float thickness = 0.007f;
     private Model model;
     private ModelInstance instance;
+    public int nbrCards;
+    private float width;
+    private float height;
+    private TextureRegion cardTexture;
 
     public CardsStackDecal(TextureRegion cardTexture, float width, float height, int nbrCards) {
+        this.width = width;
+        this.height = height;
+        this.nbrCards = nbrCards;
+        this.cardTexture = cardTexture;
+        this.thickness = 0.007f;
+        buildModel(cardTexture, width, height, nbrCards);
+    }
+
+    private void buildModel(TextureRegion cardTexture, float width, float height, int nbrCards){
         ModelBuilder builder = new ModelBuilder();
         builder.begin();
 
@@ -91,27 +102,18 @@ public class CardsStackDecal {
         instance.transform.setToTranslation(x, y, z);
     }
 
-    public void setHovered(boolean hovered) {
-        this.hovered = hovered;
-    }
+    public void updateCards(int newNbrCards) {
 
-    public void update(float delta) {
-        //Méthode permettant de diminuer l'épaisseur de la pile quand les cartes sont tirés ou posés
-    }
-
-    public void setRotation(float yaw, float pitch, float roll) {
-
+        this.nbrCards = newNbrCards;
+        Vector3 pos = instance.transform.getTranslation(new Vector3());
+        buildModel(cardTexture, width, height, nbrCards);
+        setPosition(pos.x, pos.y, pos.z);
     }
 
     public void render(ModelBatch batch, Environment env) {
         batch.render(instance, env);
     }
 
-    public boolean intersects(Ray ray) {
-
-        //Potentiellement reprendre la logique de la méthode de CardDecal mais rajouter la profondeur (depth) en paramètre de détection jsp encore
-        return false;
-    }
 
 
 }
