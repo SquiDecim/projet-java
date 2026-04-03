@@ -59,7 +59,9 @@ public class CardDecal {
     }
 
     public Vector3 getPosition() { return front.getPosition(); }
+
     public float getWidth()      { return front.getWidth(); }
+
     public float getHeight()     { return front.getHeight(); }
 
     public boolean intersects(Ray ray) {
