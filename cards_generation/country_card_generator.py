@@ -61,16 +61,3 @@ def create_country_card(country):
 
     card_image.save(destination)
     card_image.show()
-
-
-
-country = {
-        "name": "France",
-        "iso2": "FR",
-        "population": 66351959,
-        "pib_usd": 3160442622465.08,
-        "military_expenditure_usd": 64675015306.1997,
-        "flag": "https://flagcdn.com/w320/fr.png"
-    }
-create_country_card(country)
-
