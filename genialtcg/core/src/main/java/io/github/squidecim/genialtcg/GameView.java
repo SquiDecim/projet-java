@@ -92,18 +92,21 @@ public class GameView implements Screen {
         handBatch  = new DecalBatch(new InsertionOrderStrategy());
         opponentHandBatch = new DecalBatch(new InsertionOrderStrategy());
 
+        //Création des textures de debug
         frontTexture = new Texture("frontCardTexture.jpg");
         backTexture = new Texture("backCardTexture.png");
 
-
+        //Création des slots du jeu
         tableSlots.add(new CardSlot(new Vector3(0, 0, 0 + TABLE_GAP/2 + TABLE_CARD_H/2), 0, -90f, 0));
         tableSlots.add(new CardSlot(new Vector3(0, 0, 0 - TABLE_GAP/2 - TABLE_CARD_H/2), 0, -90f, 0));
 
+        //Création des slots du banc joueur
         for (int i = 0; i < 4; i++) {
             float x = (i - 1.5f) * (BENCH_CARD_W + BENCH_GAP_X);
             benchBottomSlots.add(new CardSlot(new Vector3(x, 0, 0.5f + TABLE_CARD_H + (BENCH_GAP_Z * 2.5f)), 0, -90f, 0));
         }
 
+        //Création des slots du banc adverse
         for (int i = 0; i < 4; i++) {
             float x = (i - 1.5f) * (BENCH_CARD_W + BENCH_GAP_X);
             benchTopSlots.add(new CardSlot(new Vector3(x, 0, -0.5f - TABLE_CARD_H - (BENCH_GAP_Z * 2.5f)), 0, -90f, 0));
@@ -111,23 +114,28 @@ public class GameView implements Screen {
 
         //Main du joueur
         for (int i = 0; i < 5; i++) {
-            float x = (i - 2) * (BENCH_CARD_W - 0.2f);
-            handCards.add(createCard(x, 0.5f, 5f, 0, -50f, 0, BENCH_CARD_W, BENCH_CARD_H));
+            handCards.add(createCard(0, 0, 0, 0, 0, 0, BENCH_CARD_W, BENCH_CARD_H));
         }
+
 
         //Main adverse
         for (int i = 0; i < 5; i++) {
-            float x = (i - 2) * (BENCH_CARD_W - 0.2f);
-            CardDecal card =  createCard(x, 0.75f, -4.5f, 0, -10f, 0, BENCH_CARD_W, BENCH_CARD_H);
+            CardDecal card =  createCard(0, 0, 0, 0, 0, 0, BENCH_CARD_W, BENCH_CARD_H);
             card.flip();
             opponentHandCards.add(card);
         }
 
+        updateHandPositions();
+
+        //Création du deck joueur
         deck = createCardsStacks(new TextureRegion(backTexture), BENCH_CARD_W, BENCH_CARD_H, 50, 3.25f, 0, 3.2f);
+        //Création du deck adverse
         opponentDeck = createCardsStacks(new TextureRegion(backTexture), BENCH_CARD_W, BENCH_CARD_H, 50, -3.25f, 0, -3.2f);
 
-        discard = createCardsStacks(new TextureRegion(frontTexture), BENCH_CARD_W, BENCH_CARD_H, 1, 4.75f, 0, 3.2f);
-        opponentDiscard = createCardsStacks(new TextureRegion(frontTexture), BENCH_CARD_W, BENCH_CARD_H, 1, -4.75f, 0, -3.2f);
+        //Création de la défausse joueur
+        discard = createCardsStacks(new TextureRegion(frontTexture), BENCH_CARD_W, BENCH_CARD_H, 0, 4.75f, 0, 3.2f);
+        //Création de la défausse adverse
+        opponentDiscard = createCardsStacks(new TextureRegion(frontTexture), BENCH_CARD_W, BENCH_CARD_H, 0, -4.75f, 0, -3.2f);
     }
 
     @Override
@@ -212,6 +220,48 @@ public class GameView implements Screen {
         modelBatch.dispose();
         handBatch.dispose();
         opponentHandBatch.dispose();
+    }
+
+    private void updateHandPositions() {
+        //Main du joueur
+        int n = handCards.size;
+        if (n > 0) {
+            float maxWidth = 4f;
+            float spacing = Math.min(0.35f, maxWidth / (n - 1));
+            float center = (n - 1) / 2f;
+
+            for (int i = 0; i < n; i++) {
+                CardDecal card = handCards.get(i);
+                float x = (i - center) * spacing;
+                float y = 0.5f;
+                float z = 5f;
+                card.setPosition(x, y, z);
+
+                float angleY = (i - center) * 8f;
+                float angleX = -(i - center) * 2f;
+                card.setRotation(angleX, -50f + angleY, 0);
+            }
+        }
+
+        //Main adverse
+        int m = opponentHandCards.size;
+        if (m > 0) {
+            float maxWidth = 4f;
+            float spacing = Math.min(0.35f, maxWidth / (m - 1));
+            float center = (m - 1) / 2f;
+
+            for (int i = 0; i < m; i++) {
+                CardDecal card = opponentHandCards.get(i);
+                float x = (i - center) * spacing;
+                float y = 0.75f;
+                float z = -4.5f;
+                card.setPosition(x, y, z);
+
+                float angleY = -(i - center) * 8f;
+                float angleX = (i - center) * 2f;
+                card.setRotation(angleX, -10f + angleY, 0);
+            }
+        }
     }
 
     private CardDecal createCard(float x, float y, float z, float yaw, float pitch, float roll, float w, float h) {
