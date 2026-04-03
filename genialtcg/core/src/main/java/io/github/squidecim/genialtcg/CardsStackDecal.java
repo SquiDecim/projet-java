@@ -36,63 +36,64 @@ public class CardsStackDecal {
         builder.begin();
 
         MeshPartBuilder mpb;
+        if (nbrCards != 0) {
 
-        mpb = builder.part("top", GL20.GL_TRIANGLES,
-            VertexAttributes.Usage.Position | VertexAttributes.Usage.Normal | VertexAttributes.Usage.TextureCoordinates,
-            new Material(
-                TextureAttribute.createDiffuse(cardTexture),
-                IntAttribute.createCullFace(GL20.GL_BACK)
-            ));
-        mpb.rect(
-            -width/2, thickness * nbrCards,  height/2,
-            width/2, thickness * nbrCards,  height/2,
-            width/2, thickness * nbrCards, -height/2,
-            -width/2, thickness * nbrCards, -height/2,
-            0, 1, 0
-        );
+            mpb = builder.part("top", GL20.GL_TRIANGLES,
+                VertexAttributes.Usage.Position | VertexAttributes.Usage.Normal | VertexAttributes.Usage.TextureCoordinates,
+                new Material(
+                    TextureAttribute.createDiffuse(cardTexture),
+                    IntAttribute.createCullFace(GL20.GL_BACK)
+                ));
+            mpb.rect(
+                -width / 2, thickness * nbrCards, height / 2,
+                width / 2, thickness * nbrCards, height / 2,
+                width / 2, thickness * nbrCards, -height / 2,
+                -width / 2, thickness * nbrCards, -height / 2,
+                0, 1, 0
+            );
 
-        mpb = builder.part("front side", GL20.GL_TRIANGLES,
-            VertexAttributes.Usage.Position | VertexAttributes.Usage.Normal,
-            new Material(
-                ColorAttribute.createDiffuse(0.26f, 0.17f , 0.09f, 1),
-                IntAttribute.createCullFace(GL20.GL_BACK)
-            ));
-        mpb.rect(
-            width/2, thickness * nbrCards,  height/2,
-            -width/2, thickness * nbrCards,  height/2,
-            -width/2, 0, height/2,
-            width/2, 0, height/2,
-            0, 0, 1
-        );
+            mpb = builder.part("front side", GL20.GL_TRIANGLES,
+                VertexAttributes.Usage.Position | VertexAttributes.Usage.Normal,
+                new Material(
+                    ColorAttribute.createDiffuse(0.26f, 0.17f, 0.09f, 1),
+                    IntAttribute.createCullFace(GL20.GL_BACK)
+                ));
+            mpb.rect(
+                width / 2, thickness * nbrCards, height / 2,
+                -width / 2, thickness * nbrCards, height / 2,
+                -width / 2, 0, height / 2,
+                width / 2, 0, height / 2,
+                0, 0, 1
+            );
 
-        mpb = builder.part("left side", GL20.GL_TRIANGLES,
-            VertexAttributes.Usage.Position | VertexAttributes.Usage.Normal,
-            new Material(
-                ColorAttribute.createDiffuse(0.26f, 0.17f , 0.09f, 1),
-                IntAttribute.createCullFace(GL20.GL_BACK)
-            ));
-        mpb.rect(
-            -width/2, thickness * nbrCards,  height/2,
-            -width/2, thickness * nbrCards,  -height/2,
-            -width/2, 0, -height/2,
-            -width/2, 0, height/2,
-            1, 0, 0
-        );
+            mpb = builder.part("left side", GL20.GL_TRIANGLES,
+                VertexAttributes.Usage.Position | VertexAttributes.Usage.Normal,
+                new Material(
+                    ColorAttribute.createDiffuse(0.26f, 0.17f, 0.09f, 1),
+                    IntAttribute.createCullFace(GL20.GL_BACK)
+                ));
+            mpb.rect(
+                -width / 2, thickness * nbrCards, height / 2,
+                -width / 2, thickness * nbrCards, -height / 2,
+                -width / 2, 0, -height / 2,
+                -width / 2, 0, height / 2,
+                1, 0, 0
+            );
 
-        mpb = builder.part("right side", GL20.GL_TRIANGLES,
-            VertexAttributes.Usage.Position | VertexAttributes.Usage.Normal,
-            new Material(
-                ColorAttribute.createDiffuse(0.26f, 0.17f , 0.09f, 1),
-                IntAttribute.createCullFace(GL20.GL_BACK)
-            ));
-        mpb.rect(
-            width/2, thickness * nbrCards,  -height/2,
-            width/2, thickness * nbrCards,  height/2,
-            width/2, 0, height/2,
-            width/2, 0, -height/2,
-            1, 0, 0
-        );
-
+            mpb = builder.part("right side", GL20.GL_TRIANGLES,
+                VertexAttributes.Usage.Position | VertexAttributes.Usage.Normal,
+                new Material(
+                    ColorAttribute.createDiffuse(0.26f, 0.17f, 0.09f, 1),
+                    IntAttribute.createCullFace(GL20.GL_BACK)
+                ));
+            mpb.rect(
+                width / 2, thickness * nbrCards, -height / 2,
+                width / 2, thickness * nbrCards, height / 2,
+                width / 2, 0, height / 2,
+                width / 2, 0, -height / 2,
+                1, 0, 0
+            );
+        }
 
         model = builder.end();
         instance = new ModelInstance(model);
