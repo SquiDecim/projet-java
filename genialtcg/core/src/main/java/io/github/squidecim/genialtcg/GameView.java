@@ -227,19 +227,19 @@ public class GameView implements Screen {
         int n = handCards.size;
         if (n > 0) {
             float maxWidth = 4f;
-            float spacing = Math.min(0.35f, maxWidth / (n - 1));
+            float spacing = Math.min(0.85f, maxWidth / (n - 1));
             float center = (n - 1) / 2f;
 
             for (int i = 0; i < n; i++) {
                 CardDecal card = handCards.get(i);
                 float x = (i - center) * spacing;
                 float y = 0.5f;
-                float z = 5f;
+                float z = (float) (5f + Math.pow((i - center), 2) * 0.05f);
+
                 card.setPosition(x, y, z);
 
-                float angleY = (i - center) * 8f;
-                float angleX = -(i - center) * 2f;
-                card.setRotation(angleX, -50f + angleY, 0);
+                float angleX = -(i - center) * 5f;
+                card.setRotation(angleX, -50f, 0);
             }
         }
 
@@ -247,19 +247,18 @@ public class GameView implements Screen {
         int m = opponentHandCards.size;
         if (m > 0) {
             float maxWidth = 4f;
-            float spacing = Math.min(0.35f, maxWidth / (m - 1));
+            float spacing = Math.min(0.85f, maxWidth / (m - 1));
             float center = (m - 1) / 2f;
 
             for (int i = 0; i < m; i++) {
                 CardDecal card = opponentHandCards.get(i);
                 float x = (i - center) * spacing;
-                float y = 0.75f;
-                float z = -4.5f;
+                float y = 0.5f;
+                float z = (float) (-4.5f + Math.pow((i - center), 2) * 0.075f);
                 card.setPosition(x, y, z);
 
-                float angleY = -(i - center) * 8f;
-                float angleX = (i - center) * 2f;
-                card.setRotation(angleX, -10f + angleY, 0);
+                float angleX = -(i - center) * 5f;
+                card.setRotation(angleX, -20f, 0);
             }
         }
     }
