@@ -1,13 +1,25 @@
 from PIL import Image, ImageDraw, ImageFont
 import json
 
-JSON_PATH = "C:\\Users\\ahamelin\\Documents\\GitHub\\projet-java\\data\\JSON\\pays.json"
+# Linux : JSON_PATH = "/home/user-x/Documents/GitHub/projet-java/data/JSON/pays.json"
+
+# Windows : JSON_PATH = "C:\\Users\\ahamelin\\Documents\\GitHub\\projet-java\\data\\JSON\\pays.json"
+
+JSON_PATH = "/home/user-x/Documents/GitHub/projet-java/data/JSON/pays.json"
 with open(JSON_PATH, 'r', encoding='utf-8') as file:
     pays = json.load(file)
 
 # Config
-font = ImageFont.truetype("arial.ttf", 18)
-font_small = ImageFont.truetype("arial.ttf", 14)
+
+# Windows : font = ImageFont.truetype("arial.ttf", 18)
+#           font_small = ImageFont.truetype("arial.ttf", 14)
+
+# Linux :  font = ImageFont.truetype("/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf", 18)
+#          font_small = ImageFont.truetype("/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf", 14) 
+
+
+font = ImageFont.truetype("/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf", 18)
+font_small = ImageFont.truetype("/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf", 14) 
 TEXT_COLOR = (0, 0, 0)
 HEADER_COLOR = (0, 0, 0)
 TYPE_COLORS = {
@@ -61,47 +73,50 @@ for idx, p in enumerate(pays):
     current_y = PADDING + row_index * CARD_HEIGHT
 
     # Fond coloré selon le type
-    bg_color = TYPE_COLORS.get(p['type'], (240, 240, 240))
-    draw.rectangle([(current_x, current_y),(current_x + CARD_WIDTH, current_y + CARD_HEIGHT)],fill=bg_color,width=2)
+    draw.rectangle([(current_x, current_y),(current_x + CARD_WIDTH, current_y + CARD_HEIGHT)],fill=TYPE_COLORS.get(p['type'], (240, 240, 240)),width=2)
 
     padding_inside = 10
     x_text = current_x + padding_inside
     y_text = current_y + padding_inside
 
-    # Nom centré
-    name = p['nom']
-    w = draw.textbbox((0, 0), name, font=font)[2]
-    draw.text(
-        (current_x + (CARD_WIDTH - w)//2, y_text),
-        name,
-        fill=HEADER_COLOR,
-        font=font
-    )
+    # Nom du pays
+    draw.text((current_x +10, y_text),p['nom'],fill=HEADER_COLOR,font=font)
+
+    # Etat du pays
+    draw.text((current_x +280, y_text),str(p['etat']),fill=HEADER_COLOR,font=font)
 
     y_text += 40
 
-    # Rang / Type 
+    # Rang
     draw.text((x_text, y_text), f"Rang: {p['rang']}", fill=TEXT_COLOR, font=font_small)
-    draw.text((x_text, y_text + 20), f"Type: {p['type']}", fill=TEXT_COLOR, font=font_small)
-    y_text += 50
+
+    y_text += 175
 
     # Stats 
-    stats = p['statistiques']
-    stats_labels = [
-        ("Puissance", stats['puissance']),
-        ("Économie", stats['economie']),
-        ("Ressources", stats['ressources']),
-        ("Technologie", stats['technologie']),
-        ("Stabilité", stats['stabilite'])
-    ]
+    for i, (label, value) in enumerate(p['statistiques'].items()):
+        y = y_text + i * 20
+        draw.text((x_text, y), f"{label.capitalize()}: {value}", fill=TEXT_COLOR, font=font_small)
+    
+    y_text += 125
 
-    for i, (label, value) in enumerate(stats_labels):
-        y = y_text + i*20
-        draw.text((x_text, y), f"{label}: {value}", fill=TEXT_COLOR, font=font_small)
-    y_text += 120
+    # Titre du spécial 
+    draw.text((x_text+10, y_text),p['special']['nom'], fill=TEXT_COLOR, font=font_small)
+
+    #Cout du spécial
+    draw.text((x_text+250, y_text),str(p['special']['cout']), fill=TEXT_COLOR, font=font_small)
+
+    y_text += 20
+    
+    # Description du spécial 
+    desc_lines = wrap_text(draw, p['special']['description'], font_small, CARD_WIDTH - 2*padding_inside)
+    for line in desc_lines:
+        draw.text((x_text+10, y_text), line, fill=TEXT_COLOR, font=font_small)
+        y_text += 16
+        
+    y_text += 10
 
     # Lore
-    lore_lines = wrap_text(draw, "Lore: " + p['lore'], font_small, CARD_WIDTH - 2*padding_inside)
+    lore_lines = wrap_text(draw,p['lore'], font_small, CARD_WIDTH - 2*padding_inside)
     for line in lore_lines:
         draw.text((x_text, y_text), line, fill=TEXT_COLOR, font=font_small)
         y_text += 18
