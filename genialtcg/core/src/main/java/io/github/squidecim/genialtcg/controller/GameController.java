@@ -1,8 +1,9 @@
-package io.github.squidecim.genialtcg;
+package io.github.squidecim.genialtcg.controller;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.math.collision.Ray;
+import io.github.squidecim.genialtcg.view.GameView;
 
 public class GameController implements InputProcessor {
     private GameView view;

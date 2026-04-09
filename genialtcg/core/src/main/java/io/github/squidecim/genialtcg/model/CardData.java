@@ -1,4 +1,4 @@
-package io.github.squidecim.genialtcg;
+package io.github.squidecim.genialtcg.model;
 
 import com.badlogic.gdx.graphics.Texture;
 

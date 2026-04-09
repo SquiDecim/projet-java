@@ -1,4 +1,4 @@
-package io.github.squidecim.genialtcg;
+package io.github.squidecim.genialtcg.view;
 
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.g3d.decals.Decal;

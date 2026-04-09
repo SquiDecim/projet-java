@@ -1,11 +1,11 @@
-package io.github.squidecim.genialtcg;
+package io.github.squidecim.genialtcg.view;
 
 import com.badlogic.gdx.math.Vector3;
 
-class CardSlot {
+public class CardSlot {
     Vector3 position;
     float yaw, pitch, roll;
-    CardDecal card;
+    private CardDecal card;
 
     public CardSlot(Vector3 position, float yaw, float pitch, float roll) {
         this.position = position;
@@ -19,7 +19,11 @@ class CardSlot {
     }
 
     public void applyTo(CardDecal card) {
-        card.setPosition(position.x, position.y, position.z);
-        card.setRotation(yaw, pitch, roll);
+        card.setPosition(this.position.x, this.position.y, this.position.z);
+        card.setRotation(this.yaw, this.pitch, this.roll);
+    }
+
+    public CardDecal getCard() {
+        return this.card;
     }
 }

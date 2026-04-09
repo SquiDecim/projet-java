@@ -1,6 +1,8 @@
 package io.github.squidecim.genialtcg;
 
 import com.badlogic.gdx.Game;
+import io.github.squidecim.genialtcg.controller.GameController;
+import io.github.squidecim.genialtcg.view.GameView;
 
 
 /** {@link com.badlogic.gdx.ApplicationListener} implementation shared by all platforms. */
