@@ -104,6 +104,10 @@ public class CardsStackDecal {
         instance = new ModelInstance(model);
     }
 
+    public Vector3 getPosition() {
+        return position.cpy();
+    }
+
     public void setPosition(float x, float y, float z) {
         position.set(x, y, z);
         instance.transform.setToTranslation(x, y, z);

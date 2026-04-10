@@ -18,6 +18,17 @@ public class CardDecal {
     private boolean hovered = false;
     private float currentY;
     private float baseY;
+    private float yaw = 0f;
+    private float pitch = 0f;
+    private float roll = 0f;
+
+    private Vector3 targetPos = null;
+    private float[] startRot = new float[3];
+    private float[] targetRot = new float[3];
+    private float animTimer = 0f;
+    private float animDuration = 0f;
+    private Vector3 startPos = new Vector3();
+
 
     public CardDecal(CardData data, TextureRegion frontRegion, TextureRegion backRegion, float width, float height) {
         this.data = data;
@@ -39,6 +50,36 @@ public class CardDecal {
     }
 
     public void update(float delta) {
+
+        if (targetPos != null) {
+
+            animTimer += delta;
+            float t = Math.min(animTimer / animDuration, 1f);
+            t = t * t * (3f - 2f * t);
+
+            float nx = startPos.x + (targetPos.x - startPos.x) * t;
+            float ny = startPos.y + (targetPos.y - startPos.y) * t;
+            float nz = startPos.z + (targetPos.z - startPos.z) * t;
+            front.setPosition(nx, ny, nz);
+            back.setPosition(nx, ny, nz);
+
+            float cy = startRot[0] + (targetRot[0] - startRot[0]) * t;
+            float cp = startRot[1] + (targetRot[1] - startRot[1]) * t;
+            float cr = startRot[2] + (targetRot[2] - startRot[2]) * t;
+            front.setRotation(cy, cp, cr);
+            back.setRotation(cy + 180, cp, cr);
+
+            if (t >= 1f) {
+                front.setPosition(targetPos.x, targetPos.y, targetPos.z);
+                back.setPosition(targetPos.x, targetPos.y, targetPos.z);
+                setPosition(targetPos.x, targetPos.y, targetPos.z);
+                setRotation(targetRot[0], targetRot[1], targetRot[2]);
+                targetPos = null;
+            }
+            return;
+        }
+
+
         float targetY = this.hovered ? this.baseY + 1f : this.baseY;
         this.currentY += (targetY - this.currentY) * 8f * delta;
 
@@ -48,8 +89,11 @@ public class CardDecal {
     }
 
     public void setRotation(float yaw, float pitch, float roll) {
+        this.yaw = yaw;
+        this.pitch = pitch;
+        this.roll = roll;
         this.front.setRotation(yaw, pitch, roll);
-        this.back.setRotation(yaw + 180, pitch, roll);
+        this.back.setRotation(yaw, pitch, roll);
     }
 
     public void flip() {
@@ -66,6 +110,23 @@ public class CardDecal {
     public float getWidth()      { return this.front.getWidth(); }
 
     public float getHeight()     { return this.front.getHeight(); }
+
+    public void animateTo(Vector3 targetPosition, float targetYaw, float targetPitch, float targetRoll, float duration) {
+        startPos.set(front.getPosition());
+        startRot[0] = this.yaw;
+        startRot[1] = this.pitch;
+        startRot[2] = this.roll;
+        targetPos = targetPosition.cpy();
+        targetRot[0] = targetYaw;
+        targetRot[1] = targetPitch;
+        targetRot[2] = targetRoll;
+        animTimer = 0f;
+        animDuration = duration;
+    }
+
+    public boolean isAnimating() {
+        return targetPos != null;
+    }
 
     public boolean intersects(Ray ray) {
 

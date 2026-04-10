@@ -215,8 +215,27 @@ public class GameView implements Screen {
 
     public void addCardToHand(CardData data) {
         CardDecal decal = new CardDecal(data, new TextureRegion(frontTexture), new TextureRegion(backTexture), BENCH_CARD_W, BENCH_CARD_H);
+
+        Vector3 deckPos = deck.getPosition();
+        decal.setPosition(deckPos.x, deckPos.y, deckPos.z);
+        decal.setRotation(0, 90f, 0);
+
         handCards.add(decal);
-        updateHandPositions();
+
+        int n = handCards.size;
+        float maxWidth = 4f;
+        float spacing = n == 1 ? 0f : Math.min(0.85f, maxWidth / (n - 1));
+        float center = (n - 1) / 2f;
+
+        for (int i = 0; i < n; i++) {
+            CardDecal card = handCards.get(i);
+            float x = (i - center) * spacing;
+            float y = 0.5f;
+            float z = (float) (5f + Math.pow((i - center), 2) * 0.05f);
+            float angleX = -(i - center) * 5f;
+
+            card.animateTo(new Vector3(x, y, z), angleX, -50f, 0f, 0.4f);
+        }
     }
 
     public void updateDeckVisual(int size) {
