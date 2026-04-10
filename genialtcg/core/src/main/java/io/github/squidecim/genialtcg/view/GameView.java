@@ -14,10 +14,13 @@ import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.math.collision.Ray;
 import com.badlogic.gdx.utils.Array;
 import io.github.squidecim.genialtcg.*;
+import io.github.squidecim.genialtcg.model.CardData;
+import io.github.squidecim.genialtcg.model.GameModel;
 
 public class GameView implements Screen {
 
     private GenialTCG game;
+    private GameModel model;
 
     private PerspectiveCamera cam;
 
@@ -48,14 +51,13 @@ public class GameView implements Screen {
     private static final float BENCH_GAP_Z  = 0.3f;
     private static final float TABLE_GAP    = 0.15f;
 
-    //debug :
     private ModelBatch modelBatch;
-    private ModelInstance debugPoint;
 
     private CardDecal hoveredCard = null;
 
-    public GameView(GenialTCG game) {
+    public GameView(GenialTCG game, GameModel model) {
         this.game = game;
+        this.model = model;
     }
 
     @Override
@@ -76,8 +78,6 @@ public class GameView implements Screen {
             new Material(ColorAttribute.createDiffuse(Color.RED)),
             VertexAttributes.Usage.Position | VertexAttributes.Usage.Normal
         );
-        debugPoint = new ModelInstance(sphereModel);
-        debugPoint.transform.setToTranslation(0, 0, 0);
 
         environment = new Environment();
         environment.set(new ColorAttribute(ColorAttribute.AmbientLight, 0.4f, 0.4f, 0.4f, 1f));
@@ -113,19 +113,6 @@ public class GameView implements Screen {
             benchTopSlots.add(new CardSlot(new Vector3(x, 0, -0.5f - TABLE_CARD_H - (BENCH_GAP_Z * 2.5f)), 0, -90f, 0));
         }
 
-        //Main du joueur
-        for (int i = 0; i < 5; i++) {
-            handCards.add(createCard(0, 0, 0, 0, 0, 0, BENCH_CARD_W, BENCH_CARD_H));
-        }
-
-
-        //Main adverse
-        for (int i = 0; i < 5; i++) {
-            CardDecal card =  createCard(0, 0, 0, 0, 0, 0, BENCH_CARD_W, BENCH_CARD_H);
-            card.flip();
-            opponentHandCards.add(card);
-        }
-
         updateHandPositions();
 
         //Création du deck joueur
@@ -137,6 +124,8 @@ public class GameView implements Screen {
         discard = createCardsStacks(new TextureRegion(frontTexture), BENCH_CARD_W, BENCH_CARD_H, 0, 4.75f, 0, 3.2f);
         //Création de la défausse adverse
         opponentDiscard = createCardsStacks(new TextureRegion(frontTexture), BENCH_CARD_W, BENCH_CARD_H, 0, -4.75f, 0, -3.2f);
+
+        updateDeckVisual(model.deckSize());
     }
 
     @Override
@@ -223,12 +212,23 @@ public class GameView implements Screen {
         opponentHandBatch.dispose();
     }
 
+
+    public void addCardToHand(CardData data) {
+        CardDecal decal = new CardDecal(data, new TextureRegion(frontTexture), new TextureRegion(backTexture), BENCH_CARD_W, BENCH_CARD_H);
+        handCards.add(decal);
+        updateHandPositions();
+    }
+
+    public void updateDeckVisual(int size) {
+        deck.updateSize(size);
+    }
+
     private void updateHandPositions() {
         //Main du joueur
         int n = handCards.size;
         if (n > 0) {
             float maxWidth = 4f;
-            float spacing = Math.min(0.85f, maxWidth / (n - 1));
+            float spacing = n == 1 ? 0f : Math.min(0.85f, maxWidth / (n - 1));
             float center = (n - 1) / 2f;
 
             for (int i = 0; i < n; i++) {
@@ -248,7 +248,7 @@ public class GameView implements Screen {
         int m = opponentHandCards.size;
         if (m > 0) {
             float maxWidth = 4f;
-            float spacing = Math.min(0.85f, maxWidth / (m - 1));
+            float spacing = m == 1 ? 0f : Math.min(0.85f, maxWidth / (m - 1));
             float center = (m - 1) / 2f;
 
             for (int i = 0; i < m; i++) {
@@ -262,14 +262,6 @@ public class GameView implements Screen {
                 card.setRotation(angleX, -20f, 0);
             }
         }
-    }
-
-    private CardDecal createCard(float x, float y, float z, float yaw, float pitch, float roll, float w, float h) {
-
-        CardDecal card = new CardDecal(new TextureRegion(frontTexture), new TextureRegion(backTexture), w, h);
-        card.setPosition(x, y, z);
-        card.setRotation(yaw, pitch, roll);
-        return card;
     }
 
     private CardsStackDecal createCardsStacks(TextureRegion cardTexture, float width, float height, int nbrCards, float x, float y, float z) {
@@ -305,4 +297,7 @@ public class GameView implements Screen {
         setHoveredCard(hovered);
     }
 
+    public boolean isDeckClicked(Ray ray) {
+        return deck.intersects(ray);
+    }
 }

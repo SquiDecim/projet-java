@@ -8,8 +8,10 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Plane;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.math.collision.Ray;
+import io.github.squidecim.genialtcg.model.CardData;
 
 public class CardDecal {
+    private CardData data;
     private Decal front;
     private Decal back;
     private boolean faceVisible = true;
@@ -17,18 +19,19 @@ public class CardDecal {
     private float currentY;
     private float baseY;
 
-    public CardDecal(TextureRegion frontRegion, TextureRegion backRegion, float width, float height) {
-        front = Decal.newDecal(frontRegion, true);
-        back  = Decal.newDecal(backRegion, true);
-        front.setDimensions(width, height);
-        back.setDimensions(width, height);
+    public CardDecal(CardData data, TextureRegion frontRegion, TextureRegion backRegion, float width, float height) {
+        this.data = data;
+        this.front = Decal.newDecal(frontRegion, true);
+        this.back  = Decal.newDecal(backRegion, true);
+        this.front.setDimensions(width, height);
+        this.back.setDimensions(width, height);
     }
 
     public void setPosition(float x, float y, float z) {
         this.baseY    = y;
         this.currentY = y;
-        front.setPosition(x, y, z);
-        back.setPosition(x, y, z); // plus de 0.01f
+        this.front.setPosition(x, y, z);
+        this.back.setPosition(x, y, z); // plus de 0.01f
     }
 
     public void setHovered(boolean hovered) {
@@ -36,33 +39,33 @@ public class CardDecal {
     }
 
     public void update(float delta) {
-        float targetY = hovered ? baseY + 0.6f : baseY;
-        currentY += (targetY - currentY) * 8f * delta;
+        float targetY = this.hovered ? this.baseY + 1f : this.baseY;
+        this.currentY += (targetY - this.currentY) * 8f * delta;
 
-        Vector3 pos = front.getPosition();
-        front.setPosition(pos.x, currentY, pos.z);
-        back.setPosition(pos.x, currentY, pos.z);
+        Vector3 pos = this.front.getPosition();
+        front.setPosition(pos.x, this.currentY, pos.z);
+        back.setPosition(pos.x, this.currentY, pos.z);
     }
 
     public void setRotation(float yaw, float pitch, float roll) {
-        front.setRotation(yaw, pitch, roll);
-        back.setRotation(yaw + 180, pitch, roll);
+        this.front.setRotation(yaw, pitch, roll);
+        this.back.setRotation(yaw + 180, pitch, roll);
     }
 
     public void flip() {
-        faceVisible = !faceVisible;
+        this.faceVisible = !this.faceVisible;
     }
 
     public void addToBatch(DecalBatch batch) {
-        if (faceVisible) batch.add(front);
-        else             batch.add(back);
+        if (this.faceVisible) batch.add(this.front);
+        else             batch.add(this.back);
     }
 
-    public Vector3 getPosition() { return front.getPosition(); }
+    public Vector3 getPosition() { return this.front.getPosition(); }
 
-    public float getWidth()      { return front.getWidth(); }
+    public float getWidth()      { return this.front.getWidth(); }
 
-    public float getHeight()     { return front.getHeight(); }
+    public float getHeight()     { return this.front.getHeight(); }
 
     public boolean intersects(Ray ray) {
 

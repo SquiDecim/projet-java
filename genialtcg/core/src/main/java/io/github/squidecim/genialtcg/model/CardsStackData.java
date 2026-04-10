@@ -9,7 +9,11 @@ public class CardsStackData {
     private Deque<CardData> stack;
 
     public CardsStackData(List<CardData> stack){
-        this.stack = new ArrayDeque<>(stack);
+        this.stack = new ArrayDeque<CardData>(stack);
+    }
+
+    public CardsStackData(){
+        this.stack = new ArrayDeque<CardData>();
     }
 
     public void shuffle(){
@@ -21,5 +25,22 @@ public class CardsStackData {
 
     public CardData draw(){
         return this.stack.pollFirst();
+    }
+
+    public void addCard(CardData card){
+        this.stack.add(card);
+    }
+
+    @Override
+    public String toString(){
+        StringBuilder string = new StringBuilder();
+        for (CardData card : this.stack){
+            string.append(card.toString()+ "\n");
+        }
+        return string.toString();
+    }
+
+    public int getSize() {
+        return this.stack.size();
     }
 }

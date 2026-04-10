@@ -2,6 +2,7 @@ package io.github.squidecim.genialtcg;
 
 import com.badlogic.gdx.Game;
 import io.github.squidecim.genialtcg.controller.GameController;
+import io.github.squidecim.genialtcg.model.GameModel;
 import io.github.squidecim.genialtcg.view.GameView;
 
 
@@ -9,9 +10,10 @@ import io.github.squidecim.genialtcg.view.GameView;
 public class GenialTCG extends Game {
     @Override
     public void create() {
-        GameView view = new GameView(this);
-        GameController controller = new GameController(view);
-        setScreen(view);
+        GameModel model = new GameModel();
+        GameView view = new GameView(this, model);
+        GameController controller = new GameController(view, model);
+        setScreen(view); // show() appelé ici → deck créé → updateDeckVisual() à la fin de show()
     }
 
 

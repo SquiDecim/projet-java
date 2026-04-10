@@ -26,4 +26,10 @@ public class CardData {
 
     }
 
+    @Override
+    public String toString(){
+        return String.format("Country: %s, id: %s, rank: %s, type: %s, cost: %d, pv: %d, statistics: XXXX",
+                                this.country, this.id, this.rank, this.type, this.cost, this.pv); //statistics à compléter
+    }
+
 }
