@@ -28,19 +28,13 @@ public class GameController implements InputProcessor {
     @Override
     public boolean touchDown(int x, int y, int p, int b) {
         Ray ray = view.getCam().getPickRay(x, y);
-        Gdx.app.log("DEBUG", "clic à screen: " + x + ", " + y);
-        Gdx.app.log("DEBUG", "ray origin: " + ray.origin);
-        Gdx.app.log("DEBUG", "ray direction: " + ray.direction);
 
         if (view.isDeckClicked(ray)) {
-            Gdx.app.log("DEBUG", "deck cliqué !");
             CardData drawn = model.drawCard();
             if (drawn != null) {
                 view.addCardToHand(drawn);
                 view.updateDeckVisual(model.deckSize());
             }
-        } else {
-            Gdx.app.log("DEBUG", "pas sur le deck");
         }
         return false;
     }
