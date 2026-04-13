@@ -128,21 +128,31 @@ public class CardsStackDecal {
 
 
     public boolean intersects(Ray ray) {
-        Gdx.app.log("DEBUG", "position deck: " + position);
-        Plane plane = new Plane(new Vector3(0, 1, 0), position);
-        Vector3 intersection = new Vector3();
-        if (!Intersector.intersectRayPlane(ray, plane, intersection)) {
-            Gdx.app.log("DEBUG", "pas d'intersection avec le plan");
-            return false;
-        }
-        Gdx.app.log("DEBUG", "intersection: " + intersection);
-        Gdx.app.log("DEBUG", "bounds x: " + (position.x - width/2f) + " à " + (position.x + width/2f));
-        Gdx.app.log("DEBUG", "bounds z: " + (position.z - height/2f) + " à " + (position.z + height/2f));
-
         float hw = width / 2f;
         float hh = height / 2f;
-        return intersection.x >= position.x - hw && intersection.x <= position.x + hw
-            && intersection.z >= position.z - hh && intersection.z <= position.z + hh;
+        float top = position.y + thickness * nbrCards;
+
+        float minX = position.x - hw, maxX = position.x + hw;
+        float minZ = position.z - hh, maxZ = position.z + hh;
+        float minY = position.y,      maxY = top;
+
+        Plane[] planes = {
+            new Plane(new Vector3(0, 1, 0),  new Vector3(position.x, maxY, position.z)), // dessus
+            new Plane(new Vector3(0, 0, 1),  new Vector3(position.x, position.y, maxZ)), // face avant
+            new Plane(new Vector3(1, 0, 0),  new Vector3(maxX, position.y, position.z)), // droite
+            new Plane(new Vector3(-1, 0, 0), new Vector3(minX, position.y, position.z)), // gauche
+        };
+
+        Vector3 intersection = new Vector3();
+        for (Plane plane : planes) {
+            if (!Intersector.intersectRayPlane(ray, plane, intersection)) continue;
+            if (intersection.x >= minX - 0.001f && intersection.x <= maxX + 0.001f
+                && intersection.y >= minY - 0.001f && intersection.y <= maxY + 0.001f
+                && intersection.z >= minZ - 0.001f && intersection.z <= maxZ + 0.001f) {
+                return true;
+            }
+        }
+        return false;
     }
 }
 
