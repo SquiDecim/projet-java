@@ -132,9 +132,12 @@ public class CardsStackDecal {
         float hh = height / 2f;
         float top = position.y + thickness * nbrCards;
 
-        float minX = position.x - hw, maxX = position.x + hw;
-        float minZ = position.z - hh, maxZ = position.z + hh;
-        float minY = position.y,      maxY = top;
+        float minX = position.x - hw;
+        float maxX = position.x + hw;
+        float minZ = position.z - hh;
+        float maxZ = position.z + hh;
+        float minY = position.y;
+        float maxY = top;
 
         Plane[] planes = {
             new Plane(new Vector3(0, 1, 0),  new Vector3(position.x, maxY, position.z)), // dessus

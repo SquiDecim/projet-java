@@ -11,11 +11,25 @@ public class GameController implements InputProcessor {
     private GameView view;
     private GameModel model;
 
+    private boolean canDraw = true;
+    private float drawCooldown = 0.75f;
+    private float drawTimer = 0f;
+
     public GameController(GameView view, GameModel model) {
         this.view = view;
         this.model = model;
         Gdx.input.setInputProcessor(this);
 
+    }
+
+    public void update(float delta) {
+        if (!canDraw) {
+            drawTimer += delta;
+            if (drawTimer >= drawCooldown) {
+                canDraw = true;
+                drawTimer = 0f;
+            }
+        }
     }
 
     @Override
@@ -30,10 +44,13 @@ public class GameController implements InputProcessor {
         Ray ray = view.getCam().getPickRay(x, y);
 
         if (view.isDeckClicked(ray)) {
+            if (!canDraw) return false;
+
             CardData drawn = model.drawCard();
             if (drawn != null) {
                 view.addCardToHand(drawn);
                 view.updateDeckVisual(model.deckSize());
+                canDraw = false;
             }
         }
         return false;

@@ -26,47 +26,45 @@ public class CardDecal {
     private float width;
     private float height;
 
-    private float yaw   = 0f;
+    private float yaw = 0f;
     private float pitch = 0f;
-    private float roll  = 0f;
+    private float roll = 0f;
 
-    private float currentYaw   = 0f;
+    private float currentYaw = 0f;
     private float currentPitch = 0f;
-    private float currentRoll  = 0f;
+    private float currentRoll = 0f;
 
     private Vector3 position = new Vector3();
-    private float baseY      = 0f;
-    private float currentY   = 0f;
-    private boolean hovered  = false;
+    private float baseY = 0f;
+    private float currentY = 0f;
+    private boolean hovered = false;
 
-    private Vector3 targetPos  = null;
-    private float[] startRot   = new float[3];
-    private float[] targetRot  = new float[3];
-    private Vector3 startPos   = new Vector3();
-    private float animTimer    = 0f;
+    private Vector3 targetPos = null;
+    private float[] startRot = new float[3];
+    private float[] targetRot = new float[3];
+    private Vector3 startPos = new Vector3();
+    private float animTimer = 0f;
     private float animDuration = 0f;
 
 
-    private boolean sliding       = false;
-    private Vector3 slideTarget   = new Vector3();
-    private Vector3 slideStart    = new Vector3();
-    private float   slideTimer    = 0f;
-    private float   slideDuration = 0f;
+    private boolean sliding = false;
+    private Vector3 slideTarget = new Vector3();
+    private Vector3 slideStart = new Vector3();
+    private float slideTimer = 0f;
+    private float slideDuration = 0f;
 
-    private Vector3 pendingTarget    = null;
+    private Vector3 pendingTarget = null;
     private float[] pendingTargetRot = new float[3];
-    private float   pendingDuration  = 0f;
+    private float pendingDuration = 0f;
 
     private int handIndex = 0;
 
-    public CardDecal(CardData data, TextureRegion frontRegion, TextureRegion backRegion,
-                     float width, float height, PerspectiveCamera cam) {
-        this.data  = data;
-        this.width  = width;
+    public CardDecal(CardData data, TextureRegion frontRegion, TextureRegion backRegion, float width, float height, PerspectiveCamera cam) {
+        this.data = data;
+        this.width = width;
         this.height = height;
 
         TextureRegion flippedBack = new TextureRegion(backRegion);
-        flippedBack.flip(true, false);
 
         ModelBuilder builder = new ModelBuilder();
         builder.begin();
@@ -208,21 +206,19 @@ public class CardDecal {
         applyTransform(position.x, currentY + yOffset, position.z, yaw, pitch, roll);
     }
 
-    public void animateFromDeck(Vector3 deckTop, Vector3 target,
-                                float targetYaw, float targetPitch, float targetRoll,
-                                float duration) {
+    public void animateFromDeck(Vector3 deckTop, Vector3 target, float targetYaw, float targetPitch, float targetRoll, float duration) {
 
         position.set(deckTop);
-        currentY      = deckTop.y;
-        currentYaw    = yaw;
-        currentPitch  = pitch;
-        currentRoll   = roll;
+        currentY = deckTop.y;
+        currentYaw = yaw;
+        currentPitch = pitch;
+        currentRoll = roll;
 
         slideStart.set(deckTop);
         slideTarget.set(deckTop.x, deckTop.y + 0.5f, deckTop.z + 0.4f);
-        slideTimer    = 0f;
+        slideTimer = 0f;
         slideDuration = 0.18f;
-        sliding       = true;
+        sliding = true;
 
         pendingTarget      = target.cpy();
         pendingTargetRot[0] = targetYaw;

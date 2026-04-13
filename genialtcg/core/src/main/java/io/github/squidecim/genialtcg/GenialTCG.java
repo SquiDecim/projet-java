@@ -13,7 +13,9 @@ public class GenialTCG extends Game {
         GameModel model = new GameModel();
         GameView view = new GameView(this, model);
         GameController controller = new GameController(view, model);
-        setScreen(view); // show() appelé ici → deck créé → updateDeckVisual() à la fin de show()
+        view.setController(controller);
+
+        setScreen(view);
     }
 
 

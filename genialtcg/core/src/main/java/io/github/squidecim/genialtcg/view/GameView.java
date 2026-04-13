@@ -11,6 +11,7 @@ import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.math.collision.Ray;
 import com.badlogic.gdx.utils.Array;
 import io.github.squidecim.genialtcg.*;
+import io.github.squidecim.genialtcg.controller.GameController;
 import io.github.squidecim.genialtcg.model.CardData;
 import io.github.squidecim.genialtcg.model.GameModel;
 
@@ -18,6 +19,8 @@ public class GameView implements Screen {
 
     private GenialTCG game;
     private GameModel model;
+
+    private GameController controller;
 
     private PerspectiveCamera cam;
     private Environment environment;
@@ -94,6 +97,11 @@ public class GameView implements Screen {
 
     @Override
     public void render(float delta) {
+
+        if (controller != null) {
+            controller.update(delta);
+        }
+
         Gdx.gl.glViewport(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT);
@@ -129,6 +137,7 @@ public class GameView implements Screen {
     @Override public void pause() {}
     @Override public void resume() {}
 
+
     @Override
     public void resize(int width, int height) {
         cam.viewportWidth = width;
@@ -145,6 +154,9 @@ public class GameView implements Screen {
         for (CardDecal card : opponentHandCards) card.dispose();
     }
 
+    public void setController(GameController controller) {
+        this.controller = controller;
+    }
 
     public void addCardToHand(CardData data) {
         CardDecal decal = new CardDecal(data,
@@ -152,7 +164,7 @@ public class GameView implements Screen {
             new TextureRegion(backTexture),
             BENCH_CARD_W, BENCH_CARD_H, cam);
 
-        decal.setRotation(0, 90f, 0);
+        decal.setRotation(180f, 90f, 0);
 
         handCards.add(decal);
         repositionHand();
@@ -162,7 +174,13 @@ public class GameView implements Screen {
     private void repositionHand() {
         int n = handCards.size;
         float maxWidth = 7f;
-        float spacing = n == 1 ? 0f : Math.min(0.75f, maxWidth / (n - 1));
+        float cardWidth = BENCH_CARD_W;
+        float visibleRatio = 0.7f;
+        float spacing = cardWidth * visibleRatio;
+        float totalWidth = spacing * (n - 1);
+        if (totalWidth > maxWidth) {
+            spacing = maxWidth / (n - 1);
+        }
         float center = (n - 1) / 2f;
 
 
@@ -175,10 +193,9 @@ public class GameView implements Screen {
             card.setHandIndex(i);
 
             float x = (i - center) * spacing;
-            float y = 0.5f;
-            float curvature = (float) (0.15f / (Math.pow(n, 2) * 0.1f));
-            float z = (float) (4.75f + Math.pow(i - center, 2) * curvature);
-            float angleX = -(i - center) * 50f / n;
+            float y = 0.5f + (i - center) * thickness;
+            float z = 5f;
+            float angleX = 0;
             Vector3 dest = new Vector3(x, y, z);
 
             if (i == n - 1) {
