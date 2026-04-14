@@ -19,7 +19,7 @@ with open(JSON_PATH, 'r', encoding='utf-8') as file:
 
 
 font = ImageFont.truetype("/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf", 18)
-font_small = ImageFont.truetype("/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf", 14) 
+font_small = ImageFont.truetype("/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf", 12) 
 TEXT_COLOR = (0, 0, 0)
 HEADER_COLOR = (0, 0, 0)
 TYPE_COLORS = {
