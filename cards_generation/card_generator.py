@@ -19,7 +19,7 @@ with open(JSON_PATH, 'r', encoding='utf-8') as file:
 
 
 font = ImageFont.truetype("/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf", 18)
-font_small = ImageFont.truetype("/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf", 14) 
+font_small = ImageFont.truetype("/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf", 12) 
 TEXT_COLOR = (0, 0, 0)
 HEADER_COLOR = (0, 0, 0)
 TYPE_COLORS = {
@@ -88,16 +88,31 @@ for idx, p in enumerate(pays):
     y_text += 40
 
     # Rang
-    draw.text((x_text, y_text), f"Rang: {p['rang']}", fill=TEXT_COLOR, font=font_small)
+    draw.text((x_text, y_text), str(p['rang']), fill=TEXT_COLOR, font=font_small)
 
-    y_text += 175
+    y_text += 200
 
-    # Stats 
-    for i, (label, value) in enumerate(p['statistiques'].items()):
-        y = y_text + i * 20
-        draw.text((x_text, y), f"{label.capitalize()}: {value}", fill=TEXT_COLOR, font=font_small)
-    
-    y_text += 125
+    label, value = 'Puissance', p['statistiques']['puissance']
+    draw.text((x_text+20, y_text), f"{label.capitalize()}: {value}", fill=TEXT_COLOR, font=font_small)
+
+    label, value = 'Ressources', p['statistiques']['ressources']
+    draw.text((x_text+175, y_text), f"{label.capitalize()}: {value}", fill=TEXT_COLOR, font=font_small)
+
+    y_text += 30
+
+    label, value = 'Technologie', p['statistiques']['technologie']
+    draw.text((x_text+20, y_text), f"{label.capitalize()}: {value}", fill=TEXT_COLOR, font=font_small)
+
+        
+    label, value = 'Stabilite', p['statistiques']['stabilite']
+    draw.text((x_text+175, y_text), f"{label.capitalize()}: {value}", fill=TEXT_COLOR, font=font_small)
+
+    y_text += 30
+
+    label, value = 'Économie', p['statistiques']['economie']
+    draw.text((x_text+100, y_text), f"{label.capitalize()}: {value}", fill=TEXT_COLOR, font=font_small)
+
+    y_text += 45
 
     # Titre du spécial 
     draw.text((x_text+10, y_text),p['special']['nom'], fill=TEXT_COLOR, font=font_small)
