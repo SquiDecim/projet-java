@@ -7,6 +7,8 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.g3d.*;
 import com.badlogic.gdx.graphics.g3d.attributes.ColorAttribute;
 import com.badlogic.gdx.graphics.g3d.environment.DirectionalLight;
+import com.badlogic.gdx.math.Intersector;
+import com.badlogic.gdx.math.Plane;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.math.collision.Ray;
 import com.badlogic.gdx.utils.Array;
@@ -42,14 +44,17 @@ public class GameView implements Screen {
 
     private static final float TABLE_CARD_W = 1.5f;
     private static final float TABLE_CARD_H = 2.1f;
-    private static final float BENCH_CARD_W = 1.1f;
-    private static final float BENCH_CARD_H = 1.54f;
+    public static final float BENCH_CARD_W = 1.1f;
+    public static final float BENCH_CARD_H = 1.54f;
     private static final float BENCH_GAP_X = 0.2f;
     private static final float BENCH_GAP_Z = 0.3f;
     private static final float TABLE_GAP = 0.15f;
 
+    private static final float THICKNESS = 0.007f;
+
     private CardDecal hoveredCard = null;
-    private float thickness = 0.007f;
+
+    private CardDecal draggedCard = null;
 
     public GameView(GenialTCG game, GameModel model) {
         this.game = game;
@@ -137,7 +142,6 @@ public class GameView implements Screen {
     @Override public void pause() {}
     @Override public void resume() {}
 
-
     @Override
     public void resize(int width, int height) {
         cam.viewportWidth = width;
@@ -170,7 +174,6 @@ public class GameView implements Screen {
         repositionHand();
     }
 
-
     private void repositionHand() {
         int n = handCards.size;
         float maxWidth = 7f;
@@ -185,7 +188,7 @@ public class GameView implements Screen {
 
 
         Vector3 deckPos = deck.getPosition();
-        float deckTop = deck.nbrCards * thickness;
+        float deckTop = deck.nbrCards * THICKNESS;
         Vector3 deckTopPos = new Vector3(deckPos.x, deckPos.y + deckTop, deckPos.z);
 
         for (int i = 0; i < n; i++) {
@@ -193,7 +196,7 @@ public class GameView implements Screen {
             card.setHandIndex(i);
 
             float x = (i - center) * spacing;
-            float y = 0.5f + (i - center) * thickness;
+            float y = 0.5f + (i - center) * THICKNESS;
             float z = 5f;
             float angleX = 0;
             Vector3 dest = new Vector3(x, y, z);
@@ -237,10 +240,53 @@ public class GameView implements Screen {
         return deck.intersects(ray);
     }
 
-
     private CardsStackDecal createCardsStacks(TextureRegion tex, float w, float h, int n, float x, float y, float z) {
         CardsStackDecal stack = new CardsStackDecal(tex, w, h, n);
         stack.setPosition(x, y, z);
         return stack;
+    }
+
+    public void startDrag(CardDecal card) {
+        draggedCard = card;
+        handCards.removeValue(card, true);
+        repositionHand();
+        for (CardSlot slot : benchBottomSlots) slot.setHighlighted(true);
+    }
+
+    public void updateDragPosition(Ray ray) {
+        if (draggedCard == null) return;
+        Plane groundPlane = new Plane(new Vector3(0, 1, 0), new Vector3(0, 0.5f, 0));
+        Vector3 intersection = new Vector3();
+        if (Intersector.intersectRayPlane(ray, groundPlane, intersection)) {
+            draggedCard.setPosition(intersection.x, intersection.y + 0.3f, intersection.z);
+        }
+        // vérifier quel slot est survolé
+        for (CardSlot slot : benchBottomSlots) {
+            slot.setHighlighted(slot.intersects(ray));
+        }
+    }
+
+    public CardSlot getHighlightedSlot(Ray ray) {
+        for (CardSlot slot : benchBottomSlots) {
+            if (slot.intersects(ray)) return slot;
+        }
+        return null;
+    }
+
+    public void dropCardOnSlot(CardDecal card, CardSlot slot) {
+        slot.setCard(card);
+        // anime la carte vers le centre du slot
+        card.animateTo(slot.getPosition(), 0, -90f, 0, 0.3f);
+        // désactive le surlignage
+        for (CardSlot s : benchBottomSlots) s.setHighlighted(false);
+        draggedCard = null;
+    }
+
+    public void cancelDrag(CardDecal card) {
+        // remet la carte dans la main
+        handCards.add(card);
+        repositionHand();
+        for (CardSlot s : benchBottomSlots) s.setHighlighted(false);
+        draggedCard = null;
     }
 }

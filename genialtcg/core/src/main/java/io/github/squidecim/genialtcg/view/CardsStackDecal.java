@@ -121,11 +121,9 @@ public class CardsStackDecal {
         setPosition(pos.x, pos.y, pos.z);
     }
 
-
     public void render(ModelBatch batch, Environment env) {
         batch.render(instance, env);
     }
-
 
     public boolean intersects(Ray ray) {
         float hw = width / 2f;

@@ -10,6 +10,7 @@ public class GameModel {
 
     public CardsStackData deck;
     public List<CardData> hand = new ArrayList<>();
+    public List<CardData> bench = new ArrayList<>();
 
     public GameModel(){
 
@@ -29,4 +30,8 @@ public class GameModel {
 
     public int deckSize() { return deck.getSize(); }
 
+    public void moveFromHandToBench(CardData card) {
+        hand.remove(card);
+        bench.add(card);
+    }
 }

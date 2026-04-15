@@ -103,13 +103,14 @@ public class CardDecal {
         instance = new ModelInstance(model);
     }
 
-
     public void setPosition(float x, float y, float z) {
         position.set(x, y, z);
         baseY    = y;
         currentY = y;
         applyTransform(x, y, z, yaw, pitch, roll);
     }
+
+    public Vector3 getPosition() { return new Vector3(position.x, currentY, position.z); }
 
     public void setRotation(float yaw, float pitch, float roll) {
         this.yaw   = yaw;
@@ -133,11 +134,9 @@ public class CardDecal {
         instance.transform.setTranslation(x, y, z);
     }
 
-
     public void setHovered(boolean hovered) {
         this.hovered = hovered;
     }
-
 
     public void update(float delta) {
 
@@ -201,7 +200,7 @@ public class CardDecal {
         }
 
         float yOffset = handIndex * 0.002f;
-        float targetY = hovered ? baseY + 0.4f : baseY;
+        float targetY = hovered ? baseY + 0.75f : baseY;
         currentY += (targetY - currentY) * 8f * delta;
         applyTransform(position.x, currentY + yOffset, position.z, yaw, pitch, roll);
     }
@@ -227,8 +226,7 @@ public class CardDecal {
         pendingDuration    = duration;
     }
 
-    public void animateTo(Vector3 target, float targetYaw, float targetPitch,
-                          float targetRoll, float duration) {
+    public void animateTo(Vector3 target, float targetYaw, float targetPitch, float targetRoll, float duration) {
         if (sliding) {
             pendingTarget      = target.cpy();
             pendingTargetRot[0] = targetYaw;
@@ -257,11 +255,9 @@ public class CardDecal {
         return sliding || targetPos != null;
     }
 
-
     public void render(ModelBatch batch, Environment environment) {
         batch.render(instance, environment);
     }
-
 
     public boolean intersects(Ray ray) {
         float pitchRad = pitch * MathUtils.degreesToRadians;
@@ -287,12 +283,14 @@ public class CardDecal {
         return Math.abs(diff.dot(right)) <= halfW && Math.abs(diff.dot(up)) <= halfH;
     }
 
-
-    public Vector3 getPosition() { return new Vector3(position.x, currentY, position.z); }
-    public float getWidth()      { return width; }
-    public float getHeight()     { return height; }
-
     public void dispose() {
         model.dispose();
     }
+
+    public CardData getData() {
+        return this.data;
+    }
+
+    public float getWidth()      { return width; }
+    public float getHeight()     { return height; }
 }
