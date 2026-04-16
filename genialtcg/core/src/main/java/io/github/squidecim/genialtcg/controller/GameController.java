@@ -38,6 +38,7 @@ public class GameController implements InputProcessor {
 
     @Override
     public boolean mouseMoved(int screenX, int screenY) {
+        if (draggedCard != null) return false;
         Ray ray = view.getCam().getPickRay(screenX, screenY);
         view.updateHover(ray);
         return false;
@@ -47,12 +48,10 @@ public class GameController implements InputProcessor {
     public boolean touchDown(int x, int y, int p, int b) {
         Ray ray = view.getCam().getPickRay(x, y);
 
-
         CardDecal card = view.getHoveredCard(ray);
-        if (card != null) {
+        if (card != null && !card.isAnimating()) {
             draggedCard = card;
             view.startDrag(draggedCard);
-            Gdx.app.log("DEBUG", "Une carte vient d'être cliquée");
             return true;
         }
 
@@ -75,11 +74,12 @@ public class GameController implements InputProcessor {
         Ray ray = view.getCam().getPickRay(x, y);
 
         CardSlot slot = view.getHighlightedSlot(ray);
-        if (slot != null && slot.isEmpty()) {
+        CardSlot firstEmptySlot = view.getFirstEmptyBenchSlot();
+        if (firstEmptySlot != null && slot != null) {
 
             CardData data = draggedCard.getData();
             model.moveFromHandToBench(data);
-            view.dropCardOnSlot(draggedCard, slot);
+            view.dropCardOnSlot(draggedCard, firstEmptySlot);
         } else {
             view.cancelDrag(draggedCard);
         }

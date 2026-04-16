@@ -137,6 +137,11 @@ public class GameView implements Screen {
         discard.render(modelBatch, environment);
         opponentDiscard.render(modelBatch, environment);
 
+        if (draggedCard != null) {
+            draggedCard.update(delta);
+            draggedCard.render(modelBatch, environment);
+        }
+
         modelBatch.end();
     }
 
@@ -180,6 +185,7 @@ public class GameView implements Screen {
     }
 
     private void repositionHand() {
+
         int n = handCards.size;
         float maxWidth = 7f;
         float cardWidth = BENCH_CARD_W;
@@ -189,9 +195,8 @@ public class GameView implements Screen {
         if (totalWidth > maxWidth) {
             spacing = maxWidth / (n - 1);
         }
+
         float center = (n - 1) / 2f;
-
-
         Vector3 deckPos = deck.getPosition();
         float deckTop = deck.nbrCards * THICKNESS;
         Vector3 deckTopPos = new Vector3(deckPos.x, deckPos.y + deckTop, deckPos.z);
@@ -205,12 +210,9 @@ public class GameView implements Screen {
             float z = 5f;
             float angleX = 0;
             Vector3 dest = new Vector3(x, y, z);
-
-            if (i == n - 1) {
-
+            if (i == n - 1 ) {
                 card.animateFromDeck(deckTopPos, dest, angleX, -50f, 0f, 0.4f);
             } else {
-
                 card.animateTo(dest, angleX, -50f, 0f, 0.4f);
             }
         }
@@ -252,24 +254,26 @@ public class GameView implements Screen {
     }
 
     public void startDrag(CardDecal card) {
+        card.setHovered(false);
+        hoveredCard = null;
         draggedCard = card;
         handCards.removeValue(card, true);
         repositionHand();
-        for (CardSlot slot : benchBottomSlots) slot.setHighlighted(true);
+        card.setRotation(0, -90f, 0);
+        for (CardSlot slot : benchBottomSlots) {
+            if (slot.isEmpty()) slot.setHighlighted(true);
+        }
     }
 
     public void updateDragPosition(Ray ray) {
-        if (draggedCard == null){
-            return;
-        }
-        Plane groundPlane = new Plane(new Vector3(0, 1, 0), new Vector3(0, 0.5f, 0));
+        if (draggedCard == null) return;
+        Plane groundPlane = new Plane(new Vector3(0, 1, 0), new Vector3(0, 0.3f, 0));
         Vector3 intersection = new Vector3();
         if (Intersector.intersectRayPlane(ray, groundPlane, intersection)) {
-            System.out.println(intersection);
-            draggedCard.setPosition(intersection.x, intersection.y + 0.3f, intersection.z);
+            draggedCard.setDragPosition(intersection.x, intersection.y + 0.3f, intersection.z);
         }
         for (CardSlot slot : benchBottomSlots) {
-            slot.setHighlighted(true);
+            if (slot.isEmpty()) slot.setHighlighted(true);
         }
     }
 
@@ -280,17 +284,22 @@ public class GameView implements Screen {
         return null;
     }
 
+    public CardSlot getFirstEmptyBenchSlot() {
+        for (CardSlot slot : benchBottomSlots) {
+            if (slot.isEmpty()) return slot;
+        }
+        return null;
+    }
+
     public void dropCardOnSlot(CardDecal card, CardSlot slot) {
         slot.setCard(card);
-        // anime la carte vers le centre du slot
         card.animateTo(slot.getPosition(), 0, -90f, 0, 0.3f);
-        // désactive le surlignage
         for (CardSlot s : benchBottomSlots) s.setHighlighted(false);
         draggedCard = null;
     }
 
     public void cancelDrag(CardDecal card) {
-        // remet la carte dans la main
+
         handCards.add(card);
         repositionHand();
         for (CardSlot s : benchBottomSlots) s.setHighlighted(false);

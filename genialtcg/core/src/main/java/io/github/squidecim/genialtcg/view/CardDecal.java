@@ -110,6 +110,12 @@ public class CardDecal {
         applyTransform(x, y, z, yaw, pitch, roll);
     }
 
+    public void setDragPosition(float x, float y, float z) {
+        position.set(x, y, z);
+        currentY = y;
+        applyTransform(x, y, z, yaw, pitch, roll);
+    }
+
     public Vector3 getPosition() { return new Vector3(position.x, currentY, position.z); }
 
     public void setRotation(float yaw, float pitch, float roll) {
