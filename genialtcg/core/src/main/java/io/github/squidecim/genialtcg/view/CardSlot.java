@@ -62,6 +62,7 @@ public class CardSlot {
 
     public void setCard(CardDecal card) {
         this.card = card;
+        this.card.setPosition(position.x, position.y, position.z);
     }
 
     public CardDecal getCard() {
