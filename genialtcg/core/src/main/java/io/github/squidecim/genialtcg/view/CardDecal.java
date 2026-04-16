@@ -59,6 +59,8 @@ public class CardDecal {
 
     private int handIndex = 0;
 
+    public boolean fromDeck = false;
+
     public CardDecal(CardData data, TextureRegion frontRegion, TextureRegion backRegion, float width, float height, PerspectiveCamera cam) {
         this.data = data;
         this.width = width;
@@ -299,4 +301,8 @@ public class CardDecal {
 
     public float getWidth()      { return width; }
     public float getHeight()     { return height; }
+
+    public int getHandIndex() {
+        return handIndex;
+    }
 }

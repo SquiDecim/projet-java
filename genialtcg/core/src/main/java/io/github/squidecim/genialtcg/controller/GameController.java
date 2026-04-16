@@ -76,7 +76,6 @@ public class GameController implements InputProcessor {
         CardSlot slot = view.getHighlightedSlot(ray);
         CardSlot firstEmptySlot = view.getFirstEmptyBenchSlot();
         if (firstEmptySlot != null && slot != null) {
-
             CardData data = draggedCard.getData();
             model.moveFromHandToBench(data);
             view.dropCardOnSlot(draggedCard, firstEmptySlot);

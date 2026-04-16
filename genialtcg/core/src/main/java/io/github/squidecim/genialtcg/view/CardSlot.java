@@ -28,11 +28,14 @@ public class CardSlot {
     private Model highlightModel;
     private ModelInstance highlightInstance;
 
-    public CardSlot(Vector3 position, float yaw, float pitch, float roll) {
+    public String type;
+
+    public CardSlot(Vector3 position, float yaw, float pitch, float roll, String type) {
         this.position = position;
         this.yaw = yaw;
         this.pitch = pitch;
         this.roll = roll;
+        this.type = type;
         buildHighlight();
     }
 
