@@ -5,7 +5,7 @@ import json
 
 # Windows : JSON_PATH = "C:\\Users\\ahamelin\\Documents\\GitHub\\projet-java\\data\\JSON\\pays.json"
 
-JSON_PATH = "/home/user-x/Documents/GitHub/projet-java/data/JSON/pays.json"
+JSON_PATH = "C:\\Users\\ahamelin\\Documents\\GitHub\\projet-java\\data\\JSON\\pays.json"
 with open(JSON_PATH, 'r', encoding='utf-8') as file:
     pays = json.load(file)
 
@@ -18,8 +18,8 @@ with open(JSON_PATH, 'r', encoding='utf-8') as file:
 #          font_small = ImageFont.truetype("/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf", 14) 
 
 
-font = ImageFont.truetype("/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf", 18)
-font_small = ImageFont.truetype("/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf", 12) 
+font = ImageFont.truetype("arial.ttf", 18)
+font_small = ImageFont.truetype("arial.ttf", 14)
 TEXT_COLOR = (0, 0, 0)
 HEADER_COLOR = (0, 0, 0)
 TYPE_COLORS = {
@@ -36,8 +36,8 @@ PADDING = 20
 COLUMN_COUNT = 10  
 
 row_count = (len(pays) + COLUMN_COUNT - 1) // COLUMN_COUNT
-img_width = COLUMN_COUNT * CARD_WIDTH + (COLUMN_COUNT-1)
-img_height = row_count * CARD_HEIGHT + (row_count-1)
+img_width = COLUMN_COUNT * CARD_WIDTH + (COLUMN_COUNT - 1) + 2 * PADDING
+img_height = row_count * CARD_HEIGHT + (row_count - 1) + 2 * PADDING
 
 img = Image.new('RGB', (img_width, img_height), (255, 255, 255))
 draw = ImageDraw.Draw(img)
@@ -72,8 +72,14 @@ for idx, p in enumerate(pays):
     current_x = PADDING + col_index * CARD_WIDTH
     current_y = PADDING + row_index * CARD_HEIGHT
 
-    # Fond coloré selon le type
-    draw.rectangle([(current_x, current_y),(current_x + CARD_WIDTH, current_y + CARD_HEIGHT)],fill=TYPE_COLORS.get(p['type'], (240, 240, 240)),width=2)
+    draw.rectangle(
+        [
+            (current_x, current_y),
+            (current_x + CARD_WIDTH, current_y + CARD_HEIGHT)
+        ],
+        outline=(0, 0, 0),
+        width=2
+    )
 
     padding_inside = 10
     x_text = current_x + padding_inside
@@ -92,6 +98,7 @@ for idx, p in enumerate(pays):
 
     y_text += 200
 
+    #statistiques
     label, value = 'Puissance', p['statistiques']['puissance']
     draw.text((x_text+20, y_text), f"{label.capitalize()}: {value}", fill=TEXT_COLOR, font=font_small)
 
