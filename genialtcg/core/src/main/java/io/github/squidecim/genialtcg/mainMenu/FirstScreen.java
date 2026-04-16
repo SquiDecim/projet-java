@@ -29,23 +29,19 @@ public class FirstScreen implements Screen {
         stage = new Stage(new ScreenViewport());
         Gdx.input.setInputProcessor(stage);
 
-        // Skin LibGDX (doit exister dans assets/)
         skin = new Skin(Gdx.files.internal("ui/uiskin.json"));
 
         Table table = new Table();
         table.setFillParent(true);
         stage.addActor(table);
 
-        // ===== TITRE =====
-        Label title = new Label("🌍 GeoPolitique", skin);
+        Label title = new Label("GénialTCG", skin);
         title.setFontScale(1.5f);
-
-        // ===== BOUTONS =====
         TextButton btnPlay = new TextButton("Jouer", skin);
+        TextButton btnDeck = new TextButton("Deck", skin);
         TextButton btnSettings = new TextButton("Paramètres", skin);
         TextButton btnQuit = new TextButton("Quitter", skin);
 
-        // ===== ACTION : JOUER =====
         btnPlay.addListener(
             new ChangeListener() {
                 @Override
@@ -55,15 +51,21 @@ public class FirstScreen implements Screen {
                     GameModel model = new GameModel();
                     GameView view = new GameView(game, model);
                     GameController controller = new GameController(view, model);
-
                     view.setController(controller);
-
                     game.setScreen(view);
                 }
             }
         );
 
-        // ===== ACTION : PARAMÈTRES =====
+        btnDeck.addListener(
+            new ChangeListener() {
+                @Override
+                public void changed(ChangeEvent event, Actor actor) {
+                    System.out.println("Bouton Deck cliqué");
+                }
+            }
+        );
+
         btnSettings.addListener(
             new ChangeListener() {
                 @Override
@@ -73,7 +75,6 @@ public class FirstScreen implements Screen {
             }
         );
 
-        // ===== ACTION : QUITTER =====
         btnQuit.addListener(
             new ChangeListener() {
                 @Override
@@ -83,10 +84,9 @@ public class FirstScreen implements Screen {
             }
         );
 
-        // ===== LAYOUT =====
         table.add(title).padBottom(40).row();
-
         table.add(btnPlay).width(220).height(50).pad(10).row();
+        table.add(btnDeck).width(220).height(50).pad(10).row();
         table.add(btnSettings).width(220).height(50).pad(10).row();
         table.add(btnQuit).width(220).height(50).pad(10).row();
     }
