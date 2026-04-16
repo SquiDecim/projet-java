@@ -52,6 +52,7 @@ public class GameController implements InputProcessor {
         if (card != null) {
             draggedCard = card;
             view.startDrag(draggedCard);
+            Gdx.app.log("DEBUG", "Une carte vient d'être cliquée");
             return true;
         }
 
