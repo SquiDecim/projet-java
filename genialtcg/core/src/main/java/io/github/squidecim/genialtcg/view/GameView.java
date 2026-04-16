@@ -130,6 +130,8 @@ public class GameView implements Screen {
         for (int i = 0; i < opponentHandCards.size; i++)
             opponentHandCards.get(i).render(modelBatch, environment);
 
+        for (CardSlot slot : benchBottomSlots) slot.renderHighlight(modelBatch, environment);
+
         deck.render(modelBatch, environment);
         opponentDeck.render(modelBatch, environment);
         discard.render(modelBatch, environment);
@@ -156,6 +158,9 @@ public class GameView implements Screen {
         modelBatch.dispose();
         for (CardDecal card : handCards) card.dispose();
         for (CardDecal card : opponentHandCards) card.dispose();
+        for (CardSlot slot : benchBottomSlots) slot.dispose();
+        for (CardSlot slot : benchTopSlots) slot.dispose();
+        for (CardSlot slot : tableSlots) slot.dispose();
     }
 
     public void setController(GameController controller) {
@@ -254,15 +259,17 @@ public class GameView implements Screen {
     }
 
     public void updateDragPosition(Ray ray) {
-        if (draggedCard == null) return;
+        if (draggedCard == null){
+            return;
+        }
         Plane groundPlane = new Plane(new Vector3(0, 1, 0), new Vector3(0, 0.5f, 0));
         Vector3 intersection = new Vector3();
         if (Intersector.intersectRayPlane(ray, groundPlane, intersection)) {
+            System.out.println(intersection);
             draggedCard.setPosition(intersection.x, intersection.y + 0.3f, intersection.z);
         }
-        // vérifier quel slot est survolé
         for (CardSlot slot : benchBottomSlots) {
-            slot.setHighlighted(slot.intersects(ray));
+            slot.setHighlighted(true);
         }
     }
 
