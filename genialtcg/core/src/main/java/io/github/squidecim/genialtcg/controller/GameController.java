@@ -78,7 +78,7 @@ public class GameController implements InputProcessor {
 
             CardData data = draggedCard.getData();
             model.moveFromHandToBench(data);
-            view.dropCardOnSlot(draggedCard, slot);
+            view.dropCardOnSlot(draggedCard, firstEmptySlot);
         } else {
             view.cancelDrag(draggedCard);
         }
