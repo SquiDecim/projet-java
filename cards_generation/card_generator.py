@@ -6,7 +6,7 @@ from PIL import Image, ImageDraw, ImageFont
 
 # Windows : JSON_PATH = "C:\\Users\\ahamelin\\Documents\\GitHub\\projet-java\\data\\JSON\\pays.json"
 
-JSON_PATH = "C:\\Users\\ahamelin\\Documents\\GitHub\\projet-java\\data\\JSON\\pays.json"
+JSON_PATH = "/home/user-x/Documents/GitHub/projet-java/data/JSON/pays.json"
 with open(JSON_PATH, "r", encoding="utf-8") as file:
     pays = json.load(file)
 
@@ -19,8 +19,8 @@ with open(JSON_PATH, "r", encoding="utf-8") as file:
 # font_small = ImageFont.truetype("/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf", 14)
 
 
-font = ImageFont.truetype("arial.ttf", 18)
-font_small = ImageFont.truetype("arial.ttf", 14)
+font = ImageFont.truetype("/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf", 18)
+font_small = ImageFont.truetype("/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf", 14)
 TEXT_COLOR = (0, 0, 0)
 HEADER_COLOR = (0, 0, 0)
 TYPE_COLORS = {
@@ -40,7 +40,7 @@ row_count = (len(pays) + COLUMN_COUNT - 1) // COLUMN_COUNT
 img_width = COLUMN_COUNT * CARD_WIDTH + (COLUMN_COUNT - 1) + 2 * PADDING
 img_height = row_count * CARD_HEIGHT + (row_count - 1) + 2 * PADDING
 
-img = Image.new("RGB", (img_width, img_height))
+img = Image.new("RGB", (img_width, img_height), (255, 255, 255))
 draw = ImageDraw.Draw(img)
 
 

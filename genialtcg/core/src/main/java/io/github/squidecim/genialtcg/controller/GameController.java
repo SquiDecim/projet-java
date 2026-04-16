@@ -10,6 +10,7 @@ import io.github.squidecim.genialtcg.view.CardSlot;
 import io.github.squidecim.genialtcg.view.GameView;
 
 public class GameController implements InputProcessor {
+
     private GameView view;
     private GameModel model;
 
@@ -23,7 +24,6 @@ public class GameController implements InputProcessor {
         this.view = view;
         this.model = model;
         Gdx.input.setInputProcessor(this);
-
     }
 
     public void update(float delta) {
@@ -38,7 +38,6 @@ public class GameController implements InputProcessor {
 
     @Override
     public boolean mouseMoved(int screenX, int screenY) {
-        if (draggedCard != null) return false;
         Ray ray = view.getCam().getPickRay(screenX, screenY);
         view.updateHover(ray);
         return false;
@@ -49,12 +48,12 @@ public class GameController implements InputProcessor {
         Ray ray = view.getCam().getPickRay(x, y);
 
         CardDecal card = view.getHoveredCard(ray);
-        if (card != null && !card.isAnimating()) {
+        if (card != null) {
             draggedCard = card;
             view.startDrag(draggedCard);
+            Gdx.app.log("DEBUG", "Une carte vient d'être cliquée");
             return true;
         }
-
 
         if (view.isDeckClicked(ray)) {
             if (!canDraw) return false;
@@ -76,9 +75,10 @@ public class GameController implements InputProcessor {
         CardSlot slot = view.getHighlightedSlot(ray);
         CardSlot firstEmptySlot = view.getFirstEmptyBenchSlot();
         if (firstEmptySlot != null && slot != null) {
+
             CardData data = draggedCard.getData();
             model.moveFromHandToBench(data);
-            view.dropCardOnSlot(draggedCard, firstEmptySlot);
+            view.dropCardOnSlot(draggedCard, slot);
         } else {
             view.cancelDrag(draggedCard);
         }
@@ -95,9 +95,28 @@ public class GameController implements InputProcessor {
         return true;
     }
 
-    @Override public boolean keyDown(int k)                          { return false; }
-    @Override public boolean keyUp(int k)                           { return false; }
-    @Override public boolean keyTyped(char c)                       { return false; }
-    @Override public boolean scrolled(float x, float y)             { return false; }
-    @Override public boolean touchCancelled(int x, int y, int p, int b) { return false; }
+    @Override
+    public boolean keyDown(int k) {
+        return false;
+    }
+
+    @Override
+    public boolean keyUp(int k) {
+        return false;
+    }
+
+    @Override
+    public boolean keyTyped(char c) {
+        return false;
+    }
+
+    @Override
+    public boolean scrolled(float x, float y) {
+        return false;
+    }
+
+    @Override
+    public boolean touchCancelled(int x, int y, int p, int b) {
+        return false;
+    }
 }
