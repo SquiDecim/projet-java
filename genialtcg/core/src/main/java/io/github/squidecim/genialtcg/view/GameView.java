@@ -1,7 +1,7 @@
 package io.github.squidecim.genialtcg.view;
 
-import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.*;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.g3d.*;
@@ -33,8 +33,8 @@ public class GameView implements Screen {
 
     private CardSlot tableSlot;
     private CardSlot opponentTableSlot;
-    private Array<CardSlot>  benchTopSlots = new Array<>();
-    private Array<CardSlot>  benchBottomSlots = new Array<>();
+    private Array<CardSlot> benchTopSlots = new Array<>();
+    private Array<CardSlot> benchBottomSlots = new Array<>();
     private Array<CardDecal> handCards = new Array<>();
     private Array<CardDecal> opponentHandCards = new Array<>();
 
@@ -64,7 +64,11 @@ public class GameView implements Screen {
 
     @Override
     public void show() {
-        cam = new PerspectiveCamera(70, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        cam = new PerspectiveCamera(
+            70,
+            Gdx.graphics.getWidth(),
+            Gdx.graphics.getHeight()
+        );
         cam.position.set(0, 5.5f, 5.75f);
         cam.lookAt(0, 0, 2f);
         cam.near = 0.1f;
@@ -74,49 +78,131 @@ public class GameView implements Screen {
         modelBatch = new ModelBatch();
 
         environment = new Environment();
-        environment.set(new ColorAttribute(ColorAttribute.AmbientLight, 0.4f, 0.4f, 0.4f, 1f));
-        environment.add(new DirectionalLight().set(1f, 1f, 1f, -1f, -0.8f, -0.2f));
-        environment.add(new DirectionalLight().set(1f, 1f, 1f,  1f,  0.8f,  0.2f));
+        environment.set(
+            new ColorAttribute(
+                ColorAttribute.AmbientLight,
+                0.4f,
+                0.4f,
+                0.4f,
+                1f
+            )
+        );
+        environment.add(
+            new DirectionalLight().set(1f, 1f, 1f, -1f, -0.8f, -0.2f)
+        );
+        environment.add(new DirectionalLight().set(1f, 1f, 1f, 1f, 0.8f, 0.2f));
 
-        frontTexture = new Texture("frontCardTexture.jpg");
-        backTexture = new Texture("backCardTexture.png");
+        frontTexture = new Texture("cards/frontCardTexture.jpg");
+        backTexture = new Texture("cards/backCardTexture.png");
 
-        tableSlot = new CardSlot(new Vector3(0, 0,  TABLE_GAP / 2 + TABLE_CARD_H / 2), 0, -90f, 0, "table");
-        opponentTableSlot = new CardSlot(new Vector3(0, 0, -TABLE_GAP / 2 - TABLE_CARD_H / 2), 0, -90f, 0, "table");
+        tableSlot = new CardSlot(
+            new Vector3(0, 0, TABLE_GAP / 2 + TABLE_CARD_H / 2),
+            0,
+            -90f,
+            0,
+            "table"
+        );
+        opponentTableSlot = new CardSlot(
+            new Vector3(0, 0, -TABLE_GAP / 2 - TABLE_CARD_H / 2),
+            0,
+            -90f,
+            0,
+            "table"
+        );
 
         for (int i = 0; i < 4; i++) {
             float x = (i - 1.5f) * (BENCH_CARD_W + BENCH_GAP_X);
-            benchBottomSlots.add(new CardSlot(new Vector3(x, 0, 0.5f + TABLE_CARD_H + BENCH_GAP_Z * 2.5f), 0, -90f, 0, "bench"));
+            benchBottomSlots.add(
+                new CardSlot(
+                    new Vector3(x, 0, 0.5f + TABLE_CARD_H + BENCH_GAP_Z * 2.5f),
+                    0,
+                    -90f,
+                    0,
+                    "bench"
+                )
+            );
         }
         for (int i = 0; i < 4; i++) {
             float x = (i - 1.5f) * (BENCH_CARD_W + BENCH_GAP_X);
-            benchTopSlots.add(new CardSlot(new Vector3(x, 0, -0.5f - TABLE_CARD_H - BENCH_GAP_Z * 2.5f), 0, -90f, 0, "bench"));
+            benchTopSlots.add(
+                new CardSlot(
+                    new Vector3(
+                        x,
+                        0,
+                        -0.5f - TABLE_CARD_H - BENCH_GAP_Z * 2.5f
+                    ),
+                    0,
+                    -90f,
+                    0,
+                    "bench"
+                )
+            );
         }
 
-        deck = createCardsStacks(new TextureRegion(backTexture),  BENCH_CARD_W, BENCH_CARD_H, 50,  3.25f, 0,  3.2f);
-        opponentDeck = createCardsStacks(new TextureRegion(backTexture),  BENCH_CARD_W, BENCH_CARD_H, 50, -3.25f, 0, -3.2f);
-        discard = createCardsStacks(new TextureRegion(frontTexture), BENCH_CARD_W, BENCH_CARD_H,  0,  4.75f, 0,  3.2f);
-        opponentDiscard = createCardsStacks(new TextureRegion(frontTexture), BENCH_CARD_W, BENCH_CARD_H,  0, -4.75f, 0, -3.2f);
+        deck = createCardsStacks(
+            new TextureRegion(backTexture),
+            BENCH_CARD_W,
+            BENCH_CARD_H,
+            50,
+            3.25f,
+            0,
+            3.2f
+        );
+        opponentDeck = createCardsStacks(
+            new TextureRegion(backTexture),
+            BENCH_CARD_W,
+            BENCH_CARD_H,
+            50,
+            -3.25f,
+            0,
+            -3.2f
+        );
+        discard = createCardsStacks(
+            new TextureRegion(frontTexture),
+            BENCH_CARD_W,
+            BENCH_CARD_H,
+            0,
+            4.75f,
+            0,
+            3.2f
+        );
+        opponentDiscard = createCardsStacks(
+            new TextureRegion(frontTexture),
+            BENCH_CARD_W,
+            BENCH_CARD_H,
+            0,
+            -4.75f,
+            0,
+            -3.2f
+        );
 
         updateDeckVisual(model.deckSize());
     }
 
     @Override
     public void render(float delta) {
-
         if (controller != null) {
             controller.update(delta);
         }
 
-        Gdx.gl.glViewport(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        Gdx.gl.glViewport(
+            0,
+            0,
+            Gdx.graphics.getWidth(),
+            Gdx.graphics.getHeight()
+        );
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT);
         Gdx.gl.glEnable(GL20.GL_DEPTH_TEST);
 
         modelBatch.begin(cam);
 
-        if (!tableSlot.isEmpty()) tableSlot.getCard().render(modelBatch, environment);
-        if (!opponentTableSlot.isEmpty()) opponentTableSlot.getCard().render(modelBatch, environment);
+        if (!tableSlot.isEmpty()) tableSlot
+            .getCard()
+            .render(modelBatch, environment);
+        if (!opponentTableSlot.isEmpty()) opponentTableSlot
+            .getCard()
+            .render(modelBatch, environment);
 
         for (CardSlot slot : benchBottomSlots)
             if (!slot.isEmpty()) slot.getCard().render(modelBatch, environment);
@@ -129,13 +215,13 @@ public class GameView implements Screen {
             card.render(modelBatch, environment);
         }
 
-        for (int i = 0; i < opponentHandCards.size; i++)
-            opponentHandCards.get(i).render(modelBatch, environment);
+        for (int i = 0; i < opponentHandCards.size; i++) opponentHandCards
+            .get(i)
+            .render(modelBatch, environment);
 
         for (CardSlot slot : benchBottomSlots) {
             slot.renderHighlight(modelBatch, environment);
             if (!slot.isEmpty()) {
-
                 CardDecal card = slot.getCard();
 
                 if (card.isAnimating()) {
@@ -147,7 +233,6 @@ public class GameView implements Screen {
         }
 
         tableSlot.renderHighlight(modelBatch, environment);
-
 
         deck.render(modelBatch, environment);
         opponentDeck.render(modelBatch, environment);
@@ -162,9 +247,14 @@ public class GameView implements Screen {
         modelBatch.end();
     }
 
-    @Override public void hide() {}
-    @Override public void pause() {}
-    @Override public void resume() {}
+    @Override
+    public void hide() {}
+
+    @Override
+    public void pause() {}
+
+    @Override
+    public void resume() {}
 
     @Override
     public void resize(int width, int height) {
@@ -191,10 +281,15 @@ public class GameView implements Screen {
     }
 
     public void addCardToHand(CardData data) {
-        CardDecal decal = new CardDecal(data,
+        CardDecal decal = new CardDecal(
+            data,
             new TextureRegion(frontTexture),
             new TextureRegion(backTexture),
-            BENCH_CARD_W, BENCH_CARD_H, cam, "deck");
+            BENCH_CARD_W,
+            BENCH_CARD_H,
+            cam,
+            "deck"
+        );
 
         decal.setRotation(180f, 90f, 0);
         handCards.add(decal);
@@ -202,7 +297,6 @@ public class GameView implements Screen {
     }
 
     private void repositionHand() {
-
         int n = handCards.size;
         float maxWidth = 7f;
         float cardWidth = BENCH_CARD_W;
@@ -216,7 +310,11 @@ public class GameView implements Screen {
         float center = (n - 1) / 2f;
         Vector3 deckPos = deck.getPosition();
         float deckTop = deck.nbrCards * THICKNESS;
-        Vector3 deckTopPos = new Vector3(deckPos.x, deckPos.y + deckTop, deckPos.z);
+        Vector3 deckTopPos = new Vector3(
+            deckPos.x,
+            deckPos.y + deckTop,
+            deckPos.z
+        );
 
         for (int i = 0; i < n; i++) {
             CardDecal card = handCards.get(i);
@@ -240,15 +338,21 @@ public class GameView implements Screen {
         deck.updateSize(size);
     }
 
-    public PerspectiveCamera getCam() { return cam; }
+    public PerspectiveCamera getCam() {
+        return cam;
+    }
 
     public CardDecal getHoveredCard(Ray ray) {
-        if (hoveredCard != null && hoveredCard.intersects(ray) && !hoveredCard.isAnimating()) return hoveredCard;
+        if (
+            hoveredCard != null &&
+            hoveredCard.intersects(ray) &&
+            !hoveredCard.isAnimating()
+        ) return hoveredCard;
         for (int i = handCards.size - 1; i >= 0; i--) {
             CardDecal card = handCards.get(i);
             if (card.intersects(ray) && !card.isAnimating()) return card;
         }
-        for (CardSlot slot : benchBottomSlots){
+        for (CardSlot slot : benchBottomSlots) {
             CardDecal card = slot.getCard();
             if (card != null && card.intersects(ray)) return card;
         }
@@ -258,7 +362,9 @@ public class GameView implements Screen {
     }
 
     public void setHoveredCard(CardDecal card) {
-        if (hoveredCard != null && hoveredCard != card) hoveredCard.setHovered(false);
+        if (hoveredCard != null && hoveredCard != card) hoveredCard.setHovered(
+            false
+        );
         hoveredCard = card;
         if (hoveredCard != null) hoveredCard.setHovered(true);
     }
@@ -271,7 +377,15 @@ public class GameView implements Screen {
         return deck.intersects(ray);
     }
 
-    private CardsStackDecal createCardsStacks(TextureRegion tex, float w, float h, int n, float x, float y, float z) {
+    private CardsStackDecal createCardsStacks(
+        TextureRegion tex,
+        float w,
+        float h,
+        int n,
+        float x,
+        float y,
+        float z
+    ) {
         CardsStackDecal stack = new CardsStackDecal(tex, w, h, n);
         stack.setPosition(x, y, z);
         return stack;
@@ -286,37 +400,51 @@ public class GameView implements Screen {
             handCards.removeValue(card, true);
             repositionHand();
             originSlot = null;
-        } else if (card.emplacement.equals("bench") || card.emplacement.equals("table")) {
+        } else if (
+            card.emplacement.equals("bench") || card.emplacement.equals("table")
+        ) {
             originSlot = findSlotContaining(card);
-        } if (card.emplacement.equals("table")) draggedCard.buildModel(draggedCard.frontRegion, draggedCard.backRegion, BENCH_CARD_W, BENCH_CARD_H);
+        }
+        if (card.emplacement.equals("table")) draggedCard.buildModel(
+            draggedCard.frontRegion,
+            draggedCard.backRegion,
+            BENCH_CARD_W,
+            BENCH_CARD_H
+        );
         Vector3 pos = card.getPosition();
         card.setDragPosition(pos.x, 0.5f, pos.z);
         card.setRotation(0, -90f, 0);
-        if (!card.emplacement.equals("bench")){
+        if (!card.emplacement.equals("bench")) {
             for (CardSlot slot : benchBottomSlots) {
                 if (slot.isEmpty()) slot.setHighlighted(true);
             }
         }
-        if (tableSlot.isEmpty() && !card.emplacement.equals("table")) tableSlot.setHighlighted(true);
+        if (
+            tableSlot.isEmpty() && !card.emplacement.equals("table")
+        ) tableSlot.setHighlighted(true);
     }
 
     public void updateDragPosition(Ray ray) {
         if (draggedCard == null) return;
-        Plane groundPlane = new Plane(new Vector3(0, 1, 0), new Vector3(0, 0.3f, 0));
+        Plane groundPlane = new Plane(
+            new Vector3(0, 1, 0),
+            new Vector3(0, 0.3f, 0)
+        );
         Vector3 intersection = new Vector3();
         if (Intersector.intersectRayPlane(ray, groundPlane, intersection)) {
             draggedCard.setDragPosition(intersection.x, 0.5f, intersection.z);
         }
-        if (!draggedCard.emplacement.equals("bench")){
+        if (!draggedCard.emplacement.equals("bench")) {
             for (CardSlot slot : benchBottomSlots) {
                 if (slot.isEmpty()) slot.setHighlighted(true);
             }
         }
-        if (tableSlot.isEmpty() && !draggedCard.emplacement.equals("table")) tableSlot.setHighlighted(true);
+        if (
+            tableSlot.isEmpty() && !draggedCard.emplacement.equals("table")
+        ) tableSlot.setHighlighted(true);
     }
 
     public CardSlot getIntersectedSlot(Ray ray) {
-
         if (tableSlot.intersects(ray)) return tableSlot;
 
         for (CardSlot slot : benchBottomSlots) {
@@ -342,7 +470,6 @@ public class GameView implements Screen {
     }
 
     public void dropCardOnSlot(CardDecal card, CardSlot slot) {
-
         if (originSlot != null) {
             originSlot.removeCard();
         }
@@ -360,7 +487,6 @@ public class GameView implements Screen {
     }
 
     public void cancelDrag(CardDecal card) {
-
         card.setDragging(false);
 
         if (card.emplacement.equals("hand")) {

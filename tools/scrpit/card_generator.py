@@ -65,7 +65,7 @@ row_count = (len(pays) + COLUMN_COUNT - 1) // COLUMN_COUNT
 img_width = COLUMN_COUNT * CARD_WIDTH + 2 * PADDING
 img_height = row_count * CARD_HEIGHT + 2 * PADDING
 
-img = Image.new("RGB", (img_width, img_height), (255, 255, 255))
+img = Image.new("RGB", (img_width, img_height))
 draw = ImageDraw.Draw(img)
 
 
