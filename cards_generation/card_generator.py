@@ -2,49 +2,73 @@ import json
 
 from PIL import Image, ImageDraw, ImageFont
 
-# Linux : JSON_PATH = "/home/user-x/Documents/GitHub/projet-java/data/JSON/pays.json"
-
-# Windows : JSON_PATH = "C:\\Users\\ahamelin\\Documents\\GitHub\\projet-java\\data\\JSON\\pays.json"
-
 JSON_PATH = "/home/user-x/Documents/GitHub/projet-java/data/JSON/pays.json"
+
 with open(JSON_PATH, "r", encoding="utf-8") as file:
     pays = json.load(file)
 
-# Windows :
-# font = ImageFont.truetype("arial.ttf", 18)
-# font_small = ImageFont.truetype("arial.ttf", 14)
+SCALE = 2
 
-# Linux :
-# font = ImageFont.truetype("/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf", 18)
-# font_small = ImageFont.truetype("/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf", 14)
+CARD_WIDTH = 320 * SCALE
+CARD_HEIGHT = 448 * SCALE
+PADDING = 20 * SCALE
 
-
-font = ImageFont.truetype("/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf", 18)
-font_small = ImageFont.truetype("/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf", 14)
-TEXT_COLOR = (0, 0, 0)
-HEADER_COLOR = (0, 0, 0)
-TYPE_COLORS = {
-    "Isolationniste": (255, 0, 0),
-    "Économique": (255, 255, 0),
-    "Militaire": (107, 142, 35),
-    "Renseignement": (100, 100, 100),
-    "Diplomatique": (0, 102, 204),
-}
-
-CARD_WIDTH = 320
-CARD_HEIGHT = 448
-PADDING = 20
 COLUMN_COUNT = 10
 
+TEXT_COLOR = (0, 0, 0)
+HEADER_COLOR = (0, 0, 0)
+
+TEMPLATES = {
+    "Économique": "cards_generation/img/template/economique.png",
+    "Renseignement": "cards_generation/img/template/renseignement.png",
+    "Isolationniste": "cards_generation/img/template/isolationniste.png",
+    "Militaire": "cards_generation/img/template/militaire.png",
+    "Diplomatique": "cards_generation/img/template/diplomatique.png",
+}
+
+templates_cache = {}
+
+for k, path in TEMPLATES.items():
+    templates_cache[k] = Image.open(path)
+
+font_bold_big = ImageFont.truetype(
+    "/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf", 24 * SCALE
+)
+font = ImageFont.truetype("/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf", 18 * SCALE)
+font_bold = ImageFont.truetype(
+    "/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf", 18 * SCALE
+)
+font_italic = ImageFont.truetype(
+    "/usr/share/fonts/truetype/dejavu/DejaVuSans-Oblique.ttf", 18 * SCALE
+)
+font_bold_italic = ImageFont.truetype(
+    "/usr/share/fonts/truetype/dejavu/DejaVuSans-BoldOblique.ttf", 18 * SCALE
+)
+font_small = ImageFont.truetype(
+    "/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf", 12 * SCALE
+)
+font_small_small_italic = ImageFont.truetype(
+    "/usr/share/fonts/truetype/dejavu/DejaVuSans-Oblique.ttf", 11 * SCALE
+)
+font_bold_small = ImageFont.truetype(
+    "/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf", 12 * SCALE
+)
+font_italic_small = ImageFont.truetype(
+    "/usr/share/fonts/truetype/dejavu/DejaVuSans-Oblique.ttf", 18 * SCALE
+)
+font_bold_italic_small = ImageFont.truetype(
+    "/usr/share/fonts/truetype/dejavu/DejaVuSans-BoldOblique.ttf", 12 * SCALE
+)
+
+
 row_count = (len(pays) + COLUMN_COUNT - 1) // COLUMN_COUNT
-img_width = COLUMN_COUNT * CARD_WIDTH + (COLUMN_COUNT - 1) + 2 * PADDING
-img_height = row_count * CARD_HEIGHT + (row_count - 1) + 2 * PADDING
+img_width = COLUMN_COUNT * CARD_WIDTH + 2 * PADDING
+img_height = row_count * CARD_HEIGHT + 2 * PADDING
 
 img = Image.new("RGB", (img_width, img_height), (255, 255, 255))
 draw = ImageDraw.Draw(img)
 
 
-# Fonction wrap texte
 def wrap_text(draw, text, font, max_width):
     words = text.split()
     lines = []
@@ -74,106 +98,147 @@ for idx, p in enumerate(pays):
     current_y = PADDING + row_index * CARD_HEIGHT
 
     draw.rectangle(
-        [(current_x, current_y), (current_x + CARD_WIDTH, current_y + CARD_HEIGHT)],
-        outline=(0, 0, 0),
-        width=2,
+        [current_x, current_y, current_x + CARD_WIDTH, current_y + CARD_HEIGHT]
     )
 
-    padding_inside = 10
+    type_pays = p.get("type")
+    template_img = templates_cache[type_pays].resize(
+        (CARD_WIDTH, CARD_HEIGHT), Image.Resampling.LANCZOS
+    )
+    img.paste(template_img, (current_x, current_y))
+
+    # TEXT
+    padding_inside = 10 * SCALE
     x_text = current_x + padding_inside
     y_text = current_y + padding_inside
 
-    # Nom du pays
-    draw.text((current_x + 10, y_text), p["nom"], fill=HEADER_COLOR, font=font)
-
-    # Etat du pays
-    draw.text((current_x + 280, y_text), str(p["etat"]), fill=HEADER_COLOR, font=font)
-
-    y_text += 40
-
-    # Rang
-    draw.text((x_text, y_text), str(p["rang"]), fill=TEXT_COLOR, font=font_small)
-
-    y_text += 200
-
-    # statistiques
-    label, value = "Puissance", p["statistiques"]["puissance"]
     draw.text(
-        (x_text + 20, y_text),
-        f"{label.capitalize()}: {value}",
+        (current_x + 250 * SCALE, y_text),
+        str(p["etat"]),
+        fill=HEADER_COLOR,
+        font=font_bold_big,
+    )
+
+    draw.text(
+        (current_x + 10 * SCALE, y_text + 10),
+        p["nom"],
+        fill=HEADER_COLOR,
+        font=font_bold,
+    )
+
+    y_text += 45 * SCALE
+
+    draw.text((x_text, y_text), str(p["rang"]), fill=TEXT_COLOR, font=font_italic)
+
+    y_text += 228 * SCALE
+
+    stats = p["statistiques"]
+
+    draw.text(
+        (x_text + 120 * SCALE, y_text),
+        str(stats["puissance"]),
         fill=TEXT_COLOR,
         font=font_small,
     )
 
-    label, value = "Ressources", p["statistiques"]["ressources"]
     draw.text(
-        (x_text + 175, y_text),
-        f"{label.capitalize()}: {value}",
+        (x_text + 255 * SCALE, y_text),
+        str(stats["ressources"]),
         fill=TEXT_COLOR,
         font=font_small,
     )
 
-    y_text += 30
+    y_text += 28 * SCALE
 
-    label, value = "Technologie", p["statistiques"]["technologie"]
     draw.text(
-        (x_text + 20, y_text),
-        f"{label.capitalize()}: {value}",
+        (x_text + 120 * SCALE, y_text),
+        str(stats["technologie"]),
         fill=TEXT_COLOR,
         font=font_small,
     )
 
-    label, value = "Stabilite", p["statistiques"]["stabilite"]
     draw.text(
-        (x_text + 175, y_text),
-        f"{label.capitalize()}: {value}",
+        (x_text + 255 * SCALE, y_text),
+        str(stats["stabilite"]),
         fill=TEXT_COLOR,
         font=font_small,
     )
 
-    y_text += 30
+    y_text += 28 * SCALE
 
-    label, value = "Économie", p["statistiques"]["economie"]
     draw.text(
-        (x_text + 100, y_text),
-        f"{label.capitalize()}: {value}",
+        (x_text + 190 * SCALE, y_text),
+        str(stats["economie"]),
         fill=TEXT_COLOR,
         font=font_small,
     )
 
-    y_text += 45
+    y_text += 23 * SCALE
 
-    # Titre du spécial
-    draw.text(
-        (x_text + 10, y_text), p["special"]["nom"], fill=TEXT_COLOR, font=font_small
-    )
+    special = p["special"]
 
-    # Cout du spécial
     draw.text(
-        (x_text + 250, y_text),
-        str(p["special"]["cout"]),
+        (x_text + 30 * SCALE, y_text),
+        special["nom"],
         fill=TEXT_COLOR,
-        font=font_small,
+        font=font_bold_italic_small,
     )
 
-    y_text += 20
+    draw.text(
+        (x_text + 247 * SCALE, y_text),
+        str(special["cout"]),
+        fill=TEXT_COLOR,
+        font=font_bold_small,
+    )
 
-    # Description du spécial
+    y_text += 15 * SCALE
+
     desc_lines = wrap_text(
-        draw, p["special"]["description"], font_small, CARD_WIDTH - 2 * padding_inside
+        draw,
+        special["description"],
+        font_small,
+        (CARD_WIDTH - 2 * padding_inside) - 76,
     )
+
     for line in desc_lines:
-        draw.text((x_text + 10, y_text), line, fill=TEXT_COLOR, font=font_small)
-        y_text += 16
+        draw.text(
+            (x_text + 30 * SCALE, y_text),
+            line,
+            fill=TEXT_COLOR,
+            font=font_small_small_italic,
+        )
+        y_text += 16 * SCALE
 
-    y_text += 10
+    y_text += 9 * SCALE
 
-    # Lore
-    lore_lines = wrap_text(draw, p["lore"], font_small, CARD_WIDTH - 2 * padding_inside)
+    draw.text(
+        (x_text + 37 * SCALE, y_text),
+        str(p["cout"]),
+        fill=TEXT_COLOR,
+        font=font_small,
+    )
+
+    draw.text(
+        (x_text + 56 * SCALE, y_text + 12 * SCALE),
+        str(p["cout"] // 2),
+        fill=TEXT_COLOR,
+        font=font_small,
+    )
+
+    lore_lines = wrap_text(
+        draw, p["lore"], font_small, (CARD_WIDTH - 2 * padding_inside) - 153
+    )
+
     for line in lore_lines:
-        draw.text((x_text, y_text), line, fill=TEXT_COLOR, font=font_small)
-        y_text += 18
+        draw.text(
+            (x_text + 95 * SCALE, y_text),
+            line,
+            fill=TEXT_COLOR,
+            font=font_small_small_italic,
+        )
+        y_text += 11 * SCALE
 
 
-img.save("cartes_pays.png")
-print(" Image générée ")
+img.save("atlas_pays.png", dpi=(300, 300))
+
+print("atlas généré")
