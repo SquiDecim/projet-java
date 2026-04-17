@@ -12,8 +12,7 @@ import com.badlogic.gdx.math.Plane;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.math.collision.Ray;
 
-import static io.github.squidecim.genialtcg.view.GameView.BENCH_CARD_H;
-import static io.github.squidecim.genialtcg.view.GameView.BENCH_CARD_W;
+import static io.github.squidecim.genialtcg.view.GameView.*;
 
 public class CardSlot {
     public Vector3 position;
@@ -50,8 +49,14 @@ public class CardSlot {
 
     private void buildHighlight() {
         ModelBuilder builder = new ModelBuilder();
+        float width = BENCH_CARD_W;
+        float height = BENCH_CARD_H;
+        if (type.equals("table")) {
+            width = TABLE_CARD_W;
+            height = TABLE_CARD_H;
+        }
         highlightModel = builder.createBox(
-            BENCH_CARD_W, 0.01f, BENCH_CARD_H,
+            width, 0.01f, height,
             new Material(
                 ColorAttribute.createDiffuse(0.2f, 0.5f, 1f, 0.5f),
                 new BlendingAttribute(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA, 0.5f),
@@ -64,12 +69,21 @@ public class CardSlot {
     }
 
     public void setCard(CardDecal card) {
-        this.card = card;
-        this.card.setPosition(position.x, position.y, position.z);
+        if (type.equals("table")) {
+            this.card = card;
+            this.card.buildModel(this.card.frontRegion, this.card.backRegion, TABLE_CARD_W, TABLE_CARD_H);
+            this.card.setPosition(position.x, position.y, position.z);
+        } else {
+            this.card = card;
+            this.card.setPosition(position.x, position.y, position.z);
+        }
     }
-
     public CardDecal getCard() {
         return this.card;
+    }
+
+    public void removeCard(){
+        this.card = null;
     }
 
     public void setHighlighted(boolean h) { this.highlighted = h; }

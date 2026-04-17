@@ -11,6 +11,7 @@ public class GameModel {
     public CardsStackData deck;
     public List<CardData> hand = new ArrayList<>();
     public List<CardData> bench = new ArrayList<>();
+    public CardData table;
 
     public GameModel(){
 
@@ -33,5 +34,10 @@ public class GameModel {
     public void moveFromHandToBench(CardData card) {
         hand.remove(card);
         bench.add(card);
+    }
+
+    public void moveFromHandToTable(CardData card){
+        hand.remove(card);
+        table = card;
     }
 }

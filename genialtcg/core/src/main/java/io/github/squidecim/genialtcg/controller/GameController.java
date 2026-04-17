@@ -11,8 +11,8 @@ import io.github.squidecim.genialtcg.view.GameView;
 
 public class GameController implements InputProcessor {
 
-    private GameView view;
-    private GameModel model;
+    private final GameView view;
+    private final GameModel model;
 
     private boolean canDraw = true;
     private float drawCooldown = 0.75f;
@@ -50,8 +50,7 @@ public class GameController implements InputProcessor {
         CardDecal card = view.getHoveredCard(ray);
         if (card != null) {
             draggedCard = card;
-            view.startDrag(draggedCard);
-            Gdx.app.log("DEBUG", "Une carte vient d'être cliquée");
+            view.startDrag(draggedCard, ray);
             return true;
         }
 
@@ -72,13 +71,25 @@ public class GameController implements InputProcessor {
         if (draggedCard == null) return false;
         Ray ray = view.getCam().getPickRay(x, y);
 
-        CardSlot slot = view.getHighlightedSlot(ray);
-        CardSlot firstEmptySlot = view.getFirstEmptyBenchSlot();
-        if (firstEmptySlot != null && slot != null) {
-
-            CardData data = draggedCard.getData();
-            model.moveFromHandToBench(data);
-            view.dropCardOnSlot(draggedCard, firstEmptySlot);
+        CardSlot slot = view.getIntersectedSlot(ray);
+        if (slot != null) {
+            boolean fromBench = draggedCard.emplacement.equals("bench");
+            boolean toBench = slot.type.equals("bench");
+            boolean toTable = slot.type.equals("table");
+            if (fromBench && toBench) {
+                view.cancelDrag(draggedCard);
+                draggedCard = null;
+                return true;
+            }
+            if (toBench && slot.isEmpty()) {
+                model.moveFromHandToBench(draggedCard.getData());
+                view.dropCardOnSlot(draggedCard, slot);
+            } else if (toTable && slot.isEmpty()) {
+                model.moveFromHandToTable(draggedCard.getData());
+                view.dropCardOnSlot(draggedCard, slot);
+            } else {
+                view.cancelDrag(draggedCard);
+            }
         } else {
             view.cancelDrag(draggedCard);
         }
