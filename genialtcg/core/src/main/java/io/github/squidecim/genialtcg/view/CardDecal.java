@@ -41,6 +41,7 @@ public class CardDecal {
     private float baseY = 0f;
     private float currentY = 0f;
     private boolean hovered = false;
+    private boolean dragging = false;
 
     private Vector3 targetPos = null;
     private float[] startRot = new float[3];
@@ -126,9 +127,14 @@ public class CardDecal {
     }
 
     public void setDragPosition(float x, float y, float z) {
+        dragging = true;
         position.set(x, y, z);
         currentY = y;
         applyTransform(x, y, z, yaw, pitch, roll);
+    }
+
+    public void setDragging(boolean dragging) {
+        this.dragging = dragging;
     }
 
     public Vector3 getPosition() { return new Vector3(position.x, currentY, position.z); }
@@ -160,6 +166,11 @@ public class CardDecal {
     }
 
     public void update(float delta) {
+
+        if (dragging) {
+            applyTransform(position.x, currentY, position.z, yaw, pitch, roll);
+            return;
+        }
 
         if (sliding) {
             slideTimer += delta;
@@ -221,7 +232,7 @@ public class CardDecal {
         }
 
         float yOffset = handIndex * 0.002f;
-        float targetY = hovered ? baseY + 0.75f : baseY;
+        float targetY = hovered && emplacement.equals("hand")? baseY + 0.75f : baseY;
         currentY += (targetY - currentY) * 8f * delta;
         applyTransform(position.x, currentY + yOffset, position.z, yaw, pitch, roll);
     }

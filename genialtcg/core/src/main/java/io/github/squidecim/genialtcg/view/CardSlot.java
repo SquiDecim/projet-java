@@ -71,7 +71,7 @@ public class CardSlot {
     public void setCard(CardDecal card) {
         if (type.equals("table")) {
             this.card = card;
-            this.card.buildModel(this.card.frontRegion, this.getCard().backRegion, TABLE_CARD_W, TABLE_CARD_H);
+            this.card.buildModel(this.card.frontRegion, this.card.backRegion, TABLE_CARD_W, TABLE_CARD_H);
             this.card.setPosition(position.x, position.y, position.z);
         } else {
             this.card = card;
@@ -80,6 +80,10 @@ public class CardSlot {
     }
     public CardDecal getCard() {
         return this.card;
+    }
+
+    public void removeCard(){
+        this.card = null;
     }
 
     public void setHighlighted(boolean h) { this.highlighted = h; }

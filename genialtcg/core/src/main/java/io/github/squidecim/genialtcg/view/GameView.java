@@ -54,8 +54,8 @@ public class GameView implements Screen {
     private static final float THICKNESS = 0.007f;
 
     private CardDecal hoveredCard = null;
-
     private CardDecal draggedCard = null;
+    private CardSlot originSlot = null;
 
     public GameView(GenialTCG game, GameModel model) {
         this.game = game;
@@ -132,9 +132,22 @@ public class GameView implements Screen {
         for (int i = 0; i < opponentHandCards.size; i++)
             opponentHandCards.get(i).render(modelBatch, environment);
 
-        for (CardSlot slot : benchBottomSlots) slot.renderHighlight(modelBatch, environment);
+        for (CardSlot slot : benchBottomSlots) {
+            slot.renderHighlight(modelBatch, environment);
+            if (!slot.isEmpty()) {
+
+                CardDecal card = slot.getCard();
+
+                if (card.isAnimating()) {
+                    card.update(delta);
+                }
+
+                card.render(modelBatch, environment);
+            }
+        }
 
         tableSlot.renderHighlight(modelBatch, environment);
+
 
         deck.render(modelBatch, environment);
         opponentDeck.render(modelBatch, environment);
@@ -235,6 +248,12 @@ public class GameView implements Screen {
             CardDecal card = handCards.get(i);
             if (card.intersects(ray) && !card.isAnimating()) return card;
         }
+        for (CardSlot slot : benchBottomSlots){
+            CardDecal card = slot.getCard();
+            if (card != null && card.intersects(ray)) return card;
+        }
+        CardDecal slotCard = tableSlot.getCard();
+        if (slotCard != null && slotCard.intersects(ray)) return slotCard;
         return null;
     }
 
@@ -258,17 +277,27 @@ public class GameView implements Screen {
         return stack;
     }
 
-    public void startDrag(CardDecal card) {
+    public void startDrag(CardDecal card, Ray ray) {
         card.setHovered(false);
         hoveredCard = null;
         draggedCard = card;
-        handCards.removeValue(card, true);
-        repositionHand();
+
+        if (card.emplacement.equals("hand")) {
+            handCards.removeValue(card, true);
+            repositionHand();
+            originSlot = null;
+        } else if (card.emplacement.equals("bench") || card.emplacement.equals("table")) {
+            originSlot = findSlotContaining(card);
+        } if (card.emplacement.equals("table")) draggedCard.buildModel(draggedCard.frontRegion, draggedCard.backRegion, BENCH_CARD_W, BENCH_CARD_H);
+        Vector3 pos = card.getPosition();
+        card.setDragPosition(pos.x, 0.5f, pos.z);
         card.setRotation(0, -90f, 0);
-        for (CardSlot slot : benchBottomSlots) {
-            if (slot.isEmpty()) slot.setHighlighted(true);
+        if (!card.emplacement.equals("bench")){
+            for (CardSlot slot : benchBottomSlots) {
+                if (slot.isEmpty()) slot.setHighlighted(true);
+            }
         }
-        if (tableSlot.isEmpty()) tableSlot.setHighlighted(true);
+        if (tableSlot.isEmpty() && !card.emplacement.equals("table")) tableSlot.setHighlighted(true);
     }
 
     public void updateDragPosition(Ray ray) {
@@ -278,19 +307,30 @@ public class GameView implements Screen {
         if (Intersector.intersectRayPlane(ray, groundPlane, intersection)) {
             draggedCard.setDragPosition(intersection.x, 0.5f, intersection.z);
         }
-        for (CardSlot slot : benchBottomSlots) {
-            if (slot.isEmpty()) slot.setHighlighted(true);
+        if (!draggedCard.emplacement.equals("bench")){
+            for (CardSlot slot : benchBottomSlots) {
+                if (slot.isEmpty()) slot.setHighlighted(true);
+            }
         }
-        if (tableSlot.isEmpty()) tableSlot.setHighlighted(true);
+        if (tableSlot.isEmpty() && !draggedCard.emplacement.equals("table")) tableSlot.setHighlighted(true);
     }
 
     public CardSlot getIntersectedSlot(Ray ray) {
+
+        if (tableSlot.intersects(ray)) return tableSlot;
+
         for (CardSlot slot : benchBottomSlots) {
             if (slot.intersects(ray)) return slot;
         }
 
-        if (tableSlot.intersects(ray)) return tableSlot;
+        return null;
+    }
 
+    public CardSlot findSlotContaining(CardDecal card) {
+        for (CardSlot slot : benchBottomSlots) {
+            if (slot.getCard() == card) return slot;
+        }
+        if (tableSlot.getCard() == card) return tableSlot;
         return null;
     }
 
@@ -302,21 +342,39 @@ public class GameView implements Screen {
     }
 
     public void dropCardOnSlot(CardDecal card, CardSlot slot) {
-        card.emplacement = "bench";
+
+        if (originSlot != null) {
+            originSlot.removeCard();
+        }
         slot.setCard(card);
+        if (slot.type.equals("bench")) {
+            card.emplacement = "bench";
+        } else {
+            card.emplacement = "table";
+        }
         card.animateTo(slot.getPosition(), 0, -90f, 0, 0.3f);
         for (CardSlot s : benchBottomSlots) s.setHighlighted(false);
         tableSlot.setHighlighted(false);
         draggedCard = null;
+        originSlot = null;
     }
 
     public void cancelDrag(CardDecal card) {
 
-        int index = Math.min(card.getHandIndex(), handCards.size);
-        handCards.insert(index, card);
-        repositionHand();
+        card.setDragging(false);
+
+        if (card.emplacement.equals("hand")) {
+            int index = Math.min(card.getHandIndex(), handCards.size);
+            handCards.insert(index, card);
+            repositionHand();
+        } else if (originSlot != null) {
+            originSlot.setCard(card);
+            card.animateTo(originSlot.getPosition(), 0, -90f, 0, 0.25f);
+            card.emplacement = originSlot.type;
+        }
         for (CardSlot s : benchBottomSlots) s.setHighlighted(false);
         tableSlot.setHighlighted(false);
         draggedCard = null;
+        originSlot = null;
     }
 }

@@ -50,7 +50,7 @@ public class GameController implements InputProcessor {
         CardDecal card = view.getHoveredCard(ray);
         if (card != null) {
             draggedCard = card;
-            view.startDrag(draggedCard);
+            view.startDrag(draggedCard, ray);
             return true;
         }
 
@@ -73,18 +73,23 @@ public class GameController implements InputProcessor {
 
         CardSlot slot = view.getIntersectedSlot(ray);
         if (slot != null) {
-            CardSlot firstEmptySlot = view.getFirstEmptyBenchSlot();
-            CardData data = draggedCard.getData();
-            if (slot.type.equals("bench") && firstEmptySlot != null){
-                model.moveFromHandToBench(data);
-                view.dropCardOnSlot(draggedCard, firstEmptySlot);
-            } else if (slot.type.equals("table") && slot.isEmpty()){
-                model.moveFromHandToTable(data);
+            boolean fromBench = draggedCard.emplacement.equals("bench");
+            boolean toBench = slot.type.equals("bench");
+            boolean toTable = slot.type.equals("table");
+            if (fromBench && toBench) {
+                view.cancelDrag(draggedCard);
+                draggedCard = null;
+                return true;
+            }
+            if (toBench && slot.isEmpty()) {
+                model.moveFromHandToBench(draggedCard.getData());
+                view.dropCardOnSlot(draggedCard, slot);
+            } else if (toTable && slot.isEmpty()) {
+                model.moveFromHandToTable(draggedCard.getData());
                 view.dropCardOnSlot(draggedCard, slot);
             } else {
                 view.cancelDrag(draggedCard);
             }
-
         } else {
             view.cancelDrag(draggedCard);
         }
