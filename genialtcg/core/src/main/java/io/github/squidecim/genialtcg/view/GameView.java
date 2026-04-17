@@ -31,7 +31,8 @@ public class GameView implements Screen {
     private Texture frontTexture;
     private Texture backTexture;
 
-    private Array<CardSlot>  tableSlots = new Array<>();
+    private CardSlot tableSlot;
+    private CardSlot opponentTableSlot;
     private Array<CardSlot>  benchTopSlots = new Array<>();
     private Array<CardSlot>  benchBottomSlots = new Array<>();
     private Array<CardDecal> handCards = new Array<>();
@@ -42,8 +43,8 @@ public class GameView implements Screen {
     private CardsStackDecal discard;
     private CardsStackDecal opponentDiscard;
 
-    private static final float TABLE_CARD_W = 1.5f;
-    private static final float TABLE_CARD_H = 2.1f;
+    public static final float TABLE_CARD_W = 1.5f;
+    public static final float TABLE_CARD_H = 2.1f;
     public static final float BENCH_CARD_W = 1.1f;
     public static final float BENCH_CARD_H = 1.54f;
     private static final float BENCH_GAP_X = 0.2f;
@@ -80,8 +81,8 @@ public class GameView implements Screen {
         frontTexture = new Texture("frontCardTexture.jpg");
         backTexture = new Texture("backCardTexture.png");
 
-        tableSlots.add(new CardSlot(new Vector3(0, 0,  TABLE_GAP / 2 + TABLE_CARD_H / 2), 0, -90f, 0, "table"));
-        tableSlots.add(new CardSlot(new Vector3(0, 0, -TABLE_GAP / 2 - TABLE_CARD_H / 2), 0, -90f, 0, "table"));
+        tableSlot = new CardSlot(new Vector3(0, 0,  TABLE_GAP / 2 + TABLE_CARD_H / 2), 0, -90f, 0, "table");
+        opponentTableSlot = new CardSlot(new Vector3(0, 0, -TABLE_GAP / 2 - TABLE_CARD_H / 2), 0, -90f, 0, "table");
 
         for (int i = 0; i < 4; i++) {
             float x = (i - 1.5f) * (BENCH_CARD_W + BENCH_GAP_X);
@@ -114,8 +115,9 @@ public class GameView implements Screen {
 
         modelBatch.begin(cam);
 
-        for (CardSlot slot : tableSlots)
-            if (!slot.isEmpty()) slot.getCard().render(modelBatch, environment);
+        if (!tableSlot.isEmpty()) tableSlot.getCard().render(modelBatch, environment);
+        if (!opponentTableSlot.isEmpty()) opponentTableSlot.getCard().render(modelBatch, environment);
+
         for (CardSlot slot : benchBottomSlots)
             if (!slot.isEmpty()) slot.getCard().render(modelBatch, environment);
         for (CardSlot slot : benchTopSlots)
@@ -131,6 +133,8 @@ public class GameView implements Screen {
             opponentHandCards.get(i).render(modelBatch, environment);
 
         for (CardSlot slot : benchBottomSlots) slot.renderHighlight(modelBatch, environment);
+
+        tableSlot.renderHighlight(modelBatch, environment);
 
         deck.render(modelBatch, environment);
         opponentDeck.render(modelBatch, environment);
@@ -165,7 +169,8 @@ public class GameView implements Screen {
         for (CardDecal card : opponentHandCards) card.dispose();
         for (CardSlot slot : benchBottomSlots) slot.dispose();
         for (CardSlot slot : benchTopSlots) slot.dispose();
-        for (CardSlot slot : tableSlots) slot.dispose();
+        tableSlot.dispose();
+        opponentTableSlot.dispose();
     }
 
     public void setController(GameController controller) {
@@ -176,10 +181,9 @@ public class GameView implements Screen {
         CardDecal decal = new CardDecal(data,
             new TextureRegion(frontTexture),
             new TextureRegion(backTexture),
-            BENCH_CARD_W, BENCH_CARD_H, cam);
+            BENCH_CARD_W, BENCH_CARD_H, cam, "deck");
 
         decal.setRotation(180f, 90f, 0);
-        decal.fromDeck = true;
         handCards.add(decal);
         repositionHand();
     }
@@ -210,9 +214,9 @@ public class GameView implements Screen {
             float z = 5f;
             float angleX = 0;
             Vector3 dest = new Vector3(x, y, z);
-            if (card.fromDeck) {
+            if (card.emplacement.equals("deck")) {
                 card.animateFromDeck(deckTopPos, dest, angleX, -50f, 0f, 0.4f);
-                card.fromDeck = false;
+                card.emplacement = "hand";
             } else {
                 card.animateTo(dest, angleX, -50f, 0f, 0.4f);
             }
@@ -264,6 +268,7 @@ public class GameView implements Screen {
         for (CardSlot slot : benchBottomSlots) {
             if (slot.isEmpty()) slot.setHighlighted(true);
         }
+        if (tableSlot.isEmpty()) tableSlot.setHighlighted(true);
     }
 
     public void updateDragPosition(Ray ray) {
@@ -276,14 +281,14 @@ public class GameView implements Screen {
         for (CardSlot slot : benchBottomSlots) {
             if (slot.isEmpty()) slot.setHighlighted(true);
         }
+        if (tableSlot.isEmpty()) tableSlot.setHighlighted(true);
     }
 
-    public CardSlot getHighlightedSlot(Ray ray) {
+    public CardSlot getIntersectedSlot(Ray ray) {
         for (CardSlot slot : benchBottomSlots) {
             if (slot.intersects(ray)) return slot;
         }
 
-        CardSlot tableSlot = tableSlots.get(0);
         if (tableSlot.intersects(ray)) return tableSlot;
 
         return null;
@@ -297,9 +302,11 @@ public class GameView implements Screen {
     }
 
     public void dropCardOnSlot(CardDecal card, CardSlot slot) {
+        card.emplacement = "bench";
         slot.setCard(card);
         card.animateTo(slot.getPosition(), 0, -90f, 0, 0.3f);
         for (CardSlot s : benchBottomSlots) s.setHighlighted(false);
+        tableSlot.setHighlighted(false);
         draggedCard = null;
     }
 
@@ -309,6 +316,7 @@ public class GameView implements Screen {
         handCards.insert(index, card);
         repositionHand();
         for (CardSlot s : benchBottomSlots) s.setHighlighted(false);
+        tableSlot.setHighlighted(false);
         draggedCard = null;
     }
 }

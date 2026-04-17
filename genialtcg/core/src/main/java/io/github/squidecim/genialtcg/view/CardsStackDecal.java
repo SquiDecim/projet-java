@@ -17,15 +17,18 @@ import com.badlogic.gdx.math.collision.Ray;
 
 public class CardsStackDecal {
 
-    private float thickness = 0.007f;
     private Model model;
     private ModelInstance instance;
+
+    private float thickness = 0.007f;
+    private TextureRegion cardTexture;
     public int nbrCards;
+    private int maxCards;
+
     private float width;
     private float height;
-    private TextureRegion cardTexture;
     private Vector3 position = new Vector3();
-    private int maxCards;
+
 
     public CardsStackDecal(TextureRegion cardTexture, float width, float height, int nbrCards) {
         this.width = width;

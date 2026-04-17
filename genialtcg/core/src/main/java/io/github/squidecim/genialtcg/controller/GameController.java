@@ -11,8 +11,8 @@ import io.github.squidecim.genialtcg.view.GameView;
 
 public class GameController implements InputProcessor {
 
-    private GameView view;
-    private GameModel model;
+    private final GameView view;
+    private final GameModel model;
 
     private boolean canDraw = true;
     private float drawCooldown = 0.75f;
@@ -51,7 +51,6 @@ public class GameController implements InputProcessor {
         if (card != null) {
             draggedCard = card;
             view.startDrag(draggedCard);
-            Gdx.app.log("DEBUG", "Une carte vient d'être cliquée");
             return true;
         }
 
@@ -72,13 +71,20 @@ public class GameController implements InputProcessor {
         if (draggedCard == null) return false;
         Ray ray = view.getCam().getPickRay(x, y);
 
-        CardSlot slot = view.getHighlightedSlot(ray);
-        CardSlot firstEmptySlot = view.getFirstEmptyBenchSlot();
-        if (firstEmptySlot != null && slot != null) {
-
+        CardSlot slot = view.getIntersectedSlot(ray);
+        if (slot != null) {
+            CardSlot firstEmptySlot = view.getFirstEmptyBenchSlot();
             CardData data = draggedCard.getData();
-            model.moveFromHandToBench(data);
-            view.dropCardOnSlot(draggedCard, firstEmptySlot);
+            if (slot.type.equals("bench") && firstEmptySlot != null){
+                model.moveFromHandToBench(data);
+                view.dropCardOnSlot(draggedCard, firstEmptySlot);
+            } else if (slot.type.equals("table") && slot.isEmpty()){
+                model.moveFromHandToTable(data);
+                view.dropCardOnSlot(draggedCard, slot);
+            } else {
+                view.cancelDrag(draggedCard);
+            }
+
         } else {
             view.cancelDrag(draggedCard);
         }

@@ -26,6 +26,9 @@ public class CardDecal {
     private float width;
     private float height;
 
+    public TextureRegion frontRegion;
+    public TextureRegion backRegion;
+
     private float yaw = 0f;
     private float pitch = 0f;
     private float roll = 0f;
@@ -59,14 +62,24 @@ public class CardDecal {
 
     private int handIndex = 0;
 
-    public boolean fromDeck = false;
+    public String emplacement;
 
-    public CardDecal(CardData data, TextureRegion frontRegion, TextureRegion backRegion, float width, float height, PerspectiveCamera cam) {
+    public CardDecal(CardData data, TextureRegion frontRegion, TextureRegion backRegion, float width, float height, PerspectiveCamera cam, String emplacement) {
         this.data = data;
         this.width = width;
         this.height = height;
+        this.frontRegion = frontRegion;
+        this.backRegion = backRegion;
+        this.emplacement = emplacement;
+        buildModel(frontRegion, backRegion, width, height);
 
-        TextureRegion flippedBack = new TextureRegion(backRegion);
+    }
+
+    public void buildModel(TextureRegion frontRegion, TextureRegion backRegion, float width, float height){
+
+        if (model != null) {
+            model.dispose();
+        }
 
         ModelBuilder builder = new ModelBuilder();
         builder.begin();
@@ -89,7 +102,7 @@ public class CardDecal {
         mpb = builder.part("back", GL20.GL_TRIANGLES,
             VertexAttributes.Usage.Position | VertexAttributes.Usage.Normal | VertexAttributes.Usage.TextureCoordinates,
             new Material(
-                TextureAttribute.createDiffuse(flippedBack),
+                TextureAttribute.createDiffuse(backRegion),
                 new BlendingAttribute(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA),
                 IntAttribute.createCullFace(GL20.GL_BACK)
             ));
