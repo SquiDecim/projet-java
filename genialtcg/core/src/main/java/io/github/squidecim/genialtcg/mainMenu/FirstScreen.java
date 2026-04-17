@@ -61,7 +61,7 @@ public class FirstScreen implements Screen {
             new ChangeListener() {
                 @Override
                 public void changed(ChangeEvent event, Actor actor) {
-                    System.out.println("Bouton Deck cliqué");
+                    game.setScreen(new DeckScreen(game));
                 }
             }
         );
@@ -69,9 +69,7 @@ public class FirstScreen implements Screen {
         btnSettings.addListener(
             new ChangeListener() {
                 @Override
-                public void changed(ChangeEvent event, Actor actor) {
-                    System.out.println("Paramètres (à faire)");
-                }
+                public void changed(ChangeEvent event, Actor actor) {}
             }
         );
 
