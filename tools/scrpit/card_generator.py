@@ -1,9 +1,12 @@
 import json
+import os
+from io import BytesIO
 
+import requests
 from PIL import Image, ImageDraw, ImageFont
 
-JSON_PATH = "/home/user-x/Documents/GitHub/projet-java/data/JSON/pays.json"
-
+JSON_PATH = "/home/user-x/Documents/GitHub/projet-java/genialtcg/assets/JSON/pays.json"
+SHAPES_CACHE_DIR = "tools/img/shapes_cache"
 with open(JSON_PATH, "r", encoding="utf-8") as file:
     pays = json.load(file)
 
@@ -19,13 +22,15 @@ TEXT_COLOR = (0, 0, 0)
 HEADER_COLOR = (0, 0, 0)
 
 TEMPLATES = {
-    "Économique": "cards_generation/img/template/economique.png",
-    "Renseignement": "cards_generation/img/template/renseignement.png",
-    "Isolationniste": "cards_generation/img/template/isolationniste.png",
-    "Militaire": "cards_generation/img/template/militaire.png",
-    "Diplomatique": "cards_generation/img/template/diplomatique.png",
+    "Économique": "tools/img/template/economique.png",
+    "Renseignement": "tools/img/template/renseignement.png",
+    "Isolationniste": "tools/img/template/isolationniste.png",
+    "Militaire": "tools/img/template/militaire.png",
+    "Diplomatique": "tools/img/template/diplomatique.png",
 }
 
+if not os.path.exists(SHAPES_CACHE_DIR):
+    os.makedirs(SHAPES_CACHE_DIR)
 templates_cache = {}
 
 for k, path in TEMPLATES.items():
@@ -59,6 +64,32 @@ font_italic_small = ImageFont.truetype(
 font_bold_italic_small = ImageFont.truetype(
     "/usr/share/fonts/truetype/dejavu/DejaVuSans-BoldOblique.ttf", 12 * SCALE
 )
+
+
+def get_country_shape(iso_code):
+    """Récupère la silhouette PNG (noir/transparent) depuis MapsIcon ou le cache local."""
+    if not iso_code:
+        return None
+
+    iso_code = iso_code.lower()
+    local_file = os.path.join(SHAPES_CACHE_DIR, f"{iso_code}.png")
+
+    # 1. Vérifier le cache local
+    if os.path.exists(local_file):
+        return Image.open(local_file).convert("RGBA")
+
+    # 2. Sinon, télécharger depuis GitHub (MapsIcon)
+    url = f"https://raw.githubusercontent.com/djaiss/mapsicon/master/all/{iso_code}/256.png"
+    try:
+        response = requests.get(url, timeout=5)
+        if response.status_code == 200:
+            with open(local_file, "wb") as f:
+                f.write(response.content)
+            return Image.open(BytesIO(response.content)).convert("RGBA")
+    except Exception as e:
+        print(f"Erreur téléchargement pour {iso_code}: {e}")
+
+    return None
 
 
 row_count = (len(pays) + COLUMN_COUNT - 1) // COLUMN_COUNT
@@ -97,15 +128,26 @@ for idx, p in enumerate(pays):
     current_x = PADDING + col_index * CARD_WIDTH
     current_y = PADDING + row_index * CARD_HEIGHT
 
-    draw.rectangle(
-        [current_x, current_y, current_x + CARD_WIDTH, current_y + CARD_HEIGHT]
-    )
-
     type_pays = p.get("type")
     template_img = templates_cache[type_pays].resize(
         (CARD_WIDTH, CARD_HEIGHT), Image.Resampling.LANCZOS
     )
     img.paste(template_img, (current_x, current_y))
+
+    iso_code = p.get("id")
+    shape_img = get_country_shape(iso_code)
+
+    if shape_img:
+        shape_max_size = 140 * SCALE
+        shape_img.thumbnail((shape_max_size, shape_max_size), Image.Resampling.LANCZOS)
+
+        # Centrage horizontal et positionnement vertical au milieu
+        s_w, s_h = shape_img.size
+        shape_x = current_x + (CARD_WIDTH - s_w) // 2
+        shape_y = current_y + 110 * SCALE  # Positionnée dans la zone vide centrale
+
+        # Collage avec le canal Alpha (transparence)
+        img.paste(shape_img, (shape_x, shape_y), shape_img)
 
     # TEXT
     padding_inside = 10 * SCALE
@@ -239,6 +281,6 @@ for idx, p in enumerate(pays):
         y_text += 11 * SCALE
 
 
-img.save("atlas_pays.png", dpi=(300, 300))
+img.save("genialtcg/assets/cards/atlas_pays.png", dpi=(300, 300))
 
 print("atlas généré")
