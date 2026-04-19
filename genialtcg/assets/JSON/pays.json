@@ -2,9 +2,8 @@
   {
     "id": "AF",
     "nom": "Afghanistan",
-    "emoji": "🇦🇫",
     "rang": "Marginal",
-    "type": "Isolationniste",
+    "type": "Militaire",
     "cout": 150,
     "etat": 298,
     "statistiques": {
@@ -27,8 +26,7 @@
   {
     "id": "ZA",
     "nom": "Afrique du Sud",
-    "emoji": "🇿🇦",
-    "rang": "Émergent",
+    "rang": "Établi",
     "type": "Économique",
     "cout": 350,
     "etat": 446,
@@ -47,13 +45,12 @@
       "valeurs": [[3, "main"], 50],
       "description": "Exploite ses ressources pour vous faire piocher 3 cartes et soigner votre unité de 50."
     },
-    "lore": "Puissance clé du continent, bâtie sur d'immenses richesses minières."
+    "lore": "Puissance clé du continent africain, bâtie sur d'immenses richesses minières."
   },
   {
     "id": "AL",
     "nom": "Albanie",
-    "emoji": "🇦🇱",
-    "rang": "Marginal",
+    "rang": "Émergent",
     "type": "Isolationniste",
     "cout": 150,
     "etat": 454,
@@ -77,7 +74,6 @@
   {
     "id": "DZ",
     "nom": "Algérie",
-    "emoji": "🇩🇿",
     "rang": "Émergent",
     "type": "Militaire",
     "cout": 350,
@@ -102,7 +98,6 @@
   {
     "id": "DE",
     "nom": "Allemagne",
-    "emoji": "🇩🇪",
     "rang": "Dominant",
     "type": "Économique",
     "cout": 750,
@@ -127,7 +122,6 @@
   {
     "id": "AD",
     "nom": "Andorre",
-    "emoji": "🇦🇩",
     "rang": "Marginal",
     "type": "Économique",
     "cout": 150,
@@ -152,7 +146,6 @@
   {
     "id": "AO",
     "nom": "Angola",
-    "emoji": "🇦🇴",
     "rang": "Émergent",
     "type": "Économique",
     "cout": 350,
@@ -177,7 +170,6 @@
   {
     "id": "AG",
     "nom": "Antigua-et-Barbuda",
-    "emoji": "🇦🇬",
     "rang": "Marginal",
     "type": "Diplomatique",
     "cout": 150,
@@ -202,8 +194,7 @@
   {
     "id": "SA",
     "nom": "Arabie saoudite",
-    "emoji": "🇸🇦",
-    "rang": "Majeur",
+    "rang": "Dominant",
     "type": "Économique",
     "cout": 550,
     "etat": 540,
@@ -222,14 +213,13 @@
       "valeurs": [-100, -45],
       "description": "Inonde le marché pour infliger 100 dégâts en jeu et 45 à une unité du banc."
     },
-    "lore": "Première puissance pétrolière mondiale et cœur de l'Islam."
+    "lore": "Première puissance pétrolière mondiale au droit de l'homme vacillant"
   },
   {
     "id": "AR",
     "nom": "Argentine",
-    "emoji": "🇦🇷",
     "rang": "Émergent",
-    "type": "Diplomatique",
+    "type": "Économique",
     "cout": 350,
     "etat": 460,
     "statistiques": {
@@ -252,7 +242,6 @@
   {
     "id": "AM",
     "nom": "Arménie",
-    "emoji": "🇦🇲",
     "rang": "Marginal",
     "type": "Renseignement",
     "cout": 150,
@@ -277,8 +266,7 @@
   {
     "id": "AU",
     "nom": "Australie",
-    "emoji": "🇦🇺",
-    "rang": "Majeur",
+    "rang": "Dominant",
     "type": "Économique",
     "cout": 550,
     "etat": 606,
@@ -302,8 +290,7 @@
   {
     "id": "AT",
     "nom": "Autriche",
-    "emoji": "🇦🇹",
-    "rang": "Majeur",
+    "rang": "Établi",
     "type": "Diplomatique",
     "cout": 550,
     "etat": 554,
@@ -327,7 +314,6 @@
   {
     "id": "AZ",
     "nom": "Azerbaïdjan",
-    "emoji": "🇦🇿",
     "rang": "Émergent",
     "type": "Militaire",
     "cout": 350,
@@ -352,7 +338,6 @@
   {
     "id": "BS",
     "nom": "Bahamas",
-    "emoji": "🇧🇸",
     "rang": "Marginal",
     "type": "Économique",
     "cout": 150,
@@ -377,7 +362,6 @@
   {
     "id": "BH",
     "nom": "Bahreïn",
-    "emoji": "🇧🇭",
     "rang": "Marginal",
     "type": "Diplomatique",
     "cout": 150,
@@ -402,7 +386,6 @@
   {
     "id": "BD",
     "nom": "Bangladesh",
-    "emoji": "🇧🇩",
     "rang": "Émergent",
     "type": "Économique",
     "cout": 350,
@@ -427,7 +410,6 @@
   {
     "id": "BB",
     "nom": "Barbade",
-    "emoji": "🇧🇧",
     "rang": "Marginal",
     "type": "Diplomatique",
     "cout": 150,
@@ -452,8 +434,7 @@
   {
     "id": "BE",
     "nom": "Belgique",
-    "emoji": "🇧🇪",
-    "rang": "Majeur",
+    "rang": "Établi",
     "type": "Diplomatique",
     "cout": 550,
     "etat": 552,
@@ -477,7 +458,6 @@
   {
     "id": "BZ",
     "nom": "Belize",
-    "emoji": "🇧🇿",
     "rang": "Marginal",
     "type": "Isolationniste",
     "cout": 150,
@@ -502,7 +482,6 @@
   {
     "id": "BJ",
     "nom": "Bénin",
-    "emoji": "🇧🇯",
     "rang": "Marginal",
     "type": "Diplomatique",
     "cout": 150,
@@ -527,7 +506,6 @@
   {
     "id": "BT",
     "nom": "Bhoutan",
-    "emoji": "🇧🇹",
     "rang": "Marginal",
     "type": "Isolationniste",
     "cout": 150,
@@ -552,7 +530,6 @@
   {
     "id": "BY",
     "nom": "Biélorussie",
-    "emoji": "🇧🇾",
     "rang": "Émergent",
     "type": "Isolationniste",
     "cout": 350,
@@ -577,7 +554,6 @@
   {
     "id": "MM",
     "nom": "Birmanie",
-    "emoji": "🇲🇲",
     "rang": "Marginal",
     "type": "Militaire",
     "cout": 150,
@@ -602,7 +578,6 @@
   {
     "id": "BO",
     "nom": "Bolivie",
-    "emoji": "🇧🇴",
     "rang": "Émergent",
     "type": "Économique",
     "cout": 350,
@@ -627,7 +602,6 @@
   {
     "id": "BA",
     "nom": "Bosnie-Herzégovine",
-    "emoji": "🇧🇦",
     "rang": "Marginal",
     "type": "Diplomatique",
     "cout": 150,
@@ -652,7 +626,6 @@
   {
     "id": "BW",
     "nom": "Botswana",
-    "emoji": "🇧🇼",
     "rang": "Marginal",
     "type": "Économique",
     "cout": 150,
@@ -677,8 +650,7 @@
   {
     "id": "BR",
     "nom": "Brésil",
-    "emoji": "🇧🇷",
-    "rang": "Majeur",
+    "rang": "Dominant",
     "type": "Diplomatique",
     "cout": 550,
     "etat": 520,
@@ -702,7 +674,6 @@
   {
     "id": "BN",
     "nom": "Brunei",
-    "emoji": "🇧🇳",
     "rang": "Marginal",
     "type": "Économique",
     "cout": 150,
@@ -727,7 +698,6 @@
   {
     "id": "BG",
     "nom": "Bulgarie",
-    "emoji": "🇧🇬",
     "rang": "Marginal",
     "type": "Renseignement",
     "cout": 150,
@@ -752,7 +722,6 @@
   {
     "id": "BF",
     "nom": "Burkina Faso",
-    "emoji": "🇧🇫",
     "rang": "Marginal",
     "type": "Militaire",
     "cout": 150,
@@ -777,7 +746,6 @@
   {
     "id": "BI",
     "nom": "Burundi",
-    "emoji": "🇧🇮",
     "rang": "Marginal",
     "type": "Isolationniste",
     "cout": 150,
@@ -802,7 +770,6 @@
   {
     "id": "KH",
     "nom": "Cambodge",
-    "emoji": "🇰🇭",
     "rang": "Marginal",
     "type": "Économique",
     "cout": 150,
@@ -827,7 +794,6 @@
   {
     "id": "CM",
     "nom": "Cameroun",
-    "emoji": "🇨🇲",
     "rang": "Marginal",
     "type": "Économique",
     "cout": 150,
@@ -852,7 +818,6 @@
   {
     "id": "CA",
     "nom": "Canada",
-    "emoji": "🇨🇦",
     "rang": "Dominant",
     "type": "Diplomatique",
     "cout": 750,
@@ -877,7 +842,6 @@
   {
     "id": "CV",
     "nom": "Cap-Vert",
-    "emoji": "🇨🇻",
     "rang": "Marginal",
     "type": "Diplomatique",
     "cout": 150,
@@ -902,7 +866,6 @@
   {
     "id": "CL",
     "nom": "Chili",
-    "emoji": "🇨🇱",
     "rang": "Émergent",
     "type": "Économique",
     "cout": 350,
@@ -927,7 +890,6 @@
   {
     "id": "CN",
     "nom": "Chine",
-    "emoji": "🇨🇳",
     "rang": "Hégémonie",
     "type": "Économique",
     "cout": 850,
@@ -947,12 +909,11 @@
       "valeurs": [-160, -75],
       "description": "Une démonstration de force totale infligeant 160 dégâts en jeu et 75 sur le banc."
     },
-    "lore": "Géant asiatique et usine du monde."
+    "lore": "Géant asiatique en concurence directe avec les états unis et usine du monde."
   },
   {
     "id": "CY",
     "nom": "Chypre",
-    "emoji": "🇨🇾",
     "rang": "Marginal",
     "type": "Diplomatique",
     "cout": 150,
@@ -977,7 +938,6 @@
   {
     "id": "CO",
     "nom": "Colombie",
-    "emoji": "🇨🇴",
     "rang": "Émergent",
     "type": "Militaire",
     "cout": 350,
@@ -1002,7 +962,6 @@
   {
     "id": "KM",
     "nom": "Comores",
-    "emoji": "🇰🇲",
     "rang": "Marginal",
     "type": "Isolationniste",
     "cout": 150,
@@ -1027,9 +986,8 @@
   {
     "id": "KP",
     "nom": "Corée du Nord",
-    "emoji": "🇰🇵",
-    "rang": "Majeur",
-    "type": "Militaire",
+    "rang": "Établi",
+    "type": "Renseignement",
     "cout": 450,
     "etat": 520,
     "statistiques": {
@@ -1052,8 +1010,7 @@
   {
     "id": "KR",
     "nom": "Corée du Sud",
-    "emoji": "🇰🇷",
-    "rang": "Majeur",
+    "rang": "Dominant",
     "type": "Économique",
     "cout": 450,
     "etat": 540,
@@ -1065,7 +1022,7 @@
       "stabilite": 82
     },
     "special": {
-      "nom": "Offensive Semi-conductrice",
+      "nom": "Offensive Numérique",
       "cout": 135,
       "cibles": ["jeuA", "bancA"],
       "variables": ["etat", "etat"],
@@ -1077,7 +1034,6 @@
   {
     "id": "CR",
     "nom": "Costa Rica",
-    "emoji": "🇨🇷",
     "rang": "Marginal",
     "type": "Isolationniste",
     "cout": 150,
@@ -1102,7 +1058,6 @@
   {
     "id": "CI",
     "nom": "Côte d'Ivoire",
-    "emoji": "🇨🇮",
     "rang": "Émergent",
     "type": "Économique",
     "cout": 350,
@@ -1127,7 +1082,6 @@
   {
     "id": "HR",
     "nom": "Croatie",
-    "emoji": "🇭🇷",
     "rang": "Marginal",
     "type": "Diplomatique",
     "cout": 150,
@@ -1152,7 +1106,6 @@
   {
     "id": "CU",
     "nom": "Cuba",
-    "emoji": "🇨🇺",
     "rang": "Marginal",
     "type": "Diplomatique",
     "cout": 150,
@@ -1177,8 +1130,7 @@
   {
     "id": "DK",
     "nom": "Danemark",
-    "emoji": "🇩🇰",
-    "rang": "Majeur",
+    "rang": "Établi",
     "type": "Économique",
     "cout": 550,
     "etat": 580,
@@ -1202,7 +1154,6 @@
   {
     "id": "DJ",
     "nom": "Djibouti",
-    "emoji": "🇩🇯",
     "rang": "Marginal",
     "type": "Militaire",
     "cout": 150,
@@ -1227,7 +1178,6 @@
   {
     "id": "DM",
     "nom": "Dominique",
-    "emoji": "🇩🇲",
     "rang": "Marginal",
     "type": "Isolationniste",
     "cout": 150,
@@ -1252,7 +1202,6 @@
   {
     "id": "EG",
     "nom": "Égypte",
-    "emoji": "🇪🇬",
     "rang": "Émergent",
     "type": "Diplomatique",
     "cout": 350,
@@ -1277,8 +1226,7 @@
   {
     "id": "AE",
     "nom": "Émirats arabes unis",
-    "emoji": "🇦🇪",
-    "rang": "Majeur",
+    "rang": "Dominant",
     "type": "Économique",
     "cout": 550,
     "etat": 510,
@@ -1302,7 +1250,6 @@
   {
     "id": "EC",
     "nom": "Équateur",
-    "emoji": "🇪🇨",
     "rang": "Marginal",
     "type": "Isolationniste",
     "cout": 150,
@@ -1327,7 +1274,6 @@
   {
     "id": "ER",
     "nom": "Érythrée",
-    "emoji": "🇪🇷",
     "rang": "Marginal",
     "type": "Militaire",
     "cout": 150,
@@ -1352,8 +1298,7 @@
   {
     "id": "ES",
     "nom": "Espagne",
-    "emoji": "🇪🇸",
-    "rang": "Majeur",
+    "rang": "Établi",
     "type": "Diplomatique",
     "cout": 550,
     "etat": 540,
@@ -1377,7 +1322,6 @@
   {
     "id": "EE",
     "nom": "Estonie",
-    "emoji": "🇪🇪",
     "rang": "Marginal",
     "type": "Militaire",
     "cout": 150,
@@ -1402,7 +1346,6 @@
   {
     "id": "SZ",
     "nom": "Eswatini",
-    "emoji": "🇸🇿",
     "rang": "Marginal",
     "type": "Isolationniste",
     "cout": 150,
@@ -1427,7 +1370,6 @@
   {
     "id": "US",
     "nom": "États-Unis",
-    "emoji": "🇺🇸",
     "rang": "Hégémonie",
     "type": "Militaire",
     "cout": 850,
@@ -1452,7 +1394,6 @@
   {
     "id": "ET",
     "nom": "Éthiopie",
-    "emoji": "🇪🇹",
     "rang": "Émergent",
     "type": "Militaire",
     "cout": 350,
@@ -1477,7 +1418,6 @@
   {
     "id": "FJ",
     "nom": "Fidji",
-    "emoji": "🇫🇯",
     "rang": "Marginal",
     "type": "Diplomatique",
     "cout": 150,
@@ -1502,8 +1442,7 @@
   {
     "id": "FI",
     "nom": "Finlande",
-    "emoji": "🇫🇮",
-    "rang": "Majeur",
+    "rang": "Établi",
     "type": "Diplomatique",
     "cout": 550,
     "etat": 590,
@@ -1527,7 +1466,6 @@
   {
     "id": "FR",
     "nom": "France",
-    "emoji": "🇫🇷",
     "rang": "Dominant",
     "type": "Diplomatique",
     "cout": 750,
@@ -1552,7 +1490,6 @@
   {
     "id": "GA",
     "nom": "Gabon",
-    "emoji": "🇬🇦",
     "rang": "Marginal",
     "type": "Économique",
     "cout": 150,
@@ -1577,7 +1514,6 @@
   {
     "id": "GM",
     "nom": "Gambie",
-    "emoji": "🇬🇲",
     "rang": "Marginal",
     "type": "Isolationniste",
     "cout": 150,
@@ -1602,7 +1538,6 @@
   {
     "id": "GE",
     "nom": "Géorgie",
-    "emoji": "🇬🇪",
     "rang": "Marginal",
     "type": "Diplomatique",
     "cout": 150,
@@ -1627,7 +1562,6 @@
   {
     "id": "GH",
     "nom": "Ghana",
-    "emoji": "🇬🇭",
     "rang": "Émergent",
     "type": "Économique",
     "cout": 350,
@@ -1652,8 +1586,7 @@
   {
     "id": "GR",
     "nom": "Grèce",
-    "emoji": "🇬🇷",
-    "rang": "Majeur",
+    "rang": "Établi",
     "type": "Diplomatique",
     "cout": 450,
     "etat": 480,
@@ -1677,7 +1610,6 @@
   {
     "id": "GD",
     "nom": "Grenade",
-    "emoji": "🇬🇩",
     "rang": "Marginal",
     "type": "Économique",
     "cout": 150,
@@ -1702,7 +1634,6 @@
   {
     "id": "GT",
     "nom": "Guatemala",
-    "emoji": "🇬🇹",
     "rang": "Marginal",
     "type": "Diplomatique",
     "cout": 150,
@@ -1727,7 +1658,6 @@
   {
     "id": "GN",
     "nom": "Guinée",
-    "emoji": "🇬🇳",
     "rang": "Marginal",
     "type": "Économique",
     "cout": 150,
@@ -1752,7 +1682,6 @@
   {
     "id": "GW",
     "nom": "Guinée-Bissau",
-    "emoji": "🇬🇧",
     "rang": "Marginal",
     "type": "Isolationniste",
     "cout": 150,
@@ -1777,7 +1706,6 @@
   {
     "id": "GQ",
     "nom": "Guinée équatoriale",
-    "emoji": "🇬🇶",
     "rang": "Marginal",
     "type": "Économique",
     "cout": 150,
@@ -1802,7 +1730,6 @@
   {
     "id": "GY",
     "nom": "Guyana",
-    "emoji": "🇬🇾",
     "rang": "Marginal",
     "type": "Économique",
     "cout": 150,
@@ -1827,7 +1754,6 @@
   {
     "id": "HT",
     "nom": "Haïti",
-    "emoji": "🇭🇹",
     "rang": "Marginal",
     "type": "Isolationniste",
     "cout": 150,
@@ -1852,7 +1778,6 @@
   {
     "id": "HN",
     "nom": "Honduras",
-    "emoji": "🇭🇳",
     "rang": "Marginal",
     "type": "Économique",
     "cout": 150,
@@ -1877,8 +1802,7 @@
   {
     "id": "HU",
     "nom": "Hongrie",
-    "emoji": "🇭🇺",
-    "rang": "Majeur",
+    "rang": "Établi",
     "type": "Diplomatique",
     "cout": 450,
     "etat": 520,
@@ -1902,7 +1826,6 @@
   {
     "id": "MH",
     "nom": "Îles Marshall",
-    "emoji": "🇲🇭",
     "rang": "Marginal",
     "type": "Diplomatique",
     "cout": 150,
@@ -1922,12 +1845,11 @@
       "valeurs": [-85],
       "description": "Rappel des essais nucléaires subis sur son sol pour infliger 85 dégâts à l'adversaire."
     },
-    "lore": "Archipel du Pacifique marqué à jamais par les essais nucléaires américains, aujourd'hui en première ligne face à la montée des eaux."
+    "lore": "Archipel du Pacifique aujourd'hui en première ligne face à la montée des eaux."
   },
   {
     "id": "IN",
     "nom": "Inde",
-    "emoji": "🇮🇳",
     "rang": "Dominant",
     "type": "Économique",
     "cout": 750,
@@ -1952,7 +1874,6 @@
   {
     "id": "ID",
     "nom": "Indonésie",
-    "emoji": "🇮🇩",
     "rang": "Émergent",
     "type": "Économique",
     "cout": 350,
@@ -1977,7 +1898,6 @@
   {
     "id": "IQ",
     "nom": "Irak",
-    "emoji": "🇮🇶",
     "rang": "Émergent",
     "type": "Militaire",
     "cout": 350,
@@ -2002,8 +1922,7 @@
   {
     "id": "IR",
     "nom": "Iran",
-    "emoji": "🇮🇷",
-    "rang": "Majeur",
+    "rang": "Émergent",
     "type": "Militaire",
     "cout": 450,
     "etat": 550,
@@ -2027,8 +1946,7 @@
   {
     "id": "IE",
     "nom": "Irlande",
-    "emoji": "🇮🇪",
-    "rang": "Majeur",
+    "rang": "Établi",
     "type": "Économique",
     "cout": 450,
     "etat": 500,
@@ -2052,8 +1970,7 @@
   {
     "id": "IS",
     "nom": "Islande",
-    "emoji": "🇮🇸",
-    "rang": "Marginal",
+    "rang": "Établi",
     "type": "Isolationniste",
     "cout": 150,
     "etat": 480,
@@ -2077,8 +1994,7 @@
   {
     "id": "IL",
     "nom": "Israël",
-    "emoji": "🇮🇱",
-    "rang": "Majeur",
+    "rang": "Dominant",
     "type": "Militaire",
     "cout": 500,
     "etat": 510,
@@ -2097,12 +2013,11 @@
       "valeurs": [-90, 70],
       "description": "Système de défense de pointe infligeant 90 dégâts et soignant votre unité de 70."
     },
-    "lore": "La 'Start-up Nation' disposant d'une des armées les plus avancées."
+    "lore": "Pays ayant l'un des armées les plus avancées au dérive génocidaire."
   },
   {
     "id": "IT",
     "nom": "Italie",
-    "emoji": "🇮🇹",
     "rang": "Dominant",
     "type": "Diplomatique",
     "cout": 720,
@@ -2127,7 +2042,6 @@
   {
     "id": "JM",
     "nom": "Jamaïque",
-    "emoji": "🇯🇲",
     "rang": "Marginal",
     "type": "Diplomatique",
     "cout": 150,
@@ -2152,7 +2066,6 @@
   {
     "id": "JP",
     "nom": "Japon",
-    "emoji": "🇯🇵",
     "rang": "Dominant",
     "type": "Économique",
     "cout": 750,
@@ -2177,7 +2090,6 @@
   {
     "id": "JO",
     "nom": "Jordanie",
-    "emoji": "🇯🇴",
     "rang": "Marginal",
     "type": "Diplomatique",
     "cout": 150,
@@ -2202,7 +2114,6 @@
   {
     "id": "KZ",
     "nom": "Kazakhstan",
-    "emoji": "🇰🇿",
     "rang": "Émergent",
     "type": "Économique",
     "cout": 350,
@@ -2227,7 +2138,6 @@
   {
     "id": "KE",
     "nom": "Kenya",
-    "emoji": "🇰🇪",
     "rang": "Émergent",
     "type": "Économique",
     "cout": 350,
@@ -2252,7 +2162,6 @@
   {
     "id": "KG",
     "nom": "Kirghizistan",
-    "emoji": "🇰🇬",
     "rang": "Marginal",
     "type": "Isolationniste",
     "cout": 150,
@@ -2277,7 +2186,6 @@
   {
     "id": "KI",
     "nom": "Kiribati",
-    "emoji": "🇰🇮",
     "rang": "Marginal",
     "type": "Isolationniste",
     "cout": 150,
@@ -2302,7 +2210,6 @@
   {
     "id": "XK",
     "nom": "Kosovo",
-    "emoji": "🇽🇰",
     "rang": "Marginal",
     "type": "Diplomatique",
     "cout": 150,
@@ -2327,7 +2234,6 @@
   {
     "id": "KW",
     "nom": "Koweït",
-    "emoji": "🇰🇼",
     "rang": "Émergent",
     "type": "Économique",
     "cout": 350,
@@ -2352,7 +2258,6 @@
   {
     "id": "LA",
     "nom": "Laos",
-    "emoji": "🇱🇦",
     "rang": "Marginal",
     "type": "Isolationniste",
     "cout": 150,
@@ -2377,7 +2282,6 @@
   {
     "id": "LS",
     "nom": "Lesotho",
-    "emoji": "🇱🇸",
     "rang": "Marginal",
     "type": "Isolationniste",
     "cout": 150,
@@ -2402,7 +2306,6 @@
   {
     "id": "LV",
     "nom": "Lettonie",
-    "emoji": "🇱🇻",
     "rang": "Marginal",
     "type": "Diplomatique",
     "cout": 150,
@@ -2427,7 +2330,6 @@
   {
     "id": "LB",
     "nom": "Liban",
-    "emoji": "🇱🇧",
     "rang": "Marginal",
     "type": "Diplomatique",
     "cout": 150,
@@ -2452,7 +2354,6 @@
   {
     "id": "LR",
     "nom": "Liberia",
-    "emoji": "🇱🇷",
     "rang": "Marginal",
     "type": "Économique",
     "cout": 150,
@@ -2477,7 +2378,6 @@
   {
     "id": "LY",
     "nom": "Libye",
-    "emoji": "🇱🇾",
     "rang": "Émergent",
     "type": "Militaire",
     "cout": 350,
@@ -2502,7 +2402,6 @@
   {
     "id": "LI",
     "nom": "Liechtenstein",
-    "emoji": "🇱🇮",
     "rang": "Marginal",
     "type": "Économique",
     "cout": 150,
@@ -2527,7 +2426,6 @@
   {
     "id": "LT",
     "nom": "Lituanie",
-    "emoji": "🇱🇹",
     "rang": "Marginal",
     "type": "Renseignement",
     "cout": 150,
@@ -2552,8 +2450,7 @@
   {
     "id": "LU",
     "nom": "Luxembourg",
-    "emoji": "🇱🇺",
-    "rang": "Majeur",
+    "rang": "Établi",
     "type": "Économique",
     "cout": 450,
     "etat": 520,
@@ -2577,7 +2474,6 @@
   {
     "id": "MK",
     "nom": "Macédoine du Nord",
-    "emoji": "🇲🇰",
     "rang": "Marginal",
     "type": "Diplomatique",
     "cout": 150,
@@ -2602,7 +2498,6 @@
   {
     "id": "MG",
     "nom": "Madagascar",
-    "emoji": "🇲🇬",
     "rang": "Marginal",
     "type": "Isolationniste",
     "cout": 150,
@@ -2627,7 +2522,6 @@
   {
     "id": "MY",
     "nom": "Malaisie",
-    "emoji": "🇲🇾",
     "rang": "Émergent",
     "type": "Économique",
     "cout": 350,
@@ -2652,7 +2546,6 @@
   {
     "id": "MW",
     "nom": "Malawi",
-    "emoji": "🇲🇼",
     "rang": "Marginal",
     "type": "Isolationniste",
     "cout": 150,
@@ -2677,7 +2570,6 @@
   {
     "id": "MV",
     "nom": "Maldives",
-    "emoji": "🇲🇻",
     "rang": "Marginal",
     "type": "Diplomatique",
     "cout": 150,
@@ -2702,7 +2594,6 @@
   {
     "id": "ML",
     "nom": "Mali",
-    "emoji": "🇲🇱",
     "rang": "Marginal",
     "type": "Militaire",
     "cout": 150,
@@ -2727,7 +2618,6 @@
   {
     "id": "MT",
     "nom": "Malte",
-    "emoji": "🇲🇹",
     "rang": "Marginal",
     "type": "Économique",
     "cout": 150,
@@ -2752,8 +2642,7 @@
   {
     "id": "MA",
     "nom": "Maroc",
-    "emoji": "🇲🇦",
-    "rang": "Émergent",
+    "rang": "Établi",
     "type": "Diplomatique",
     "cout": 350,
     "etat": 520,
@@ -2777,7 +2666,6 @@
   {
     "id": "MU",
     "nom": "Maurice",
-    "emoji": "🇲🇺",
     "rang": "Marginal",
     "type": "Économique",
     "cout": 150,
@@ -2802,7 +2690,6 @@
   {
     "id": "MR",
     "nom": "Mauritanie",
-    "emoji": "🇲🇷",
     "rang": "Marginal",
     "type": "Économique",
     "cout": 150,
@@ -2827,8 +2714,7 @@
   {
     "id": "MX",
     "nom": "Mexique",
-    "emoji": "🇲🇽",
-    "rang": "Majeur",
+    "rang": "Établi",
     "type": "Économique",
     "cout": 550,
     "etat": 540,
@@ -2852,7 +2738,6 @@
   {
     "id": "FM",
     "nom": "Micronésie",
-    "emoji": "🇫🇲",
     "rang": "Marginal",
     "type": "Isolationniste",
     "cout": 150,
@@ -2877,7 +2762,6 @@
   {
     "id": "MD",
     "nom": "Moldavie",
-    "emoji": "🇲🇩",
     "rang": "Marginal",
     "type": "Diplomatique",
     "cout": 150,
@@ -2902,7 +2786,6 @@
   {
     "id": "MC",
     "nom": "Monaco",
-    "emoji": "🇲🇨",
     "rang": "Marginal",
     "type": "Économique",
     "cout": 150,
@@ -2927,7 +2810,6 @@
   {
     "id": "MN",
     "nom": "Mongolie",
-    "emoji": "🇲🇳",
     "rang": "Marginal",
     "type": "Isolationniste",
     "cout": 150,
@@ -2952,7 +2834,6 @@
   {
     "id": "ME",
     "nom": "Monténégro",
-    "emoji": "🇲🇪",
     "rang": "Marginal",
     "type": "Diplomatique",
     "cout": 150,
@@ -2977,7 +2858,6 @@
   {
     "id": "MZ",
     "nom": "Mozambique",
-    "emoji": "🇲🇿",
     "rang": "Marginal",
     "type": "Économique",
     "cout": 150,
@@ -3002,7 +2882,6 @@
   {
     "id": "NA",
     "nom": "Namibie",
-    "emoji": "🇳🇦",
     "rang": "Marginal",
     "type": "Isolationniste",
     "cout": 150,
@@ -3027,7 +2906,6 @@
   {
     "id": "NR",
     "nom": "Nauru",
-    "emoji": "🇳🇷",
     "rang": "Marginal",
     "type": "Isolationniste",
     "cout": 150,
@@ -3052,7 +2930,6 @@
   {
     "id": "NP",
     "nom": "Népal",
-    "emoji": "🇳🇵",
     "rang": "Marginal",
     "type": "Isolationniste",
     "cout": 150,
@@ -3077,7 +2954,6 @@
   {
     "id": "NI",
     "nom": "Nicaragua",
-    "emoji": "🇳🇮",
     "rang": "Marginal",
     "type": "Isolationniste",
     "cout": 150,
@@ -3102,7 +2978,6 @@
   {
     "id": "NE",
     "nom": "Niger",
-    "emoji": "🇳🇪",
     "rang": "Marginal",
     "type": "Militaire",
     "cout": 150,
@@ -3127,7 +3002,6 @@
   {
     "id": "NG",
     "nom": "Nigeria",
-    "emoji": "🇳🇬",
     "rang": "Émergent",
     "type": "Économique",
     "cout": 350,
@@ -3152,8 +3026,7 @@
   {
     "id": "NO",
     "nom": "Norvège",
-    "emoji": "🇳🇴",
-    "rang": "Majeur",
+    "rang": "Établi",
     "type": "Économique",
     "cout": 550,
     "etat": 590,
@@ -3177,8 +3050,7 @@
   {
     "id": "NZ",
     "nom": "Nouvelle-Zélande",
-    "emoji": "🇳🇿",
-    "rang": "Majeur",
+    "rang": "Établi",
     "type": "Diplomatique",
     "cout": 450,
     "etat": 510,
@@ -3202,7 +3074,6 @@
   {
     "id": "OM",
     "nom": "Oman",
-    "emoji": "🇴🇲",
     "rang": "Marginal",
     "type": "Diplomatique",
     "cout": 150,
@@ -3227,7 +3098,6 @@
   {
     "id": "UG",
     "nom": "Ouganda",
-    "emoji": "🇺🇬",
     "rang": "Marginal",
     "type": "Économique",
     "cout": 150,
@@ -3252,7 +3122,6 @@
   {
     "id": "UZ",
     "nom": "Ouzbékistan",
-    "emoji": "🇺🇿",
     "rang": "Émergent",
     "type": "Économique",
     "cout": 350,
@@ -3277,8 +3146,7 @@
   {
     "id": "PK",
     "nom": "Pakistan",
-    "emoji": "🇵🇰",
-    "rang": "Majeur",
+    "rang": "Établi",
     "type": "Militaire",
     "cout": 450,
     "etat": 490,
@@ -3302,7 +3170,6 @@
   {
     "id": "PW",
     "nom": "Palaos",
-    "emoji": "🇵🇼",
     "rang": "Marginal",
     "type": "Isolationniste",
     "cout": 150,
@@ -3327,7 +3194,6 @@
   {
     "id": "PS",
     "nom": "Palestine",
-    "emoji": "🇵🇸",
     "rang": "Marginal",
     "type": "Diplomatique",
     "cout": 150,
@@ -3352,7 +3218,6 @@
   {
     "id": "PA",
     "nom": "Panama",
-    "emoji": "🇵🇦",
     "rang": "Marginal",
     "type": "Économique",
     "cout": 150,
@@ -3377,7 +3242,6 @@
   {
     "id": "PG",
     "nom": "PNG",
-    "emoji": "🇵🇬",
     "rang": "Marginal",
     "type": "Isolationniste",
     "cout": 150,
@@ -3402,7 +3266,6 @@
   {
     "id": "PY",
     "nom": "Paraguay",
-    "emoji": "🇵🇾",
     "rang": "Marginal",
     "type": "Économique",
     "cout": 150,
@@ -3427,8 +3290,7 @@
   {
     "id": "NL",
     "nom": "Pays-Bas",
-    "emoji": "🇳🇱",
-    "rang": "Majeur",
+    "rang": "Établi",
     "type": "Économique",
     "cout": 550,
     "etat": 570,
@@ -3452,7 +3314,6 @@
   {
     "id": "PE",
     "nom": "Pérou",
-    "emoji": "🇵🇪",
     "rang": "Émergent",
     "type": "Économique",
     "cout": 350,
@@ -3477,7 +3338,6 @@
   {
     "id": "PH",
     "nom": "Philippines",
-    "emoji": "🇵🇭",
     "rang": "Émergent",
     "type": "Diplomatique",
     "cout": 350,
@@ -3502,8 +3362,7 @@
   {
     "id": "PL",
     "nom": "Pologne",
-    "emoji": "🇵🇱",
-    "rang": "Majeur",
+    "rang": "Établi",
     "type": "Militaire",
     "cout": 550,
     "etat": 540,
@@ -3527,8 +3386,7 @@
   {
     "id": "PT",
     "nom": "Portugal",
-    "emoji": "🇵🇹",
-    "rang": "Majeur",
+    "rang": "Établi",
     "type": "Diplomatique",
     "cout": 450,
     "etat": 490,
@@ -3552,8 +3410,7 @@
   {
     "id": "QA",
     "nom": "Qatar",
-    "emoji": "🇶🇦",
-    "rang": "Majeur",
+    "rang": "Établi",
     "type": "Économique",
     "cout": 450,
     "etat": 510,
@@ -3577,7 +3434,6 @@
   {
     "id": "CF",
     "nom": "RCA.",
-    "emoji": "🇨🇫",
     "rang": "Marginal",
     "type": "Militaire",
     "cout": 150,
@@ -3602,7 +3458,6 @@
   {
     "id": "CD",
     "nom": "RDC",
-    "emoji": "🇨🇩",
     "rang": "Émergent",
     "type": "Économique",
     "cout": 350,
@@ -3627,7 +3482,6 @@
   {
     "id": "DO",
     "nom": "République dominic.",
-    "emoji": "🇩🇴",
     "rang": "Marginal",
     "type": "Économique",
     "cout": 150,
@@ -3652,7 +3506,6 @@
   {
     "id": "CG",
     "nom": "République du Congo",
-    "emoji": "🇨🇬",
     "rang": "Marginal",
     "type": "Économique",
     "cout": 150,
@@ -3677,8 +3530,7 @@
   {
     "id": "CZ",
     "nom": "République tchèque",
-    "emoji": "🇨🇿",
-    "rang": "Majeur",
+    "rang": "Établi",
     "type": "Économique",
     "cout": 450,
     "etat": 530,
@@ -3702,7 +3554,6 @@
   {
     "id": "RO",
     "nom": "Roumanie",
-    "emoji": "🇷🇴",
     "rang": "Émergent",
     "type": "Militaire",
     "cout": 350,
@@ -3727,7 +3578,6 @@
   {
     "id": "GB",
     "nom": "Royaume-Uni",
-    "emoji": "🇬🇧",
     "rang": "Dominant",
     "type": "Diplomatique",
     "cout": 750,
@@ -3752,7 +3602,6 @@
   {
     "id": "RU",
     "nom": "Russie",
-    "emoji": "🇷🇺",
     "rang": "Hégémonie",
     "type": "Militaire",
     "cout": 850,
@@ -3777,7 +3626,6 @@
   {
     "id": "RW",
     "nom": "Rwanda",
-    "emoji": "🇷🇼",
     "rang": "Marginal",
     "type": "Isolationniste",
     "cout": 150,
@@ -3802,7 +3650,6 @@
   {
     "id": "KN",
     "nom": "Saint-C&N",
-    "emoji": "🇰🇳",
     "rang": "Marginal",
     "type": "Économique",
     "cout": 150,
@@ -3827,7 +3674,6 @@
   {
     "id": "SM",
     "nom": "Saint-Marin",
-    "emoji": "🇸🇲",
     "rang": "Marginal",
     "type": "Isolationniste",
     "cout": 150,
@@ -3852,7 +3698,6 @@
   {
     "id": "VC",
     "nom": "Saint-V&G",
-    "emoji": "🇻🇨",
     "rang": "Marginal",
     "type": "Isolationniste",
     "cout": 150,
@@ -3877,7 +3722,6 @@
   {
     "id": "LC",
     "nom": "Sainte-Lucie",
-    "emoji": "🇱🇨",
     "rang": "Marginal",
     "type": "Diplomatique",
     "cout": 150,
@@ -3902,7 +3746,6 @@
   {
     "id": "SB",
     "nom": "Salomon",
-    "emoji": "🇸🇧",
     "rang": "Marginal",
     "type": "Isolationniste",
     "cout": 150,
@@ -3927,7 +3770,6 @@
   {
     "id": "SV",
     "nom": "Salvador",
-    "emoji": "🇸🇻",
     "rang": "Marginal",
     "type": "Économique",
     "cout": 150,
@@ -3952,7 +3794,6 @@
   {
     "id": "WS",
     "nom": "Samoa",
-    "emoji": "🇼🇸",
     "rang": "Marginal",
     "type": "Isolationniste",
     "cout": 150,
@@ -3977,7 +3818,6 @@
   {
     "id": "ST",
     "nom": "Sao Tomé-et-Principe",
-    "emoji": "🇸🇹",
     "rang": "Marginal",
     "type": "Économique",
     "cout": 150,
@@ -4002,7 +3842,6 @@
   {
     "id": "SN",
     "nom": "Sénégal",
-    "emoji": "🇸🇳",
     "rang": "Émergent",
     "type": "Diplomatique",
     "cout": 350,
@@ -4027,7 +3866,6 @@
   {
     "id": "RS",
     "nom": "Serbie",
-    "emoji": "🇷🇸",
     "rang": "Émergent",
     "type": "Militaire",
     "cout": 350,
@@ -4052,7 +3890,6 @@
   {
     "id": "SC",
     "nom": "Seychelles",
-    "emoji": "🇸🇨",
     "rang": "Marginal",
     "type": "Économique",
     "cout": 150,
@@ -4077,7 +3914,6 @@
   {
     "id": "SL",
     "nom": "Sierra Leone",
-    "emoji": "🇸🇱",
     "rang": "Marginal",
     "type": "Économique",
     "cout": 150,
@@ -4102,8 +3938,7 @@
   {
     "id": "SG",
     "nom": "Singapour",
-    "emoji": "🇸🇬",
-    "rang": "Majeur",
+    "rang": "Établi",
     "type": "Économique",
     "cout": 550,
     "etat": 530,
@@ -4127,8 +3962,7 @@
   {
     "id": "SK",
     "nom": "Slovaquie",
-    "emoji": "🇸🇰",
-    "rang": "Majeur",
+    "rang": "Établi",
     "type": "Économique",
     "cout": 450,
     "etat": 510,
@@ -4152,8 +3986,7 @@
   {
     "id": "SI",
     "nom": "Slovénie",
-    "emoji": "🇸🇮",
-    "rang": "Majeur",
+    "rang": "Établi",
     "type": "Diplomatique",
     "cout": 450,
     "etat": 520,
@@ -4177,7 +4010,6 @@
   {
     "id": "SO",
     "nom": "Somalie",
-    "emoji": "🇸🇴",
     "rang": "Marginal",
     "type": "Militaire",
     "cout": 150,
@@ -4202,7 +4034,6 @@
   {
     "id": "SD",
     "nom": "Soudan",
-    "emoji": "🇸🇩",
     "rang": "Émergent",
     "type": "Militaire",
     "cout": 350,
@@ -4227,7 +4058,6 @@
   {
     "id": "SS",
     "nom": "Soudan du Sud",
-    "emoji": "🇸🇸",
     "rang": "Marginal",
     "type": "Militaire",
     "cout": 150,
@@ -4252,7 +4082,6 @@
   {
     "id": "LK",
     "nom": "Sri Lanka",
-    "emoji": "🇱🇰",
     "rang": "Émergent",
     "type": "Diplomatique",
     "cout": 350,
@@ -4277,8 +4106,7 @@
   {
     "id": "SE",
     "nom": "Suède",
-    "emoji": "🇸🇪",
-    "rang": "Majeur",
+    "rang": "Établi",
     "type": "Diplomatique",
     "cout": 550,
     "etat": 580,
@@ -4302,8 +4130,7 @@
   {
     "id": "CH",
     "nom": "Suisse",
-    "emoji": "🇨🇭",
-    "rang": "Majeur",
+    "rang": "Établi",
     "type": "Isolationniste",
     "cout": 550,
     "etat": 600,
@@ -4327,7 +4154,6 @@
   {
     "id": "SR",
     "nom": "Suriname",
-    "emoji": "🇸🇷",
     "rang": "Marginal",
     "type": "Isolationniste",
     "cout": 150,
@@ -4352,7 +4178,6 @@
   {
     "id": "SY",
     "nom": "Syrie",
-    "emoji": "🇸🇾",
     "rang": "Marginal",
     "type": "Militaire",
     "cout": 150,
@@ -4377,7 +4202,6 @@
   {
     "id": "TJ",
     "nom": "Tadjikistan",
-    "emoji": "🇹🇯",
     "rang": "Marginal",
     "type": "Isolationniste",
     "cout": 150,
@@ -4402,8 +4226,7 @@
   {
     "id": "TW",
     "nom": "Taïwan",
-    "emoji": "🇹🇼",
-    "rang": "Majeur",
+    "rang": "Établi",
     "type": "Économique",
     "cout": 550,
     "etat": 540,
@@ -4427,7 +4250,6 @@
   {
     "id": "TZ",
     "nom": "Tanzanie",
-    "emoji": "🇹🇿",
     "rang": "Émergent",
     "type": "Économique",
     "cout": 350,
@@ -4452,7 +4274,6 @@
   {
     "id": "TD",
     "nom": "Tchad",
-    "emoji": "🇹🇩",
     "rang": "Marginal",
     "type": "Militaire",
     "cout": 150,
@@ -4477,7 +4298,6 @@
   {
     "id": "TH",
     "nom": "Thaïlande",
-    "emoji": "🇹🇭",
     "rang": "Émergent",
     "type": "Économique",
     "cout": 350,
@@ -4502,7 +4322,6 @@
   {
     "id": "TL",
     "nom": "Timor oriental",
-    "emoji": "🇹🇱",
     "rang": "Marginal",
     "type": "Isolationniste",
     "cout": 150,
@@ -4527,7 +4346,6 @@
   {
     "id": "TG",
     "nom": "Togo",
-    "emoji": "🇹🇬",
     "rang": "Marginal",
     "type": "Économique",
     "cout": 150,
@@ -4552,7 +4370,6 @@
   {
     "id": "TO",
     "nom": "Tonga",
-    "emoji": "🇹🇴",
     "rang": "Marginal",
     "type": "Isolationniste",
     "cout": 150,
@@ -4577,7 +4394,6 @@
   {
     "id": "TT",
     "nom": "Trinité-et-Tobago",
-    "emoji": "🇹🇹",
     "rang": "Marginal",
     "type": "Économique",
     "cout": 150,
@@ -4602,7 +4418,6 @@
   {
     "id": "TN",
     "nom": "Tunisie",
-    "emoji": "🇹🇳",
     "rang": "Émergent",
     "type": "Diplomatique",
     "cout": 350,
@@ -4627,8 +4442,7 @@
   {
     "id": "TR",
     "nom": "Turquie",
-    "emoji": "🇹🇷",
-    "rang": "Majeur",
+    "rang": "Établi",
     "type": "Militaire",
     "cout": 550,
     "etat": 560,
@@ -4652,7 +4466,6 @@
   {
     "id": "TM",
     "nom": "Turkménistan",
-    "emoji": "🇹🇲",
     "rang": "Marginal",
     "type": "Isolationniste",
     "cout": 150,
@@ -4677,7 +4490,6 @@
   {
     "id": "TV",
     "nom": "Tuvalu",
-    "emoji": "🇹🇻",
     "rang": "Marginal",
     "type": "Isolationniste",
     "cout": 150,
@@ -4702,7 +4514,6 @@
   {
     "id": "UA",
     "nom": "Ukraine",
-    "emoji": "🇺🇦",
     "rang": "Émergent",
     "type": "Militaire",
     "cout": 350,
@@ -4727,7 +4538,6 @@
   {
     "id": "UY",
     "nom": "Uruguay",
-    "emoji": "🇺🇾",
     "rang": "Marginal",
     "type": "Diplomatique",
     "cout": 150,
@@ -4752,7 +4562,6 @@
   {
     "id": "VU",
     "nom": "Vanuatu",
-    "emoji": "🇻🇺",
     "rang": "Marginal",
     "type": "Isolationniste",
     "cout": 150,
@@ -4777,7 +4586,6 @@
   {
     "id": "VA",
     "nom": "Vatican",
-    "emoji": "🇻🇦",
     "rang": "Marginal",
     "type": "Diplomatique",
     "cout": 150,
@@ -4802,7 +4610,6 @@
   {
     "id": "VE",
     "nom": "Venezuela",
-    "emoji": "🇻🇪",
     "rang": "Émergent",
     "type": "Économique",
     "cout": 350,
@@ -4827,7 +4634,6 @@
   {
     "id": "VN",
     "nom": "Vietnam",
-    "emoji": "🇻🇳",
     "rang": "Émergent",
     "type": "Économique",
     "cout": 350,
@@ -4852,7 +4658,6 @@
   {
     "id": "YE",
     "nom": "Yémen",
-    "emoji": "🇾🇪",
     "rang": "Marginal",
     "type": "Militaire",
     "cout": 150,
@@ -4877,7 +4682,6 @@
   {
     "id": "ZM",
     "nom": "Zambie",
-    "emoji": "🇿🇲",
     "rang": "Marginal",
     "type": "Économique",
     "cout": 150,
@@ -4902,7 +4706,6 @@
   {
     "id": "ZW",
     "nom": "Zimbabwe",
-    "emoji": "🇿🇼",
     "rang": "Marginal",
     "type": "Isolationniste",
     "cout": 150,
