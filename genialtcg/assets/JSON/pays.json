@@ -43,9 +43,9 @@
       "cibles": ["deck", "jeu"],
       "variables": ["emplacement", "etat"],
       "valeurs": [[3, "main"], 50],
-      "description": "Exploite ses ressources pour vous faire piocher 3 cartes et soigner votre unité de 50."
+      "description": "Exploite ses ressources et vous fait piocher 3 cartes et vous soigne de 50."
     },
-    "lore": "Puissance clé du continent africain, bâtie sur d'immenses richesses minières."
+    "lore": "Puissance clé africaine bâtie sur d'immenses richesses minières."
   },
   {
     "id": "AL",
@@ -67,9 +67,9 @@
       "cibles": ["creditA", "banc"],
       "variables": [null, "etat"],
       "valeurs": [-20, 40],
-      "description": "Utilise son réseau de défense historique pour voler 20 crédits et soigner une unité du banc de 40."
+      "description": "Utilise son réseau de défense pour voler 20 crédits et soigner une unité du banc de 40."
     },
-    "lore": "Petit pays des Balkans autrefois fermé, parsemé de bunkers historiques."
+    "lore": "Petit pays des Balkans autrefois fermé, parsemé de bunkers."
   },
   {
     "id": "DZ",
@@ -115,7 +115,7 @@
       "cibles": ["jeuA", "bancA"],
       "variables": ["etat", "etat"],
       "valeurs": [-110, -50],
-      "description": "Déploie sa puissance industrielle pour infliger 110 dégâts en jeu et 50 à une carte du banc."
+      "description": "Déploie sa puissance industrielle et inflige 110 dégâts et 50 à une carte du banc."
     },
     "lore": "Cœur industriel de l'Europe, leader mondial de l'ingénierie."
   },
@@ -163,7 +163,7 @@
       "cibles": ["jeu", "banc"],
       "variables": ["etat", "etat"],
       "valeurs": [40, 30],
-      "description": "Utilise ses revenus pétroliers pour soigner votre unité de 40 et une unité du banc de 30."
+      "description": "Utilise ses revenus pétroliers pour vous soigner de 40 et une unité du banc de 30."
     },
     "lore": "Puissance pétrolière africaine en reconstruction rapide."
   },
@@ -213,7 +213,7 @@
       "valeurs": [-100, -45],
       "description": "Inonde le marché pour infliger 100 dégâts en jeu et 45 à une unité du banc."
     },
-    "lore": "Première puissance pétrolière mondiale au droit de l'homme vacillant"
+    "lore": "Première puissance pétrolière au droit de l'homme vacillant."
   },
   {
     "id": "AR",
@@ -237,7 +237,7 @@
       "valeurs": [-60, -20],
       "description": "Déstabilise l'adversaire en volant 60 crédits et infligeant 20 dégâts."
     },
-    "lore": "Puissance riche en ressources agricoles malgré ses défis économiques."
+    "lore": "Puissance riche en agriculture malgré ses défis économiques."
   },
   {
     "id": "AM",
@@ -333,7 +333,7 @@
       "valeurs": [-50, -40],
       "description": "Utilise ses revenus gaziers pour infliger 50 dégâts et voler 40 crédits."
     },
-    "lore": "Nation du Caucase affirmant sa supériorité régionale via ses ressources."
+    "lore": "Nation du Caucase affirmant sa supériorité régionale."
   },
   {
     "id": "BS",
@@ -427,7 +427,7 @@
       "cibles": ["deck", "banc"],
       "variables": ["emplacement", "etat"],
       "valeurs": [[2, "main"], 20],
-      "description": "Son émancipation permet de piocher 2 cartes et de soigner une unité du banc de 20."
+      "description": "Son émancipation permet de piocher 2 cartes."
     },
     "lore": "Jeune république caribéenne s'affirmant par son soft power."
   },
@@ -859,7 +859,7 @@
       "cibles": ["deck", "banc"],
       "variables": ["emplacement", "etat"],
       "valeurs": [[2, "main"], 25],
-      "description": "Sa position sécurisée permet de piocher 2 cartes et de soigner une unité du banc de 25."
+      "description": "Sa position permet de piocher 2 cartes et de soigner une unité du banc de 25."
     },
     "lore": "Archipel stable agissant comme un pont entre les continents."
   },
@@ -907,9 +907,9 @@
       "cibles": ["jeuA", "bancA"],
       "variables": ["etat", "etat"],
       "valeurs": [-160, -75],
-      "description": "Une démonstration de force totale infligeant 160 dégâts en jeu et 75 sur le banc."
+      "description": "Sa démonstration de force infligeant 160 dégâts en jeu et 75 sur le banc."
     },
-    "lore": "Géant asiatique en concurence directe avec les états unis et usine du monde."
+    "lore": "Géant asiatique en concurence directe avec les États-Unis."
   },
   {
     "id": "CY",
@@ -957,7 +957,7 @@
       "valeurs": [-75, -35],
       "description": "Mobilise ses forces spéciales pour infliger 75 dégâts en jeu et 35 sur le banc."
     },
-    "lore": "Nation en pleine transformation disposant d'une armée expérimentée."
+    "lore": "Nation en pleine transformation disposant d'une armée forte."
   },
   {
     "id": "KM",
@@ -1173,7 +1173,7 @@
       "valeurs": [-40, -25],
       "description": "Contrôle le détroit pour voler 40 crédits et infliger 25 dégâts."
     },
-    "lore": "Petit État abritant des bases militaires de nombreuses puissances."
+    "lore": "Petit État abritant des bases militaires de nombreuses États."
   },
   {
     "id": "DM",
@@ -1219,7 +1219,7 @@
       "cibles": ["creditA", "jeuA"],
       "variables": [null, "etat"],
       "valeurs": [-50, -30],
-      "description": "Contrôle le transit maritime mondial pour voler 50 crédits et infliger 30 dégâts d'usure."
+      "description": "Contrôle le transit maritime mondial pour voler 50 crédits et infliger 30 dégâts."
     },
     "lore": "Don du Nil et carrefour stratégique entre l'Afrique et l'Asie."
   },
@@ -1245,7 +1245,7 @@
       "valeurs": [-80, [2, "main"]],
       "description": "Utilise sa puissance financière pour capter 80 crédits et piocher 2 cartes."
     },
-    "lore": "Fédération de sept émirats devenue une plaque tournante de l'économie globale."
+    "lore": "Fédération de sept émirats devenue une plaque tournante de l'économie."
   },
   {
     "id": "EC",
@@ -1267,9 +1267,9 @@
       "cibles": ["jeu", "banc"],
       "variables": ["etat", "etat"],
       "valeurs": [40, 30],
-      "description": "Protège son écosystème unique pour soigner l'unité en jeu de 40 et une du banc de 30."
+      "description": "Protège son écosystème pour soigner l'unité en jeu de 40 et une du banc de 30."
     },
-    "lore": "Pays andin riche en biodiversité et premier exportateur mondial de bananes."
+    "lore": "Pays riche en biodiversité et premier exportateur de bananes."
   },
   {
     "id": "ER",
@@ -1293,7 +1293,7 @@
       "valeurs": [-90],
       "description": "Mise sur une défense hermétique pour infliger 90 dégâts à l'attaquant."
     },
-    "lore": "État de la Corne de l'Afrique doté d'une organisation militaire très stricte."
+    "lore": "État doté d'une organisation militaire très stricte."
   },
   {
     "id": "ES",
@@ -1315,9 +1315,9 @@
       "cibles": ["jeuA", "bancA"],
       "variables": ["etat", "etat"],
       "valeurs": [-80, -40],
-      "description": "Projette son influence culturelle et politique pour infliger 80 dégâts en jeu et 40 sur le banc."
+      "description": "Projette son influence culturelle et politique pour infliger 80 dégâts et 40 sur le banc."
     },
-    "lore": "Grande nation européenne dotée d'un rayonnement mondial via la langue espagnole."
+    "lore": "Grande nation européenne dotée d'un rayonnement mondial via sa langue."
   },
   {
     "id": "EE",
@@ -1365,7 +1365,7 @@
       "valeurs": [35, 25],
       "description": "Préserve ses coutumes pour soigner l'unité en jeu de 35 et une du banc de 25."
     },
-    "lore": "Dernière monarchie absolue d'Afrique, préservant ses racines culturelles."
+    "lore": "Dernière monarchie absolue d'Afrique, préservant ses racines."
   },
   {
     "id": "US",
@@ -1387,9 +1387,9 @@
       "cibles": ["jeuA", "bancA"],
       "variables": ["etat", "etat"],
       "valeurs": [-155, -75],
-      "description": "Déploie ses flottes et bases dans le monde entier pour infliger 155 dégâts en jeu et 75 sur le banc."
+      "description": "Déploie ses bases dans le monde entier pour infliger 155 dégâts et 75 au banc."
     },
-    "lore": "Première puissance militaire et économique mondiale, dotée du réseau d'alliances le plus étendu de l'histoire."
+    "lore": "Première puissance militaire et économique mondiale de l'histoire."
   },
   {
     "id": "ET",
@@ -1413,7 +1413,7 @@
       "valeurs": [-65, -30],
       "description": "Contrôle le débit du Nil Bleu pour infliger 65 dégâts et capter 30 crédits."
     },
-    "lore": "Seule nation africaine n'ayant jamais été colonisée, leader diplomatique régional."
+    "lore": "Seule nation africaine n'ayant jamais été colonisée, leader diplomatique."
   },
   {
     "id": "FJ",
@@ -1437,7 +1437,7 @@
       "valeurs": [[2, "main"], 30],
       "description": "Agit comme médiateur insulaire pour piocher 2 cartes et soigner le banc de 30."
     },
-    "lore": "Archipel du Pacifique central très actif dans les missions de paix de l'ONU."
+    "lore": "Archipel du Pacifique très actif dans les missions de paix de l'ONU."
   },
   {
     "id": "FI",
@@ -1483,9 +1483,9 @@
       "cibles": ["jeuA", "bancA"],
       "variables": ["etat", "etat"],
       "valeurs": [-125, -60],
-      "description": "Projette sa force sur tous les théâtres d'opération : 125 dégâts en jeu et 60 sur le banc."
+      "description": "Projette sa puissance militaire pour infliger 125 dégâts en jeu et 60 sur le banc."
     },
-    "lore": "Puissance nucléaire et membre permanent du Conseil de Sécurité de l'ONU."
+    "lore": "Puissance militaire et diplomatique a la révolution facile."
   },
   {
     "id": "GA",
@@ -1509,7 +1509,7 @@
       "valeurs": [-45, [1, "main"]],
       "description": "Exploite ses forêts et son pétrole pour voler 45 crédits et piocher 1 carte."
     },
-    "lore": "Pays équatorial riche en ressources naturelles et champion de la biodiversité."
+    "lore": "Pays équatorial riche en ressources naturelles et en biodiversité."
   },
   {
     "id": "GM",
@@ -1533,7 +1533,7 @@
       "valeurs": [40, 25],
       "description": "Son hospitalité légendaire soigne l'unité en jeu de 40 et une du banc de 25."
     },
-    "lore": "Plus petit pays d'Afrique continentale, situé le long du fleuve Gambie."
+    "lore": "Possède le statut du plus petit pays d'Afrique continentale."
   },
   {
     "id": "GE",
@@ -1581,7 +1581,7 @@
       "valeurs": [-60, [2, "main"]],
       "description": "Mobilise ses richesses minières pour voler 60 crédits et piocher 2 cartes."
     },
-    "lore": "Phare de la démocratie en Afrique de l'Ouest et grand producteur de cacao."
+    "lore": "Phare de la démocratie en Afrique et grand producteur de cacao."
   },
   {
     "id": "GR",
@@ -1605,7 +1605,7 @@
       "valeurs": [-55, -45],
       "description": "Sa flotte marchande mondiale lui permet de voler 55 crédits et d'infliger 45 dégâts."
     },
-    "lore": "Berceau de la démocratie possédant la plus grande flotte marchande au monde."
+    "lore": "Le pays possédant la plus grande flotte marchande au monde."
   },
   {
     "id": "GD",
@@ -1653,7 +1653,7 @@
       "valeurs": [35, 25],
       "description": "Son héritage ancestral soigne l'unité en jeu de 35 et une du banc de 25."
     },
-    "lore": "Pays le plus peuplé d'Amérique centrale au riche passé archéologique."
+    "lore": "Pays le plus peuplé d'Amérique centrale."
   },
   {
     "id": "GN",
@@ -1749,7 +1749,7 @@
       "valeurs": [-70, [2, "main"]],
       "description": "Exploite sa nouvelle richesse fulgurante pour voler 70 crédits et piocher 2 cartes."
     },
-    "lore": "Nation sud-américaine connaissant la plus forte croissance économique au monde."
+    "lore": "Nation connaissant la plus forte croissance économique au monde."
   },
   {
     "id": "HT",
@@ -1773,7 +1773,7 @@
       "valeurs": [-85],
       "description": "Sa force historique de résistance inflige 85 dégâts à l'unité en jeu adverse."
     },
-    "lore": "Première république noire indépendante au monde, à l'histoire héroïque."
+    "lore": "Lourd passé colonial, à l'histoire héroïque."
   },
   {
     "id": "HN",
@@ -1797,7 +1797,7 @@
       "valeurs": [-35, [1, "main"]],
       "description": "Utilise ses exportations agricoles pour voler 35 crédits et piocher 1 carte."
     },
-    "lore": "Nation d'Amérique centrale montagneuse dotée d'importantes ressources minières."
+    "lore": "Nation dotée d'importantes ressources minières."
   },
   {
     "id": "HU",
@@ -1819,7 +1819,7 @@
       "cibles": ["jeuA", "bancA"],
       "variables": ["etat", "etat"],
       "valeurs": [-85, -35],
-      "description": "Prend une position diplomatique ferme infligeant 85 dégâts en jeu et 35 sur le banc."
+      "description": "Prend une position diplomatique ferme infligeant 85 dégâts et 35 sur le banc."
     },
     "lore": "Pays d'Europe centrale doté d'une forte identité culturelle et politique."
   },
@@ -1845,7 +1845,7 @@
       "valeurs": [-85],
       "description": "Rappel des essais nucléaires subis sur son sol pour infliger 85 dégâts à l'adversaire."
     },
-    "lore": "Archipel du Pacifique aujourd'hui en première ligne face à la montée des eaux."
+    "lore": "Archipel du Pacifique en première ligne face à la montée des eaux."
   },
   {
     "id": "IN",
@@ -1867,9 +1867,9 @@
       "cibles": ["jeuA", "bancA"],
       "variables": ["etat", "etat"],
       "valeurs": [-140, -65],
-      "description": "Mobilise sa masse démographique pour infliger 140 dégâts en jeu et 65 sur le banc."
+      "description": "Mobilise sa masse démographique pour infliger 140 dégâts et 65 sur le banc."
     },
-    "lore": "Pays le plus peuplé du monde, puissance nucléaire et spatiale majeure."
+    "lore": "Pays le plus peuplé du monde, puissance nucléaire et spatiale."
   },
   {
     "id": "ID",
@@ -1893,7 +1893,7 @@
       "valeurs": [-65, [2, "main"]],
       "description": "Exploite ses milliers d'îles pour voler 65 crédits et piocher 2 cartes."
     },
-    "lore": "Plus grand archipel du monde et première économie d'Asie du Sud-Est."
+    "lore": "Plus grand archipel du monde."
   },
   {
     "id": "IQ",
@@ -1917,7 +1917,7 @@
       "valeurs": [-80, -35],
       "description": "Lace une offensive tactique infligeant 80 dégâts en jeu et 35 sur le banc."
     },
-    "lore": "Terre de Mésopotamie possédant d'immenses réserves d'hydrocarbures."
+    "lore": "Terre possédant d'immenses réserves d'hydrocarbures."
   },
   {
     "id": "IR",
@@ -1965,7 +1965,7 @@
       "valeurs": [-75, [2, "main"]],
       "description": "Attire les géants du tech pour voler 75 crédits et piocher 2 cartes."
     },
-    "lore": "Hub européen pour les multinationales technologiques et financières."
+    "lore": "Hub européen pour les multinationales."
   },
   {
     "id": "IS",
@@ -2061,7 +2061,7 @@
       "valeurs": [[2, "main"], 35],
       "description": "Son aura culturelle permet de piocher 2 cartes et de soigner le banc de 35."
     },
-    "lore": "Île caribéenne au rayonnement mondial via sa musique et ses athlètes."
+    "lore": "Île caribéenne au rayonnement mondial. "
   },
   {
     "id": "JP",
@@ -2083,7 +2083,7 @@
       "cibles": ["jeuA", "bancA"],
       "variables": ["etat", "etat"],
       "valeurs": [-130, -60],
-      "description": "Utilise sa technologie de pointe pour infliger 130 dégâts en jeu et 60 sur le banc."
+      "description": "Utilise sa technologie de pointe pour infliger 130 dégâts et 60 sur le banc."
     },
     "lore": "Archipel alliant traditions millénaires et futurisme technologique."
   },
@@ -2109,7 +2109,7 @@
       "valeurs": [45, 30],
       "description": "Son rôle de stabilisateur soigne l'unité en jeu de 45 et une du banc de 30."
     },
-    "lore": "Havre de stabilité et pivot diplomatique au cœur du Moyen-Orient."
+    "lore": "Havre de stabilité et pivot diplomatique."
   },
   {
     "id": "KZ",
@@ -2131,9 +2131,9 @@
       "cibles": ["creditA", "deck"],
       "variables": [null, "emplacement"],
       "valeurs": [-60, [2, "main"]],
-      "description": "Exploite ses ressources d'uranium et de pétrole pour voler 60 crédits et piocher 2 cartes."
+      "description": "Exploite ses ressources naturelles pour voler 60 crédits et piocher 2 cartes."
     },
-    "lore": "Plus grand pays enclavé au monde et leader économique d'Asie centrale."
+    "lore": "Plus grand pays enclavé au monde."
   },
   {
     "id": "KE",
@@ -2205,7 +2205,7 @@
       "valeurs": [[1, "main"], 45],
       "description": "Sa position à la ligne de date soigne le banc de 45 et fait piocher 1 carte."
     },
-    "lore": "Archipel du Pacifique, premier pays au monde à entrer dans la nouvelle journée."
+    "lore": "Premier pays au monde à entrer dans la nouvelle journée."
   },
   {
     "id": "XK",
@@ -2229,7 +2229,7 @@
       "valeurs": [[2, "main"], 30],
       "description": "Affirme sa souveraineté pour piocher 2 cartes et soigner l'unité en jeu de 30."
     },
-    "lore": "Jeune État des Balkans dont l'histoire récente est marquée par la quête d'indépendance."
+    "lore": "Jeune État à l'histoire marquée par la quête d'indépendance."
   },
   {
     "id": "KW",
@@ -2253,7 +2253,7 @@
       "valeurs": [-70, [1, "main"]],
       "description": "Utilise sa richesse financière pour voler 70 crédits et piocher 1 carte."
     },
-    "lore": "Petit État du Golfe possédant une monnaie parmi les plus fortes au monde."
+    "lore": "Petit État du Golfe possédant une monnaie parmi les plus fortes."
   },
   {
     "id": "LA",
@@ -2301,7 +2301,7 @@
       "valeurs": [50, 25],
       "description": "Son altitude protectrice soigne l'unité en jeu de 50 et le banc de 25."
     },
-    "lore": "Enclave montagneuse en Afrique du Sud, située entièrement à plus de 1400m."
+    "lore": "Enclave montagneuse, située entièrement à plus de 1400m."
   },
   {
     "id": "LV",
@@ -2349,7 +2349,7 @@
       "valeurs": [55, 30],
       "description": "Sa capacité de reconstruction soigne l'unité en jeu de 55 et le banc de 30."
     },
-    "lore": "Carrefour culturel et financier historique de la Méditerranée orientale."
+    "lore": "Carrefour culturel et financier historique de la Méditerranée."
   },
   {
     "id": "LR",
@@ -2373,7 +2373,7 @@
       "valeurs": [-40, [1, "main"]],
       "description": "Enregistre les navires mondiaux pour voler 40 crédits et piocher 1 carte."
     },
-    "lore": "Plus ancienne république d'Afrique, possédant un registre maritime majeur."
+    "lore": "Plus ancienne république d'Afrique."
   },
   {
     "id": "LY",
@@ -2395,7 +2395,7 @@
       "cibles": ["jeuA", "bancA"],
       "variables": ["etat", "etat"],
       "valeurs": [-75, -40],
-      "description": "Mobilise ses ressources pour une frappe infligeant 75 dégâts en jeu et 40 sur le banc."
+      "description": "Mobilise ses ressources pour une frappe infligeant 75 dégâts et 40 sur le banc."
     },
     "lore": "Détenteur des plus grandes réserves de pétrole d'Afrique."
   },
@@ -2421,7 +2421,7 @@
       "valeurs": [-65, [1, "main"]],
       "description": "Manipule les actifs pour voler 65 crédits et piocher 1 carte."
     },
-    "lore": "Petite principauté alpine figurant parmi les pays les plus riches par habitant."
+    "lore": "Parmi les pays les plus riches par habitant."
   },
   {
     "id": "LT",
@@ -2467,9 +2467,9 @@
       "cibles": ["creditA", "deck"],
       "variables": [null, "emplacement"],
       "valeurs": [-80, [2, "main"]],
-      "description": "Sa puissance bancaire permet de détourner 80 crédits adverses et de piocher 2 cartes."
+      "description": "Sa puissance bancaire permet de voler 80 crédits et de piocher 2 cartes."
     },
-    "lore": "Cœur financier de l'Europe et siège de nombreuses institutions judiciaires."
+    "lore": "Cœur financier de l'Europe et siège de nombreuses institutions."
   },
   {
     "id": "MK",
@@ -2541,7 +2541,7 @@
       "valeurs": [-55, [2, "main"]],
       "description": "Son dynamisme commercial vole 55 crédits et fait piocher 2 cartes."
     },
-    "lore": "Puissance d'Asie du Sud-Est, leader dans l'électronique et l'huile de palme."
+    "lore": "Puissance leader dans l'électronique et l'huile de palme."
   },
   {
     "id": "MW",
@@ -2589,7 +2589,7 @@
       "valeurs": [[2, "main"], 40],
       "description": "Son plaidoyer mondial fait piocher 2 cartes et soigne le banc de 40."
     },
-    "lore": "Archipel paradisiaque en première ligne face au réchauffement climatique."
+    "lore": "Pays paradisiaque en première ligne face au réchauffement climatique."
   },
   {
     "id": "ML",
@@ -2613,7 +2613,7 @@
       "valeurs": [-50, -25],
       "description": "Utilise ses mines d'or pour voler 50 crédits et infliger 25 dégâts."
     },
-    "lore": "Héritier de grands empires médiévaux et riche en ressources minières."
+    "lore": "Riche en ressources minières et éritier de grands empires médiévaux."
   },
   {
     "id": "MT",
@@ -2709,7 +2709,7 @@
       "valeurs": [-40, [1, "main"]],
       "description": "Exploite ses ressources minérales pour voler 40 crédits et piocher 1 carte."
     },
-    "lore": "Vaste pays désertique riche en fer, en gaz et en ressources halieutiques."
+    "lore": "Vaste pays désertique riche en fer, en gaz et en poisson."
   },
   {
     "id": "MX",
@@ -2733,7 +2733,7 @@
       "valeurs": [-75, [2, "main"]],
       "description": "Sa puissance manufacturière vole 75 crédits et fait piocher 2 cartes."
     },
-    "lore": "Quinzième puissance économique mondiale et carrefour entre les Amériques."
+    "lore": "Carrefour entre les Amériques."
   },
   {
     "id": "FM",
@@ -2757,7 +2757,7 @@
       "valeurs": [40, 20],
       "description": "Ses alliances pacifiques soignent l'unité en jeu de 40 et le banc de 20."
     },
-    "lore": "État composé de centaines de petites îles réparties dans le Pacifique."
+    "lore": "État composé de centaines de petites îles dans le Pacifique."
   },
   {
     "id": "MD",
@@ -2781,7 +2781,7 @@
       "valeurs": [[2, "main"], 30],
       "description": "Sa quête d'intégration fait piocher 2 cartes et soigne le banc de 30."
     },
-    "lore": "Pays enclavé entre la Roumanie et l'Ukraine, riche d'une tradition viticole."
+    "lore": "Pays riche d'une tradition viticole."
   },
   {
     "id": "MC",
@@ -2805,7 +2805,7 @@
       "valeurs": [-85, [1, "main"]],
       "description": "Attire les capitaux mondiaux pour voler 85 crédits et piocher 1 carte."
     },
-    "lore": "Cité-État souveraine sur la Côte d'Azur, symbole de luxe et de finance."
+    "lore": "Cité-État sur la Côte d'Azur, symbole de luxe et de finance."
   },
   {
     "id": "MN",
@@ -2829,7 +2829,7 @@
       "valeurs": [-30, 35],
       "description": "Sa stratégie d'équilibre inflige 30 dégâts et soigne le banc de 35."
     },
-    "lore": "Nation des steppes aux ressources minières colossales, entre Chine et Russie."
+    "lore": "Nation des steppes aux ressources minières colossales."
   },
   {
     "id": "ME",
@@ -2901,7 +2901,7 @@
       "valeurs": [-50, [1, "main"]],
       "description": "Exploite ses richesses radioactives pour voler 50 crédits et piocher 1 carte."
     },
-    "lore": "Vaste pays désertique, l'un des plus stables et des moins peuplés d'Afrique."
+    "lore": "Vaste pays, l'un des plus stables et des moins peuplés d'Afrique."
   },
   {
     "id": "NR",
@@ -2997,7 +2997,7 @@
       "valeurs": [-45, -30],
       "description": "Utilise ses mines d'uranium pour voler 45 crédits et infliger 30 dégâts."
     },
-    "lore": "Pays sahélien pivot de la lutte antiterroriste et fournisseur majeur d'uranium."
+    "lore": "Pays sahélien fournisseur majeur d'uranium."
   },
   {
     "id": "NG",
@@ -3021,7 +3021,7 @@
       "valeurs": [-70, [2, "main"]],
       "description": "Sa puissance démographique et pétrolière vole 70 crédits et fait piocher 2 cartes."
     },
-    "lore": "Pays le plus peuplé d'Afrique et première puissance économique du continent."
+    "lore": "Pays le plus peuplé d'Afrique à la forte puissance économique."
   },
   {
     "id": "NO",
@@ -3069,7 +3069,7 @@
       "valeurs": [75, 50],
       "description": "Son isolement paisible soigne l'unité en jeu de 75 et le banc de 50."
     },
-    "lore": "Nation insulaire isolée, pionnière en matière de droits sociaux et d'écologie."
+    "lore": "Nation insulaire pionnière en matière de droits sociaux et d'écologie."
   },
   {
     "id": "OM",
@@ -3165,7 +3165,7 @@
       "valeurs": [-100, -50],
       "description": "Sa puissance nucléaire inflige 100 dégâts en jeu et 50 sur le banc."
     },
-    "lore": "Seule puissance nucléaire du monde musulman, située au carrefour de l'Asie."
+    "lore": "Puissance nucléaire positionnée au carrefour de l'Asie."
   },
   {
     "id": "PW",
@@ -3213,7 +3213,7 @@
       "valeurs": [[2, "main"], 45],
       "description": "Son plaidoyer diplomatique fait piocher 2 cartes et soigne le banc de 45."
     },
-    "lore": "Territoire dont la quête de souveraineté est un enjeu majeur de la géopolitique mondiale."
+    "lore": "Territoire détruit par la guerre en proie à la famine."
   },
   {
     "id": "PA",
@@ -3237,7 +3237,7 @@
       "valeurs": [-65, [2, "main"]],
       "description": "Le contrôle du canal vole 65 crédits et fait piocher 2 cartes."
     },
-    "lore": "Carrefour du commerce mondial grâce à son célèbre canal interocéanique."
+    "lore": "Carrefour du commerce mondial grâce à son célèbre canal."
   },
   {
     "id": "PG",
@@ -3285,7 +3285,7 @@
       "valeurs": [-35, 45],
       "description": "Son export d'énergie vole 35 crédits et soigne l'unité en jeu de 45."
     },
-    "lore": "Pays enclavé d'Amérique du Sud, géant de l'hydroélectricité et du soja."
+    "lore": "Pays enclavé, géant de l'hydroélectricité et du soja."
   },
   {
     "id": "NL",
@@ -3309,7 +3309,7 @@
       "valeurs": [-95, [3, "main"]],
       "description": "Le plus grand port d'Europe vole 95 crédits et fait piocher 3 cartes."
     },
-    "lore": "Puissance commerciale historique et leader mondial de l'agro-technologie."
+    "lore": "Puissance commerciale et leader mondial de l'agro-technologie."
   },
   {
     "id": "PE",
@@ -3333,7 +3333,7 @@
       "valeurs": [-60, [2, "main"]],
       "description": "Ses exportations minières volent 60 crédits et font piocher 2 cartes."
     },
-    "lore": "Ancien cœur de l'Empire Inca, devenu un exportateur minier et agricole majeur."
+    "lore": "Ancienne terre Inca, devenu un exportateur minier et agricole."
   },
   {
     "id": "PH",
@@ -3357,7 +3357,7 @@
       "valeurs": [-65, -35],
       "description": "Sa position stratégique inflige 65 dégâts en jeu et 35 sur le banc."
     },
-    "lore": "Archipel d'Asie du Sud-Est, pivot de la sécurité maritime dans le Pacifique."
+    "lore": "Archipel pivot de la sécurité maritime dans le Pacifique."
   },
   {
     "id": "PL",
@@ -3405,7 +3405,7 @@
       "valeurs": [-55, [2, "main"]],
       "description": "Son immense domaine maritime vole 55 crédits et fait piocher 2 cartes."
     },
-    "lore": "Ancienne puissance maritime, aujourd'hui hub technologique et touristique."
+    "lore": "Ancienne puissance maritime, aujourd'hui hub touristique."
   },
   {
     "id": "QA",
@@ -3429,11 +3429,11 @@
       "valeurs": [-85, [2, "main"]],
       "description": "Son soft power par les événements vole 85 crédits et fait piocher 2 cartes."
     },
-    "lore": "Leader mondial du gaz naturel liquéfié et médiateur diplomatique influent."
+    "lore": "Leader mondial du GNL et médiateur diplomatique influent."
   },
   {
     "id": "CF",
-    "nom": "RCA.",
+    "nom": "RCA",
     "rang": "Marginal",
     "type": "Militaire",
     "cout": 150,
@@ -3453,7 +3453,7 @@
       "valeurs": [-40, -35],
       "description": "Ses diamants et son or volent 40 crédits et infligent 35 dégâts."
     },
-    "lore": "Pays au cœur du continent, riche en ressources mais marqué par l'instabilité."
+    "lore": "Pays riche en ressources mais marqué par l'instabilité."
   },
   {
     "id": "CD",
@@ -3477,7 +3477,7 @@
       "valeurs": [-80, -40],
       "description": "Son monopole sur le cobalt vole 80 crédits et inflige 40 dégâts."
     },
-    "lore": "Scandale géologique possédant les plus grandes réserves de cobalt au monde."
+    "lore": "Pays possédant les plus grandes réserves de cobalt au monde."
   },
   {
     "id": "DO",
@@ -3501,7 +3501,7 @@
       "valeurs": [-45, 30],
       "description": "Son économie touristique vole 45 crédits et soigne le banc de 30."
     },
-    "lore": "Première économie des Caraïbes, partageant l'île d'Hispaniola avec Haïti."
+    "lore": "Pays partageant l'île d'Hispaniola avec Haïti."
   },
   {
     "id": "CG",
@@ -3525,7 +3525,7 @@
       "valeurs": [-50, [1, "main"]],
       "description": "Son exploitation offshore vole 50 crédits et fait piocher 1 carte."
     },
-    "lore": "Pays d'Afrique centrale, producteur de pétrole et gardien de la forêt équatoriale."
+    "lore": "Pays producteur de pétrole et gardien de la forêt équatoriale."
   },
   {
     "id": "CZ",
@@ -3573,7 +3573,7 @@
       "valeurs": [-70, -30],
       "description": "Sa défense côtière inflige 70 dégâts en jeu et 30 sur le banc."
     },
-    "lore": "Plus grand pays d'Europe du Sud-Est, membre clé de l'OTAN sur le flanc oriental."
+    "lore": "Membre clé de l'OTAN sur le flanc oriental."
   },
   {
     "id": "GB",
@@ -3621,7 +3621,7 @@
       "valeurs": [-150, -70],
       "description": "Une offensive d'usure totale infligeant 150 dégâts en jeu et 70 sur le banc."
     },
-    "lore": "Plus vaste pays du monde, première puissance nucléaire et géant énergétique."
+    "lore": "Plus grand pays du monde, puissance nucléaire et énergétique."
   },
   {
     "id": "RW",
@@ -3645,7 +3645,7 @@
       "valeurs": [[2, "main"], 45],
       "description": "Sa gestion rigoureuse fait piocher 2 cartes et soigne le banc de 45."
     },
-    "lore": "Pays des mille collines, devenu un hub technologique et sécuritaire en Afrique."
+    "lore": "Pays des mille collines, devenu un hub technologique en Afrique."
   },
   {
     "id": "KN",
@@ -3669,7 +3669,7 @@
       "valeurs": [-45, [1, "main"]],
       "description": "Vend des passeports pour voler 45 crédits et piocher 1 carte."
     },
-    "lore": "Le plus petit État des Amériques, pionnier des programmes de citoyenneté économique."
+    "lore": "Le plus petit État des Amériques."
   },
   {
     "id": "SM",
@@ -3741,7 +3741,7 @@
       "valeurs": [[1, "main"], 40],
       "description": "Son prestige naturel fait piocher 1 carte et soigne le banc de 40."
     },
-    "lore": "Île des Caraïbes célèbre pour ses deux aiguilles volcaniques classées à l'UNESCO."
+    "lore": "Île célèbre pour ses deux aiguilles volcaniques classées à l'UNESCO."
   },
   {
     "id": "SB",
@@ -3765,7 +3765,7 @@
       "valeurs": [40, 30],
       "description": "Ses barrières naturelles soignent l'unité en jeu de 40 et le banc de 30."
     },
-    "lore": "Vaste archipel mélanésien au centre d'enjeux géopolitiques dans le Pacifique."
+    "lore": "Vaste archipel mélanésien au centre d'enjeux géopolitiques."
   },
   {
     "id": "SV",
@@ -3789,7 +3789,7 @@
       "valeurs": [-60, [1, "main"]],
       "description": "Son pari crypto vole 60 crédits mais ne fait piocher qu'une carte."
     },
-    "lore": "Premier pays au monde à avoir adopté le Bitcoin comme monnaie légale."
+    "lore": "Premier pays au monde à avoir adopté le Bitcoin comme monnaie."
   },
   {
     "id": "WS",
@@ -3837,7 +3837,7 @@
       "valeurs": [-30, 25],
       "description": "Son chocolat raffiné vole 30 crédits et soigne le banc de 25."
     },
-    "lore": "Petit État insulaire africain, ancien premier producteur mondial de cacao."
+    "lore": "Petit État insulaire, ancien premier producteur mondial de cacao."
   },
   {
     "id": "SN",
@@ -3957,7 +3957,7 @@
       "valeurs": [-100, [3, "main"]],
       "description": "Son contrôle du trafic maritime vole 100 crédits et fait piocher 3 cartes."
     },
-    "lore": "Cité-État hyper-développée et plaque tournante de la finance mondiale."
+    "lore": "Cité-État hyper-développée et plaque tournante de la finance."
   },
   {
     "id": "SK",
@@ -4005,7 +4005,7 @@
       "valeurs": [70, 45],
       "description": "Son écologie avancée soigne l'unité en jeu de 70 et le banc de 45."
     },
-    "lore": "Joyau vert de l'Europe centrale, membre de la zone euro et de l'OTAN."
+    "lore": "Joyau vert de l'Europe centrale, membre de la zone euro."
   },
   {
     "id": "SO",
@@ -4053,7 +4053,7 @@
       "valeurs": [-80, -40],
       "description": "Sa position hydraulique stratégique inflige 80 dégâts en jeu et 40 sur le banc."
     },
-    "lore": "Grand pays africain au carrefour du monde arabe et de l'Afrique subsaharienne."
+    "lore": "Grand pays africain en pleine guerre civile."
   },
   {
     "id": "SS",
@@ -4077,7 +4077,7 @@
       "valeurs": [-65, -30],
       "description": "Son pétrole brut vole 65 crédits et inflige 30 dégâts d'usure."
     },
-    "lore": "Le plus jeune pays du monde, né d'une longue lutte pour l'indépendance."
+    "lore": "Le plus jeune pays du monde, né d'une longue lutte."
   },
   {
     "id": "LK",
@@ -4125,7 +4125,7 @@
       "valeurs": [-95, 65],
       "description": "Son armement high-tech inflige 95 dégâts et soigne votre unité de 65."
     },
-    "lore": "Puissance technologique du Nord, leader mondial de l'innovation et du design."
+    "lore": "Puissance technologique, leader mondial de l'innovation et du design."
   },
   {
     "id": "CH",
@@ -4149,7 +4149,7 @@
       "valeurs": [100, 70],
       "description": "Son inviolabilité soigne l'unité en jeu de 100 et le banc de 70."
     },
-    "lore": "Havre de stabilité financière et siège de nombreuses organisations internationales."
+    "lore": "Havre de stabilité financière et siège de nombreuses organisations."
   },
   {
     "id": "SR",
@@ -4173,7 +4173,7 @@
       "valeurs": [50, 35],
       "description": "Sa jungle impénétrable soigne l'unité en jeu de 50 et le banc de 35."
     },
-    "lore": "Plus petit pays d'Amérique du Sud, recouvert à 90% par la forêt tropicale."
+    "lore": "Plus petit pays d'Amérique du Sud, recouvert à 90% par la forêt."
   },
   {
     "id": "SY",
@@ -4197,7 +4197,7 @@
       "valeurs": [-85, -35],
       "description": "Ses tactiques de guérilla infligent 85 dégâts en jeu et 35 sur le banc."
     },
-    "lore": "Pays au carrefour de l'Orient, marqué par une décennie de conflits majeurs."
+    "lore": "Pays marqué par une décennie de conflits."
   },
   {
     "id": "TJ",
@@ -4245,7 +4245,7 @@
       "valeurs": [-90, -50],
       "description": "Son monopole sur les puces inflige 90 dégâts et vole 50 crédits."
     },
-    "lore": "Leader mondial incontesté des semi-conducteurs et enjeu géopolitique majeur."
+    "lore": "Leader des semi-conducteurs au enjeu géopolitique majeur."
   },
   {
     "id": "TZ",
@@ -4269,7 +4269,7 @@
       "valeurs": [-55, [2, "main"]],
       "description": "Son tourisme et ses minerais volent 55 crédits et font piocher 2 cartes."
     },
-    "lore": "Pays d'Afrique de l'Est abritant le Serengeti et le point culminant du continent."
+    "lore": "Pays d'Afrique de l'Est abritant le Serengeti."
   },
   {
     "id": "TD",
@@ -4293,7 +4293,7 @@
       "valeurs": [-90, -40],
       "description": "Son armée endurcie inflige 90 dégâts en jeu et 40 sur le banc."
     },
-    "lore": "Puissance militaire régionale, pivot de la sécurité en Afrique centrale et au Sahel."
+    "lore": "Puissance militaire régionale, pivot de la sécurité en Afrique."
   },
   {
     "id": "TH",
@@ -4317,7 +4317,7 @@
       "valeurs": [-65, [2, "main"]],
       "description": "Sa puissance industrielle vole 65 crédits et fait piocher 2 cartes."
     },
-    "lore": "Deuxième économie d'Asie du Sud-Est, carrefour touristique et manufacturier."
+    "lore": "Deuxième économie d'Asie du Sud-Est, carrefour touristique."
   },
   {
     "id": "TL",
@@ -4341,7 +4341,7 @@
       "valeurs": [-40, 30],
       "description": "Ses gisements en mer volent 40 crédits et soignent le banc de 30."
     },
-    "lore": "Jeune nation insulaire ayant lutté pour son indépendance de l'Indonésie."
+    "lore": "Jeune nation insulaire ayant lutté pour son indépendance."
   },
   {
     "id": "TG",
@@ -4389,7 +4389,7 @@
       "valeurs": [50, 35],
       "description": "Sa lignée royale millénaire soigne l'unité en jeu de 50 et le banc de 35."
     },
-    "lore": "Seule monarchie du Pacifique n'ayant jamais perdu sa souveraineté."
+    "lore": "Seule monarchie du Pacifique."
   },
   {
     "id": "TT",
@@ -4413,7 +4413,7 @@
       "valeurs": [-60, [1, "main"]],
       "description": "Sa richesse gazière vole 60 crédits et fait piocher 1 carte."
     },
-    "lore": "Nation caribéenne industrialisée, leader régional dans les hydrocarbures."
+    "lore": "Nation caribéenne leader régional dans les hydrocarbures."
   },
   {
     "id": "TN",
@@ -4437,7 +4437,7 @@
       "valeurs": [[2, "main"], 45],
       "description": "Son aura historique fait piocher 2 cartes et soigne le banc de 45."
     },
-    "lore": "Nation méditerranéenne au riche passé culturel et au capital humain élevé."
+    "lore": "Nation méditerranéenne au riche passé culturel."
   },
   {
     "id": "TR",
@@ -4485,7 +4485,7 @@
       "valeurs": [-75, -45],
       "description": "Ses réserves de gaz massives infligent 75 dégâts et volent 45 crédits."
     },
-    "lore": "L'un des pays les plus fermés au monde, possédant d'immenses réserves de gaz."
+    "lore": "L'un des pays les plus fermés au monde."
   },
   {
     "id": "TV",
@@ -4509,7 +4509,7 @@
       "valeurs": [-50, [2, "main"]],
       "description": "Loue son extension internet pour voler 50 crédits et piocher 2 cartes."
     },
-    "lore": "Micro-État du Pacifique, l'un des pays les plus menacés par la montée des eaux."
+    "lore": "Micro-État, l'un des pays les plus menacés par la montée des eaux."
   },
   {
     "id": "UA",
@@ -4533,7 +4533,7 @@
       "valeurs": [-95, -45],
       "description": "Son endurance militaire et agricole inflige 95 dégâts en jeu et 45 sur le banc."
     },
-    "lore": "Vaste pays d'Europe de l'Est doté de terres fertiles et d'une force de résilience éprouvée."
+    "lore": "Vaste pays doté de terres fertiles et d'une force de résilience éprouvée."
   },
   {
     "id": "UY",
@@ -4557,7 +4557,7 @@
       "valeurs": [60, 45],
       "description": "Sa stabilité démocratique soigne l'unité en jeu de 60 et le banc de 45."
     },
-    "lore": "Pays pionnier dans les droits sociaux et les énergies renouvelables en Amérique latine."
+    "lore": "Pays pionnier dans les droits sociaux et les énergies renouvelables."
   },
   {
     "id": "VU",
@@ -4605,7 +4605,7 @@
       "valeurs": [90, 60],
       "description": "Son autorité morale soigne l'unité en jeu de 90 et le banc de 60."
     },
-    "lore": "Plus petit État souverain au monde, centre spirituel de l'Église catholique."
+    "lore": "Plus petit État au monde, centre spirituel de l'Église catholique."
   },
   {
     "id": "VE",
@@ -4629,7 +4629,7 @@
       "valeurs": [-85, -35],
       "description": "Ses réserves records de brut volent 85 crédits et infligent 35 dégâts."
     },
-    "lore": "Pays possédant les plus grandes réserves de pétrole prouvées de la planète."
+    "lore": "Pays possédant les plus grandes réserves de pétrole de la planète."
   },
   {
     "id": "VN",
@@ -4677,7 +4677,7 @@
       "valeurs": [-60, -35],
       "description": "Son contrôle du détroit vole 60 crédits et inflige 35 dégâts."
     },
-    "lore": "Pays à la position maritime ultra-stratégique, marqué par une crise humanitaire sévère."
+    "lore": "Pays à la position maritime stratégique."
   },
   {
     "id": "ZM",
@@ -4701,7 +4701,7 @@
       "valeurs": [-55, [1, "main"]],
       "description": "Ses mines de cuivre volent 55 crédits et font piocher 1 carte."
     },
-    "lore": "L'un des plus grands producteurs mondiaux de cuivre de haute qualité."
+    "lore": "L'un des plus grands producteurs mondiaux de cuivre de qualité."
   },
   {
     "id": "ZW",
