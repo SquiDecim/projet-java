@@ -453,19 +453,18 @@ public class GameView implements Screen {
 
         return null;
     }
+    public CardSlot getFirstEmptyBenchSlot(){
+        for (CardSlot slot : benchBottomSlots){
+            if (slot.isEmpty()) return slot;
+        }
+        return null;
+    }
 
     public CardSlot findSlotContaining(CardDecal card) {
         for (CardSlot slot : benchBottomSlots) {
             if (slot.getCard() == card) return slot;
         }
         if (tableSlot.getCard() == card) return tableSlot;
-        return null;
-    }
-
-    public CardSlot getFirstEmptyBenchSlot() {
-        for (CardSlot slot : benchBottomSlots) {
-            if (slot.isEmpty()) return slot;
-        }
         return null;
     }
 

@@ -9,6 +9,8 @@ import io.github.squidecim.genialtcg.view.CardDecal;
 import io.github.squidecim.genialtcg.view.CardSlot;
 import io.github.squidecim.genialtcg.view.GameView;
 
+import javax.smartcardio.Card;
+
 public class GameController implements InputProcessor {
 
     private final GameView view;
@@ -81,9 +83,13 @@ public class GameController implements InputProcessor {
                 draggedCard = null;
                 return true;
             }
-            if (toBench && slot.isEmpty()) {
-                model.moveFromHandToBench(draggedCard.getData());
-                view.dropCardOnSlot(draggedCard, slot);
+
+            if (toBench) {
+                CardSlot firstSlot = view.getFirstEmptyBenchSlot();
+                if (firstSlot != null) {
+                    model.moveFromHandToBench(draggedCard.getData());
+                    view.dropCardOnSlot(draggedCard, firstSlot);
+                }
             } else if (toTable && slot.isEmpty()) {
                 model.moveFromHandToTable(draggedCard.getData());
                 view.dropCardOnSlot(draggedCard, slot);
