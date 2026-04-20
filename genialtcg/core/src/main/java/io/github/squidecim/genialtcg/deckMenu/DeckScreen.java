@@ -31,7 +31,7 @@ public class DeckScreen implements Screen {
         root.setFillParent(true);
         stage.addActor(root);
 
-        // --- Bouton Retour ---
+        // Bouton Retour
         Table topTable = new Table();
         topTable.top().left();
         TextButton btnBack = new TextButton("Retour", skin);
@@ -46,16 +46,16 @@ public class DeckScreen implements Screen {
         topTable.add(btnBack).pad(20);
         root.add(topTable).expandX().fillX().top().row();
 
-        // --- Titre ---
+        // Titre
         Label title = new Label("Mes Decks", skin);
         title.setFontScale(1.5f);
         root.add(title).padBottom(30).row();
 
-        // --- Conteneur des Decks (Zone centrale) ---
+        //  Conteneur des Decks
         Table deckListTable = new Table();
         deckListTable.center();
 
-        // Simulation de decks existants (à remplacer par ta logique de sauvegarde plus tard)
+        // Simulation de decks existants
         for (int i = 1; i <= 8; i++) {
             deckListTable.add(createDeckSlot("Deck " + i, false)).pad(15);
         }
