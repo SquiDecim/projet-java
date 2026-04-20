@@ -8,7 +8,6 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
-import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import io.github.squidecim.genialtcg.GenialTCG;
 
@@ -17,10 +16,6 @@ public class DeckScreen implements Screen {
     private final GenialTCG game;
     private Stage stage;
     private Skin skin;
-    private int cardCount = 0;
-    private final int MAX_CARDS = 40;
-    private Label counterLabel;
-    private boolean[] occupied;
 
     public DeckScreen(GenialTCG game) {
         this.game = game;
@@ -36,12 +31,9 @@ public class DeckScreen implements Screen {
         root.setFillParent(true);
         stage.addActor(root);
 
-        // =========================
-        // TOP BAR (RETOUR + VALIDER)
-        // =========================
-        Table topBar = new Table();
-        topBar.left().top();
-
+        // --- Bouton Retour ---
+        Table topTable = new Table();
+        topTable.top().left();
         TextButton btnBack = new TextButton("Retour", skin);
         btnBack.addListener(
             new ChangeListener() {
@@ -51,151 +43,74 @@ public class DeckScreen implements Screen {
                 }
             }
         );
+        topTable.add(btnBack).pad(20);
+        root.add(topTable).expandX().fillX().top().row();
 
-        TextButton btnValidate = new TextButton("Valider le deck", skin);
-        btnValidate.addListener(
-            new ChangeListener() {
-                @Override
-                public void changed(ChangeEvent event, Actor actor) {
-                    System.out.println("Deck validé !");
-                }
-            }
-        );
-        // Compteur
-        counterLabel = new Label("Cartes : 0 / " + MAX_CARDS, skin);
-        if (cardCount == MAX_CARDS) {
-            counterLabel.setColor(Color.RED);
+        // --- Titre ---
+        Label title = new Label("Mes Decks", skin);
+        title.setFontScale(1.5f);
+        root.add(title).padBottom(30).row();
+
+        // --- Conteneur des Decks (Zone centrale) ---
+        Table deckListTable = new Table();
+        deckListTable.center();
+
+        // Simulation de decks existants (à remplacer par ta logique de sauvegarde plus tard)
+        for (int i = 1; i <= 8; i++) {
+            deckListTable.add(createDeckSlot("Deck " + i, false)).pad(15);
         }
 
-        // Layout top bar
-        topBar.add(btnBack).left().pad(10);
-        topBar.add(counterLabel).expandX().center();
-        topBar.add(btnValidate).right().pad(10);
+        // Le slot "+" pour créer un nouveau deck
+        deckListTable.add(createDeckSlot("+", true)).pad(15);
 
-        root.add(topBar).expandX().fillX().colspan(2).row();
+        // ScrollPane pour permettre le défilement horizontal si trop de decks
+        ScrollPane scroll = new ScrollPane(deckListTable, skin);
+        scroll.setFadeScrollBars(false);
 
-        // =========================
-        // TITRE
-        // =========================
-        Label title = new Label("Mon Deck", skin);
-        title.setFontScale(1.5f);
-        root.add(title).colspan(2).pad(10).row();
+        // On place le rectangle au milieu
+        root.add(scroll).expand().fillX().center();
+    }
 
-        // =========================
-        // GRILLE
-        // =========================
-        Table gridTable = new Table();
-        gridTable.top().left();
+    /**
+     * Crée un visuel de "carte" pour représenter un deck
+     */
+    private Button createDeckSlot(String text, boolean isNewDeckButton) {
+        // On utilise un TextButton comme base pour le rectangle
+        TextButton slot = new TextButton(text, skin);
 
-        int columns = 8;
-        int totalSlots = 400;
-        occupied = new boolean[totalSlots];
+        // On force une taille de rectangle
+        slot.getLabel().setFontScale(1.2f);
 
-        final float CARD_WIDTH = 320f;
-        final float CARD_HEIGHT = 448f;
-        float scale = 0.5f;
-
-        for (int i = 0; i < totalSlots; i++) {
-            Stack slot = new Stack();
-
-            Image background = new Image(
-                skin.newDrawable("white", Color.DARK_GRAY)
-            );
-            slot.add(background);
-
-            final int index = i;
+        if (isNewDeckButton) {
+            slot.setColor(Color.LIGHT_GRAY); // Teinte différente pour le "+"
             slot.addListener(
-                new ClickListener() {
+                new ChangeListener() {
                     @Override
-                    public void clicked(
-                        com.badlogic.gdx.scenes.scene2d.InputEvent event,
-                        float x,
-                        float y
-                    ) {
-                        int button = event.getButton();
-
-                        // =========================
-                        // CLIC GAUCHE → AJOUT
-                        // =========================
-                        if (button == com.badlogic.gdx.Input.Buttons.LEFT) {
-                            if (!occupied[index] && cardCount < MAX_CARDS) {
-                                occupied[index] = true;
-                                cardCount++;
-
-                                counterLabel.setText(
-                                    "Cartes : " + cardCount + " / " + MAX_CARDS
-                                );
-
-                                // feedback visuel
-                                slot.setColor(Color.GREEN);
-
-                                System.out.println("Carte ajoutée : " + index);
-                            }
-                        }
-
-                        // =========================
-                        // CLIC DROIT → RETRAIT
-                        // =========================
-                        if (button == com.badlogic.gdx.Input.Buttons.RIGHT) {
-                            if (occupied[index]) {
-                                occupied[index] = false;
-                                cardCount--;
-
-                                if (cardCount < 0) cardCount = 0;
-
-                                counterLabel.setText(
-                                    "Cartes : " + cardCount + " / " + MAX_CARDS
-                                );
-
-                                // reset visuel
-                                slot.setColor(Color.WHITE);
-
-                                System.out.println("Carte retirée : " + index);
-                            }
-                        }
+                    public void changed(ChangeEvent event, Actor actor) {
+                        // Redirection vers l'écran de création
+                        game.setScreen(new NewDeckScreen(game));
                     }
                 }
             );
-
-            gridTable
-                .add(slot)
-                .size(CARD_WIDTH * scale, CARD_HEIGHT * scale)
-                .pad(5);
-
-            if ((i + 1) % columns == 0) {
-                gridTable.row();
-            }
+        } else {
+            slot.addListener(
+                new ChangeListener() {
+                    @Override
+                    public void changed(ChangeEvent event, Actor actor) {
+                        System.out.println("Deck sélectionné : " + text);
+                        // Ici, tu pourrais ouvrir l'édition du deck existant
+                    }
+                }
+            );
         }
 
-        // =========================
-        // SCROLL (AUTO HIDE BAR)
-        // =========================
-        ScrollPane scrollPane = new ScrollPane(gridTable, skin);
-        scrollPane.setFadeScrollBars(true); // fade automatique
-        scrollPane.setScrollbarsOnTop(true);
-        scrollPane.setScrollingDisabled(true, false);
-
-        // IMPORTANT : permet affichage seulement quand scroll
-        scrollPane.setScrollbarsVisible(true);
-
-        // =========================
-        // PANEL DROIT
-        // =========================
-        Table rightPanel = new Table();
-        rightPanel.setBackground(
-            skin.newDrawable("white", Color.valueOf("2b2b2b"))
-        );
-
-        // =========================
-        // LAYOUT PRINCIPAL
-        // =========================
-        root.add(scrollPane).expand().fill().pad(10);
-        root.add(rightPanel).width(500).fillY().pad(10);
+        return slot;
     }
 
     @Override
     public void render(float delta) {
-        Gdx.gl.glClearColor(0.1f, 0.15f, 0.2f, 1f);
+        // Fond sombre et épuré
+        Gdx.gl.glClearColor(0.1f, 0.12f, 0.18f, 1f);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         stage.act(delta);
