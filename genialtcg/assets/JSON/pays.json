@@ -1824,30 +1824,6 @@
     "lore": "Pays d'Europe centrale doté d'une forte identité culturelle et politique."
   },
   {
-    "id": "MH",
-    "nom": "Îles Marshall",
-    "rang": "Marginal",
-    "type": "Diplomatique",
-    "cout": 150,
-    "etat": 230,
-    "statistiques": {
-      "puissance": 10,
-      "economie": 28,
-      "ressources": 30,
-      "technologie": 15,
-      "stabilite": 72
-    },
-    "special": {
-      "nom": "Test Nucléaire",
-      "cout": 40,
-      "cibles": ["jeuA"],
-      "variables": ["etat"],
-      "valeurs": [-85],
-      "description": "Rappel des essais nucléaires subis sur son sol pour infliger 85 dégâts à l'adversaire."
-    },
-    "lore": "Archipel du Pacifique en première ligne face à la montée des eaux."
-  },
-  {
     "id": "IN",
     "nom": "Inde",
     "rang": "Dominant",
