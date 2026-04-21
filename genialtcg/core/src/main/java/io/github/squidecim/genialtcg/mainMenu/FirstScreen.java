@@ -11,6 +11,8 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import io.github.squidecim.genialtcg.GenialTCG;
 import io.github.squidecim.genialtcg.controller.GameController;
+import io.github.squidecim.genialtcg.deckMenu.DeckScreen;
+import io.github.squidecim.genialtcg.deckMenu.NewDeckScreen;
 import io.github.squidecim.genialtcg.model.GameModel;
 import io.github.squidecim.genialtcg.view.GameView;
 
