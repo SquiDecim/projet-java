@@ -89,6 +89,8 @@ public class GameController implements InputProcessor {
                 if (firstSlot != null) {
                     model.moveFromHandToBench(draggedCard.getData());
                     view.dropCardOnSlot(draggedCard, firstSlot);
+                } else {
+                    view.cancelDrag(draggedCard);
                 }
             } else if (toTable && slot.isEmpty()) {
                 model.moveFromHandToTable(draggedCard.getData());
