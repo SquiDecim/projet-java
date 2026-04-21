@@ -6,7 +6,11 @@ import com.badlogic.gdx.graphics.*;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.g3d.*;
 import com.badlogic.gdx.graphics.g3d.attributes.ColorAttribute;
+import com.badlogic.gdx.graphics.g3d.attributes.IntAttribute;
+import com.badlogic.gdx.graphics.g3d.attributes.TextureAttribute;
 import com.badlogic.gdx.graphics.g3d.environment.DirectionalLight;
+import com.badlogic.gdx.graphics.g3d.utils.MeshPartBuilder;
+import com.badlogic.gdx.graphics.g3d.utils.ModelBuilder;
 import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Plane;
 import com.badlogic.gdx.math.Vector3;
@@ -43,19 +47,21 @@ public class GameView implements Screen {
     private CardsStackDecal discard;
     private CardsStackDecal opponentDiscard;
 
-    public static final float TABLE_CARD_W = 1.5f;
-    public static final float TABLE_CARD_H = 2.1f;
+    public static final float TABLE_CARD_W = 1.3f;
+    public static final float TABLE_CARD_H = 1.82f;
     public static final float BENCH_CARD_W = 1.1f;
     public static final float BENCH_CARD_H = 1.54f;
     private static final float BENCH_GAP_X = 0.2f;
     private static final float BENCH_GAP_Z = 0.3f;
-    private static final float TABLE_GAP = 0.15f;
+    private static final float TABLE_GAP = 0.48f;
 
     private static final float THICKNESS = 0.007f;
 
     private CardDecal hoveredCard = null;
     private CardDecal draggedCard = null;
     private CardSlot originSlot = null;
+    private ModelInstance boardInstance;
+    private Model boardModel;
 
     public GameView(GenialTCG game, GameModel model) {
         this.game = game;
@@ -76,6 +82,29 @@ public class GameView implements Screen {
         cam.update();
 
         modelBatch = new ModelBatch();
+
+        Texture boardTexture = new Texture("ui/plateau.png");
+
+        ModelBuilder builder = new ModelBuilder();
+        builder.begin();
+
+        MeshPartBuilder mpb = builder.part("plateau", GL20.GL_TRIANGLES,
+            VertexAttributes.Usage.Position | VertexAttributes.Usage.Normal | VertexAttributes.Usage.TextureCoordinates,
+            new Material(TextureAttribute.createDiffuse(boardTexture),
+                            IntAttribute.createCullFace(GL20.GL_NONE)
+            ));
+
+        mpb.rect(
+            -7f, 0, 5.98f, //avant gauche
+            7f, 0, 5.98f, //avant droit
+            7f, 0,  -5.98f, //bas droit
+            -7f, 0,  -5.98f, //bas gauche
+            0, -1, 0
+        );
+
+        boardModel = builder.end();
+        boardInstance = new ModelInstance(boardModel);
+
 
         environment = new Environment();
         environment.set(
@@ -114,7 +143,7 @@ public class GameView implements Screen {
             float x = (i - 1.5f) * (BENCH_CARD_W + BENCH_GAP_X);
             benchBottomSlots.add(
                 new CardSlot(
-                    new Vector3(x, 0, 0.5f + TABLE_CARD_H + BENCH_GAP_Z * 2.5f),
+                    new Vector3(x, 0, 2.58f + BENCH_GAP_Z * 2.5f),
                     0,
                     -90f,
                     0,
@@ -144,9 +173,9 @@ public class GameView implements Screen {
             BENCH_CARD_W,
             BENCH_CARD_H,
             50,
-            3.25f,
+            4.95f,
             0,
-            3.2f
+            4.13f
         );
         opponentDeck = createCardsStacks(
             new TextureRegion(backTexture),
@@ -196,6 +225,7 @@ public class GameView implements Screen {
         Gdx.gl.glEnable(GL20.GL_DEPTH_TEST);
 
         modelBatch.begin(cam);
+        modelBatch.render(boardInstance, environment);
 
         if (!tableSlot.isEmpty()) tableSlot
             .getCard()
@@ -274,6 +304,7 @@ public class GameView implements Screen {
         for (CardSlot slot : benchTopSlots) slot.dispose();
         tableSlot.dispose();
         opponentTableSlot.dispose();
+        boardModel.dispose();
     }
 
     public void setController(GameController controller) {
