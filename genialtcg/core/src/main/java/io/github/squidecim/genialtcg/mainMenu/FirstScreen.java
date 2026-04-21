@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
@@ -20,6 +21,7 @@ public class FirstScreen implements Screen {
     private final GenialTCG game;
     private Stage stage;
     private Skin skin;
+    private Label messageLabel;
 
     public FirstScreen(GenialTCG game) {
         this.game = game;
@@ -38,16 +40,13 @@ public class FirstScreen implements Screen {
         Label title = new Label("GénialTCG", skin);
         title.setFontScale(1.5f);
 
+        messageLabel = new Label("", skin);
+        messageLabel.setColor(Color.ORANGE);
+
         TextButton btnPlay = new TextButton("Jouer", skin);
         TextButton btnDeck = new TextButton("Deck", skin);
         TextButton btnSettings = new TextButton("Paramètres", skin);
         TextButton btnQuit = new TextButton("Quitter", skin);
-
-        // --- LOGIQUE DE BLOCAGE DU BOUTON JOUER ---
-        if (game.savedDecks.size == 0) {
-            btnPlay.setDisabled(true);
-            btnPlay.setColor(Color.GRAY);
-        }
 
         btnPlay.addListener(
             new ChangeListener() {
@@ -56,12 +55,12 @@ public class FirstScreen implements Screen {
                     if (game.savedDecks.size > 0) {
                         GameModel model = new GameModel();
                         GameView view = new GameView(game, model);
-                        GameController controller = new GameController(
-                            view,
-                            model
-                        );
-                        view.setController(controller);
+                        view.setController(new GameController(view, model));
                         game.setScreen(view);
+                    } else {
+                        showEphemeralMessage(
+                            "Constituez vous au moins un deck avant de jouer"
+                        );
                     }
                 }
             }
@@ -85,11 +84,25 @@ public class FirstScreen implements Screen {
             }
         );
 
-        table.add(title).padBottom(40).row();
+        table.add(title).padBottom(20).row();
+        // Positionnement du message éphémère
+        table.add(messageLabel).height(30).padBottom(10).row();
         table.add(btnPlay).width(220).height(50).pad(10).row();
         table.add(btnDeck).width(220).height(50).pad(10).row();
         table.add(btnSettings).width(220).height(50).pad(10).row();
         table.add(btnQuit).width(220).height(50).pad(10).row();
+    }
+
+    private void showEphemeralMessage(String text) {
+        messageLabel.setText(text);
+        messageLabel.clearActions();
+        messageLabel.addAction(
+            Actions.sequence(
+                Actions.alpha(1),
+                Actions.fadeOut(3f),
+                Actions.run(() -> messageLabel.setText(""))
+            )
+        );
     }
 
     @Override

@@ -1,6 +1,7 @@
 package io.github.squidecim.genialtcg.deckMenu;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
@@ -8,6 +9,8 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
@@ -16,9 +19,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import io.github.squidecim.genialtcg.GenialTCG;
-import io.github.squidecim.genialtcg.deckMenu.Deck;
 import java.text.Collator;
-import java.util.Comparator;
 import java.util.Locale;
 
 public class NewDeckScreen implements Screen {
@@ -28,7 +29,6 @@ public class NewDeckScreen implements Screen {
     private Skin skin;
     private TextureAtlas atlas;
 
-    private int cardCount = 0;
     private final int MAX_CARDS = 2;
     private Label counterLabel;
     private TextButton btnValidate;
@@ -37,10 +37,18 @@ public class NewDeckScreen implements Screen {
     private Table gridTable;
     private Array<AtlasRegion> allCardsSorted;
     private Array<String> selectedCards;
+    private Deck editingDeck = null;
 
     public NewDeckScreen(GenialTCG game) {
+        this(game, null);
+    }
+
+    public NewDeckScreen(GenialTCG game, Deck deckToEdit) {
         this.game = game;
-        this.selectedCards = new Array<>();
+        this.editingDeck = deckToEdit;
+        this.selectedCards = (deckToEdit != null)
+            ? new Array<>(deckToEdit.cardNames)
+            : new Array<>();
     }
 
     @Override
@@ -62,15 +70,7 @@ public class NewDeckScreen implements Screen {
         allCardsSorted = new Array<>(atlas.getRegions());
         final Collator collator = Collator.getInstance(Locale.FRENCH);
         collator.setStrength(Collator.PRIMARY);
-
-        allCardsSorted.sort(
-            new Comparator<AtlasRegion>() {
-                @Override
-                public int compare(AtlasRegion r1, AtlasRegion r2) {
-                    return collator.compare(r1.name, r2.name);
-                }
-            }
-        );
+        allCardsSorted.sort((r1, r2) -> collator.compare(r1.name, r2.name));
 
         Table root = new Table();
         root.setFillParent(true);
@@ -87,11 +87,8 @@ public class NewDeckScreen implements Screen {
             }
         );
 
-        counterLabel = new Label("Cartes : 0 / " + MAX_CARDS, skin);
-        btnValidate = new TextButton("Valider le Deck", skin);
-        btnValidate.setDisabled(true);
-        btnValidate.setColor(Color.GRAY);
-
+        counterLabel = new Label("", skin);
+        btnValidate = new TextButton("Valider", skin);
         btnValidate.addListener(
             new ChangeListener() {
                 @Override
@@ -106,7 +103,6 @@ public class NewDeckScreen implements Screen {
         topBar.add(btnValidate).width(200).height(50).pad(10);
         root.add(topBar).expandX().fillX().row();
 
-        Table searchBarTable = new Table();
         searchField = new TextField("", skin);
         searchField.setMessageText("Rechercher un pays...");
         searchField.addListener(
@@ -118,6 +114,7 @@ public class NewDeckScreen implements Screen {
             }
         );
 
+        Table searchBarTable = new Table();
         searchBarTable.add(new Label("Recherche : ", skin)).padLeft(10);
         searchBarTable.add(searchField).expandX().fillX().pad(10);
         root.add(searchBarTable).expandX().fillX().row();
@@ -127,48 +124,93 @@ public class NewDeckScreen implements Screen {
 
         ScrollPane scroll = new ScrollPane(gridTable, skin);
         scroll.setFadeScrollBars(false);
+        scroll.setScrollBarPositions(false, true);
+        scroll.getStyle().vScroll = null;
+        scroll.getStyle().vScrollKnob = null;
+
         root.add(scroll).expand().fill().pad(10);
+        updateUI();
+    }
+
+    private boolean hasMatchingCard(String query) {
+        if (query.isEmpty()) return true;
+        String q = query.toLowerCase().trim();
+        for (AtlasRegion region : allCardsSorted) {
+            if (region.name.toLowerCase().contains(q)) return true;
+        }
+        return false;
     }
 
     private void showSaveDialog() {
-        final int MAX_CHARACTERS = 20;
-        final int MAX_DECKS = 4;
-
         Dialog dialog = new Dialog("", skin);
-        TextField nameInput = new TextField("", skin);
-        nameInput.setMaxLength(MAX_CHARACTERS);
-        nameInput.setMessageText("Nom (max " + MAX_CHARACTERS + " car.)");
-
+        TextField nameInput = new TextField(
+            editingDeck != null ? editingDeck.name : "",
+            skin
+        );
         dialog
             .getContentTable()
-            .add(new Label("Entrez un nom pour votre deck :", skin))
-            .pad(10);
-        dialog.getContentTable().row();
+            .add(new Label("Entrez le nom de votre deck :", skin))
+            .pad(10)
+            .row();
         dialog.getContentTable().add(nameInput).width(300).pad(10);
 
-        TextButton btnSave = new TextButton("Enregistrer", skin);
-        btnSave.addListener(
-            new ChangeListener() {
-                @Override
-                public void changed(ChangeEvent event, Actor actor) {
-                    String deckName = nameInput.getText().trim();
-                    if (deckName.isEmpty()) return;
+        Runnable confirmAction = () -> {
+            String deckName = nameInput.getText().trim();
+            if (!deckName.isEmpty()) {
+                if (editingDeck != null) {
+                    editingDeck.name = deckName;
+                    editingDeck.cardNames = new Array<>(selectedCards);
+                } else {
+                    game.savedDecks.add(
+                        new Deck(deckName, new Array<>(selectedCards))
+                    );
+                }
+                dialog.hide();
+                game.setScreen(new DeckScreen(game));
+            }
+        };
 
-                    if (game.savedDecks.size < MAX_DECKS) {
-                        game.savedDecks.add(new Deck(deckName, selectedCards));
-                        game.setScreen(new DeckScreen(game));
-                    } else {
-                        nameInput.setText("");
-                        nameInput.setMessageText(
-                            "Limite de 4 decks atteinte !"
-                        );
+        nameInput.addListener(
+            new InputListener() {
+                @Override
+                public boolean keyDown(InputEvent event, int keycode) {
+                    if (keycode == Input.Keys.ENTER) {
+                        confirmAction.run();
+                        return true;
                     }
+                    if (keycode == Input.Keys.ESCAPE) {
+                        dialog.hide();
+                        return true;
+                    }
+                    return false;
                 }
             }
         );
 
-        dialog.getButtonTable().add(btnSave).width(120).height(40).pad(10);
+        TextButton btnOk = new TextButton("Valider", skin);
+        btnOk.addListener(
+            new ChangeListener() {
+                @Override
+                public void changed(ChangeEvent event, Actor actor) {
+                    confirmAction.run();
+                }
+            }
+        );
+
+        TextButton btnCancel = new TextButton("Annuler", skin);
+        btnCancel.addListener(
+            new ChangeListener() {
+                @Override
+                public void changed(ChangeEvent event, Actor actor) {
+                    dialog.hide();
+                }
+            }
+        );
+
+        dialog.getButtonTable().add(btnOk).width(120).height(40).pad(10);
+        dialog.getButtonTable().add(btnCancel).width(120).height(40).pad(10);
         dialog.show(stage);
+        stage.setKeyboardFocus(nameInput);
     }
 
     private void updateGrid(String filter) {
@@ -180,19 +222,27 @@ public class NewDeckScreen implements Screen {
         );
         String query = filter.toLowerCase().trim();
 
+        // --- METHODE ROBUSTE POUR LE ROUGE ---
+        if (!hasMatchingCard(query)) {
+            // Teinte l'ensemble du champ en rouge (curseur, fond et texte)
+            searchField.setColor(Color.RED);
+        } else {
+            // Remet la couleur par défaut
+            searchField.setColor(Color.WHITE);
+        }
+
         int visibleCount = 0;
         for (int i = 0; i < allCardsSorted.size; i++) {
             final AtlasRegion region = allCardsSorted.get(i);
-            String displayName = region.name.replace("_", " ").toLowerCase();
+            if (
+                !query.isEmpty() && !region.name.toLowerCase().contains(query)
+            ) continue;
 
-            if (!query.isEmpty() && !displayName.contains(query)) continue;
-
-            final String countryName = region.name;
             Stack slot = new Stack();
             Image cardImg = new Image(region);
             final Image selectionOverlay = new Image(selectionDrawable);
             selectionOverlay.setVisible(
-                selectedCards.contains(countryName, false)
+                selectedCards.contains(region.name, false)
             );
 
             slot.add(cardImg);
@@ -200,16 +250,18 @@ public class NewDeckScreen implements Screen {
             slot.addListener(
                 new ClickListener() {
                     @Override
-                    public void clicked(
-                        com.badlogic.gdx.scenes.scene2d.InputEvent event,
-                        float x,
-                        float y
-                    ) {
-                        toggleCardSelection(countryName, selectionOverlay);
+                    public void clicked(InputEvent event, float x, float y) {
+                        if (selectedCards.contains(region.name, false)) {
+                            selectedCards.removeValue(region.name, false);
+                            selectionOverlay.setVisible(false);
+                        } else if (selectedCards.size < MAX_CARDS) {
+                            selectedCards.add(region.name);
+                            selectionOverlay.setVisible(true);
+                        }
+                        updateUI();
                     }
                 }
             );
-
             gridTable
                 .add(slot)
                 .size(320 * displayScale, 448 * displayScale)
@@ -219,21 +271,11 @@ public class NewDeckScreen implements Screen {
         }
     }
 
-    private void toggleCardSelection(String countryId, Image overlay) {
-        if (selectedCards.contains(countryId, false)) {
-            selectedCards.removeValue(countryId, false);
-            overlay.setVisible(false);
-        } else if (selectedCards.size < MAX_CARDS) {
-            selectedCards.add(countryId);
-            overlay.setVisible(true);
-        }
-        updateUI();
-    }
-
     private void updateUI() {
-        cardCount = selectedCards.size;
-        counterLabel.setText("Cartes : " + cardCount + " / " + MAX_CARDS);
-        boolean isFull = (cardCount == MAX_CARDS);
+        counterLabel.setText(
+            "Cartes : " + selectedCards.size + " / " + MAX_CARDS
+        );
+        boolean isFull = (selectedCards.size == MAX_CARDS);
         btnValidate.setDisabled(!isFull);
         btnValidate.setColor(isFull ? Color.GREEN : Color.GRAY);
     }
@@ -255,7 +297,7 @@ public class NewDeckScreen implements Screen {
     public void dispose() {
         stage.dispose();
         skin.dispose();
-        if (atlas != null) atlas.dispose();
+        atlas.dispose();
     }
 
     @Override

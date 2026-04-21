@@ -5,7 +5,10 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
@@ -17,6 +20,7 @@ public class DeckScreen implements Screen {
     private final GenialTCG game;
     private Stage stage;
     private Skin skin;
+    private Label alertLabel;
 
     public DeckScreen(GenialTCG game) {
         this.game = game;
@@ -32,10 +36,10 @@ public class DeckScreen implements Screen {
         root.setFillParent(true);
         stage.addActor(root);
 
-        // --- BARRE DU HAUT ---
-        Table topTable = new Table();
-        topTable.top().left();
+        alertLabel = new Label("", skin);
+        alertLabel.setColor(Color.ORANGE);
 
+        Table topTable = new Table();
         TextButton btnBack = new TextButton("Retour", skin);
         btnBack.addListener(
             new ChangeListener() {
@@ -45,142 +49,102 @@ public class DeckScreen implements Screen {
                 }
             }
         );
-
-        topTable.add(btnBack).width(200).height(50).pad(10);
+        topTable.add(btnBack).width(200).height(50).pad(10).left().expandX();
         root.add(topTable).expandX().fillX().top().row();
+
+        root.add(alertLabel).height(30).padBottom(10).row();
 
         Label title = new Label("Mes Decks", skin);
         title.setFontScale(1.5f);
         root.add(title).padBottom(30).row();
 
-        // --- CONTENEUR DES DECKS ---
-        Table deckListTable = new Table();
-        for (Deck deck : game.savedDecks) {
-            deckListTable
-                .add(createDeckSlot(deck.name, false))
-                .width(320)
-                .height(448)
-                .pad(15);
-        }
-
-        // Le bouton + est TOUJOURS ajouté
-        Button plusButton = createDeckSlot("+", true);
-
-        // Mais il est grisé et désactivé si on a déjà 4 decks ou plus
-        if (game.savedDecks.size >= 4) {
-            plusButton.setDisabled(true);
-            plusButton.setColor(Color.GRAY);
-        }
-
-        deckListTable.add(plusButton).width(320).height(448).pad(15);
-
-        ScrollPane scroll = new ScrollPane(deckListTable, skin);
-        scroll.setScrollingDisabled(false, true);
-        root.add(scroll).expand().fillX().center();
-    }
-
-    private Button createDeckSlot(final String text, boolean isNewDeckButton) {
-        TextButton slot = new TextButton(text, skin);
-        slot.getLabel().setFontScale(1.2f);
-
-        if (isNewDeckButton) {
-            slot.setColor(Color.LIGHT_GRAY);
-            slot.addListener(
+        Table listTable = new Table();
+        for (final Deck deck : game.savedDecks) {
+            final Stack stack = new Stack();
+            TextButton db = new TextButton(deck.name, skin);
+            db.addListener(
                 new ChangeListener() {
                     @Override
                     public void changed(ChangeEvent event, Actor actor) {
-                        // On vérifie quand même avant de changer d'écran
-                        if (game.savedDecks.size < 4) {
-                            game.setScreen(new NewDeckScreen(game));
-                        }
+                        game.setScreen(new NewDeckScreen(game, deck));
                     }
                 }
             );
-        } else {
-            slot.addListener(
+
+            final TextButton del = new TextButton("X", skin);
+            del.setColor(Color.RED);
+            del.setVisible(false); // Caché par défaut
+            del.addListener(
                 new ChangeListener() {
                     @Override
                     public void changed(ChangeEvent event, Actor actor) {
-                        showDeckOptions(text);
-                    }
-                }
-            );
-        }
-        return slot;
-    }
-
-    private void showDeckOptions(final String currentName) {
-        final Dialog dialog = new Dialog("Options", skin);
-        TextButton btnRename = new TextButton("Renommer", skin);
-        TextButton btnDelete = new TextButton("Supprimer", skin);
-
-        btnDelete.addListener(
-            new ChangeListener() {
-                @Override
-                public void changed(ChangeEvent event, Actor actor) {
-                    for (int i = 0; i < game.savedDecks.size; i++) {
-                        if (game.savedDecks.get(i).name.equals(currentName)) {
-                            game.savedDecks.removeIndex(i);
-                            break;
-                        }
-                    }
-                    game.setScreen(new DeckScreen(game));
-                }
-            }
-        );
-
-        btnRename.addListener(
-            new ChangeListener() {
-                @Override
-                public void changed(ChangeEvent event, Actor actor) {
-                    dialog.hide();
-                    showRenameDialog(currentName);
-                }
-            }
-        );
-
-        dialog
-            .getContentTable()
-            .add(new Label("Deck : " + currentName, skin))
-            .pad(20);
-        dialog.getButtonTable().add(btnRename).pad(10);
-        dialog.getButtonTable().add(btnDelete).pad(10);
-        dialog.button("Annuler");
-        dialog.show(stage);
-    }
-
-    private void showRenameDialog(final String oldName) {
-        final Dialog renameDialog = new Dialog("Renommer", skin);
-        final TextField input = new TextField(oldName, skin);
-        input.setMaxLength(20);
-
-        TextButton btnConfirm = new TextButton("OK", skin);
-        btnConfirm.addListener(
-            new ChangeListener() {
-                @Override
-                public void changed(ChangeEvent event, Actor actor) {
-                    String newName = input.getText().trim();
-                    if (!newName.isEmpty()) {
-                        for (Deck d : game.savedDecks) {
-                            if (d.name.equals(oldName)) {
-                                d.name = newName;
-                                break;
-                            }
-                        }
+                        game.savedDecks.removeValue(deck, true);
                         game.setScreen(new DeckScreen(game));
                     }
                 }
+            );
+
+            // Détection du survol pour afficher/cacher la croix
+            stack.addListener(
+                new InputListener() {
+                    @Override
+                    public void enter(
+                        InputEvent event,
+                        float x,
+                        float y,
+                        int pointer,
+                        Actor fromActor
+                    ) {
+                        del.setVisible(true);
+                    }
+
+                    @Override
+                    public void exit(
+                        InputEvent event,
+                        float x,
+                        float y,
+                        int pointer,
+                        Actor toActor
+                    ) {
+                        del.setVisible(false);
+                    }
+                }
+            );
+
+            stack.add(db);
+            stack.add(new Container<>(del).size(40).top().right());
+            listTable.add(stack).width(250).height(350).pad(10);
+        }
+
+        TextButton btnNew = new TextButton("+", skin);
+        btnNew.addListener(
+            new ChangeListener() {
+                @Override
+                public void changed(ChangeEvent event, Actor actor) {
+                    if (game.savedDecks.size < 4) {
+                        game.setScreen(new NewDeckScreen(game));
+                    } else {
+                        showAlert("Vous ne pouvez avoir que 4 decks maximum");
+                    }
+                }
             }
         );
+        listTable.add(btnNew).width(250).height(350).pad(10);
 
-        renameDialog
-            .getContentTable()
-            .add(new Label("Nouveau nom :", skin))
-            .pad(10)
-            .row();
-        renameDialog.getContentTable().add(input).width(300).pad(20);
-        renameDialog.getButtonTable().add(btnConfirm).pad(10);
-        renameDialog.show(stage);
+        ScrollPane scroll = new ScrollPane(listTable, skin);
+        root.add(scroll).center().expand();
+    }
+
+    private void showAlert(String text) {
+        alertLabel.setText(text);
+        alertLabel.clearActions();
+        alertLabel.addAction(
+            Actions.sequence(
+                Actions.alpha(1),
+                Actions.fadeOut(3f),
+                Actions.run(() -> alertLabel.setText(""))
+            )
+        );
     }
 
     @Override
