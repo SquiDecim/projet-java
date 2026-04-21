@@ -1,8 +1,8 @@
 package io.github.squidecim.genialtcg.mainMenu;
 
-import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -12,7 +12,6 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import io.github.squidecim.genialtcg.GenialTCG;
 import io.github.squidecim.genialtcg.controller.GameController;
 import io.github.squidecim.genialtcg.deckMenu.DeckScreen;
-import io.github.squidecim.genialtcg.deckMenu.NewDeckScreen;
 import io.github.squidecim.genialtcg.model.GameModel;
 import io.github.squidecim.genialtcg.view.GameView;
 
@@ -30,7 +29,6 @@ public class FirstScreen implements Screen {
     public void show() {
         stage = new Stage(new ScreenViewport());
         Gdx.input.setInputProcessor(stage);
-
         skin = new Skin(Gdx.files.internal("ui/uiskin.json"));
 
         Table table = new Table();
@@ -39,22 +37,32 @@ public class FirstScreen implements Screen {
 
         Label title = new Label("GénialTCG", skin);
         title.setFontScale(1.5f);
+
         TextButton btnPlay = new TextButton("Jouer", skin);
         TextButton btnDeck = new TextButton("Deck", skin);
         TextButton btnSettings = new TextButton("Paramètres", skin);
         TextButton btnQuit = new TextButton("Quitter", skin);
 
+        // --- LOGIQUE DE BLOCAGE DU BOUTON JOUER ---
+        if (game.savedDecks.size == 0) {
+            btnPlay.setDisabled(true);
+            btnPlay.setColor(Color.GRAY);
+        }
+
         btnPlay.addListener(
             new ChangeListener() {
                 @Override
                 public void changed(ChangeEvent event, Actor actor) {
-                    System.out.println("Lancement du jeu...");
-
-                    GameModel model = new GameModel();
-                    GameView view = new GameView(game, model);
-                    GameController controller = new GameController(view, model);
-                    view.setController(controller);
-                    game.setScreen(view);
+                    if (game.savedDecks.size > 0) {
+                        GameModel model = new GameModel();
+                        GameView view = new GameView(game, model);
+                        GameController controller = new GameController(
+                            view,
+                            model
+                        );
+                        view.setController(controller);
+                        game.setScreen(view);
+                    }
                 }
             }
         );
@@ -65,13 +73,6 @@ public class FirstScreen implements Screen {
                 public void changed(ChangeEvent event, Actor actor) {
                     game.setScreen(new DeckScreen(game));
                 }
-            }
-        );
-
-        btnSettings.addListener(
-            new ChangeListener() {
-                @Override
-                public void changed(ChangeEvent event, Actor actor) {}
             }
         );
 
@@ -95,7 +96,6 @@ public class FirstScreen implements Screen {
     public void render(float delta) {
         Gdx.gl.glClearColor(0.05f, 0.1f, 0.2f, 1f);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-
         stage.act(delta);
         stage.draw();
     }
@@ -106,6 +106,12 @@ public class FirstScreen implements Screen {
     }
 
     @Override
+    public void dispose() {
+        stage.dispose();
+        skin.dispose();
+    }
+
+    @Override
     public void pause() {}
 
     @Override
@@ -113,10 +119,4 @@ public class FirstScreen implements Screen {
 
     @Override
     public void hide() {}
-
-    @Override
-    public void dispose() {
-        stage.dispose();
-        skin.dispose();
-    }
 }

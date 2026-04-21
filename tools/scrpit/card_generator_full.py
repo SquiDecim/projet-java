@@ -9,12 +9,11 @@ from PIL import Image, ImageDraw, ImageFont, ImageOps
 JSON_PATH = "/home/user-x/Documents/GitHub/projet-java/genialtcg/assets/JSON/pays.json"
 SHAPES_CACHE_DIR = "tools/img/shapes_cache"
 FLAGS_CACHE_DIR = "tools/img/flags_cache"
-OUTPUT_DIR = "output_cards"  # Dossier pour les cartes individuelles
+OUTPUT_DIR = "tools/img/output_cards_full"
 
-# --- CONFIGURATION DES CONSTANTES ---
-SCALE = 2
-CARD_WIDTH = 320 * SCALE
-CARD_HEIGHT = 448 * SCALE
+# --- CONFIGURATION DES CONSTANTES (TAILLE NATIVE) ---
+CARD_WIDTH = 320
+CARD_HEIGHT = 448
 TEXT_COLOR = (0, 0, 0)
 HEADER_COLOR = (0, 0, 0)
 
@@ -37,23 +36,23 @@ for folder in [SHAPES_CACHE_DIR, FLAGS_CACHE_DIR]:
 templates_cache = {}
 for k, path in TEMPLATES.items():
     if os.path.exists(path):
-        templates_cache[k] = Image.open(path)
+        templates_cache[k] = Image.open(path).resize(
+            (CARD_WIDTH, CARD_HEIGHT), Image.Resampling.LANCZOS
+        )
 
 # --- POLICES ---
 font_path = "/usr/share/fonts/truetype/dejavu/"
-font_bold_big = ImageFont.truetype(font_path + "DejaVuSans-Bold.ttf", 24 * SCALE)
-font_bold = ImageFont.truetype(font_path + "DejaVuSans-Bold.ttf", 18 * SCALE)
-font_italic = ImageFont.truetype(font_path + "DejaVuSans-Oblique.ttf", 18 * SCALE)
-font_small = ImageFont.truetype(font_path + "DejaVuSans.ttf", 12 * SCALE)
-font_small_small_italic = ImageFont.truetype(
-    font_path + "DejaVuSans-Oblique.ttf", 11 * SCALE
-)
+font_bold_big = ImageFont.truetype(font_path + "DejaVuSans-Bold.ttf", 24)
+font_bold = ImageFont.truetype(font_path + "DejaVuSans-Bold.ttf", 18)
+font_italic = ImageFont.truetype(font_path + "DejaVuSans-Oblique.ttf", 18)
+font_small = ImageFont.truetype(font_path + "DejaVuSans.ttf", 12)
+font_small_small_italic = ImageFont.truetype(font_path + "DejaVuSans-Oblique.ttf", 11)
 font_small_small_small_italic = ImageFont.truetype(
-    font_path + "DejaVuSans-Oblique.ttf", 10 * SCALE
+    font_path + "DejaVuSans-Oblique.ttf", 10
 )
-font_bold_small = ImageFont.truetype(font_path + "DejaVuSans-Bold.ttf", 12 * SCALE)
+font_bold_small = ImageFont.truetype(font_path + "DejaVuSans-Bold.ttf", 12)
 font_bold_italic_small = ImageFont.truetype(
-    font_path + "DejaVuSans-BoldOblique.ttf", 12 * SCALE
+    font_path + "DejaVuSans-BoldOblique.ttf", 12
 )
 
 
@@ -115,20 +114,16 @@ def wrap_text(draw, text, font, max_width):
 with open(JSON_PATH, "r", encoding="utf-8") as file:
     pays = json.load(file)
 
-print(f"Début de la génération de {len(pays)} cartes individuelles...")
+print(f"Génération de {len(pays)} cartes (Tri par Nom activé)...")
 
 for p in pays:
-    # Canevas de la carte
     card_img = Image.new("RGB", (CARD_WIDTH, CARD_HEIGHT), (255, 255, 255))
     draw = ImageDraw.Draw(card_img)
 
     # 1. Template
     type_p = p.get("type")
     if type_p in templates_cache:
-        t_img = templates_cache[type_p].resize(
-            (CARD_WIDTH, CARD_HEIGHT), Image.Resampling.LANCZOS
-        )
-        card_img.paste(t_img, (0, 0))
+        card_img.paste(templates_cache[type_p], (0, 0))
 
         # 2. Forme + Drapeau
         iso_code = p.get("id").lower()
@@ -136,7 +131,7 @@ for p in pays:
         flag_img = get_country_flag(iso_code)
 
         if shape_img and flag_img:
-            target_size = 180 * SCALE
+            target_size = 180
             w, h = shape_img.size
             ratio = min(target_size / w, target_size / h)
             new_size = (int(w * ratio), int(h * ratio))
@@ -160,131 +155,100 @@ for p in pays:
             )
             combined = Image.new("RGBA", new_size, (0, 0, 0, 0))
             combined.paste(flag_resized, (0, 0), mask=mask)
-
-            card_img.paste(
-                combined, ((CARD_WIDTH - new_size[0]) // 2, 90 * SCALE), combined
-            )
+            card_img.paste(combined, ((CARD_WIDTH - new_size[0]) // 2, 90), combined)
 
     # 3. Textes et Stats
-    padding_inside = 10 * SCALE
-    y_start = padding_inside
-
-    # État
+    padding = 10
+    draw.text((250, padding), str(p["etat"]), fill=HEADER_COLOR, font=font_bold_big)
+    draw.text((10, padding + 4), p["nom"], fill=HEADER_COLOR, font=font_bold)
     draw.text(
-        (250 * SCALE, y_start), str(p["etat"]), fill=HEADER_COLOR, font=font_bold_big
-    )
-    # Nom
-    draw.text(
-        (10 * SCALE, y_start + 4 * SCALE), p["nom"], fill=HEADER_COLOR, font=font_bold
-    )
-    # Rang
-    draw.text(
-        (padding_inside - 3 * SCALE, y_start + 45 * SCALE),
-        str(p["rang"]),
-        fill=TEXT_COLOR,
-        font=font_italic,
+        (padding - 3, padding + 45), str(p["rang"]), fill=TEXT_COLOR, font=font_italic
     )
 
-    # Stats
-    stats_y = y_start + 273 * SCALE
+    stats_y = padding + 273
     stats = p["statistiques"]
     draw.text(
-        (padding_inside + 120 * SCALE, stats_y),
+        (padding + 120, stats_y),
         str(stats["puissance"]),
         fill=TEXT_COLOR,
         font=font_small,
     )
     draw.text(
-        (padding_inside + 255 * SCALE, stats_y),
+        (padding + 255, stats_y),
         str(stats["ressources"]),
         fill=TEXT_COLOR,
         font=font_small,
     )
 
-    stats_y += 28 * SCALE
+    stats_y += 28
     draw.text(
-        (padding_inside + 120 * SCALE, stats_y),
+        (padding + 120, stats_y),
         str(stats["technologie"]),
         fill=TEXT_COLOR,
         font=font_small,
     )
     draw.text(
-        (padding_inside + 255 * SCALE, stats_y),
+        (padding + 255, stats_y),
         str(stats["stabilite"]),
         fill=TEXT_COLOR,
         font=font_small,
     )
 
-    stats_y += 27 * SCALE
+    stats_y += 27
     draw.text(
-        (padding_inside + 190 * SCALE, stats_y),
+        (padding + 190, stats_y),
         str(stats["economie"]),
         fill=TEXT_COLOR,
         font=font_small,
     )
 
-    # Special
-    special_y = stats_y + 24 * SCALE
+    special_y = stats_y + 24
     special = p["special"]
     draw.text(
-        (padding_inside + 30 * SCALE, special_y),
+        (padding + 30, special_y),
         special["nom"],
         fill=TEXT_COLOR,
         font=font_bold_italic_small,
     )
-
-    cout_x = padding_inside + (247 * SCALE if special["cout"] > 100 else 252 * SCALE)
+    cout_x = padding + (247 if special["cout"] > 100 else 252)
     draw.text(
         (cout_x, special_y), str(special["cout"]), fill=TEXT_COLOR, font=font_bold_small
     )
 
-    desc_y = special_y + 15 * SCALE
+    desc_y = special_y + 15
     desc_lines = wrap_text(
-        draw,
-        special["description"],
-        font_small,
-        (CARD_WIDTH - 2 * padding_inside) - (35 * SCALE),
+        draw, special["description"], font_small, (CARD_WIDTH - 2 * padding) - 35
     )
     for line in desc_lines:
         draw.text(
-            (padding_inside + 30 * SCALE, desc_y),
-            line,
-            fill=TEXT_COLOR,
-            font=font_small_small_italic,
+            (padding + 30, desc_y), line, fill=TEXT_COLOR, font=font_small_small_italic
         )
-        desc_y += 16 * SCALE
+        desc_y += 16
 
-    # Coûts et Lore
-    bottom_y = desc_y + 9 * SCALE  # Note: ajusté dynamiquement selon la desc
-    if bottom_y < 390 * SCALE:
-        bottom_y = 398 * SCALE  # Sécurité alignement
-
+    bottom_y = max(desc_y + 9, 398)
     draw.text(
-        (padding_inside + 37 * SCALE, bottom_y),
-        str(p["cout"]),
-        fill=TEXT_COLOR,
-        font=font_small,
+        (padding + 37, bottom_y), str(p["cout"]), fill=TEXT_COLOR, font=font_small
     )
     draw.text(
-        (padding_inside + 56 * SCALE, bottom_y + 12 * SCALE),
+        (padding + 56, bottom_y + 12),
         str(p["cout"] // 2),
         fill=TEXT_COLOR,
         font=font_small,
     )
 
-    lore_lines = wrap_text(
-        draw, p["lore"], font_small, (CARD_WIDTH - 2 * padding_inside) - (50 * SCALE)
-    )
+    lore_lines = wrap_text(draw, p["lore"], font_small, (CARD_WIDTH - 2 * padding) - 50)
     for i, line in enumerate(lore_lines):
         draw.text(
-            (padding_inside + 95 * SCALE, bottom_y + 2 * SCALE + (i * 11 * SCALE)),
+            (padding + 95, bottom_y + 2 + (i * 11)),
             line,
             fill=TEXT_COLOR,
             font=font_small_small_small_italic,
         )
 
-    # 4. Sauvegarde
-    file_name = f"{p.get('id').lower()}.png"
+    # --- 4. SAUVEGARDE PAR NOM (Crucial pour le tri Java) ---
+    # On nettoie le nom (ex: "Afrique du Sud" -> "Afrique_du_Sud")
+    clean_name = p["nom"].replace(" ", "_")
+    file_name = f"{clean_name}.png"
     card_img.save(os.path.join(OUTPUT_DIR, file_name))
 
-print(f"Terminé ! {len(pays)} cartes exportées dans '{OUTPUT_DIR}'.")
+print(f"Terminé ! Relance le Texture Packer sur '{OUTPUT_DIR}'.")
