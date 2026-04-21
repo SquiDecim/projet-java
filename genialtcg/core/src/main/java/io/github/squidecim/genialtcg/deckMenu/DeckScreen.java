@@ -1,4 +1,4 @@
-package io.github.squidecim.genialtcg.mainMenu;
+package io.github.squidecim.genialtcg.deckMenu;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
@@ -10,6 +10,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import io.github.squidecim.genialtcg.GenialTCG;
+import io.github.squidecim.genialtcg.mainMenu.FirstScreen;
 
 public class DeckScreen implements Screen {
 

@@ -1,26 +1,37 @@
-package io.github.squidecim.genialtcg.mainMenu;
+package io.github.squidecim.genialtcg.deckMenu;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import io.github.squidecim.genialtcg.GenialTCG;
-import io.github.squidecim.genialtcg.mainMenu.DeckScreen;
 
 public class NewDeckScreen implements Screen {
 
     private final GenialTCG game;
     private Stage stage;
     private Skin skin;
+    private Texture atlasTexture;
+
+    private final int SCALE = 2;
+    private final int CARD_WIDTH = 320 * SCALE;
+    private final int CARD_HEIGHT = 448 * SCALE;
+    private final int PADDING = 20 * SCALE;
+    private final int COLUMN_COUNT = 10;
+
     private int cardCount = 0;
     private final int MAX_CARDS = 40;
     private Label counterLabel;
+    private TextButton btnValidate;
     private boolean[] occupied;
 
     public NewDeckScreen(GenialTCG game) {
@@ -33,16 +44,18 @@ public class NewDeckScreen implements Screen {
         Gdx.input.setInputProcessor(stage);
         skin = new Skin(Gdx.files.internal("ui/uiskin.json"));
 
+        atlasTexture = new Texture(Gdx.files.internal("cards/atlas_pays.png"));
+        atlasTexture.setFilter(
+            Texture.TextureFilter.Linear,
+            Texture.TextureFilter.Linear
+        );
+
         Table root = new Table();
         root.setFillParent(true);
         stage.addActor(root);
 
-        // =========================
-        // TOP BAR (RETOUR + VALIDER)
-        // =========================
+        // --- BARRE SUPÉRIEURE ---
         Table topBar = new Table();
-        topBar.left().top();
-
         TextButton btnBack = new TextButton("Retour", skin);
         btnBack.addListener(
             new ChangeListener() {
@@ -53,52 +66,61 @@ public class NewDeckScreen implements Screen {
             }
         );
 
-        TextButton btnValidate = new TextButton("Valider le deck", skin);
+        counterLabel = new Label("Cartes : 0 / " + MAX_CARDS, skin);
+
+        btnValidate = new TextButton("Valider le Deck", skin);
+        btnValidate.setDisabled(true); // Désactivé par défaut
+        btnValidate.setColor(Color.GRAY);
         btnValidate.addListener(
             new ChangeListener() {
                 @Override
                 public void changed(ChangeEvent event, Actor actor) {
                     System.out.println("Deck validé !");
+                    // Logique de sauvegarde ici
                 }
             }
         );
-        // Compteur
-        counterLabel = new Label("Cartes : 0 / " + MAX_CARDS, skin);
-        if (cardCount == MAX_CARDS) {
-            counterLabel.setColor(Color.RED);
-        }
 
-        // Layout top bar
-        topBar.add(btnBack).left().pad(10);
+        topBar.add(btnBack).pad(10);
         topBar.add(counterLabel).expandX().center();
-        topBar.add(btnValidate).right().pad(10);
+        topBar.add(btnValidate).pad(10);
+        root.add(topBar).expandX().fillX().row();
 
-        root.add(topBar).expandX().fillX().colspan(2).row();
-
-        Label title = new Label("Mon nouveau deck", skin);
-        title.setFontScale(1.5f);
-        root.add(title).colspan(2).pad(10).row();
-
+        // --- GRILLE DE CARTES ---
         Table gridTable = new Table();
-        gridTable.top().left();
+        gridTable.center(); // Centre le contenu de la table
 
-        int columns = 8;
-        int totalSlots = 400;
-        occupied = new boolean[totalSlots];
+        int totalCards = 196;
+        occupied = new boolean[totalCards];
+        float displayScale = 0.4f;
 
-        final float CARD_WIDTH = 320f;
-        final float CARD_HEIGHT = 448f;
-        float scale = 0.5f;
-
-        for (int i = 0; i < totalSlots; i++) {
-            Stack slot = new Stack();
-
-            Image background = new Image(
-                skin.newDrawable("white", Color.DARK_GRAY)
-            );
-            slot.add(background);
-
+        for (int i = 0; i < totalCards; i++) {
             final int index = i;
+
+            // Calcul des coordonnées dans l'atlas
+            int col = i % COLUMN_COUNT;
+            int row = i / COLUMN_COUNT;
+            int srcX = PADDING + (col * CARD_WIDTH);
+            int srcY = PADDING + (row * CARD_HEIGHT);
+
+            TextureRegion region = new TextureRegion(
+                atlasTexture,
+                srcX,
+                srcY,
+                CARD_WIDTH,
+                CARD_HEIGHT
+            );
+
+            Stack slot = new Stack();
+            Image cardImg = new Image(region);
+            Image selectionOverlay = new Image(
+                skin.newDrawable("white", new Color(0, 1, 0, 0.4f))
+            );
+            selectionOverlay.setVisible(false);
+
+            slot.add(cardImg);
+            slot.add(selectionOverlay);
+
             slot.addListener(
                 new ClickListener() {
                     @Override
@@ -107,72 +129,97 @@ public class NewDeckScreen implements Screen {
                         float x,
                         float y
                     ) {
-                        int button = event.getButton();
-
-                        if (button == com.badlogic.gdx.Input.Buttons.LEFT) {
-                            if (!occupied[index] && cardCount < MAX_CARDS) {
-                                occupied[index] = true;
-                                cardCount++;
-
-                                counterLabel.setText(
-                                    "Cartes : " + cardCount + " / " + MAX_CARDS
-                                );
-
-                                // feedback visuel
-                                slot.setColor(Color.GREEN);
-
-                                System.out.println("Carte ajoutée : " + index);
-                            }
-                        }
-
-                        if (button == com.badlogic.gdx.Input.Buttons.RIGHT) {
-                            if (occupied[index]) {
-                                occupied[index] = false;
-                                cardCount--;
-
-                                if (cardCount < 0) cardCount = 0;
-
-                                counterLabel.setText(
-                                    "Cartes : " + cardCount + " / " + MAX_CARDS
-                                );
-                                slot.setColor(Color.WHITE);
-
-                                System.out.println("Carte retirée : " + index);
-                            }
-                        }
+                        toggleCardSelection(index, selectionOverlay);
                     }
                 }
             );
 
             gridTable
                 .add(slot)
-                .size(CARD_WIDTH * scale, CARD_HEIGHT * scale)
-                .pad(5);
-
-            if ((i + 1) % columns == 0) {
-                gridTable.row();
-            }
+                .size(CARD_WIDTH * displayScale, CARD_HEIGHT * displayScale)
+                .pad(10);
+            if ((i + 1) % 6 == 0) gridTable.row();
         }
 
-        ScrollPane scrollPane = new ScrollPane(gridTable, skin);
-        scrollPane.setFadeScrollBars(true);
-        scrollPane.setScrollbarsOnTop(false);
-        scrollPane.setScrollingDisabled(true, false);
+        ScrollPane scroll = new ScrollPane(gridTable, skin);
 
-        Table rightPanel = new Table();
-        rightPanel.setBackground(
-            skin.newDrawable("white", Color.valueOf("2b2b2b"))
+        // 1. DÉSACTIVER L'AFFICHAGE DES BARRES
+        scroll.setScrollingDisabled(false, false); // Permet le scroll horizontal/vertical
+        scroll.setScrollBarPositions(false, false); // Ne pas réserver d'espace pour les barres
+        scroll.setFadeScrollBars(false); // Empêche l'animation d'apparition
+
+        // On peut aussi dire au style de ne rien dessiner pour les barres
+        scroll.getStyle().vScroll = null;
+        scroll.getStyle().vScrollKnob = null;
+
+        // 2. RÉPARER LA MOLETTE DE LA SOURIS
+        // On force le focus sur le ScrollPane dès qu'on survole la grille
+        scroll.addListener(
+            new ClickListener() {
+                @Override
+                public void enter(
+                    com.badlogic.gdx.scenes.scene2d.InputEvent event,
+                    float x,
+                    float y,
+                    int pointer,
+                    Actor fromActor
+                ) {
+                    stage.setScrollFocus(scroll);
+                }
+
+                @Override
+                public void exit(
+                    com.badlogic.gdx.scenes.scene2d.InputEvent event,
+                    float x,
+                    float y,
+                    int pointer,
+                    Actor toActor
+                ) {
+                    stage.setScrollFocus(null);
+                }
+            }
         );
 
-        root.add(scrollPane).expand().fill().pad(10);
-        root.add(rightPanel).width(500).fillY().pad(10);
+        root.add(scroll).expand().fill().pad(10);
+    }
+
+    private void toggleCardSelection(int index, Image overlay) {
+        if (occupied[index]) {
+            // Désélectionner
+            occupied[index] = false;
+            cardCount--;
+            overlay.setVisible(false);
+        } else {
+            // Sélectionner (si pas complet)
+            if (cardCount < MAX_CARDS) {
+                occupied[index] = true;
+                cardCount++;
+                overlay.setVisible(true);
+            }
+        }
+        updateUI();
+    }
+
+    private void updateUI() {
+        counterLabel.setText("Cartes : " + cardCount + " / " + MAX_CARDS);
+
+        // Gestion de l'état du bouton Valider
+        boolean isFull = (cardCount == MAX_CARDS);
+        btnValidate.setDisabled(!isFull);
+
+        if (isFull) {
+            btnValidate.setColor(Color.GREEN);
+            counterLabel.setColor(Color.GOLD);
+        } else {
+            btnValidate.setColor(Color.WHITE);
+            counterLabel.setColor(Color.WHITE);
+        }
     }
 
     @Override
     public void render(float delta) {
-        Gdx.gl.glClearColor(0.1f, 0.15f, 0.2f, 1f);
+        Gdx.gl.glClearColor(0.1f, 0.12f, 0.16f, 1f);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-
         stage.act(delta);
         stage.draw();
     }
@@ -183,6 +230,13 @@ public class NewDeckScreen implements Screen {
     }
 
     @Override
+    public void dispose() {
+        stage.dispose();
+        skin.dispose();
+        if (atlasTexture != null) atlasTexture.dispose();
+    }
+
+    @Override
     public void pause() {}
 
     @Override
@@ -190,10 +244,4 @@ public class NewDeckScreen implements Screen {
 
     @Override
     public void hide() {}
-
-    @Override
-    public void dispose() {
-        stage.dispose();
-        skin.dispose();
-    }
 }
