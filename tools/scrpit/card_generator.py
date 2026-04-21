@@ -198,14 +198,6 @@ for idx, p in enumerate(pays):
     x_text = current_x + padding_inside
     y_text = current_y + padding_inside
 
-    # État
-    draw.text(
-        (current_x + 250 * SCALE, y_text),
-        str(p["etat"]),
-        fill=HEADER_COLOR,
-        font=font_bold_big,
-    )
-
     # Nom
     draw.text(
         (current_x + 10 * SCALE, y_text + 4 * SCALE),
@@ -223,46 +215,9 @@ for idx, p in enumerate(pays):
         font=font_italic,
     )
 
-    # Statistiques
-    y_text += 228 * SCALE
-    stats = p["statistiques"]
+    y_text += 307 * SCALE
 
-    draw.text(
-        (x_text + 120 * SCALE, y_text),
-        str(stats["puissance"]),
-        fill=TEXT_COLOR,
-        font=font_small,
-    )
-    draw.text(
-        (x_text + 255 * SCALE, y_text),
-        str(stats["ressources"]),
-        fill=TEXT_COLOR,
-        font=font_small,
-    )
-
-    y_text += 28 * SCALE
-    draw.text(
-        (x_text + 120 * SCALE, y_text),
-        str(stats["technologie"]),
-        fill=TEXT_COLOR,
-        font=font_small,
-    )
-    draw.text(
-        (x_text + 255 * SCALE, y_text),
-        str(stats["stabilite"]),
-        fill=TEXT_COLOR,
-        font=font_small,
-    )
-
-    y_text += 27 * SCALE
-    draw.text(
-        (x_text + 190 * SCALE, y_text),
-        str(stats["economie"]),
-        fill=TEXT_COLOR,
-        font=font_small,
-    )
     # Special
-    y_text += 24 * SCALE
     special = p["special"]
     draw.text(
         (x_text + 30 * SCALE, y_text),
@@ -270,20 +225,6 @@ for idx, p in enumerate(pays):
         fill=TEXT_COLOR,
         font=font_bold_italic_small,
     )
-    if special["cout"] > 100:
-        draw.text(
-            (x_text + 247 * SCALE, y_text),
-            str(special["cout"]),
-            fill=TEXT_COLOR,
-            font=font_bold_small,
-        )
-    else:
-        draw.text(
-            (x_text + 252 * SCALE, y_text),
-            str(special["cout"]),
-            fill=TEXT_COLOR,
-            font=font_bold_small,
-        )
 
     y_text += 15 * SCALE
 
@@ -304,15 +245,6 @@ for idx, p in enumerate(pays):
 
     # Cout carte
     y_text += 9 * SCALE
-    draw.text(
-        (x_text + 37 * SCALE, y_text), str(p["cout"]), fill=TEXT_COLOR, font=font_small
-    )
-    draw.text(
-        (x_text + 56 * SCALE, y_text + 12 * SCALE),
-        str(p["cout"] // 2),
-        fill=TEXT_COLOR,
-        font=font_small,
-    )
 
     # Lore carte
     lore_lines = wrap_text(

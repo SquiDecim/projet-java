@@ -4,14 +4,14 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.badlogic.gdx.utils.Align;
+import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import io.github.squidecim.genialtcg.GenialTCG;
 
@@ -20,22 +20,18 @@ public class NewDeckScreen implements Screen {
     private final GenialTCG game;
     private Stage stage;
     private Skin skin;
-    private Texture atlasTexture;
-
-    private final int SCALE = 2;
-    private final int CARD_WIDTH = 320 * SCALE;
-    private final int CARD_HEIGHT = 448 * SCALE;
-    private final int PADDING = 20 * SCALE;
-    private final int COLUMN_COUNT = 10;
+    private TextureAtlas atlas;
 
     private int cardCount = 0;
     private final int MAX_CARDS = 40;
     private Label counterLabel;
     private TextButton btnValidate;
-    private boolean[] occupied;
+
+    private Array<String> selectedCards;
 
     public NewDeckScreen(GenialTCG game) {
         this.game = game;
+        this.selectedCards = new Array<>();
     }
 
     @Override
@@ -44,17 +40,16 @@ public class NewDeckScreen implements Screen {
         Gdx.input.setInputProcessor(stage);
         skin = new Skin(Gdx.files.internal("ui/uiskin.json"));
 
-        atlasTexture = new Texture(Gdx.files.internal("cards/atlas_pays.png"));
-        atlasTexture.setFilter(
-            Texture.TextureFilter.Linear,
-            Texture.TextureFilter.Linear
+        // CHARGEMENT DE L'ATLAS
+        atlas = new TextureAtlas(
+            Gdx.files.internal("cards/full/country_cards.atlas")
         );
 
         Table root = new Table();
         root.setFillParent(true);
         stage.addActor(root);
 
-        // --- BARRE SUPÉRIEURE ---
+        // BARRE SUPÉRIEURE
         Table topBar = new Table();
         TextButton btnBack = new TextButton("Retour", skin);
         btnBack.addListener(
@@ -67,52 +62,32 @@ public class NewDeckScreen implements Screen {
         );
 
         counterLabel = new Label("Cartes : 0 / " + MAX_CARDS, skin);
-
         btnValidate = new TextButton("Valider le Deck", skin);
-        btnValidate.setDisabled(true); // Désactivé par défaut
+        btnValidate.setDisabled(true);
         btnValidate.setColor(Color.GRAY);
-        btnValidate.addListener(
-            new ChangeListener() {
-                @Override
-                public void changed(ChangeEvent event, Actor actor) {
-                    System.out.println("Deck validé !");
-                    // Logique de sauvegarde ici
-                }
-            }
-        );
 
-        topBar.add(btnBack).pad(10);
+        topBar.add(btnBack).width(250).height(60).pad(10);
         topBar.add(counterLabel).expandX().center();
-        topBar.add(btnValidate).pad(10);
+        topBar.add(btnValidate).width(250).height(60).pad(10);
         root.add(topBar).expandX().fillX().row();
 
-        // --- GRILLE DE CARTES ---
+        // GRILLE DE CARTES
         Table gridTable = new Table();
-        gridTable.center(); // Centre le contenu de la table
+        gridTable.center();
 
-        int totalCards = 196;
-        occupied = new boolean[totalCards];
         float displayScale = 0.4f;
 
-        for (int i = 0; i < totalCards; i++) {
-            final int index = i;
+        // RÉCUPÉRATION DE TOUTES LES RÉGIONS
+        Array<AtlasRegion> allRegions = atlas.getRegions();
 
-            // Calcul des coordonnées dans l'atlas
-            int col = i % COLUMN_COUNT;
-            int row = i / COLUMN_COUNT;
-            int srcX = PADDING + (col * CARD_WIDTH);
-            int srcY = PADDING + (row * CARD_HEIGHT);
-
-            TextureRegion region = new TextureRegion(
-                atlasTexture,
-                srcX,
-                srcY,
-                CARD_WIDTH,
-                CARD_HEIGHT
-            );
+        for (int i = 0; i < allRegions.size; i++) {
+            AtlasRegion region = allRegions.get(i);
+            final String countryId = region.name;
 
             Stack slot = new Stack();
             Image cardImg = new Image(region);
+
+            // Overlay de sélection
             Image selectionOverlay = new Image(
                 skin.newDrawable("white", new Color(0, 1, 0, 0.4f))
             );
@@ -129,31 +104,24 @@ public class NewDeckScreen implements Screen {
                         float x,
                         float y
                     ) {
-                        toggleCardSelection(index, selectionOverlay);
+                        toggleCardSelection(countryId, selectionOverlay);
                     }
                 }
             );
 
+            // On ajoute à la grille
             gridTable
                 .add(slot)
-                .size(CARD_WIDTH * displayScale, CARD_HEIGHT * displayScale)
+                .size(
+                    region.getRegionWidth() * displayScale,
+                    region.getRegionHeight() * displayScale
+                )
                 .pad(10);
+
             if ((i + 1) % 6 == 0) gridTable.row();
         }
 
         ScrollPane scroll = new ScrollPane(gridTable, skin);
-
-        // 1. DÉSACTIVER L'AFFICHAGE DES BARRES
-        scroll.setScrollingDisabled(false, false); // Permet le scroll horizontal/vertical
-        scroll.setScrollBarPositions(false, false); // Ne pas réserver d'espace pour les barres
-        scroll.setFadeScrollBars(false); // Empêche l'animation d'apparition
-
-        // On peut aussi dire au style de ne rien dessiner pour les barres
-        scroll.getStyle().vScroll = null;
-        scroll.getStyle().vScrollKnob = null;
-
-        // 2. RÉPARER LA MOLETTE DE LA SOURIS
-        // On force le focus sur le ScrollPane dès qu'on survole la grille
         scroll.addListener(
             new ClickListener() {
                 @Override
@@ -183,17 +151,13 @@ public class NewDeckScreen implements Screen {
         root.add(scroll).expand().fill().pad(10);
     }
 
-    private void toggleCardSelection(int index, Image overlay) {
-        if (occupied[index]) {
-            // Désélectionner
-            occupied[index] = false;
-            cardCount--;
+    private void toggleCardSelection(String countryId, Image overlay) {
+        if (selectedCards.contains(countryId, false)) {
+            selectedCards.removeValue(countryId, false);
             overlay.setVisible(false);
         } else {
-            // Sélectionner (si pas complet)
-            if (cardCount < MAX_CARDS) {
-                occupied[index] = true;
-                cardCount++;
+            if (selectedCards.size < MAX_CARDS) {
+                selectedCards.add(countryId);
                 overlay.setVisible(true);
             }
         }
@@ -201,9 +165,9 @@ public class NewDeckScreen implements Screen {
     }
 
     private void updateUI() {
+        cardCount = selectedCards.size;
         counterLabel.setText("Cartes : " + cardCount + " / " + MAX_CARDS);
 
-        // Gestion de l'état du bouton Valider
         boolean isFull = (cardCount == MAX_CARDS);
         btnValidate.setDisabled(!isFull);
 
@@ -233,7 +197,7 @@ public class NewDeckScreen implements Screen {
     public void dispose() {
         stage.dispose();
         skin.dispose();
-        if (atlasTexture != null) atlasTexture.dispose();
+        if (atlas != null) atlas.dispose();
     }
 
     @Override

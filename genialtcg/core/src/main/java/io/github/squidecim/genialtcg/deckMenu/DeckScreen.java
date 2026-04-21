@@ -5,9 +5,11 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import io.github.squidecim.genialtcg.GenialTCG;
 import io.github.squidecim.genialtcg.mainMenu.FirstScreen;
@@ -31,8 +33,6 @@ public class DeckScreen implements Screen {
         Table root = new Table();
         root.setFillParent(true);
         stage.addActor(root);
-
-        // Bouton Retour
         Table topTable = new Table();
         topTable.top().left();
         TextButton btnBack = new TextButton("Retour", skin);
@@ -44,51 +44,79 @@ public class DeckScreen implements Screen {
                 }
             }
         );
-        topTable.add(btnBack).pad(20);
+        topTable.add(btnBack).width(250).height(60).pad(20);
         root.add(topTable).expandX().fillX().top().row();
 
-        // Titre
+        // TITRE
         Label title = new Label("Mes Decks", skin);
         title.setFontScale(1.5f);
         root.add(title).padBottom(30).row();
 
-        //  Conteneur des Decks
+        // CONTENEUR DES DECKS
         Table deckListTable = new Table();
-        deckListTable.center();
 
-        // Simulation de decks existants
         for (int i = 1; i <= 8; i++) {
-            deckListTable.add(createDeckSlot("Deck " + i, false)).pad(15);
+            deckListTable
+                .add(createDeckSlot("Deck " + i, false))
+                .width(320)
+                .height(448)
+                .pad(15);
         }
 
-        // Le slot "+" pour créer un nouveau deck
-        deckListTable.add(createDeckSlot("+", true)).pad(15);
+        deckListTable
+            .add(createDeckSlot("+", true))
+            .width(320)
+            .height(448)
+            .pad(15);
 
-        // ScrollPane pour permettre le défilement horizontal si trop de decks
+        // CONFIGURATION DU SCROLLPANE
         ScrollPane scroll = new ScrollPane(deckListTable, skin);
-        scroll.setFadeScrollBars(false);
 
-        // On place le rectangle au milieu
+        scroll.setScrollingDisabled(false, true);
+        scroll.setFlickScroll(true);
+        scroll.setScrollBarPositions(false, false);
+        scroll.getStyle().hScroll = null;
+        scroll.getStyle().hScrollKnob = null;
+
+        scroll.addListener(
+            new ClickListener() {
+                @Override
+                public void enter(
+                    InputEvent event,
+                    float x,
+                    float y,
+                    int pointer,
+                    Actor fromActor
+                ) {
+                    stage.setScrollFocus(scroll);
+                }
+
+                @Override
+                public void exit(
+                    InputEvent event,
+                    float x,
+                    float y,
+                    int pointer,
+                    Actor toActor
+                ) {
+                    stage.setScrollFocus(null);
+                }
+            }
+        );
+
         root.add(scroll).expand().fillX().center();
     }
 
-    /**
-     * Crée un visuel de "carte" pour représenter un deck
-     */
     private Button createDeckSlot(String text, boolean isNewDeckButton) {
-        // On utilise un TextButton comme base pour le rectangle
         TextButton slot = new TextButton(text, skin);
-
-        // On force une taille de rectangle
         slot.getLabel().setFontScale(1.2f);
 
         if (isNewDeckButton) {
-            slot.setColor(Color.LIGHT_GRAY); // Teinte différente pour le "+"
+            slot.setColor(Color.LIGHT_GRAY);
             slot.addListener(
                 new ChangeListener() {
                     @Override
                     public void changed(ChangeEvent event, Actor actor) {
-                        // Redirection vers l'écran de création
                         game.setScreen(new NewDeckScreen(game));
                     }
                 }
@@ -99,21 +127,17 @@ public class DeckScreen implements Screen {
                     @Override
                     public void changed(ChangeEvent event, Actor actor) {
                         System.out.println("Deck sélectionné : " + text);
-                        // Ici, tu pourrais ouvrir l'édition du deck existant
                     }
                 }
             );
         }
-
         return slot;
     }
 
     @Override
     public void render(float delta) {
-        // Fond sombre et épuré
         Gdx.gl.glClearColor(0.1f, 0.12f, 0.18f, 1f);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-
         stage.act(delta);
         stage.draw();
     }
