@@ -29,7 +29,7 @@ public class NewDeckScreen implements Screen {
     private Skin skin;
     private TextureAtlas atlas;
 
-    private final int MAX_CARDS = 2;
+    private final int MAX_CARDS = 40;
     private Label counterLabel;
     private TextButton btnValidate;
     private TextField searchField;
