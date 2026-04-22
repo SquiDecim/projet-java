@@ -5,6 +5,7 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion;
@@ -16,6 +17,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import io.github.squidecim.genialtcg.GenialTCG;
@@ -39,6 +42,10 @@ public class NewDeckScreen implements Screen {
     private Array<String> selectedCards;
     private Deck editingDeck = null;
 
+    private Container<Stack> zoomContainer; // Changé en Stack pour inclure la bordure
+    private String zoomedCardName = "";
+    private Drawable silverBorder;
+
     public NewDeckScreen(GenialTCG game) {
         this(game, null);
     }
@@ -56,6 +63,13 @@ public class NewDeckScreen implements Screen {
         stage = new Stage(new ScreenViewport());
         Gdx.input.setInputProcessor(stage);
         skin = new Skin(Gdx.files.internal("ui/uiskin.json"));
+
+        // Texture pour la bordure (Blanc Argenté)
+        Pixmap pixmap = new Pixmap(1, 1, Pixmap.Format.RGBA8888);
+        pixmap.setColor(new Color(0.9f, 0.9f, 0.9f, 1f));
+        pixmap.fill();
+        silverBorder = new TextureRegionDrawable(new Texture(pixmap));
+        pixmap.dispose();
 
         atlas = new TextureAtlas(
             Gdx.files.internal("cards/full/country_cards.atlas")
@@ -76,6 +90,46 @@ public class NewDeckScreen implements Screen {
         root.setFillParent(true);
         stage.addActor(root);
 
+        // Gestion de la touche Espace
+        stage.addListener(
+            new InputListener() {
+                @Override
+                public boolean keyDown(InputEvent event, int keycode) {
+                    if (keycode == Input.Keys.SPACE) {
+                        if (
+                            zoomContainer != null && zoomContainer.hasParent()
+                        ) {
+                            closeZoom();
+                        } else {
+                            Actor hit = stage.hit(
+                                Gdx.input.getX(),
+                                Gdx.graphics.getHeight() - Gdx.input.getY(),
+                                true
+                            );
+                            while (hit != null && !(hit instanceof Stack)) hit =
+                                hit.getParent();
+                            if (hit instanceof Stack) {
+                                Table wrapper = (Table) ((Stack) hit).findActor(
+                                    "cardWrapper"
+                                );
+                                Image img = (Image) wrapper
+                                    .getChildren()
+                                    .first();
+                                showZoom(
+                                    (AtlasRegion) (
+                                        (TextureRegionDrawable) img.getDrawable()
+                                    ).getRegion()
+                                );
+                            }
+                        }
+                        return true;
+                    }
+                    return false;
+                }
+            }
+        );
+
+        // Top Bar
         Table topBar = new Table();
         TextButton btnBack = new TextButton("Retour", skin);
         btnBack.addListener(
@@ -104,7 +158,7 @@ public class NewDeckScreen implements Screen {
         root.add(topBar).expandX().fillX().row();
 
         searchField = new TextField("", skin);
-        searchField.setMessageText("Rechercher un pays...");
+        searchField.setMessageText("Rechercher...");
         searchField.addListener(
             new ChangeListener() {
                 @Override
@@ -124,21 +178,168 @@ public class NewDeckScreen implements Screen {
 
         ScrollPane scroll = new ScrollPane(gridTable, skin);
         scroll.setFadeScrollBars(false);
-        scroll.setScrollBarPositions(false, true);
+        scroll.setScrollingDisabled(true, false);
         scroll.getStyle().vScroll = null;
         scroll.getStyle().vScrollKnob = null;
 
         root.add(scroll).expand().fill().pad(10);
+        stage.setScrollFocus(scroll);
+
         updateUI();
+    }
+
+    private void showZoom(AtlasRegion region) {
+        zoomedCardName = region.name;
+        updateZoomContent(region); // Centralisation de la logique d'affichage
+    }
+
+    // Nouvelle méthode pour gérer l'affichage du zoom (initial et mise à jour)
+    private void updateZoomContent(AtlasRegion region) {
+        boolean isSelected = selectedCards.contains(region.name, false);
+        float zoomHeight = stage.getHeight() * 0.85f;
+        float ratio =
+            region.getRegionWidth() / (float) region.getRegionHeight();
+        float cardW = zoomHeight * ratio;
+        float cardH = zoomHeight;
+        float borderThickness = 6f; // Épaisseur uniforme pour le zoom
+
+        // Création du Stack principal qui contient la carte et sa bordure
+        Stack zoomStack = new Stack();
+
+        // 1. La Bordure (si sélectionnée)
+        if (isSelected) {
+            Image border = new Image(silverBorder);
+            Table borderWrapper = new Table();
+            // On centre la bordure et on lui donne la taille de la carte + l'épaisseur
+            borderWrapper
+                .add(border)
+                .size(cardW + borderThickness * 2, cardH + borderThickness * 2);
+            zoomStack.add(borderWrapper);
+        }
+
+        // 2. L'Image de la carte
+        Image zoomedImg = new Image(region);
+        Table cardWrapper = new Table();
+        cardWrapper.add(zoomedImg).size(cardW, cardH);
+        zoomStack.add(cardWrapper);
+
+        // Gestion du conteneur global (initialisation ou mise à jour)
+        if (zoomContainer == null) {
+            zoomContainer = new Container<>();
+            zoomContainer.setFillParent(true);
+            // Fond sombre derrière le zoom
+            zoomContainer.setBackground(
+                skin.newDrawable("white", new Color(0, 0, 0, 0.85f))
+            );
+            stage.addActor(zoomContainer);
+        }
+
+        zoomContainer.setActor(zoomStack);
+
+        // Nettoyage des listeners précédents pour éviter les doublons
+        zoomContainer.clearListeners();
+
+        // Clic sur le zoom pour sélectionner/désélectionner
+        zoomContainer.addListener(
+            new ClickListener() {
+                @Override
+                public void clicked(InputEvent event, float x, float y) {
+                    toggleCardSelection(region.name);
+                    updateGrid(searchField.getText()); // Met à jour la grille en fond
+                    updateZoomContent(region); // Met à jour l'affichage du zoom (bordure)
+                }
+            }
+        );
+    }
+
+    private void closeZoom() {
+        if (zoomContainer != null) {
+            zoomContainer.remove();
+            zoomContainer = null; // Important pour forcer la recréation
+            zoomedCardName = "";
+        }
+    }
+
+    private void toggleCardSelection(String cardName) {
+        if (selectedCards.contains(cardName, false)) {
+            selectedCards.removeValue(cardName, false);
+        } else if (selectedCards.size < MAX_CARDS) {
+            selectedCards.add(cardName);
+        }
+        updateUI();
+    }
+
+    private void updateGrid(String filter) {
+        gridTable.clearChildren();
+        float baseW = 320 * 0.85f;
+        float baseH = 448 * 0.85f;
+        float borderThickness = 4f;
+        String query = filter.toLowerCase().trim();
+
+        searchField.setColor(hasMatchingCard(query) ? Color.WHITE : Color.RED);
+
+        int visibleCount = 0;
+        for (final AtlasRegion region : allCardsSorted) {
+            if (
+                !query.isEmpty() && !region.name.toLowerCase().contains(query)
+            ) continue;
+
+            boolean isSelected = selectedCards.contains(region.name, false);
+            Stack slot = new Stack();
+
+            if (isSelected) {
+                Image border = new Image(silverBorder);
+                Table borderWrapper = new Table();
+                borderWrapper
+                    .add(border)
+                    .size(
+                        baseW * 1.05f + borderThickness,
+                        baseH * 1.05f + borderThickness
+                    );
+                slot.add(borderWrapper);
+            }
+
+            Image cardImg = new Image(region);
+            Table wrapper = new Table();
+            wrapper.setName("cardWrapper");
+
+            float finalW = isSelected ? baseW * 1.05f : baseW;
+            float finalH = isSelected ? baseH * 1.05f : baseH;
+
+            wrapper.add(cardImg).size(finalW, finalH);
+            slot.add(wrapper);
+
+            slot.addListener(
+                new ClickListener() {
+                    @Override
+                    public void clicked(InputEvent event, float x, float y) {
+                        toggleCardSelection(region.name);
+                        updateGrid(searchField.getText());
+                    }
+                }
+            );
+
+            gridTable.add(slot).size(baseW * 1.1f, baseH * 1.1f).pad(5);
+            visibleCount++;
+            if (visibleCount % 6 == 0) gridTable.row();
+        }
     }
 
     private boolean hasMatchingCard(String query) {
         if (query.isEmpty()) return true;
-        String q = query.toLowerCase().trim();
         for (AtlasRegion region : allCardsSorted) {
-            if (region.name.toLowerCase().contains(q)) return true;
+            if (region.name.toLowerCase().contains(query)) return true;
         }
         return false;
+    }
+
+    private void updateUI() {
+        counterLabel.setText(
+            "Cartes : " + selectedCards.size + " / " + MAX_CARDS
+        );
+        boolean isFull = (selectedCards.size == MAX_CARDS);
+        btnValidate.setDisabled(!isFull);
+        btnValidate.setColor(isFull ? Color.GREEN : Color.GRAY);
     }
 
     private void showSaveDialog() {
@@ -149,20 +350,20 @@ public class NewDeckScreen implements Screen {
         );
         dialog
             .getContentTable()
-            .add(new Label("Entrez le nom de votre deck :", skin))
+            .add(new Label("Nom du deck :", skin))
             .pad(10)
             .row();
         dialog.getContentTable().add(nameInput).width(300).pad(10);
 
         Runnable confirmAction = () -> {
-            String deckName = nameInput.getText().trim();
-            if (!deckName.isEmpty()) {
+            String name = nameInput.getText().trim();
+            if (!name.isEmpty()) {
                 if (editingDeck != null) {
-                    editingDeck.name = deckName;
+                    editingDeck.name = name;
                     editingDeck.cardNames = new Array<>(selectedCards);
                 } else {
                     game.savedDecks.add(
-                        new Deck(deckName, new Array<>(selectedCards))
+                        new Deck(name, new Array<>(selectedCards))
                     );
                 }
                 dialog.hide();
@@ -211,73 +412,6 @@ public class NewDeckScreen implements Screen {
         dialog.getButtonTable().add(btnCancel).width(120).height(40).pad(10);
         dialog.show(stage);
         stage.setKeyboardFocus(nameInput);
-    }
-
-    private void updateGrid(String filter) {
-        gridTable.clearChildren();
-        float displayScale = 0.9f;
-        Drawable selectionDrawable = skin.newDrawable(
-            "white",
-            new Color(0, 1, 0, 0.4f)
-        );
-        String query = filter.toLowerCase().trim();
-
-        // --- METHODE ROBUSTE POUR LE ROUGE ---
-        if (!hasMatchingCard(query)) {
-            // Teinte l'ensemble du champ en rouge (curseur, fond et texte)
-            searchField.setColor(Color.RED);
-        } else {
-            // Remet la couleur par défaut
-            searchField.setColor(Color.WHITE);
-        }
-
-        int visibleCount = 0;
-        for (int i = 0; i < allCardsSorted.size; i++) {
-            final AtlasRegion region = allCardsSorted.get(i);
-            if (
-                !query.isEmpty() && !region.name.toLowerCase().contains(query)
-            ) continue;
-
-            Stack slot = new Stack();
-            Image cardImg = new Image(region);
-            final Image selectionOverlay = new Image(selectionDrawable);
-            selectionOverlay.setVisible(
-                selectedCards.contains(region.name, false)
-            );
-
-            slot.add(cardImg);
-            slot.add(selectionOverlay);
-            slot.addListener(
-                new ClickListener() {
-                    @Override
-                    public void clicked(InputEvent event, float x, float y) {
-                        if (selectedCards.contains(region.name, false)) {
-                            selectedCards.removeValue(region.name, false);
-                            selectionOverlay.setVisible(false);
-                        } else if (selectedCards.size < MAX_CARDS) {
-                            selectedCards.add(region.name);
-                            selectionOverlay.setVisible(true);
-                        }
-                        updateUI();
-                    }
-                }
-            );
-            gridTable
-                .add(slot)
-                .size(320 * displayScale, 448 * displayScale)
-                .pad(10);
-            visibleCount++;
-            if (visibleCount % 6 == 0) gridTable.row();
-        }
-    }
-
-    private void updateUI() {
-        counterLabel.setText(
-            "Cartes : " + selectedCards.size + " / " + MAX_CARDS
-        );
-        boolean isFull = (selectedCards.size == MAX_CARDS);
-        btnValidate.setDisabled(!isFull);
-        btnValidate.setColor(isFull ? Color.GREEN : Color.GRAY);
     }
 
     @Override
