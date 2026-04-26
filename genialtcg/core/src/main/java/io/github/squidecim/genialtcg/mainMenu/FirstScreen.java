@@ -53,7 +53,7 @@ public class FirstScreen implements Screen {
                 @Override
                 public void changed(ChangeEvent event, Actor actor) {
                     if (game.savedDecks.size > 0) {
-                        GameModel model = new GameModel();
+                        GameModel model = new GameModel(game);
                         GameView view = new GameView(game, model);
                         view.setController(new GameController(view, model));
                         game.setScreen(view);

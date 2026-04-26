@@ -95,10 +95,10 @@ public class GameView implements Screen {
             ));
 
         mpb.rect(
-            -7f, 0f, 5.98f, //avant gauche
-            7f, 0, 5.98f, //avant droit
-            7f, 0,  -5.98f, //bas droit
-            -7f, 0,  -5.98f, //bas gauche
+            -7f, -0.0001f, 5.98f, //avant gauche
+            7f, -0.0001f, 5.98f, //avant droit
+            7f, -0.0001f,  -5.98f, //bas droit
+            -7f, -0.0001f,  -5.98f, //bas gauche
             0, -1, 0
         );
 
