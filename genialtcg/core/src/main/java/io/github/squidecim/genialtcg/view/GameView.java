@@ -352,7 +352,7 @@ public class GameView implements Screen {
             card.setHandIndex(i);
 
             float x = (i - center) * spacing;
-            float y = 0.5f + (i - center) * THICKNESS;
+            float y = 0.5f + i* THICKNESS;
             float z = 5f;
             float angleX = 0;
             Vector3 dest = new Vector3(x, y, z);

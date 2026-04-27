@@ -18,10 +18,11 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
-import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import io.github.squidecim.genialtcg.GenialTCG;
+import io.github.squidecim.genialtcg.model.CardData;
+import io.github.squidecim.genialtcg.model.CardsStackData;
 import java.text.Collator;
 import java.util.Locale;
 
@@ -39,10 +40,10 @@ public class NewDeckScreen implements Screen {
 
     private Table gridTable;
     private Array<AtlasRegion> allCardsSorted;
-    private Array<String> selectedCards;
-    private Deck editingDeck = null;
+    private CardsStackData selectedCards;
+    private CardsStackData editingDeck = null;
 
-    private Container<Stack> zoomContainer; // Changé en Stack pour inclure la bordure
+    private Container<Stack> zoomContainer;
     private String zoomedCardName = "";
     private Drawable silverBorder;
 
@@ -50,12 +51,15 @@ public class NewDeckScreen implements Screen {
         this(game, null);
     }
 
-    public NewDeckScreen(GenialTCG game, Deck deckToEdit) {
+    public NewDeckScreen(GenialTCG game, CardsStackData deckToEdit) {
         this.game = game;
         this.editingDeck = deckToEdit;
-        this.selectedCards = (deckToEdit != null)
-            ? new Array<>(deckToEdit.cardNames)
-            : new Array<>();
+        this.selectedCards = new CardsStackData("selected");
+        if (deckToEdit != null) {
+            for (CardData card : deckToEdit.getCards()) {
+                this.selectedCards.addCard(card);
+            }
+        }
     }
 
     @Override
@@ -64,21 +68,15 @@ public class NewDeckScreen implements Screen {
         Gdx.input.setInputProcessor(stage);
         skin = new Skin(Gdx.files.internal("ui/uiskin.json"));
 
-        // Texture pour la bordure (Blanc Argenté)
         Pixmap pixmap = new Pixmap(1, 1, Pixmap.Format.RGBA8888);
         pixmap.setColor(new Color(0.9f, 0.9f, 0.9f, 1f));
         pixmap.fill();
         silverBorder = new TextureRegionDrawable(new Texture(pixmap));
         pixmap.dispose();
 
-        atlas = new TextureAtlas(
-            Gdx.files.internal("cards/full/country_cards.atlas")
-        );
+        atlas = new TextureAtlas(Gdx.files.internal("cards/full/country_cards.atlas"));
         for (Texture texture : atlas.getTextures()) {
-            texture.setFilter(
-                Texture.TextureFilter.Linear,
-                Texture.TextureFilter.Linear
-            );
+            texture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
         }
 
         allCardsSorted = new Array<>(atlas.getRegions());
@@ -90,67 +88,44 @@ public class NewDeckScreen implements Screen {
         root.setFillParent(true);
         stage.addActor(root);
 
-        // Gestion de la touche Espace
-        stage.addListener(
-            new InputListener() {
-                @Override
-                public boolean keyDown(InputEvent event, int keycode) {
-                    if (keycode == Input.Keys.SPACE) {
-                        if (
-                            zoomContainer != null && zoomContainer.hasParent()
-                        ) {
-                            closeZoom();
-                        } else {
-                            Actor hit = stage.hit(
-                                Gdx.input.getX(),
-                                Gdx.graphics.getHeight() - Gdx.input.getY(),
-                                true
-                            );
-                            while (hit != null && !(hit instanceof Stack)) hit =
-                                hit.getParent();
-                            if (hit instanceof Stack) {
-                                Table wrapper = (Table) ((Stack) hit).findActor(
-                                    "cardWrapper"
-                                );
-                                Image img = (Image) wrapper
-                                    .getChildren()
-                                    .first();
-                                showZoom(
-                                    (AtlasRegion) (
-                                        (TextureRegionDrawable) img.getDrawable()
-                                    ).getRegion()
-                                );
-                            }
+        stage.addListener(new InputListener() {
+            @Override
+            public boolean keyDown(InputEvent event, int keycode) {
+                if (keycode == Input.Keys.SPACE) {
+                    if (zoomContainer != null && zoomContainer.hasParent()) {
+                        closeZoom();
+                    } else {
+                        Actor hit = stage.hit(Gdx.input.getX(), Gdx.graphics.getHeight() - Gdx.input.getY(), true);
+                        while (hit != null && !(hit instanceof Stack)) hit = hit.getParent();
+                        if (hit instanceof Stack) {
+                            Table wrapper = (Table) ((Stack) hit).findActor("cardWrapper");
+                            Image img = (Image) wrapper.getChildren().first();
+                            showZoom((AtlasRegion) ((TextureRegionDrawable) img.getDrawable()).getRegion());
                         }
-                        return true;
                     }
-                    return false;
+                    return true;
                 }
+                return false;
             }
-        );
+        });
 
-        // Top Bar
         Table topBar = new Table();
         TextButton btnBack = new TextButton("Retour", skin);
-        btnBack.addListener(
-            new ChangeListener() {
-                @Override
-                public void changed(ChangeEvent event, Actor actor) {
-                    game.setScreen(new DeckScreen(game));
-                }
+        btnBack.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                game.setScreen(new DeckScreen(game));
             }
-        );
+        });
 
         counterLabel = new Label("", skin);
         btnValidate = new TextButton("Valider", skin);
-        btnValidate.addListener(
-            new ChangeListener() {
-                @Override
-                public void changed(ChangeEvent event, Actor actor) {
-                    showSaveDialog();
-                }
+        btnValidate.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                showSaveDialog();
             }
-        );
+        });
 
         topBar.add(btnBack).width(200).height(50).pad(10);
         topBar.add(counterLabel).expandX().center();
@@ -159,14 +134,12 @@ public class NewDeckScreen implements Screen {
 
         searchField = new TextField("", skin);
         searchField.setMessageText("Rechercher...");
-        searchField.addListener(
-            new ChangeListener() {
-                @Override
-                public void changed(ChangeEvent event, Actor actor) {
-                    updateGrid(searchField.getText());
-                }
+        searchField.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                updateGrid(searchField.getText());
             }
-        );
+        });
 
         Table searchBarTable = new Table();
         searchBarTable.add(new Label("Recherche : ", skin)).padLeft(10);
@@ -190,81 +163,66 @@ public class NewDeckScreen implements Screen {
 
     private void showZoom(AtlasRegion region) {
         zoomedCardName = region.name;
-        updateZoomContent(region); // Centralisation de la logique d'affichage
+        updateZoomContent(region);
     }
 
-    // Nouvelle méthode pour gérer l'affichage du zoom (initial et mise à jour)
     private void updateZoomContent(AtlasRegion region) {
-        boolean isSelected = selectedCards.contains(region.name, false);
+        boolean isSelected = selectedCards.containsByName(region.name);
         float zoomHeight = stage.getHeight() * 0.85f;
-        float ratio =
-            region.getRegionWidth() / (float) region.getRegionHeight();
+        float ratio = region.getRegionWidth() / (float) region.getRegionHeight();
         float cardW = zoomHeight * ratio;
         float cardH = zoomHeight;
-        float borderThickness = 6f; // Épaisseur uniforme pour le zoom
+        float borderThickness = 6f;
 
-        // Création du Stack principal qui contient la carte et sa bordure
         Stack zoomStack = new Stack();
 
-        // 1. La Bordure (si sélectionnée)
         if (isSelected) {
             Image border = new Image(silverBorder);
             Table borderWrapper = new Table();
-            // On centre la bordure et on lui donne la taille de la carte + l'épaisseur
-            borderWrapper
-                .add(border)
-                .size(cardW + borderThickness * 2, cardH + borderThickness * 2);
+            borderWrapper.add(border).size(cardW + borderThickness * 2, cardH + borderThickness * 2);
             zoomStack.add(borderWrapper);
         }
 
-        // 2. L'Image de la carte
         Image zoomedImg = new Image(region);
         Table cardWrapper = new Table();
         cardWrapper.add(zoomedImg).size(cardW, cardH);
         zoomStack.add(cardWrapper);
 
-        // Gestion du conteneur global (initialisation ou mise à jour)
         if (zoomContainer == null) {
             zoomContainer = new Container<>();
             zoomContainer.setFillParent(true);
-            // Fond sombre derrière le zoom
-            zoomContainer.setBackground(
-                skin.newDrawable("white", new Color(0, 0, 0, 0.85f))
-            );
+            zoomContainer.setBackground(skin.newDrawable("white", new Color(0, 0, 0, 0.85f)));
             stage.addActor(zoomContainer);
         }
 
         zoomContainer.setActor(zoomStack);
-
-        // Nettoyage des listeners précédents pour éviter les doublons
         zoomContainer.clearListeners();
 
-        // Clic sur le zoom pour sélectionner/désélectionner
-        zoomContainer.addListener(
-            new ClickListener() {
-                @Override
-                public void clicked(InputEvent event, float x, float y) {
-                    toggleCardSelection(region.name);
-                    updateGrid(searchField.getText()); // Met à jour la grille en fond
-                    updateZoomContent(region); // Met à jour l'affichage du zoom (bordure)
-                }
+        zoomContainer.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                toggleCardSelection(region.name);
+                updateGrid(searchField.getText());
+                updateZoomContent(region);
             }
-        );
+        });
     }
 
     private void closeZoom() {
         if (zoomContainer != null) {
             zoomContainer.remove();
-            zoomContainer = null; // Important pour forcer la recréation
+            zoomContainer = null;
             zoomedCardName = "";
         }
     }
 
     private void toggleCardSelection(String cardName) {
-        if (selectedCards.contains(cardName, false)) {
-            selectedCards.removeValue(cardName, false);
-        } else if (selectedCards.size < MAX_CARDS) {
-            selectedCards.add(cardName);
+        if (selectedCards.containsByName(cardName)) {
+            selectedCards.removeByName(cardName);
+        } else if (selectedCards.getSize() < MAX_CARDS) {
+            // On crée un CardData minimal avec juste le nom — les vraies données
+            // seront chargées depuis le JSON quand tu auras le système de chargement
+            selectedCards.addCard(new CardData(cardName, "", "", "", 0, 0, new int[]{}));
         }
         updateUI();
     }
@@ -280,22 +238,15 @@ public class NewDeckScreen implements Screen {
 
         int visibleCount = 0;
         for (final AtlasRegion region : allCardsSorted) {
-            if (
-                !query.isEmpty() && !region.name.toLowerCase().contains(query)
-            ) continue;
+            if (!query.isEmpty() && !region.name.toLowerCase().contains(query)) continue;
 
-            boolean isSelected = selectedCards.contains(region.name, false);
+            boolean isSelected = selectedCards.containsByName(region.name);
             Stack slot = new Stack();
 
             if (isSelected) {
                 Image border = new Image(silverBorder);
                 Table borderWrapper = new Table();
-                borderWrapper
-                    .add(border)
-                    .size(
-                        baseW * 1.05f + borderThickness,
-                        baseH * 1.05f + borderThickness
-                    );
+                borderWrapper.add(border).size(baseW * 1.05f + borderThickness, baseH * 1.05f + borderThickness);
                 slot.add(borderWrapper);
             }
 
@@ -309,15 +260,13 @@ public class NewDeckScreen implements Screen {
             wrapper.add(cardImg).size(finalW, finalH);
             slot.add(wrapper);
 
-            slot.addListener(
-                new ClickListener() {
-                    @Override
-                    public void clicked(InputEvent event, float x, float y) {
-                        toggleCardSelection(region.name);
-                        updateGrid(searchField.getText());
-                    }
+            slot.addListener(new ClickListener() {
+                @Override
+                public void clicked(InputEvent event, float x, float y) {
+                    toggleCardSelection(region.name);
+                    updateGrid(searchField.getText());
                 }
-            );
+            });
 
             gridTable.add(slot).size(baseW * 1.1f, baseH * 1.1f).pad(5);
             visibleCount++;
@@ -334,25 +283,16 @@ public class NewDeckScreen implements Screen {
     }
 
     private void updateUI() {
-        counterLabel.setText(
-            "Cartes : " + selectedCards.size + " / " + MAX_CARDS
-        );
-        boolean isFull = (selectedCards.size == MAX_CARDS);
+        counterLabel.setText("Cartes : " + selectedCards.getSize() + " / " + MAX_CARDS);
+        boolean isFull = (selectedCards.getSize() == MAX_CARDS);
         btnValidate.setDisabled(!isFull);
         btnValidate.setColor(isFull ? Color.GREEN : Color.GRAY);
     }
 
     private void showSaveDialog() {
         Dialog dialog = new Dialog("", skin);
-        TextField nameInput = new TextField(
-            editingDeck != null ? editingDeck.name : "",
-            skin
-        );
-        dialog
-            .getContentTable()
-            .add(new Label("Nom du deck :", skin))
-            .pad(10)
-            .row();
+        TextField nameInput = new TextField(editingDeck != null ? editingDeck.name : "", skin);
+        dialog.getContentTable().add(new Label("Nom du deck :", skin)).pad(10).row();
         dialog.getContentTable().add(nameInput).width(300).pad(10);
 
         Runnable confirmAction = () -> {
@@ -360,53 +300,52 @@ public class NewDeckScreen implements Screen {
             if (!name.isEmpty()) {
                 if (editingDeck != null) {
                     editingDeck.name = name;
-                    editingDeck.cardNames = new Array<>(selectedCards);
+                    editingDeck.clearCards();
+                    for (CardData card : selectedCards.getCards()) {
+                        editingDeck.addCard(card);
+                    }
                 } else {
-                    game.savedDecks.add(
-                        new Deck(name, new Array<>(selectedCards))
-                    );
+                    CardsStackData newDeck = new CardsStackData(name);
+                    for (CardData card : selectedCards.getCards()) {
+                        newDeck.addCard(card);
+                    }
+                    game.savedDecks.add(newDeck);
                 }
                 dialog.hide();
                 game.setScreen(new DeckScreen(game));
             }
         };
 
-        nameInput.addListener(
-            new InputListener() {
-                @Override
-                public boolean keyDown(InputEvent event, int keycode) {
-                    if (keycode == Input.Keys.ENTER) {
-                        confirmAction.run();
-                        return true;
-                    }
-                    if (keycode == Input.Keys.ESCAPE) {
-                        dialog.hide();
-                        return true;
-                    }
-                    return false;
+        nameInput.addListener(new InputListener() {
+            @Override
+            public boolean keyDown(InputEvent event, int keycode) {
+                if (keycode == Input.Keys.ENTER) {
+                    confirmAction.run();
+                    return true;
                 }
+                if (keycode == Input.Keys.ESCAPE) {
+                    dialog.hide();
+                    return true;
+                }
+                return false;
             }
-        );
+        });
 
         TextButton btnOk = new TextButton("Valider", skin);
-        btnOk.addListener(
-            new ChangeListener() {
-                @Override
-                public void changed(ChangeEvent event, Actor actor) {
-                    confirmAction.run();
-                }
+        btnOk.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                confirmAction.run();
             }
-        );
+        });
 
         TextButton btnCancel = new TextButton("Annuler", skin);
-        btnCancel.addListener(
-            new ChangeListener() {
-                @Override
-                public void changed(ChangeEvent event, Actor actor) {
-                    dialog.hide();
-                }
+        btnCancel.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                dialog.hide();
             }
-        );
+        });
 
         dialog.getButtonTable().add(btnOk).width(120).height(40).pad(10);
         dialog.getButtonTable().add(btnCancel).width(120).height(40).pad(10);

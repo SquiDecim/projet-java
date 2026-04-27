@@ -42,6 +42,6 @@ public class CardData {
             this.type,
             this.cost,
             this.pv
-        ); //statistics à compléter
+        );
     }
 }
