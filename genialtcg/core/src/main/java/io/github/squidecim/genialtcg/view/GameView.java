@@ -3,6 +3,8 @@ package io.github.squidecim.genialtcg.view;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.*;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.g3d.*;
 import com.badlogic.gdx.graphics.g3d.attributes.ColorAttribute;
@@ -20,8 +22,6 @@ import io.github.squidecim.genialtcg.*;
 import io.github.squidecim.genialtcg.controller.GameController;
 import io.github.squidecim.genialtcg.model.CardData;
 import io.github.squidecim.genialtcg.model.GameModel;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion;
 
 public class GameView implements Screen {
 
@@ -90,23 +90,38 @@ public class GameView implements Screen {
         ModelBuilder builder = new ModelBuilder();
         builder.begin();
 
-        MeshPartBuilder mpb = builder.part("plateau", GL20.GL_TRIANGLES,
-            VertexAttributes.Usage.Position | VertexAttributes.Usage.Normal | VertexAttributes.Usage.TextureCoordinates,
-            new Material(TextureAttribute.createDiffuse(boardTexture),
-                            IntAttribute.createCullFace(GL20.GL_NONE)
-            ));
+        MeshPartBuilder mpb = builder.part(
+            "plateau",
+            GL20.GL_TRIANGLES,
+            VertexAttributes.Usage.Position |
+                VertexAttributes.Usage.Normal |
+                VertexAttributes.Usage.TextureCoordinates,
+            new Material(
+                TextureAttribute.createDiffuse(boardTexture),
+                IntAttribute.createCullFace(GL20.GL_NONE)
+            )
+        );
 
         mpb.rect(
-            -7f, -0.0001f, 5.98f, //avant gauche
-            7f, -0.0001f, 5.98f, //avant droit
-            7f, -0.0001f,  -5.98f, //bas droit
-            -7f, -0.0001f,  -5.98f, //bas gauche
-            0, -1, 0
+            -7f,
+            -0.0001f,
+            5.98f, //avant gauche
+            7f,
+            -0.0001f,
+            5.98f, //avant droit
+            7f,
+            -0.0001f,
+            -5.98f, //bas droit
+            -7f,
+            -0.0001f,
+            -5.98f, //bas gauche
+            0,
+            -1,
+            0
         );
 
         boardModel = builder.end();
         boardInstance = new ModelInstance(boardModel);
-
 
         environment = new Environment();
         environment.set(
@@ -124,9 +139,14 @@ public class GameView implements Screen {
         environment.add(new DirectionalLight().set(1f, 1f, 1f, 1f, 0.8f, 0.2f));
 
         backTexture = new Texture("cards/backCardTexture.png");
-        cardAtlas = new TextureAtlas(Gdx.files.internal("cards/full/country_cards.atlas"));
+        cardAtlas = new TextureAtlas(
+            Gdx.files.internal("cards/dynamic/country_dynamic.atlas")
+        );
         for (Texture texture : cardAtlas.getTextures()) {
-            texture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
+            texture.setFilter(
+                Texture.TextureFilter.Linear,
+                Texture.TextureFilter.Linear
+            );
         }
 
         tableSlot = new CardSlot(
@@ -359,7 +379,7 @@ public class GameView implements Screen {
             card.setHandIndex(i);
 
             float x = (i - center) * spacing;
-            float y = 0.5f + i* THICKNESS;
+            float y = 0.5f + i * THICKNESS;
             float z = 5f;
             float angleX = 0;
             Vector3 dest = new Vector3(x, y, z);
@@ -491,8 +511,9 @@ public class GameView implements Screen {
 
         return null;
     }
-    public CardSlot getFirstEmptyBenchSlot(){
-        for (CardSlot slot : benchBottomSlots){
+
+    public CardSlot getFirstEmptyBenchSlot() {
+        for (CardSlot slot : benchBottomSlots) {
             if (slot.isEmpty()) return slot;
         }
         return null;
