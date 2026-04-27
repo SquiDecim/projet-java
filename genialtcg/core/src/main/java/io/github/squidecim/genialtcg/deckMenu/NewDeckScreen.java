@@ -13,6 +13,7 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
@@ -34,6 +35,7 @@ public class NewDeckScreen implements Screen {
 
     private final int MAX_CARDS = 40;
     private Label counterLabel;
+    private Label messageLabel;
     private TextButton btnValidate;
     private TextField searchField;
 
@@ -42,9 +44,11 @@ public class NewDeckScreen implements Screen {
     private Array<String> selectedCards;
     private Deck editingDeck = null;
 
-    private Container<Stack> zoomContainer; // Changé en Stack pour inclure la bordure
-    private String zoomedCardName = "";
+    private Container<Stack> zoomContainer;
     private Drawable silverBorder;
+
+    private static final float EFFECT_SCALE = 1.05f;
+    private static final float ANIM_DURATION = 0.1f;
 
     public NewDeckScreen(GenialTCG game) {
         this(game, null);
@@ -64,7 +68,6 @@ public class NewDeckScreen implements Screen {
         Gdx.input.setInputProcessor(stage);
         skin = new Skin(Gdx.files.internal("ui/uiskin.json"));
 
-        // Texture pour la bordure (Blanc Argenté)
         Pixmap pixmap = new Pixmap(1, 1, Pixmap.Format.RGBA8888);
         pixmap.setColor(new Color(0.9f, 0.9f, 0.9f, 1f));
         pixmap.fill();
@@ -90,46 +93,23 @@ public class NewDeckScreen implements Screen {
         root.setFillParent(true);
         stage.addActor(root);
 
-        // Gestion de la touche Espace
         stage.addListener(
             new InputListener() {
                 @Override
                 public boolean keyDown(InputEvent event, int keycode) {
-                    if (keycode == Input.Keys.SPACE) {
+                    if (keycode == Input.Keys.ESCAPE) {
                         if (
                             zoomContainer != null && zoomContainer.hasParent()
                         ) {
                             closeZoom();
-                        } else {
-                            Actor hit = stage.hit(
-                                Gdx.input.getX(),
-                                Gdx.graphics.getHeight() - Gdx.input.getY(),
-                                true
-                            );
-                            while (hit != null && !(hit instanceof Stack)) hit =
-                                hit.getParent();
-                            if (hit instanceof Stack) {
-                                Table wrapper = (Table) ((Stack) hit).findActor(
-                                    "cardWrapper"
-                                );
-                                Image img = (Image) wrapper
-                                    .getChildren()
-                                    .first();
-                                showZoom(
-                                    (AtlasRegion) (
-                                        (TextureRegionDrawable) img.getDrawable()
-                                    ).getRegion()
-                                );
-                            }
+                            return true;
                         }
-                        return true;
                     }
                     return false;
                 }
             }
         );
 
-        // Top Bar
         Table topBar = new Table();
         TextButton btnBack = new TextButton("Retour", skin);
         btnBack.addListener(
@@ -142,6 +122,13 @@ public class NewDeckScreen implements Screen {
         );
 
         counterLabel = new Label("", skin);
+        messageLabel = new Label("", skin);
+        messageLabel.setColor(Color.ORANGE);
+
+        Table centerGroup = new Table();
+        centerGroup.add(counterLabel).row();
+        centerGroup.add(messageLabel).height(20);
+
         btnValidate = new TextButton("Valider", skin);
         btnValidate.addListener(
             new ChangeListener() {
@@ -153,7 +140,7 @@ public class NewDeckScreen implements Screen {
         );
 
         topBar.add(btnBack).width(200).height(50).pad(10);
-        topBar.add(counterLabel).expandX().center();
+        topBar.add(centerGroup).expandX().center();
         topBar.add(btnValidate).width(200).height(50).pad(10);
         root.add(topBar).expandX().fillX().row();
 
@@ -177,10 +164,11 @@ public class NewDeckScreen implements Screen {
         updateGrid("");
 
         ScrollPane scroll = new ScrollPane(gridTable, skin);
-        scroll.setFadeScrollBars(false);
-        scroll.setScrollingDisabled(true, false);
-        scroll.getStyle().vScroll = null;
-        scroll.getStyle().vScrollKnob = null;
+        // DESACTIVATION VISUELLE DE LA BARRE SANS CRASH
+        scroll.setScrollingDisabled(false, false);
+        scroll.setScrollBarPositions(false, false);
+        scroll.setFadeScrollBars(true);
+        scroll.setupFadeScrollBars(0, 0); // Rend les barres invisibles même lors du scroll
 
         root.add(scroll).expand().fill().pad(10);
         stage.setScrollFocus(scroll);
@@ -188,12 +176,23 @@ public class NewDeckScreen implements Screen {
         updateUI();
     }
 
-    private void showZoom(AtlasRegion region) {
-        zoomedCardName = region.name;
-        updateZoomContent(region); // Centralisation de la logique d'affichage
+    private void showEphemeralMessage(String text) {
+        messageLabel.setText(text);
+        messageLabel.clearActions();
+        messageLabel.addAction(
+            Actions.sequence(
+                Actions.alpha(1),
+                Actions.fadeOut(3f),
+                Actions.run(() -> messageLabel.setText(""))
+            )
+        );
     }
 
-    // Nouvelle méthode pour gérer l'affichage du zoom (initial et mise à jour)
+    private void showZoom(AtlasRegion region) {
+        if (zoomContainer != null) return;
+        updateZoomContent(region);
+    }
+
     private void updateZoomContent(AtlasRegion region) {
         boolean isSelected = selectedCards.contains(region.name, false);
         float zoomHeight = stage.getHeight() * 0.85f;
@@ -201,52 +200,37 @@ public class NewDeckScreen implements Screen {
             region.getRegionWidth() / (float) region.getRegionHeight();
         float cardW = zoomHeight * ratio;
         float cardH = zoomHeight;
-        float borderThickness = 6f; // Épaisseur uniforme pour le zoom
+        float borderThickness = 6f;
 
-        // Création du Stack principal qui contient la carte et sa bordure
         Stack zoomStack = new Stack();
 
-        // 1. La Bordure (si sélectionnée)
         if (isSelected) {
             Image border = new Image(silverBorder);
             Table borderWrapper = new Table();
-            // On centre la bordure et on lui donne la taille de la carte + l'épaisseur
             borderWrapper
                 .add(border)
                 .size(cardW + borderThickness * 2, cardH + borderThickness * 2);
             zoomStack.add(borderWrapper);
         }
 
-        // 2. L'Image de la carte
         Image zoomedImg = new Image(region);
         Table cardWrapper = new Table();
         cardWrapper.add(zoomedImg).size(cardW, cardH);
         zoomStack.add(cardWrapper);
 
-        // Gestion du conteneur global (initialisation ou mise à jour)
-        if (zoomContainer == null) {
-            zoomContainer = new Container<>();
-            zoomContainer.setFillParent(true);
-            // Fond sombre derrière le zoom
-            zoomContainer.setBackground(
-                skin.newDrawable("white", new Color(0, 0, 0, 0.85f))
-            );
-            stage.addActor(zoomContainer);
-        }
-
+        zoomContainer = new Container<>();
+        zoomContainer.setFillParent(true);
+        zoomContainer.setBackground(
+            skin.newDrawable("white", new Color(0, 0, 0, 0.85f))
+        );
         zoomContainer.setActor(zoomStack);
+        stage.addActor(zoomContainer);
 
-        // Nettoyage des listeners précédents pour éviter les doublons
-        zoomContainer.clearListeners();
-
-        // Clic sur le zoom pour sélectionner/désélectionner
         zoomContainer.addListener(
-            new ClickListener() {
+            new ClickListener(-1) {
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
-                    toggleCardSelection(region.name);
-                    updateGrid(searchField.getText()); // Met à jour la grille en fond
-                    updateZoomContent(region); // Met à jour l'affichage du zoom (bordure)
+                    closeZoom();
                 }
             }
         );
@@ -255,8 +239,7 @@ public class NewDeckScreen implements Screen {
     private void closeZoom() {
         if (zoomContainer != null) {
             zoomContainer.remove();
-            zoomContainer = null; // Important pour forcer la recréation
-            zoomedCardName = "";
+            zoomContainer = null;
         }
     }
 
@@ -265,6 +248,8 @@ public class NewDeckScreen implements Screen {
             selectedCards.removeValue(cardName, false);
         } else if (selectedCards.size < MAX_CARDS) {
             selectedCards.add(cardName);
+        } else {
+            showEphemeralMessage("Le deck est plein (40/40) !");
         }
         updateUI();
     }
@@ -284,37 +269,83 @@ public class NewDeckScreen implements Screen {
                 !query.isEmpty() && !region.name.toLowerCase().contains(query)
             ) continue;
 
-            boolean isSelected = selectedCards.contains(region.name, false);
+            final boolean isSelected = selectedCards.contains(
+                region.name,
+                false
+            );
             Stack slot = new Stack();
+            slot.setTransform(true);
+            slot.setOrigin(Align.center);
 
             if (isSelected) {
+                slot.setScale(EFFECT_SCALE);
                 Image border = new Image(silverBorder);
                 Table borderWrapper = new Table();
                 borderWrapper
                     .add(border)
-                    .size(
-                        baseW * 1.05f + borderThickness,
-                        baseH * 1.05f + borderThickness
-                    );
+                    .size(baseW + borderThickness, baseH + borderThickness);
                 slot.add(borderWrapper);
             }
 
             Image cardImg = new Image(region);
             Table wrapper = new Table();
-            wrapper.setName("cardWrapper");
-
-            float finalW = isSelected ? baseW * 1.05f : baseW;
-            float finalH = isSelected ? baseH * 1.05f : baseH;
-
-            wrapper.add(cardImg).size(finalW, finalH);
+            wrapper.add(cardImg).size(baseW, baseH);
             slot.add(wrapper);
 
             slot.addListener(
-                new ClickListener() {
+                new ClickListener(Input.Buttons.LEFT) {
                     @Override
                     public void clicked(InputEvent event, float x, float y) {
+                        if (zoomContainer != null) return;
                         toggleCardSelection(region.name);
                         updateGrid(searchField.getText());
+                    }
+
+                    @Override
+                    public void enter(
+                        InputEvent event,
+                        float x,
+                        float y,
+                        int pointer,
+                        Actor fromActor
+                    ) {
+                        if (
+                            pointer == -1 &&
+                            !isSelected &&
+                            zoomContainer == null
+                        ) {
+                            slot.addAction(
+                                Actions.scaleTo(
+                                    EFFECT_SCALE,
+                                    EFFECT_SCALE,
+                                    ANIM_DURATION
+                                )
+                            );
+                        }
+                    }
+
+                    @Override
+                    public void exit(
+                        InputEvent event,
+                        float x,
+                        float y,
+                        int pointer,
+                        Actor toActor
+                    ) {
+                        if (pointer == -1 && !isSelected) {
+                            slot.addAction(
+                                Actions.scaleTo(1f, 1f, ANIM_DURATION)
+                            );
+                        }
+                    }
+                }
+            );
+
+            slot.addListener(
+                new ClickListener(Input.Buttons.RIGHT) {
+                    @Override
+                    public void clicked(InputEvent event, float x, float y) {
+                        showZoom(region);
                     }
                 }
             );
@@ -377,10 +408,6 @@ public class NewDeckScreen implements Screen {
                 public boolean keyDown(InputEvent event, int keycode) {
                     if (keycode == Input.Keys.ENTER) {
                         confirmAction.run();
-                        return true;
-                    }
-                    if (keycode == Input.Keys.ESCAPE) {
-                        dialog.hide();
                         return true;
                     }
                     return false;
