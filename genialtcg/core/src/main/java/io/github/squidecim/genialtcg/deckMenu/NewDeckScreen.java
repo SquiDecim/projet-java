@@ -425,14 +425,23 @@ public class NewDeckScreen implements Screen {
         Runnable confirmAction = () -> {
             String name = nameInput.getText().trim();
             if (!name.isEmpty()) {
-                java.util.List<CardData> cardDataList =
-                    new java.util.ArrayList<>();
+                java.util.List<CardData> cardDataList = new java.util.ArrayList<>();
+                for (String cardName : selectedCards) {
+                    cardDataList.add(new CardData(cardName, "", "", "", 0, 0, new int[]{}));
+                }
 
                 if (editingDeck != null) {
                     editingDeck.name = name;
                     editingDeck.clearCards();
+                    for (CardData card : cardDataList) {
+                        editingDeck.addCard(card);
+                    }
                 } else {
-                    game.savedDecks.add(new CardsStackData(name, cardDataList));
+                    CardsStackData newDeck = new CardsStackData(name);
+                    for (CardData card : cardDataList) {
+                        newDeck.addCard(card);
+                    }
+                    game.savedDecks.add(newDeck);
                 }
                 dialog.hide();
                 game.setScreen(new DeckScreen(game));
