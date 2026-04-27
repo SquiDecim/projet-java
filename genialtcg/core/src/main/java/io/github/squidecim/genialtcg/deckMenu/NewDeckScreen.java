@@ -106,13 +106,13 @@ public class NewDeckScreen implements Screen {
             new InputListener() {
                 @Override
                 public boolean keyDown(InputEvent event, int keycode) {
-                    if (keycode == Input.Keys.ESCAPE) {
-                        if (
-                            zoomContainer != null && zoomContainer.hasParent()
-                        ) {
-                            closeZoom();
-                            return true;
-                        }
+                    if (
+                        keycode == Input.Keys.ESCAPE &&
+                        zoomContainer != null &&
+                        zoomContainer.hasParent()
+                    ) {
+                        closeZoom();
+                        return true;
                     }
                     return false;
                 }
@@ -121,7 +121,6 @@ public class NewDeckScreen implements Screen {
 
         // --- TOP BAR ---
         Table topBar = new Table();
-
         TextButton btnBack = new TextButton("Retour", skin);
         btnBack.addListener(
             new ChangeListener() {
@@ -188,11 +187,6 @@ public class NewDeckScreen implements Screen {
         updateGrid("");
 
         ScrollPane scroll = new ScrollPane(gridTable, skin);
-        scroll.setScrollingDisabled(false, false);
-        scroll.setScrollBarPositions(false, false);
-        scroll.setFadeScrollBars(true);
-        scroll.setupFadeScrollBars(0, 0);
-
         root.add(scroll).expand().fill().pad(10);
         stage.setScrollFocus(scroll);
 
@@ -203,7 +197,6 @@ public class NewDeckScreen implements Screen {
         selectedCards.clear();
         Array<AtlasRegion> shuffled = new Array<>(allCardsSorted);
         shuffled.shuffle();
-
         int limit = Math.min(MAX_CARDS, shuffled.size);
         for (int i = 0; i < limit; i++) {
             selectedCards.add(shuffled.get(i).name);
@@ -239,7 +232,6 @@ public class NewDeckScreen implements Screen {
         float borderThickness = 6f;
 
         Stack zoomStack = new Stack();
-
         if (isSelected) {
             Image border = new Image(silverBorder);
             Table borderWrapper = new Table();
@@ -427,23 +419,41 @@ public class NewDeckScreen implements Screen {
             if (!name.isEmpty()) {
                 java.util.List<CardData> cardDataList =
                     new java.util.ArrayList<>();
+
                 for (String cardName : selectedCards) {
-                    cardDataList.add(
-                        new CardData(cardName, "", "", "", 0, 0, new int[] {})
-                    );
+                    // PERFORMANCE : On récupère l'instance pré-chargée du JSON
+                    // On part du principe que game.allCardsMap contient les CardData indexées par leur nom
+                    CardData fullData = game.allCardsMap.get(cardName);
+
+                    if (fullData != null) {
+                        cardDataList.add(fullData);
+                        System.out.println(fullData);
+                    } else {
+                        // Securité : si la carte n'est pas trouvée
+                        cardDataList.add(
+                            new CardData(
+                                cardName,
+                                "N/A",
+                                "Inconnu",
+                                "Inconnu",
+                                0,
+                                0,
+                                new int[5]
+                            )
+                        );
+                    }
                 }
 
                 if (editingDeck != null) {
                     editingDeck.name = name;
                     editingDeck.clearCards();
-                    for (CardData card : cardDataList) {
+                    for (CardData card : cardDataList)
                         editingDeck.addCard(card);
-                    }
                 } else {
-                    CardsStackData newDeck = new CardsStackData(name);
-                    for (CardData card : cardDataList) {
-                        newDeck.addCard(card);
-                    }
+                    CardsStackData newDeck = new CardsStackData(
+                        name,
+                        cardDataList
+                    );
                     game.savedDecks.add(newDeck);
                 }
                 dialog.hide();
@@ -490,7 +500,6 @@ public class NewDeckScreen implements Screen {
 
         dialog.getButtonTable().add(btnCancel).width(120).height(40).pad(10);
         dialog.getButtonTable().add(btnOk).width(120).height(40).pad(10);
-
         dialog.show(stage);
         stage.setKeyboardFocus(nameInput);
     }
