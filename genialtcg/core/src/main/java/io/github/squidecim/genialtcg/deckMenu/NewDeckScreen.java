@@ -425,9 +425,12 @@ public class NewDeckScreen implements Screen {
         Runnable confirmAction = () -> {
             String name = nameInput.getText().trim();
             if (!name.isEmpty()) {
-                java.util.List<CardData> cardDataList = new java.util.ArrayList<>();
+                java.util.List<CardData> cardDataList =
+                    new java.util.ArrayList<>();
                 for (String cardName : selectedCards) {
-                    cardDataList.add(new CardData(cardName, "", "", "", 0, 0, new int[]{}));
+                    cardDataList.add(
+                        new CardData(cardName, "", "", "", 0, 0, new int[] {})
+                    );
                 }
 
                 if (editingDeck != null) {
@@ -456,6 +459,10 @@ public class NewDeckScreen implements Screen {
                         confirmAction.run();
                         return true;
                     }
+                    if (keycode == Input.Keys.ESCAPE) {
+                        dialog.hide();
+                        return true;
+                    }
                     return false;
                 }
             }
@@ -481,8 +488,9 @@ public class NewDeckScreen implements Screen {
             }
         );
 
-        dialog.getButtonTable().add(btnOk).width(120).height(40).pad(10);
         dialog.getButtonTable().add(btnCancel).width(120).height(40).pad(10);
+        dialog.getButtonTable().add(btnOk).width(120).height(40).pad(10);
+
         dialog.show(stage);
         stage.setKeyboardFocus(nameInput);
     }

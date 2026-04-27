@@ -5,18 +5,15 @@ from io import BytesIO
 import requests
 from PIL import Image, ImageDraw, ImageFont, ImageOps
 
-# chemin d'accès aux fichiers
+# --- CONFIGURATION DES CHEMINS ---
 JSON_PATH = "/home/user-x/Documents/GitHub/projet-java/genialtcg/assets/JSON/pays.json"
 SHAPES_CACHE_DIR = "tools/img/shapes_cache"
 FLAGS_CACHE_DIR = "tools/img/flags_cache"
-OUTPUT_PATH = "genialtcg/assets/cards/atlas_pays.png"
+OUTPUT_DIR = "tools/img/output_cards"
 
-# configuration des constantes
-SCALE = 2
-CARD_WIDTH = 320 * SCALE
-CARD_HEIGHT = 448 * SCALE
-PADDING = 20 * SCALE
-COLUMN_COUNT = 10
+# --- CONFIGURATION DES CONSTANTES (TAILLE NATIVE) ---
+CARD_WIDTH = 320
+CARD_HEIGHT = 448
 TEXT_COLOR = (0, 0, 0)
 HEADER_COLOR = (0, 0, 0)
 
@@ -28,36 +25,38 @@ TEMPLATES = {
     "Diplomatique": "tools/img/template/diplomatique.png",
 }
 
-# Chargement des modèles et des caches
-templates_cache = {}
-for k, path in TEMPLATES.items():
-    if os.path.exists(path):
-        templates_cache[k] = Image.open(path)
+# --- INITIALISATION ET CACHE ---
+if not os.path.exists(OUTPUT_DIR):
+    os.makedirs(OUTPUT_DIR)
 
 for folder in [SHAPES_CACHE_DIR, FLAGS_CACHE_DIR]:
     if not os.path.exists(folder):
         os.makedirs(folder)
 
-# Polices
+templates_cache = {}
+for k, path in TEMPLATES.items():
+    if os.path.exists(path):
+        templates_cache[k] = Image.open(path).resize(
+            (CARD_WIDTH, CARD_HEIGHT), Image.Resampling.LANCZOS
+        )
+
+# --- POLICES ---
 font_path = "/usr/share/fonts/truetype/dejavu/"
-font_bold_big = ImageFont.truetype(font_path + "DejaVuSans-Bold.ttf", 24 * SCALE)
-font = ImageFont.truetype(font_path + "DejaVuSans.ttf", 18 * SCALE)
-font_bold = ImageFont.truetype(font_path + "DejaVuSans-Bold.ttf", 18 * SCALE)
-font_italic = ImageFont.truetype(font_path + "DejaVuSans-Oblique.ttf", 18 * SCALE)
-font_small = ImageFont.truetype(font_path + "DejaVuSans.ttf", 12 * SCALE)
-font_small_small_italic = ImageFont.truetype(
-    font_path + "DejaVuSans-Oblique.ttf", 11 * SCALE
-)
+font_bold_big = ImageFont.truetype(font_path + "DejaVuSans-Bold.ttf", 24)
+font_bold = ImageFont.truetype(font_path + "DejaVuSans-Bold.ttf", 18)
+font_italic = ImageFont.truetype(font_path + "DejaVuSans-Oblique.ttf", 18)
+font_small = ImageFont.truetype(font_path + "DejaVuSans.ttf", 12)
+font_small_small_italic = ImageFont.truetype(font_path + "DejaVuSans-Oblique.ttf", 11)
 font_small_small_small_italic = ImageFont.truetype(
-    font_path + "DejaVuSans-Oblique.ttf", 10 * SCALE
+    font_path + "DejaVuSans-Oblique.ttf", 10
 )
-font_bold_small = ImageFont.truetype(font_path + "DejaVuSans-Bold.ttf", 12 * SCALE)
+font_bold_small = ImageFont.truetype(font_path + "DejaVuSans-Bold.ttf", 12)
 font_bold_italic_small = ImageFont.truetype(
-    font_path + "DejaVuSans-BoldOblique.ttf", 12 * SCALE
+    font_path + "DejaVuSans-BoldOblique.ttf", 12
 )
 
 
-# fonction pour obtenir l'image de la forme d'un pays
+# --- FONCTIONS ---
 def get_country_shape(iso_code):
     if not iso_code:
         return None
@@ -65,8 +64,6 @@ def get_country_shape(iso_code):
     local_file = os.path.join(SHAPES_CACHE_DIR, f"{iso_code}.png")
     if os.path.exists(local_file):
         return Image.open(local_file).convert("RGBA")
-    else:
-        print(f"le code ISO {iso_code} n'a pas de shape")
     url = f"https://raw.githubusercontent.com/djaiss/mapsicon/master/all/{iso_code}/256.png"
     try:
         r = requests.get(url, timeout=5)
@@ -75,11 +72,10 @@ def get_country_shape(iso_code):
                 f.write(r.content)
             return Image.open(BytesIO(r.content)).convert("RGBA")
     except:
-        print(f"pas de forme pour {iso_code}")
+        return None
     return None
 
 
-# fonction pour obtenir l'image du drapeau d'un pays
 def get_country_flag(iso_code):
     if not iso_code:
         return None
@@ -87,8 +83,6 @@ def get_country_flag(iso_code):
     local_file = os.path.join(FLAGS_CACHE_DIR, f"{iso_code}.png")
     if os.path.exists(local_file):
         return Image.open(local_file).convert("RGBA")
-    else:
-        print(f"le code ISO {iso_code} n'a pas de drapeau")
     url = f"https://flagcdn.com/w640/{iso_code}.png"
     try:
         r = requests.get(url, timeout=5)
@@ -97,11 +91,10 @@ def get_country_flag(iso_code):
                 f.write(r.content)
             return Image.open(BytesIO(r.content)).convert("RGBA")
     except:
-        print(f"pas de drapeau pour {iso_code}")
+        return None
     return None
 
 
-# fonction pour écrire du texte sur l'image avec retour à la ligne quand le texte dépasse la largeur autorisée
 def wrap_text(draw, text, font, max_width):
     words = text.split()
     lines, current = [], ""
@@ -117,147 +110,97 @@ def wrap_text(draw, text, font, max_width):
     return lines
 
 
-# chargement des pays depuis le fichier JSON
+# --- GÉNÉRATION ---
 with open(JSON_PATH, "r", encoding="utf-8") as file:
     pays = json.load(file)
 
-row_count = (len(pays) + COLUMN_COUNT - 1) // COLUMN_COUNT
-img_width = COLUMN_COUNT * CARD_WIDTH + 2 * PADDING
-img_height = row_count * CARD_HEIGHT + 2 * PADDING
-img = Image.new("RGB", (img_width, img_height), (255, 255, 255))
-draw = ImageDraw.Draw(img)
+print(f"Génération de {len(pays)} cartes (Tri par Nom activé)...")
 
+for p in pays:
+    card_img = Image.new("RGB", (CARD_WIDTH, CARD_HEIGHT), (255, 255, 255))
+    draw = ImageDraw.Draw(card_img)
 
-# Ecriture sur l'atlas carte par carte
-for idx, p in enumerate(pays):
-    col_index = idx % COLUMN_COUNT
-    row_index = idx // COLUMN_COUNT
-    current_x = PADDING + col_index * CARD_WIDTH
-    current_y = PADDING + row_index * CARD_HEIGHT
-
-    # Image pays sans drapeau
+    # 1. Template
     type_p = p.get("type")
     if type_p in templates_cache:
-        t_img = templates_cache[type_p].resize(
-            (CARD_WIDTH, CARD_HEIGHT), Image.Resampling.LANCZOS
-        )
-        img.paste(t_img, (current_x, current_y))
+        card_img.paste(templates_cache[type_p], (0, 0))
 
-        # Image pays avec drapeau
-        iso_code = p.get("id").lower()  # On s'assure d'être en minuscules
+        # 2. Forme + Drapeau
+        iso_code = p.get("id").lower()
         shape_img = get_country_shape(iso_code)
         flag_img = get_country_flag(iso_code)
 
         if shape_img and flag_img:
-            target_size = 180 * SCALE
+            target_size = 180
             w, h = shape_img.size
             ratio = min(target_size / w, target_size / h)
             new_size = (int(w * ratio), int(h * ratio))
 
-            # --- GESTION CONDITIONNELLE DES MASQUES ---
-
-            # Liste des pays "problématiques" (fonds blancs opaques)
             special_cases = ["xk", "fm", "ps", "tv"]
-
             if iso_code in special_cases:
-                # MÉTHODE A : Pour les fichiers opaques (noir sur blanc)
-                # On force le lissage en convertissant proprement
-                mask_temp = shape_img.convert("RGBA").convert("L")
-                # On inverse pour que le noir devienne la zone de collage
-                mask = ImageOps.invert(mask_temp)
-                # On redimensionne avec LANCZOS pour essayer de garder un peu de douceur
-                mask = mask.resize(new_size, Image.Resampling.LANCZOS)
+                mask = ImageOps.invert(shape_img.convert("RGBA").convert("L")).resize(
+                    new_size, Image.Resampling.LANCZOS
+                )
             else:
-                # MÉTHODE B : Pour les fichiers normaux avec transparence (ex: fr.png)
-                if "A" in shape_img.getbands():
-                    mask = shape_img.getchannel("A")
-                else:
-                    mask = shape_img.convert("L")
-                mask = mask.resize(new_size, Image.Resampling.LANCZOS)
+                mask = (
+                    shape_img.getchannel("A").resize(new_size, Image.Resampling.LANCZOS)
+                    if "A" in shape_img.getbands()
+                    else shape_img.convert("L").resize(
+                        new_size, Image.Resampling.LANCZOS
+                    )
+                )
 
-            # --- COLLAGE COMMUN ---
-
-            # On prépare le drapeau
             flag_resized = ImageOps.fit(
                 flag_img, new_size, method=Image.Resampling.LANCZOS
             )
-
-            # Création de l'image découpée
             combined = Image.new("RGBA", new_size, (0, 0, 0, 0))
             combined.paste(flag_resized, (0, 0), mask=mask)
+            card_img.paste(combined, ((CARD_WIDTH - new_size[0]) // 2, 90), combined)
 
-            # Collage final sur la carte
-            s_w, s_h = combined.size
-            img.paste(
-                combined,
-                (current_x + (CARD_WIDTH - s_w) // 2, current_y + 90 * SCALE),
-                combined,
-            )
-    # TEXTE
-    padding_inside = 10 * SCALE
-    x_text = current_x + padding_inside
-    y_text = current_y + padding_inside
-
-    # Nom
+    # 3. Textes et Stats
+    padding = 10
+    draw.text((10, padding + 4), p["nom"], fill=HEADER_COLOR, font=font_bold)
     draw.text(
-        (current_x + 10 * SCALE, y_text + 4 * SCALE),
-        p["nom"],
-        fill=HEADER_COLOR,
-        font=font_bold,
+        (padding - 3, padding + 45), str(p["rang"]), fill=TEXT_COLOR, font=font_italic
     )
+    stats_y = padding + 273
+    stats_y += 28
+    stats_y += 27
 
-    y_text += 45 * SCALE
-    # Rang
-    draw.text(
-        (x_text - 3 * SCALE, y_text),
-        str(p["rang"]),
-        fill=TEXT_COLOR,
-        font=font_italic,
-    )
-
-    y_text += 307 * SCALE
-
-    # Special
+    special_y = stats_y + 24
     special = p["special"]
     draw.text(
-        (x_text + 30 * SCALE, y_text),
+        (padding + 30, special_y),
         special["nom"],
         fill=TEXT_COLOR,
         font=font_bold_italic_small,
     )
 
-    y_text += 15 * SCALE
-
+    desc_y = special_y + 15
     desc_lines = wrap_text(
-        draw,
-        special["description"],
-        font_small,
-        (CARD_WIDTH - 2 * padding_inside) - (35 * SCALE),
+        draw, special["description"], font_small, (CARD_WIDTH - 2 * padding) - 35
     )
     for line in desc_lines:
         draw.text(
-            (x_text + 30 * SCALE, y_text),
-            line,
-            fill=TEXT_COLOR,
-            font=font_small_small_italic,
+            (padding + 30, desc_y), line, fill=TEXT_COLOR, font=font_small_small_italic
         )
-        y_text += 16 * SCALE
+        desc_y += 16
 
-    # Cout carte
-    y_text += 9 * SCALE
+    bottom_y = max(desc_y + 9, 398)
 
-    # Lore carte
-    lore_lines = wrap_text(
-        draw, p["lore"], font_small, (CARD_WIDTH - 2 * padding_inside) - (50 * SCALE)
-    )
-    for line in lore_lines:
+    lore_lines = wrap_text(draw, p["lore"], font_small, (CARD_WIDTH - 2 * padding) - 50)
+    for i, line in enumerate(lore_lines):
         draw.text(
-            (x_text + 95 * SCALE, y_text + 2 * SCALE),
+            (padding + 95, bottom_y + 2 + (i * 11)),
             line,
             fill=TEXT_COLOR,
             font=font_small_small_small_italic,
         )
-        y_text += 11 * SCALE
 
-img.save(OUTPUT_PATH, dpi=(300, 300))
-print("Atlas généré")
+    # --- 4. SAUVEGARDE PAR NOM (Crucial pour le tri Java) ---
+    # On nettoie le nom (ex: "Afrique du Sud" -> "Afrique_du_Sud")
+    clean_name = p["nom"].replace(" ", "_")
+    file_name = f"{clean_name}.png"
+    card_img.save(os.path.join(OUTPUT_DIR, file_name))
+
+print(f"Terminé ! Relance le Texture Packer sur '{OUTPUT_DIR}'.")
