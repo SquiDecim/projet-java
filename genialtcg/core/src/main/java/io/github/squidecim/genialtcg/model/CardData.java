@@ -29,7 +29,6 @@ public class CardData {
         this.cost = cost;
         this.pv = pv;
         this.stats = stats;
-        this.texture = new Texture("cards/frontCardTexture.jpg");
     }
 
     @Override
@@ -42,6 +41,6 @@ public class CardData {
             this.type,
             this.cost,
             this.pv
-        ); //statistics à compléter
+        );
     }
 }

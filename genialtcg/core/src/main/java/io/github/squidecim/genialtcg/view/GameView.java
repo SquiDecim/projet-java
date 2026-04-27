@@ -20,6 +20,8 @@ import io.github.squidecim.genialtcg.*;
 import io.github.squidecim.genialtcg.controller.GameController;
 import io.github.squidecim.genialtcg.model.CardData;
 import io.github.squidecim.genialtcg.model.GameModel;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion;
 
 public class GameView implements Screen {
 
@@ -32,7 +34,7 @@ public class GameView implements Screen {
     private Environment environment;
     private ModelBatch modelBatch;
 
-    private Texture frontTexture;
+    private TextureAtlas cardAtlas;
     private Texture backTexture;
 
     private CardSlot tableSlot;
@@ -121,8 +123,11 @@ public class GameView implements Screen {
         );
         environment.add(new DirectionalLight().set(1f, 1f, 1f, 1f, 0.8f, 0.2f));
 
-        frontTexture = new Texture("cards/frontCardTexture.jpg");
         backTexture = new Texture("cards/backCardTexture.png");
+        cardAtlas = new TextureAtlas(Gdx.files.internal("cards/full/country_cards.atlas"));
+        for (Texture texture : cardAtlas.getTextures()) {
+            texture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
+        }
 
         tableSlot = new CardSlot(
             new Vector3(0, 0, TABLE_GAP / 2 + TABLE_CARD_H / 2),
@@ -187,7 +192,7 @@ public class GameView implements Screen {
             -3.2f
         );
         discard = createCardsStacks(
-            new TextureRegion(frontTexture),
+            new TextureRegion(backTexture),
             BENCH_CARD_W,
             BENCH_CARD_H,
             0,
@@ -196,7 +201,7 @@ public class GameView implements Screen {
             3.2f
         );
         opponentDiscard = createCardsStacks(
-            new TextureRegion(frontTexture),
+            new TextureRegion(backTexture),
             BENCH_CARD_W,
             BENCH_CARD_H,
             0,
@@ -295,7 +300,6 @@ public class GameView implements Screen {
 
     @Override
     public void dispose() {
-        frontTexture.dispose();
         backTexture.dispose();
         modelBatch.dispose();
         for (CardDecal card : handCards) card.dispose();
@@ -312,9 +316,12 @@ public class GameView implements Screen {
     }
 
     public void addCardToHand(CardData data) {
+        AtlasRegion region = cardAtlas.findRegion(data.country);
+        TextureRegion front = new TextureRegion(region);
+
         CardDecal decal = new CardDecal(
             data,
-            new TextureRegion(frontTexture),
+            front,
             new TextureRegion(backTexture),
             BENCH_CARD_W,
             BENCH_CARD_H,
@@ -352,7 +359,7 @@ public class GameView implements Screen {
             card.setHandIndex(i);
 
             float x = (i - center) * spacing;
-            float y = 0.5f + (i - center) * THICKNESS;
+            float y = 0.5f + i* THICKNESS;
             float z = 5f;
             float angleX = 0;
             Vector3 dest = new Vector3(x, y, z);

@@ -14,6 +14,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import io.github.squidecim.genialtcg.GenialTCG;
 import io.github.squidecim.genialtcg.mainMenu.FirstScreen;
+import io.github.squidecim.genialtcg.model.CardsStackData;
 
 public class DeckScreen implements Screen {
 
@@ -41,14 +42,12 @@ public class DeckScreen implements Screen {
 
         Table topTable = new Table();
         TextButton btnBack = new TextButton("Retour", skin);
-        btnBack.addListener(
-            new ChangeListener() {
-                @Override
-                public void changed(ChangeEvent event, Actor actor) {
-                    game.setScreen(new FirstScreen(game));
-                }
+        btnBack.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                game.setScreen(new FirstScreen(game));
             }
-        );
+        });
         topTable.add(btnBack).width(200).height(50).pad(10).left().expandX();
         root.add(topTable).expandX().fillX().top().row();
 
@@ -59,57 +58,38 @@ public class DeckScreen implements Screen {
         root.add(title).padBottom(30).row();
 
         Table listTable = new Table();
-        for (final Deck deck : game.savedDecks) {
+        for (final CardsStackData deck : game.savedDecks) {
             final Stack stack = new Stack();
             TextButton db = new TextButton(deck.name, skin);
-            db.addListener(
-                new ChangeListener() {
-                    @Override
-                    public void changed(ChangeEvent event, Actor actor) {
-                        game.setScreen(new NewDeckScreen(game, deck));
-                    }
+            db.addListener(new ChangeListener() {
+                @Override
+                public void changed(ChangeEvent event, Actor actor) {
+                    game.setScreen(new NewDeckScreen(game, deck));
                 }
-            );
+            });
 
             final TextButton del = new TextButton("X", skin);
             del.setColor(Color.RED);
-            del.setVisible(false); // Caché par défaut
-            del.addListener(
-                new ChangeListener() {
-                    @Override
-                    public void changed(ChangeEvent event, Actor actor) {
-                        game.savedDecks.removeValue(deck, true);
-                        game.setScreen(new DeckScreen(game));
-                    }
+            del.setVisible(false);
+            del.addListener(new ChangeListener() {
+                @Override
+                public void changed(ChangeEvent event, Actor actor) {
+                    game.savedDecks.removeValue(deck, true);
+                    game.setScreen(new DeckScreen(game));
                 }
-            );
+            });
 
-            // Détection du survol pour afficher/cacher la croix
-            stack.addListener(
-                new InputListener() {
-                    @Override
-                    public void enter(
-                        InputEvent event,
-                        float x,
-                        float y,
-                        int pointer,
-                        Actor fromActor
-                    ) {
-                        del.setVisible(true);
-                    }
-
-                    @Override
-                    public void exit(
-                        InputEvent event,
-                        float x,
-                        float y,
-                        int pointer,
-                        Actor toActor
-                    ) {
-                        del.setVisible(false);
-                    }
+            stack.addListener(new InputListener() {
+                @Override
+                public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+                    del.setVisible(true);
                 }
-            );
+
+                @Override
+                public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
+                    del.setVisible(false);
+                }
+            });
 
             stack.add(db);
             stack.add(new Container<>(del).size(40).top().right());
@@ -117,18 +97,16 @@ public class DeckScreen implements Screen {
         }
 
         TextButton btnNew = new TextButton("+", skin);
-        btnNew.addListener(
-            new ChangeListener() {
-                @Override
-                public void changed(ChangeEvent event, Actor actor) {
-                    if (game.savedDecks.size < 4) {
-                        game.setScreen(new NewDeckScreen(game));
-                    } else {
-                        showAlert("Vous ne pouvez avoir que 4 decks maximum");
-                    }
+        btnNew.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                if (game.savedDecks.size < 4) {
+                    game.setScreen(new NewDeckScreen(game));
+                } else {
+                    showAlert("Vous ne pouvez avoir que 4 decks maximum");
                 }
             }
-        );
+        });
         listTable.add(btnNew).width(250).height(350).pad(10);
 
         ScrollPane scroll = new ScrollPane(listTable, skin);
@@ -138,13 +116,11 @@ public class DeckScreen implements Screen {
     private void showAlert(String text) {
         alertLabel.setText(text);
         alertLabel.clearActions();
-        alertLabel.addAction(
-            Actions.sequence(
-                Actions.alpha(1),
-                Actions.fadeOut(3f),
-                Actions.run(() -> alertLabel.setText(""))
-            )
-        );
+        alertLabel.addAction(Actions.sequence(
+            Actions.alpha(1),
+            Actions.fadeOut(3f),
+            Actions.run(() -> alertLabel.setText(""))
+        ));
     }
 
     @Override
