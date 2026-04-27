@@ -43,12 +43,32 @@ public class FirstScreen implements Screen {
         messageLabel = new Label("", skin);
         messageLabel.setColor(Color.ORANGE);
 
-        TextButton btnPlay = new TextButton("Jouer", skin);
+        TextButton btnCreateParty = new TextButton("Créer une Partie", skin);
+        TextButton btnJoinParty = new TextButton("Rejoindre une Partie", skin);
         TextButton btnDeck = new TextButton("Deck", skin);
         TextButton btnSettings = new TextButton("Paramètres", skin);
         TextButton btnQuit = new TextButton("Quitter", skin);
 
-        btnPlay.addListener(
+        btnCreateParty.addListener(
+            new ChangeListener() {
+                @Override
+                public void changed(ChangeEvent event, Actor actor) {
+                    System.out.println(game.savedDecks);
+                    if (game.savedDecks.size > 0) {
+                        GameModel model = new GameModel(game);
+                        GameView view = new GameView(game, model);
+                        view.setController(new GameController(view, model));
+                        game.setScreen(view);
+                    } else {
+                        showEphemeralMessage(
+                            "Constituez vous au moins un deck avant de jouer"
+                        );
+                    }
+                }
+            }
+        );
+
+        btnJoinParty.addListener(
             new ChangeListener() {
                 @Override
                 public void changed(ChangeEvent event, Actor actor) {
@@ -87,7 +107,8 @@ public class FirstScreen implements Screen {
 
         table.add(title).padBottom(20).row();
         table.add(messageLabel).height(30).padBottom(10).row();
-        table.add(btnPlay).width(220).height(50).pad(10).row();
+        table.add(btnCreateParty).width(220).height(50).pad(10).row();
+        table.add(btnJoinParty).width(220).height(50).pad(10).row();
         table.add(btnDeck).width(220).height(50).pad(10).row();
         table.add(btnSettings).width(220).height(50).pad(10).row();
         table.add(btnQuit).width(220).height(50).pad(10).row();
