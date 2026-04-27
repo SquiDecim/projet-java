@@ -63,7 +63,7 @@ public class CardsStackDecal {
             mpb = builder.part("front side", GL20.GL_TRIANGLES,
                 VertexAttributes.Usage.Position | VertexAttributes.Usage.Normal,
                 new Material(
-                    ColorAttribute.createDiffuse(0.29f, 0.45f, 0.75f, 1),
+                    ColorAttribute.createDiffuse(0.29f, 0.45f, 0.74f, 1),
                     IntAttribute.createCullFace(GL20.GL_BACK)
                 ));
             mpb.rect(
@@ -77,7 +77,7 @@ public class CardsStackDecal {
             mpb = builder.part("left side", GL20.GL_TRIANGLES,
                 VertexAttributes.Usage.Position | VertexAttributes.Usage.Normal,
                 new Material(
-                    ColorAttribute.createDiffuse(0.29f, 0.45f, 0.75f, 1),
+                    ColorAttribute.createDiffuse(0.29f, 0.45f, 0.74f, 1),
                     IntAttribute.createCullFace(GL20.GL_BACK)
                 ));
             mpb.rect(
@@ -91,7 +91,7 @@ public class CardsStackDecal {
             mpb = builder.part("right side", GL20.GL_TRIANGLES,
                 VertexAttributes.Usage.Position | VertexAttributes.Usage.Normal,
                 new Material(
-                    ColorAttribute.createDiffuse(0.29f, 0.45f, 0.75f, 1),
+                    ColorAttribute.createDiffuse(0.29f, 0.45f, 0.74f, 1),
                     IntAttribute.createCullFace(GL20.GL_BACK)
                 ));
             mpb.rect(
