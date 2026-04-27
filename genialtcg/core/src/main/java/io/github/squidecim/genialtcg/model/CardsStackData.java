@@ -66,6 +66,7 @@ public class CardsStackData {
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
+        sb.append("--- Deck: ").append(name).append(" ---\n");
         for (CardData card : this.stack) {
             sb.append(card.toString()).append("\n");
         }

@@ -86,7 +86,6 @@ public class FirstScreen implements Screen {
         );
 
         table.add(title).padBottom(20).row();
-        // Positionnement du message éphémère
         table.add(messageLabel).height(30).padBottom(10).row();
         table.add(btnPlay).width(220).height(50).pad(10).row();
         table.add(btnDeck).width(220).height(50).pad(10).row();
