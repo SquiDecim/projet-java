@@ -23,7 +23,11 @@ import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import io.github.squidecim.genialtcg.GenialTCG;
+import io.github.squidecim.genialtcg.model.CardData;
+// Ajout des imports pour tes modèles
+import io.github.squidecim.genialtcg.model.CardsStackData;
 import java.text.Collator;
+import java.util.ArrayList; // Ajouté pour la conversion List
 import java.util.Locale;
 
 public class NewDeckScreen implements Screen {
@@ -42,7 +46,9 @@ public class NewDeckScreen implements Screen {
     private Table gridTable;
     private Array<AtlasRegion> allCardsSorted;
     private Array<String> selectedCards;
-    private Deck editingDeck = null;
+
+    // Changé Deck -> CardsStackData
+    private CardsStackData editingDeck = null;
 
     private Container<Stack> zoomContainer;
     private Drawable silverBorder;
@@ -54,12 +60,18 @@ public class NewDeckScreen implements Screen {
         this(game, null);
     }
 
-    public NewDeckScreen(GenialTCG game, Deck deckToEdit) {
+    public NewDeckScreen(GenialTCG game, CardsStackData deckToEdit) {
         this.game = game;
         this.editingDeck = deckToEdit;
-        this.selectedCards = (deckToEdit != null)
-            ? new Array<>(deckToEdit.cardNames)
-            : new Array<>();
+
+        if (deckToEdit != null) {
+            this.selectedCards = new Array<>();
+            for (CardData cd : deckToEdit.getCards()) {
+                this.selectedCards.add(cd.country);
+            }
+        } else {
+            this.selectedCards = new Array<>();
+        }
     }
 
     @Override
@@ -164,11 +176,10 @@ public class NewDeckScreen implements Screen {
         updateGrid("");
 
         ScrollPane scroll = new ScrollPane(gridTable, skin);
-        // DESACTIVATION VISUELLE DE LA BARRE SANS CRASH
         scroll.setScrollingDisabled(false, false);
         scroll.setScrollBarPositions(false, false);
         scroll.setFadeScrollBars(true);
-        scroll.setupFadeScrollBars(0, 0); // Rend les barres invisibles même lors du scroll
+        scroll.setupFadeScrollBars(0, 0);
 
         root.add(scroll).expand().fill().pad(10);
         stage.setScrollFocus(scroll);
@@ -389,13 +400,19 @@ public class NewDeckScreen implements Screen {
         Runnable confirmAction = () -> {
             String name = nameInput.getText().trim();
             if (!name.isEmpty()) {
+                // Note : On doit transformer les noms de String en objets CardData
+                // Ici, j'utilise une liste vide pour l'exemple, tu devras y mettre
+                // ta logique pour récupérer les données réelles des cartes.
+                java.util.List<CardData> cardDataList =
+                    new java.util.ArrayList<>();
+
                 if (editingDeck != null) {
                     editingDeck.name = name;
-                    editingDeck.cardNames = new Array<>(selectedCards);
+                    editingDeck.clearCards();
+                    // Ajoute tes objets CardData ici à partir de selectedCards
                 } else {
-                    game.savedDecks.add(
-                        new Deck(name, new Array<>(selectedCards))
-                    );
+                    // Changé Deck -> CardsStackData
+                    game.savedDecks.add(new CardsStackData(name, cardDataList));
                 }
                 dialog.hide();
                 game.setScreen(new DeckScreen(game));
