@@ -17,7 +17,6 @@ import io.github.squidecim.genialtcg.GenialTCG;
 import io.github.squidecim.genialtcg.model.CardsStackData;
 import io.github.squidecim.genialtcg.network.GameClient;
 import io.github.squidecim.genialtcg.network.GameServer;
-import io.github.squidecim.genialtcg.network.LobbyCode;
 import io.github.squidecim.genialtcg.network.NetworkMessages;
 
 import java.io.IOException;
@@ -94,10 +93,14 @@ public class LobbyScreen implements Screen, GameClient.NetworkListener {
         codeLabel.setAlignment(Align.center);
         codeLabel.setColor(Color.YELLOW);
 
-        codeLabel = new Label(
-            "Code : " + (isHost ? lobbyCode : LobbyCode.generateCode(hostIp)) + "  " +
-                (isHost ? "(cliquez pour copier)" : ""),
-            skin
+        codeLabel.addListener(
+            new ClickListener() {
+                @Override
+                public void clicked(InputEvent event, float x, float y) {
+                    Gdx.app.getClipboard().setContents(lobbyCode);
+                    codeLabel.setText("Code : " + lobbyCode + " ✓ Copié !");
+                }
+            }
         );
 
         launchButton = new TextButton("Lancer la partie", skin);
