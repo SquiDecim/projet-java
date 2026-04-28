@@ -5,19 +5,23 @@ import java.util.Arrays;
 
 public class CardData {
 
-    public String country;
-    public String id;
-    public String rank;
-    public String type;
-    public int cost;
-    public int pv;
+    // Informations de base
+    public String country; // Correspond à "nom" dans le JSON
+    public String id; // Correspond à "id"
+    public String rank; // Correspond à "rang"
+    public String type; // Correspond à "type"
+    public int cost; // Correspond à "cout"
+    public int pv; // Correspond à "etat"
+
+    // Statistiques converties en tableau int[]
+    // Ordre : [puissance, economie, ressources, technologie, stabilite]
     public int[] stats;
 
-    // Nouveaux champs pour le Spécial
+    // Informations Spéciales
     public int specialCout;
     public String[] specialCibles;
     public String[] specialVariables;
-    public int[] specialValeurs;
+    public Object[] specialValeurs; // Object[] car peut contenir des int ou des int[] (ex: [1, "main"])
 
     public Texture texture;
 
@@ -32,7 +36,7 @@ public class CardData {
         int specialCout,
         String[] specialCibles,
         String[] specialVariables,
-        int[] specialValeurs
+        Object[] specialValeurs
     ) {
         this.country = country;
         this.id = id;
@@ -50,18 +54,30 @@ public class CardData {
     @Override
     public String toString() {
         return String.format(
-            "Country: %s, id: %s, rank: %s, type: %s, cost: %d, pv: %d, stats: %s, specialCout: %d, cibles: %s, vars: %s, vals: %s",
-            this.country,
-            this.id,
-            this.rank,
-            this.type,
-            this.cost,
-            this.pv,
-            Arrays.toString(this.stats),
-            this.specialCout,
-            Arrays.toString(this.specialCibles),
-            Arrays.toString(this.specialVariables),
-            Arrays.toString(this.specialValeurs)
+            "Nom : %s\n" +
+                "\tID : [%s]\n" +
+                "\tRang : %s\n" +
+                "\tType : %s\n" +
+                "\tCoût : %d\n" +
+                "\tÉtat (PV) : %d\n" +
+                "\tStats : %s\n" +
+                "\tSpécial : {\n" +
+                "\t\tcout : %d,\n" +
+                "\t\tcibles : %s,\n" +
+                "\t\tvariables : %s,\n" +
+                "\t\tvaleurs : %s\n" +
+                "\t}",
+            country,
+            id,
+            rank,
+            type,
+            cost,
+            pv,
+            java.util.Arrays.toString(stats),
+            specialCout,
+            java.util.Arrays.toString(specialCibles),
+            java.util.Arrays.toString(specialVariables),
+            java.util.Arrays.deepToString(specialValeurs)
         );
     }
 }
