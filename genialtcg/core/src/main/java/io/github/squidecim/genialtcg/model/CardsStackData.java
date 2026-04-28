@@ -50,13 +50,15 @@ public class CardsStackData {
 
     public boolean containsByName(String name) {
         for (CardData card : this.stack) {
-            if (card.country.equals(name)) return true;
+            if (card.country != null && card.country.equals(name)) return true;
         }
         return false;
     }
 
     public void removeByName(String name) {
-        this.stack.removeIf(card -> card.country.equals(name));
+        this.stack.removeIf(
+            card -> card.country != null && card.country.equals(name)
+        );
     }
 
     public int getSize() {
@@ -66,14 +68,24 @@ public class CardsStackData {
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append("--- Deck: ").append(name).append(" ---\n");
-        for (CardData card : this.stack) {
-            sb.append(card.toString()).append("\n");
-        }
-        return sb.toString();
-    }
+        sb.append(
+            "\n============================================================"
+        );
+        sb.append("\nDECK : ").append(name != null ? name : "Sans nom");
+        sb.append(
+            "\n============================================================"
+        );
 
-    public String getName() {
-        return this.name;
+        for (CardData card : this.getCards()) {
+            sb.append("\n").append(card.toString());
+            sb.append(
+                "\n------------------------------------------------------------"
+            );
+        }
+
+        sb.append(
+            "\n============================================================\n"
+        );
+        return sb.toString();
     }
 }

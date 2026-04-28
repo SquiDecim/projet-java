@@ -422,26 +422,25 @@ public class NewDeckScreen implements Screen {
 
                 for (String cardName : selectedCards) {
                     // On récupère les données complètes (JSON) depuis la map globale
-                    CardData fullData = game.allCardsMap.get(cardName);
+                    String searchName = cardName.replace("_", " "); // Ajoute cette ligne
+                    CardData fullData = game.allCardsMap.get(searchName);
 
                     if (fullData != null) {
                         cardDataList.add(fullData);
                     } else {
-                        // Fallback si la carte n'est pas dans le JSON
-                        cardDataList.add(
-                            new CardData(
-                                cardName,
-                                "N/A",
-                                "Inconnu",
-                                "Inconnu",
-                                0,
-                                0,
-                                new int[5],
-                                0,
-                                new String[0],
-                                new String[0],
-                                new int[0]
-                            )
+                        // Fallback adapté à la nouvelle structure de CardData
+                        fullData = new CardData(
+                            cardName,
+                            "N/A",
+                            "N/A",
+                            "N/A",
+                            0,
+                            0,
+                            new int[] { 0, 0, 0, 0, 0 },
+                            0,
+                            new String[0],
+                            new String[0],
+                            new Object[0]
                         );
                     }
                 }
@@ -452,22 +451,14 @@ public class NewDeckScreen implements Screen {
                     for (CardData card : cardDataList) {
                         editingDeck.addCard(card);
                     }
-                    // Affiche le deck mis à jour dans la console
-                    System.out.println(
-                        "=== DECK MODIFIÉ ===\n" + editingDeck.toString()
-                    );
                 } else {
-                    // Création du nouveau deck avec la liste complète
+                    // Création du nouveau deck avec les données CardData complètes
                     CardsStackData newDeck = new CardsStackData(
                         name,
                         cardDataList
                     );
                     game.savedDecks.add(newDeck);
-
-                    // LA LIGNE QUE TU VOULAIS : Affiche tout le contenu du nouveau deck
-                    System.out.println(
-                        "=== NOUVEAU DECK CRÉÉ ===\n" + newDeck.toString()
-                    );
+                    System.out.println(newDeck.toString());
                 }
 
                 dialog.hide();
