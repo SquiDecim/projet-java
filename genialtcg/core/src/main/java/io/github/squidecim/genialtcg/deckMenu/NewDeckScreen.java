@@ -39,7 +39,27 @@ public class NewDeckScreen implements Screen {
     private Label counterLabel;
     private Label messageLabel;
     private TextButton btnValidate;
+
+    // Éléments de recherche et filtres mis à jour
     private TextField searchField;
+    private SelectBox<String> typeSelect;
+    private SelectBox<String> rankSelect;
+    private final String[] types = {
+        "Tous",
+        "Diplomatique",
+        "Économique",
+        "Isolationniste",
+        "Militaire",
+        "Renseignement",
+    };
+    private final String[] ranks = {
+        "Tous",
+        "Marginal",
+        "Émergent",
+        "Établi",
+        "Dominant",
+        "Hégémonie",
+    };
 
     private Table gridTable;
     private Array<AtlasRegion> allCardsSorted;
@@ -165,21 +185,35 @@ public class NewDeckScreen implements Screen {
         topBar.add(btnValidate).width(200).height(50).pad(10);
         root.add(topBar).expandX().fillX().row();
 
-        // --- SEARCH BAR ---
+        // --- SEARCH BAR & FILTERS ---
         searchField = new TextField("", skin);
         searchField.setMessageText("Rechercher...");
-        searchField.addListener(
-            new ChangeListener() {
-                @Override
-                public void changed(ChangeEvent event, Actor actor) {
-                    updateGrid(searchField.getText());
-                }
+
+        typeSelect = new SelectBox<>(skin);
+        typeSelect.setItems(types);
+
+        rankSelect = new SelectBox<>(skin);
+        rankSelect.setItems(ranks);
+
+        ChangeListener filterListener = new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                updateGrid(searchField.getText());
             }
-        );
+        };
+
+        searchField.addListener(filterListener);
+        typeSelect.addListener(filterListener);
+        rankSelect.addListener(filterListener);
 
         Table searchBarTable = new Table();
         searchBarTable.add(new Label("Recherche : ", skin)).padLeft(10);
-        searchBarTable.add(searchField).expandX().fillX().pad(10);
+        searchBarTable.add(searchField).width(180).pad(10);
+        searchBarTable.add(new Label("Type : ", skin)).padLeft(10);
+        searchBarTable.add(typeSelect).width(140).pad(10);
+        searchBarTable.add(new Label("Rang : ", skin)).padLeft(10);
+        searchBarTable.add(rankSelect).width(120).pad(10);
+
         root.add(searchBarTable).expandX().fillX().row();
 
         // --- GRID ---
@@ -287,15 +321,34 @@ public class NewDeckScreen implements Screen {
         float baseW = 320 * 0.85f;
         float baseH = 448 * 0.85f;
         float borderThickness = 4f;
+
         String query = filter.toLowerCase().trim();
+        String selType = typeSelect.getSelected();
+        String selRank = rankSelect.getSelected();
 
         searchField.setColor(hasMatchingCard(query) ? Color.WHITE : Color.RED);
 
         int visibleCount = 0;
         for (final AtlasRegion region : allCardsSorted) {
+            // Récupération des données via le nom de l'AtlasRegion
+            String cardKey = region.name.replace("_", " ");
+            CardData data = game.allCardsMap.get(cardKey);
+
+            // Application des filtres cumulés
             if (
                 !query.isEmpty() && !region.name.toLowerCase().contains(query)
             ) continue;
+
+            if (data != null) {
+                if (
+                    !selType.equals("Tous") &&
+                    !data.type.equalsIgnoreCase(selType)
+                ) continue;
+                if (
+                    !selRank.equals("Tous") &&
+                    !data.rank.equalsIgnoreCase(selRank)
+                ) continue;
+            }
 
             final boolean isSelected = selectedCards.contains(
                 region.name,
@@ -385,9 +438,23 @@ public class NewDeckScreen implements Screen {
     }
 
     private boolean hasMatchingCard(String query) {
-        if (query.isEmpty()) return true;
+        String selType = typeSelect.getSelected();
+        String selRank = rankSelect.getSelected();
+
         for (AtlasRegion region : allCardsSorted) {
-            if (region.name.toLowerCase().contains(query)) return true;
+            String cardKey = region.name.replace("_", " ");
+            CardData data = game.allCardsMap.get(cardKey);
+
+            boolean matchText =
+                query.isEmpty() || region.name.toLowerCase().contains(query);
+            boolean matchType =
+                selType.equals("Tous") ||
+                (data != null && data.type.equalsIgnoreCase(selType));
+            boolean matchRank =
+                selRank.equals("Tous") ||
+                (data != null && data.rank.equalsIgnoreCase(selRank));
+
+            if (matchText && matchType && matchRank) return true;
         }
         return false;
     }
@@ -421,14 +488,12 @@ public class NewDeckScreen implements Screen {
                     new java.util.ArrayList<>();
 
                 for (String cardName : selectedCards) {
-                    // On récupère les données complètes (JSON) depuis la map globale
-                    String searchName = cardName.replace("_", " "); // Ajoute cette ligne
+                    String searchName = cardName.replace("_", " ");
                     CardData fullData = game.allCardsMap.get(searchName);
 
                     if (fullData != null) {
                         cardDataList.add(fullData);
                     } else {
-                        // Fallback adapté à la nouvelle structure de CardData
                         fullData = new CardData(
                             cardName,
                             "N/A",
@@ -452,7 +517,6 @@ public class NewDeckScreen implements Screen {
                         editingDeck.addCard(card);
                     }
                 } else {
-                    // Création du nouveau deck avec les données CardData complètes
                     CardsStackData newDeck = new CardsStackData(
                         name,
                         cardDataList
