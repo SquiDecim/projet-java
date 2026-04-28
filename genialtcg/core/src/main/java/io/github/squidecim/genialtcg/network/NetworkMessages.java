@@ -50,4 +50,8 @@ public class NetworkMessages {
         public String playerName;
         public int playerCount; // 1 ou 2
     }
+
+    public static class LobbyInfo {
+        public String lobbyCode;
+    }
 }

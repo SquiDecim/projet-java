@@ -43,19 +43,22 @@ public class LobbyScreen implements Screen, GameClient.NetworkListener {
     private TextButton launchButton;
     private Label statusLabel;
 
+
     // données
     private Array<String> connectedPlayers = new Array<>();
     private String selectedDeck = null;
     private String lobbyCode = "";
+    private String myPlayerId = null;
 
     public LobbyScreen(GenialTCG game, boolean isHost) {
-        this(game, isHost, "localhost");
+        this(game, isHost, "localhost", null);
     }
 
-    public LobbyScreen(GenialTCG game, boolean isHost, String hostIp) {
+    public LobbyScreen(GenialTCG game, boolean isHost, String hostIp, GameClient existingClient) {
         this.game = game;
         this.isHost = isHost;
         this.hostIp = hostIp;
+        this.client = existingClient; // client déjà connecté, show() ne recrée pas
     }
 
     @Override
@@ -188,20 +191,31 @@ public class LobbyScreen implements Screen, GameClient.NetworkListener {
 
         if (isHost) {
             try {
-                server = new GameServer();
-                server.setOnBothConnected(() ->
-                    Gdx.app.postRunnable(this::updateLaunchButton)
-                );
-                client = new GameClient("localhost", this);
+                server = new GameServer(lobbyCode);
+                server.setOnBothConnected(() -> Gdx.app.postRunnable(this::updateLaunchButton));
+                if (client == null) client = new GameClient("localhost", this);
             } catch (IOException e) {
                 statusLabel.setText("Erreur serveur : " + e.getMessage());
             }
         } else {
-            try {
-                client = new GameClient(hostIp, this);
-            } catch (IOException e) {
-                statusLabel.setText("Impossible de rejoindre : " + e.getMessage());
+            if (client == null) {
+                try {
+                    client = new GameClient(hostIp, this);
+                } catch (IOException e) {
+                    statusLabel.setText("Ce code ne mène à aucun lobby");
+                    statusLabel.setColor(Color.RED);
+                }
+            } else {
+                client.setListener(this);
             }
+        }
+        if (client != null) {
+            client.setOnDisconnected(() -> {
+                if (!isHost) {
+                    dispose();
+                    game.setScreen(new FirstScreen(game, "Connexion perdue !"));
+                }
+            });
         }
 
     }
@@ -292,7 +306,12 @@ public class LobbyScreen implements Screen, GameClient.NetworkListener {
     }
 
     @Override
-    public void hide() {}
+    public void hide() {
+        if (client != null) client.disconnect();
+        if (server != null) server.stop();
+        client = null;
+        server = null;
+    }
 
     @Override
     public void pause() {}
@@ -304,11 +323,12 @@ public class LobbyScreen implements Screen, GameClient.NetworkListener {
     public void dispose() {
         stage.dispose();
         skin.dispose();
+
     }
 
     @Override
     public void onAssignId(NetworkMessages.AssignId msg) {
-
+        myPlayerId = msg.playerId;
     }
 
     @Override
@@ -335,9 +355,22 @@ public class LobbyScreen implements Screen, GameClient.NetworkListener {
     public void onPlayerJoined(NetworkMessages.PlayerJoined msg) {
         connectedPlayers.clear();
         for (int i = 0; i < msg.playerCount; i++) {
-            connectedPlayers.add("Joueur " + (i + 1));
+            String pid = i == 0 ? "player1" : "player2";
+            String name = "Joueur " + (i + 1);
+            if (pid.equals(myPlayerId)) name += " (vous)";
+            else if (i == 0 && isHost) name += " (hôte)";
+            connectedPlayers.add(name);
         }
         playerList.setItems(connectedPlayers);
+        statusLabel.setText(msg.playerCount < 2 ? "En attente d'un joueur..." : "Joueur connecté !");
+        statusLabel.setColor(msg.playerCount < 2 ? Color.LIGHT_GRAY : Color.GREEN);
         updateLaunchButton();
     }
+
+    @Override
+    public void onLobbyInfo(NetworkMessages.LobbyInfo msg) {
+        lobbyCode = msg.lobbyCode;
+        codeLabel.setText("Code : " + lobbyCode + " (cliquez pour copier)");
+    }
+
 }

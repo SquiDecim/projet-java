@@ -11,11 +11,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import io.github.squidecim.genialtcg.GenialTCG;
-import io.github.squidecim.genialtcg.controller.GameController;
 import io.github.squidecim.genialtcg.deckMenu.DeckScreen;
-import io.github.squidecim.genialtcg.model.GameModel;
 import io.github.squidecim.genialtcg.network.LobbyCode;
-import io.github.squidecim.genialtcg.view.GameView;
 
 public class FirstScreen implements Screen {
 
@@ -23,9 +20,17 @@ public class FirstScreen implements Screen {
     private Stage stage;
     private Skin skin;
     private Label messageLabel;
+    private String errorMessage = null;
+
+    private Window errorDialog;
+    private TextButton btnClose;
 
     public FirstScreen(GenialTCG game) {
         this.game = game;
+    }
+    public FirstScreen(GenialTCG game, String errorMessage) {
+        this.game = game;
+        this.errorMessage = errorMessage;
     }
 
     @Override
@@ -117,15 +122,15 @@ public class FirstScreen implements Screen {
                                 }
                                 try {
                                     String ip = LobbyCode.decodeCode(code);
+                                    if (!LobbyCode.isReachable(ip)) {
+                                        errorLabel.setText("Ce code ne mène à aucun lobby");
+                                        return;
+                                    }
                                     dialog.hide();
-                                    LobbyScreen lobby = new LobbyScreen(
-                                        game,
-                                        false,
-                                        ip
-                                    );
+                                    LobbyScreen lobby = new LobbyScreen(game, false, ip, null);
                                     game.setScreen(lobby);
                                 } catch (Exception e) {
-                                    errorLabel.setText("Code invalide");
+                                    errorLabel.setText("Ce code ne mène à aucun lobby");
                                 }
                             }
                         }
@@ -187,6 +192,37 @@ public class FirstScreen implements Screen {
         table.add(btnDeck).width(220).height(50).pad(10).row();
         table.add(btnSettings).width(220).height(50).pad(10).row();
         table.add(btnQuit).width(220).height(50).pad(10).row();
+
+        if (errorMessage != null) {
+            errorDialog = new Window("", skin);
+            errorDialog.setModal(true);
+            errorDialog.setMovable(false);
+
+            float dw = 300, dh = 150;
+            float dx = (stage.getWidth() - dw) / 2f;
+            float dy = (stage.getHeight() - dh) / 2f;
+
+            errorDialog.setSize(dw, dh);
+            errorDialog.setPosition(dx, dy);
+
+            errorDialog.add(new Label(errorMessage, skin))
+                .expand().center().pad(20);
+
+            btnClose = new TextButton("X", skin);
+            btnClose.setSize(30, 30);
+            btnClose.setPosition(dx + dw - 30, dy + dh - 30); // coin haut-droit
+
+            btnClose.addListener(new ChangeListener() {
+                @Override
+                public void changed(ChangeEvent event, Actor actor) {
+                    errorDialog.remove();
+                    btnClose.remove();
+                }
+            });
+
+            stage.addActor(errorDialog);
+            stage.addActor(btnClose);
+        }
     }
 
     private void showEphemeralMessage(String text) {
@@ -212,6 +248,12 @@ public class FirstScreen implements Screen {
     @Override
     public void resize(int width, int height) {
         stage.getViewport().update(width, height, true);
+        if (errorDialog != null && errorDialog.hasParent()) {
+            float dx = (stage.getWidth() - errorDialog.getWidth()) / 2f;
+            float dy = (stage.getHeight() - errorDialog.getHeight()) / 2f;
+            errorDialog.setPosition(dx, dy);
+            btnClose.setPosition(dx + errorDialog.getWidth() - 30, dy + errorDialog.getHeight() - 30);
+        }
     }
 
     @Override

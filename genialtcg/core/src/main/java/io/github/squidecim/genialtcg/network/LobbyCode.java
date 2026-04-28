@@ -42,4 +42,13 @@ public class LobbyCode {
         }
         return "127.0.0.1";
     }
+
+    public static boolean isReachable(String ip) {
+        try (java.net.Socket s = new java.net.Socket()) {
+            s.connect(new java.net.InetSocketAddress(ip, 54555), 2000);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
 }

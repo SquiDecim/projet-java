@@ -12,14 +12,17 @@ import java.util.Map;
 
 public class GameServer {
 
+    private final String lobbyCodeForClients;
     private Server server;
     private Map<Connection, String> playerIds = new HashMap<>();
     private int connectedCount = 0;
     private Runnable onBothConnected; // callback quand les 2 joueurs sont là
 
-    public GameServer() throws IOException {
+    public GameServer(String lobbyCode) throws IOException {
+        this.lobbyCodeForClients = lobbyCode;
         server = new Server();
         registerClasses(server.getKryo());
+
 
         server.addListener(new Listener() {
 
@@ -29,27 +32,38 @@ public class GameServer {
                 String id = "player" + connectedCount;
                 playerIds.put(conn, id);
 
-                // dit au joueur qui vient de se connecter quel est son ID
                 NetworkMessages.AssignId msg = new NetworkMessages.AssignId();
                 msg.playerId = id;
                 conn.sendTCP(msg);
 
-                // prévient tout le monde qu'un joueur a rejoint
+                if (connectedCount == 2) {
+                    NetworkMessages.LobbyInfo info = new NetworkMessages.LobbyInfo();
+                    info.lobbyCode = lobbyCodeForClients;
+                    conn.sendTCP(info);
+                }
+
                 NetworkMessages.PlayerJoined joined = new NetworkMessages.PlayerJoined();
                 joined.playerName = "Joueur " + connectedCount;
                 joined.playerCount = connectedCount;
                 server.sendToAllTCP(joined);
 
-                // si les 2 joueurs sont là
                 if (connectedCount == 2 && onBothConnected != null) {
                     onBothConnected.run();
                 }
+
+
             }
 
             @Override
             public void disconnected(Connection conn) {
-                playerIds.remove(conn);
-                connectedCount--;
+                String id = playerIds.remove(conn);
+                if (id != null) {
+                    connectedCount--;
+                    NetworkMessages.PlayerJoined update = new NetworkMessages.PlayerJoined();
+                    update.playerCount = connectedCount;
+                    update.playerName = "";
+                    server.sendToAllTCP(update);
+                }
             }
 
             @Override
@@ -58,7 +72,7 @@ public class GameServer {
                 if (playerId == null) return;
 
                 // pour l'instant on retransmet juste à tout le monde
-                // plus tard tu ajouteras la validation ici
+                // plus tard faut ajouter la validation ici
                 if (obj instanceof NetworkMessages.DrawCard
                     || obj instanceof NetworkMessages.PlayCard
                     || obj instanceof NetworkMessages.EndTurn) {
@@ -67,7 +81,6 @@ public class GameServer {
             }
         });
 
-        // démarre le serveur sur les ports 54555 (TCP) et 54777 (UDP)
         server.bind(54555, 54777);
         server.start(); // lance le thread serveur en arrière-plan
     }
@@ -92,5 +105,6 @@ public class GameServer {
         kryo.register(NetworkMessages.CardPlayed.class);
         kryo.register(NetworkMessages.TurnChanged.class);
         kryo.register(NetworkMessages.PlayerJoined.class);
+        kryo.register(NetworkMessages.LobbyInfo.class);
     }
 }

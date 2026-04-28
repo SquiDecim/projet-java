@@ -10,7 +10,8 @@ import java.io.IOException;
 public class GameClient {
 
     private Client client;
-    private NetworkListener listener; // ton code qui réagit aux messages
+    private NetworkListener listener;
+    private Runnable onDisconnected;
 
     public interface NetworkListener {
         void onAssignId(NetworkMessages.AssignId msg);
@@ -19,6 +20,7 @@ public class GameClient {
         void onCardPlayed(NetworkMessages.CardPlayed msg);
         void onTurnChanged(NetworkMessages.TurnChanged msg);
         void onPlayerJoined(NetworkMessages.PlayerJoined msg);
+        void onLobbyInfo(NetworkMessages.LobbyInfo msg);
     }
 
     public GameClient(String ip, NetworkListener listener) throws IOException {
@@ -29,10 +31,8 @@ public class GameClient {
         client.addListener(new Listener() {
             @Override
             public void received(Connection conn, Object obj) {
-                // CRUCIAL : KryoNet tourne sur son propre thread
-                // LibGDX doit être modifié depuis son thread GL
-                // donc on "poste" le traitement sur le thread LibGDX
                 Gdx.app.postRunnable(() -> {
+                    if (listener == null) return;
                     if (obj instanceof NetworkMessages.AssignId)
                         listener.onAssignId((NetworkMessages.AssignId) obj);
                     else if (obj instanceof NetworkMessages.GameStart)
@@ -45,6 +45,15 @@ public class GameClient {
                         listener.onTurnChanged((NetworkMessages.TurnChanged) obj);
                     else if (obj instanceof NetworkMessages.PlayerJoined)
                         listener.onPlayerJoined((NetworkMessages.PlayerJoined) obj);
+                    else if (obj instanceof NetworkMessages.LobbyInfo)
+                        listener.onLobbyInfo((NetworkMessages.LobbyInfo) obj);
+                });
+            }
+
+            @Override
+            public void disconnected(Connection conn) { // ← méthode séparée
+                Gdx.app.postRunnable(() -> {
+                    if (onDisconnected != null) onDisconnected.run();
                 });
             }
         });
@@ -73,5 +82,13 @@ public class GameClient {
 
     public void disconnect() {
         client.stop();
+    }
+
+    public void setListener(NetworkListener listener) {
+        this.listener = listener;
+    }
+
+    public void setOnDisconnected(Runnable r) {
+        this.onDisconnected = r;
     }
 }
