@@ -72,4 +72,8 @@ public class CardsStackData {
         }
         return sb.toString();
     }
+
+    public String getName() {
+        return this.name;
+    }
 }

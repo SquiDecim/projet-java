@@ -55,10 +55,11 @@ public class FirstScreen implements Screen {
                 public void changed(ChangeEvent event, Actor actor) {
                     System.out.println(game.savedDecks);
                     if (game.savedDecks.size > 0) {
-                        GameModel model = new GameModel(game);
-                        GameView view = new GameView(game, model);
-                        view.setController(new GameController(view, model));
-                        game.setScreen(view);
+                        //GameModel model = new GameModel(game);
+                        //GameView view = new GameView(game, model);
+                        //view.setController(new GameController(view, model));
+                        LobbyScreen lobby = new LobbyScreen(game, true);
+                        game.setScreen(lobby);
                     } else {
                         showEphemeralMessage(
                             "Constituez vous au moins un deck avant de jouer"
@@ -128,7 +129,7 @@ public class FirstScreen implements Screen {
 
     @Override
     public void render(float delta) {
-        Gdx.gl.glClearColor(0.05f, 0.1f, 0.2f, 1f);
+        Gdx.gl.glClearColor(0.1f, 0.12f, 0.18f, 1f);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         stage.act(delta);
         stage.draw();
