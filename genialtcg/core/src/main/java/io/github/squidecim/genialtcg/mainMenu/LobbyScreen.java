@@ -1,21 +1,20 @@
 package io.github.squidecim.genialtcg.mainMenu;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Net;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
+import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Array;
-import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import io.github.squidecim.genialtcg.GenialTCG;
 import io.github.squidecim.genialtcg.model.CardsStackData;
-
 import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.util.Enumeration;
@@ -47,61 +46,77 @@ public class LobbyScreen implements Screen {
 
     @Override
     public void show() {
-        stage = new Stage(new ScreenViewport()); // comme NewDeckScreen
+        stage = new Stage(new ScreenViewport());
         Gdx.input.setInputProcessor(stage);
         skin = new Skin(Gdx.files.internal("ui/uiskin.json"));
 
         Table root = new Table();
         root.setFillParent(true);
-        root.pad(20);
+        stage.addActor(root);
 
-        // ── BARRE DU HAUT ──
+        // ── BARRE DU HAUT (Identique à DeckScreen) ──
         Table topTable = new Table();
 
         TextButton btnBack = new TextButton("Retour", skin);
-        btnBack.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                game.setScreen(new FirstScreen(game));
+        btnBack.addListener(
+            new ChangeListener() {
+                @Override
+                public void changed(ChangeEvent event, Actor actor) {
+                    game.setScreen(new FirstScreen(game));
+                }
             }
-        });
+        );
 
-        // code au centre
+        // Logique du Code + Copier-Coller
         lobbyCode = isHost ? generateCode() : "";
         codeLabel = new Label(
-            isHost ? "Code : " + lobbyCode + "  (cliquez pour copier)" : "En attente du code...",
+            isHost
+                ? "Code : " + lobbyCode + " (cliquez pour copier)"
+                : "En attente du code...",
             skin
         );
+        codeLabel.setAlignment(Align.center);
         codeLabel.setColor(Color.YELLOW);
+
         if (isHost) {
-            codeLabel.addListener(new ClickListener() {
-                @Override
-                public void clicked(InputEvent event, float x, float y) {
-                    Gdx.app.getClipboard().setContents(lobbyCode);
-                    codeLabel.setText("Code : " + lobbyCode + "  ✓ Copié !");
+            codeLabel.addListener(
+                new ClickListener() {
+                    @Override
+                    public void clicked(InputEvent event, float x, float y) {
+                        Gdx.app.getClipboard().setContents(lobbyCode);
+                        codeLabel.setText("Code : " + lobbyCode + " ✓ Copié !");
+                    }
                 }
-            });
+            );
         }
 
         launchButton = new TextButton("Lancer la partie", skin);
         launchButton.setDisabled(true);
-        launchButton.setColor(Color.GRAY);
-        launchButton.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                if (!launchButton.isDisabled()) launchGame();
+        launchButton.getLabel().setColor(Color.GRAY);
+        launchButton.addListener(
+            new ChangeListener() {
+                @Override
+                public void changed(ChangeEvent event, Actor actor) {
+                    if (!launchButton.isDisabled()) launchGame();
+                }
             }
-        });
+        );
 
+        // Placement des boutons : width(200), height(50), pad(10) comme dans DeckScreen
         topTable.add(btnBack).width(200).height(50).pad(10).left();
-        topTable.add(codeLabel).expandX().center(); // code centré
+        topTable.add(codeLabel).expandX().center();
         topTable.add(launchButton).width(200).height(50).pad(10).right();
 
-        root.add(topTable).expandX().fillX().colspan(2).row();
+        // Ajout de la barre en haut du root (colspan 2 car on a 2 colonnes en dessous)
+        root.add(topTable).expandX().fillX().top().colspan(2).row();
 
-        // ── COLONNE GAUCHE : joueurs ──
+        // ── CONTENU (Colonnes Joueurs et Decks) ──
+
+        // Colonne Gauche : Joueurs
         Table leftCol = new Table();
-        leftCol.setBackground(skin.newDrawable("white", new Color(0.15f, 0.18f, 0.25f, 1f)));
+        leftCol.setBackground(
+            skin.newDrawable("white", new Color(0.15f, 0.18f, 0.25f, 1f))
+        );
         leftCol.pad(15);
         leftCol.add(new Label("Joueurs", skin)).padBottom(10).row();
 
@@ -110,16 +125,20 @@ public class LobbyScreen implements Screen {
         playerList.setItems(connectedPlayers);
 
         ScrollPane playerScroll = new ScrollPane(playerList, skin);
-        playerScroll.setScrollingDisabled(true, false);
-        leftCol.add(playerScroll).width(500).height(500).row();
+        leftCol.add(playerScroll).width(450).height(450).row();
 
-        statusLabel = new Label("En attente d'un joueur...", skin);
+        statusLabel = new Label(
+            isHost ? "En attente d'un joueur..." : "Connecté au salon",
+            skin
+        );
         statusLabel.setColor(Color.LIGHT_GRAY);
         leftCol.add(statusLabel).padTop(10);
 
-        // ── COLONNE DROITE : deck ──
+        // Colonne Droite : Decks
         Table rightCol = new Table();
-        rightCol.setBackground(skin.newDrawable("white", new Color(0.15f, 0.18f, 0.25f, 1f)));
+        rightCol.setBackground(
+            skin.newDrawable("white", new Color(0.15f, 0.18f, 0.25f, 1f))
+        );
         rightCol.pad(15);
         rightCol.add(new Label("Choisir un deck", skin)).padBottom(10).row();
 
@@ -127,44 +146,46 @@ public class LobbyScreen implements Screen {
         Array<String> deckNames = getDeckNames();
         deckList.setItems(deckNames);
 
-        if (deckNames.size > 0) {
+        if (
+            deckNames.size > 0 &&
+            !deckNames.get(0).equals("Aucun deck disponible")
+        ) {
             deckList.setSelectedIndex(0);
             selectedDeck = deckNames.get(0);
         }
 
-        deckList.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                selectedDeck = deckList.getSelected();
-                updateLaunchButton();
+        deckList.addListener(
+            new ChangeListener() {
+                @Override
+                public void changed(ChangeEvent event, Actor actor) {
+                    selectedDeck = deckList.getSelected();
+                    updateLaunchButton();
+                }
             }
-        });
+        );
 
         ScrollPane deckScroll = new ScrollPane(deckList, skin);
-        deckScroll.setScrollingDisabled(true, false);
-        rightCol.add(deckScroll).width(500).height(500);
+        rightCol.add(deckScroll).width(450).height(450);
 
-        root.add(leftCol).expandY().padTop(60).padRight(20).padLeft(20);
-        root.add(rightCol).expandY().padTop(60).padRight(20);
+        // On centre les deux colonnes dans l'espace restant
+        root.add(leftCol).expand().pad(20).right();
+        root.add(rightCol).expand().pad(20).left();
 
-        stage.addActor(root);
         updateLaunchButton();
     }
 
-    // ── génère le code depuis l'IP locale ──
     private String generateCode() {
         try {
-            // cherche une IP non-loopback
-            Enumeration<NetworkInterface> interfaces = NetworkInterface.getNetworkInterfaces();
+            Enumeration<NetworkInterface> interfaces =
+                NetworkInterface.getNetworkInterfaces();
             while (interfaces.hasMoreElements()) {
                 NetworkInterface ni = interfaces.nextElement();
                 if (ni.isLoopback() || !ni.isUp()) continue;
                 Enumeration<InetAddress> addresses = ni.getInetAddresses();
                 while (addresses.hasMoreElements()) {
                     InetAddress addr = addresses.nextElement();
-                    if (addr.getHostAddress().contains(":")) continue; // skip IPv6
-                    String ip = addr.getHostAddress();
-                    return ipToBase36(ip);
+                    if (addr.getHostAddress().contains(":")) continue;
+                    return ipToBase36(addr.getHostAddress());
                 }
             }
         } catch (Exception e) {
@@ -175,35 +196,35 @@ public class LobbyScreen implements Screen {
 
     private String ipToBase36(String ip) {
         String[] parts = ip.split("\\.");
-        long ipLong = (Long.parseLong(parts[0]) << 24)
-            | (Long.parseLong(parts[1]) << 16)
-            | (Long.parseLong(parts[2]) << 8)
-            |  Long.parseLong(parts[3]);
+        long ipLong =
+            (Long.parseLong(parts[0]) << 24) |
+            (Long.parseLong(parts[1]) << 16) |
+            (Long.parseLong(parts[2]) << 8) |
+            Long.parseLong(parts[3]);
         return Long.toString(ipLong, 36).toUpperCase();
     }
 
-    // ── récupère les noms des decks sauvegardés ──
     private Array<String> getDeckNames() {
         Array<String> names = new Array<>();
-        if (game.savedDecks != null) {
+        if (game.savedDecks != null && game.savedDecks.size > 0) {
             for (CardsStackData deck : game.savedDecks) {
-                names.add(deck.getName()); // adapte selon ta structure
+                names.add(deck.name);
             }
-        }
-        if (names.size == 0) {
+        } else {
             names.add("Aucun deck disponible");
         }
         return names;
     }
 
-    // ── active le bouton Lancer seulement si 2 joueurs + deck sélectionné ──
     private void updateLaunchButton() {
-        boolean ready = connectedPlayers.size >= 2 && selectedDeck != null;
+        boolean ready =
+            (connectedPlayers.size >= 2 || !isHost) &&
+            selectedDeck != null &&
+            !selectedDeck.equals("Aucun deck disponible");
         launchButton.setDisabled(!ready);
         launchButton.getLabel().setColor(ready ? Color.WHITE : Color.GRAY);
     }
 
-    // ── simule l'arrivée du joueur 2 (à remplacer par callback réseau) ──
     public void onPlayer2Connected(String name) {
         connectedPlayers.add(name);
         playerList.setItems(connectedPlayers);
@@ -213,18 +234,16 @@ public class LobbyScreen implements Screen {
     }
 
     private void launchGame() {
-        // récupère le deck sélectionné et lance le jeu
         CardsStackData chosenDeck = null;
         if (game.savedDecks != null) {
             for (CardsStackData deck : game.savedDecks) {
-                if (deck.getName().equals(selectedDeck)) {
+                if (deck.name.equals(selectedDeck)) {
                     chosenDeck = deck;
                     break;
                 }
             }
         }
-        // game.setScreen(new GameView(game, new GameModel(game, chosenDeck)));
-        // décommente quand tu intègres le réseau
+        // game.setScreen(new GameScreen(game, chosenDeck));
     }
 
     @Override
@@ -235,9 +254,23 @@ public class LobbyScreen implements Screen {
         stage.draw();
     }
 
-    @Override public void resize(int w, int h) { stage.getViewport().update(w, h, true); }
-    @Override public void hide() {}
-    @Override public void pause() {}
-    @Override public void resume() {}
-    @Override public void dispose() { stage.dispose(); skin.dispose(); }
+    @Override
+    public void resize(int w, int h) {
+        stage.getViewport().update(w, h, true);
+    }
+
+    @Override
+    public void hide() {}
+
+    @Override
+    public void pause() {}
+
+    @Override
+    public void resume() {}
+
+    @Override
+    public void dispose() {
+        stage.dispose();
+        skin.dispose();
+    }
 }
