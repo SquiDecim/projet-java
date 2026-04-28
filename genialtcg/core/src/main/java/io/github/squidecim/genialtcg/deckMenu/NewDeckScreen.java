@@ -33,7 +33,11 @@ public class NewDeckScreen implements Screen {
     private final GenialTCG game;
     private Stage stage;
     private Skin skin;
+
+    // Atlas pour les différents types de cartes
     private TextureAtlas atlas;
+    private TextureAtlas atlas_actions;
+    private TextureAtlas atlas_outils;
 
     private final int MAX_CARDS = 40;
     private Label counterLabel;
@@ -51,6 +55,8 @@ public class NewDeckScreen implements Screen {
         "Isolationniste",
         "Militaire",
         "Renseignement",
+        "Action", // Ajouté
+        "Outil", // Ajouté
     };
     private final String[] ranks = {
         "Tous",
@@ -103,17 +109,43 @@ public class NewDeckScreen implements Screen {
         silverBorder = new TextureRegionDrawable(new Texture(pixmap));
         pixmap.dispose();
 
+        // Chargement des trois atlas
         atlas = new TextureAtlas(
             Gdx.files.internal("cards/full/country_cards.atlas")
         );
+        atlas_actions = new TextureAtlas(
+            Gdx.files.internal("cards/action/cards_actions.atlas")
+        );
+        atlas_outils = new TextureAtlas(
+            Gdx.files.internal("cards/outils/cards_outils.atlas")
+        );
+
+        // Configuration des filtres de texture pour la netteté
         for (Texture texture : atlas.getTextures()) {
             texture.setFilter(
                 Texture.TextureFilter.Linear,
                 Texture.TextureFilter.Linear
             );
         }
+        for (Texture texture : atlas_actions.getTextures()) {
+            texture.setFilter(
+                Texture.TextureFilter.Linear,
+                Texture.TextureFilter.Linear
+            );
+        }
+        for (Texture texture : atlas_outils.getTextures()) {
+            texture.setFilter(
+                Texture.TextureFilter.Linear,
+                Texture.TextureFilter.Linear
+            );
+        }
 
-        allCardsSorted = new Array<>(atlas.getRegions());
+        // Fusion de toutes les cartes dans une liste unique pour le tri et l'affichage
+        allCardsSorted = new Array<>();
+        allCardsSorted.addAll(atlas.getRegions());
+        allCardsSorted.addAll(atlas_actions.getRegions());
+        allCardsSorted.addAll(atlas_outils.getRegions());
+
         final Collator collator = Collator.getInstance(Locale.FRENCH);
         collator.setStrength(Collator.PRIMARY);
         allCardsSorted.sort((r1, r2) -> collator.compare(r1.name, r2.name));
@@ -330,15 +362,15 @@ public class NewDeckScreen implements Screen {
 
         int visibleCount = 0;
         for (final AtlasRegion region : allCardsSorted) {
-            // Récupération des données via le nom de l'AtlasRegion
             String cardKey = region.name.replace("_", " ");
             CardData data = game.allCardsMap.get(cardKey);
 
-            // Application des filtres cumulés
+            // Filtrage par texte
             if (
                 !query.isEmpty() && !region.name.toLowerCase().contains(query)
             ) continue;
 
+            // Filtrage par Type et Rang
             if (data != null) {
                 if (
                     !selType.equals("Tous") &&
@@ -348,6 +380,9 @@ public class NewDeckScreen implements Screen {
                     !selRank.equals("Tous") &&
                     !data.rank.equalsIgnoreCase(selRank)
                 ) continue;
+            } else if (!selType.equals("Tous") || !selRank.equals("Tous")) {
+                // Si pas de données (ex: Action/Outil non référencé), on cache si un filtre est actif
+                continue;
             }
 
             final boolean isSelected = selectedCards.contains(
@@ -494,6 +529,7 @@ public class NewDeckScreen implements Screen {
                     if (fullData != null) {
                         cardDataList.add(fullData);
                     } else {
+                        // Création d'une carte par défaut si elle n'est pas trouvée
                         fullData = new CardData(
                             cardName,
                             "N/A",
@@ -522,7 +558,6 @@ public class NewDeckScreen implements Screen {
                         cardDataList
                     );
                     game.savedDecks.add(newDeck);
-                    System.out.println(newDeck.toString());
                 }
 
                 dialog.hide();
@@ -590,7 +625,9 @@ public class NewDeckScreen implements Screen {
     public void dispose() {
         stage.dispose();
         skin.dispose();
-        atlas.dispose();
+        if (atlas != null) atlas.dispose();
+        if (atlas_actions != null) atlas_actions.dispose();
+        if (atlas_outils != null) atlas_outils.dispose();
     }
 
     @Override

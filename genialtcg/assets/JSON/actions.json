@@ -1,8 +1,8 @@
 [
   {
     "id": "ACT-001",
-    "nom": "Aide Humanitaire d'Élite",
-    "cond": {"type": ["Diplomatique"]},
+    "nom": "Aide Humanitaire",
+    "cond": { "type": ["Diplomatique"] },
     "cibles": ["jeu"],
     "variables": ["etat"],
     "valeurs": [250],
@@ -10,8 +10,8 @@
   },
   {
     "id": "ACT-002",
-    "nom": "Ressources Médicales Tropicales",
-    "cond": {"terrain": ["Tropical"]},
+    "nom": "Ressources Médicales",
+    "cond": { "terrain": ["Tropical"] },
     "cibles": ["jeu"],
     "variables": ["etat"],
     "valeurs": [220],
@@ -20,7 +20,7 @@
   {
     "id": "ACT-003",
     "nom": "Réformes Économiques",
-    "cond": {"type": ["Économique"]},
+    "cond": { "type": ["Économique"] },
     "cibles": ["jeu"],
     "variables": ["etat"],
     "valeurs": [230],
@@ -37,7 +37,7 @@
   },
   {
     "id": "ACT-005",
-    "nom": "Convoi de Ravitaillement",
+    "nom": "Ravitaillement",
     "cond": null,
     "cibles": ["jeu"],
     "variables": ["etat"],
@@ -110,7 +110,7 @@
   {
     "id": "ACT-013",
     "nom": "Cyber-Attaque Étatique",
-    "cond": {"type": ["Renseignement"]},
+    "cond": { "type": ["Renseignement"] },
     "cibles": ["outilA"],
     "variables": [null],
     "valeurs": [1],
@@ -119,7 +119,7 @@
   {
     "id": "ACT-014",
     "nom": "Tempête de Sable",
-    "cond": {"terrain": ["Désertique"]},
+    "cond": { "terrain": ["Désertique"] },
     "cibles": ["outilA"],
     "variables": [null],
     "valeurs": [1],
@@ -128,7 +128,7 @@
   {
     "id": "ACT-015",
     "nom": "Sabotage Militaire",
-    "cond": {"type": ["Militaire"]},
+    "cond": { "type": ["Militaire"] },
     "cibles": ["outilA"],
     "variables": [null],
     "valeurs": [1],
@@ -218,7 +218,7 @@
   {
     "id": "ACT-025",
     "nom": "Intelligence Artificielle",
-    "cond": {"type": ["Renseignement"]},
+    "cond": { "type": ["Renseignement"] },
     "cibles": ["main"],
     "variables": [null],
     "valeurs": [3],
@@ -227,7 +227,7 @@
   {
     "id": "ACT-026",
     "nom": "Routes Maritimes",
-    "cond": {"terrain": ["Océanique"]},
+    "cond": { "terrain": ["Océanique"] },
     "cibles": ["main"],
     "variables": [null],
     "valeurs": [3],
@@ -236,7 +236,7 @@
   {
     "id": "ACT-027",
     "nom": "Analyse de Marché",
-    "cond": {"type": ["Économique"]},
+    "cond": { "type": ["Économique"] },
     "cibles": ["main"],
     "variables": [null],
     "valeurs": [3],
@@ -280,7 +280,7 @@
   },
   {
     "id": "ACT-032",
-    "nom": "Récupération de Données",
+    "nom": "Téléchargement",
     "cond": null,
     "cibles": ["main"],
     "variables": [null],
@@ -326,7 +326,7 @@
   {
     "id": "ACT-037",
     "nom": "Redéploiement Tactique",
-    "cond": {"type": ["Militaire"]},
+    "cond": { "type": ["Militaire"] },
     "cibles": ["jeu"],
     "variables": ["emplacement"],
     "valeurs": [[1, "banc"]],
@@ -335,7 +335,7 @@
   {
     "id": "ACT-038",
     "nom": "Passage de Glace",
-    "cond": {"terrain": ["Glacial"]},
+    "cond": { "terrain": ["Glacial"] },
     "cibles": ["jeu"],
     "variables": ["emplacement"],
     "valeurs": [[1, "banc"]],
@@ -344,7 +344,7 @@
   {
     "id": "ACT-039",
     "nom": "Sommet International",
-    "cond": {"type": ["Diplomatique"]},
+    "cond": { "type": ["Diplomatique"] },
     "cibles": ["jeu"],
     "variables": ["emplacement"],
     "valeurs": [[1, "banc"]],
@@ -379,7 +379,7 @@
   },
   {
     "id": "ACT-043",
-    "nom": "Changement de Ministre",
+    "nom": "Changement politique",
     "cond": null,
     "cibles": ["jeu"],
     "variables": ["emplacement"],
@@ -433,8 +433,8 @@
   },
   {
     "id": "ACT-049",
-    "nom": "Coup d'État Imprévisible",
-    "cond": {"type": ["Isolationniste"]},
+    "nom": "Coup d'État",
+    "cond": { "type": ["Isolationniste"] },
     "cibles": ["jeu"],
     "variables": ["emplacement"],
     "valeurs": [[1, "banc"]],
@@ -443,7 +443,7 @@
   {
     "id": "ACT-050",
     "nom": "Avalanche de Montagne",
-    "cond": {"terrain": ["Montagneux"]},
+    "cond": { "terrain": ["Montagneux"] },
     "cibles": ["jeu"],
     "variables": ["emplacement"],
     "valeurs": [[1, "banc"]],
@@ -452,7 +452,7 @@
   {
     "id": "ACT-051",
     "nom": "Bulle Économique",
-    "cond": {"type": ["Économique"]},
+    "cond": { "type": ["Économique"] },
     "cibles": ["jeu"],
     "variables": ["emplacement"],
     "valeurs": [[1, "banc"]],
@@ -461,7 +461,7 @@
   {
     "id": "ACT-052",
     "nom": "Chaleur de Désert",
-    "cond": {"terrain": ["Désertique"]},
+    "cond": { "terrain": ["Désertique"] },
     "cibles": ["jeu"],
     "variables": ["emplacement"],
     "valeurs": [[1, "banc"]],

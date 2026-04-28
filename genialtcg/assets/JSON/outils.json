@@ -253,7 +253,7 @@
   },
   {
     "id": "OUT-029",
-    "nom": "Infrastructures modernes",
+    "nom": "modernisation",
     "cond": null,
     "cibles": ["banc"],
     "variables": ["CoutES"],
@@ -272,7 +272,7 @@
   {
     "id": "OUT-031",
     "nom": "Tempête de sable",
-    "cond": {"terrain" : "Désertique"},
+    "cond": { "terrain": "Désertique" },
     "cibles": ["jeuA"],
     "variables": ["puissance"],
     "valeurs": [-20],
@@ -281,7 +281,7 @@
   {
     "id": "OUT-032",
     "nom": "Réseau d'informateurs",
-    "cond": {"type" : "Renseignement"},
+    "cond": { "type": "Renseignement" },
     "cibles": ["jeuA"],
     "variables": ["CoutP"],
     "valeurs": [25],
@@ -290,7 +290,7 @@
   {
     "id": "OUT-033",
     "nom": "Brise-glace nucléaire",
-    "cond": {"terrain" : "Glacial"},
+    "cond": { "terrain": "Glacial" },
     "cibles": ["jeu"],
     "variables": ["technologie"],
     "valeurs": [30],
@@ -299,7 +299,7 @@
   {
     "id": "OUT-034",
     "nom": "Embargo total",
-    "cond": {"type" : "Isolationniste"},
+    "cond": { "type": "Isolationniste" },
     "cibles": ["bancA"],
     "variables": ["economie"],
     "valeurs": [-30],
@@ -308,7 +308,7 @@
   {
     "id": "OUT-035",
     "nom": "Fièvre tropicale",
-    "cond": {"terrain" : "Tropical"},
+    "cond": { "terrain": "Tropical" },
     "cibles": ["jeuA"],
     "variables": ["stabilité"],
     "valeurs": [-25],
@@ -317,7 +317,7 @@
   {
     "id": "OUT-036",
     "nom": "Frappe chirurgicale",
-    "cond": {"type" : "Militaire"},
+    "cond": { "type": "Militaire" },
     "cibles": ["jeuA"],
     "variables": ["CoutES"],
     "valeurs": [35],
@@ -326,7 +326,7 @@
   {
     "id": "OUT-037",
     "nom": "Sommet pour la paix",
-    "cond": {"type" : "Diplomatique"},
+    "cond": { "type": "Diplomatique" },
     "cibles": ["banc"],
     "variables": ["stabilité"],
     "valeurs": [25],
@@ -335,7 +335,7 @@
   {
     "id": "OUT-038",
     "nom": "Rendements agricoles",
-    "cond": {"terrain" : "Tempéré"},
+    "cond": { "terrain": "Tempéré" },
     "cibles": ["jeu"],
     "variables": ["ressources"],
     "valeurs": [30],
@@ -344,7 +344,7 @@
   {
     "id": "OUT-039",
     "nom": "Guerre d'usure",
-    "cond": {"terrain" : "Montagneux"},
+    "cond": { "terrain": "Montagneux" },
     "cibles": ["bancA"],
     "variables": ["puissance"],
     "valeurs": [-15],
@@ -353,7 +353,7 @@
   {
     "id": "OUT-040",
     "nom": "Paradis fiscal",
-    "cond": {"type" : "Économique"},
+    "cond": { "type": "Économique" },
     "cibles": ["jeu"],
     "variables": ["CoutP"],
     "valeurs": [-20],
