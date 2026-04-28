@@ -1,0 +1,77 @@
+package io.github.squidecim.genialtcg.network;
+
+import com.badlogic.gdx.Gdx;
+import com.esotericsoftware.kryonet.Client;
+import com.esotericsoftware.kryonet.Connection;
+import com.esotericsoftware.kryonet.Listener;
+
+import java.io.IOException;
+
+public class GameClient {
+
+    private Client client;
+    private NetworkListener listener; // ton code qui réagit aux messages
+
+    public interface NetworkListener {
+        void onAssignId(NetworkMessages.AssignId msg);
+        void onGameStart(NetworkMessages.GameStart msg);
+        void onCardDrawn(NetworkMessages.CardDrawn msg);
+        void onCardPlayed(NetworkMessages.CardPlayed msg);
+        void onTurnChanged(NetworkMessages.TurnChanged msg);
+        void onPlayerJoined(NetworkMessages.PlayerJoined msg);
+    }
+
+    public GameClient(String ip, NetworkListener listener) throws IOException {
+        this.listener = listener;
+        client = new Client();
+        GameServer.registerClasses(client.getKryo()); // même enregistrement !
+
+        client.addListener(new Listener() {
+            @Override
+            public void received(Connection conn, Object obj) {
+                // CRUCIAL : KryoNet tourne sur son propre thread
+                // LibGDX doit être modifié depuis son thread GL
+                // donc on "poste" le traitement sur le thread LibGDX
+                Gdx.app.postRunnable(() -> {
+                    if (obj instanceof NetworkMessages.AssignId)
+                        listener.onAssignId((NetworkMessages.AssignId) obj);
+                    else if (obj instanceof NetworkMessages.GameStart)
+                        listener.onGameStart((NetworkMessages.GameStart) obj);
+                    else if (obj instanceof NetworkMessages.CardDrawn)
+                        listener.onCardDrawn((NetworkMessages.CardDrawn) obj);
+                    else if (obj instanceof NetworkMessages.CardPlayed)
+                        listener.onCardPlayed((NetworkMessages.CardPlayed) obj);
+                    else if (obj instanceof NetworkMessages.TurnChanged)
+                        listener.onTurnChanged((NetworkMessages.TurnChanged) obj);
+                    else if (obj instanceof NetworkMessages.PlayerJoined)
+                        listener.onPlayerJoined((NetworkMessages.PlayerJoined) obj);
+                });
+            }
+        });
+
+        client.start();
+        client.connect(5000, ip, 54555, 54777);
+        // 5000 = timeout en ms, si connexion échoue après 5s → exception
+    }
+
+    // méthodes pour envoyer des messages au serveur
+    public void sendDrawCard() {
+        client.sendTCP(new NetworkMessages.DrawCard());
+    }
+
+    public void sendPlayCard(String cardId, String zone, int slotIndex) {
+        NetworkMessages.PlayCard msg = new NetworkMessages.PlayCard();
+        msg.cardId = cardId;
+        msg.zone = zone;
+        msg.slotIndex = slotIndex;
+        client.sendTCP(msg);
+    }
+
+    public void sendEndTurn() {
+        client.sendTCP(new NetworkMessages.EndTurn());
+    }
+
+    public void disconnect() {
+        client.stop();
+    }
+}

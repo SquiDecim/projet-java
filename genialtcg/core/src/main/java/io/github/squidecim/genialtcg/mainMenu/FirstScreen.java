@@ -14,6 +14,7 @@ import io.github.squidecim.genialtcg.GenialTCG;
 import io.github.squidecim.genialtcg.controller.GameController;
 import io.github.squidecim.genialtcg.deckMenu.DeckScreen;
 import io.github.squidecim.genialtcg.model.GameModel;
+import io.github.squidecim.genialtcg.network.LobbyCode;
 import io.github.squidecim.genialtcg.view.GameView;
 
 public class FirstScreen implements Screen {
@@ -69,24 +70,60 @@ public class FirstScreen implements Screen {
             }
         );
 
-        btnJoinParty.addListener(
-            new ChangeListener() {
-                @Override
-                public void changed(ChangeEvent event, Actor actor) {
-                    System.out.println(game.savedDecks);
-                    if (game.savedDecks.size > 0) {
-                        GameModel model = new GameModel(game);
-                        GameView view = new GameView(game, model);
-                        view.setController(new GameController(view, model));
-                        game.setScreen(view);
-                    } else {
-                        showEphemeralMessage(
-                            "Constituez vous au moins un deck avant de jouer"
-                        );
-                    }
+        btnJoinParty.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                if (game.savedDecks.size == 0) {
+                    showEphemeralMessage("Constituez vous au moins un deck avant de jouer");
+                    return;
                 }
+                // affiche la dialog pour entrer le code
+                Dialog dialog = new Dialog("Rejoindre une partie", skin);
+
+                TextField codeField = new TextField("", skin);
+                codeField.setMessageText("Entre le code...");
+
+                Label errorLabel = new Label("", skin);
+                errorLabel.setColor(Color.RED);
+
+                dialog.getContentTable().add(new Label("Code de la partie :", skin)).pad(10).row();
+                dialog.getContentTable().add(codeField).width(300).pad(10).row();
+                dialog.getContentTable().add(errorLabel).pad(5).row();
+
+                TextButton btnOk = new TextButton("Rejoindre", skin);
+                btnOk.addListener(new ChangeListener() {
+                    @Override
+                    public void changed(ChangeEvent event, Actor actor) {
+                        String code = codeField.getText().trim();
+                        if (code.isEmpty()) {
+                            errorLabel.setText("Entre un code !");
+                            return;
+                        }
+                        try {
+                            String ip = LobbyCode.decodeCode(code);
+                            dialog.hide();
+                            LobbyScreen lobby = new LobbyScreen(game, false, ip);
+                            game.setScreen(lobby);
+                        } catch (Exception e) {
+                            errorLabel.setText("Code invalide");
+                        }
+                    }
+                });
+
+                TextButton btnCancel = new TextButton("Annuler", skin);
+                btnCancel.addListener(new ChangeListener() {
+                    @Override
+                    public void changed(ChangeEvent event, Actor actor) {
+                        dialog.hide();
+                    }
+                });
+
+                dialog.getButtonTable().add(btnCancel).width(120).height(40).pad(10);
+                dialog.getButtonTable().add(btnOk).width(120).height(40).pad(10);
+                dialog.show(stage);
+                stage.setKeyboardFocus(codeField);
             }
-        );
+        });
 
         btnDeck.addListener(
             new ChangeListener() {

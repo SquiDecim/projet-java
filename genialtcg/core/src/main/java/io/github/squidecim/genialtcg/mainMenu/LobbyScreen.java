@@ -15,14 +15,24 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import io.github.squidecim.genialtcg.GenialTCG;
 import io.github.squidecim.genialtcg.model.CardsStackData;
+import io.github.squidecim.genialtcg.network.GameClient;
+import io.github.squidecim.genialtcg.network.GameServer;
+import io.github.squidecim.genialtcg.network.LobbyCode;
+import io.github.squidecim.genialtcg.network.NetworkMessages;
+
+import java.io.IOException;
 import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.util.Enumeration;
 
-public class LobbyScreen implements Screen {
+public class LobbyScreen implements Screen, GameClient.NetworkListener {
 
     private final GenialTCG game;
     private final boolean isHost;
+    private final String hostIp;
+
+    private GameServer server;
+    private GameClient client;
 
     private Stage stage;
     private Skin skin;
@@ -40,12 +50,18 @@ public class LobbyScreen implements Screen {
     private String lobbyCode = "";
 
     public LobbyScreen(GenialTCG game, boolean isHost) {
+        this(game, isHost, "localhost");
+    }
+
+    public LobbyScreen(GenialTCG game, boolean isHost, String hostIp) {
         this.game = game;
         this.isHost = isHost;
+        this.hostIp = hostIp;
     }
 
     @Override
     public void show() {
+
         stage = new Stage(new ScreenViewport());
         Gdx.input.setInputProcessor(stage);
         skin = new Skin(Gdx.files.internal("ui/uiskin.json"));
@@ -78,17 +94,11 @@ public class LobbyScreen implements Screen {
         codeLabel.setAlignment(Align.center);
         codeLabel.setColor(Color.YELLOW);
 
-        if (isHost) {
-            codeLabel.addListener(
-                new ClickListener() {
-                    @Override
-                    public void clicked(InputEvent event, float x, float y) {
-                        Gdx.app.getClipboard().setContents(lobbyCode);
-                        codeLabel.setText("Code : " + lobbyCode + " ✓ Copié !");
-                    }
-                }
-            );
-        }
+        codeLabel = new Label(
+            "Code : " + (isHost ? lobbyCode : LobbyCode.generateCode(hostIp)) + "  " +
+                (isHost ? "(cliquez pour copier)" : ""),
+            skin
+        );
 
         launchButton = new TextButton("Lancer la partie", skin);
         launchButton.setDisabled(true);
@@ -172,6 +182,25 @@ public class LobbyScreen implements Screen {
         root.add(rightCol).expand().pad(20).left();
 
         updateLaunchButton();
+
+        if (isHost) {
+            try {
+                server = new GameServer();
+                server.setOnBothConnected(() ->
+                    Gdx.app.postRunnable(this::updateLaunchButton)
+                );
+                client = new GameClient("localhost", this);
+            } catch (IOException e) {
+                statusLabel.setText("Erreur serveur : " + e.getMessage());
+            }
+        } else {
+            try {
+                client = new GameClient(hostIp, this);
+            } catch (IOException e) {
+                statusLabel.setText("Impossible de rejoindre : " + e.getMessage());
+            }
+        }
+
     }
 
     private String generateCode() {
@@ -272,5 +301,40 @@ public class LobbyScreen implements Screen {
     public void dispose() {
         stage.dispose();
         skin.dispose();
+    }
+
+    @Override
+    public void onAssignId(NetworkMessages.AssignId msg) {
+
+    }
+
+    @Override
+    public void onGameStart(NetworkMessages.GameStart msg) {
+
+    }
+
+    @Override
+    public void onCardDrawn(NetworkMessages.CardDrawn msg) {
+
+    }
+
+    @Override
+    public void onCardPlayed(NetworkMessages.CardPlayed msg) {
+
+    }
+
+    @Override
+    public void onTurnChanged(NetworkMessages.TurnChanged msg) {
+
+    }
+
+    @Override
+    public void onPlayerJoined(NetworkMessages.PlayerJoined msg) {
+        connectedPlayers.clear();
+        for (int i = 0; i < msg.playerCount; i++) {
+            connectedPlayers.add("Joueur " + (i + 1));
+        }
+        playerList.setItems(connectedPlayers);
+        updateLaunchButton();
     }
 }
