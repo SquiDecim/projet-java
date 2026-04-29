@@ -6,14 +6,19 @@ import com.badlogic.gdx.math.collision.Ray;
 import io.github.squidecim.genialtcg.GenialTCG;
 import io.github.squidecim.genialtcg.model.CardData;
 import io.github.squidecim.genialtcg.model.GameModel;
+import io.github.squidecim.genialtcg.network.GameClient;
+import io.github.squidecim.genialtcg.network.NetworkMessages;
 import io.github.squidecim.genialtcg.view.CardDecal;
 import io.github.squidecim.genialtcg.view.CardSlot;
 import io.github.squidecim.genialtcg.view.GameView;
 
-public class GameController implements InputProcessor {
+public class GameController implements InputProcessor, GameClient.NetworkListener {
 
     private final GameView view;
     private final GameModel model;
+    private GameClient client;
+
+    private String myPlayerId;
 
     private boolean canDraw = true;
     private float drawCooldown = 0.75f;
@@ -21,9 +26,11 @@ public class GameController implements InputProcessor {
 
     private CardDecal draggedCard = null;
 
-    public GameController(GameView view, GameModel model) {
+    public GameController(GameView view, GameModel model, GameClient client, String myPlayerId) {
         this.view = view;
         this.model = model;
+        this.client = client;
+        this.myPlayerId = myPlayerId;
         Gdx.input.setInputProcessor(this);
     }
 
@@ -57,12 +64,8 @@ public class GameController implements InputProcessor {
 
         if (view.isDeckClicked(ray)) {
             if (!canDraw) return false;
-            CardData drawn = model.drawCard();
-            if (drawn != null) {
-                view.addCardToHand(drawn);
-                view.updateDeckVisual(model.deckSize());
-                canDraw = false;
-            }
+            client.sendDrawCard();
+            canDraw = false;
         }
         return false;
     }
@@ -136,5 +139,48 @@ public class GameController implements InputProcessor {
     @Override
     public boolean touchCancelled(int x, int y, int p, int b) {
         return false;
+    }
+
+    @Override
+    public void onAssignId(NetworkMessages.AssignId msg) {
+
+    }
+
+    @Override
+    public void onGameStart(NetworkMessages.GameStart msg) {
+
+    }
+
+    @Override
+    public void onCardDrawn(NetworkMessages.CardDrawn msg) {
+        if (msg.playerId.equals(myPlayerId)) {
+            CardData drawn = model.drawCard();
+            if (drawn != null) {
+                view.addCardToHand(drawn);
+                view.updateDeckVisual(model.deckSize());
+            }
+        } else {
+            view.updateOpponentDeckVisual(msg.newDeckSize);
+        }
+    }
+
+    @Override
+    public void onCardPlayed(NetworkMessages.CardPlayed msg) {
+
+    }
+
+    @Override
+    public void onTurnChanged(NetworkMessages.TurnChanged msg) {
+
+    }
+
+    @Override
+    public void onPlayerJoined(NetworkMessages.PlayerJoined msg) {
+
+    }
+
+    @Override
+    public void onLobbyInfo(NetworkMessages.LobbyInfo msg) {
+
     }
 }

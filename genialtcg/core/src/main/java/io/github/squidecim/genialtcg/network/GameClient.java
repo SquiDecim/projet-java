@@ -26,29 +26,31 @@ public class GameClient {
     public GameClient(String ip, NetworkListener listener) throws IOException {
         this.listener = listener;
         client = new Client();
-        GameServer.registerClasses(client.getKryo()); // même enregistrement !
+        GameServer.registerClasses(client.getKryo());
 
         client.addListener(new Listener() {
             @Override
             public void received(Connection conn, Object obj) {
                 Gdx.app.postRunnable(() -> {
-                    if (listener == null) return;
+                    NetworkListener current = GameClient.this.listener;
+                    if (current == null) return;
                     if (obj instanceof NetworkMessages.AssignId)
-                        listener.onAssignId((NetworkMessages.AssignId) obj);
+                        current.onAssignId((NetworkMessages.AssignId) obj);
                     else if (obj instanceof NetworkMessages.GameStart)
-                        listener.onGameStart((NetworkMessages.GameStart) obj);
+                        current.onGameStart((NetworkMessages.GameStart) obj);
                     else if (obj instanceof NetworkMessages.CardDrawn)
-                        listener.onCardDrawn((NetworkMessages.CardDrawn) obj);
+                        current.onCardDrawn((NetworkMessages.CardDrawn) obj);
                     else if (obj instanceof NetworkMessages.CardPlayed)
-                        listener.onCardPlayed((NetworkMessages.CardPlayed) obj);
+                        current.onCardPlayed((NetworkMessages.CardPlayed) obj);
                     else if (obj instanceof NetworkMessages.TurnChanged)
-                        listener.onTurnChanged((NetworkMessages.TurnChanged) obj);
+                        current.onTurnChanged((NetworkMessages.TurnChanged) obj);
                     else if (obj instanceof NetworkMessages.PlayerJoined)
-                        listener.onPlayerJoined((NetworkMessages.PlayerJoined) obj);
+                        current.onPlayerJoined((NetworkMessages.PlayerJoined) obj);
                     else if (obj instanceof NetworkMessages.LobbyInfo)
-                        listener.onLobbyInfo((NetworkMessages.LobbyInfo) obj);
+                        current.onLobbyInfo((NetworkMessages.LobbyInfo) obj);
                 });
             }
+
 
             @Override
             public void disconnected(Connection conn) { // ← méthode séparée
@@ -85,10 +87,15 @@ public class GameClient {
     }
 
     public void setListener(NetworkListener listener) {
+
         this.listener = listener;
     }
 
     public void setOnDisconnected(Runnable r) {
         this.onDisconnected = r;
+    }
+
+    public void sendGameStart(NetworkMessages.GameStart msg) {
+        client.sendTCP(msg);
     }
 }

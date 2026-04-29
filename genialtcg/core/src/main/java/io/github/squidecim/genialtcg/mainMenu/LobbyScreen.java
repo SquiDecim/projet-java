@@ -14,10 +14,13 @@ import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import io.github.squidecim.genialtcg.GenialTCG;
+import io.github.squidecim.genialtcg.controller.GameController;
 import io.github.squidecim.genialtcg.model.CardsStackData;
+import io.github.squidecim.genialtcg.model.GameModel;
 import io.github.squidecim.genialtcg.network.GameClient;
 import io.github.squidecim.genialtcg.network.GameServer;
 import io.github.squidecim.genialtcg.network.NetworkMessages;
+import io.github.squidecim.genialtcg.view.GameView;
 
 import java.io.IOException;
 import java.net.InetAddress;
@@ -42,6 +45,8 @@ public class LobbyScreen implements Screen, GameClient.NetworkListener {
     private List<String> deckList;
     private TextButton launchButton;
     private Label statusLabel;
+
+    private boolean launching = false;
 
 
     // données
@@ -280,16 +285,25 @@ public class LobbyScreen implements Screen, GameClient.NetworkListener {
     }
 
     private void launchGame() {
-        CardsStackData chosenDeck = null;
-        if (game.savedDecks != null) {
-            for (CardsStackData deck : game.savedDecks) {
-                if (deck.name.equals(selectedDeck)) {
-                    chosenDeck = deck;
-                    break;
-                }
+        CardsStackData chosenDeck = game.savedDecks.get(0);
+        NetworkMessages.GameStart start = new NetworkMessages.GameStart();
+        start.firstPlayerId = myPlayerId;
+        client.sendGameStart(start);
+        launching = true;
+        for (CardsStackData deck : game.savedDecks) {
+            if (deck.name.equals(selectedDeck)) {
+                chosenDeck = deck;
+                break;
             }
         }
-        // game.setScreen(new GameScreen(game, chosenDeck));
+        if (chosenDeck == null) return;
+
+        GameModel model = new GameModel(game, chosenDeck);
+        GameView view = new GameView(game, model);
+        GameController controller = new GameController(view, model, client, myPlayerId);
+        view.setController(controller);
+        client.setListener(controller);
+        game.setScreen(view);
     }
 
     @Override
@@ -307,6 +321,7 @@ public class LobbyScreen implements Screen, GameClient.NetworkListener {
 
     @Override
     public void hide() {
+        if (launching) return;
         if (client != null) client.disconnect();
         if (server != null) server.stop();
         client = null;
@@ -333,7 +348,22 @@ public class LobbyScreen implements Screen, GameClient.NetworkListener {
 
     @Override
     public void onGameStart(NetworkMessages.GameStart msg) {
+        CardsStackData chosenDeck = null;
+        for (CardsStackData deck : game.savedDecks) {
+            if (deck.name.equals(selectedDeck)) {
+                chosenDeck = deck;
+                break;
+            }
+        }
+        if (chosenDeck == null) return;
 
+        GameModel model = new GameModel(game, chosenDeck);
+        GameView view = new GameView(game, model);
+        GameController controller = new GameController(view, model, client, myPlayerId);
+        view.setController(controller);
+        launching = true;
+        client.setListener(controller);
+        game.setScreen(view);
     }
 
     @Override
