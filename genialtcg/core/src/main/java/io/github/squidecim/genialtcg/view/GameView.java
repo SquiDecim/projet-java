@@ -87,7 +87,7 @@ public class GameView implements Screen {
 
         modelBatch = new ModelBatch();
 
-        Texture boardTexture = new Texture("ui/plateau.png");
+        Texture boardTexture = new Texture("ui/plateau/" + model.terrain + ".png");
 
         ModelBuilder builder = new ModelBuilder();
         builder.begin();
@@ -254,17 +254,16 @@ public class GameView implements Screen {
         modelBatch.begin(cam);
         modelBatch.render(boardInstance, environment);
 
-        if (!tableSlot.isEmpty()) tableSlot
-            .getCard()
-            .render(modelBatch, environment);
-        if (!opponentTableSlot.isEmpty()) opponentTableSlot
-            .getCard()
-            .render(modelBatch, environment);
-
-        for (CardSlot slot : benchBottomSlots)
-            if (!slot.isEmpty()) slot.getCard().render(modelBatch, environment);
-        for (CardSlot slot : benchTopSlots)
-            if (!slot.isEmpty()) slot.getCard().render(modelBatch, environment);
+        if (!tableSlot.isEmpty()) {
+            CardDecal tc = tableSlot.getCard();
+            if (tc.isAnimating()) tc.update(delta);
+            tc.render(modelBatch, environment);
+        }
+        if (!opponentTableSlot.isEmpty()) {
+            CardDecal otc = opponentTableSlot.getCard();
+            if (otc.isAnimating()) otc.update(delta);
+            otc.render(modelBatch, environment);
+        }
 
         for (int i = 0; i < handCards.size; i++) {
             CardDecal card = handCards.get(i);
@@ -280,11 +279,15 @@ public class GameView implements Screen {
             slot.renderHighlight(modelBatch, environment);
             if (!slot.isEmpty()) {
                 CardDecal card = slot.getCard();
+                if (card.isAnimating()) card.update(delta);
+                card.render(modelBatch, environment);
+            }
+        }
 
-                if (card.isAnimating()) {
-                    card.update(delta);
-                }
-
+        for (CardSlot slot : benchTopSlots) {
+            if (!slot.isEmpty()) {
+                CardDecal card = slot.getCard();
+                if (card.isAnimating()) card.update(delta);
                 card.render(modelBatch, environment);
             }
         }
@@ -448,6 +451,46 @@ public class GameView implements Screen {
     public void updateOpponentDeckVisual(int size) {
         opponentDeck.updateSize(size);
         addCardToOpponentHand();
+    }
+
+    private AtlasRegion findRegionForCard(CardData card) {
+        String name = card.getAtlasRegionName();
+        if (card.id != null && card.id.startsWith("ACT-")) return actionsAtlas.findRegion(name);
+        if (card.id != null && card.id.startsWith("OUT-")) return outilsAtlas.findRegion(name);
+        return cardAtlas.findRegion(name);
+    }
+
+    private CardSlot findEmptyOpponentBenchSlot() {
+        for (CardSlot slot : benchTopSlots) {
+            if (slot.isEmpty()) return slot;
+        }
+        return null;
+    }
+
+    public void addOpponentCardToBench(CardData card) {
+        AtlasRegion region = findRegionForCard(card);
+        if (region == null) return;
+        CardSlot slot = findEmptyOpponentBenchSlot();
+        if (slot == null) return;
+        CardDecal decal = new CardDecal(card, new TextureRegion(region),
+            new TextureRegion(backTexture), BENCH_CARD_W, BENCH_CARD_H, cam, "bench");
+        decal.setRotation(0, -90f, 0);
+        slot.setCard(decal);
+        decal.animateTo(slot.getPosition(), 0, -90f, 0, 0.3f);
+    }
+
+    public void addOpponentCardToTable(CardData card) {
+        AtlasRegion region = findRegionForCard(card);
+        if (region == null) return;
+        CardDecal decal = new CardDecal(card, new TextureRegion(region),
+            new TextureRegion(backTexture), TABLE_CARD_W, TABLE_CARD_H, cam, "table");
+        decal.setRotation(0, -90f, 0);
+        opponentTableSlot.setCard(decal);
+        decal.animateTo(opponentTableSlot.getPosition(), 0, -90f, 0, 0.3f);
+    }
+
+    public int getBenchSlotIndex(CardSlot slot) {
+        return benchBottomSlots.indexOf(slot, true);
     }
 
     public void updateDeckVisual(int size) {

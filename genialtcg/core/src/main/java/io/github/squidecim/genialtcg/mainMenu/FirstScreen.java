@@ -1,10 +1,13 @@
 package io.github.squidecim.genialtcg.mainMenu;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
@@ -89,7 +92,6 @@ public class FirstScreen implements Screen {
                         );
                         return;
                     }
-                    // affiche la dialog pour entrer le code
                     joinPartyDialog = new Dialog("", skin);
 
                     TextField codeField = new TextField("", skin);
@@ -98,73 +100,62 @@ public class FirstScreen implements Screen {
                     Label errorLabel = new Label("", skin);
                     errorLabel.setColor(Color.RED);
 
-                    joinPartyDialog
-                        .getContentTable()
-                        .add(new Label("Code de la partie :", skin))
-                        .pad(10)
-                        .row();
-                    joinPartyDialog
-                        .getContentTable()
-                        .add(codeField)
-                        .width(300)
-                        .pad(10)
-                        .row();
-                    joinPartyDialog.getContentTable().add(errorLabel).pad(5).row();
-
-                    btnJoinDialog = new TextButton("Rejoindre", skin);
-                    btnJoinDialog.addListener(
-                        new ChangeListener() {
-                            @Override
-                            public void changed(
-                                ChangeEvent event,
-                                Actor actor
-                            ) {
-                                String code = codeField.getText().trim();
-                                if (code.isEmpty()) {
-                                    errorLabel.setText("Entre un code !");
-                                    return;
-                                }
-                                try {
-                                    String ip = LobbyCode.decodeCode(code);
-                                    if (!LobbyCode.isReachable(ip)) {
-                                        errorLabel.setText("Ce code ne mène à aucun lobby");
-                                        return;
-                                    }
-                                    joinPartyDialog.hide();
-                                    LobbyScreen lobby = new LobbyScreen(game, false, ip, null);
-                                    game.setScreen(lobby);
-                                } catch (Exception e) {
-                                    errorLabel.setText("Ce code ne mène à aucun lobby");
-                                }
-                            }
+                    // logique de connexion partagée entre bouton et touche Entrée
+                    Runnable tryJoin = () -> {
+                        String code = codeField.getText().trim();
+                        if (code.isEmpty()) {
+                            errorLabel.setText("Entre un code !");
+                            return;
                         }
-                    );
+                        try {
+                            String ip = LobbyCode.decodeCode(code);
+                            if (!LobbyCode.isReachable(ip)) {
+                                errorLabel.setText("Ce code ne mène à aucun lobby");
+                                return;
+                            }
+                            joinPartyDialog.hide();
+                            game.setScreen(new LobbyScreen(game, false, ip, null));
+                        } catch (Exception e) {
+                            errorLabel.setText("Ce code ne mène à aucun lobby");
+                        }
+                    };
+
+                    // Entrée = valider, Échap = fermer
+                    codeField.addListener(new InputListener() {
+                        @Override
+                        public boolean keyDown(InputEvent event, int keycode) {
+                            if (keycode == Input.Keys.ENTER) { tryJoin.run(); return true; }
+                            if (keycode == Input.Keys.ESCAPE) { joinPartyDialog.hide(); return true; }
+                            return false;
+                        }
+                    });
+
+                    joinPartyDialog.getContentTable()
+                        .add(new Label("Code de la partie :", skin)).pad(10).row();
+                    joinPartyDialog.getContentTable()
+                        .add(codeField).width(300).pad(10).row();
+                    joinPartyDialog.getContentTable()
+                        .add(errorLabel).pad(5).row();
 
                     btnCancelDialog = new TextButton("Annuler", skin);
-                    btnCancelDialog.addListener(
-                        new ChangeListener() {
-                            @Override
-                            public void changed(
-                                ChangeEvent event,
-                                Actor actor
-                            ) {
-                                joinPartyDialog.hide();
-                            }
+                    btnCancelDialog.addListener(new ChangeListener() {
+                        @Override
+                        public void changed(ChangeEvent event, Actor actor) {
+                            joinPartyDialog.hide();
                         }
-                    );
+                    });
 
-                    joinPartyDialog
-                        .getButtonTable()
-                        .add(btnCancelDialog)
-                        .width(120)
-                        .height(40)
-                        .pad(10);
-                    joinPartyDialog
-                        .getButtonTable()
-                        .add(btnJoinDialog)
-                        .width(120)
-                        .height(40)
-                        .pad(10);
+                    btnJoinDialog = new TextButton("Rejoindre", skin);
+                    btnJoinDialog.addListener(new ChangeListener() {
+                        @Override
+                        public void changed(ChangeEvent event, Actor actor) {
+                            tryJoin.run();
+                        }
+                    });
+
+                    joinPartyDialog.getButtonTable().defaults().width(120).height(40).pad(10);
+                    joinPartyDialog.getButtonTable().add(btnCancelDialog);
+                    joinPartyDialog.getButtonTable().add(btnJoinDialog);
                     joinPartyDialog.show(stage);
                     stage.setKeyboardFocus(codeField);
                 }
@@ -176,6 +167,15 @@ public class FirstScreen implements Screen {
                 @Override
                 public void changed(ChangeEvent event, Actor actor) {
                     game.setScreen(new DeckScreen(game));
+                }
+            }
+        );
+
+        btnSettings.addListener(
+            new ChangeListener() {
+                @Override
+                public void changed(ChangeEvent event, Actor actor) {
+                    showEphemeralMessage("Paramètres — bientôt disponible");
                 }
             }
         );

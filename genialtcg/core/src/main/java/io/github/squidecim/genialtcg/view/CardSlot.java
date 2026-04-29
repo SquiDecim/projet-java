@@ -98,8 +98,8 @@ public class CardSlot {
         Plane plane = new Plane(new Vector3(0, 1, 0), position);
         Vector3 intersection = new Vector3();
         if (!Intersector.intersectRayPlane(ray, plane, intersection)) return false;
-        float hw = BENCH_CARD_W / 2f; // à adapter
-        float hh = BENCH_CARD_H / 2f;
+        float hw = (type.equals("table") ? TABLE_CARD_W : BENCH_CARD_W) / 2f;
+        float hh = (type.equals("table") ? TABLE_CARD_H : BENCH_CARD_H) / 2f;
         return Math.abs(intersection.x - position.x) <= hw
             && Math.abs(intersection.z - position.z) <= hh;
     }

@@ -23,9 +23,7 @@ import io.github.squidecim.genialtcg.network.NetworkMessages;
 import io.github.squidecim.genialtcg.view.GameView;
 
 import java.io.IOException;
-import java.net.InetAddress;
-import java.net.NetworkInterface;
-import java.util.Enumeration;
+import io.github.squidecim.genialtcg.network.LobbyCode;
 
 public class LobbyScreen implements Screen, GameClient.NetworkListener {
 
@@ -91,7 +89,7 @@ public class LobbyScreen implements Screen, GameClient.NetworkListener {
         );
 
         // Logique du Code + Copier-Coller
-        lobbyCode = isHost ? generateCode() : "";
+        lobbyCode = isHost ? LobbyCode.generateCode(LobbyCode.getLocalIp()) : "";
         codeLabel = new Label(
             isHost
                 ? "Code : " + lobbyCode + " (cliquez pour copier)"
@@ -225,36 +223,6 @@ public class LobbyScreen implements Screen, GameClient.NetworkListener {
 
     }
 
-    private String generateCode() {
-        try {
-            Enumeration<NetworkInterface> interfaces =
-                NetworkInterface.getNetworkInterfaces();
-            while (interfaces.hasMoreElements()) {
-                NetworkInterface ni = interfaces.nextElement();
-                if (ni.isLoopback() || !ni.isUp()) continue;
-                Enumeration<InetAddress> addresses = ni.getInetAddresses();
-                while (addresses.hasMoreElements()) {
-                    InetAddress addr = addresses.nextElement();
-                    if (addr.getHostAddress().contains(":")) continue;
-                    return ipToBase36(addr.getHostAddress());
-                }
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return "XXXXXX";
-    }
-
-    private String ipToBase36(String ip) {
-        String[] parts = ip.split("\\.");
-        long ipLong =
-            (Long.parseLong(parts[0]) << 24) |
-            (Long.parseLong(parts[1]) << 16) |
-            (Long.parseLong(parts[2]) << 8) |
-            Long.parseLong(parts[3]);
-        return Long.toString(ipLong, 36).toUpperCase();
-    }
-
     private Array<String> getDeckNames() {
         Array<String> names = new Array<>();
         if (game.savedDecks != null && game.savedDecks.size > 0) {
@@ -285,22 +253,28 @@ public class LobbyScreen implements Screen, GameClient.NetworkListener {
     }
 
     private void launchGame() {
-        CardsStackData chosenDeck = game.savedDecks.get(0);
-        NetworkMessages.GameStart start = new NetworkMessages.GameStart();
-        start.firstPlayerId = myPlayerId;
-        client.sendGameStart(start);
-        launching = true;
+        CardsStackData chosenDeck = null;
         for (CardsStackData deck : game.savedDecks) {
             if (deck.name.equals(selectedDeck)) {
                 chosenDeck = deck;
                 break;
             }
         }
-        if (chosenDeck == null) return;
+        if (chosenDeck == null) {
+            statusLabel.setText("Erreur : deck introuvable !");
+            statusLabel.setColor(Color.RED);
+            return;
+        }
+
+        NetworkMessages.GameStart start = new NetworkMessages.GameStart();
+        start.firstPlayerId = myPlayerId;
+        start.deckSize = chosenDeck.getSize();
+        client.sendGameStart(start);
+        launching = true;
 
         GameModel model = new GameModel(game, chosenDeck);
         GameView view = new GameView(game, model);
-        GameController controller = new GameController(view, model, client, myPlayerId);
+        GameController controller = new GameController(view, model, client, myPlayerId, game);
         view.setController(controller);
         client.setListener(controller);
         game.setScreen(view);
@@ -359,7 +333,7 @@ public class LobbyScreen implements Screen, GameClient.NetworkListener {
 
         GameModel model = new GameModel(game, chosenDeck);
         GameView view = new GameView(game, model);
-        GameController controller = new GameController(view, model, client, myPlayerId);
+        GameController controller = new GameController(view, model, client, myPlayerId, game);
         view.setController(controller);
         launching = true;
         client.setListener(controller);

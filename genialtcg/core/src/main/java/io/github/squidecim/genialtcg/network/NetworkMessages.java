@@ -23,6 +23,7 @@ public class NetworkMessages {
     // Serveur → tous : la partie commence
     public static class GameStart {
         public String firstPlayerId; // qui joue en premier
+        public int deckSize;         // taille du deck du joueur qui lance
     }
 
     // Serveur → tous : quelqu'un a pioché

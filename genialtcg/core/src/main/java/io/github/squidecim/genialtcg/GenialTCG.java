@@ -19,6 +19,7 @@ public class GenialTCG extends Game {
     @Override
     public void create() {
         loadCardsFromJson();
+        loadDecks();
         setScreen(new FirstScreen(this));
     }
 
@@ -141,6 +142,51 @@ public class GenialTCG extends Game {
             }
         } catch (Exception e) {
             Gdx.app.error("GenialTCG", "Erreur lecture JSON " + path + " : " + e.getMessage());
+        }
+    }
+
+    public void saveDecks() {
+        try {
+            StringBuilder sb = new StringBuilder("[\n");
+            for (int i = 0; i < savedDecks.size; i++) {
+                CardsStackData deck = savedDecks.get(i);
+                sb.append("  {\"name\":\"")
+                  .append(deck.name.replace("\\", "\\\\").replace("\"", "\\\""))
+                  .append("\",\"cards\":[");
+                java.util.List<CardData> cards = deck.getCards();
+                for (int j = 0; j < cards.size(); j++) {
+                    sb.append("\"").append(cards.get(j).getAtlasRegionName()).append("\"");
+                    if (j < cards.size() - 1) sb.append(",");
+                }
+                sb.append("]}");
+                if (i < savedDecks.size - 1) sb.append(",");
+                sb.append("\n");
+            }
+            sb.append("]");
+            Gdx.files.local("decks.json").writeString(sb.toString(), false);
+        } catch (Exception e) {
+            Gdx.app.error("GenialTCG", "Erreur sauvegarde decks : " + e.getMessage());
+        }
+    }
+
+    public void loadDecks() {
+        try {
+            if (!Gdx.files.local("decks.json").exists()) return;
+            JsonReader reader = new JsonReader();
+            JsonValue root = reader.parse(Gdx.files.local("decks.json"));
+            for (JsonValue deckEntry : root) {
+                String name = deckEntry.getString("name", "Sans nom");
+                java.util.List<CardData> cards = new java.util.ArrayList<>();
+                if (deckEntry.has("cards")) {
+                    for (JsonValue cardVal : deckEntry.get("cards")) {
+                        CardData card = allCardsMap.get(cardVal.asString());
+                        if (card != null) cards.add(card);
+                    }
+                }
+                if (!cards.isEmpty()) savedDecks.add(new CardsStackData(name, cards));
+            }
+        } catch (Exception e) {
+            Gdx.app.error("GenialTCG", "Erreur chargement decks : " + e.getMessage());
         }
     }
 

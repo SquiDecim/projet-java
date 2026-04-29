@@ -34,7 +34,7 @@ public class GameServer {
                 String id = "player" + connectedCount;
                 playerIds.put(conn, id);
 
-                deckSizes.put(conn, 40);
+                deckSizes.put(conn, 60);
 
                 NetworkMessages.AssignId msg = new NetworkMessages.AssignId();
                 msg.playerId = id;
@@ -86,6 +86,10 @@ public class GameServer {
                         server.sendToAllTCP(drawn);
                     }
                 } else if (obj instanceof NetworkMessages.GameStart) {
+                    NetworkMessages.GameStart gs = (NetworkMessages.GameStart) obj;
+                    if (gs.deckSize > 0) deckSizes.put(conn, gs.deckSize);
+                    server.sendToAllTCP(obj);
+                } else if (obj instanceof NetworkMessages.PlayCard) {
                     server.sendToAllTCP(obj);
                 }
             }

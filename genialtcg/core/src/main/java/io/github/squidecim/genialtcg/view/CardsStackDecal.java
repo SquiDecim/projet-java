@@ -40,6 +40,7 @@ public class CardsStackDecal {
     }
 
     private void buildModel(TextureRegion cardTexture, float width, float height, int nbrCards){
+        if (model != null) model.dispose();
         ModelBuilder builder = new ModelBuilder();
         builder.begin();
 

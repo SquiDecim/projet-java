@@ -358,7 +358,7 @@ public class NewDeckScreen implements Screen {
         for (final AtlasRegion region : allCardsSorted) {
             // Filtrage Catégorie
             String category = getCardCategory(region.name);
-            if (!selCat.equals("Toutes catégories")) {
+            if (!selCat.equals("Toutes")) {
                 if (selCat.equals("Pays") && !category.equals("PAYS")) continue;
                 if (
                     selCat.equals("Actions") && !category.equals("ACTION")
@@ -587,6 +587,7 @@ public class NewDeckScreen implements Screen {
                         } else {
                             game.savedDecks.add(new CardsStackData(name, list));
                         }
+                        game.saveDecks();
                         game.setScreen(new DeckScreen(game));
                     }
                 }
@@ -604,7 +605,7 @@ public class NewDeckScreen implements Screen {
             .row();
         dialog.getContentTable().add(nameInput).width(300).pad(10);
 
-        dialog.getButtonTable().defaults().width(120).height(30).pad(10);
+        dialog.getButtonTable().defaults().width(120).height(40).pad(10);
         dialog.button("Annuler", false);
         dialog.button("Valider", true);
 

@@ -1,7 +1,6 @@
 package io.github.squidecim.genialtcg.model;
 
 import com.badlogic.gdx.graphics.Texture;
-import java.util.Arrays;
 
 public class CardData {
 
