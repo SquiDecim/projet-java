@@ -529,7 +529,7 @@ public class NewDeckScreen implements Screen {
     }
 
     private void showSaveDialog() {
-        Dialog dialog = new Dialog("", skin) {
+        dialog = new Dialog("", skin) {
             @Override
             protected void result(Object object) {
                 if (object.equals(true)) {
