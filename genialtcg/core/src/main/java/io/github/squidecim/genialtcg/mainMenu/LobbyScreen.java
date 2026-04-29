@@ -301,7 +301,7 @@ public class LobbyScreen implements Screen, GameClient.NetworkListener {
 
         GameModel model = new GameModel(game, chosenDeck);
         GameView view = new GameView(game, model);
-        GameController controller = new GameController(view, model, client, myPlayerId);
+        GameController controller = new GameController(view, model, client, myPlayerId, game);
         view.setController(controller);
         client.setListener(controller);
         client.sendDeckSize(model.deckSize());
@@ -361,7 +361,7 @@ public class LobbyScreen implements Screen, GameClient.NetworkListener {
 
         GameModel model = new GameModel(game, chosenDeck);
         GameView view = new GameView(game, model);
-        GameController controller = new GameController(view, model, client, myPlayerId);
+        GameController controller = new GameController(view, model, client, myPlayerId, game);
         view.setController(controller);
         launching = true;
         client.setListener(controller);
