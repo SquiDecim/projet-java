@@ -16,7 +16,9 @@ public class GameServer {
     private Server server;
     private Map<Connection, String> playerIds = new HashMap<>();
     private int connectedCount = 0;
-    private Runnable onBothConnected; // callback quand les 2 joueurs sont là
+    private Runnable onBothConnected;
+    private Map<Connection, Integer> deckSizes = new HashMap<>();
+
 
     public GameServer(String lobbyCode) throws IOException {
         this.lobbyCodeForClients = lobbyCode;
@@ -31,6 +33,8 @@ public class GameServer {
                 connectedCount++;
                 String id = "player" + connectedCount;
                 playerIds.put(conn, id);
+
+                deckSizes.put(conn, 40);
 
                 NetworkMessages.AssignId msg = new NetworkMessages.AssignId();
                 msg.playerId = id;
@@ -71,11 +75,17 @@ public class GameServer {
                 String playerId = playerIds.get(conn);
                 if (playerId == null) return;
 
-                // pour l'instant on retransmet juste à tout le monde
-                // plus tard faut ajouter la validation ici
-                if (obj instanceof NetworkMessages.DrawCard
-                    || obj instanceof NetworkMessages.PlayCard
-                    || obj instanceof NetworkMessages.EndTurn) {
+                if (obj instanceof NetworkMessages.DrawCard) {
+                    String pid = playerIds.get(conn);
+                    int size = deckSizes.getOrDefault(conn, 0);
+                    if (size > 0) {
+                        deckSizes.put(conn, size - 1);
+                        NetworkMessages.CardDrawn drawn = new NetworkMessages.CardDrawn();
+                        drawn.playerId = pid;
+                        drawn.newDeckSize = size - 1;
+                        server.sendToAllTCP(drawn);
+                    }
+                } else if (obj instanceof NetworkMessages.GameStart) {
                     server.sendToAllTCP(obj);
                 }
             }

@@ -140,7 +140,7 @@ public class GameView implements Screen {
 
         backTexture = new Texture("cards/backCardTexture.png");
         cardAtlas = new TextureAtlas(
-            Gdx.files.internal("cards/dynamic/country_dynamic.atlas")
+            Gdx.files.internal("cards/full/country_cards.atlas")
         );
         for (Texture texture : cardAtlas.getTextures()) {
             texture.setFilter(
@@ -197,7 +197,7 @@ public class GameView implements Screen {
             new TextureRegion(backTexture),
             BENCH_CARD_W,
             BENCH_CARD_H,
-            50,
+            40,
             4.95f,
             0,
             4.13f
@@ -206,10 +206,10 @@ public class GameView implements Screen {
             new TextureRegion(backTexture),
             BENCH_CARD_W,
             BENCH_CARD_H,
-            50,
-            -3.25f,
+            40,
+            -4.95f,
             0,
-            -3.2f
+            -4.13f
         );
         discard = createCardsStacks(
             new TextureRegion(backTexture),
@@ -336,7 +336,11 @@ public class GameView implements Screen {
     }
 
     public void addCardToHand(CardData data) {
-        AtlasRegion region = cardAtlas.findRegion(data.country);
+        String region_name = data.country.replace(" ", "_");
+        AtlasRegion region = cardAtlas.findRegion(region_name);
+        if (region == null) {
+            return;
+        }
         TextureRegion front = new TextureRegion(region);
 
         CardDecal decal = new CardDecal(
@@ -392,6 +396,50 @@ public class GameView implements Screen {
         }
     }
 
+    public void addCardToOpponentHand() {
+        CardDecal decal = new CardDecal(
+            null,
+            new TextureRegion(backTexture),
+            new TextureRegion(backTexture),
+            BENCH_CARD_W, BENCH_CARD_H, cam, "deck"
+        );
+        decal.setRotation(180f, -90f, 0);
+        opponentHandCards.add(decal);
+        repositionOpponentHand();
+    }
+
+    private void repositionOpponentHand() {
+        int n = opponentHandCards.size;
+        float maxWidth = 7f;
+        float spacing = BENCH_CARD_W * 0.7f;
+        float totalWidth = spacing * (n - 1);
+        if (totalWidth > maxWidth) spacing = maxWidth / (n - 1);
+
+        float center = (n - 1) / 2f;
+        Vector3 deckPos = opponentDeck.getPosition();
+        float deckTop = opponentDeck.nbrCards * THICKNESS;
+        Vector3 deckTopPos = new Vector3(deckPos.x, deckPos.y + deckTop, deckPos.z);
+
+        for (int i = 0; i < n; i++) {
+            CardDecal card = opponentHandCards.get(i);
+            float x = (i - center) * spacing;
+            float y = 0.5f + i * THICKNESS;
+            float z = -5f;
+            Vector3 dest = new Vector3(x, y, z);
+            if (card.emplacement.equals("deck")) {
+                card.animateFromDeck(deckTopPos, dest, 0, 90f, 0f, 0.4f);
+                card.emplacement = "hand";
+            } else {
+                card.animateTo(dest, 0, 90f, 0f, 0.4f);
+            }
+        }
+    }
+
+    public void updateOpponentDeckVisual(int size) {
+        opponentDeck.updateSize(size);
+        addCardToOpponentHand();
+    }
+
     public void updateDeckVisual(int size) {
         deck.updateSize(size);
     }
@@ -435,15 +483,7 @@ public class GameView implements Screen {
         return deck.intersects(ray);
     }
 
-    private CardsStackDecal createCardsStacks(
-        TextureRegion tex,
-        float w,
-        float h,
-        int n,
-        float x,
-        float y,
-        float z
-    ) {
+    private CardsStackDecal createCardsStacks(TextureRegion tex, float w, float h, int n, float x, float y, float z) {
         CardsStackDecal stack = new CardsStackDecal(tex, w, h, n);
         stack.setPosition(x, y, z);
         return stack;

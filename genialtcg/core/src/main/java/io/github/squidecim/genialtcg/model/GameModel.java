@@ -12,18 +12,9 @@ public class GameModel {
     public List<CardData> bench = new ArrayList<>();
     public CardData table;
 
-    public GameModel(GenialTCG game) {
+    public GameModel(GenialTCG game, CardsStackData deck) {
         this.game = game;
-        this.deck = new CardsStackData("deck");
-
-        // Utilise le dernier deck sauvegardé, sinon deck vide
-        if (game.savedDecks.size > 0) {
-            CardsStackData lastDeck = game.savedDecks.get(game.savedDecks.size - 1);
-            for (CardData card : lastDeck.getCards()) {
-                this.deck.addCard(card);
-            }
-        }
-
+        this.deck = deck;
         this.deck.shuffle();
     }
 

@@ -64,7 +64,6 @@ public class FirstScreen implements Screen {
             new ChangeListener() {
                 @Override
                 public void changed(ChangeEvent event, Actor actor) {
-                    System.out.println(game.savedDecks);
                     if (game.savedDecks.size > 0) {
                         //GameModel model = new GameModel(game);
                         //GameView view = new GameView(game, model);
