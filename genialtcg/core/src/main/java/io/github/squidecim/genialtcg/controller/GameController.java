@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.math.collision.Ray;
 import io.github.squidecim.genialtcg.GenialTCG;
+import io.github.squidecim.genialtcg.mainMenu.FirstScreen;
 import io.github.squidecim.genialtcg.model.CardData;
 import io.github.squidecim.genialtcg.model.GameModel;
 import io.github.squidecim.genialtcg.network.GameClient;
@@ -14,6 +15,7 @@ import io.github.squidecim.genialtcg.view.GameView;
 
 public class GameController implements InputProcessor, GameClient.NetworkListener {
 
+    private final GenialTCG game;
     private final GameView view;
     private final GameModel model;
     private GameClient client;
@@ -26,11 +28,12 @@ public class GameController implements InputProcessor, GameClient.NetworkListene
 
     private CardDecal draggedCard = null;
 
-    public GameController(GameView view, GameModel model, GameClient client, String myPlayerId) {
+    public GameController(GameView view, GameModel model, GameClient client, String myPlayerId, GenialTCG game) {
         this.view = view;
         this.model = model;
         this.client = client;
         this.myPlayerId = myPlayerId;
+        this.game = game;
         Gdx.input.setInputProcessor(this);
     }
 
@@ -80,6 +83,7 @@ public class GameController implements InputProcessor, GameClient.NetworkListene
             boolean fromBench = draggedCard.emplacement.equals("bench");
             boolean toBench = slot.type.equals("bench");
             boolean toTable = slot.type.equals("table");
+
             if (fromBench && toBench) {
                 view.cancelDrag(draggedCard);
                 draggedCard = null;
@@ -87,16 +91,23 @@ public class GameController implements InputProcessor, GameClient.NetworkListene
             }
 
             if (toBench) {
-                CardSlot firstSlot = view.getFirstEmptyBenchSlot();
-                if (firstSlot != null) {
-                    model.moveFromHandToBench(draggedCard.getData());
-                    view.dropCardOnSlot(draggedCard, firstSlot);
-                } else {
+                if (model.isBenchFull()) {
                     view.cancelDrag(draggedCard);
+                } else {
+                    CardSlot firstSlot = view.getFirstEmptyBenchSlot();
+                    if (firstSlot != null) {
+                        model.moveFromHandToBench(draggedCard.getData());
+                        view.dropCardOnSlot(draggedCard, firstSlot);
+                        int slotIdx = view.getBenchSlotIndex(firstSlot);
+                        client.sendPlayCard(draggedCard.getData().getAtlasRegionName(), "bench", slotIdx);
+                    } else {
+                        view.cancelDrag(draggedCard);
+                    }
                 }
             } else if (toTable && slot.isEmpty()) {
                 model.moveFromHandToTable(draggedCard.getData());
                 view.dropCardOnSlot(draggedCard, slot);
+                client.sendPlayCard(draggedCard.getData().getAtlasRegionName(), "table", 0);
             } else {
                 view.cancelDrag(draggedCard);
             }
@@ -116,40 +127,17 @@ public class GameController implements InputProcessor, GameClient.NetworkListene
         return true;
     }
 
-    @Override
-    public boolean keyDown(int k) {
-        return false;
-    }
+    @Override public boolean keyDown(int k) { return false; }
+    @Override public boolean keyUp(int k) { return false; }
+    @Override public boolean keyTyped(char c) { return false; }
+    @Override public boolean scrolled(float x, float y) { return false; }
+    @Override public boolean touchCancelled(int x, int y, int p, int b) { return false; }
 
     @Override
-    public boolean keyUp(int k) {
-        return false;
-    }
+    public void onAssignId(NetworkMessages.AssignId msg) {}
 
     @Override
-    public boolean keyTyped(char c) {
-        return false;
-    }
-
-    @Override
-    public boolean scrolled(float x, float y) {
-        return false;
-    }
-
-    @Override
-    public boolean touchCancelled(int x, int y, int p, int b) {
-        return false;
-    }
-
-    @Override
-    public void onAssignId(NetworkMessages.AssignId msg) {
-
-    }
-
-    @Override
-    public void onGameStart(NetworkMessages.GameStart msg) {
-
-    }
+    public void onGameStart(NetworkMessages.GameStart msg) {}
 
     @Override
     public void onCardDrawn(NetworkMessages.CardDrawn msg) {
@@ -160,28 +148,42 @@ public class GameController implements InputProcessor, GameClient.NetworkListene
                 view.addCardToHand(drawn);
                 view.updateDeckVisual(model.deckSize());
             }
+            if (model.isDeckEmpty()) {
+                Gdx.app.postRunnable(() ->
+                    game.setScreen(new FirstScreen(game, "Votre deck est vide — vous avez perdu !"))
+                );
+            }
         } else {
             view.updateOpponentDeckVisual(msg.newDeckSize);
+            if (msg.newDeckSize == 0) {
+                Gdx.app.postRunnable(() ->
+                    game.setScreen(new FirstScreen(game, "Le deck adverse est vide — vous avez gagné !"))
+                );
+            }
         }
     }
 
     @Override
     public void onCardPlayed(NetworkMessages.CardPlayed msg) {
-
+        if (msg.playerId.equals(myPlayerId)) return;
+        CardData card = model.lookupCard(msg.cardId);
+        if (card == null) return;
+        if ("bench".equals(msg.zone)) {
+            view.addOpponentCardToBench(card);
+        } else if ("table".equals(msg.zone)) {
+            view.addOpponentCardToTable(card);
+        }
     }
 
     @Override
     public void onTurnChanged(NetworkMessages.TurnChanged msg) {
-
+        boolean myTurn = msg.currentPlayerId != null && msg.currentPlayerId.equals(myPlayerId);
+        Gdx.app.log("Tour", myTurn ? "C'est votre tour" : "Tour de l'adversaire");
     }
 
     @Override
-    public void onPlayerJoined(NetworkMessages.PlayerJoined msg) {
-
-    }
+    public void onPlayerJoined(NetworkMessages.PlayerJoined msg) {}
 
     @Override
-    public void onLobbyInfo(NetworkMessages.LobbyInfo msg) {
-
-    }
+    public void onLobbyInfo(NetworkMessages.LobbyInfo msg) {}
 }

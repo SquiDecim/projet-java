@@ -80,6 +80,7 @@ public class DeckScreen implements Screen {
                     @Override
                     public void changed(ChangeEvent event, Actor actor) {
                         game.savedDecks.removeValue(deck, true);
+                        game.saveDecks();
                         game.setScreen(new DeckScreen(game));
                     }
                 }

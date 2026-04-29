@@ -19,16 +19,22 @@ public class GenialTCG extends Game {
     @Override
     public void create() {
         loadCardsFromJson();
+        loadDecks();
         setScreen(new FirstScreen(this));
     }
 
     private void loadCardsFromJson() {
+        loadPaysJson();
+        loadSimpleCardsJson("JSON/actions.json");
+        loadSimpleCardsJson("JSON/outils.json");
+    }
+
+    private void loadPaysJson() {
         try {
             JsonReader reader = new JsonReader();
             JsonValue root = reader.parse(Gdx.files.internal("JSON/pays.json"));
 
             for (JsonValue entry : root) {
-                // Lecture des stats standards
                 JsonValue s = entry.get("statistiques");
                 int[] statsArray = (s != null)
                     ? new int[] {
@@ -40,7 +46,6 @@ public class GenialTCG extends Game {
                       }
                     : new int[5];
 
-                // Lecture du bloc Spécial
                 JsonValue spec = entry.get("special");
                 int sCout = 0;
                 String[] sCibles = new String[0];
@@ -49,23 +54,14 @@ public class GenialTCG extends Game {
 
                 if (spec != null) {
                     sCout = spec.getInt("cout", 0);
-                    if (spec.has("cibles")) sCibles = spec
-                        .get("cibles")
-                        .asStringArray();
-                    if (spec.has("variables")) sVars = spec
-                        .get("variables")
-                        .asStringArray();
-
-                    // Extraction intelligente des valeurs mixtes
+                    if (spec.has("cibles")) sCibles = spec.get("cibles").asStringArray();
+                    if (spec.has("variables")) sVars = spec.get("variables").asStringArray();
                     if (spec.has("valeurs")) {
                         JsonValue vArr = spec.get("valeurs");
                         sVals = new Object[vArr.size];
                         for (int i = 0; i < vArr.size; i++) {
                             JsonValue v = vArr.get(i);
-                            // Si c'est un tableau (ex: [2, "main"]), on le stocke en String[]
-                            sVals[i] = v.isArray()
-                                ? v.asStringArray()
-                                : v.asInt();
+                            sVals[i] = v.isArray() ? v.asStringArray() : v.asInt();
                         }
                     }
                 }
@@ -83,13 +79,114 @@ public class GenialTCG extends Game {
                     sVars,
                     sVals
                 );
-                allCardsMap.put(card.country, card);
+                allCardsMap.put(card.getAtlasRegionName(), card);
             }
         } catch (Exception e) {
-            Gdx.app.error(
-                "GenialTCG",
-                "Erreur lecture JSON : " + e.getMessage()
-            );
+            Gdx.app.error("GenialTCG", "Erreur lecture JSON pays : " + e.getMessage());
+        }
+    }
+
+    private void loadSimpleCardsJson(String path) {
+        try {
+            JsonReader reader = new JsonReader();
+            JsonValue root = reader.parse(Gdx.files.internal(path));
+
+            for (JsonValue entry : root) {
+                String nom = entry.getString("nom", "Inconnu");
+                String id = entry.getString("id", "N/A");
+
+                String type = "N/A";
+                String condStr = "—";
+                JsonValue condEntry = entry.get("cond");
+                if (condEntry != null && !condEntry.isNull()) {
+                    if (condEntry.has("type")) {
+                        JsonValue tv = condEntry.get("type");
+                        String val = tv.isArray() ? tv.getString(0) : tv.asString();
+                        type = val;
+                        condStr = "type : " + val;
+                    } else if (condEntry.has("terrain")) {
+                        JsonValue tv = condEntry.get("terrain");
+                        condStr = "terrain : " + (tv.isArray() ? tv.getString(0) : tv.asString());
+                    }
+                }
+
+                String[] cibles = new String[0];
+                String[] variables = new String[0];
+                Object[] valeurs = new Object[0];
+
+                if (entry.has("cibles")) cibles = entry.get("cibles").asStringArray();
+
+                if (entry.has("variables")) {
+                    JsonValue varsArr = entry.get("variables");
+                    variables = new String[varsArr.size];
+                    for (int i = 0; i < varsArr.size; i++) {
+                        JsonValue v = varsArr.get(i);
+                        variables[i] = (v == null || v.isNull()) ? null : v.asString();
+                    }
+                }
+
+                if (entry.has("valeurs")) {
+                    JsonValue vArr = entry.get("valeurs");
+                    valeurs = new Object[vArr.size];
+                    for (int i = 0; i < vArr.size; i++) {
+                        JsonValue v = vArr.get(i);
+                        valeurs[i] = v.isArray() ? v.asStringArray() : v.asInt();
+                    }
+                }
+
+                CardData card = new CardData(
+                    nom, id, "N/A", type, 0, 0, new int[5], 0, cibles, variables, valeurs
+                );
+                card.cond = condStr;
+                allCardsMap.put(card.getAtlasRegionName(), card);
+            }
+        } catch (Exception e) {
+            Gdx.app.error("GenialTCG", "Erreur lecture JSON " + path + " : " + e.getMessage());
+        }
+    }
+
+    public void saveDecks() {
+        try {
+            StringBuilder sb = new StringBuilder("[\n");
+            for (int i = 0; i < savedDecks.size; i++) {
+                CardsStackData deck = savedDecks.get(i);
+                sb.append("  {\"name\":\"")
+                  .append(deck.name.replace("\\", "\\\\").replace("\"", "\\\""))
+                  .append("\",\"cards\":[");
+                java.util.List<CardData> cards = deck.getCards();
+                for (int j = 0; j < cards.size(); j++) {
+                    sb.append("\"").append(cards.get(j).getAtlasRegionName()).append("\"");
+                    if (j < cards.size() - 1) sb.append(",");
+                }
+                sb.append("]}");
+                if (i < savedDecks.size - 1) sb.append(",");
+                sb.append("\n");
+            }
+            sb.append("]");
+            Gdx.files.local("decks.json").writeString(sb.toString(), false);
+        } catch (Exception e) {
+            Gdx.app.error("GenialTCG", "Erreur sauvegarde decks : " + e.getMessage());
+        }
+    }
+
+    public void loadDecks() {
+        try {
+            if (!Gdx.files.local("decks.json").exists()) return;
+            JsonReader reader = new JsonReader();
+            JsonValue root = reader.parse(Gdx.files.local("decks.json"));
+            for (JsonValue deckEntry : root) {
+                String name = deckEntry.getString("name", "Sans nom");
+                java.util.List<CardData> cards = new java.util.ArrayList<>();
+                if (deckEntry.has("cards")) {
+                    for (JsonValue cardVal : deckEntry.get("cards")) {
+                        CardData card = allCardsMap.get(cardVal.asString());
+                        if (card != null) cards.add(card);
+                    }
+                }
+                if (!cards.isEmpty()) savedDecks.add(new CardsStackData(name, cards));
+            }
+        } catch (Exception e) {
+            Gdx.app.error("GenialTCG", "Erreur chargement decks : " + e.getMessage());
         }
     }
 

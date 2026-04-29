@@ -97,7 +97,7 @@ public class NewDeckScreen implements Screen {
 
         if (deckToEdit != null) {
             for (CardData cd : deckToEdit.getCards()) {
-                this.selectedCards.add(cd.country.replace(" ", "_"));
+                this.selectedCards.add(cd.getAtlasRegionName());
             }
         }
     }
@@ -358,7 +358,7 @@ public class NewDeckScreen implements Screen {
         for (final AtlasRegion region : allCardsSorted) {
             // Filtrage Catégorie
             String category = getCardCategory(region.name);
-            if (!selCat.equals("Toutes catégories")) {
+            if (!selCat.equals("Toutes")) {
                 if (selCat.equals("Pays") && !category.equals("PAYS")) continue;
                 if (
                     selCat.equals("Actions") && !category.equals("ACTION")
@@ -369,8 +369,7 @@ public class NewDeckScreen implements Screen {
             }
 
             // Filtrage Recherche & Type/Rang
-            String cardKey = region.name.replace("_", " ");
-            CardData data = game.allCardsMap.get(cardKey);
+            CardData data = game.allCardsMap.get(region.name);
 
             if (
                 !query.isEmpty() && !region.name.toLowerCase().contains(query)
@@ -542,9 +541,7 @@ public class NewDeckScreen implements Screen {
                         java.util.List<CardData> list =
                             new java.util.ArrayList<>();
                         for (String s : selectedCards) {
-                            CardData d = game.allCardsMap.get(
-                                s.replace("_", " ")
-                            );
+                            CardData d = game.allCardsMap.get(s);
                             if (d == null) {
                                 d = new CardData(
                                     s,
@@ -563,6 +560,26 @@ public class NewDeckScreen implements Screen {
                             list.add(d);
                         }
 
+                        System.out.println(
+                            "============================================================"
+                        );
+                        System.out.println("DECK : " + name);
+                        System.out.println(
+                            "Nombre total de cartes : " + list.size()
+                        );
+                        System.out.println(
+                            "============================================================"
+                        );
+                        for (CardData d : list) {
+                            System.out.println(d.toString());
+                            System.out.println(
+                                "------------------------------------------------------------"
+                            );
+                        }
+                        System.out.println(
+                            "============================================================"
+                        );
+
                         if (editingDeck != null) {
                             editingDeck.name = name;
                             editingDeck.clearCards();
@@ -570,6 +587,7 @@ public class NewDeckScreen implements Screen {
                         } else {
                             game.savedDecks.add(new CardsStackData(name, list));
                         }
+                        game.saveDecks();
                         game.setScreen(new DeckScreen(game));
                     }
                 }
@@ -587,7 +605,7 @@ public class NewDeckScreen implements Screen {
             .row();
         dialog.getContentTable().add(nameInput).width(300).pad(10);
 
-        dialog.getButtonTable().defaults().width(120).height(30).pad(10);
+        dialog.getButtonTable().defaults().width(120).height(40).pad(10);
         dialog.button("Annuler", false);
         dialog.button("Valider", true);
 

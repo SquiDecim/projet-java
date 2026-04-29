@@ -6,16 +6,29 @@ import java.util.List;
 
 public class GameModel {
 
+    public static final int MAX_BENCH = 4;
+    public static final String[] TERRAINS = {
+        "Désertique",
+        "Glacial",
+        "Montagneux",
+        "Océanique",
+        "Tempéré",
+        "Tropical",
+    };
+
     private final GenialTCG game;
+    public final String terrain;
     public CardsStackData deck;
     public List<CardData> hand = new ArrayList<>();
     public List<CardData> bench = new ArrayList<>();
+    public List<CardData> discardPile = new ArrayList<>();
     public CardData table;
 
     public GameModel(GenialTCG game, CardsStackData deck) {
         this.game = game;
         this.deck = deck;
         this.deck.shuffle();
+        this.terrain = TERRAINS[4];
     }
 
     public CardData drawCard() {
@@ -24,7 +37,9 @@ public class GameModel {
         return card;
     }
 
-    public int deckSize() { return deck.getSize(); }
+    public int deckSize() {
+        return deck.getSize();
+    }
 
     public void moveFromHandToBench(CardData card) {
         hand.remove(card);
@@ -34,5 +49,23 @@ public class GameModel {
     public void moveFromHandToTable(CardData card) {
         hand.remove(card);
         table = card;
+    }
+
+    public boolean isBenchFull() {
+        return bench.size() >= MAX_BENCH;
+    }
+
+    public void discardCard(CardData card) {
+        bench.remove(card);
+        if (table == card) table = null;
+        discardPile.add(card);
+    }
+
+    public CardData lookupCard(String regionName) {
+        return game.allCardsMap.get(regionName);
+    }
+
+    public boolean isDeckEmpty() {
+        return deck.getSize() == 0 && hand.isEmpty();
     }
 }
