@@ -78,6 +78,7 @@ public class NewDeckScreen implements Screen {
 
     private static final float EFFECT_SCALE = 1.05f;
     private static final float ANIM_DURATION = 0.1f;
+    private Dialog dialog;
 
     public NewDeckScreen(GenialTCG game) {
         this(game, null);
@@ -504,7 +505,7 @@ public class NewDeckScreen implements Screen {
     }
 
     private void showSaveDialog() {
-        Dialog dialog = new Dialog("", skin);
+        dialog = new Dialog("", skin);
         TextField nameInput = new TextField(
             editingDeck != null ? editingDeck.name : "",
             skin
@@ -619,6 +620,11 @@ public class NewDeckScreen implements Screen {
     @Override
     public void resize(int width, int height) {
         stage.getViewport().update(width, height, true);
+        if (dialog != null && dialog.hasParent()) {
+            float dx = (stage.getWidth() - dialog.getWidth()) / 2f;
+            float dy = (stage.getHeight() - dialog.getHeight()) / 2f;
+            dialog.setPosition(dx, dy);
+        }
     }
 
     @Override
