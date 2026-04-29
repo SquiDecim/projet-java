@@ -38,7 +38,6 @@ public class NewDeckScreen implements Screen {
     private TextureAtlas atlas_actions;
     private TextureAtlas atlas_outils;
 
-    private final int MAX_TOTAL = 60;
     private final int MAX_COUNTRY = 40;
     private final int MAX_ACTION = 10;
     private final int MAX_TOOL = 10;
@@ -53,7 +52,7 @@ public class NewDeckScreen implements Screen {
     private SelectBox<String> categorySelect;
 
     private final String[] categoryOptions = {
-        "Toutes catégories",
+        "Toutes",
         "Pays",
         "Actions",
         "Outils",
@@ -546,21 +545,24 @@ public class NewDeckScreen implements Screen {
                             CardData d = game.allCardsMap.get(
                                 s.replace("_", " ")
                             );
-                            if (d == null) d = new CardData(
-                                s,
-                                "N/A",
-                                "N/A",
-                                "N/A",
-                                0,
-                                0,
-                                new int[5],
-                                0,
-                                new String[0],
-                                new String[0],
-                                new Object[0]
-                            );
+                            if (d == null) {
+                                d = new CardData(
+                                    s,
+                                    "N/A",
+                                    "N/A",
+                                    "N/A",
+                                    0,
+                                    0,
+                                    new int[5],
+                                    0,
+                                    new String[0],
+                                    new String[0],
+                                    new Object[0]
+                                );
+                            }
                             list.add(d);
                         }
+
                         if (editingDeck != null) {
                             editingDeck.name = name;
                             editingDeck.clearCards();
@@ -569,14 +571,11 @@ public class NewDeckScreen implements Screen {
                             game.savedDecks.add(new CardsStackData(name, list));
                         }
                         game.setScreen(new DeckScreen(game));
-                    } else {
-                        cancel();
                     }
                 }
             }
         };
 
-        dialog = new Dialog("", skin);
         TextField nameInput = new TextField(
             editingDeck != null ? editingDeck.name : "",
             skin
