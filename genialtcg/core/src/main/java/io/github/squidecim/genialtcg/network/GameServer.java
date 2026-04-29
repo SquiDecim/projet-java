@@ -83,6 +83,14 @@ public class GameServer {
                         drawn.newDeckSize = size - 1;
                         server.sendToAllTCP(drawn);
                     }
+                } else if(obj instanceof NetworkMessages.PlayCard) {
+                    String pid = playerIds.get(conn);
+                    NetworkMessages.CardPlayed played = new NetworkMessages.CardPlayed();
+                    played.playerId = pid;
+                    played.cardId = ((NetworkMessages.PlayCard) obj).cardId;
+                    played.zone = ((NetworkMessages.PlayCard) obj).zone;
+                    played.slotIndex = ((NetworkMessages.PlayCard) obj).slotIndex;
+                    server.sendToAllTCP(played);
                 } else if (obj instanceof NetworkMessages.GameStart) {
                     server.sendToAllTCP(obj);
                 } else if (obj instanceof NetworkMessages.DeckSize) {

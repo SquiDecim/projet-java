@@ -474,21 +474,69 @@ public class GameView implements Screen {
         if (region == null) return;
         CardSlot slot = findEmptyOpponentBenchSlot();
         if (slot == null) return;
-        CardDecal decal = new CardDecal(card, new TextureRegion(region),
-            new TextureRegion(backTexture), BENCH_CARD_W, BENCH_CARD_H, cam, "bench");
-        decal.setRotation(0, -90f, 0);
-        slot.setCard(decal);
-        decal.animateTo(slot.getPosition(), 0, -90f, 0, 0.3f);
+
+        CardDecal decal = removeOpponentCardFromField(card.getAtlasRegionName());
+
+        if (decal == null) {
+            Vector3 startPos = opponentHandCards.size > 0
+                ? opponentHandCards.get(opponentHandCards.size - 1).getPosition()
+                : opponentDeck.getPosition();
+            decal = new CardDecal(card, new TextureRegion(region),
+                new TextureRegion(backTexture), BENCH_CARD_W, BENCH_CARD_H, cam, "bench");
+            decal.setPosition(startPos.x, startPos.y, startPos.z);
+            decal.setRotation(0, -90f, 0);
+            if (opponentHandCards.size > 0) {
+                CardDecal ghost = opponentHandCards.removeIndex(opponentHandCards.size - 1);
+                ghost.dispose();
+                repositionOpponentHand();
+            }
+        }
+
+        slot.setCardDirect(decal);
+        decal.animateTo(slot.getPosition(), 0, -90f, 0, 0.5f);
     }
 
     public void addOpponentCardToTable(CardData card) {
         AtlasRegion region = findRegionForCard(card);
         if (region == null) return;
-        CardDecal decal = new CardDecal(card, new TextureRegion(region),
-            new TextureRegion(backTexture), TABLE_CARD_W, TABLE_CARD_H, cam, "table");
-        decal.setRotation(0, -90f, 0);
-        opponentTableSlot.setCard(decal);
-        decal.animateTo(opponentTableSlot.getPosition(), 0, -90f, 0, 0.3f);
+
+        CardDecal decal = removeOpponentCardFromField(card.getAtlasRegionName());
+
+        if (decal != null) {
+            decal.buildModel(decal.frontRegion, decal.backRegion, TABLE_CARD_W, TABLE_CARD_H);
+        } else {
+            Vector3 startPos = opponentHandCards.size > 0
+                ? opponentHandCards.get(opponentHandCards.size - 1).getPosition()
+                : opponentDeck.getPosition();
+            decal = new CardDecal(card, new TextureRegion(region),
+                new TextureRegion(backTexture), TABLE_CARD_W, TABLE_CARD_H, cam, "table");
+            decal.setPosition(startPos.x, startPos.y, startPos.z);
+            decal.setRotation(0, -90f, 0);
+            if (opponentHandCards.size > 0) {
+                CardDecal ghost = opponentHandCards.removeIndex(opponentHandCards.size - 1);
+                ghost.dispose();
+                repositionOpponentHand();
+            }
+        }
+
+        opponentTableSlot.setCardDirect(decal);
+        decal.animateTo(opponentTableSlot.getPosition(), 0, -90f, 0, 0.5f);
+    }
+
+    public CardDecal removeOpponentCardFromField(String cardId) {
+        for (CardSlot slot : benchTopSlots) {
+            CardDecal c = slot.getCard();
+            if (c != null && c.getData() != null && c.getData().getAtlasRegionName().equals(cardId)) {
+                slot.removeCard();
+                return c;
+            }
+        }
+        CardDecal c = opponentTableSlot.getCard();
+        if (c != null && c.getData() != null && c.getData().getAtlasRegionName().equals(cardId)) {
+            opponentTableSlot.removeCard();
+            return c;
+        }
+        return null;
     }
 
     public int getBenchSlotIndex(CardSlot slot) {

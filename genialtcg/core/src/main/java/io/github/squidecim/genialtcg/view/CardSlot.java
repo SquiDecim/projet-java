@@ -78,6 +78,16 @@ public class CardSlot {
             this.card.setPosition(position.x, position.y, position.z);
         }
     }
+
+    public void setCardDirect(CardDecal card) {
+        if (type.equals("table")) {
+            this.card = card;
+            this.card.buildModel(this.card.frontRegion, this.card.backRegion, TABLE_CARD_W, TABLE_CARD_H);
+        } else {
+            this.card = card;
+        }
+    }
+
     public CardDecal getCard() {
         return this.card;
     }

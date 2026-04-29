@@ -81,10 +81,11 @@ public class GameController implements InputProcessor, GameClient.NetworkListene
         CardSlot slot = view.getIntersectedSlot(ray);
         if (slot != null) {
             boolean fromBench = draggedCard.emplacement.equals("bench");
+            boolean fromTable = draggedCard.emplacement.equals("table");
             boolean toBench = slot.type.equals("bench");
             boolean toTable = slot.type.equals("table");
 
-            if (fromBench && toBench) {
+            if ((fromBench && toBench) || (fromTable && toTable)) {
                 view.cancelDrag(draggedCard);
                 draggedCard = null;
                 return true;
