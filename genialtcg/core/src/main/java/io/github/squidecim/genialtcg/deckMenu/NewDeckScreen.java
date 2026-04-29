@@ -530,7 +530,6 @@ public class NewDeckScreen implements Screen {
     }
 
     private void showSaveDialog() {
-<<<<<<< HEAD
         Dialog dialog = new Dialog("", skin) {
             @Override
             protected void result(Object object) {
@@ -577,9 +576,7 @@ public class NewDeckScreen implements Screen {
             }
         };
 
-=======
         dialog = new Dialog("", skin);
->>>>>>> 90a512913777a35c910f394f9ca232debb4e0860
         TextField nameInput = new TextField(
             editingDeck != null ? editingDeck.name : "",
             skin
