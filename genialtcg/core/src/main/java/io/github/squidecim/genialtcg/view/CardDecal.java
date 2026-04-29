@@ -237,7 +237,7 @@ public class CardDecal {
         applyTransform(position.x, currentY + yOffset, position.z, yaw, pitch, roll);
     }
 
-    public void animateFromDeck(Vector3 deckTop, Vector3 target, float targetYaw, float targetPitch, float targetRoll, float duration) {
+    public void animateFromDeck(Vector3 deckTop, Vector3 target, float targetYaw, float targetPitch, float targetRoll, float duration, boolean fromPlayer) {
 
         position.set(deckTop);
         currentY = deckTop.y;
@@ -246,9 +246,10 @@ public class CardDecal {
         currentRoll = roll;
 
         slideStart.set(deckTop);
-        slideTarget.set(deckTop.x, deckTop.y + 0.5f, deckTop.z + 0.4f);
+        if (fromPlayer) slideTarget.set(deckTop.x, deckTop.y + 0.5f, deckTop.z + 1f);
+        else slideTarget.set(deckTop.x, deckTop.y + 0.5f, deckTop.z - 1f);
         slideTimer = 0f;
-        slideDuration = 0.18f;
+        slideDuration = 0.3f;
         sliding = true;
 
         pendingTarget      = target.cpy();

@@ -289,6 +289,7 @@ public class LobbyScreen implements Screen, GameClient.NetworkListener {
         NetworkMessages.GameStart start = new NetworkMessages.GameStart();
         start.firstPlayerId = myPlayerId;
         client.sendGameStart(start);
+
         launching = true;
         for (CardsStackData deck : game.savedDecks) {
             if (deck.name.equals(selectedDeck)) {
@@ -303,6 +304,7 @@ public class LobbyScreen implements Screen, GameClient.NetworkListener {
         GameController controller = new GameController(view, model, client, myPlayerId);
         view.setController(controller);
         client.setListener(controller);
+        client.sendDeckSize(model.deckSize());
         game.setScreen(view);
     }
 
@@ -348,7 +350,7 @@ public class LobbyScreen implements Screen, GameClient.NetworkListener {
 
     @Override
     public void onGameStart(NetworkMessages.GameStart msg) {
-        CardsStackData chosenDeck = null;
+        CardsStackData chosenDeck = game.savedDecks.get(0);
         for (CardsStackData deck : game.savedDecks) {
             if (deck.name.equals(selectedDeck)) {
                 chosenDeck = deck;
@@ -363,6 +365,7 @@ public class LobbyScreen implements Screen, GameClient.NetworkListener {
         view.setController(controller);
         launching = true;
         client.setListener(controller);
+        client.sendDeckSize(model.deckSize());
         game.setScreen(view);
     }
 

@@ -98,4 +98,10 @@ public class GameClient {
     public void sendGameStart(NetworkMessages.GameStart msg) {
         client.sendTCP(msg);
     }
+
+    public void sendDeckSize(int size) {
+        NetworkMessages.DeckSize msg = new NetworkMessages.DeckSize();
+        msg.size = size;
+        client.sendTCP(msg);
+    }
 }

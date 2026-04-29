@@ -270,9 +270,11 @@ public class GameView implements Screen {
             card.render(modelBatch, environment);
         }
 
-        for (int i = 0; i < opponentHandCards.size; i++) opponentHandCards
-            .get(i)
-            .render(modelBatch, environment);
+        for (int i = 0; i < opponentHandCards.size; i++) {
+            CardDecal card = opponentHandCards.get(i);
+            card.update(delta);
+            card.render(modelBatch, environment);
+        }
 
         for (CardSlot slot : benchBottomSlots) {
             slot.renderHighlight(modelBatch, environment);
@@ -388,7 +390,7 @@ public class GameView implements Screen {
             float angleX = 0;
             Vector3 dest = new Vector3(x, y, z);
             if (card.emplacement.equals("deck")) {
-                card.animateFromDeck(deckTopPos, dest, angleX, -50f, 0f, 0.4f);
+                card.animateFromDeck(deckTopPos, dest, angleX, -50f, 0f, 0.4f, true); //true if deck is from player, false if deck is from opponent
                 card.emplacement = "hand";
             } else {
                 card.animateTo(dest, angleX, -50f, 0f, 0.4f);
@@ -423,14 +425,14 @@ public class GameView implements Screen {
         for (int i = 0; i < n; i++) {
             CardDecal card = opponentHandCards.get(i);
             float x = (i - center) * spacing;
-            float y = 0.5f + i * THICKNESS;
-            float z = -5f;
+            float y = 0.75f + (i - center) * THICKNESS;
+            float z = (float) (-4.7f + (i - center) * THICKNESS / 1.5);
             Vector3 dest = new Vector3(x, y, z);
             if (card.emplacement.equals("deck")) {
-                card.animateFromDeck(deckTopPos, dest, 0, 90f, 0f, 0.4f);
+                card.animateFromDeck(deckTopPos, dest, 0, 25f, 0f, 0.4f, false);
                 card.emplacement = "hand";
             } else {
-                card.animateTo(dest, 0, 90f, 0f, 0.4f);
+                card.animateTo(dest, 0, 25f, 0f, 0.4f);
             }
         }
     }

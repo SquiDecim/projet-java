@@ -54,4 +54,8 @@ public class NetworkMessages {
     public static class LobbyInfo {
         public String lobbyCode;
     }
+
+    public static class DeckSize {
+        public int size;
+    }
 }

@@ -34,7 +34,6 @@ public class GameServer {
                 String id = "player" + connectedCount;
                 playerIds.put(conn, id);
 
-                deckSizes.put(conn, 40);
 
                 NetworkMessages.AssignId msg = new NetworkMessages.AssignId();
                 msg.playerId = id;
@@ -74,7 +73,6 @@ public class GameServer {
             public void received(Connection conn, Object obj) {
                 String playerId = playerIds.get(conn);
                 if (playerId == null) return;
-
                 if (obj instanceof NetworkMessages.DrawCard) {
                     String pid = playerIds.get(conn);
                     int size = deckSizes.getOrDefault(conn, 0);
@@ -87,6 +85,8 @@ public class GameServer {
                     }
                 } else if (obj instanceof NetworkMessages.GameStart) {
                     server.sendToAllTCP(obj);
+                } else if (obj instanceof NetworkMessages.DeckSize) {
+                    deckSizes.put(conn, ((NetworkMessages.DeckSize) obj).size);
                 }
             }
         });
@@ -116,5 +116,6 @@ public class GameServer {
         kryo.register(NetworkMessages.TurnChanged.class);
         kryo.register(NetworkMessages.PlayerJoined.class);
         kryo.register(NetworkMessages.LobbyInfo.class);
+        kryo.register(NetworkMessages.DeckSize.class);
     }
 }

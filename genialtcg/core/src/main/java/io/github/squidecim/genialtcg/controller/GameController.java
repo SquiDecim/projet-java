@@ -153,6 +153,7 @@ public class GameController implements InputProcessor, GameClient.NetworkListene
 
     @Override
     public void onCardDrawn(NetworkMessages.CardDrawn msg) {
+
         if (msg.playerId.equals(myPlayerId)) {
             CardData drawn = model.drawCard();
             if (drawn != null) {
