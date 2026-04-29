@@ -97,7 +97,7 @@ public class NewDeckScreen implements Screen {
 
         if (deckToEdit != null) {
             for (CardData cd : deckToEdit.getCards()) {
-                this.selectedCards.add(cd.country.replace(" ", "_"));
+                this.selectedCards.add(cd.getAtlasRegionName());
             }
         }
     }
@@ -369,8 +369,7 @@ public class NewDeckScreen implements Screen {
             }
 
             // Filtrage Recherche & Type/Rang
-            String cardKey = region.name.replace("_", " ");
-            CardData data = game.allCardsMap.get(cardKey);
+            CardData data = game.allCardsMap.get(region.name);
 
             if (
                 !query.isEmpty() && !region.name.toLowerCase().contains(query)
@@ -542,9 +541,7 @@ public class NewDeckScreen implements Screen {
                         java.util.List<CardData> list =
                             new java.util.ArrayList<>();
                         for (String s : selectedCards) {
-                            CardData d = game.allCardsMap.get(
-                                s.replace("_", " ")
-                            );
+                            CardData d = game.allCardsMap.get(s);
                             if (d == null) {
                                 d = new CardData(
                                     s,
@@ -562,6 +559,26 @@ public class NewDeckScreen implements Screen {
                             }
                             list.add(d);
                         }
+
+                        System.out.println(
+                            "============================================================"
+                        );
+                        System.out.println("DECK : " + name);
+                        System.out.println(
+                            "Nombre total de cartes : " + list.size()
+                        );
+                        System.out.println(
+                            "============================================================"
+                        );
+                        for (CardData d : list) {
+                            System.out.println(d.toString());
+                            System.out.println(
+                                "------------------------------------------------------------"
+                            );
+                        }
+                        System.out.println(
+                            "============================================================"
+                        );
 
                         if (editingDeck != null) {
                             editingDeck.name = name;

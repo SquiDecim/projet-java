@@ -35,6 +35,8 @@ public class GameView implements Screen {
     private ModelBatch modelBatch;
 
     private TextureAtlas cardAtlas;
+    private TextureAtlas actionsAtlas;
+    private TextureAtlas outilsAtlas;
     private Texture backTexture;
 
     private CardSlot tableSlot;
@@ -139,15 +141,15 @@ public class GameView implements Screen {
         environment.add(new DirectionalLight().set(1f, 1f, 1f, 1f, 0.8f, 0.2f));
 
         backTexture = new Texture("cards/backCardTexture.png");
-        cardAtlas = new TextureAtlas(
-            Gdx.files.internal("cards/full/country_cards.atlas")
-        );
-        for (Texture texture : cardAtlas.getTextures()) {
-            texture.setFilter(
-                Texture.TextureFilter.Linear,
-                Texture.TextureFilter.Linear
-            );
-        }
+        cardAtlas = new TextureAtlas(Gdx.files.internal("cards/full/country_cards.atlas"));
+        actionsAtlas = new TextureAtlas(Gdx.files.internal("cards/action/cards_actions.atlas"));
+        outilsAtlas = new TextureAtlas(Gdx.files.internal("cards/outils/cards_outils.atlas"));
+        for (Texture texture : cardAtlas.getTextures())
+            texture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
+        for (Texture texture : actionsAtlas.getTextures())
+            texture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
+        for (Texture texture : outilsAtlas.getTextures())
+            texture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
 
         tableSlot = new CardSlot(
             new Vector3(0, 0, TABLE_GAP / 2 + TABLE_CARD_H / 2),
@@ -322,6 +324,9 @@ public class GameView implements Screen {
     public void dispose() {
         backTexture.dispose();
         modelBatch.dispose();
+        cardAtlas.dispose();
+        actionsAtlas.dispose();
+        outilsAtlas.dispose();
         for (CardDecal card : handCards) card.dispose();
         for (CardDecal card : opponentHandCards) card.dispose();
         for (CardSlot slot : benchBottomSlots) slot.dispose();
@@ -336,11 +341,16 @@ public class GameView implements Screen {
     }
 
     public void addCardToHand(CardData data) {
-        String region_name = data.country.replace(" ", "_");
-        AtlasRegion region = cardAtlas.findRegion(region_name);
-        if (region == null) {
-            return;
+        String regionName = data.getAtlasRegionName();
+        AtlasRegion region;
+        if (data.id != null && data.id.startsWith("ACT-")) {
+            region = actionsAtlas.findRegion(regionName);
+        } else if (data.id != null && data.id.startsWith("OUT-")) {
+            region = outilsAtlas.findRegion(regionName);
+        } else {
+            region = cardAtlas.findRegion(regionName);
         }
+        if (region == null) return;
         TextureRegion front = new TextureRegion(region);
 
         CardDecal decal = new CardDecal(
