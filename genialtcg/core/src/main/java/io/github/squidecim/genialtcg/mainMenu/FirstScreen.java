@@ -22,8 +22,13 @@ public class FirstScreen implements Screen {
     private Label messageLabel;
     private String errorMessage = null;
 
+    //Dialog retour au menu
     private Window errorDialog;
     private TextButton btnClose;
+
+    private Dialog joinPartyDialog;
+    private TextButton btnCancelDialog;
+    private TextButton btnJoinDialog;
 
     public FirstScreen(GenialTCG game) {
         this.game = game;
@@ -86,7 +91,7 @@ public class FirstScreen implements Screen {
                         return;
                     }
                     // affiche la dialog pour entrer le code
-                    Dialog dialog = new Dialog("", skin);
+                    joinPartyDialog = new Dialog("", skin);
 
                     TextField codeField = new TextField("", skin);
                     codeField.setMessageText("Entre le code...");
@@ -94,21 +99,21 @@ public class FirstScreen implements Screen {
                     Label errorLabel = new Label("", skin);
                     errorLabel.setColor(Color.RED);
 
-                    dialog
+                    joinPartyDialog
                         .getContentTable()
                         .add(new Label("Code de la partie :", skin))
                         .pad(10)
                         .row();
-                    dialog
+                    joinPartyDialog
                         .getContentTable()
                         .add(codeField)
                         .width(300)
                         .pad(10)
                         .row();
-                    dialog.getContentTable().add(errorLabel).pad(5).row();
+                    joinPartyDialog.getContentTable().add(errorLabel).pad(5).row();
 
-                    TextButton btnOk = new TextButton("Rejoindre", skin);
-                    btnOk.addListener(
+                    btnJoinDialog = new TextButton("Rejoindre", skin);
+                    btnJoinDialog.addListener(
                         new ChangeListener() {
                             @Override
                             public void changed(
@@ -126,7 +131,7 @@ public class FirstScreen implements Screen {
                                         errorLabel.setText("Ce code ne mène à aucun lobby");
                                         return;
                                     }
-                                    dialog.hide();
+                                    joinPartyDialog.hide();
                                     LobbyScreen lobby = new LobbyScreen(game, false, ip, null);
                                     game.setScreen(lobby);
                                 } catch (Exception e) {
@@ -136,32 +141,32 @@ public class FirstScreen implements Screen {
                         }
                     );
 
-                    TextButton btnCancel = new TextButton("Annuler", skin);
-                    btnCancel.addListener(
+                    btnCancelDialog = new TextButton("Annuler", skin);
+                    btnCancelDialog.addListener(
                         new ChangeListener() {
                             @Override
                             public void changed(
                                 ChangeEvent event,
                                 Actor actor
                             ) {
-                                dialog.hide();
+                                joinPartyDialog.hide();
                             }
                         }
                     );
 
-                    dialog
+                    joinPartyDialog
                         .getButtonTable()
-                        .add(btnCancel)
+                        .add(btnCancelDialog)
                         .width(120)
                         .height(40)
                         .pad(10);
-                    dialog
+                    joinPartyDialog
                         .getButtonTable()
-                        .add(btnOk)
+                        .add(btnJoinDialog)
                         .width(120)
                         .height(40)
                         .pad(10);
-                    dialog.show(stage);
+                    joinPartyDialog.show(stage);
                     stage.setKeyboardFocus(codeField);
                 }
             }
@@ -253,6 +258,11 @@ public class FirstScreen implements Screen {
             float dy = (stage.getHeight() - errorDialog.getHeight()) / 2f;
             errorDialog.setPosition(dx, dy);
             btnClose.setPosition(dx + errorDialog.getWidth() - 30, dy + errorDialog.getHeight() - 30);
+        }
+        if (joinPartyDialog != null && joinPartyDialog.hasParent()) {
+            float dx = (stage.getWidth() - joinPartyDialog.getWidth()) / 2f;
+            float dy = (stage.getHeight() - joinPartyDialog.getHeight()) / 2f;
+            joinPartyDialog.setPosition(dx, dy);
         }
     }
 
