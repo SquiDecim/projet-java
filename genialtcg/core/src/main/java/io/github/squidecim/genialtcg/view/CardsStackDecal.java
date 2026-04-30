@@ -1,6 +1,5 @@
 package io.github.squidecim.genialtcg.view;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.VertexAttributes;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -23,7 +22,6 @@ public class CardsStackDecal {
     private float thickness = 0.007f;
     private TextureRegion cardTexture;
     public int nbrCards;
-    private int maxCards;
 
     private float width;
     private float height;
@@ -36,6 +34,7 @@ public class CardsStackDecal {
         this.nbrCards = nbrCards;
         this.cardTexture = cardTexture;
         this.thickness = 0.007f;
+
         buildModel(cardTexture, width, height, nbrCards);
     }
 

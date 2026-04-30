@@ -1,15 +1,18 @@
 package io.github.squidecim.genialtcg.view;
 
-import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.PerspectiveCamera;
-import com.badlogic.gdx.graphics.VertexAttributes;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.*;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.graphics.g3d.*;
 import com.badlogic.gdx.graphics.g3d.attributes.BlendingAttribute;
 import com.badlogic.gdx.graphics.g3d.attributes.IntAttribute;
 import com.badlogic.gdx.graphics.g3d.attributes.TextureAttribute;
 import com.badlogic.gdx.graphics.g3d.utils.MeshPartBuilder;
 import com.badlogic.gdx.graphics.g3d.utils.ModelBuilder;
+import com.badlogic.gdx.graphics.glutils.FrameBuffer;
 import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Plane;
@@ -65,6 +68,11 @@ public class CardDecal {
 
     public String emplacement;
 
+    private FrameBuffer frameBuffer;
+    private Texture dynamicTexture;
+    private SpriteBatch fb_batch;
+    private BitmapFont fb_font;
+
     public CardDecal(CardData data, TextureRegion frontRegion, TextureRegion backRegion, float width, float height, PerspectiveCamera cam, String emplacement) {
         this.data = data;
         this.width = width;
@@ -117,6 +125,64 @@ public class CardDecal {
 
         model    = builder.end();
         instance = new ModelInstance(model);
+    }
+
+    public void generateDynamicTexture(int cardPixelW, int cardPixelH) {
+        if (fb_batch == null) {
+            fb_batch = new SpriteBatch();
+            FreeTypeFontGenerator generator = new FreeTypeFontGenerator(
+                Gdx.files.internal("ui/dejavu-sans/DejaVuSans.ttf")
+            );
+            FreeTypeFontGenerator.FreeTypeFontParameter params =
+                new FreeTypeFontGenerator.FreeTypeFontParameter();
+            params.size = 28;
+            fb_font = generator.generateFont(params);
+        }
+        if (frameBuffer != null) frameBuffer.dispose();
+
+        frameBuffer = new FrameBuffer(Pixmap.Format.RGBA8888, cardPixelW, cardPixelH, false);
+        frameBuffer.begin();
+
+        Gdx.gl.glClearColor(0, 0, 0, 0);
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
+        fb_batch.getProjectionMatrix().setToOrtho2D(0, 0, cardPixelW, cardPixelH);
+        fb_batch.begin();
+
+
+        fb_batch.draw(frontRegion, 0, 0, cardPixelW, cardPixelH);
+
+        if (data != null) {
+
+            fb_font.setColor(Color.WHITE);
+            fb_font.draw(fb_batch, Integer.toString(data.pv),
+                cardPixelW - 80, cardPixelH - 10);
+
+
+            fb_font.setColor(Color.YELLOW);
+            fb_font.draw(fb_batch, Integer.toString(data.stats[0]), 10, cardPixelH / 2f + 20);
+            fb_font.draw(fb_batch, Integer.toString(data.stats[1]), 10, cardPixelH / 2f);
+
+
+            fb_font.setColor(Color.CYAN);
+            fb_font.draw(fb_batch, data.cost + " " + data.specialCout,
+                10, 40);
+        }
+
+        fb_batch.end();
+        frameBuffer.end();
+
+        dynamicTexture = frameBuffer.getColorBufferTexture();
+        TextureRegion dynamicRegion = new TextureRegion(dynamicTexture);
+        dynamicRegion.flip(false, true);
+
+        buildModel(dynamicRegion, backRegion, width, height);
+    }
+
+    public void refreshStats() {
+        if (dynamicTexture != null) {
+            generateDynamicTexture(512, 716);
+        }
     }
 
     public void setPosition(float x, float y, float z) {
@@ -318,6 +384,9 @@ public class CardDecal {
 
     public void dispose() {
         model.dispose();
+        if (frameBuffer != null) frameBuffer.dispose();
+        if (fb_batch != null) fb_batch.dispose();
+        if (fb_font != null) fb_font.dispose();
     }
 
     public CardData getData() {
@@ -325,6 +394,7 @@ public class CardDecal {
     }
 
     public float getWidth()      { return width; }
+
     public float getHeight()     { return height; }
 
     public int getHandIndex() {

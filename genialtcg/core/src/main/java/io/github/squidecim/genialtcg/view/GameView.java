@@ -202,7 +202,7 @@ public class GameView implements Screen {
             40, //Passer le nombre réelle de cartes en paramètres bouffon
             5.15f,
             0,
-            4.13f
+            4f
         );
         opponentDeck = createCardsStacks(
             new TextureRegion(backTexture),
@@ -370,6 +370,7 @@ public class GameView implements Screen {
 
         decal.setRotation(180f, 90f, 0);
         handCards.add(decal);
+        decal.generateDynamicTexture(512, 716);
         repositionHand();
     }
 
