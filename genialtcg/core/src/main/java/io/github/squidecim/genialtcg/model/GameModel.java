@@ -51,6 +51,16 @@ public class GameModel {
         table = card;
     }
 
+    public void moveFromBenchToTable(CardData card){
+        bench.remove(card);
+        table = card;
+    }
+
+    public void moveFromTableToBench(CardData card){
+        table = null;
+        bench.add(card);
+    }
+
     public boolean isBenchFull() {
         return bench.size() >= MAX_BENCH;
     }

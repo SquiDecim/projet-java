@@ -1,5 +1,6 @@
 package io.github.squidecim.genialtcg.lwjgl3;
 
+import com.badlogic.gdx.Graphics;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
 import io.github.squidecim.genialtcg.GenialTCG;
@@ -35,9 +36,11 @@ public class Lwjgl3Launcher {
         //// useful for testing performance, but can also be very stressful to some hardware.
         //// You may also need to configure GPU drivers to fully disable Vsync; this can cause screen tearing.
 
-        configuration.setFullscreenMode(
-            Lwjgl3ApplicationConfiguration.getDisplayMode()
-        );
+        Graphics.DisplayMode displayMode = Lwjgl3ApplicationConfiguration.getDisplayMode();
+
+        configuration.setWindowedMode(displayMode.width, displayMode.height);
+        configuration.setDecorated(false);
+        configuration.setResizable(false);
         //// You can change these files; they are in lwjgl3/src/main/resources/ .
         //// They can also be loaded from the root of assets/ .
         configuration.setWindowIcon(

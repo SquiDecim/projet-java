@@ -141,7 +141,7 @@ public class GameView implements Screen {
         environment.add(new DirectionalLight().set(1f, 1f, 1f, 1f, 0.8f, 0.2f));
 
         backTexture = new Texture("cards/backCardTexture.png");
-        cardAtlas = new TextureAtlas(Gdx.files.internal("cards/full/country_cards.atlas"));
+        cardAtlas = new TextureAtlas(Gdx.files.internal("cards/dynamic/country_dynamic.atlas"));
         actionsAtlas = new TextureAtlas(Gdx.files.internal("cards/action/cards_actions.atlas"));
         outilsAtlas = new TextureAtlas(Gdx.files.internal("cards/outils/cards_outils.atlas"));
         for (Texture texture : cardAtlas.getTextures())
@@ -476,7 +476,7 @@ public class GameView implements Screen {
         if (slot == null) return;
 
         CardDecal decal = removeOpponentCardFromField(card.getAtlasRegionName());
-
+        if (decal !=null) decal.buildModel(decal.frontRegion, decal.backRegion, BENCH_CARD_W, BENCH_CARD_H);
         if (decal == null) {
             Vector3 startPos = opponentHandCards.size > 0
                 ? opponentHandCards.get(opponentHandCards.size - 1).getPosition()
