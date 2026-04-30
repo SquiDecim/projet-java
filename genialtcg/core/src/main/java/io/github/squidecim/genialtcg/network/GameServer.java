@@ -125,5 +125,6 @@ public class GameServer {
         kryo.register(NetworkMessages.PlayerJoined.class);
         kryo.register(NetworkMessages.LobbyInfo.class);
         kryo.register(NetworkMessages.DeckSize.class);
+        kryo.register(NetworkMessages.CreditsUpdate.class);
     }
 }

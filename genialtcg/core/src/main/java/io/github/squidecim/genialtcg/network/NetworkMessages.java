@@ -59,4 +59,9 @@ public class NetworkMessages {
     public static class DeckSize {
         public int size;
     }
+
+    public static class CreditsUpdate {
+        public String playerId;
+        public int credits;
+    }
 }

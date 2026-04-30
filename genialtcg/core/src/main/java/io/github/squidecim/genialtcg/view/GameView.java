@@ -18,7 +18,12 @@ import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Plane;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.math.collision.Ray;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import io.github.squidecim.genialtcg.*;
 import io.github.squidecim.genialtcg.controller.GameController;
 import io.github.squidecim.genialtcg.model.CardData;
@@ -70,6 +75,11 @@ public class GameView implements Screen {
     private CardSlot originSlot = null;
     private ModelInstance boardInstance;
     private Model boardModel;
+
+    private Stage uiStage;
+    private Skin uiSkin;
+    private Label myCreditsLabel;
+    private Label opponentCreditsLabel;
 
     public GameView(GenialTCG game, GameModel model) {
         this.game = game;
@@ -191,7 +201,7 @@ public class GameView implements Screen {
                     new Vector3(
                         x,
                         0,
-                        -1f - TABLE_CARD_H - BENCH_GAP_Z * 2.5f
+                        -2.85f - BENCH_GAP_Z * 2.5f
                     ),
                     0,
                     -90f,
@@ -215,9 +225,9 @@ public class GameView implements Screen {
             BENCH_CARD_W,
             BENCH_CARD_H,
             40,
-            -4.95f,
+            -5.15f,
             0,
-            -4.13f
+            -4.03f
         );
         discard = createCardsStacks(
             new TextureRegion(backTexture),
@@ -239,6 +249,29 @@ public class GameView implements Screen {
         );
 
         updateDeckVisual(model.deckSize());
+
+        uiStage = new Stage(new ScreenViewport());
+        uiSkin  = new Skin(Gdx.files.internal("ui/uiskin.json"));
+
+        Table myCreditsTable = new Table();
+        myCreditsTable.setFillParent(true);
+        myCreditsTable.bottom().left().pad(20);
+
+        myCreditsLabel = new Label("Crédits : 100", uiSkin);
+        myCreditsLabel.setFontScale(1.2f);
+
+        myCreditsTable.add(myCreditsLabel);
+        uiStage.addActor(myCreditsTable);
+
+        Table oppCreditsTable = new Table();
+        oppCreditsTable.setFillParent(true);
+        oppCreditsTable.top().right().pad(20);
+
+        opponentCreditsLabel = new Label("Crédits : 100", uiSkin);
+        opponentCreditsLabel.setFontScale(1.2f);
+
+        oppCreditsTable.add(opponentCreditsLabel);
+        uiStage.addActor(oppCreditsTable);
     }
 
     @Override
@@ -327,6 +360,9 @@ public class GameView implements Screen {
             modelBatch.end();
             Gdx.gl.glEnable(GL20.GL_DEPTH_TEST);
         }
+
+        uiStage.act(delta);
+        uiStage.draw();
     }
 
     @Override
@@ -343,6 +379,7 @@ public class GameView implements Screen {
         cam.viewportWidth = width;
         cam.viewportHeight = height;
         cam.update();
+        uiStage.getViewport().update(width, height, true);
     }
 
     @Override
@@ -361,10 +398,20 @@ public class GameView implements Screen {
         boardModel.dispose();
         shapeRenderer.dispose();
         if (zoomGhost != null) zoomGhost.dispose();
+        uiStage.dispose();
+        uiSkin.dispose();
     }
 
     public void setController(GameController controller) {
         this.controller = controller;
+    }
+
+    public void updateMyCredits(int credits) {
+        myCreditsLabel.setText("Crédits : " + credits);
+    }
+
+    public void updateOpponentCredits(int credits) {
+        opponentCreditsLabel.setText("Crédits : " + credits);
     }
 
     public void addCardToHand(CardData data) {
@@ -766,4 +813,22 @@ public class GameView implements Screen {
     public boolean isZooming() {
         return zoomGhost != null;
     }
+
+
+    public CardDecal getMyTableCard() {
+        return tableSlot.getCard();
+    }
+
+    public CardDecal getOpponentTableCard() {
+        return opponentTableSlot.getCard();
+    }
+
+    public Vector3 getMyDiscardPosition() {
+        return discard.getPosition();
+    }
+
+    public Vector3 getOpponentDiscardPosition() {
+        return opponentDiscard.getPosition();
+    }
+
 }

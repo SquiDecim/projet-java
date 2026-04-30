@@ -3,6 +3,7 @@ package io.github.squidecim.genialtcg.controller;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
+import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.math.collision.Ray;
 import io.github.squidecim.genialtcg.GenialTCG;
 import io.github.squidecim.genialtcg.mainMenu.FirstScreen;
@@ -96,7 +97,8 @@ public class GameController implements InputProcessor, GameClient.NetworkListene
         Ray ray = view.getCam().getPickRay(x, y);
 
         CardSlot slot = view.getIntersectedSlot(ray);
-        if (slot != null) {
+        if (draggedCard.getData().id.startsWith("ACT-") || draggedCard.getData().id.startsWith("OUT-")) view.cancelDrag(draggedCard);
+        else if (slot != null) {
             boolean fromBench = draggedCard.emplacement.equals("bench");
             boolean fromTable = draggedCard.emplacement.equals("table");
             boolean toBench = slot.type.equals("bench");
@@ -127,6 +129,7 @@ public class GameController implements InputProcessor, GameClient.NetworkListene
                 if (fromBench) model.moveFromBenchToTable(draggedCard.getData());
                 else model.moveFromHandToTable(draggedCard.getData());
                 view.dropCardOnSlot(draggedCard, slot);
+                applyCardEffect(draggedCard.getData(), true);
                 client.sendPlayCard(draggedCard.getData().getAtlasRegionName(), "table", 0);
             } else {
                 view.cancelDrag(draggedCard);
@@ -147,10 +150,6 @@ public class GameController implements InputProcessor, GameClient.NetworkListene
         return true;
     }
 
-    public void applyDamage(CardDecal card, int damage) {
-        card.getData().pv -= damage;
-        card.refreshStats();
-    }
 
     @Override
     public boolean keyDown(int k) {
@@ -164,6 +163,60 @@ public class GameController implements InputProcessor, GameClient.NetworkListene
     @Override public boolean keyTyped(char c) { return false; }
     @Override public boolean scrolled(float x, float y) { return false; }
     @Override public boolean touchCancelled(int x, int y, int p, int b) { return false; }
+
+
+    private void applyCardEffect(CardData card, boolean isMe) {
+
+        for (int i = 0; i < card.specialCibles.length; i++) {
+
+            String cible = card.specialCibles[i];
+            String variable = card.specialVariables[i];
+            Object valeur = card.specialValeurs[i];
+
+            boolean targetIsMe = false;
+
+            if (!(valeur instanceof Integer)) continue;
+            int val = (int) valeur;
+
+            if (!"etat".equals(variable)) continue;
+
+            CardDecal target = null;
+
+            switch (cible) {
+                case "jeu":
+                    target = isMe
+                        ? view.getMyTableCard()
+                        : view.getOpponentTableCard();
+                    targetIsMe = isMe;
+                    break;
+
+                case "jeuA":
+                    target = isMe
+                        ? view.getOpponentTableCard()
+                        : view.getMyTableCard();
+                    targetIsMe = !isMe;
+                    break;
+            }
+
+            if (target != null) {
+                model.applyDamage(target, val);
+                if (target.getData().pv <= 0) {
+                    handleDeath(target, targetIsMe);
+                }
+            }
+
+        }
+    }
+
+    private void handleDeath(CardDecal card, boolean isMe) {
+
+        Vector3 targetPos = isMe
+            ? view.getMyDiscardPosition()
+            : view.getOpponentDiscardPosition();
+
+        card.animateTo(targetPos, 0, -90f, 0, 0.5f);
+
+    }
 
     @Override
     public void onAssignId(NetworkMessages.AssignId msg) {}
@@ -198,13 +251,16 @@ public class GameController implements InputProcessor, GameClient.NetworkListene
 
     @Override
     public void onCardPlayed(NetworkMessages.CardPlayed msg) {
-        if (msg.playerId.equals(myPlayerId)) return;
+
+        boolean isMe = msg.playerId.equals(myPlayerId);
+        if (isMe) return;
         CardData card = model.lookupCard(msg.cardId);
         if (card == null) return;
         if ("bench".equals(msg.zone)) {
             view.addOpponentCardToBench(card);
         } else if ("table".equals(msg.zone)) {
             view.addOpponentCardToTable(card);
+            applyCardEffect(card, isMe);
         }
     }
 
@@ -219,4 +275,9 @@ public class GameController implements InputProcessor, GameClient.NetworkListene
 
     @Override
     public void onLobbyInfo(NetworkMessages.LobbyInfo msg) {}
+
+    @Override
+    public void onCreditsUpdate(NetworkMessages.CreditsUpdate obj) {
+
+    }
 }

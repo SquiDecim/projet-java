@@ -21,6 +21,7 @@ public class GameClient {
         void onTurnChanged(NetworkMessages.TurnChanged msg);
         void onPlayerJoined(NetworkMessages.PlayerJoined msg);
         void onLobbyInfo(NetworkMessages.LobbyInfo msg);
+        void onCreditsUpdate(NetworkMessages.CreditsUpdate obj);
     }
 
     public GameClient(String ip, NetworkListener listener) throws IOException {
@@ -48,6 +49,8 @@ public class GameClient {
                         current.onPlayerJoined((NetworkMessages.PlayerJoined) obj);
                     else if (obj instanceof NetworkMessages.LobbyInfo)
                         current.onLobbyInfo((NetworkMessages.LobbyInfo) obj);
+                    else if (obj instanceof NetworkMessages.CreditsUpdate)
+                        current.onCreditsUpdate((NetworkMessages.CreditsUpdate) obj);
                 });
             }
 

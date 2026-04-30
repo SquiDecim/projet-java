@@ -96,6 +96,9 @@ public class CardDecal {
             model.dispose();
         }
 
+        this.width = width;
+        this.height = height;
+
         ModelBuilder builder = new ModelBuilder();
         builder.begin();
 
@@ -211,9 +214,18 @@ public class CardDecal {
     }
 
     public void refreshStats() {
+
+        Vector3 pos = getPosition();
+        float yaw = currentYaw;
+        float pitch = currentPitch;
+        float roll = currentRoll;
+
         if (dynamicTexture != null) {
             generateDynamicTexture(512, 716);
         }
+
+        setPosition(pos.x, pos.y, pos.z);
+        setRotation(yaw, pitch, roll);
     }
 
     public void setPosition(float x, float y, float z) {

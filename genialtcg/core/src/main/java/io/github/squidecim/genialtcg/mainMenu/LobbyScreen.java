@@ -406,4 +406,9 @@ public class LobbyScreen implements Screen, GameClient.NetworkListener {
         codeLabel.setText("Code : " + lobbyCode + " (cliquez pour copier)");
     }
 
+    @Override
+    public void onCreditsUpdate(NetworkMessages.CreditsUpdate obj) {
+
+    }
+
 }

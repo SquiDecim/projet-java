@@ -1,6 +1,8 @@
 package io.github.squidecim.genialtcg.model;
 
 import io.github.squidecim.genialtcg.GenialTCG;
+import io.github.squidecim.genialtcg.view.CardDecal;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,6 +25,9 @@ public class GameModel {
     public List<CardData> bench = new ArrayList<>();
     public List<CardData> discardPile = new ArrayList<>();
     public CardData table;
+
+    public int myCredits = 100;
+    public int opponentCredits = 100;
 
     public GameModel(GenialTCG game, CardsStackData deck) {
         this.game = game;
@@ -77,5 +82,24 @@ public class GameModel {
 
     public boolean isDeckEmpty() {
         return deck.getSize() == 0 && hand.isEmpty();
+    }
+
+    public void spendCredits(int amount) {
+        myCredits = Math.max(0, myCredits - amount);
+    }
+
+    public void receiveCredits(int amount) {
+        myCredits += amount;
+    }
+
+    public void applyDamage(CardDecal card, int damage) {
+        card.getData().pv = Math.max(card.getData().pv + damage, 0);
+        card.refreshStats();
+    }
+
+    public void damageTableCard(int amount) {
+        if (table != null) {
+            table.pv += amount;
+        }
     }
 }
