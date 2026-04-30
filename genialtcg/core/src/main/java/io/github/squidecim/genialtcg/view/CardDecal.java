@@ -71,7 +71,13 @@ public class CardDecal {
     private FrameBuffer frameBuffer;
     private Texture dynamicTexture;
     private SpriteBatch fb_batch;
-    private BitmapFont fb_font;
+    private BitmapFont fb_font_pv;
+    private BitmapFont fb_font_stats;
+    private BitmapFont fb_font_special_cost;
+
+    private boolean hasDynamicTexture = false;
+    private static final int CARD_TEX_W = 512;
+    private static final int CARD_TEX_H = 716;
 
     public CardDecal(CardData data, TextureRegion frontRegion, TextureRegion backRegion, float width, float height, PerspectiveCamera cam, String emplacement) {
         this.data = data;
@@ -128,15 +134,22 @@ public class CardDecal {
     }
 
     public void generateDynamicTexture(int cardPixelW, int cardPixelH) {
+        if (data.id.startsWith("ACT-") || data.id.startsWith("OUT-")) return;
         if (fb_batch == null) {
             fb_batch = new SpriteBatch();
-            FreeTypeFontGenerator generator = new FreeTypeFontGenerator(
+            FreeTypeFontGenerator generator_bold = new FreeTypeFontGenerator(
                 Gdx.files.internal("ui/dejavu-sans/DejaVuSans-Bold.ttf")
+            );
+            FreeTypeFontGenerator generator_regular = new FreeTypeFontGenerator(
+                Gdx.files.internal("ui/dejavu-sans/DejaVuSans.ttf")
             );
             FreeTypeFontGenerator.FreeTypeFontParameter params =
                 new FreeTypeFontGenerator.FreeTypeFontParameter();
             params.size = 40;
-            fb_font = generator.generateFont(params);
+            fb_font_pv = generator_bold.generateFont(params);
+            params.size = 20;
+            fb_font_special_cost = generator_bold.generateFont(params);
+            fb_font_stats = generator_regular.generateFont(params);
         }
         if (frameBuffer != null) frameBuffer.dispose();
 
@@ -154,19 +167,25 @@ public class CardDecal {
 
         if (data != null) {
 
-            fb_font.setColor(Color.BLACK);
-            fb_font.draw(fb_batch, Integer.toString(data.pv),
+            fb_font_pv.setColor(Color.BLACK);
+            fb_font_pv.draw(fb_batch, Integer.toString(data.pv),
                 cardPixelW - 110, cardPixelH - 25);
 
 
-            fb_font.setColor(Color.YELLOW);
-            fb_font.draw(fb_batch, Integer.toString(data.stats[0]), 10, cardPixelH / 2f + 20);
-            fb_font.draw(fb_batch, Integer.toString(data.stats[1]), 10, cardPixelH / 2f);
+            fb_font_stats.setColor(Color.BLACK);
+            fb_font_stats.draw(fb_batch, Integer.toString(data.stats[0]), 210, cardPixelH / 2f - 99);
+            fb_font_stats.draw(fb_batch, Integer.toString(data.stats[2]), 423, cardPixelH / 2f - 99);
+            fb_font_stats.draw(fb_batch, Integer.toString(data.stats[3]), 210, cardPixelH / 2f - 144);
+            fb_font_stats.draw(fb_batch, Integer.toString(data.stats[4]), 423, cardPixelH / 2f - 144);
+            fb_font_stats.draw(fb_batch, Integer.toString(data.stats[1]), 325, cardPixelH / 2f - 188);
+
+            fb_font_special_cost.setColor(Color.BLACK);
+            fb_font_special_cost.draw(fb_batch, Integer.toString(data.specialCout), 415, cardPixelH / 2f - 225);
 
 
-            fb_font.setColor(Color.CYAN);
-            fb_font.draw(fb_batch, data.cost + " " + data.specialCout,
-                10, 40);
+            fb_font_stats.setColor(Color.BLACK);
+            fb_font_stats.draw(fb_batch, Integer.toString(data.cost),75, 43);
+            fb_font_stats.draw(fb_batch, Integer.toString(data.revocation),110, 25);
         }
 
         fb_batch.end();
@@ -177,6 +196,18 @@ public class CardDecal {
         dynamicRegion.flip(false, true);
 
         buildModel(dynamicRegion, backRegion, width, height);
+
+        hasDynamicTexture = true;
+    }
+
+    public void rebuildWithDynamic(float w, float h) {
+        if (hasDynamicTexture) {
+            this.width = w;
+            this.height = h;
+            generateDynamicTexture(CARD_TEX_W, CARD_TEX_H);
+        } else {
+            buildModel(frontRegion, backRegion, w, h);
+        }
     }
 
     public void refreshStats() {
@@ -386,7 +417,7 @@ public class CardDecal {
         model.dispose();
         if (frameBuffer != null) frameBuffer.dispose();
         if (fb_batch != null) fb_batch.dispose();
-        if (fb_font != null) fb_font.dispose();
+        if (fb_font_pv != null) fb_font_pv.dispose();
     }
 
     public CardData getData() {

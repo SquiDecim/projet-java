@@ -13,6 +13,7 @@ import com.badlogic.gdx.graphics.g3d.attributes.TextureAttribute;
 import com.badlogic.gdx.graphics.g3d.environment.DirectionalLight;
 import com.badlogic.gdx.graphics.g3d.utils.MeshPartBuilder;
 import com.badlogic.gdx.graphics.g3d.utils.ModelBuilder;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Plane;
 import com.badlogic.gdx.math.Vector3;
@@ -51,6 +52,9 @@ public class GameView implements Screen {
     private CardsStackDecal discard;
     private CardsStackDecal opponentDiscard;
 
+    private CardDecal zoomGhost = null;
+    private ShapeRenderer shapeRenderer;
+
     public static final float TABLE_CARD_W = 1.3f;
     public static final float TABLE_CARD_H = 1.82f;
     public static final float BENCH_CARD_W = 1.1f;
@@ -86,6 +90,8 @@ public class GameView implements Screen {
         cam.update();
 
         modelBatch = new ModelBatch();
+
+        shapeRenderer = new ShapeRenderer();
 
         Texture boardTexture = new Texture("ui/plateau/" + model.terrain + ".png");
 
@@ -170,7 +176,7 @@ public class GameView implements Screen {
             float x = (i - 1.5f) * (BENCH_CARD_W + BENCH_GAP_X);
             benchBottomSlots.add(
                 new CardSlot(
-                    new Vector3(x, 0, 2.58f + BENCH_GAP_Z * 2.5f),
+                    new Vector3(x, 0, 2.845f + BENCH_GAP_Z * 2.5f),
                     0,
                     -90f,
                     0,
@@ -185,7 +191,7 @@ public class GameView implements Screen {
                     new Vector3(
                         x,
                         0,
-                        -0.5f - TABLE_CARD_H - BENCH_GAP_Z * 2.5f
+                        -1f - TABLE_CARD_H - BENCH_GAP_Z * 2.5f
                     ),
                     0,
                     -90f,
@@ -202,7 +208,7 @@ public class GameView implements Screen {
             40, //Passer le nombre réelle de cartes en paramètres bouffon
             5.15f,
             0,
-            4f
+            4.03f
         );
         opponentDeck = createCardsStacks(
             new TextureRegion(backTexture),
@@ -307,6 +313,20 @@ public class GameView implements Screen {
         }
 
         modelBatch.end();
+
+        if (zoomGhost != null) {
+            Gdx.gl.glEnable(GL20.GL_BLEND);
+            Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
+            shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+            shapeRenderer.setColor(0, 0, 0, 0.6f);
+            shapeRenderer.rect(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+            shapeRenderer.end();
+            Gdx.gl.glDisable(GL20.GL_DEPTH_TEST);
+            modelBatch.begin(cam);
+            zoomGhost.render(modelBatch, environment);
+            modelBatch.end();
+            Gdx.gl.glEnable(GL20.GL_DEPTH_TEST);
+        }
     }
 
     @Override
@@ -339,6 +359,8 @@ public class GameView implements Screen {
         tableSlot.dispose();
         opponentTableSlot.dispose();
         boardModel.dispose();
+        shapeRenderer.dispose();
+        if (zoomGhost != null) zoomGhost.dispose();
     }
 
     public void setController(GameController controller) {
@@ -492,7 +514,7 @@ public class GameView implements Screen {
                 repositionOpponentHand();
             }
         }
-
+        decal.generateDynamicTexture(512, 716);
         slot.setCardDirect(decal);
         decal.animateTo(slot.getPosition(), 0, -90f, 0, 0.5f);
     }
@@ -519,7 +541,7 @@ public class GameView implements Screen {
                 repositionOpponentHand();
             }
         }
-
+        decal.generateDynamicTexture(512, 716);
         opponentTableSlot.setCardDirect(decal);
         decal.animateTo(opponentTableSlot.getPosition(), 0, -90f, 0, 0.5f);
     }
@@ -553,11 +575,8 @@ public class GameView implements Screen {
     }
 
     public CardDecal getHoveredCard(Ray ray) {
-        if (
-            hoveredCard != null &&
-            hoveredCard.intersects(ray) &&
-            !hoveredCard.isAnimating()
-        ) return hoveredCard;
+        if (hoveredCard != null && hoveredCard.intersects(ray) && !hoveredCard.isAnimating())
+            return hoveredCard;
         for (int i = handCards.size - 1; i >= 0; i--) {
             CardDecal card = handCards.get(i);
             if (card.intersects(ray) && !card.isAnimating()) return card;
@@ -566,8 +585,14 @@ public class GameView implements Screen {
             CardDecal card = slot.getCard();
             if (card != null && card.intersects(ray)) return card;
         }
+        for (CardSlot slot : benchTopSlots) { // ← ajout
+            CardDecal card = slot.getCard();
+            if (card != null && card.intersects(ray)) return card;
+        }
         CardDecal slotCard = tableSlot.getCard();
         if (slotCard != null && slotCard.intersects(ray)) return slotCard;
+        CardDecal oppSlotCard = opponentTableSlot.getCard(); // ← ajout
+        if (oppSlotCard != null && oppSlotCard.intersects(ray)) return oppSlotCard;
         return null;
     }
 
@@ -593,6 +618,13 @@ public class GameView implements Screen {
         return stack;
     }
 
+    public boolean isOpponentCard(CardDecal card) {
+        for (CardSlot slot : benchTopSlots) {
+            if (slot.getCard() == card) return true;
+        }
+        return opponentTableSlot.getCard() == card;
+    }
+
     public void startDrag(CardDecal card, Ray ray) {
         card.setHovered(false);
         hoveredCard = null;
@@ -607,12 +639,8 @@ public class GameView implements Screen {
         ) {
             originSlot = findSlotContaining(card);
         }
-        if (card.emplacement.equals("table")) draggedCard.buildModel(
-            draggedCard.frontRegion,
-            draggedCard.backRegion,
-            BENCH_CARD_W,
-            BENCH_CARD_H
-        );
+        if (card.emplacement.equals("table")) draggedCard.rebuildWithDynamic(BENCH_CARD_W, BENCH_CARD_H);
+
         Vector3 pos = card.getPosition();
         card.setDragPosition(pos.x, 0.5f, pos.z);
         card.setRotation(0, -90f, 0);
@@ -704,5 +732,38 @@ public class GameView implements Screen {
         tableSlot.setHighlighted(false);
         draggedCard = null;
         originSlot = null;
+    }
+
+    public void showZoom(CardDecal card) {
+        clearHover();
+        if (zoomGhost != null) zoomGhost.dispose();
+        zoomGhost = new CardDecal(
+            card.getData(), card.frontRegion, card.backRegion,
+            BENCH_CARD_W * 2.5f, BENCH_CARD_H * 2.5f, cam, "zoom"
+        );
+        if (card.getData() != null) zoomGhost.generateDynamicTexture(512, 716);
+        zoomGhost.setPosition(0, 2f, 3.5f);
+        Vector3 ghostPos = new Vector3(0, 1.75f, 4f);
+        Vector3 toCam = new Vector3(cam.position).sub(ghostPos).nor();
+        float pitch = (float) Math.toDegrees(Math.asin(toCam.y));
+        zoomGhost.setRotation(0, -pitch+10, 0);
+    }
+
+    public void clearHover() {
+        if (hoveredCard != null) {
+            hoveredCard.setHovered(false);
+            hoveredCard = null;
+        }
+    }
+
+    public void hideZoom() {
+        if (zoomGhost != null) {
+            zoomGhost.dispose();
+            zoomGhost = null;
+        }
+    }
+
+    public boolean isZooming() {
+        return zoomGhost != null;
     }
 }

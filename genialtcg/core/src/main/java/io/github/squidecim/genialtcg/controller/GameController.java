@@ -1,6 +1,7 @@
 package io.github.squidecim.genialtcg.controller;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.math.collision.Ray;
 import io.github.squidecim.genialtcg.GenialTCG;
@@ -49,6 +50,7 @@ public class GameController implements InputProcessor, GameClient.NetworkListene
 
     @Override
     public boolean mouseMoved(int screenX, int screenY) {
+        if (view.isZooming()) return false;
         Ray ray = view.getCam().getPickRay(screenX, screenY);
         view.updateHover(ray);
         return false;
@@ -56,10 +58,25 @@ public class GameController implements InputProcessor, GameClient.NetworkListene
 
     @Override
     public boolean touchDown(int x, int y, int p, int b) {
+
+        if (view.isZooming()) {
+            view.hideZoom();
+            return true;
+        }
+
         Ray ray = view.getCam().getPickRay(x, y);
+
+        if (b == 1) {
+            CardDecal card = view.getHoveredCard(ray);
+            if (card != null) {
+                view.showZoom(card);
+                return true;
+            }
+        }
 
         CardDecal card = view.getHoveredCard(ray);
         if (card != null) {
+            if (view.isOpponentCard(card)) return false;
             draggedCard = card;
             view.startDrag(draggedCard, ray);
             return true;
@@ -135,7 +152,14 @@ public class GameController implements InputProcessor, GameClient.NetworkListene
         card.refreshStats();
     }
 
-    @Override public boolean keyDown(int k) { return false; }
+    @Override
+    public boolean keyDown(int k) {
+        if (k == Input.Keys.ESCAPE && view.isZooming()) {
+            view.hideZoom();
+            return true;
+        }
+        return false;
+    }
     @Override public boolean keyUp(int k) { return false; }
     @Override public boolean keyTyped(char c) { return false; }
     @Override public boolean scrolled(float x, float y) { return false; }

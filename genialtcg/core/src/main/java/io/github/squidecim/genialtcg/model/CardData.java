@@ -11,6 +11,7 @@ public class CardData {
     public String type; // Correspond à "type"
     public int cost; // Correspond à "cout"
     public int pv; // Correspond à "etat"
+    public int revocation; //Correspond à "retrait"
 
     // Statistiques converties en tableau int[]
     // Ordre : [puissance, economie, ressources, technologie, stabilite]
@@ -51,6 +52,7 @@ public class CardData {
         this.specialCibles = specialCibles;
         this.specialVariables = specialVariables;
         this.specialValeurs = specialValeurs;
+        this.revocation = cost/2;
     }
 
     public String getAtlasRegionName() {

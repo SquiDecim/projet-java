@@ -71,7 +71,7 @@ public class CardSlot {
     public void setCard(CardDecal card) {
         if (type.equals("table")) {
             this.card = card;
-            this.card.buildModel(this.card.frontRegion, this.card.backRegion, TABLE_CARD_W, TABLE_CARD_H);
+            this.card.rebuildWithDynamic(TABLE_CARD_W, TABLE_CARD_H);
             this.card.setPosition(position.x, position.y, position.z);
         } else {
             this.card = card;
@@ -82,7 +82,7 @@ public class CardSlot {
     public void setCardDirect(CardDecal card) {
         if (type.equals("table")) {
             this.card = card;
-            this.card.buildModel(this.card.frontRegion, this.card.backRegion, TABLE_CARD_W, TABLE_CARD_H);
+            this.card.rebuildWithDynamic(TABLE_CARD_W, TABLE_CARD_H);
         } else {
             this.card = card;
         }
