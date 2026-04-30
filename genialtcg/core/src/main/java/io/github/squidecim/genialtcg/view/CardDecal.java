@@ -131,11 +131,11 @@ public class CardDecal {
         if (fb_batch == null) {
             fb_batch = new SpriteBatch();
             FreeTypeFontGenerator generator = new FreeTypeFontGenerator(
-                Gdx.files.internal("ui/dejavu-sans/DejaVuSans.ttf")
+                Gdx.files.internal("ui/dejavu-sans/DejaVuSans-Bold.ttf")
             );
             FreeTypeFontGenerator.FreeTypeFontParameter params =
                 new FreeTypeFontGenerator.FreeTypeFontParameter();
-            params.size = 28;
+            params.size = 40;
             fb_font = generator.generateFont(params);
         }
         if (frameBuffer != null) frameBuffer.dispose();
@@ -154,9 +154,9 @@ public class CardDecal {
 
         if (data != null) {
 
-            fb_font.setColor(Color.WHITE);
+            fb_font.setColor(Color.BLACK);
             fb_font.draw(fb_batch, Integer.toString(data.pv),
-                cardPixelW - 80, cardPixelH - 10);
+                cardPixelW - 110, cardPixelH - 25);
 
 
             fb_font.setColor(Color.YELLOW);
