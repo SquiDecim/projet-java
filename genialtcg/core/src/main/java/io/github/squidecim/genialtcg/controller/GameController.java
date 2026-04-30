@@ -130,6 +130,11 @@ public class GameController implements InputProcessor, GameClient.NetworkListene
         return true;
     }
 
+    public void applyDamage(CardDecal card, int damage) {
+        card.getData().pv -= damage;
+        card.refreshStats();
+    }
+
     @Override public boolean keyDown(int k) { return false; }
     @Override public boolean keyUp(int k) { return false; }
     @Override public boolean keyTyped(char c) { return false; }
@@ -165,6 +170,7 @@ public class GameController implements InputProcessor, GameClient.NetworkListene
             }
         }
     }
+
 
     @Override
     public void onCardPlayed(NetworkMessages.CardPlayed msg) {
