@@ -55,8 +55,8 @@ public class GameView implements Screen {
     public static final float TABLE_CARD_H = 1.82f;
     public static final float BENCH_CARD_W = 1.1f;
     public static final float BENCH_CARD_H = 1.54f;
-    private static final float BENCH_GAP_X = 0.2f;
-    private static final float BENCH_GAP_Z = 0.3f;
+    private static final float BENCH_GAP_X = 0.56f;
+    private static final float BENCH_GAP_Z = 0.285f;
     private static final float TABLE_GAP = 0.48f;
 
     private static final float THICKNESS = 0.007f;
@@ -199,8 +199,8 @@ public class GameView implements Screen {
             new TextureRegion(backTexture),
             BENCH_CARD_W,
             BENCH_CARD_H,
-            40,
-            4.95f,
+            40, //Passer le nombre réelle de cartes en paramètres bouffon
+            5.15f,
             0,
             4.13f
         );
@@ -399,7 +399,7 @@ public class GameView implements Screen {
 
             float x = (i - center) * spacing;
             float y = 0.5f + i * THICKNESS;
-            float z = 5f;
+            float z = 5.2f;
             float angleX = 0;
             Vector3 dest = new Vector3(x, y, z);
             if (card.emplacement.equals("deck")) {
