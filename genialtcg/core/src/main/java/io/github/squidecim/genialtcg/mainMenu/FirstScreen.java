@@ -5,6 +5,8 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
@@ -22,6 +24,8 @@ public class FirstScreen implements Screen {
     private final GenialTCG game;
     private Stage stage;
     private Skin skin;
+    private Texture backgroundTexture;
+    private SpriteBatch batch;
     private Label messageLabel;
     private String errorMessage = null;
 
@@ -36,6 +40,7 @@ public class FirstScreen implements Screen {
     public FirstScreen(GenialTCG game) {
         this.game = game;
     }
+
     public FirstScreen(GenialTCG game, String errorMessage) {
         this.game = game;
         this.errorMessage = errorMessage;
@@ -43,9 +48,14 @@ public class FirstScreen implements Screen {
 
     @Override
     public void show() {
+        batch = new SpriteBatch();
         stage = new Stage(new ScreenViewport());
         Gdx.input.setInputProcessor(stage);
         skin = new Skin(Gdx.files.internal("ui/uiskin.json"));
+
+        backgroundTexture = new Texture(
+            Gdx.files.internal("ui/fond/planete_menu.jpg")
+        );
 
         Table table = new Table();
         table.setFillParent(true);
@@ -110,50 +120,90 @@ public class FirstScreen implements Screen {
                         try {
                             String ip = LobbyCode.decodeCode(code);
                             if (!LobbyCode.isReachable(ip)) {
-                                errorLabel.setText("Ce code ne mène à aucun lobby");
+                                errorLabel.setText(
+                                    "Ce code ne mène à aucun lobby"
+                                );
                                 return;
                             }
                             joinPartyDialog.hide();
-                            game.setScreen(new LobbyScreen(game, false, ip, null));
+                            game.setScreen(
+                                new LobbyScreen(game, false, ip, null)
+                            );
                         } catch (Exception e) {
                             errorLabel.setText("Ce code ne mène à aucun lobby");
                         }
                     };
 
                     // Entrée = valider, Échap = fermer
-                    codeField.addListener(new InputListener() {
-                        @Override
-                        public boolean keyDown(InputEvent event, int keycode) {
-                            if (keycode == Input.Keys.ENTER) { tryJoin.run(); return true; }
-                            if (keycode == Input.Keys.ESCAPE) { joinPartyDialog.hide(); return true; }
-                            return false;
+                    codeField.addListener(
+                        new InputListener() {
+                            @Override
+                            public boolean keyDown(
+                                InputEvent event,
+                                int keycode
+                            ) {
+                                if (keycode == Input.Keys.ENTER) {
+                                    tryJoin.run();
+                                    return true;
+                                }
+                                if (keycode == Input.Keys.ESCAPE) {
+                                    joinPartyDialog.hide();
+                                    return true;
+                                }
+                                return false;
+                            }
                         }
-                    });
+                    );
 
-                    joinPartyDialog.getContentTable()
-                        .add(new Label("Code de la partie :", skin)).pad(10).row();
-                    joinPartyDialog.getContentTable()
-                        .add(codeField).width(300).pad(10).row();
-                    joinPartyDialog.getContentTable()
-                        .add(errorLabel).pad(5).row();
+                    joinPartyDialog
+                        .getContentTable()
+                        .add(new Label("Code de la partie :", skin))
+                        .pad(10)
+                        .row();
+                    joinPartyDialog
+                        .getContentTable()
+                        .add(codeField)
+                        .width(300)
+                        .pad(10)
+                        .row();
+                    joinPartyDialog
+                        .getContentTable()
+                        .add(errorLabel)
+                        .pad(5)
+                        .row();
 
                     btnCancelDialog = new TextButton("Annuler", skin);
-                    btnCancelDialog.addListener(new ChangeListener() {
-                        @Override
-                        public void changed(ChangeEvent event, Actor actor) {
-                            joinPartyDialog.hide();
+                    btnCancelDialog.addListener(
+                        new ChangeListener() {
+                            @Override
+                            public void changed(
+                                ChangeEvent event,
+                                Actor actor
+                            ) {
+                                joinPartyDialog.hide();
+                            }
                         }
-                    });
+                    );
 
                     btnJoinDialog = new TextButton("Rejoindre", skin);
-                    btnJoinDialog.addListener(new ChangeListener() {
-                        @Override
-                        public void changed(ChangeEvent event, Actor actor) {
-                            tryJoin.run();
+                    btnJoinDialog.addListener(
+                        new ChangeListener() {
+                            @Override
+                            public void changed(
+                                ChangeEvent event,
+                                Actor actor
+                            ) {
+                                tryJoin.run();
+                            }
                         }
-                    });
+                    );
 
-                    joinPartyDialog.getButtonTable().defaults().width(120).height(40).pad(10);
+                    joinPartyDialog
+                        .getButtonTable()
+                        .defaults()
+                        .width(120)
+                        .height(40)
+                        .pad(10);
                     joinPartyDialog.getButtonTable().add(btnCancelDialog);
                     joinPartyDialog.getButtonTable().add(btnJoinDialog);
                     joinPartyDialog.show(stage);
@@ -202,27 +252,33 @@ public class FirstScreen implements Screen {
             errorDialog.setModal(true);
             errorDialog.setMovable(false);
 
-            float dw = 300, dh = 150;
+            float dw = 300,
+                dh = 150;
             float dx = (stage.getWidth() - dw) / 2f;
             float dy = (stage.getHeight() - dh) / 2f;
 
             errorDialog.setSize(dw, dh);
             errorDialog.setPosition(dx, dy);
 
-            errorDialog.add(new Label(errorMessage, skin))
-                .expand().center().pad(20);
+            errorDialog
+                .add(new Label(errorMessage, skin))
+                .expand()
+                .center()
+                .pad(20);
 
             btnClose = new TextButton("X", skin);
             btnClose.setSize(30, 30);
             btnClose.setPosition(dx + dw - 30, dy + dh - 30); // coin haut-droit
 
-            btnClose.addListener(new ChangeListener() {
-                @Override
-                public void changed(ChangeEvent event, Actor actor) {
-                    errorDialog.remove();
-                    btnClose.remove();
+            btnClose.addListener(
+                new ChangeListener() {
+                    @Override
+                    public void changed(ChangeEvent event, Actor actor) {
+                        errorDialog.remove();
+                        btnClose.remove();
+                    }
                 }
-            });
+            );
 
             stage.addActor(errorDialog);
             stage.addActor(btnClose);
@@ -245,6 +301,19 @@ public class FirstScreen implements Screen {
     public void render(float delta) {
         Gdx.gl.glClearColor(0.1f, 0.12f, 0.18f, 1f);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
+        if (backgroundTexture != null) {
+            batch.begin();
+            batch.draw(
+                backgroundTexture,
+                0,
+                0,
+                Gdx.graphics.getWidth(),
+                Gdx.graphics.getHeight()
+            );
+            batch.end();
+        }
+
         stage.act(delta);
         stage.draw();
     }
@@ -256,7 +325,10 @@ public class FirstScreen implements Screen {
             float dx = (stage.getWidth() - errorDialog.getWidth()) / 2f;
             float dy = (stage.getHeight() - errorDialog.getHeight()) / 2f;
             errorDialog.setPosition(dx, dy);
-            btnClose.setPosition(dx + errorDialog.getWidth() - 30, dy + errorDialog.getHeight() - 30);
+            btnClose.setPosition(
+                dx + errorDialog.getWidth() - 30,
+                dy + errorDialog.getHeight() - 30
+            );
         }
         if (joinPartyDialog != null && joinPartyDialog.hasParent()) {
             float dx = (stage.getWidth() - joinPartyDialog.getWidth()) / 2f;
@@ -269,6 +341,7 @@ public class FirstScreen implements Screen {
     public void dispose() {
         stage.dispose();
         skin.dispose();
+        if (backgroundTexture != null) backgroundTexture.dispose();
     }
 
     @Override

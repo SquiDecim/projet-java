@@ -54,14 +54,20 @@ public class GenialTCG extends Game {
 
                 if (spec != null) {
                     sCout = spec.getInt("cout", 0);
-                    if (spec.has("cibles")) sCibles = spec.get("cibles").asStringArray();
-                    if (spec.has("variables")) sVars = spec.get("variables").asStringArray();
+                    if (spec.has("cibles")) sCibles = spec
+                        .get("cibles")
+                        .asStringArray();
+                    if (spec.has("variables")) sVars = spec
+                        .get("variables")
+                        .asStringArray();
                     if (spec.has("valeurs")) {
                         JsonValue vArr = spec.get("valeurs");
                         sVals = new Object[vArr.size];
                         for (int i = 0; i < vArr.size; i++) {
                             JsonValue v = vArr.get(i);
-                            sVals[i] = v.isArray() ? v.asStringArray() : v.asInt();
+                            sVals[i] = v.isArray()
+                                ? v.asStringArray()
+                                : v.asInt();
                         }
                     }
                 }
@@ -82,7 +88,10 @@ public class GenialTCG extends Game {
                 allCardsMap.put(card.getAtlasRegionName(), card);
             }
         } catch (Exception e) {
-            Gdx.app.error("GenialTCG", "Erreur lecture JSON pays : " + e.getMessage());
+            Gdx.app.error(
+                "GenialTCG",
+                "Erreur lecture JSON pays : " + e.getMessage()
+            );
         }
     }
 
@@ -101,12 +110,16 @@ public class GenialTCG extends Game {
                 if (condEntry != null && !condEntry.isNull()) {
                     if (condEntry.has("type")) {
                         JsonValue tv = condEntry.get("type");
-                        String val = tv.isArray() ? tv.getString(0) : tv.asString();
+                        String val = tv.isArray()
+                            ? tv.getString(0)
+                            : tv.asString();
                         type = val;
                         condStr = "type : " + val;
                     } else if (condEntry.has("terrain")) {
                         JsonValue tv = condEntry.get("terrain");
-                        condStr = "terrain : " + (tv.isArray() ? tv.getString(0) : tv.asString());
+                        condStr =
+                            "terrain : " +
+                            (tv.isArray() ? tv.getString(0) : tv.asString());
                     }
                 }
 
@@ -114,14 +127,18 @@ public class GenialTCG extends Game {
                 String[] variables = new String[0];
                 Object[] valeurs = new Object[0];
 
-                if (entry.has("cibles")) cibles = entry.get("cibles").asStringArray();
+                if (entry.has("cibles")) cibles = entry
+                    .get("cibles")
+                    .asStringArray();
 
                 if (entry.has("variables")) {
                     JsonValue varsArr = entry.get("variables");
                     variables = new String[varsArr.size];
                     for (int i = 0; i < varsArr.size; i++) {
                         JsonValue v = varsArr.get(i);
-                        variables[i] = (v == null || v.isNull()) ? null : v.asString();
+                        variables[i] = (v == null || v.isNull())
+                            ? null
+                            : v.asString();
                     }
                 }
 
@@ -130,18 +147,33 @@ public class GenialTCG extends Game {
                     valeurs = new Object[vArr.size];
                     for (int i = 0; i < vArr.size; i++) {
                         JsonValue v = vArr.get(i);
-                        valeurs[i] = v.isArray() ? v.asStringArray() : v.asInt();
+                        valeurs[i] = v.isArray()
+                            ? v.asStringArray()
+                            : v.asInt();
                     }
                 }
 
                 CardData card = new CardData(
-                    nom, id, "N/A", type, 0, 0, new int[5], 0, cibles, variables, valeurs
+                    nom,
+                    id,
+                    "N/A",
+                    type,
+                    0,
+                    0,
+                    new int[5],
+                    0,
+                    cibles,
+                    variables,
+                    valeurs
                 );
                 card.cond = condStr;
                 allCardsMap.put(card.getAtlasRegionName(), card);
             }
         } catch (Exception e) {
-            Gdx.app.error("GenialTCG", "Erreur lecture JSON " + path + " : " + e.getMessage());
+            Gdx.app.error(
+                "GenialTCG",
+                "Erreur lecture JSON " + path + " : " + e.getMessage()
+            );
         }
     }
 
@@ -150,12 +182,18 @@ public class GenialTCG extends Game {
             StringBuilder sb = new StringBuilder("[\n");
             for (int i = 0; i < savedDecks.size; i++) {
                 CardsStackData deck = savedDecks.get(i);
-                sb.append("  {\"name\":\"")
-                  .append(deck.name.replace("\\", "\\\\").replace("\"", "\\\""))
-                  .append("\",\"cards\":[");
+                sb
+                    .append("  {\"name\":\"")
+                    .append(
+                        deck.name.replace("\\", "\\\\").replace("\"", "\\\"")
+                    )
+                    .append("\",\"cards\":[");
                 java.util.List<CardData> cards = deck.getCards();
                 for (int j = 0; j < cards.size(); j++) {
-                    sb.append("\"").append(cards.get(j).getAtlasRegionName()).append("\"");
+                    sb
+                        .append("\"")
+                        .append(cards.get(j).getAtlasRegionName())
+                        .append("\"");
                     if (j < cards.size() - 1) sb.append(",");
                 }
                 sb.append("]}");
@@ -165,7 +203,10 @@ public class GenialTCG extends Game {
             sb.append("]");
             Gdx.files.local("decks.json").writeString(sb.toString(), false);
         } catch (Exception e) {
-            Gdx.app.error("GenialTCG", "Erreur sauvegarde decks : " + e.getMessage());
+            Gdx.app.error(
+                "GenialTCG",
+                "Erreur sauvegarde decks : " + e.getMessage()
+            );
         }
     }
 
@@ -183,10 +224,15 @@ public class GenialTCG extends Game {
                         if (card != null) cards.add(card);
                     }
                 }
-                if (!cards.isEmpty()) savedDecks.add(new CardsStackData(name, cards));
+                if (!cards.isEmpty()) savedDecks.add(
+                    new CardsStackData(name, cards)
+                );
             }
         } catch (Exception e) {
-            Gdx.app.error("GenialTCG", "Erreur chargement decks : " + e.getMessage());
+            Gdx.app.error(
+                "GenialTCG",
+                "Erreur chargement decks : " + e.getMessage()
+            );
         }
     }
 
