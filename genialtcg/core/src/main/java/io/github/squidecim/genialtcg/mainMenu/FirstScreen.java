@@ -29,10 +29,8 @@ public class FirstScreen implements Screen {
     private Label messageLabel;
     private String errorMessage = null;
 
-    //Dialog retour au menu
     private Window errorDialog;
     private TextButton btnClose;
-
     private Dialog joinPartyDialog;
     private TextButton btnCancelDialog;
     private TextButton btnJoinDialog;
@@ -72,17 +70,15 @@ public class FirstScreen implements Screen {
         TextButton btnDeck = new TextButton("Deck", skin);
         TextButton btnSettings = new TextButton("Paramètres", skin);
         TextButton btnQuit = new TextButton("Quitter", skin);
+        TextButton btnRules = new TextButton("Règles", skin);
 
+        // --- ACTION : CRÉER PARTIE ---
         btnCreateParty.addListener(
             new ChangeListener() {
                 @Override
                 public void changed(ChangeEvent event, Actor actor) {
                     if (game.savedDecks.size > 0) {
-                        //GameModel model = new GameModel(game);
-                        //GameView view = new GameView(game, model);
-                        //view.setController(new GameController(view, model));
-                        LobbyScreen lobby = new LobbyScreen(game, true);
-                        game.setScreen(lobby);
+                        game.setScreen(new LobbyScreen(game, true));
                     } else {
                         showEphemeralMessage(
                             "Constituez vous au moins un deck avant de jouer"
@@ -92,6 +88,7 @@ public class FirstScreen implements Screen {
             }
         );
 
+        // --- ACTION : REJOINDRE PARTIE ---
         btnJoinParty.addListener(
             new ChangeListener() {
                 @Override
@@ -103,14 +100,11 @@ public class FirstScreen implements Screen {
                         return;
                     }
                     joinPartyDialog = new Dialog("", skin);
-
                     TextField codeField = new TextField("", skin);
                     codeField.setMessageText("Entre le code...");
-
                     Label errorLabel = new Label("", skin);
                     errorLabel.setColor(Color.RED);
 
-                    // logique de connexion partagée entre bouton et touche Entrée
                     Runnable tryJoin = () -> {
                         String code = codeField.getText().trim();
                         if (code.isEmpty()) {
@@ -134,7 +128,6 @@ public class FirstScreen implements Screen {
                         }
                     };
 
-                    // Entrée = valider, Échap = fermer
                     codeField.addListener(
                         new InputListener() {
                             @Override
@@ -212,6 +205,17 @@ public class FirstScreen implements Screen {
             }
         );
 
+        // --- ACTION : RÈGLES (BIEN PLACÉ ICI) ---
+        btnRules.addListener(
+            new ChangeListener() {
+                @Override
+                public void changed(ChangeEvent event, Actor actor) {
+                    game.setScreen(new RulesScreen(game));
+                }
+            }
+        );
+
+        // --- ACTION : DECK ---
         btnDeck.addListener(
             new ChangeListener() {
                 @Override
@@ -221,6 +225,7 @@ public class FirstScreen implements Screen {
             }
         );
 
+        // --- ACTION : PARAMÈTRES ---
         btnSettings.addListener(
             new ChangeListener() {
                 @Override
@@ -230,6 +235,7 @@ public class FirstScreen implements Screen {
             }
         );
 
+        // --- ACTION : QUITTER ---
         btnQuit.addListener(
             new ChangeListener() {
                 @Override
@@ -239,11 +245,13 @@ public class FirstScreen implements Screen {
             }
         );
 
+        // --- MISE EN PAGE ---
         table.add(title).padBottom(20).row();
         table.add(messageLabel).height(30).padBottom(10).row();
         table.add(btnCreateParty).width(220).height(50).pad(10).row();
         table.add(btnJoinParty).width(220).height(50).pad(10).row();
         table.add(btnDeck).width(220).height(50).pad(10).row();
+        table.add(btnRules).width(220).height(50).pad(10).row();
         table.add(btnSettings).width(220).height(50).pad(10).row();
         table.add(btnQuit).width(220).height(50).pad(10).row();
 
@@ -251,25 +259,20 @@ public class FirstScreen implements Screen {
             errorDialog = new Window("", skin);
             errorDialog.setModal(true);
             errorDialog.setMovable(false);
-
             float dw = 300,
                 dh = 150;
             float dx = (stage.getWidth() - dw) / 2f;
             float dy = (stage.getHeight() - dh) / 2f;
-
             errorDialog.setSize(dw, dh);
             errorDialog.setPosition(dx, dy);
-
             errorDialog
                 .add(new Label(errorMessage, skin))
                 .expand()
                 .center()
                 .pad(20);
-
             btnClose = new TextButton("X", skin);
             btnClose.setSize(30, 30);
-            btnClose.setPosition(dx + dw - 30, dy + dh - 30); // coin haut-droit
-
+            btnClose.setPosition(dx + dw - 30, dy + dh - 30);
             btnClose.addListener(
                 new ChangeListener() {
                     @Override
@@ -279,7 +282,6 @@ public class FirstScreen implements Screen {
                     }
                 }
             );
-
             stage.addActor(errorDialog);
             stage.addActor(btnClose);
         }
@@ -301,7 +303,6 @@ public class FirstScreen implements Screen {
     public void render(float delta) {
         Gdx.gl.glClearColor(0.1f, 0.12f, 0.18f, 1f);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-
         if (backgroundTexture != null) {
             batch.begin();
             batch.draw(
@@ -313,7 +314,6 @@ public class FirstScreen implements Screen {
             );
             batch.end();
         }
-
         stage.act(delta);
         stage.draw();
     }
@@ -321,20 +321,6 @@ public class FirstScreen implements Screen {
     @Override
     public void resize(int width, int height) {
         stage.getViewport().update(width, height, true);
-        if (errorDialog != null && errorDialog.hasParent()) {
-            float dx = (stage.getWidth() - errorDialog.getWidth()) / 2f;
-            float dy = (stage.getHeight() - errorDialog.getHeight()) / 2f;
-            errorDialog.setPosition(dx, dy);
-            btnClose.setPosition(
-                dx + errorDialog.getWidth() - 30,
-                dy + errorDialog.getHeight() - 30
-            );
-        }
-        if (joinPartyDialog != null && joinPartyDialog.hasParent()) {
-            float dx = (stage.getWidth() - joinPartyDialog.getWidth()) / 2f;
-            float dy = (stage.getHeight() - joinPartyDialog.getHeight()) / 2f;
-            joinPartyDialog.setPosition(dx, dy);
-        }
     }
 
     @Override
@@ -342,6 +328,7 @@ public class FirstScreen implements Screen {
         stage.dispose();
         skin.dispose();
         if (backgroundTexture != null) backgroundTexture.dispose();
+        if (batch != null) batch.dispose();
     }
 
     @Override
