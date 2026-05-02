@@ -71,7 +71,7 @@ public class LobbyScreen implements Screen, GameClient.NetworkListener {
 
         stage = new Stage(new ScreenViewport());
         Gdx.input.setInputProcessor(stage);
-        skin = new Skin(Gdx.files.internal("ui/uiskin.json"));
+        skin = game.skin;
 
         Table root = new Table();
         root.setFillParent(true);
@@ -339,8 +339,6 @@ public class LobbyScreen implements Screen, GameClient.NetworkListener {
     @Override
     public void dispose() {
         stage.dispose();
-        skin.dispose();
-
     }
 
     @Override

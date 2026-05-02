@@ -31,7 +31,7 @@ public class DeckScreen implements Screen {
     public void show() {
         stage = new Stage(new ScreenViewport());
         Gdx.input.setInputProcessor(stage);
-        skin = new Skin(Gdx.files.internal("ui/uiskin.json"));
+        skin = game.skin;
 
         Table root = new Table();
         root.setFillParent(true);
@@ -164,7 +164,6 @@ public class DeckScreen implements Screen {
     @Override
     public void dispose() {
         stage.dispose();
-        skin.dispose();
     }
 
     @Override

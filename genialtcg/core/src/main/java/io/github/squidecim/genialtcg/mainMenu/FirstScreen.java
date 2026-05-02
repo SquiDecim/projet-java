@@ -49,7 +49,7 @@ public class FirstScreen implements Screen {
         batch = new SpriteBatch();
         stage = new Stage(new ScreenViewport());
         Gdx.input.setInputProcessor(stage);
-        skin = new Skin(Gdx.files.internal("ui/uiskin.json"));
+        skin = game.skin;
 
         backgroundTexture = new Texture(
             Gdx.files.internal("ui/fond/planete_menu.jpg")
@@ -326,7 +326,6 @@ public class FirstScreen implements Screen {
     @Override
     public void dispose() {
         stage.dispose();
-        skin.dispose();
         if (backgroundTexture != null) backgroundTexture.dispose();
         if (batch != null) batch.dispose();
     }

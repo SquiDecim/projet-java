@@ -264,7 +264,7 @@ public class GameView implements Screen {
         updateDeckVisual(model.deckSize());
 
         uiStage = new Stage(new ScreenViewport());
-        uiSkin  = new Skin(Gdx.files.internal("ui/uiskin.json"));
+        uiSkin  = game.skin;
 
         Table myCreditsTable = new Table();
         myCreditsTable.setFillParent(true);
@@ -436,7 +436,6 @@ public class GameView implements Screen {
         shapeRenderer.dispose();
         if (zoomGhost != null) zoomGhost.dispose();
         uiStage.dispose();
-        uiSkin.dispose();
     }
 
     public void setController(GameController controller) {

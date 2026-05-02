@@ -105,7 +105,7 @@ public class NewDeckScreen implements Screen {
     public void show() {
         stage = new Stage(new ScreenViewport());
         Gdx.input.setInputProcessor(stage);
-        skin = new Skin(Gdx.files.internal("ui/uiskin.json"));
+        skin = game.skin;
 
         Pixmap pixmap = new Pixmap(1, 1, Pixmap.Format.RGBA8888);
         pixmap.setColor(new Color(0.9f, 0.9f, 0.9f, 1f));
@@ -640,7 +640,6 @@ public class NewDeckScreen implements Screen {
     @Override
     public void dispose() {
         stage.dispose();
-        skin.dispose();
         if (atlas != null) atlas.dispose();
         if (atlas_actions != null) atlas_actions.dispose();
         if (atlas_outils != null) atlas_outils.dispose();

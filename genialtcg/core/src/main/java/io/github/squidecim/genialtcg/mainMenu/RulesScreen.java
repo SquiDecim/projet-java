@@ -28,7 +28,7 @@ public class RulesScreen implements Screen {
         stage = new Stage(new ScreenViewport());
         Gdx.input.setInputProcessor(stage); // Très important pour que le bouton clique !
 
-        skin = new Skin(Gdx.files.internal("ui/uiskin.json"));
+        skin = game.skin;
 
         Table table = new Table();
         table.setFillParent(true);
@@ -75,7 +75,6 @@ public class RulesScreen implements Screen {
     @Override
     public void dispose() {
         stage.dispose();
-        skin.dispose();
     }
 
     // Méthodes obligatoires de l'interface Screen (vides si inutilisées)

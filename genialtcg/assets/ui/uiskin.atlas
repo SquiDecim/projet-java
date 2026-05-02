@@ -67,34 +67,6 @@ checkbox-selected-over
   orig: 20, 21
   offset: 0, 0
   index: -1
-font
-  rotate: false
-  xy: 2, 402
-  size: 504, 44
-  orig: 504, 44
-  offset: 0, 0
-  index: -1
-font-list
-  rotate: false
-  xy: 2, 332
-  size: 505, 30
-  orig: 505, 30
-  offset: 0, 0
-  index: -1
-font-subtitle
-  rotate: false
-  xy: 2, 364
-  size: 505, 36
-  orig: 505, 36
-  offset: 0, 0
-  index: -1
-font-window
-  rotate: false
-  xy: 2, 448
-  size: 506, 62
-  orig: 506, 62
-  offset: 0, 0
-  index: -1
 knob-h
   rotate: false
   xy: 188, 268

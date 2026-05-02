@@ -2,6 +2,7 @@ package io.github.squidecim.genialtcg;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.JsonReader;
 import com.badlogic.gdx.utils.JsonValue;
@@ -15,12 +16,18 @@ public class GenialTCG extends Game {
 
     public Array<CardsStackData> savedDecks = new Array<>();
     public Map<String, CardData> allCardsMap = new HashMap<>();
+    public Skin skin;
 
     @Override
     public void create() {
+        skin = buildSkin();
         loadCardsFromJson();
         loadDecks();
         setScreen(new FirstScreen(this));
+    }
+
+    private Skin buildSkin() {
+        return new Skin(Gdx.files.internal("ui/uiskin.json"));
     }
 
     private void loadCardsFromJson() {
@@ -239,6 +246,7 @@ public class GenialTCG extends Game {
     @Override
     public void dispose() {
         if (getScreen() != null) getScreen().dispose();
+        if (skin != null) skin.dispose();
         super.dispose();
     }
 }
