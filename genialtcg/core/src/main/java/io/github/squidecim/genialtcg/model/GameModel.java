@@ -26,6 +26,11 @@ public class GameModel {
     public List<CardData> discardPile = new ArrayList<>();
     public CardData table;
 
+    public enum Phase { DRAW, SETUP, PLAYING }
+    public Phase phase = Phase.DRAW;
+    public boolean myTurn = false;
+    public boolean setupDone = false;
+
     public int myCredits = 100;
     public int opponentCredits = 100;
 

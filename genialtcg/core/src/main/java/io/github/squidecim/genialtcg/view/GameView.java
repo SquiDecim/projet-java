@@ -1,6 +1,7 @@
 package io.github.squidecim.genialtcg.view;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.*;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
@@ -18,14 +19,21 @@ import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Plane;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.math.collision.Ray;
+import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import io.github.squidecim.genialtcg.*;
 import io.github.squidecim.genialtcg.controller.GameController;
+import io.github.squidecim.genialtcg.mainMenu.LobbyScreen;
 import io.github.squidecim.genialtcg.model.CardData;
 import io.github.squidecim.genialtcg.model.GameModel;
 
@@ -80,6 +88,11 @@ public class GameView implements Screen {
     private Skin uiSkin;
     private Label myCreditsLabel;
     private Label opponentCreditsLabel;
+    private Label setupBanner;
+    private TextButton actionButton;
+    private boolean setupDone = false;
+
+    private Runnable pendingActionListener;
 
     public GameView(GenialTCG game, GameModel model) {
         this.game = game;
@@ -263,6 +276,14 @@ public class GameView implements Screen {
         myCreditsTable.add(myCreditsLabel);
         uiStage.addActor(myCreditsTable);
 
+        actionButton = new TextButton("Commencer", uiSkin);
+        Table actionTable = new Table();
+        actionTable.setFillParent(true);
+        actionTable.right().center().pad(20);
+        actionTable.add(actionButton).width(180).height(50);
+
+        uiStage.addActor(actionTable);
+
         Table oppCreditsTable = new Table();
         oppCreditsTable.setFillParent(true);
         oppCreditsTable.top().right().pad(20);
@@ -272,6 +293,22 @@ public class GameView implements Screen {
 
         oppCreditsTable.add(opponentCreditsLabel);
         uiStage.addActor(oppCreditsTable);
+        InputMultiplexer multiplexer = new InputMultiplexer();
+        multiplexer.addProcessor(controller);
+        multiplexer.addProcessor(0, uiStage);
+
+        setupBanner = new Label("Veuillez poser une carte en Jeu pour commencer", uiSkin);
+        setupBanner.setColor(Color.YELLOW);
+        setupBanner.setFontScale(1.1f);
+
+        Table bannerTable = new Table();
+        bannerTable.setFillParent(true);
+        bannerTable.center().padBottom(100);
+        bannerTable.add(setupBanner);
+        uiStage.addActor(bannerTable);
+
+        Gdx.input.setInputProcessor(multiplexer);
+
     }
 
     @Override
@@ -404,6 +441,8 @@ public class GameView implements Screen {
 
     public void setController(GameController controller) {
         this.controller = controller;
+        controller.startInitialDraw();
+
     }
 
     public void updateMyCredits(int credits) {
@@ -794,6 +833,8 @@ public class GameView implements Screen {
         Vector3 toCam = new Vector3(cam.position).sub(ghostPos).nor();
         float pitch = (float) Math.toDegrees(Math.asin(toCam.y));
         zoomGhost.setRotation(0, -pitch+10, 0);
+        hideActionButton();
+        setupBanner.setVisible(false);
     }
 
     public void clearHover() {
@@ -807,6 +848,12 @@ public class GameView implements Screen {
         if (zoomGhost != null) {
             zoomGhost.dispose();
             zoomGhost = null;
+            if (model.phase == GameModel.Phase.DRAW){
+                setupBanner.setVisible(true);
+                actionButton.setVisible(true);
+            } else if (model.myTurn){
+                actionButton.setVisible(true);
+            }
         }
     }
 
@@ -829,6 +876,31 @@ public class GameView implements Screen {
 
     public Vector3 getOpponentDiscardPosition() {
         return opponentDiscard.getPosition();
+    }
+
+    private ChangeListener currentActionListener = null;
+
+    public void showActionButton(String text, Runnable action) {
+        actionButton.setText(text);
+        actionButton.setVisible(true);
+        if (currentActionListener != null) {
+            actionButton.removeListener(currentActionListener);
+        }
+        currentActionListener = new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                action.run();
+            }
+        };
+        actionButton.addListener(currentActionListener);
+    }
+
+    public void hideActionButton() {
+        actionButton.setVisible(false);
+    }
+
+    public void hideBanner() {
+        setupBanner.setVisible(false);
     }
 
 }

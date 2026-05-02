@@ -64,4 +64,8 @@ public class NetworkMessages {
         public String playerId;
         public int credits;
     }
+
+    public static class ReadyToStart {
+        public String playerId;
+    }
 }

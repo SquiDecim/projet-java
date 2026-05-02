@@ -8,7 +8,9 @@ import com.esotericsoftware.kryonet.Server;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 public class GameServer {
 
@@ -18,6 +20,8 @@ public class GameServer {
     private int connectedCount = 0;
     private Runnable onBothConnected;
     private Map<Connection, Integer> deckSizes = new HashMap<>();
+    private Set<String> readyPlayers = new HashSet<>();
+
 
 
     public GameServer(String lobbyCode) throws IOException {
@@ -95,12 +99,27 @@ public class GameServer {
                     server.sendToAllTCP(obj);
                 } else if (obj instanceof NetworkMessages.DeckSize) {
                     deckSizes.put(conn, ((NetworkMessages.DeckSize) obj).size);
+                } else if (obj instanceof NetworkMessages.ReadyToStart) {
+                    readyPlayers.add(playerIds.get(conn));
+                    if (readyPlayers.size() == 2) {
+                        String[] ids = playerIds.values().toArray(new String[0]);
+                        String first = ids[new java.util.Random().nextInt(2)];
+                        NetworkMessages.TurnChanged turn = new NetworkMessages.TurnChanged();
+                        turn.currentPlayerId = first;
+                        server.sendToAllTCP(turn);
+                    }
+                } else if (obj instanceof NetworkMessages.EndTurn) {
+                    String pid = playerIds.get(conn);
+                    String next = pid.equals("player1") ? "player2" : "player1";
+                    NetworkMessages.TurnChanged turn = new NetworkMessages.TurnChanged();
+                    turn.currentPlayerId = next;
+                    server.sendToAllTCP(turn);
                 }
             }
         });
 
         server.bind(54555, 54777);
-        server.start(); // lance le thread serveur en arrière-plan
+        server.start();
     }
 
     public void setOnBothConnected(Runnable r) {
@@ -126,5 +145,6 @@ public class GameServer {
         kryo.register(NetworkMessages.LobbyInfo.class);
         kryo.register(NetworkMessages.DeckSize.class);
         kryo.register(NetworkMessages.CreditsUpdate.class);
+        kryo.register(NetworkMessages.ReadyToStart.class);
     }
 }
