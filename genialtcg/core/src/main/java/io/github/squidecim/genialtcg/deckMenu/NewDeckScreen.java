@@ -73,7 +73,6 @@ public class NewDeckScreen implements Screen {
         "Dominant",
         "Hégémonie",
     };
-
     private Table gridTable;
     private Array<AtlasRegion> allCardsSorted;
     private Array<String> selectedCards;
@@ -367,6 +366,10 @@ public class NewDeckScreen implements Screen {
                     selCat.equals("Outils") && !category.equals("OUTIL")
                 ) continue;
             }
+
+            // Type et Rang sont exclusivement des attributs Pays
+            if (!selType.equals("Tous") && !category.equals("PAYS")) continue;
+            if (!selRank.equals("Tous") && !category.equals("PAYS")) continue;
 
             // Filtrage Recherche & Type/Rang
             CardData data = game.allCardsMap.get(region.name);
