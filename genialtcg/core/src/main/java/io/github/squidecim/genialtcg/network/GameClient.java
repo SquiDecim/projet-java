@@ -69,6 +69,7 @@ public class GameClient {
     }
 
     // méthodes pour envoyer des messages au serveur
+    // méthodes pour envoyer des messages au serveur
     public void sendDrawCard() {
         client.sendTCP(new NetworkMessages.DrawCard());
     }
@@ -106,5 +107,9 @@ public class GameClient {
         NetworkMessages.DeckSize msg = new NetworkMessages.DeckSize();
         msg.size = size;
         client.sendTCP(msg);
+    }
+
+    public void sendReady() {
+        client.sendTCP(new NetworkMessages.ReadyToStart());
     }
 }

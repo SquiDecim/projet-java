@@ -30,13 +30,16 @@ public class GameController implements InputProcessor, GameClient.NetworkListene
 
     private CardDecal draggedCard = null;
 
+    private boolean initialDrawDone = false;
+    private int initialDrawCount = 0;
+    private static final int INITIAL_HAND_SIZE = 6;
+
     public GameController(GameView view, GameModel model, GameClient client, String myPlayerId, GenialTCG game) {
         this.view = view;
         this.model = model;
         this.client = client;
         this.myPlayerId = myPlayerId;
         this.game = game;
-        Gdx.input.setInputProcessor(this);
     }
 
     public void update(float delta) {
@@ -60,22 +63,26 @@ public class GameController implements InputProcessor, GameClient.NetworkListene
     @Override
     public boolean touchDown(int x, int y, int p, int b) {
 
+
         if (view.isZooming()) {
             view.hideZoom();
             return true;
         }
 
         Ray ray = view.getCam().getPickRay(x, y);
+        CardDecal card = view.getHoveredCard(ray);
 
         if (b == 1) {
-            CardDecal card = view.getHoveredCard(ray);
             if (card != null) {
                 view.showZoom(card);
                 return true;
             }
         }
 
-        CardDecal card = view.getHoveredCard(ray);
+        if (model.phase == GameModel.Phase.PLAYING && !model.myTurn && b == 0) {
+            return false;
+        }
+
         if (card != null) {
             if (view.isOpponentCard(card)) return false;
             draggedCard = card;
@@ -97,7 +104,10 @@ public class GameController implements InputProcessor, GameClient.NetworkListene
         Ray ray = view.getCam().getPickRay(x, y);
 
         CardSlot slot = view.getIntersectedSlot(ray);
-        if (draggedCard.getData().id.startsWith("ACT-") || draggedCard.getData().id.startsWith("OUT-")) view.cancelDrag(draggedCard);
+        if (draggedCard.getData().id.startsWith("ACT-") || draggedCard.getData().id.startsWith("OUT-")) {
+            view.cancelDrag(draggedCard);
+            return true;
+        }
         else if (slot != null) {
             boolean fromBench = draggedCard.emplacement.equals("bench");
             boolean fromTable = draggedCard.emplacement.equals("table");
@@ -139,7 +149,7 @@ public class GameController implements InputProcessor, GameClient.NetworkListene
         }
 
         draggedCard = null;
-        return true;
+        return false;
     }
 
     @Override
@@ -218,6 +228,47 @@ public class GameController implements InputProcessor, GameClient.NetworkListene
 
     }
 
+    public void startInitialDraw() {
+        for (int i = 0; i < INITIAL_HAND_SIZE; i++) {
+            com.badlogic.gdx.utils.Timer.schedule(new com.badlogic.gdx.utils.Timer.Task() {
+                @Override
+                public void run() {
+                    Gdx.app.postRunnable(() -> client.sendDrawCard());
+                }
+            }, i * drawCooldown);
+        }
+        com.badlogic.gdx.utils.Timer.schedule(new com.badlogic.gdx.utils.Timer.Task() {
+            @Override
+            public void run() {
+                Gdx.app.postRunnable(() -> {
+                    initialDrawDone = true;
+                    view.showActionButton("Commencer", () -> {
+                        if (view.getMyTableCard() == null) return;
+                        view.hideActionButton();
+                        view.hideBanner();
+                        client.sendReady();
+                    });
+                });
+            }
+        }, INITIAL_HAND_SIZE * drawCooldown + 0.5f);
+    }
+
+    @Override
+    public void onTurnChanged(NetworkMessages.TurnChanged msg) {
+        boolean myTurn = msg.currentPlayerId.equals(myPlayerId);
+        model.myTurn = myTurn;
+        if (myTurn) {
+            view.showActionButton("Finir le tour", () -> {
+                view.hideActionButton();
+                model.myTurn = false;
+                client.sendEndTurn();
+            });
+        } else {
+            view.hideActionButton();
+        }
+    }
+
+
     @Override
     public void onAssignId(NetworkMessages.AssignId msg) {}
 
@@ -264,11 +315,7 @@ public class GameController implements InputProcessor, GameClient.NetworkListene
         }
     }
 
-    @Override
-    public void onTurnChanged(NetworkMessages.TurnChanged msg) {
-        boolean myTurn = msg.currentPlayerId != null && msg.currentPlayerId.equals(myPlayerId);
-        Gdx.app.log("Tour", myTurn ? "C'est votre tour" : "Tour de l'adversaire");
-    }
+
 
     @Override
     public void onPlayerJoined(NetworkMessages.PlayerJoined msg) {}
