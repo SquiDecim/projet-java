@@ -116,7 +116,9 @@ public class GameView implements Screen {
 
         shapeRenderer = new ShapeRenderer();
 
-        Texture boardTexture = new Texture("ui/plateau/" + model.terrain + ".png");
+        Texture boardTexture = new Texture(
+            "ui/plateau/" + model.terrain + ".png"
+        );
 
         ModelBuilder builder = new ModelBuilder();
         builder.begin();
@@ -170,15 +172,30 @@ public class GameView implements Screen {
         environment.add(new DirectionalLight().set(1f, 1f, 1f, 1f, 0.8f, 0.2f));
 
         backTexture = new Texture("cards/backCardTexture.png");
-        cardAtlas = new TextureAtlas(Gdx.files.internal("cards/dynamic/country_dynamic.atlas"));
-        actionsAtlas = new TextureAtlas(Gdx.files.internal("cards/action/cards_actions.atlas"));
-        outilsAtlas = new TextureAtlas(Gdx.files.internal("cards/outils/cards_outils.atlas"));
+        cardAtlas = new TextureAtlas(
+            Gdx.files.internal("cards/dynamic/country_dynamic.atlas")
+        );
+        actionsAtlas = new TextureAtlas(
+            Gdx.files.internal("cards/action/cards_actions.atlas")
+        );
+        outilsAtlas = new TextureAtlas(
+            Gdx.files.internal("cards/outils/cards_outils.atlas")
+        );
         for (Texture texture : cardAtlas.getTextures())
-            texture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
+            texture.setFilter(
+                Texture.TextureFilter.Linear,
+                Texture.TextureFilter.Linear
+            );
         for (Texture texture : actionsAtlas.getTextures())
-            texture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
+            texture.setFilter(
+                Texture.TextureFilter.Linear,
+                Texture.TextureFilter.Linear
+            );
         for (Texture texture : outilsAtlas.getTextures())
-            texture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
+            texture.setFilter(
+                Texture.TextureFilter.Linear,
+                Texture.TextureFilter.Linear
+            );
 
         tableSlot = new CardSlot(
             new Vector3(0, 0, TABLE_GAP / 2 + TABLE_CARD_H / 2),
@@ -211,11 +228,7 @@ public class GameView implements Screen {
             float x = (i - 1.5f) * (BENCH_CARD_W + BENCH_GAP_X);
             benchTopSlots.add(
                 new CardSlot(
-                    new Vector3(
-                        x,
-                        0,
-                        -2.85f - BENCH_GAP_Z * 2.5f
-                    ),
+                    new Vector3(x, 0, -2.85f - BENCH_GAP_Z * 2.5f),
                     0,
                     -90f,
                     0,
@@ -264,14 +277,13 @@ public class GameView implements Screen {
         updateDeckVisual(model.deckSize());
 
         uiStage = new Stage(new ScreenViewport());
-        uiSkin  = game.skin;
+        uiSkin = game.skin;
 
         Table myCreditsTable = new Table();
         myCreditsTable.setFillParent(true);
         myCreditsTable.bottom().left().pad(20);
 
-        myCreditsLabel = new Label("Crédits : 100", uiSkin);
-        myCreditsLabel.setFontScale(1.2f);
+        Label myCreditsLabel = new Label("Crédits : 100", uiSkin);
 
         myCreditsTable.add(myCreditsLabel);
         uiStage.addActor(myCreditsTable);
@@ -297,7 +309,10 @@ public class GameView implements Screen {
         multiplexer.addProcessor(controller);
         multiplexer.addProcessor(0, uiStage);
 
-        setupBanner = new Label("Veuillez poser une carte en Jeu pour commencer", uiSkin);
+        setupBanner = new Label(
+            "Veuillez poser une carte en Jeu pour commencer",
+            uiSkin
+        );
         setupBanner.setColor(Color.YELLOW);
         setupBanner.setFontScale(1.1f);
 
@@ -308,7 +323,6 @@ public class GameView implements Screen {
         uiStage.addActor(bannerTable);
 
         Gdx.input.setInputProcessor(multiplexer);
-
     }
 
     @Override
@@ -389,7 +403,12 @@ public class GameView implements Screen {
             Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
             shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
             shapeRenderer.setColor(0, 0, 0, 0.6f);
-            shapeRenderer.rect(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+            shapeRenderer.rect(
+                0,
+                0,
+                Gdx.graphics.getWidth(),
+                Gdx.graphics.getHeight()
+            );
             shapeRenderer.end();
             Gdx.gl.glDisable(GL20.GL_DEPTH_TEST);
             modelBatch.begin(cam);
@@ -441,7 +460,6 @@ public class GameView implements Screen {
     public void setController(GameController controller) {
         this.controller = controller;
         controller.startInitialDraw();
-
     }
 
     public void updateMyCredits(int credits) {
@@ -511,7 +529,15 @@ public class GameView implements Screen {
             float angleX = 0;
             Vector3 dest = new Vector3(x, y, z);
             if (card.emplacement.equals("deck")) {
-                card.animateFromDeck(deckTopPos, dest, angleX, -50f, 0f, 0.4f, true); //true if deck is from player, false if deck is from opponent
+                card.animateFromDeck(
+                    deckTopPos,
+                    dest,
+                    angleX,
+                    -50f,
+                    0f,
+                    0.4f,
+                    true
+                ); //true if deck is from player, false if deck is from opponent
                 card.emplacement = "hand";
             } else {
                 card.animateTo(dest, angleX, -50f, 0f, 0.4f);
@@ -524,7 +550,10 @@ public class GameView implements Screen {
             null,
             new TextureRegion(backTexture),
             new TextureRegion(backTexture),
-            BENCH_CARD_W, BENCH_CARD_H, cam, "deck"
+            BENCH_CARD_W,
+            BENCH_CARD_H,
+            cam,
+            "deck"
         );
         decal.setRotation(180f, -90f, 0);
         opponentHandCards.add(decal);
@@ -541,13 +570,17 @@ public class GameView implements Screen {
         float center = (n - 1) / 2f;
         Vector3 deckPos = opponentDeck.getPosition();
         float deckTop = opponentDeck.nbrCards * THICKNESS;
-        Vector3 deckTopPos = new Vector3(deckPos.x, deckPos.y + deckTop, deckPos.z);
+        Vector3 deckTopPos = new Vector3(
+            deckPos.x,
+            deckPos.y + deckTop,
+            deckPos.z
+        );
 
         for (int i = 0; i < n; i++) {
             CardDecal card = opponentHandCards.get(i);
             float x = (i - center) * spacing;
             float y = 0.75f + (i - center) * THICKNESS;
-            float z = (float) (-4.7f + (i - center) * THICKNESS / 1.5);
+            float z = (float) (-4.7f + ((i - center) * THICKNESS) / 1.5);
             Vector3 dest = new Vector3(x, y, z);
             if (card.emplacement.equals("deck")) {
                 card.animateFromDeck(deckTopPos, dest, 0, 25f, 0f, 0.4f, false);
@@ -565,8 +598,12 @@ public class GameView implements Screen {
 
     private AtlasRegion findRegionForCard(CardData card) {
         String name = card.getAtlasRegionName();
-        if (card.id != null && card.id.startsWith("ACT-")) return actionsAtlas.findRegion(name);
-        if (card.id != null && card.id.startsWith("OUT-")) return outilsAtlas.findRegion(name);
+        if (
+            card.id != null && card.id.startsWith("ACT-")
+        ) return actionsAtlas.findRegion(name);
+        if (
+            card.id != null && card.id.startsWith("OUT-")
+        ) return outilsAtlas.findRegion(name);
         return cardAtlas.findRegion(name);
     }
 
@@ -583,18 +620,37 @@ public class GameView implements Screen {
         CardSlot slot = findEmptyOpponentBenchSlot();
         if (slot == null) return;
 
-        CardDecal decal = removeOpponentCardFromField(card.getAtlasRegionName());
-        if (decal !=null) decal.buildModel(decal.frontRegion, decal.backRegion, BENCH_CARD_W, BENCH_CARD_H);
+        CardDecal decal = removeOpponentCardFromField(
+            card.getAtlasRegionName()
+        );
+        if (decal != null) decal.buildModel(
+            decal.frontRegion,
+            decal.backRegion,
+            BENCH_CARD_W,
+            BENCH_CARD_H
+        );
         if (decal == null) {
-            Vector3 startPos = opponentHandCards.size > 0
-                ? opponentHandCards.get(opponentHandCards.size - 1).getPosition()
-                : opponentDeck.getPosition();
-            decal = new CardDecal(card, new TextureRegion(region),
-                new TextureRegion(backTexture), BENCH_CARD_W, BENCH_CARD_H, cam, "bench");
+            Vector3 startPos =
+                opponentHandCards.size > 0
+                    ? opponentHandCards
+                          .get(opponentHandCards.size - 1)
+                          .getPosition()
+                    : opponentDeck.getPosition();
+            decal = new CardDecal(
+                card,
+                new TextureRegion(region),
+                new TextureRegion(backTexture),
+                BENCH_CARD_W,
+                BENCH_CARD_H,
+                cam,
+                "bench"
+            );
             decal.setPosition(startPos.x, startPos.y, startPos.z);
             decal.setRotation(0, -90f, 0);
             if (opponentHandCards.size > 0) {
-                CardDecal ghost = opponentHandCards.removeIndex(opponentHandCards.size - 1);
+                CardDecal ghost = opponentHandCards.removeIndex(
+                    opponentHandCards.size - 1
+                );
                 ghost.dispose();
                 repositionOpponentHand();
             }
@@ -608,20 +664,39 @@ public class GameView implements Screen {
         AtlasRegion region = findRegionForCard(card);
         if (region == null) return;
 
-        CardDecal decal = removeOpponentCardFromField(card.getAtlasRegionName());
+        CardDecal decal = removeOpponentCardFromField(
+            card.getAtlasRegionName()
+        );
 
         if (decal != null) {
-            decal.buildModel(decal.frontRegion, decal.backRegion, TABLE_CARD_W, TABLE_CARD_H);
+            decal.buildModel(
+                decal.frontRegion,
+                decal.backRegion,
+                TABLE_CARD_W,
+                TABLE_CARD_H
+            );
         } else {
-            Vector3 startPos = opponentHandCards.size > 0
-                ? opponentHandCards.get(opponentHandCards.size - 1).getPosition()
-                : opponentDeck.getPosition();
-            decal = new CardDecal(card, new TextureRegion(region),
-                new TextureRegion(backTexture), TABLE_CARD_W, TABLE_CARD_H, cam, "table");
+            Vector3 startPos =
+                opponentHandCards.size > 0
+                    ? opponentHandCards
+                          .get(opponentHandCards.size - 1)
+                          .getPosition()
+                    : opponentDeck.getPosition();
+            decal = new CardDecal(
+                card,
+                new TextureRegion(region),
+                new TextureRegion(backTexture),
+                TABLE_CARD_W,
+                TABLE_CARD_H,
+                cam,
+                "table"
+            );
             decal.setPosition(startPos.x, startPos.y, startPos.z);
             decal.setRotation(0, -90f, 0);
             if (opponentHandCards.size > 0) {
-                CardDecal ghost = opponentHandCards.removeIndex(opponentHandCards.size - 1);
+                CardDecal ghost = opponentHandCards.removeIndex(
+                    opponentHandCards.size - 1
+                );
                 ghost.dispose();
                 repositionOpponentHand();
             }
@@ -634,13 +709,21 @@ public class GameView implements Screen {
     public CardDecal removeOpponentCardFromField(String cardId) {
         for (CardSlot slot : benchTopSlots) {
             CardDecal c = slot.getCard();
-            if (c != null && c.getData() != null && c.getData().getAtlasRegionName().equals(cardId)) {
+            if (
+                c != null &&
+                c.getData() != null &&
+                c.getData().getAtlasRegionName().equals(cardId)
+            ) {
                 slot.removeCard();
                 return c;
             }
         }
         CardDecal c = opponentTableSlot.getCard();
-        if (c != null && c.getData() != null && c.getData().getAtlasRegionName().equals(cardId)) {
+        if (
+            c != null &&
+            c.getData() != null &&
+            c.getData().getAtlasRegionName().equals(cardId)
+        ) {
             opponentTableSlot.removeCard();
             return c;
         }
@@ -660,8 +743,11 @@ public class GameView implements Screen {
     }
 
     public CardDecal getHoveredCard(Ray ray) {
-        if (hoveredCard != null && hoveredCard.intersects(ray) && !hoveredCard.isAnimating())
-            return hoveredCard;
+        if (
+            hoveredCard != null &&
+            hoveredCard.intersects(ray) &&
+            !hoveredCard.isAnimating()
+        ) return hoveredCard;
         for (int i = handCards.size - 1; i >= 0; i--) {
             CardDecal card = handCards.get(i);
             if (card.intersects(ray) && !card.isAnimating()) return card;
@@ -670,14 +756,17 @@ public class GameView implements Screen {
             CardDecal card = slot.getCard();
             if (card != null && card.intersects(ray)) return card;
         }
-        for (CardSlot slot : benchTopSlots) { // ← ajout
+        for (CardSlot slot : benchTopSlots) {
+            // ← ajout
             CardDecal card = slot.getCard();
             if (card != null && card.intersects(ray)) return card;
         }
         CardDecal slotCard = tableSlot.getCard();
         if (slotCard != null && slotCard.intersects(ray)) return slotCard;
         CardDecal oppSlotCard = opponentTableSlot.getCard(); // ← ajout
-        if (oppSlotCard != null && oppSlotCard.intersects(ray)) return oppSlotCard;
+        if (
+            oppSlotCard != null && oppSlotCard.intersects(ray)
+        ) return oppSlotCard;
         return null;
     }
 
@@ -697,7 +786,15 @@ public class GameView implements Screen {
         return deck.intersects(ray);
     }
 
-    private CardsStackDecal createCardsStacks(TextureRegion tex, float w, float h, int n, float x, float y, float z) {
+    private CardsStackDecal createCardsStacks(
+        TextureRegion tex,
+        float w,
+        float h,
+        int n,
+        float x,
+        float y,
+        float z
+    ) {
         CardsStackDecal stack = new CardsStackDecal(tex, w, h, n);
         stack.setPosition(x, y, z);
         return stack;
@@ -724,7 +821,10 @@ public class GameView implements Screen {
         ) {
             originSlot = findSlotContaining(card);
         }
-        if (card.emplacement.equals("table")) draggedCard.rebuildWithDynamic(BENCH_CARD_W, BENCH_CARD_H);
+        if (card.emplacement.equals("table")) draggedCard.rebuildWithDynamic(
+            BENCH_CARD_W,
+            BENCH_CARD_H
+        );
 
         Vector3 pos = card.getPosition();
         card.setDragPosition(pos.x, 0.5f, pos.z);
@@ -823,15 +923,20 @@ public class GameView implements Screen {
         clearHover();
         if (zoomGhost != null) zoomGhost.dispose();
         zoomGhost = new CardDecal(
-            card.getData(), card.frontRegion, card.backRegion,
-            BENCH_CARD_W * 2.5f, BENCH_CARD_H * 2.5f, cam, "zoom"
+            card.getData(),
+            card.frontRegion,
+            card.backRegion,
+            BENCH_CARD_W * 2.5f,
+            BENCH_CARD_H * 2.5f,
+            cam,
+            "zoom"
         );
         if (card.getData() != null) zoomGhost.generateDynamicTexture(512, 716);
         zoomGhost.setPosition(0, 2f, 3.5f);
         Vector3 ghostPos = new Vector3(0, 1.75f, 4f);
         Vector3 toCam = new Vector3(cam.position).sub(ghostPos).nor();
         float pitch = (float) Math.toDegrees(Math.asin(toCam.y));
-        zoomGhost.setRotation(0, -pitch+10, 0);
+        zoomGhost.setRotation(0, -pitch + 10, 0);
         hideActionButton();
         setupBanner.setVisible(false);
     }
@@ -847,10 +952,10 @@ public class GameView implements Screen {
         if (zoomGhost != null) {
             zoomGhost.dispose();
             zoomGhost = null;
-            if (model.phase == GameModel.Phase.DRAW){
+            if (model.phase == GameModel.Phase.DRAW) {
                 setupBanner.setVisible(true);
                 actionButton.setVisible(true);
-            } else if (model.myTurn){
+            } else if (model.myTurn) {
                 actionButton.setVisible(true);
             }
         }
@@ -859,7 +964,6 @@ public class GameView implements Screen {
     public boolean isZooming() {
         return zoomGhost != null;
     }
-
 
     public CardDecal getMyTableCard() {
         return tableSlot.getCard();
@@ -901,5 +1005,4 @@ public class GameView implements Screen {
     public void hideBanner() {
         setupBanner.setVisible(false);
     }
-
 }

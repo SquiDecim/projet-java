@@ -55,8 +55,8 @@ public class DeckScreen implements Screen {
 
         root.add(alertLabel).height(30).padBottom(10).row();
 
-        Label title = new Label("Mes Decks", skin);
-        title.setFontScale(1.5f);
+        Label title = new Label("Mes Decks", skin, "title");
+        title.setFontScale(0.55f);
         root.add(title).padBottom(30).row();
 
         Table listTable = new Table();

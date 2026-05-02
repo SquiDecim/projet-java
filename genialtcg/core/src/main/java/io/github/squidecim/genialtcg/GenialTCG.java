@@ -2,6 +2,10 @@ package io.github.squidecim.genialtcg;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.JsonReader;
@@ -27,7 +31,31 @@ public class GenialTCG extends Game {
     }
 
     private Skin buildSkin() {
-        return new Skin(Gdx.files.internal("ui/uiskin.json"));
+        Skin skin = new Skin(Gdx.files.internal("ui/uiskin.json"));
+
+        // Générer une font pour les titres
+        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(
+            Gdx.files.internal("ui/dejavu-sans/DejaVuSans-Bold.ttf")
+        );
+
+        FreeTypeFontGenerator.FreeTypeFontParameter parameter =
+            new FreeTypeFontGenerator.FreeTypeFontParameter();
+        parameter.size = 100;
+
+        BitmapFont titleFont = generator.generateFont(parameter);
+        generator.dispose();
+
+        // Ajouter la font au skin
+        skin.add("title-font", titleFont);
+
+        // Créer un style de label pour les titres
+        Label.LabelStyle titleStyle = new Label.LabelStyle();
+        titleStyle.font = titleFont;
+        titleStyle.fontColor = Color.WHITE;
+
+        skin.add("title", titleStyle);
+
+        return skin;
     }
 
     private void loadCardsFromJson() {

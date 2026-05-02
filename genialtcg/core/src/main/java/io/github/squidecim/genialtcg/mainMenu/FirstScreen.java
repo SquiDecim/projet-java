@@ -59,8 +59,7 @@ public class FirstScreen implements Screen {
         table.setFillParent(true);
         stage.addActor(table);
 
-        Label title = new Label("GénialTCG", skin);
-        title.setFontScale(1.5f);
+        Label title = new Label("GénialTCG", skin, "title");
 
         messageLabel = new Label("", skin);
         messageLabel.setColor(Color.ORANGE);
