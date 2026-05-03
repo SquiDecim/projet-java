@@ -112,4 +112,5 @@ public class GameClient {
     public void sendReady() {
         client.sendTCP(new NetworkMessages.ReadyToStart());
     }
+
 }

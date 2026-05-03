@@ -4,12 +4,17 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.Pixmap;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.badlogic.gdx.scenes.scene2d.actions.Actions;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
@@ -42,11 +47,13 @@ public class LobbyScreen implements Screen, GameClient.NetworkListener {
     // composants UI
     private Label codeLabel;
     private List<String> playerList;
-    private List<String> deckList;
     private TextButton launchButton;
     private Label statusLabel;
+    private Texture backTexture;
 
     private boolean launching = false;
+    private Drawable silverBorder;
+    private Table deckGrid;
 
 
     // données
@@ -72,6 +79,13 @@ public class LobbyScreen implements Screen, GameClient.NetworkListener {
         stage = new Stage(new ScreenViewport());
         Gdx.input.setInputProcessor(stage);
         skin = game.skin;
+        backTexture = new Texture(Gdx.files.internal("cards/backCardTexture.png"));
+
+        Pixmap pixmap = new Pixmap(1, 1, Pixmap.Format.RGBA8888);
+        pixmap.setColor(new Color(0.9f, 0.9f, 0.9f, 1f));
+        pixmap.fill();
+        silverBorder = new TextureRegionDrawable(new Texture(pixmap));
+        pixmap.dispose();
 
         Table root = new Table();
         root.setFillParent(true);
@@ -123,10 +137,16 @@ public class LobbyScreen implements Screen, GameClient.NetworkListener {
             }
         );
 
-        // Placement des boutons : width(200), height(50), pad(10) comme dans DeckScreen
         topTable.add(btnBack).width(200).height(50).pad(10).left();
         topTable.add(codeLabel).expandX().center();
-        topTable.add(launchButton).width(200).height(50).pad(10).right();
+        if (isHost) {
+            topTable.add(launchButton).width(200).height(50).pad(10).right();
+        } else {
+            Label waitLabel = new Label("En attente du lancement...", skin);
+            waitLabel.setColor(Color.LIGHT_GRAY);
+            waitLabel.setAlignment(Align.center);
+            topTable.add(waitLabel).width(200).height(50).pad(10).right();
+        }
 
         // Ajout de la barre en haut du root (colspan 2 car on a 2 colonnes en dessous)
         root.add(topTable).expandX().fillX().top().colspan(2).row();
@@ -139,14 +159,16 @@ public class LobbyScreen implements Screen, GameClient.NetworkListener {
             skin.newDrawable("white", new Color(0.15f, 0.18f, 0.25f, 1f))
         );
         leftCol.pad(15);
-        leftCol.add(new Label("Joueurs", skin)).padBottom(10).row();
+        Label joueursTitre = new Label("Joueurs", skin, "title");
+        joueursTitre.setFontScale(0.35f);
+        leftCol.add(joueursTitre).padBottom(10).row();
 
         playerList = new List<>(skin);
         connectedPlayers.add("Joueur 1 (vous)");
         playerList.setItems(connectedPlayers);
 
         ScrollPane playerScroll = new ScrollPane(playerList, skin);
-        leftCol.add(playerScroll).width(450).height(450).row();
+        leftCol.add(playerScroll).expand().fill().row();
 
         statusLabel = new Label(
             isHost ? "En attente d'un joueur..." : "Connecté au salon",
@@ -161,36 +183,16 @@ public class LobbyScreen implements Screen, GameClient.NetworkListener {
             skin.newDrawable("white", new Color(0.15f, 0.18f, 0.25f, 1f))
         );
         rightCol.pad(15);
-        rightCol.add(new Label("Choisir un deck", skin)).padBottom(10).row();
+        Label deckTitre = new Label("Choisir un deck", skin, "title");
+        deckTitre.setFontScale(0.35f);
+        rightCol.add(deckTitre).padBottom(10).row();
 
-        deckList = new List<>(skin);
-        Array<String> deckNames = getDeckNames();
-        deckList.setItems(deckNames);
+        deckGrid = new Table();
+        buildDeckGrid();
+        rightCol.add(deckGrid).expand();
 
-        if (
-            deckNames.size > 0 &&
-            !deckNames.get(0).equals("Aucun deck disponible")
-        ) {
-            deckList.setSelectedIndex(0);
-            selectedDeck = deckNames.get(0);
-        }
-
-        deckList.addListener(
-            new ChangeListener() {
-                @Override
-                public void changed(ChangeEvent event, Actor actor) {
-                    selectedDeck = deckList.getSelected();
-                    updateLaunchButton();
-                }
-            }
-        );
-
-        ScrollPane deckScroll = new ScrollPane(deckList, skin);
-        rightCol.add(deckScroll).width(450).height(450);
-
-        // On centre les deux colonnes dans l'espace restant
-        root.add(leftCol).expand().pad(20).right();
-        root.add(rightCol).expand().pad(20).left();
+        root.add(leftCol).expand().fill().pad(20);
+        root.add(rightCol).expand().fill().pad(20);
 
         updateLaunchButton();
 
@@ -225,6 +227,73 @@ public class LobbyScreen implements Screen, GameClient.NetworkListener {
 
     }
 
+    private void buildDeckGrid() {
+        deckGrid.clearChildren();
+        final float W = 250, H = 350;
+        if (selectedDeck == null && game.savedDecks.size > 0) {
+            selectedDeck = game.savedDecks.get(0).name;
+        }
+        for (int i = 0; i < 4; i++) {
+            if (i < game.savedDecks.size) {
+                final CardsStackData deck = game.savedDecks.get(i);
+                final boolean isSelected = deck.name.equals(selectedDeck);
+                final Stack stack = new Stack();
+                stack.setTransform(true);
+                stack.setOrigin(Align.center);
+
+                if (isSelected) {
+                    stack.setScale(1.05f);
+                    Image border = new Image(silverBorder);
+                    Table borderWrapper = new Table();
+                    borderWrapper.add(border).size(W + 6f, H + 6f);
+                    stack.add(borderWrapper);
+                }
+
+                Image cardImage = new Image(backTexture);
+                Table cardWrapper = new Table();
+                cardWrapper.add(cardImage).size(W, H);
+
+                Label deckName = new Label(deck.name, skin, "title");
+                deckName.setFontScale(0.20f);
+                deckName.setColor(Color.WHITE);
+                Table nameOverlay = new Table();
+                nameOverlay.add(deckName).expandY().bottom().padBottom(22);
+
+                stack.add(cardWrapper);
+                stack.add(nameOverlay);
+                stack.addListener(new ClickListener() {
+                    @Override
+                    public void clicked(InputEvent event, float x, float y) {
+                        selectedDeck = deck.name;
+                        buildDeckGrid();
+                        updateLaunchButton();
+                    }
+
+                    @Override
+                    public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+                        if (pointer == -1 && !isSelected)
+                            stack.addAction(Actions.scaleTo(1.05f, 1.05f, 0.1f));
+                    }
+
+                    @Override
+                    public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
+                        if (pointer == -1 && !isSelected)
+                            stack.addAction(Actions.scaleTo(1f, 1f, 0.1f));
+                    }
+                });
+
+                deckGrid.add(stack).size(W * 1.1f, H * 1.1f).pad(5);
+            } else {
+                Table emptySlot = new Table();
+                emptySlot.setBackground(
+                    skin.newDrawable("white", new Color(0.12f, 0.15f, 0.22f, 1f))
+                );
+                deckGrid.add(emptySlot).size(W, H).pad(10);
+            }
+            if (i % 2 == 1) deckGrid.row();
+        }
+    }
+
     private String generateCode() {
         try {
             Enumeration<NetworkInterface> interfaces =
@@ -255,23 +324,11 @@ public class LobbyScreen implements Screen, GameClient.NetworkListener {
         return Long.toString(ipLong, 36).toUpperCase();
     }
 
-    private Array<String> getDeckNames() {
-        Array<String> names = new Array<>();
-        if (game.savedDecks != null && game.savedDecks.size > 0) {
-            for (CardsStackData deck : game.savedDecks) {
-                names.add(deck.name);
-            }
-        } else {
-            names.add("Aucun deck disponible");
-        }
-        return names;
-    }
-
     private void updateLaunchButton() {
-        boolean ready =
-            (connectedPlayers.size >= 2 || !isHost) &&
-            selectedDeck != null &&
-            !selectedDeck.equals("Aucun deck disponible");
+        if (!isHost) return;
+        boolean ready = connectedPlayers.size >= 2 &&
+                        selectedDeck != null &&
+                        !selectedDeck.equals("Aucun deck disponible");
         launchButton.setDisabled(!ready);
         launchButton.getLabel().setColor(ready ? Color.WHITE : Color.GRAY);
     }
@@ -339,6 +396,7 @@ public class LobbyScreen implements Screen, GameClient.NetworkListener {
     @Override
     public void dispose() {
         stage.dispose();
+        if (backTexture != null) backTexture.dispose();
     }
 
     @Override

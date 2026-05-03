@@ -126,8 +126,12 @@ public class GameController implements InputProcessor, GameClient.NetworkListene
                 } else {
                     CardSlot firstSlot = view.getFirstEmptyBenchSlot();
                     if (firstSlot != null) {
-                        if (fromTable) model.moveFromTableToBench(draggedCard.getData());
-                        else model.moveFromHandToBench(draggedCard.getData());
+                        if (fromTable) {
+                            model.moveFromTableToBench(draggedCard.getData());
+                            if (model.phase == GameModel.Phase.DRAW) view.showBanner();
+                        } else {
+                            model.moveFromHandToBench(draggedCard.getData());
+                        }
                         view.dropCardOnSlot(draggedCard, firstSlot);
                         int slotIdx = view.getBenchSlotIndex(firstSlot);
                         client.sendPlayCard(draggedCard.getData().getAtlasRegionName(), "bench", slotIdx);
@@ -141,6 +145,7 @@ public class GameController implements InputProcessor, GameClient.NetworkListene
                 view.dropCardOnSlot(draggedCard, slot);
                 applyCardEffect(draggedCard.getData(), true);
                 client.sendPlayCard(draggedCard.getData().getAtlasRegionName(), "table", 0);
+                view.hideBanner();
             } else {
                 view.cancelDrag(draggedCard);
             }

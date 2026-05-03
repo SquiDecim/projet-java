@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
@@ -11,6 +12,8 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import io.github.squidecim.genialtcg.GenialTCG;
 import io.github.squidecim.genialtcg.mainMenu.FirstScreen;
@@ -22,6 +25,7 @@ public class DeckScreen implements Screen {
     private Stage stage;
     private Skin skin;
     private Label alertLabel;
+    private Texture backTexture;
 
     public DeckScreen(GenialTCG game) {
         this.game = game;
@@ -32,6 +36,9 @@ public class DeckScreen implements Screen {
         stage = new Stage(new ScreenViewport());
         Gdx.input.setInputProcessor(stage);
         skin = game.skin;
+        backTexture = new Texture(
+            Gdx.files.internal("cards/backCardTexture.png")
+        );
 
         Table root = new Table();
         root.setFillParent(true);
@@ -62,15 +69,24 @@ public class DeckScreen implements Screen {
         Table listTable = new Table();
         for (final CardsStackData deck : game.savedDecks) {
             final Stack stack = new Stack();
-            TextButton db = new TextButton(deck.name, skin);
-            db.addListener(
-                new ChangeListener() {
+            stack.setTransform(true);
+            stack.setOrigin(Align.center);
+
+            Image cardImage = new Image(backTexture);
+            cardImage.addListener(
+                new ClickListener() {
                     @Override
-                    public void changed(ChangeEvent event, Actor actor) {
+                    public void clicked(InputEvent event, float x, float y) {
                         game.setScreen(new NewDeckScreen(game, deck));
                     }
                 }
             );
+
+            Label deckName = new Label(deck.name, skin, "title");
+            deckName.setFontScale(0.20f);
+            deckName.setColor(Color.WHITE);
+            Table nameOverlay = new Table();
+            nameOverlay.add(deckName).expandY().bottom().padBottom(22);
 
             final TextButton del = new TextButton("X", skin);
             del.setColor(Color.RED);
@@ -80,7 +96,6 @@ public class DeckScreen implements Screen {
                     @Override
                     public void changed(ChangeEvent event, Actor actor) {
                         game.savedDecks.removeValue(deck, true);
-                        game.saveDecks();
                         game.setScreen(new DeckScreen(game));
                     }
                 }
@@ -96,7 +111,9 @@ public class DeckScreen implements Screen {
                         int pointer,
                         Actor fromActor
                     ) {
+                        if (pointer != -1) return;
                         del.setVisible(true);
+                        stack.addAction(Actions.scaleTo(1.05f, 1.05f, 0.1f));
                     }
 
                     @Override
@@ -107,12 +124,15 @@ public class DeckScreen implements Screen {
                         int pointer,
                         Actor toActor
                     ) {
+                        if (pointer != -1) return;
                         del.setVisible(false);
+                        stack.addAction(Actions.scaleTo(1f, 1f, 0.1f));
                     }
                 }
             );
 
-            stack.add(db);
+            stack.add(cardImage);
+            stack.add(nameOverlay);
             stack.add(new Container<>(del).size(40).top().right());
             listTable.add(stack).width(250).height(350).pad(10);
         }
@@ -164,6 +184,7 @@ public class DeckScreen implements Screen {
     @Override
     public void dispose() {
         stage.dispose();
+        if (backTexture != null) backTexture.dispose();
     }
 
     @Override

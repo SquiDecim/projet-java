@@ -1003,6 +1003,10 @@ public class GameView implements Screen {
         actionButton.setVisible(false);
     }
 
+    public void showBanner() {
+        setupBanner.setVisible(true);
+    }
+
     public void hideBanner() {
         setupBanner.setVisible(false);
     }

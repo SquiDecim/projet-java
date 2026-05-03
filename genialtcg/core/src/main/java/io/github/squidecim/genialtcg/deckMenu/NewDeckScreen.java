@@ -807,7 +807,6 @@ public class NewDeckScreen implements Screen {
                         } else {
                             game.savedDecks.add(new CardsStackData(name, list));
                         }
-                        game.saveDecks();
                         game.setScreen(new DeckScreen(game));
                     }
                 }
@@ -818,6 +817,7 @@ public class NewDeckScreen implements Screen {
             editingDeck != null ? editingDeck.name : "",
             skin
         );
+        nameInput.setMaxLength(20);
         dialog
             .getContentTable()
             .add(new Label("Nom du deck :", skin))
