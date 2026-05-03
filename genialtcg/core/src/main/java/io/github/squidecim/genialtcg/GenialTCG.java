@@ -21,6 +21,7 @@ public class GenialTCG extends Game {
     public Array<CardsStackData> savedDecks = new Array<>();
     public Map<String, CardData> allCardsMap = new HashMap<>();
     public Skin skin;
+    public BitmapFont uiFont;
 
     @Override
     public void create() {
@@ -33,27 +34,30 @@ public class GenialTCG extends Game {
     private Skin buildSkin() {
         Skin skin = new Skin(Gdx.files.internal("ui/uiskin.json"));
 
-        // Générer une font pour les titres
-        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(
-            Gdx.files.internal("ui/dejavu-sans/DejaVuSans-Bold.ttf")
-        );
-
         FreeTypeFontGenerator.FreeTypeFontParameter parameter =
             new FreeTypeFontGenerator.FreeTypeFontParameter();
+
+        // Font UI — DejaVuSans Regular 16pt (utilisée directement, sans passer par le skin)
+        FreeTypeFontGenerator generatorRegular = new FreeTypeFontGenerator(
+            Gdx.files.internal("ui/dejavu-sans/DejaVuSans.ttf")
+        );
+        parameter.size = 16;
+        uiFont = generatorRegular.generateFont(parameter);
+        generatorRegular.dispose();
+
+        // Font titres — DejaVuSans Bold 100pt
+        FreeTypeFontGenerator generatorBold = new FreeTypeFontGenerator(
+            Gdx.files.internal("ui/dejavu-sans/DejaVuSans-Bold.ttf")
+        );
         parameter.size = 100;
+        BitmapFont titleFont = generatorBold.generateFont(parameter);
+        generatorBold.dispose();
 
-        BitmapFont titleFont = generator.generateFont(parameter);
-        generator.dispose();
-
-        // Ajouter la font au skin
-        skin.add("title-font", titleFont);
-
-        // Créer un style de label pour les titres
+        skin.add("title-font", titleFont, BitmapFont.class);
         Label.LabelStyle titleStyle = new Label.LabelStyle();
         titleStyle.font = titleFont;
         titleStyle.fontColor = Color.WHITE;
-
-        skin.add("title", titleStyle);
+        skin.add("title", titleStyle, Label.LabelStyle.class);
 
         return skin;
     }

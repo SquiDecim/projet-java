@@ -278,12 +278,16 @@ public class GameView implements Screen {
 
         uiStage = new Stage(new ScreenViewport());
         uiSkin = game.skin;
+        Label.LabelStyle gameStyle = new Label.LabelStyle(
+            game.uiFont,
+            Color.WHITE
+        );
 
         Table myCreditsTable = new Table();
         myCreditsTable.setFillParent(true);
         myCreditsTable.bottom().left().pad(20);
 
-        Label myCreditsLabel = new Label("Crédits : 200", uiSkin);
+        myCreditsLabel = new Label("Crédits : 200", gameStyle);
 
         myCreditsTable.add(myCreditsLabel);
         uiStage.addActor(myCreditsTable);
@@ -300,8 +304,7 @@ public class GameView implements Screen {
         oppCreditsTable.setFillParent(true);
         oppCreditsTable.top().right().pad(20);
 
-        opponentCreditsLabel = new Label("Crédits : 200", uiSkin);
-        opponentCreditsLabel.setFontScale(1.2f);
+        opponentCreditsLabel = new Label("Crédits : 200", gameStyle);
 
         oppCreditsTable.add(opponentCreditsLabel);
         uiStage.addActor(oppCreditsTable);
@@ -311,10 +314,8 @@ public class GameView implements Screen {
 
         setupBanner = new Label(
             "Veuillez poser une carte en Jeu pour commencer",
-            uiSkin
+            new Label.LabelStyle(game.uiFont, Color.ORANGE)
         );
-        setupBanner.setColor(Color.YELLOW);
-        setupBanner.setFontScale(1.1f);
 
         Table bannerTable = new Table();
         bannerTable.setFillParent(true);
