@@ -3,28 +3,28 @@
     "id": "ACT-001",
     "nom": "Aide Humanitaire",
     "cond": { "type": ["Diplomatique"] },
-    "cibles": ["jeu"],
-    "variables": ["etat"],
-    "valeurs": [250],
-    "description": "Restaure 250 PV à votre pays en jeu."
+    "cibles": ["jeu", "deck"],
+    "variables": ["etat", "emplacement"],
+    "valeurs": [200, [1, "main"]],
+    "description": "Nations Diplomatiques. L'ONU mobilise ses convois médicaux sur le terrain. Soigne 200 PV et pioche 1 carte."
   },
   {
     "id": "ACT-002",
     "nom": "Ressources Médicales",
-    "cond": { "terrain": ["Tropical"] },
-    "cibles": ["jeu"],
-    "variables": ["etat"],
-    "valeurs": [220],
-    "description": "Restaure 220 PV à votre pays en jeu."
+    "cond": { "terrain": ["Tropical"], "etatMax": 350 },
+    "cibles": ["jeu", "banc"],
+    "variables": ["etat", "etat"],
+    "valeurs": [180, 60],
+    "description": "En terrain Tropical, si votre pays est ≤ 350 PV, la jungle révèle ses remèdes les plus puissants. Soigne 180 PV en jeu et 60 PV à une carte du banc."
   },
   {
     "id": "ACT-003",
     "nom": "Réformes Économiques",
-    "cond": { "type": ["Économique"] },
-    "cibles": ["jeu"],
-    "variables": ["etat"],
-    "valeurs": [230],
-    "description": "Restaure 230 PV à votre pays en jeu."
+    "cond": { "type": ["Économique"], "etatMax": 380 },
+    "cibles": ["jeu", "jeu"],
+    "variables": ["etat", "emplacement"],
+    "valeurs": [150, [1, "banc"]],
+    "description": "Nations Économiques, si votre pays est ≤ 380. Les réformes d'urgence relancent le pays avant de le mettre en réserve. Soigne 150 PV puis échange avec le banc."
   },
   {
     "id": "ACT-004",
@@ -33,7 +33,7 @@
     "cibles": ["jeu"],
     "variables": ["etat"],
     "valeurs": [120],
-    "description": "Restaure 120 PV à votre pays en jeu."
+    "description": "Les équipes médicales accourent sans délai, trousse en main. Soigne 120 PV à votre pays en jeu."
   },
   {
     "id": "ACT-005",
@@ -42,7 +42,7 @@
     "cibles": ["jeu"],
     "variables": ["etat"],
     "valeurs": [100],
-    "description": "Restaure 100 PV à votre pays en jeu."
+    "description": "Les convois de ravitaillement tracent leur route malgré les bombes. Soigne 100 PV à votre pays en jeu."
   },
   {
     "id": "ACT-006",
@@ -51,7 +51,7 @@
     "cibles": ["jeu"],
     "variables": ["etat"],
     "valeurs": [130],
-    "description": "Restaure 130 PV à votre pays en jeu."
+    "description": "Une unité sanitaire sur camions installe ses tentes à quelques kilomètres du front. Soigne 130 PV à votre pays en jeu."
   },
   {
     "id": "ACT-007",
@@ -60,7 +60,7 @@
     "cibles": ["jeu"],
     "variables": ["etat"],
     "valeurs": [110],
-    "description": "Restaure 110 PV à votre pays en jeu."
+    "description": "Des caisses d'outils permettent de rafistoler l'essentiel avant que la situation n'empire. Soigne 110 PV à votre pays en jeu."
   },
   {
     "id": "ACT-008",
@@ -69,7 +69,7 @@
     "cibles": ["jeu"],
     "variables": ["etat"],
     "valeurs": [140],
-    "description": "Restaure 140 PV à votre pays en jeu."
+    "description": "Ponts, routes, réseaux : le génie civil s'active dès le premier cessez-le-feu. Soigne 140 PV à votre pays en jeu."
   },
   {
     "id": "ACT-009",
@@ -78,7 +78,7 @@
     "cibles": ["jeu"],
     "variables": ["etat"],
     "valeurs": [150],
-    "description": "Restaure 150 PV à votre pays en jeu."
+    "description": "Les deux camps suspendent les hostilités pour évacuer les civils et souffler. Soigne 150 PV à votre pays en jeu."
   },
   {
     "id": "ACT-010",
@@ -87,7 +87,7 @@
     "cibles": ["jeu"],
     "variables": ["etat"],
     "valeurs": [90],
-    "description": "Restaure 90 PV à votre pays en jeu."
+    "description": "Quelques médecins volontaires, une camionnette et de la morphine — l'essentiel. Soigne 90 PV à votre pays en jeu."
   },
   {
     "id": "ACT-011",
@@ -96,7 +96,7 @@
     "cibles": ["jeu"],
     "variables": ["etat"],
     "valeurs": [115],
-    "description": "Restaure 115 PV à votre pays en jeu."
+    "description": "La population se mobilise et les dons de sang affluent dans les centres médicaux. Soigne 115 PV à votre pays en jeu."
   },
   {
     "id": "ACT-012",
@@ -105,34 +105,34 @@
     "cibles": ["jeu"],
     "variables": ["etat"],
     "valeurs": [125],
-    "description": "Restaure 125 PV à votre pays en jeu."
+    "description": "Les réformes s'enchaînent à un rythme effréné, laissant peu de place aux cicatrices. Soigne 125 PV à votre pays en jeu."
   },
   {
     "id": "ACT-013",
     "nom": "Cyber-Attaque Étatique",
-    "cond": { "type": ["Renseignement"] },
-    "cibles": ["outilA"],
-    "variables": [null],
-    "valeurs": [1],
-    "description": "Désactive la carte outil adverse pour le prochain tour."
+    "cond": { "type": ["Renseignement"], "statMin": { "technologie": 50 } },
+    "cibles": ["outilA", "deck"],
+    "variables": [null, "emplacement"],
+    "valeurs": [2, [1, "main"]],
+    "description": "Nations de Renseignement, si votre technologie atteint 50. Des hackers frappent les serveurs adverses. Bloque l'outil adverse 2 tours. Pioche 1 carte."
   },
   {
     "id": "ACT-014",
     "nom": "Tempête de Sable",
     "cond": { "terrain": ["Désertique"] },
-    "cibles": ["outilA"],
-    "variables": [null],
-    "valeurs": [1],
-    "description": "Désactive la carte outil adverse pour le prochain tour."
+    "cibles": ["outilA", "jeu"],
+    "variables": [null, "etat"],
+    "valeurs": [2, 30],
+    "description": "En terrain Désertique, le vent avale radars et antennes sous des tonnes de sable. Bloque l'outil adverse 2 tours. Soigne 30 PV."
   },
   {
     "id": "ACT-015",
     "nom": "Sabotage Militaire",
-    "cond": { "type": ["Militaire"] },
-    "cibles": ["outilA"],
-    "variables": [null],
-    "valeurs": [1],
-    "description": "Désactive la carte outil adverse pour le prochain tour."
+    "cond": { "rang": ["Établi", "Dominant", "Hégémonie"] },
+    "cibles": ["outilA", "deck"],
+    "variables": [null, "emplacement"],
+    "valeurs": [2, [1, "main"]],
+    "description": "Pays Établis ou supérieurs. Seules les grandes puissances maîtrisent l'infiltration en territoire ennemi. Bloque l'outil adverse 2 tours. Pioche 1 carte."
   },
   {
     "id": "ACT-016",
@@ -140,8 +140,8 @@
     "cond": null,
     "cibles": ["outilA"],
     "variables": [null],
-    "valeurs": [1],
-    "description": "Désactive la carte outil adverse pour le prochain tour."
+    "valeurs": [2],
+    "description": "Le camion banalisé émet sur toutes les fréquences, plongeant les communications adverses dans le chaos. Bloque la carte outil adverse pour 2 tours."
   },
   {
     "id": "ACT-017",
@@ -149,8 +149,8 @@
     "cond": null,
     "cibles": ["outilA"],
     "variables": [null],
-    "valeurs": [1],
-    "description": "Désactive la carte outil adverse pour le prochain tour."
+    "valeurs": [2],
+    "description": "Une surtension soigneusement déclenchée fait griller les composants un à un. Bloque la carte outil adverse pour 2 tours."
   },
   {
     "id": "ACT-018",
@@ -158,35 +158,35 @@
     "cond": null,
     "cibles": ["outilA"],
     "variables": [null],
-    "valeurs": [1],
-    "description": "Désactive la carte outil adverse pour le prochain tour."
+    "valeurs": [2],
+    "description": "Une pince coupante dans l'obscurité d'un sous-sol serveur suffit à tout arrêter. Bloque la carte outil adverse pour 2 tours."
   },
   {
     "id": "ACT-019",
     "nom": "Virus Informatique",
     "cond": null,
-    "cibles": ["outilA"],
-    "variables": [null],
-    "valeurs": [1],
-    "description": "Désactive la carte outil adverse pour le prochain tour."
+    "cibles": ["outilA", "deck"],
+    "variables": [null, "emplacement"],
+    "valeurs": [1, [1, "main"]],
+    "description": "Le malware ouvre une porte dérobée avant de s'effacer — une fenêtre s'est ouverte. Bloque l'outil adverse 1 tour. Pioche 1 carte."
   },
   {
     "id": "ACT-020",
     "nom": "Panne de Secteur",
     "cond": null,
-    "cibles": ["outilA"],
-    "variables": [null],
-    "valeurs": [1],
-    "description": "Désactive la carte outil adverse pour le prochain tour."
+    "cibles": ["outilA", "jeu"],
+    "variables": [null, "etat"],
+    "valeurs": [1, 50],
+    "description": "Un transformateur lâche, plongeant le quartier dans le noir — juste le temps de souffler. Bloque l'outil adverse 1 tour. Soigne 50 PV."
   },
   {
     "id": "ACT-021",
     "nom": "Dysfonctionnement",
     "cond": null,
-    "cibles": ["outilA"],
-    "variables": [null],
-    "valeurs": [1],
-    "description": "Désactive la carte outil adverse pour le prochain tour."
+    "cibles": ["outilA", "jeu"],
+    "variables": [null, "etat"],
+    "valeurs": [1, 30],
+    "description": "Le système rend l'âme au pire moment — une brèche dans laquelle s'engouffrer. Bloque l'outil adverse 1 tour. Soigne 30 PV."
   },
   {
     "id": "ACT-022",
@@ -195,7 +195,7 @@
     "cibles": ["outilA"],
     "variables": [null],
     "valeurs": [1],
-    "description": "Désactive la carte outil adverse pour le prochain tour."
+    "description": "Les protocoles s'embrouillent, laissant les opérateurs adverses incapables d'agir. Bloque la carte outil adverse pour 1 tour."
   },
   {
     "id": "ACT-023",
@@ -204,7 +204,7 @@
     "cibles": ["outilA"],
     "variables": [null],
     "valeurs": [1],
-    "description": "Désactive la carte outil adverse pour le prochain tour."
+    "description": "Des parasites sur toutes les ondes : la carte outil adverse est aveugle et muette. Bloque la carte outil adverse pour 1 tour."
   },
   {
     "id": "ACT-024",
@@ -213,196 +213,214 @@
     "cibles": ["outilA"],
     "variables": [null],
     "valeurs": [1],
-    "description": "Désactive la carte outil adverse pour le prochain tour."
+    "description": "Trop d'ordres simultanés — la ligne s'effondre sous son propre poids. Bloque la carte outil adverse pour 1 tour."
   },
   {
     "id": "ACT-025",
     "nom": "Intelligence Artificielle",
-    "cond": { "type": ["Renseignement"] },
-    "cibles": ["main"],
-    "variables": [null],
-    "valeurs": [3],
-    "description": "Piochez 3 cartes depuis votre deck."
+    "cond": { "rang": ["Établi", "Dominant", "Hégémonie"] },
+    "cibles": ["deck"],
+    "variables": ["emplacement"],
+    "valeurs": [[3, "main"]],
+    "description": "Pays Établis ou supérieurs. Seules les grandes puissances disposent d'une IA capable d'analyser et d'anticiper les prochains coups. Piochez 3 cartes."
   },
   {
     "id": "ACT-026",
     "nom": "Routes Maritimes",
-    "cond": { "terrain": ["Océanique"] },
-    "cibles": ["main"],
-    "variables": [null],
-    "valeurs": [3],
-    "description": "Piochez 3 cartes depuis votre deck."
+    "cond": {
+      "terrain": ["Océanique"],
+      "rang": ["Émergent", "Établi", "Dominant", "Hégémonie"]
+    },
+    "cibles": ["deck"],
+    "variables": ["emplacement"],
+    "valeurs": [[3, "main"]],
+    "description": "En terrain Océanique, pays non Marginaux. Vos navires marchands drainent des informations sur chaque port du globe. Piochez 3 cartes."
   },
   {
     "id": "ACT-027",
     "nom": "Analyse de Marché",
-    "cond": { "type": ["Économique"] },
-    "cibles": ["main"],
-    "variables": [null],
-    "valeurs": [3],
-    "description": "Piochez 3 cartes depuis votre deck."
+    "cond": { "type": ["Économique"], "statMin": { "economie": 50 } },
+    "cibles": ["deck"],
+    "variables": ["emplacement"],
+    "valeurs": [[3, "main"]],
+    "description": "Nations Économiques avec une économie d'au moins 50. Vos analystes déchiffrent les marchés mondiaux et anticipent les mouvements. Piochez 3 cartes."
   },
   {
     "id": "ACT-028",
     "nom": "Lecture de Rapport",
     "cond": null,
-    "cibles": ["main"],
-    "variables": [null],
-    "valeurs": [1],
-    "description": "Piochez 1 carte depuis votre deck."
+    "cibles": ["deck"],
+    "variables": ["emplacement"],
+    "valeurs": [[1, "main"]],
+    "description": "Un classeur poussiéreux, un café froid et une révélation utile en bas de la page 47. Piochez 1 carte."
   },
   {
     "id": "ACT-029",
     "nom": "Briefing Stratégique",
     "cond": null,
-    "cibles": ["main"],
-    "variables": [null],
-    "valeurs": [2],
-    "description": "Piochez 2 cartes depuis votre deck."
+    "cibles": ["deck"],
+    "variables": ["emplacement"],
+    "valeurs": [[2, "main"]],
+    "description": "La salle de crise se remplit, les cartes s'étalent et les analystes parlent vite — et bien. Piochez 2 cartes."
   },
   {
     "id": "ACT-030",
     "nom": "Espionnage Léger",
     "cond": null,
-    "cibles": ["main"],
-    "variables": [null],
-    "valeurs": [1],
-    "description": "Piochez 1 carte depuis votre deck."
+    "cibles": ["deck"],
+    "variables": ["emplacement"],
+    "valeurs": [[1, "main"]],
+    "description": "Un contact discret glisse une enveloppe sous la table sans croiser votre regard. Piochez 1 carte."
   },
   {
     "id": "ACT-031",
     "nom": "Veille Diplomatique",
     "cond": null,
-    "cibles": ["main"],
-    "variables": [null],
-    "valeurs": [2],
-    "description": "Piochez 2 cartes depuis votre deck."
+    "cibles": ["deck"],
+    "variables": ["emplacement"],
+    "valeurs": [[2, "main"]],
+    "description": "Les couloirs des ambassades bruissent de rumeurs que seule une oreille attentive sait démêler. Piochez 2 cartes."
   },
   {
     "id": "ACT-032",
     "nom": "Téléchargement",
     "cond": null,
-    "cibles": ["main"],
-    "variables": [null],
-    "valeurs": [1],
-    "description": "Piochez 1 carte depuis votre deck."
+    "cibles": ["deck", "jeu"],
+    "variables": ["emplacement", "etat"],
+    "valeurs": [[1, "main"], 30],
+    "description": "Des serveurs déclassifiés rouvrent l'accès à des ressources longtemps inaccessibles. Piochez 1 carte et soignez 30 PV."
   },
   {
     "id": "ACT-033",
     "nom": "Nouveaux Contacts",
     "cond": null,
-    "cibles": ["main"],
-    "variables": [null],
-    "valeurs": [1],
-    "description": "Piochez 1 carte depuis votre deck."
+    "cibles": ["deck"],
+    "variables": ["emplacement"],
+    "valeurs": [[1, "main"]],
+    "description": "Un carnet d'adresses s'enrichit, ouvrant des portes que l'on croyait fermées à jamais. Piochez 1 carte."
   },
   {
     "id": "ACT-034",
     "nom": "Archives d'État",
     "cond": null,
-    "cibles": ["main"],
-    "variables": [null],
-    "valeurs": [2],
-    "description": "Piochez 2 cartes depuis votre deck."
+    "cibles": ["deck"],
+    "variables": ["emplacement"],
+    "valeurs": [[2, "main"]],
+    "description": "Des dossiers classifiés remontent à la surface, révélant ce que l'histoire a soigneusement enterré. Piochez 2 cartes."
   },
   {
     "id": "ACT-035",
     "nom": "Flux d'Informations",
     "cond": null,
-    "cibles": ["main"],
-    "variables": [null],
-    "valeurs": [1],
-    "description": "Piochez 1 carte depuis votre deck."
+    "cibles": ["deck", "jeu"],
+    "variables": ["emplacement", "etat"],
+    "valeurs": [[1, "main"], 20],
+    "description": "Les données circulent plus vite que les lois, apportant des ressources inattendues. Piochez 1 carte et soignez 20 PV."
   },
   {
     "id": "ACT-036",
     "nom": "Analyse Satellite",
     "cond": null,
-    "cibles": ["main"],
-    "variables": [null],
-    "valeurs": [2],
-    "description": "Piochez 2 cartes depuis votre deck."
+    "cibles": ["deck"],
+    "variables": ["emplacement"],
+    "valeurs": [[2, "main"]],
+    "description": "Depuis l'orbite, les capteurs ne mentent pas : positions, mouvements, intentions — tout est là. Piochez 2 cartes."
   },
   {
     "id": "ACT-037",
     "nom": "Redéploiement Tactique",
-    "cond": { "type": ["Militaire"] },
-    "cibles": ["jeu"],
-    "variables": ["emplacement"],
-    "valeurs": [[1, "banc"]],
-    "description": "Échangez gratuitement votre pays actif avec une carte choisie de votre banc."
+    "cond": { "statMin": { "puissance": 65 } },
+    "cibles": ["jeu", "jeu"],
+    "variables": ["emplacement", "etat"],
+    "valeurs": [[1, "banc"], 60],
+    "description": "Si votre puissance atteint au moins 65, votre armée maîtrise la rotation au front à la perfection. Échange avec le banc. Soigne l'entrant de 60 PV."
   },
   {
     "id": "ACT-038",
     "nom": "Passage de Glace",
-    "cond": { "terrain": ["Glacial"] },
-    "cibles": ["jeu"],
-    "variables": ["emplacement"],
-    "valeurs": [[1, "banc"]],
-    "description": "Échangez gratuitement votre pays actif avec une carte choisie de votre banc."
+    "cond": {
+      "terrain": ["Glacial"],
+      "rang": ["Émergent", "Établi", "Dominant", "Hégémonie"]
+    },
+    "cibles": ["jeu", "deck"],
+    "variables": ["emplacement", "emplacement"],
+    "valeurs": [
+      [1, "banc"],
+      [1, "main"]
+    ],
+    "description": "En terrain Glacial, pays non Marginaux. Seuls les pays aguerris connaissent les routes arctiques secrètes. Échange avec le banc. Pioche 1 carte."
   },
   {
     "id": "ACT-039",
     "nom": "Sommet International",
-    "cond": { "type": ["Diplomatique"] },
-    "cibles": ["jeu"],
-    "variables": ["emplacement"],
-    "valeurs": [[1, "banc"]],
-    "description": "Échangez gratuitement votre pays actif avec une carte choisie de votre banc."
+    "cond": { "type": ["Diplomatique"], "statMin": { "stabilite": 55 } },
+    "cibles": ["jeu", "jeu"],
+    "variables": ["emplacement", "etat"],
+    "valeurs": [[1, "banc"], 50],
+    "description": "Nations Diplomatiques avec une stabilité d'au moins 55. La crédibilité de votre nation donne du poids. Échange avec le banc. Soigne l'entrant de 50 PV."
   },
   {
     "id": "ACT-040",
     "nom": "Relève de la Garde",
     "cond": null,
-    "cibles": ["jeu"],
-    "variables": ["emplacement"],
-    "valeurs": [[1, "banc"]],
-    "description": "Échangez votre pays actif avec une carte de votre banc gratuitement."
+    "cibles": ["jeu", "jeu"],
+    "variables": ["emplacement", "etat"],
+    "valeurs": [[1, "banc"], 40],
+    "description": "La cérémonie est sobre — les nouveaux arrivants prennent position avec une froide détermination. Échange avec le banc. Soigne l'entrant de 40 PV."
   },
   {
     "id": "ACT-041",
     "nom": "Rotation de Troupes",
     "cond": null,
-    "cibles": ["jeu"],
-    "variables": ["emplacement"],
-    "valeurs": [[1, "banc"]],
-    "description": "Échangez votre pays actif avec une carte de votre banc gratuitement."
+    "cibles": ["jeu", "jeu"],
+    "variables": ["emplacement", "etat"],
+    "valeurs": [[1, "banc"], 40],
+    "description": "Les soldats épuisés cèdent la place à des renforts reposés, redonnant vigueur au front. Échange avec le banc. Soigne l'entrant de 40 PV."
   },
   {
     "id": "ACT-042",
     "nom": "Retrait Stratégique",
     "cond": null,
-    "cibles": ["jeu"],
-    "variables": ["emplacement"],
-    "valeurs": [[1, "banc"]],
-    "description": "Échangez votre pays actif avec une carte de votre banc gratuitement."
+    "cibles": ["jeu", "jeu"],
+    "variables": ["etat", "emplacement"],
+    "valeurs": [40, [1, "banc"]],
+    "description": "Reculer pour mieux sauter : la nation se soigne avant de rejoindre les réserves stratégiques. Soigne 40 PV puis échange avec le banc."
   },
   {
     "id": "ACT-043",
     "nom": "Changement politique",
     "cond": null,
-    "cibles": ["jeu"],
-    "variables": ["emplacement"],
-    "valeurs": [[1, "banc"]],
-    "description": "Échangez votre pays actif avec une carte de votre banc gratuitement."
+    "cibles": ["jeu", "deck"],
+    "variables": ["emplacement", "emplacement"],
+    "valeurs": [
+      [1, "banc"],
+      [1, "main"]
+    ],
+    "description": "Un nouveau gouvernement redistribue les cartes — au sens propre comme au figuré. Échange avec le banc. Pioche 1 carte."
   },
   {
     "id": "ACT-044",
     "nom": "Substitution",
     "cond": null,
-    "cibles": ["jeu"],
-    "variables": ["emplacement"],
-    "valeurs": [[1, "banc"]],
-    "description": "Échangez votre pays actif avec une carte de votre banc gratuitement."
+    "cibles": ["jeu", "deck"],
+    "variables": ["emplacement", "emplacement"],
+    "valeurs": [
+      [1, "banc"],
+      [1, "main"]
+    ],
+    "description": "Un pays fait place à un autre dans la plus totale discrétion, les dossiers transmis à la volée. Échange avec le banc. Pioche 1 carte."
   },
   {
     "id": "ACT-045",
     "nom": "Mise en Réserve",
     "cond": null,
-    "cibles": ["jeu"],
-    "variables": ["emplacement"],
-    "valeurs": [[1, "banc"]],
-    "description": "Échangez votre pays actif avec une carte de votre banc gratuitement."
+    "cibles": ["jeu", "deck"],
+    "variables": ["emplacement", "emplacement"],
+    "valeurs": [
+      [1, "banc"],
+      [2, "main"]
+    ],
+    "description": "La nation active rejoint les réserves, libérant énergie et informations pour la suite. Échange avec le banc. Pioche 2 cartes."
   },
   {
     "id": "ACT-046",
@@ -411,7 +429,7 @@
     "cibles": ["jeu"],
     "variables": ["emplacement"],
     "valeurs": [[1, "banc"]],
-    "description": "Échangez votre pays actif avec une carte de votre banc gratuitement."
+    "description": "Rien d'exceptionnel : la relève se fait dans l'ordre, selon le protocole établi. Échangez votre pays actif avec une carte du banc."
   },
   {
     "id": "ACT-047",
@@ -420,7 +438,7 @@
     "cibles": ["jeu"],
     "variables": ["emplacement"],
     "valeurs": [[1, "banc"]],
-    "description": "Échangez votre pays actif avec une carte de votre banc gratuitement."
+    "description": "Un réajustement discret des priorités déplace les pièces sur l'échiquier sans faire de vagues. Échangez votre pays actif avec une carte du banc."
   },
   {
     "id": "ACT-048",
@@ -429,97 +447,115 @@
     "cibles": ["jeu"],
     "variables": ["emplacement"],
     "valeurs": [[1, "banc"]],
-    "description": "Échangez votre pays actif avec une carte de votre banc gratuitement."
+    "description": "Les clés passent de main en main, la transition s'effectue sans accroc ni fracas. Échangez votre pays actif avec une carte du banc."
   },
   {
     "id": "ACT-049",
     "nom": "Coup d'État",
-    "cond": { "type": ["Isolationniste"] },
-    "cibles": ["jeu"],
-    "variables": ["emplacement"],
-    "valeurs": [[1, "banc"]],
-    "description": "Force l'échange aléatoire de votre pays actif avec une carte du banc."
+    "cond": { "type": ["Isolationniste"], "etatMax": 380 },
+    "cibles": ["jeu", "deck"],
+    "variables": ["emplacement", "emplacement"],
+    "valeurs": [
+      [1, "banc"],
+      [2, "main"]
+    ],
+    "description": "Nations Isolationnistes, si votre pays est ≤ 380 PV. Le chaos du putsch profite à ceux qui savent s'y préparer. Échange aléatoire avec le banc. Pioche 2 cartes."
   },
   {
     "id": "ACT-050",
     "nom": "Avalanche de Montagne",
     "cond": { "terrain": ["Montagneux"] },
-    "cibles": ["jeu"],
-    "variables": ["emplacement"],
-    "valeurs": [[1, "banc"]],
-    "description": "Force l'échange aléatoire de votre pays actif avec une carte du banc."
+    "cibles": ["jeu", "jeu"],
+    "variables": ["emplacement", "etat"],
+    "valeurs": [[1, "banc"], 50],
+    "description": "En terrain Montagneux, la roche force tout le monde à reculer. Échange aléatoire avec le banc. Soigne l'entrant de 50 PV."
   },
   {
     "id": "ACT-051",
     "nom": "Bulle Économique",
-    "cond": { "type": ["Économique"] },
-    "cibles": ["jeu"],
-    "variables": ["emplacement"],
-    "valeurs": [[1, "banc"]],
-    "description": "Force l'échange aléatoire de votre pays actif avec une carte du banc."
+    "cond": { "type": ["Économique"], "statMin": { "economie": 45 } },
+    "cibles": ["jeu", "deck"],
+    "variables": ["emplacement", "emplacement"],
+    "valeurs": [
+      [1, "banc"],
+      [2, "main"]
+    ],
+    "description": "Nations Économiques avec une économie d'au moins 45. La bulle libère une fenêtre d'opportunité avant d'éclater. Échange aléatoire avec le banc. Pioche 2 cartes."
   },
   {
     "id": "ACT-052",
     "nom": "Chaleur de Désert",
     "cond": { "terrain": ["Désertique"] },
-    "cibles": ["jeu"],
-    "variables": ["emplacement"],
-    "valeurs": [[1, "banc"]],
-    "description": "Force l'échange aléatoire de votre pays actif avec une carte du banc."
+    "cibles": ["jeu", "jeu"],
+    "variables": ["emplacement", "etat"],
+    "valeurs": [[1, "banc"], 40],
+    "description": "En terrain Désertique, la chaleur brouille les plans — la relève arrive avec un regain de vigueur. Échange aléatoire. Soigne l'entrant de 40 PV."
   },
   {
     "id": "ACT-053",
     "nom": "Troubles Civils",
     "cond": null,
-    "cibles": ["jeu"],
-    "variables": ["emplacement"],
-    "valeurs": [[1, "banc"]],
-    "description": "Échangez aléatoirement votre pays actif avec une carte de votre banc."
+    "cibles": ["jeu", "deck"],
+    "variables": ["emplacement", "emplacement"],
+    "valeurs": [
+      [1, "banc"],
+      [1, "main"]
+    ],
+    "description": "Les rues s'embrasent et les priorités changent en une heure. Échange aléatoire avec le banc. Pioche 1 carte dans la confusion."
   },
   {
     "id": "ACT-054",
     "nom": "Scandale Politique",
     "cond": null,
-    "cibles": ["jeu"],
-    "variables": ["emplacement"],
-    "valeurs": [[1, "banc"]],
-    "description": "Échangez aléatoirement votre pays actif avec une carte de votre banc."
+    "cibles": ["jeu", "deck"],
+    "variables": ["emplacement", "emplacement"],
+    "valeurs": [
+      [1, "banc"],
+      [1, "main"]
+    ],
+    "description": "Un lanceur d'alerte force un remaniement précipité — qui sera le prochain au front ? Échange aléatoire. Pioche 1 carte."
   },
   {
     "id": "ACT-055",
     "nom": "Révolte Inattendue",
     "cond": null,
-    "cibles": ["jeu"],
-    "variables": ["emplacement"],
-    "valeurs": [[1, "banc"]],
-    "description": "Échangez aléatoirement votre pays actif avec une carte de votre banc."
+    "cibles": ["jeu", "deck"],
+    "variables": ["emplacement", "emplacement"],
+    "valeurs": [
+      [1, "banc"],
+      [2, "main"]
+    ],
+    "description": "Personne n'avait vu venir l'insurrection. Dans la précipitation du repli, deux rapports urgents arrivent. Échange aléatoire. Pioche 2 cartes."
   },
   {
     "id": "ACT-056",
     "nom": "Élections Surprise",
     "cond": null,
-    "cibles": ["jeu"],
-    "variables": ["emplacement"],
-    "valeurs": [[1, "banc"]],
-    "description": "Échangez aléatoirement votre pays actif avec une carte de votre banc."
+    "cibles": ["jeu", "jeu"],
+    "variables": ["etat", "emplacement"],
+    "valeurs": [30, [1, "banc"]],
+    "description": "Un scrutin anticipé rebat les cartes — la nation sortante se soigne avant de rejoindre la réserve. Soigne 30 PV puis échange aléatoire avec le banc."
   },
   {
     "id": "ACT-057",
     "nom": "Manifestations",
     "cond": null,
-    "cibles": ["jeu"],
-    "variables": ["emplacement"],
-    "valeurs": [[1, "banc"]],
-    "description": "Échangez aléatoirement votre pays actif avec une carte de votre banc."
+    "cibles": ["jeu", "jeu"],
+    "variables": ["emplacement", "etat"],
+    "valeurs": [[1, "banc"], 30],
+    "description": "La pression populaire force un changement de cap — la relève arrive portée par un élan collectif. Échange aléatoire. Soigne l'entrant de 30 PV."
   },
   {
     "id": "ACT-058",
     "nom": "Crise de Succession",
     "cond": null,
-    "cibles": ["jeu"],
-    "variables": ["emplacement"],
-    "valeurs": [[1, "banc"]],
-    "description": "Échangez aléatoirement votre pays actif avec une carte de votre banc."
+    "cibles": ["jeu", "deck"],
+    "variables": ["emplacement", "emplacement"],
+    "valeurs": [
+      [1, "banc"],
+      [1, "main"]
+    ],
+    "description": "La lutte pour le pouvoir sème la confusion — mais révèle aussi des informations précieuses. Échange aléatoire. Pioche 1 carte."
   },
   {
     "id": "ACT-059",
@@ -528,7 +564,7 @@
     "cibles": ["jeu"],
     "variables": ["emplacement"],
     "valeurs": [[1, "banc"]],
-    "description": "Échangez aléatoirement votre pays actif avec une carte de votre banc."
+    "description": "Un cabinet se forme dans la nuit, loin des caméras. Qui prend les rênes ? Le suspense est entier. Échange aléatoire avec le banc."
   },
   {
     "id": "ACT-060",
@@ -537,6 +573,6 @@
     "cibles": ["jeu"],
     "variables": ["emplacement"],
     "valeurs": [[1, "banc"]],
-    "description": "Échangez aléatoirement votre pays actif avec une carte de votre banc."
+    "description": "Quand plus rien ne tient, tout peut basculer. Un pays sort, un autre entre — sans crier gare. Échange aléatoire avec le banc."
   }
 ]

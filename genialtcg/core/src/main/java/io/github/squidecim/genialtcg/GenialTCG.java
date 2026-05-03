@@ -139,24 +139,59 @@ public class GenialTCG extends Game {
                 String nom = entry.getString("nom", "Inconnu");
                 String id = entry.getString("id", "N/A");
 
+                // --- Parsing des conditions ---
                 String type = "N/A";
-                String condStr = "—";
+                String[] condTypes    = null;
+                String[] condTerrains = null;
+                String[] condRangs    = null;
+                int    condEtatMin    = 0;
+                int    condEtatMax    = 0;
+                String condStatMinKey = null;
+                int    condStatMinVal = 0;
+                String condStatMaxKey = null;
+                int    condStatMaxVal = 0;
+                StringBuilder condBuf = new StringBuilder();
+
                 JsonValue condEntry = entry.get("cond");
                 if (condEntry != null && !condEntry.isNull()) {
                     if (condEntry.has("type")) {
                         JsonValue tv = condEntry.get("type");
-                        String val = tv.isArray()
-                            ? tv.getString(0)
-                            : tv.asString();
-                        type = val;
-                        condStr = "type : " + val;
-                    } else if (condEntry.has("terrain")) {
+                        condTypes = tv.isArray() ? tv.asStringArray() : new String[]{ tv.asString() };
+                        type = condTypes[0];
+                        appendCond(condBuf, "type : " + join(condTypes));
+                    }
+                    if (condEntry.has("terrain")) {
                         JsonValue tv = condEntry.get("terrain");
-                        condStr =
-                            "terrain : " +
-                            (tv.isArray() ? tv.getString(0) : tv.asString());
+                        condTerrains = tv.isArray() ? tv.asStringArray() : new String[]{ tv.asString() };
+                        appendCond(condBuf, "terrain : " + join(condTerrains));
+                    }
+                    if (condEntry.has("rang")) {
+                        JsonValue rv = condEntry.get("rang");
+                        condRangs = rv.isArray() ? rv.asStringArray() : new String[]{ rv.asString() };
+                        appendCond(condBuf, "rang : " + join(condRangs));
+                    }
+                    if (condEntry.has("etatMin")) {
+                        condEtatMin = condEntry.getInt("etatMin");
+                        appendCond(condBuf, "≥ " + condEtatMin + " PV");
+                    }
+                    if (condEntry.has("etatMax")) {
+                        condEtatMax = condEntry.getInt("etatMax");
+                        appendCond(condBuf, "≤ " + condEtatMax + " PV");
+                    }
+                    if (condEntry.has("statMin")) {
+                        JsonValue sm = condEntry.get("statMin").child();
+                        condStatMinKey = sm.name();
+                        condStatMinVal = sm.asInt();
+                        appendCond(condBuf, condStatMinKey + " ≥ " + condStatMinVal);
+                    }
+                    if (condEntry.has("statMax")) {
+                        JsonValue sm = condEntry.get("statMax").child();
+                        condStatMaxKey = sm.name();
+                        condStatMaxVal = sm.asInt();
+                        appendCond(condBuf, condStatMaxKey + " ≤ " + condStatMaxVal);
                     }
                 }
+                String condStr = condBuf.length() > 0 ? condBuf.toString() : "—";
 
                 String[] cibles = new String[0];
                 String[] variables = new String[0];
@@ -201,7 +236,16 @@ public class GenialTCG extends Game {
                     variables,
                     valeurs
                 );
-                card.cond = condStr;
+                card.cond         = condStr;
+                card.condTypes    = condTypes;
+                card.condTerrains = condTerrains;
+                card.condRangs    = condRangs;
+                card.condEtatMin  = condEtatMin;
+                card.condEtatMax  = condEtatMax;
+                card.condStatMinKey = condStatMinKey;
+                card.condStatMinVal = condStatMinVal;
+                card.condStatMaxKey = condStatMaxKey;
+                card.condStatMaxVal = condStatMaxVal;
                 allCardsMap.put(card.getAtlasRegionName(), card);
             }
         } catch (Exception e) {
@@ -210,6 +254,21 @@ public class GenialTCG extends Game {
                 "Erreur lecture JSON " + path + " : " + e.getMessage()
             );
         }
+    }
+
+    private static void appendCond(StringBuilder sb, String part) {
+        if (sb.length() > 0) sb.append(" + ");
+        sb.append(part);
+    }
+
+    private static String join(String[] arr) {
+        if (arr == null || arr.length == 0) return "";
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < arr.length; i++) {
+            if (i > 0) sb.append(", ");
+            sb.append(arr[i]);
+        }
+        return sb.toString();
     }
 
     public void saveDecks() {

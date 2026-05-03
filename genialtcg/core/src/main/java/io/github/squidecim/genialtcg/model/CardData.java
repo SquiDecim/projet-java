@@ -23,8 +23,19 @@ public class CardData {
     public String[] specialVariables;
     public Object[] specialValeurs; // Object[] car peut contenir des int ou des int[] (ex: [1, "main"])
 
-    // Condition d'activation (actions/outils uniquement)
+    // Condition d'activation (actions/outils uniquement) — affichage
     public String cond;
+
+    // Conditions structurées (évaluation en jeu)
+    public String[] condTypes;       // votre pays actif doit être de ce type
+    public String[] condTerrains;    // le terrain actif doit être ce terrain
+    public String[] condRangs;       // votre pays actif doit avoir ce rang
+    public int condEtatMin;          // PV minimum requis (0 = ignoré)
+    public int condEtatMax;          // PV maximum requis (0 = ignoré)
+    public String condStatMinKey;    // stat à vérifier (min), null = ignoré
+    public int condStatMinVal;       // seuil minimum de la stat
+    public String condStatMaxKey;    // stat à vérifier (max), null = ignoré
+    public int condStatMaxVal;       // seuil maximum de la stat
 
     public Texture texture;
 

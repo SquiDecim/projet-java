@@ -176,12 +176,13 @@ public class GameController implements InputProcessor, GameClient.NetworkListene
 
 
     private void applyCardEffect(CardData card, boolean isMe) {
+        if (!checkCondition(card, isMe)) return;
 
         for (int i = 0; i < card.specialCibles.length; i++) {
 
-            String cible = card.specialCibles[i];
+            String cible    = card.specialCibles[i];
             String variable = card.specialVariables[i];
-            Object valeur = card.specialValeurs[i];
+            Object valeur   = card.specialValeurs[i];
 
             boolean targetIsMe = false;
 
@@ -194,16 +195,11 @@ public class GameController implements InputProcessor, GameClient.NetworkListene
 
             switch (cible) {
                 case "jeu":
-                    target = isMe
-                        ? view.getMyTableCard()
-                        : view.getOpponentTableCard();
+                    target = isMe ? view.getMyTableCard() : view.getOpponentTableCard();
                     targetIsMe = isMe;
                     break;
-
                 case "jeuA":
-                    target = isMe
-                        ? view.getOpponentTableCard()
-                        : view.getMyTableCard();
+                    target = isMe ? view.getOpponentTableCard() : view.getMyTableCard();
                     targetIsMe = !isMe;
                     break;
             }
@@ -214,7 +210,57 @@ public class GameController implements InputProcessor, GameClient.NetworkListene
                     handleDeath(target, targetIsMe);
                 }
             }
+        }
+    }
 
+    private boolean checkCondition(CardData card, boolean isMe) {
+        boolean hasAny = card.condTypes != null || card.condTerrains != null
+            || card.condRangs != null || card.condEtatMin != 0
+            || card.condEtatMax != 0 || card.condStatMinKey != null
+            || card.condStatMaxKey != null;
+        if (!hasAny) return true;
+
+        CardDecal activeDecal = isMe ? view.getMyTableCard() : view.getOpponentTableCard();
+        if (activeDecal == null) return false;
+        CardData active = activeDecal.getData();
+
+        // type
+        if (card.condTypes != null) {
+            boolean ok = false;
+            for (String t : card.condTypes) if (t.equals(active.type)) { ok = true; break; }
+            if (!ok) return false;
+        }
+
+        // rang
+        if (card.condRangs != null) {
+            boolean ok = false;
+            for (String r : card.condRangs) if (r.equals(active.rank)) { ok = true; break; }
+            if (!ok) return false;
+        }
+
+        // etatMin / etatMax
+        if (card.condEtatMin != 0 && active.pv < card.condEtatMin) return false;
+        if (card.condEtatMax != 0 && active.pv > card.condEtatMax) return false;
+
+        // statMin / statMax
+        if (card.condStatMinKey != null && getStat(active, card.condStatMinKey) < card.condStatMinVal) return false;
+        if (card.condStatMaxKey != null && getStat(active, card.condStatMaxKey) > card.condStatMaxVal) return false;
+
+        // terrain : nécessite que le GameModel expose le terrain actif (à implémenter)
+        // if (card.condTerrains != null) { ... model.getCurrentTerrain() ... }
+
+        return true;
+    }
+
+    private int getStat(CardData card, String statName) {
+        if (card.stats == null) return 0;
+        switch (statName) {
+            case "puissance":   return card.stats.length > 0 ? card.stats[0] : 0;
+            case "economie":    return card.stats.length > 1 ? card.stats[1] : 0;
+            case "ressources":  return card.stats.length > 2 ? card.stats[2] : 0;
+            case "technologie": return card.stats.length > 3 ? card.stats[3] : 0;
+            case "stabilite":   return card.stats.length > 4 ? card.stats[4] : 0;
+            default: return 0;
         }
     }
 

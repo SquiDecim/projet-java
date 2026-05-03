@@ -1,32 +1,169 @@
-Cible possible : 
+═══════════════════════════════════════════════════════════
+  STANDARD DES DONNÉES JSON — GENIALTCG
+═══════════════════════════════════════════════════════════
 
-jeu : Affecte seulement votre carte en jeu.
-banc : Affecte seulement votre banc.
-main : Affecte seulement votre main.
-deck : Affecte seulement votre deck
-credit : affecte vos crédits
+────────────────────────────────────────────────────────────
+1. CIBLES  (champ "cibles" → tableau de strings)
+────────────────────────────────────────────────────────────
 
-jeuA : Affecte seulement la carte en jeu adverse.
-bancA : Affecte seulement le banc adverse.
-mainA : Affecte seulement la main adverse.
-deckA : Affecte seulement le deck adverse.
-outilA : Affecte seulement l’outil adverse.
-creditA : Affecte les crédits adverse 
+Cibles joueur :
+  jeu      Votre pays actif (en champ de bataille)
+  banc     Vos pays en réserve
+  main     Votre main
+  deck     Votre deck
+  credit   Vos crédits
 
-plateau : Affecte les cartes en jeu ainsi que les bancs .
+Cibles adverses :
+  jeuA     Le pays actif adverse
+  bancA    Les pays en réserve adverses
+  mainA    La main adverse
+  deckA    Le deck adverse
+  outilA   La carte outil adverse posée
+  creditA  Les crédits adverses  (exclusif aux effets spéciaux de pays)
 
-variable affectable et valeur en fonction de la/les cible(s) : 
+Cible globale :
+  plateau  Toutes les cartes en jeu ET tous les bancs (deux joueurs)
 
-Etat du pays : Entier positif ou négatif
+Un effet multi-cibles utilise plusieurs entrées dans le tableau.
+Chaque index de "cibles" correspond au même index dans "variables"
+et "valeurs".
 
-Puissance : Entier positif ou négatif
-Economie : 
-Entier positif : augmentation de la stat et donc des revenus du joueur
-Entier négatif : diminution de la stat et donc des revenus du joueur
-Ressources :Entier positif ou négatif
-Technologie : Entier positif ou négatif
-Stabilité : Entier positif ou négatif
+────────────────────────────────────────────────────────────
+2. VARIABLES & VALEURS  (champs "variables" / "valeurs")
+────────────────────────────────────────────────────────────
 
-CoutP: Entier positif ou négatif
-CoutES: Entier positif ou négatif
-emplacement carte : String de la cible d’arrivée
+  etat         PV du pays ciblé.
+               Valeur : entier  (positif = soin, négatif = dégâts)
+
+  puissance    Stat puissance du pays ciblé.
+  economie     Stat économie du pays ciblé.
+  ressources   Stat ressources du pays ciblé.
+  technologie  Stat technologie du pays ciblé.
+  stabilite    Stat stabilité du pays ciblé.
+               Valeur pour toutes ces stats : entier (positif = buff, négatif = débuff)
+
+  credit       Montant de crédits affectés.
+               Valeur : entier positif  (cible credit = gain, cible creditA = vol)
+
+  CoutP        Coût de pose du pays ciblé.
+               Valeur : entier (positif = augmente, négatif = réduit)
+
+  CoutES       Coût de l’effet spécial du pays ciblé.
+               Valeur : entier (positif = augmente, négatif = réduit)
+
+  emplacement  Déplace N cartes de/vers la cible selon la valeur.
+               Valeur : [N, "zone_arrivée"]
+               Zones valides : "main" | "banc" | "deck"
+
+  null         Aucune stat modifiée.
+               Valeur : entier = nombre de tours bloqués
+               (réservé exclusivement au blocage de carte outil via outilA)
+
+────────────────────────────────────────────────────────────
+3. CONDITIONS  (champ "cond")
+────────────────────────────────────────────────────────────
+
+null  →  Pas de condition, toujours jouable.
+
+Sinon : objet JSON. Toutes les clés présentes sont des conditions AND
+(toutes doivent être vraies simultanément).
+
+  "type"      ["Type1", ...]
+              Votre pays actif doit appartenir à l’un de ces types.
+              Types valides :
+                Militaire | Économique | Diplomatique
+                Renseignement | Isolationniste
+
+  "terrain"   ["Terrain1", ...]
+              Le terrain actif doit être l’un de ces terrains.
+              Terrains valides :
+                Désertique | Glacial | Tropical
+                Tempéré | Océanique | Montagneux
+
+  "rang"      ["Rang1", ...]
+              Votre pays actif doit avoir l’un de ces rangs.
+              Rangs valides (ordre croissant de puissance) :
+                Marginal | Émergent | Établi | Dominant | Hégémonie
+
+  "etatMin"   N  (entier)
+              Votre pays actif doit avoir ≥ N PV actuellement.
+              Plage de référence des PV en jeu : 200 – 720
+
+  "etatMax"   N  (entier)
+              Votre pays actif doit avoir ≤ N PV actuellement.
+              Plage de référence des PV en jeu : 200 – 720
+
+  "statMin"   { "nom_stat": N }
+              La stat indiquée de votre pays actif doit être ≥ N.
+              Stats utilisables : puissance | economie | ressources
+                                   technologie | stabilite
+              Plage de référence : 5 – 100
+
+  "statMax"   { "nom_stat": N }
+              La stat indiquée de votre pays actif doit être ≤ N.
+              Stats utilisables : puissance | economie | ressources
+                                   technologie | stabilite
+              Plage de référence : 5 – 100
+
+Exemples :
+  { "type": ["Militaire"] }
+    → Votre pays actif est de type Militaire.
+
+  { "terrain": ["Glacial"], "rang": ["Établi", "Dominant", "Hégémonie"] }
+    → Terrain Glacial ET votre pays est Établi, Dominant ou Hégémonie.
+
+  { "etatMax": 350, "statMin": { "technologie": 50 } }
+    → Votre pays a ≤ 350 PV ET sa technologie est ≥ 50.
+
+────────────────────────────────────────────────────────────
+4. RÈGLES PAR TYPE DE CARTE
+────────────────────────────────────────────────────────────
+
+CARTES ACTION  (usage unique, effet immédiat)
+  Effets autorisés — ces cinq effets et leurs combos uniquement :
+
+  Soin             cible : jeu ou banc
+                   variable : etat  |  valeur : entier positif
+
+  Bloque outil     cible : outilA
+                   variable : null  |  valeur : entier (nb de tours)
+
+  Pioche           cible : deck
+                   variable : emplacement  |  valeur : [N, "main"]
+
+  Swap libre       cible : jeu  (le joueur choisit la carte du banc)
+                   variable : emplacement  |  valeur : [1, "banc"]
+
+  Swap aléatoire   cible : jeu  (carte du banc choisie aléatoirement)
+                   variable : emplacement  |  valeur : [1, "banc"]
+
+  Note : swap libre et swap aléatoire ont la même structure JSON.
+  La distinction est portée par la description de la carte.
+
+  ⚠ Aucun autre effet n’est autorisé sur les cartes Action.
+
+CARTES OUTIL  (effet persistant tant que la carte est en jeu)
+  Effets autorisés — ces trois catégories et leurs combos uniquement :
+
+  Buff / Débuff stat    variables : puissance | economie | ressources
+                                     technologie | stabilite
+  Coût de pose          variable : CoutP
+  Coût effet spécial    variable : CoutES
+
+  Cibles valides : jeu | banc | jeuA | bancA | plateau
+
+  Équilibre obligatoire :
+  • Sans condition  → valeurs modérées : ±8 à ±15 (stats), ±8 à ±20 (coûts)
+  • Avec condition  → valeurs élevées  : ±15 à ±35, ou effets combo
+
+EFFETS SPÉCIAUX DE PAYS  (activés en dépensant des crédits)
+  Règles plus larges que les actions : peuvent cibler des cibles adverses,
+  infliger des dégâts et voler des crédits.
+
+  Cibles valides : jeu | banc | jeuA | bancA | deck | creditA
+  Variables valides : etat | emplacement | credit
+
+  etat positif  = soin sur la cible
+  etat négatif  = dégâts sur la cible (valide sur jeuA et bancA)
+  emplacement   = [N, "main"] pour piocher N cartes
+  credit        = montant volé (cible creditA) ou gagné (cible credit)

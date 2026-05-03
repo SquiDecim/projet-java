@@ -5,7 +5,7 @@
     "rang": "Marginal",
     "type": "Militaire",
     "cout": 150,
-    "etat": 298,
+    "etat": 270,
     "statistiques": {
       "puissance": 44,
       "economie": 45,
@@ -16,9 +16,15 @@
     "special": {
       "nom": "Cimetière des Empires",
       "cout": 50,
-      "cibles": ["jeuA"],
-      "variables": ["etat"],
-      "valeurs": [-100],
+      "cibles": [
+        "jeuA"
+      ],
+      "variables": [
+        "etat"
+      ],
+      "valeurs": [
+        -100
+      ],
       "description": "Exploite sa topographie montagneuse pour infliger 100 dégâts à l'unité adverse."
     },
     "lore": "Nation reconnue pour sa résistance farouche aux invasions étrangères."
@@ -28,8 +34,8 @@
     "nom": "Afrique du Sud",
     "rang": "Établi",
     "type": "Économique",
-    "cout": 350,
-    "etat": 446,
+    "cout": 550,
+    "etat": 490,
     "statistiques": {
       "puissance": 73,
       "economie": 64,
@@ -39,10 +45,22 @@
     },
     "special": {
       "nom": "Monopole Minier",
-      "cout": 116,
-      "cibles": ["deck", "jeu"],
-      "variables": ["emplacement", "etat"],
-      "valeurs": [[3, "main"], 50],
+      "cout": 175,
+      "cibles": [
+        "deck",
+        "jeu"
+      ],
+      "variables": [
+        "emplacement",
+        "etat"
+      ],
+      "valeurs": [
+        [
+          3,
+          "main"
+        ],
+        50
+      ],
       "description": "Exploite ses ressources et vous fait piocher 3 cartes et vous soigne de 50."
     },
     "lore": "Puissance clé africaine bâtie sur d'immenses richesses minières."
@@ -52,8 +70,8 @@
     "nom": "Albanie",
     "rang": "Émergent",
     "type": "Isolationniste",
-    "cout": 150,
-    "etat": 454,
+    "cout": 350,
+    "etat": 450,
     "statistiques": {
       "puissance": 68,
       "economie": 47,
@@ -63,10 +81,19 @@
     },
     "special": {
       "nom": "Héritage des Bunkers",
-      "cout": 34,
-      "cibles": ["creditA", "banc"],
-      "variables": [null, "etat"],
-      "valeurs": [-20, 40],
+      "cout": 100,
+      "cibles": [
+        "creditA",
+        "banc"
+      ],
+      "variables": [
+        "credit",
+        "etat"
+      ],
+      "valeurs": [
+        -20,
+        40
+      ],
       "description": "Utilise son réseau de défense pour voler 20 crédits et soigner une unité du banc de 40."
     },
     "lore": "Petit pays des Balkans autrefois fermé, parsemé de bunkers."
@@ -77,7 +104,7 @@
     "rang": "Émergent",
     "type": "Militaire",
     "cout": 350,
-    "etat": 540,
+    "etat": 510,
     "statistiques": {
       "puissance": 79,
       "economie": 61,
@@ -87,10 +114,19 @@
     },
     "special": {
       "nom": "Pression Gazière",
-      "cout": 116,
-      "cibles": ["creditA", "jeuA"],
-      "variables": [null, "etat"],
-      "valeurs": [-45, -30],
+      "cout": 120,
+      "cibles": [
+        "creditA",
+        "jeuA"
+      ],
+      "variables": [
+        "credit",
+        "etat"
+      ],
+      "valeurs": [
+        -45,
+        -30
+      ],
       "description": "Utilise son influence énergétique pour voler 45 crédits et infliger 30 dégâts."
     },
     "lore": "Le plus vaste pays d'Afrique, force régionale grâce à ses hydrocarbures."
@@ -101,7 +137,7 @@
     "rang": "Dominant",
     "type": "Économique",
     "cout": 750,
-    "etat": 586,
+    "etat": 640,
     "statistiques": {
       "puissance": 82,
       "economie": 79,
@@ -111,10 +147,19 @@
     },
     "special": {
       "nom": "Moteur Européen",
-      "cout": 250,
-      "cibles": ["jeuA", "bancA"],
-      "variables": ["etat", "etat"],
-      "valeurs": [-110, -50],
+      "cout": 265,
+      "cibles": [
+        "jeuA",
+        "bancA"
+      ],
+      "variables": [
+        "etat",
+        "etat"
+      ],
+      "valeurs": [
+        -110,
+        -50
+      ],
       "description": "Déploie sa puissance industrielle et inflige 110 dégâts et 50 à une carte du banc."
     },
     "lore": "Cœur industriel de l'Europe, leader mondial de l'ingénierie."
@@ -125,7 +170,7 @@
     "rang": "Marginal",
     "type": "Économique",
     "cout": 150,
-    "etat": 394,
+    "etat": 330,
     "statistiques": {
       "puissance": 33,
       "economie": 35,
@@ -136,9 +181,18 @@
     "special": {
       "nom": "Secret Bancaire",
       "cout": 45,
-      "cibles": ["creditA", "jeu"],
-      "variables": [null, "etat"],
-      "valeurs": [-50, 20],
+      "cibles": [
+        "creditA",
+        "jeu"
+      ],
+      "variables": [
+        "credit",
+        "etat"
+      ],
+      "valeurs": [
+        -50,
+        20
+      ],
       "description": "Vole 50 crédits à l'adversaire et soigne votre unité en jeu de 20."
     },
     "lore": "Principauté prospère grâce à son tourisme et sa fiscalité attractive."
@@ -149,7 +203,7 @@
     "rang": "Émergent",
     "type": "Économique",
     "cout": 350,
-    "etat": 510,
+    "etat": 490,
     "statistiques": {
       "puissance": 71,
       "economie": 56,
@@ -159,10 +213,19 @@
     },
     "special": {
       "nom": "Pétro-diplomatie",
-      "cout": 116,
-      "cibles": ["jeu", "banc"],
-      "variables": ["etat", "etat"],
-      "valeurs": [40, 30],
+      "cout": 120,
+      "cibles": [
+        "jeu",
+        "banc"
+      ],
+      "variables": [
+        "etat",
+        "etat"
+      ],
+      "valeurs": [
+        40,
+        30
+      ],
       "description": "Utilise ses revenus pétroliers pour vous soigner de 40 et une unité du banc de 30."
     },
     "lore": "Puissance pétrolière africaine en reconstruction rapide."
@@ -173,7 +236,7 @@
     "rang": "Marginal",
     "type": "Diplomatique",
     "cout": 150,
-    "etat": 300,
+    "etat": 270,
     "statistiques": {
       "puissance": 43,
       "economie": 31,
@@ -184,9 +247,21 @@
     "special": {
       "nom": "Pavillon de Complaisance",
       "cout": 45,
-      "cibles": ["creditA", "deck"],
-      "variables": [null, "emplacement"],
-      "valeurs": [-30, [1, "main"]],
+      "cibles": [
+        "creditA",
+        "deck"
+      ],
+      "variables": [
+        "credit",
+        "emplacement"
+      ],
+      "valeurs": [
+        -30,
+        [
+          1,
+          "main"
+        ]
+      ],
       "description": "Contourne les régulations pour voler 30 crédits et piocher 1 carte."
     },
     "lore": "État insulaire misant sur les services maritimes."
@@ -196,8 +271,8 @@
     "nom": "Arabie saoudite",
     "rang": "Dominant",
     "type": "Économique",
-    "cout": 550,
-    "etat": 540,
+    "cout": 750,
+    "etat": 620,
     "statistiques": {
       "puissance": 83,
       "economie": 71,
@@ -207,10 +282,19 @@
     },
     "special": {
       "nom": "Guerre des Prix",
-      "cout": 180,
-      "cibles": ["jeuA", "bancA"],
-      "variables": ["etat", "etat"],
-      "valeurs": [-100, -45],
+      "cout": 240,
+      "cibles": [
+        "jeuA",
+        "bancA"
+      ],
+      "variables": [
+        "etat",
+        "etat"
+      ],
+      "valeurs": [
+        -100,
+        -45
+      ],
       "description": "Inonde le marché pour infliger 100 dégâts en jeu et 45 à une unité du banc."
     },
     "lore": "Première puissance pétrolière au droit de l'homme vacillant."
@@ -221,7 +305,7 @@
     "rang": "Émergent",
     "type": "Économique",
     "cout": 350,
-    "etat": 460,
+    "etat": 450,
     "statistiques": {
       "puissance": 75,
       "economie": 67,
@@ -231,10 +315,19 @@
     },
     "special": {
       "nom": "Inflation Exportée",
-      "cout": 116,
-      "cibles": ["creditA", "jeuA"],
-      "variables": [null, "etat"],
-      "valeurs": [-60, -20],
+      "cout": 120,
+      "cibles": [
+        "creditA",
+        "jeuA"
+      ],
+      "variables": [
+        "credit",
+        "etat"
+      ],
+      "valeurs": [
+        -60,
+        -20
+      ],
       "description": "Déstabilise l'adversaire en volant 60 crédits et infligeant 20 dégâts."
     },
     "lore": "Puissance riche en agriculture malgré ses défis économiques."
@@ -245,7 +338,7 @@
     "rang": "Marginal",
     "type": "Renseignement",
     "cout": 150,
-    "etat": 388,
+    "etat": 320,
     "statistiques": {
       "puissance": 71,
       "economie": 47,
@@ -256,9 +349,21 @@
     "special": {
       "nom": "Réseau de la Diaspora",
       "cout": 45,
-      "cibles": ["jeuA", "deck"],
-      "variables": ["etat", "emplacement"],
-      "valeurs": [-30, [1, "main"]],
+      "cibles": [
+        "jeuA",
+        "deck"
+      ],
+      "variables": [
+        "etat",
+        "emplacement"
+      ],
+      "valeurs": [
+        -30,
+        [
+          1,
+          "main"
+        ]
+      ],
       "description": "Mobilise ses expatriés pour infliger 30 dégâts et piocher 1 carte."
     },
     "lore": "Terre antique s'appuyant sur l'influence mondiale de sa diaspora."
@@ -268,8 +373,8 @@
     "nom": "Australie",
     "rang": "Dominant",
     "type": "Économique",
-    "cout": 550,
-    "etat": 606,
+    "cout": 750,
+    "etat": 660,
     "statistiques": {
       "puissance": 80,
       "economie": 73,
@@ -279,10 +384,19 @@
     },
     "special": {
       "nom": "Isolement Stratégique",
-      "cout": 180,
-      "cibles": ["jeu", "banc"],
-      "variables": ["etat", "etat"],
-      "valeurs": [60, 40],
+      "cout": 240,
+      "cibles": [
+        "jeu",
+        "banc"
+      ],
+      "variables": [
+        "etat",
+        "etat"
+      ],
+      "valeurs": [
+        60,
+        40
+      ],
       "description": "Offre une base sécurisée soignant l'unité en jeu de 60 et une unité du banc de 40."
     },
     "lore": "Île-continent stable, pilier de la sécurité dans le Pacifique."
@@ -293,7 +407,7 @@
     "rang": "Établi",
     "type": "Diplomatique",
     "cout": 550,
-    "etat": 554,
+    "etat": 560,
     "statistiques": {
       "puissance": 75,
       "economie": 66,
@@ -303,10 +417,19 @@
     },
     "special": {
       "nom": "Neutralité Perpétuelle",
-      "cout": 180,
-      "cibles": ["jeuA", "bancA"],
-      "variables": ["etat", "etat"],
-      "valeurs": [-90, -40],
+      "cout": 195,
+      "cibles": [
+        "jeuA",
+        "bancA"
+      ],
+      "variables": [
+        "etat",
+        "etat"
+      ],
+      "valeurs": [
+        -90,
+        -40
+      ],
       "description": "Utilise son statut neutre pour infliger 90 dégâts en jeu et 40 sur le banc."
     },
     "lore": "Carrefour diplomatique européen accueillant de nombreuses agences."
@@ -327,10 +450,19 @@
     },
     "special": {
       "nom": "Manne Pétrolière",
-      "cout": 110,
-      "cibles": ["jeuA", "creditA"],
-      "variables": ["etat", null],
-      "valeurs": [-50, -40],
+      "cout": 115,
+      "cibles": [
+        "jeuA",
+        "creditA"
+      ],
+      "variables": [
+        "etat",
+        "credit"
+      ],
+      "valeurs": [
+        -50,
+        -40
+      ],
       "description": "Utilise ses revenus gaziers pour infliger 50 dégâts et voler 40 crédits."
     },
     "lore": "Nation du Caucase affirmant sa supériorité régionale."
@@ -341,7 +473,7 @@
     "rang": "Marginal",
     "type": "Économique",
     "cout": 150,
-    "etat": 312,
+    "etat": 280,
     "statistiques": {
       "puissance": 10,
       "economie": 44,
@@ -352,9 +484,21 @@
     "special": {
       "nom": "Paradis Fiscal",
       "cout": 50,
-      "cibles": ["creditA", "deck"],
-      "variables": [null, "emplacement"],
-      "valeurs": [-60, [1, "main"]],
+      "cibles": [
+        "creditA",
+        "deck"
+      ],
+      "variables": [
+        "credit",
+        "emplacement"
+      ],
+      "valeurs": [
+        -60,
+        [
+          1,
+          "main"
+        ]
+      ],
       "description": "Attire les capitaux pour voler 60 crédits et piocher 1 carte."
     },
     "lore": "Archipel dont l'économie repose sur le tourisme et la finance."
@@ -365,7 +509,7 @@
     "rang": "Marginal",
     "type": "Diplomatique",
     "cout": 150,
-    "etat": 440,
+    "etat": 350,
     "statistiques": {
       "puissance": 72,
       "economie": 51,
@@ -376,9 +520,18 @@
     "special": {
       "nom": "Port d'Attache",
       "cout": 45,
-      "cibles": ["jeu", "banc"],
-      "variables": ["etat", "etat"],
-      "valeurs": [35, 20],
+      "cibles": [
+        "jeu",
+        "banc"
+      ],
+      "variables": [
+        "etat",
+        "etat"
+      ],
+      "valeurs": [
+        35,
+        20
+      ],
       "description": "Accueille les flottes pour soigner l'unité en jeu de 35 et une du banc de 20."
     },
     "lore": "Royaume insulaire agissant comme plaque tournante stratégique."
@@ -389,7 +542,7 @@
     "rang": "Émergent",
     "type": "Économique",
     "cout": 350,
-    "etat": 418,
+    "etat": 430,
     "statistiques": {
       "puissance": 74,
       "economie": 65,
@@ -399,10 +552,22 @@
     },
     "special": {
       "nom": "Atelier du Monde",
-      "cout": 110,
-      "cibles": ["creditA", "deck"],
-      "variables": [null, "emplacement"],
-      "valeurs": [-50, [2, "main"]],
+      "cout": 115,
+      "cibles": [
+        "creditA",
+        "deck"
+      ],
+      "variables": [
+        "credit",
+        "emplacement"
+      ],
+      "valeurs": [
+        -50,
+        [
+          2,
+          "main"
+        ]
+      ],
       "description": "Grâce à son industrie massive, vole 50 crédits et fait piocher 2 cartes."
     },
     "lore": "Nation densément peuplée et moteur manufacturier mondial."
@@ -413,7 +578,7 @@
     "rang": "Marginal",
     "type": "Diplomatique",
     "cout": 150,
-    "etat": 332,
+    "etat": 290,
     "statistiques": {
       "puissance": 24,
       "economie": 39,
@@ -424,9 +589,21 @@
     "special": {
       "nom": "Nouvelle République",
       "cout": 40,
-      "cibles": ["deck", "banc"],
-      "variables": ["emplacement", "etat"],
-      "valeurs": [[2, "main"], 20],
+      "cibles": [
+        "deck",
+        "banc"
+      ],
+      "variables": [
+        "emplacement",
+        "etat"
+      ],
+      "valeurs": [
+        [
+          2,
+          "main"
+        ],
+        20
+      ],
       "description": "Son émancipation permet de piocher 2 cartes."
     },
     "lore": "Jeune république caribéenne s'affirmant par son soft power."
@@ -437,7 +614,7 @@
     "rang": "Établi",
     "type": "Diplomatique",
     "cout": 550,
-    "etat": 552,
+    "etat": 560,
     "statistiques": {
       "puissance": 76,
       "economie": 67,
@@ -447,10 +624,19 @@
     },
     "special": {
       "nom": "Cœur de l'Europe",
-      "cout": 180,
-      "cibles": ["jeu", "banc"],
-      "variables": ["etat", "etat"],
-      "valeurs": [55, 35],
+      "cout": 195,
+      "cibles": [
+        "jeu",
+        "banc"
+      ],
+      "variables": [
+        "etat",
+        "etat"
+      ],
+      "valeurs": [
+        55,
+        35
+      ],
       "description": "Sa position centrale permet de soigner l'unité en jeu de 55 et une du banc de 35."
     },
     "lore": "Siège des institutions de l'UE et de l'OTAN."
@@ -461,7 +647,7 @@
     "rang": "Marginal",
     "type": "Isolationniste",
     "cout": 150,
-    "etat": 374,
+    "etat": 320,
     "statistiques": {
       "puissance": 60,
       "economie": 34,
@@ -472,9 +658,18 @@
     "special": {
       "nom": "Sanctuaire Tropical",
       "cout": 40,
-      "cibles": ["jeu", "banc"],
-      "variables": ["etat", "etat"],
-      "valeurs": [45, 25],
+      "cibles": [
+        "jeu",
+        "banc"
+      ],
+      "variables": [
+        "etat",
+        "etat"
+      ],
+      "valeurs": [
+        45,
+        25
+      ],
       "description": "Utilise sa barrière de corail pour soigner l'unité en jeu de 45 et une du banc de 25."
     },
     "lore": "Petit État d'Amérique centrale protégé par sa géographie."
@@ -485,7 +680,7 @@
     "rang": "Marginal",
     "type": "Diplomatique",
     "cout": 150,
-    "etat": 404,
+    "etat": 330,
     "statistiques": {
       "puissance": 65,
       "economie": 45,
@@ -496,9 +691,18 @@
     "special": {
       "nom": "Porte de l'Afrique",
       "cout": 45,
-      "cibles": ["creditA", "jeuA"],
-      "variables": [null, "etat"],
-      "valeurs": [-40, -15],
+      "cibles": [
+        "creditA",
+        "jeuA"
+      ],
+      "variables": [
+        "credit",
+        "etat"
+      ],
+      "valeurs": [
+        -40,
+        -15
+      ],
       "description": "Taxe les flux portuaires pour voler 40 crédits et infliger 15 dégâts."
     },
     "lore": "Nation reconnue pour sa stabilité démocratique historique."
@@ -509,7 +713,7 @@
     "rang": "Marginal",
     "type": "Isolationniste",
     "cout": 150,
-    "etat": 320,
+    "etat": 280,
     "statistiques": {
       "puissance": 10,
       "economie": 34,
@@ -519,10 +723,19 @@
     },
     "special": {
       "nom": "Bonheur National Brut",
-      "cout": 35,
-      "cibles": ["jeu", "banc"],
-      "variables": ["etat", "etat"],
-      "valeurs": [50, 30],
+      "cout": 40,
+      "cibles": [
+        "jeu",
+        "banc"
+      ],
+      "variables": [
+        "etat",
+        "etat"
+      ],
+      "valeurs": [
+        50,
+        30
+      ],
       "description": "Sa stabilité spirituelle soigne l'unité en jeu de 50 et une du banc de 30."
     },
     "lore": "Royaume privilégiant le bien-être à la croissance brute."
@@ -543,10 +756,19 @@
     },
     "special": {
       "nom": "Zone Tampon",
-      "cout": 110,
-      "cibles": ["jeuA", "bancA"],
-      "variables": ["etat", "etat"],
-      "valeurs": [-60, -25],
+      "cout": 115,
+      "cibles": [
+        "jeuA",
+        "bancA"
+      ],
+      "variables": [
+        "etat",
+        "etat"
+      ],
+      "valeurs": [
+        -60,
+        -25
+      ],
       "description": "Maintient ses frontières fermées pour infliger 60 dégâts en jeu et 25 sur le banc."
     },
     "lore": "État d'Europe de l'Est à l'économie très centralisée."
@@ -557,7 +779,7 @@
     "rang": "Marginal",
     "type": "Militaire",
     "cout": 150,
-    "etat": 356,
+    "etat": 300,
     "statistiques": {
       "puissance": 73,
       "economie": 53,
@@ -568,9 +790,15 @@
     "special": {
       "nom": "Loi Martiale",
       "cout": 55,
-      "cibles": ["jeuA"],
-      "variables": ["etat"],
-      "valeurs": [-95],
+      "cibles": [
+        "jeuA"
+      ],
+      "variables": [
+        "etat"
+      ],
+      "valeurs": [
+        -95
+      ],
       "description": "Déclenche une mobilisation totale infligeant 95 dégâts à l'unité en jeu."
     },
     "lore": "Nation riche en jade marquée par une gouvernance stricte."
@@ -581,7 +809,7 @@
     "rang": "Émergent",
     "type": "Économique",
     "cout": 350,
-    "etat": 448,
+    "etat": 450,
     "statistiques": {
       "puissance": 69,
       "economie": 51,
@@ -592,9 +820,21 @@
     "special": {
       "nom": "Triangle du Lithium",
       "cout": 115,
-      "cibles": ["creditA", "deck"],
-      "variables": [null, "emplacement"],
-      "valeurs": [-55, [2, "main"]],
+      "cibles": [
+        "creditA",
+        "deck"
+      ],
+      "variables": [
+        "credit",
+        "emplacement"
+      ],
+      "valeurs": [
+        -55,
+        [
+          2,
+          "main"
+        ]
+      ],
       "description": "Utilise ses ressources minérales pour voler 55 crédits et piocher 2 cartes."
     },
     "lore": "Pays possédant les plus grandes réserves mondiales de lithium."
@@ -605,7 +845,7 @@
     "rang": "Marginal",
     "type": "Diplomatique",
     "cout": 150,
-    "etat": 380,
+    "etat": 320,
     "statistiques": {
       "puissance": 65,
       "economie": 48,
@@ -616,9 +856,18 @@
     "special": {
       "nom": "Équilibre Fragile",
       "cout": 45,
-      "cibles": ["jeu", "banc"],
-      "variables": ["etat", "etat"],
-      "valeurs": [35, 25],
+      "cibles": [
+        "jeu",
+        "banc"
+      ],
+      "variables": [
+        "etat",
+        "etat"
+      ],
+      "valeurs": [
+        35,
+        25
+      ],
       "description": "Sa diplomatie de consensus soigne l'unité en jeu de 35 et une du banc de 25."
     },
     "lore": "Nation des Balkans pivot de la stabilité régionale."
@@ -629,7 +878,7 @@
     "rang": "Marginal",
     "type": "Économique",
     "cout": 150,
-    "etat": 464,
+    "etat": 370,
     "statistiques": {
       "puissance": 68,
       "economie": 45,
@@ -640,9 +889,21 @@
     "special": {
       "nom": "Diamants de la Paix",
       "cout": 45,
-      "cibles": ["creditA", "deck"],
-      "variables": [null, "emplacement"],
-      "valeurs": [-40, [1, "main"]],
+      "cibles": [
+        "creditA",
+        "deck"
+      ],
+      "variables": [
+        "credit",
+        "emplacement"
+      ],
+      "valeurs": [
+        -40,
+        [
+          1,
+          "main"
+        ]
+      ],
       "description": "Gère ses ressources pour voler 40 crédits et piocher 1 carte."
     },
     "lore": "Modèle de stabilité africaine grâce à ses diamants."
@@ -652,8 +913,8 @@
     "nom": "Brésil",
     "rang": "Dominant",
     "type": "Diplomatique",
-    "cout": 550,
-    "etat": 520,
+    "cout": 750,
+    "etat": 610,
     "statistiques": {
       "puissance": 79,
       "economie": 74,
@@ -663,10 +924,19 @@
     },
     "special": {
       "nom": "Géant des BRICS",
-      "cout": 180,
-      "cibles": ["jeuA", "bancA"],
-      "variables": ["etat", "etat"],
-      "valeurs": [-105, -50],
+      "cout": 240,
+      "cibles": [
+        "jeuA",
+        "bancA"
+      ],
+      "variables": [
+        "etat",
+        "etat"
+      ],
+      "valeurs": [
+        -105,
+        -50
+      ],
       "description": "Propulse son influence en infligeant 105 dégâts en jeu et 50 sur le banc."
     },
     "lore": "Leader agro-industriel et voix majeure du Sud Global."
@@ -677,7 +947,7 @@
     "rang": "Marginal",
     "type": "Économique",
     "cout": 150,
-    "etat": 516,
+    "etat": 400,
     "statistiques": {
       "puissance": 68,
       "economie": 44,
@@ -688,9 +958,21 @@
     "special": {
       "nom": "Trésor du Sultan",
       "cout": 55,
-      "cibles": ["creditA", "deck"],
-      "variables": [null, "emplacement"],
-      "valeurs": [-70, [1, "main"]],
+      "cibles": [
+        "creditA",
+        "deck"
+      ],
+      "variables": [
+        "credit",
+        "emplacement"
+      ],
+      "valeurs": [
+        -70,
+        [
+          1,
+          "main"
+        ]
+      ],
       "description": "Manipule ses fonds souverains pour voler 70 crédits et piocher 1 carte."
     },
     "lore": "Petit sultanat immensément riche grâce à son pétrole."
@@ -701,7 +983,7 @@
     "rang": "Marginal",
     "type": "Renseignement",
     "cout": 150,
-    "etat": 452,
+    "etat": 360,
     "statistiques": {
       "puissance": 72,
       "economie": 56,
@@ -712,9 +994,21 @@
     "special": {
       "nom": "Carrefour Balkanique",
       "cout": 45,
-      "cibles": ["jeuA", "deck"],
-      "variables": ["etat", "emplacement"],
-      "valeurs": [-35, [1, "main"]],
+      "cibles": [
+        "jeuA",
+        "deck"
+      ],
+      "variables": [
+        "etat",
+        "emplacement"
+      ],
+      "valeurs": [
+        -35,
+        [
+          1,
+          "main"
+        ]
+      ],
       "description": "Intercepte les informations pour infliger 35 dégâts et piocher 1 carte."
     },
     "lore": "Ancien hub technologique devenu partenaire européen stratégique."
@@ -725,7 +1019,7 @@
     "rang": "Marginal",
     "type": "Militaire",
     "cout": 150,
-    "etat": 390,
+    "etat": 320,
     "statistiques": {
       "puissance": 70,
       "economie": 46,
@@ -736,9 +1030,18 @@
     "special": {
       "nom": "Résilience Populaire",
       "cout": 50,
-      "cibles": ["jeu", "banc"],
-      "variables": ["etat", "etat"],
-      "valeurs": [55, 30],
+      "cibles": [
+        "jeu",
+        "banc"
+      ],
+      "variables": [
+        "etat",
+        "etat"
+      ],
+      "valeurs": [
+        55,
+        30
+      ],
       "description": "Son esprit d'indépendance soigne l'unité en jeu de 55 et une du banc de 30."
     },
     "lore": "Pays sahélien marqué par un fort esprit souverainiste."
@@ -749,7 +1052,7 @@
     "rang": "Marginal",
     "type": "Isolationniste",
     "cout": 150,
-    "etat": 414,
+    "etat": 340,
     "statistiques": {
       "puissance": 65,
       "economie": 35,
@@ -760,9 +1063,18 @@
     "special": {
       "nom": "Enclavement Protecteur",
       "cout": 40,
-      "cibles": ["jeuA", "creditA"],
-      "variables": ["etat", null],
-      "valeurs": [-25, -25],
+      "cibles": [
+        "jeuA",
+        "creditA"
+      ],
+      "variables": [
+        "etat",
+        "credit"
+      ],
+      "valeurs": [
+        -25,
+        -25
+      ],
       "description": "Utilise son relief pour infliger 25 dégâts et voler 25 crédits."
     },
     "lore": "Petit État dense confronté à des défis géopolitiques majeurs."
@@ -773,7 +1085,7 @@
     "rang": "Marginal",
     "type": "Économique",
     "cout": 150,
-    "etat": 472,
+    "etat": 370,
     "statistiques": {
       "puissance": 69,
       "economie": 50,
@@ -784,9 +1096,21 @@
     "special": {
       "nom": "Essor Manufacturier",
       "cout": 50,
-      "cibles": ["creditA", "deck"],
-      "variables": [null, "emplacement"],
-      "valeurs": [-45, [1, "main"]],
+      "cibles": [
+        "creditA",
+        "deck"
+      ],
+      "variables": [
+        "credit",
+        "emplacement"
+      ],
+      "valeurs": [
+        -45,
+        [
+          1,
+          "main"
+        ]
+      ],
       "description": "Son industrie textile permet de voler 45 crédits et de piocher 1 carte."
     },
     "lore": "Ancien royaume khmer en plein rebond économique."
@@ -797,7 +1121,7 @@
     "rang": "Marginal",
     "type": "Économique",
     "cout": 150,
-    "etat": 440,
+    "etat": 350,
     "statistiques": {
       "puissance": 68,
       "economie": 51,
@@ -808,9 +1132,18 @@
     "special": {
       "nom": "Afrique en Miniature",
       "cout": 50,
-      "cibles": ["jeu", "banc"],
-      "variables": ["etat", "etat"],
-      "valeurs": [40, 30],
+      "cibles": [
+        "jeu",
+        "banc"
+      ],
+      "variables": [
+        "etat",
+        "etat"
+      ],
+      "valeurs": [
+        40,
+        30
+      ],
       "description": "Sa diversité géographique soigne l'unité en jeu de 40 et une du banc de 30."
     },
     "lore": "Pivot central du continent à l'incroyable diversité."
@@ -821,7 +1154,7 @@
     "rang": "Dominant",
     "type": "Diplomatique",
     "cout": 750,
-    "etat": 554,
+    "etat": 630,
     "statistiques": {
       "puissance": 80,
       "economie": 74,
@@ -831,10 +1164,19 @@
     },
     "special": {
       "nom": "Casques Bleus",
-      "cout": 250,
-      "cibles": ["jeu", "banc"],
-      "variables": ["etat", "etat"],
-      "valeurs": [90, 60],
+      "cout": 265,
+      "cibles": [
+        "jeu",
+        "banc"
+      ],
+      "variables": [
+        "etat",
+        "etat"
+      ],
+      "valeurs": [
+        90,
+        60
+      ],
       "description": "Déploie une aide massive soignant l'unité en jeu de 90 et une du banc de 60."
     },
     "lore": "Géant nord-américain misant sur un soft power influent."
@@ -845,7 +1187,7 @@
     "rang": "Marginal",
     "type": "Diplomatique",
     "cout": 150,
-    "etat": 434,
+    "etat": 350,
     "statistiques": {
       "puissance": 58,
       "economie": 33,
@@ -856,9 +1198,21 @@
     "special": {
       "nom": "Carrefour Atlantique",
       "cout": 45,
-      "cibles": ["deck", "banc"],
-      "variables": ["emplacement", "etat"],
-      "valeurs": [[2, "main"], 25],
+      "cibles": [
+        "deck",
+        "banc"
+      ],
+      "variables": [
+        "emplacement",
+        "etat"
+      ],
+      "valeurs": [
+        [
+          2,
+          "main"
+        ],
+        25
+      ],
       "description": "Sa position permet de piocher 2 cartes et de soigner une unité du banc de 25."
     },
     "lore": "Archipel stable agissant comme un pont entre les continents."
@@ -869,7 +1223,7 @@
     "rang": "Émergent",
     "type": "Économique",
     "cout": 350,
-    "etat": 560,
+    "etat": 520,
     "statistiques": {
       "puissance": 75,
       "economie": 63,
@@ -880,9 +1234,21 @@
     "special": {
       "nom": "Export de Cuivre",
       "cout": 115,
-      "cibles": ["creditA", "deck"],
-      "variables": [null, "emplacement"],
-      "valeurs": [-65, [1, "main"]],
+      "cibles": [
+        "creditA",
+        "deck"
+      ],
+      "variables": [
+        "credit",
+        "emplacement"
+      ],
+      "valeurs": [
+        -65,
+        [
+          1,
+          "main"
+        ]
+      ],
       "description": "Assure sa domination minière en volant 65 crédits et piochant 1 carte."
     },
     "lore": "Économie ouverte et dynamique d'Amérique latine."
@@ -904,9 +1270,18 @@
     "special": {
       "nom": "Le Dragon Éveillé",
       "cout": 260,
-      "cibles": ["jeuA", "bancA"],
-      "variables": ["etat", "etat"],
-      "valeurs": [-160, -75],
+      "cibles": [
+        "jeuA",
+        "bancA"
+      ],
+      "variables": [
+        "etat",
+        "etat"
+      ],
+      "valeurs": [
+        -160,
+        -75
+      ],
       "description": "Sa démonstration de force infligeant 160 dégâts en jeu et 75 sur le banc."
     },
     "lore": "Géant asiatique en concurence directe avec les États-Unis."
@@ -917,7 +1292,7 @@
     "rang": "Marginal",
     "type": "Diplomatique",
     "cout": 150,
-    "etat": 412,
+    "etat": 340,
     "statistiques": {
       "puissance": 64,
       "economie": 45,
@@ -928,9 +1303,21 @@
     "special": {
       "nom": "Pivot Méditerranéen",
       "cout": 45,
-      "cibles": ["creditA", "deck"],
-      "variables": [null, "emplacement"],
-      "valeurs": [-35, [1, "main"]],
+      "cibles": [
+        "creditA",
+        "deck"
+      ],
+      "variables": [
+        "credit",
+        "emplacement"
+      ],
+      "valeurs": [
+        -35,
+        [
+          1,
+          "main"
+        ]
+      ],
       "description": "Utilise sa position pour voler 35 crédits et piocher 1 carte."
     },
     "lore": "Île stratégique au carrefour de trois continents."
@@ -941,7 +1328,7 @@
     "rang": "Émergent",
     "type": "Militaire",
     "cout": 350,
-    "etat": 470,
+    "etat": 460,
     "statistiques": {
       "puissance": 78,
       "economie": 55,
@@ -951,10 +1338,19 @@
     },
     "special": {
       "nom": "Plan Colombie",
-      "cout": 110,
-      "cibles": ["jeuA", "bancA"],
-      "variables": ["etat", "etat"],
-      "valeurs": [-75, -35],
+      "cout": 115,
+      "cibles": [
+        "jeuA",
+        "bancA"
+      ],
+      "variables": [
+        "etat",
+        "etat"
+      ],
+      "valeurs": [
+        -75,
+        -35
+      ],
       "description": "Mobilise ses forces spéciales pour infliger 75 dégâts en jeu et 35 sur le banc."
     },
     "lore": "Nation en pleine transformation disposant d'une armée forte."
@@ -965,7 +1361,7 @@
     "rang": "Marginal",
     "type": "Isolationniste",
     "cout": 150,
-    "etat": 280,
+    "etat": 260,
     "statistiques": {
       "puissance": 25,
       "economie": 22,
@@ -976,9 +1372,18 @@
     "special": {
       "nom": "Parfum d'Ylang-Ylang",
       "cout": 40,
-      "cibles": ["jeu", "banc"],
-      "variables": ["etat", "etat"],
-      "valeurs": [35, 20],
+      "cibles": [
+        "jeu",
+        "banc"
+      ],
+      "variables": [
+        "etat",
+        "etat"
+      ],
+      "valeurs": [
+        35,
+        20
+      ],
       "description": "Ses essences naturelles soignent l'unité en jeu de 35 et une du banc de 20."
     },
     "lore": "Archipel volcanique réputé pour ses cultures de rente."
@@ -988,8 +1393,8 @@
     "nom": "Corée du Nord",
     "rang": "Établi",
     "type": "Renseignement",
-    "cout": 450,
-    "etat": 520,
+    "cout": 550,
+    "etat": 540,
     "statistiques": {
       "puissance": 85,
       "economie": 15,
@@ -999,10 +1404,19 @@
     },
     "special": {
       "nom": "Dissuasion Nucléaire",
-      "cout": 140,
-      "cibles": ["jeuA", "bancA"],
-      "variables": ["etat", "etat"],
-      "valeurs": [-120, -60],
+      "cout": 185,
+      "cibles": [
+        "jeuA",
+        "bancA"
+      ],
+      "variables": [
+        "etat",
+        "etat"
+      ],
+      "valeurs": [
+        -120,
+        -60
+      ],
       "description": "Exerce une pression atomique infligeant 120 dégâts en jeu et 60 sur le banc."
     },
     "lore": "État secret doté d'une puissance militaire asymétrique."
@@ -1012,8 +1426,8 @@
     "nom": "Corée du Sud",
     "rang": "Dominant",
     "type": "Économique",
-    "cout": 450,
-    "etat": 540,
+    "cout": 750,
+    "etat": 620,
     "statistiques": {
       "puissance": 78,
       "economie": 88,
@@ -1023,10 +1437,19 @@
     },
     "special": {
       "nom": "Offensive Numérique",
-      "cout": 135,
-      "cibles": ["jeuA", "bancA"],
-      "variables": ["etat", "etat"],
-      "valeurs": [-95, -50],
+      "cout": 220,
+      "cibles": [
+        "jeuA",
+        "bancA"
+      ],
+      "variables": [
+        "etat",
+        "etat"
+      ],
+      "valeurs": [
+        -95,
+        -50
+      ],
       "description": "Lance une cyber-attaque infligeant 95 dégâts en jeu et 50 sur le banc."
     },
     "lore": "Leader mondial de l'innovation technologique."
@@ -1037,7 +1460,7 @@
     "rang": "Marginal",
     "type": "Isolationniste",
     "cout": 150,
-    "etat": 380,
+    "etat": 320,
     "statistiques": {
       "puissance": 15,
       "economie": 45,
@@ -1048,9 +1471,18 @@
     "special": {
       "nom": "Pays Sans Armée",
       "cout": 40,
-      "cibles": ["jeu", "banc"],
-      "variables": ["etat", "etat"],
-      "valeurs": [65, 45],
+      "cibles": [
+        "jeu",
+        "banc"
+      ],
+      "variables": [
+        "etat",
+        "etat"
+      ],
+      "valeurs": [
+        65,
+        45
+      ],
       "description": "Sa paix exemplaire soigne l'unité en jeu de 65 et une du banc de 45."
     },
     "lore": "Modèle écologique ayant aboli son armée pour l'éducation."
@@ -1061,7 +1493,7 @@
     "rang": "Émergent",
     "type": "Économique",
     "cout": 350,
-    "etat": 460,
+    "etat": 450,
     "statistiques": {
       "puissance": 68,
       "economie": 65,
@@ -1071,10 +1503,22 @@
     },
     "special": {
       "nom": "Manne Cacaoyère",
-      "cout": 110,
-      "cibles": ["creditA", "deck"],
-      "variables": [null, "emplacement"],
-      "valeurs": [-55, [2, "main"]],
+      "cout": 115,
+      "cibles": [
+        "creditA",
+        "deck"
+      ],
+      "variables": [
+        "credit",
+        "emplacement"
+      ],
+      "valeurs": [
+        -55,
+        [
+          2,
+          "main"
+        ]
+      ],
       "description": "Domine le marché du cacao pour voler 55 crédits et piocher 2 cartes."
     },
     "lore": "Moteur économique de l'Afrique de l'Ouest francophone."
@@ -1085,7 +1529,7 @@
     "rang": "Marginal",
     "type": "Diplomatique",
     "cout": 150,
-    "etat": 430,
+    "etat": 350,
     "statistiques": {
       "puissance": 67,
       "economie": 50,
@@ -1096,9 +1540,18 @@
     "special": {
       "nom": "Perle de l'Adriatique",
       "cout": 45,
-      "cibles": ["creditA", "banc"],
-      "variables": [null, "etat"],
-      "valeurs": [-45, 25],
+      "cibles": [
+        "creditA",
+        "banc"
+      ],
+      "variables": [
+        "credit",
+        "etat"
+      ],
+      "valeurs": [
+        -45,
+        25
+      ],
       "description": "Son attrait touristique vole 45 crédits et soigne une unité du banc de 25."
     },
     "lore": "Destination touristique majeure intégrée à l'Union Européenne."
@@ -1109,7 +1562,7 @@
     "rang": "Marginal",
     "type": "Diplomatique",
     "cout": 150,
-    "etat": 350,
+    "etat": 300,
     "statistiques": {
       "puissance": 60,
       "economie": 25,
@@ -1120,9 +1573,18 @@
     "special": {
       "nom": "Diplomatie Médicale",
       "cout": 40,
-      "cibles": ["jeu", "banc"],
-      "variables": ["etat", "etat"],
-      "valeurs": [70, 50],
+      "cibles": [
+        "jeu",
+        "banc"
+      ],
+      "variables": [
+        "etat",
+        "etat"
+      ],
+      "valeurs": [
+        70,
+        50
+      ],
       "description": "Envoie ses brigades pour soigner l'unité en jeu de 70 et une du banc de 50."
     },
     "lore": "Île rebelle disposant d'un système de santé réputé mondialement."
@@ -1143,10 +1605,19 @@
     },
     "special": {
       "nom": "Modèle Nordique",
-      "cout": 170,
-      "cibles": ["jeu", "banc"],
-      "variables": ["etat", "etat"],
-      "valeurs": [80, 50],
+      "cout": 190,
+      "cibles": [
+        "jeu",
+        "banc"
+      ],
+      "variables": [
+        "etat",
+        "etat"
+      ],
+      "valeurs": [
+        80,
+        50
+      ],
       "description": "Sa protection sociale soigne l'unité en jeu de 80 et une du banc de 50."
     },
     "lore": "Nation prospère et stable, pionnière des énergies vertes."
@@ -1157,7 +1628,7 @@
     "rang": "Marginal",
     "type": "Militaire",
     "cout": 150,
-    "etat": 380,
+    "etat": 320,
     "statistiques": {
       "puissance": 70,
       "economie": 40,
@@ -1168,9 +1639,18 @@
     "special": {
       "nom": "Verrou de la Mer Rouge",
       "cout": 45,
-      "cibles": ["creditA", "jeuA"],
-      "variables": [null, "etat"],
-      "valeurs": [-40, -25],
+      "cibles": [
+        "creditA",
+        "jeuA"
+      ],
+      "variables": [
+        "credit",
+        "etat"
+      ],
+      "valeurs": [
+        -40,
+        -25
+      ],
       "description": "Contrôle le détroit pour voler 40 crédits et infliger 25 dégâts."
     },
     "lore": "Petit État abritant des bases militaires de nombreuses États."
@@ -1181,7 +1661,7 @@
     "rang": "Marginal",
     "type": "Isolationniste",
     "cout": 150,
-    "etat": 290,
+    "etat": 270,
     "statistiques": {
       "puissance": 10,
       "economie": 30,
@@ -1191,10 +1671,19 @@
     },
     "special": {
       "nom": "Île Nature",
-      "cout": 35,
-      "cibles": ["jeu", "banc"],
-      "variables": ["etat", "etat"],
-      "valeurs": [45, 25],
+      "cout": 40,
+      "cibles": [
+        "jeu",
+        "banc"
+      ],
+      "variables": [
+        "etat",
+        "etat"
+      ],
+      "valeurs": [
+        45,
+        25
+      ],
       "description": "Ses sources naturelles soignent l'unité en jeu de 45 et une du banc de 25."
     },
     "lore": "Île sauvage des Caraïbes préservée du tourisme de masse."
@@ -1205,7 +1694,7 @@
     "rang": "Émergent",
     "type": "Diplomatique",
     "cout": 350,
-    "etat": 480,
+    "etat": 470,
     "statistiques": {
       "puissance": 77,
       "economie": 55,
@@ -1215,10 +1704,19 @@
     },
     "special": {
       "nom": "Canal de Suez",
-      "cout": 110,
-      "cibles": ["creditA", "jeuA"],
-      "variables": [null, "etat"],
-      "valeurs": [-50, -30],
+      "cout": 115,
+      "cibles": [
+        "creditA",
+        "jeuA"
+      ],
+      "variables": [
+        "credit",
+        "etat"
+      ],
+      "valeurs": [
+        -50,
+        -30
+      ],
       "description": "Contrôle le transit maritime mondial pour voler 50 crédits et infliger 30 dégâts."
     },
     "lore": "Don du Nil et carrefour stratégique entre l'Afrique et l'Asie."
@@ -1228,8 +1726,8 @@
     "nom": "Émirats arabes unis",
     "rang": "Dominant",
     "type": "Économique",
-    "cout": 550,
-    "etat": 510,
+    "cout": 750,
+    "etat": 600,
     "statistiques": {
       "puissance": 72,
       "economie": 92,
@@ -1239,10 +1737,22 @@
     },
     "special": {
       "nom": "Hub Mondial",
-      "cout": 160,
-      "cibles": ["creditA", "deck"],
-      "variables": [null, "emplacement"],
-      "valeurs": [-80, [2, "main"]],
+      "cout": 230,
+      "cibles": [
+        "creditA",
+        "deck"
+      ],
+      "variables": [
+        "credit",
+        "emplacement"
+      ],
+      "valeurs": [
+        -80,
+        [
+          2,
+          "main"
+        ]
+      ],
       "description": "Utilise sa puissance financière pour capter 80 crédits et piocher 2 cartes."
     },
     "lore": "Fédération de sept émirats devenue une plaque tournante de l'économie."
@@ -1253,7 +1763,7 @@
     "rang": "Marginal",
     "type": "Isolationniste",
     "cout": 150,
-    "etat": 410,
+    "etat": 340,
     "statistiques": {
       "puissance": 62,
       "economie": 48,
@@ -1264,9 +1774,18 @@
     "special": {
       "nom": "Sanctuaire des Galápagos",
       "cout": 45,
-      "cibles": ["jeu", "banc"],
-      "variables": ["etat", "etat"],
-      "valeurs": [40, 30],
+      "cibles": [
+        "jeu",
+        "banc"
+      ],
+      "variables": [
+        "etat",
+        "etat"
+      ],
+      "valeurs": [
+        40,
+        30
+      ],
       "description": "Protège son écosystème pour soigner l'unité en jeu de 40 et une du banc de 30."
     },
     "lore": "Pays riche en biodiversité et premier exportateur de bananes."
@@ -1277,7 +1796,7 @@
     "rang": "Marginal",
     "type": "Militaire",
     "cout": 150,
-    "etat": 360,
+    "etat": 310,
     "statistiques": {
       "puissance": 75,
       "economie": 20,
@@ -1288,9 +1807,15 @@
     "special": {
       "nom": "Forteresse de la Mer Rouge",
       "cout": 50,
-      "cibles": ["jeuA"],
-      "variables": ["etat"],
-      "valeurs": [-90],
+      "cibles": [
+        "jeuA"
+      ],
+      "variables": [
+        "etat"
+      ],
+      "valeurs": [
+        -90
+      ],
       "description": "Mise sur une défense hermétique pour infliger 90 dégâts à l'attaquant."
     },
     "lore": "État doté d'une organisation militaire très stricte."
@@ -1301,7 +1826,7 @@
     "rang": "Établi",
     "type": "Diplomatique",
     "cout": 550,
-    "etat": 540,
+    "etat": 550,
     "statistiques": {
       "puissance": 74,
       "economie": 72,
@@ -1311,10 +1836,19 @@
     },
     "special": {
       "nom": "Héritage Hispanique",
-      "cout": 150,
-      "cibles": ["jeuA", "bancA"],
-      "variables": ["etat", "etat"],
-      "valeurs": [-80, -40],
+      "cout": 185,
+      "cibles": [
+        "jeuA",
+        "bancA"
+      ],
+      "variables": [
+        "etat",
+        "etat"
+      ],
+      "valeurs": [
+        -80,
+        -40
+      ],
       "description": "Projette son influence culturelle et politique pour infliger 80 dégâts et 40 sur le banc."
     },
     "lore": "Grande nation européenne dotée d'un rayonnement mondial via sa langue."
@@ -1325,7 +1859,7 @@
     "rang": "Marginal",
     "type": "Militaire",
     "cout": 150,
-    "etat": 460,
+    "etat": 370,
     "statistiques": {
       "puissance": 55,
       "economie": 65,
@@ -1335,10 +1869,22 @@
     },
     "special": {
       "nom": "E-Citoyenneté",
-      "cout": 60,
-      "cibles": ["creditA", "deck"],
-      "variables": [null, "emplacement"],
-      "valeurs": [-40, [2, "main"]],
+      "cout": 55,
+      "cibles": [
+        "creditA",
+        "deck"
+      ],
+      "variables": [
+        "credit",
+        "emplacement"
+      ],
+      "valeurs": [
+        -40,
+        [
+          2,
+          "main"
+        ]
+      ],
       "description": "Utilise son infrastructure numérique pour voler 40 crédits et piocher 2 cartes."
     },
     "lore": "Pionnier mondial de la numérisation et de l'administration en ligne."
@@ -1349,7 +1895,7 @@
     "rang": "Marginal",
     "type": "Isolationniste",
     "cout": 150,
-    "etat": 280,
+    "etat": 260,
     "statistiques": {
       "puissance": 20,
       "economie": 30,
@@ -1359,10 +1905,19 @@
     },
     "special": {
       "nom": "Tradition Royale",
-      "cout": 35,
-      "cibles": ["jeu", "banc"],
-      "variables": ["etat", "etat"],
-      "valeurs": [35, 25],
+      "cout": 40,
+      "cibles": [
+        "jeu",
+        "banc"
+      ],
+      "variables": [
+        "etat",
+        "etat"
+      ],
+      "valeurs": [
+        35,
+        25
+      ],
       "description": "Préserve ses coutumes pour soigner l'unité en jeu de 35 et une du banc de 25."
     },
     "lore": "Dernière monarchie absolue d'Afrique, préservant ses racines."
@@ -1384,9 +1939,18 @@
     "special": {
       "nom": "Force de Projection Mondiale",
       "cout": 260,
-      "cibles": ["jeuA", "bancA"],
-      "variables": ["etat", "etat"],
-      "valeurs": [-155, -75],
+      "cibles": [
+        "jeuA",
+        "bancA"
+      ],
+      "variables": [
+        "etat",
+        "etat"
+      ],
+      "valeurs": [
+        -155,
+        -75
+      ],
       "description": "Déploie ses bases dans le monde entier pour infliger 155 dégâts et 75 au banc."
     },
     "lore": "Première puissance militaire et économique mondiale de l'histoire."
@@ -1397,7 +1961,7 @@
     "rang": "Émergent",
     "type": "Militaire",
     "cout": 350,
-    "etat": 490,
+    "etat": 470,
     "statistiques": {
       "puissance": 78,
       "economie": 52,
@@ -1408,9 +1972,18 @@
     "special": {
       "nom": "Barrage de la Renaissance",
       "cout": 115,
-      "cibles": ["jeuA", "creditA"],
-      "variables": ["etat", null],
-      "valeurs": [-65, -30],
+      "cibles": [
+        "jeuA",
+        "creditA"
+      ],
+      "variables": [
+        "etat",
+        "credit"
+      ],
+      "valeurs": [
+        -65,
+        -30
+      ],
       "description": "Contrôle le débit du Nil Bleu pour infliger 65 dégâts et capter 30 crédits."
     },
     "lore": "Seule nation africaine n'ayant jamais été colonisée, leader diplomatique."
@@ -1421,7 +1994,7 @@
     "rang": "Marginal",
     "type": "Diplomatique",
     "cout": 150,
-    "etat": 340,
+    "etat": 300,
     "statistiques": {
       "puissance": 45,
       "economie": 35,
@@ -1432,9 +2005,21 @@
     "special": {
       "nom": "Diplomatie du Pacifique",
       "cout": 40,
-      "cibles": ["deck", "banc"],
-      "variables": ["emplacement", "etat"],
-      "valeurs": [[2, "main"], 30],
+      "cibles": [
+        "deck",
+        "banc"
+      ],
+      "variables": [
+        "emplacement",
+        "etat"
+      ],
+      "valeurs": [
+        [
+          2,
+          "main"
+        ],
+        30
+      ],
       "description": "Agit comme médiateur insulaire pour piocher 2 cartes et soigner le banc de 30."
     },
     "lore": "Archipel du Pacifique très actif dans les missions de paix de l'ONU."
@@ -1445,7 +2030,7 @@
     "rang": "Établi",
     "type": "Diplomatique",
     "cout": 550,
-    "etat": 590,
+    "etat": 580,
     "statistiques": {
       "puissance": 76,
       "economie": 75,
@@ -1455,10 +2040,19 @@
     },
     "special": {
       "nom": "Ligne Mannerheim",
-      "cout": 160,
-      "cibles": ["jeuA", "jeu"],
-      "variables": ["etat", "etat"],
-      "valeurs": [-70, 60],
+      "cout": 190,
+      "cibles": [
+        "jeuA",
+        "jeu"
+      ],
+      "variables": [
+        "etat",
+        "etat"
+      ],
+      "valeurs": [
+        -70,
+        60
+      ],
       "description": "Une défense technologique qui inflige 70 dégâts et soigne votre unité de 60."
     },
     "lore": "Nation exemplaire pour son système éducatif et sa haute technologie."
@@ -1469,7 +2063,7 @@
     "rang": "Dominant",
     "type": "Diplomatique",
     "cout": 750,
-    "etat": 620,
+    "etat": 660,
     "statistiques": {
       "puissance": 88,
       "economie": 82,
@@ -1479,10 +2073,19 @@
     },
     "special": {
       "nom": "Rayonnement Mondial",
-      "cout": 240,
-      "cibles": ["jeuA", "bancA"],
-      "variables": ["etat", "etat"],
-      "valeurs": [-125, -60],
+      "cout": 260,
+      "cibles": [
+        "jeuA",
+        "bancA"
+      ],
+      "variables": [
+        "etat",
+        "etat"
+      ],
+      "valeurs": [
+        -125,
+        -60
+      ],
       "description": "Projette sa puissance militaire pour infliger 125 dégâts en jeu et 60 sur le banc."
     },
     "lore": "Puissance militaire et diplomatique a la révolution facile."
@@ -1493,7 +2096,7 @@
     "rang": "Marginal",
     "type": "Économique",
     "cout": 150,
-    "etat": 420,
+    "etat": 340,
     "statistiques": {
       "puissance": 60,
       "economie": 58,
@@ -1504,9 +2107,21 @@
     "special": {
       "nom": "Or Vert",
       "cout": 50,
-      "cibles": ["creditA", "deck"],
-      "variables": [null, "emplacement"],
-      "valeurs": [-45, [1, "main"]],
+      "cibles": [
+        "creditA",
+        "deck"
+      ],
+      "variables": [
+        "credit",
+        "emplacement"
+      ],
+      "valeurs": [
+        -45,
+        [
+          1,
+          "main"
+        ]
+      ],
       "description": "Exploite ses forêts et son pétrole pour voler 45 crédits et piocher 1 carte."
     },
     "lore": "Pays équatorial riche en ressources naturelles et en biodiversité."
@@ -1517,7 +2132,7 @@
     "rang": "Marginal",
     "type": "Isolationniste",
     "cout": 150,
-    "etat": 330,
+    "etat": 290,
     "statistiques": {
       "puissance": 35,
       "economie": 30,
@@ -1528,9 +2143,18 @@
     "special": {
       "nom": "Sourire de l'Afrique",
       "cout": 40,
-      "cibles": ["jeu", "banc"],
-      "variables": ["etat", "etat"],
-      "valeurs": [40, 25],
+      "cibles": [
+        "jeu",
+        "banc"
+      ],
+      "variables": [
+        "etat",
+        "etat"
+      ],
+      "valeurs": [
+        40,
+        25
+      ],
       "description": "Son hospitalité légendaire soigne l'unité en jeu de 40 et une du banc de 25."
     },
     "lore": "Possède le statut du plus petit pays d'Afrique continentale."
@@ -1541,7 +2165,7 @@
     "rang": "Marginal",
     "type": "Diplomatique",
     "cout": 150,
-    "etat": 440,
+    "etat": 350,
     "statistiques": {
       "puissance": 68,
       "economie": 50,
@@ -1552,9 +2176,21 @@
     "special": {
       "nom": "Route de la Soie",
       "cout": 45,
-      "cibles": ["creditA", "deck"],
-      "variables": [null, "emplacement"],
-      "valeurs": [-35, [1, "main"]],
+      "cibles": [
+        "creditA",
+        "deck"
+      ],
+      "variables": [
+        "credit",
+        "emplacement"
+      ],
+      "valeurs": [
+        -35,
+        [
+          1,
+          "main"
+        ]
+      ],
       "description": "Profite de sa position de transit pour voler 35 crédits et piocher 1 carte."
     },
     "lore": "Ancienne république soviétique au carrefour de l'Europe et de l'Asie."
@@ -1565,7 +2201,7 @@
     "rang": "Émergent",
     "type": "Économique",
     "cout": 350,
-    "etat": 460,
+    "etat": 450,
     "statistiques": {
       "puissance": 65,
       "economie": 62,
@@ -1575,10 +2211,22 @@
     },
     "special": {
       "nom": "Côte de l'Or",
-      "cout": 105,
-      "cibles": ["creditA", "deck"],
-      "variables": [null, "emplacement"],
-      "valeurs": [-60, [2, "main"]],
+      "cout": 115,
+      "cibles": [
+        "creditA",
+        "deck"
+      ],
+      "variables": [
+        "credit",
+        "emplacement"
+      ],
+      "valeurs": [
+        -60,
+        [
+          2,
+          "main"
+        ]
+      ],
       "description": "Mobilise ses richesses minières pour voler 60 crédits et piocher 2 cartes."
     },
     "lore": "Phare de la démocratie en Afrique et grand producteur de cacao."
@@ -1588,8 +2236,8 @@
     "nom": "Grèce",
     "rang": "Établi",
     "type": "Diplomatique",
-    "cout": 450,
-    "etat": 480,
+    "cout": 550,
+    "etat": 510,
     "statistiques": {
       "puissance": 75,
       "economie": 50,
@@ -1599,10 +2247,19 @@
     },
     "special": {
       "nom": "Hégémonie Maritime",
-      "cout": 140,
-      "cibles": ["creditA", "jeuA"],
-      "variables": [null, "etat"],
-      "valeurs": [-55, -45],
+      "cout": 185,
+      "cibles": [
+        "creditA",
+        "jeuA"
+      ],
+      "variables": [
+        "credit",
+        "etat"
+      ],
+      "valeurs": [
+        -55,
+        -45
+      ],
       "description": "Sa flotte marchande mondiale lui permet de voler 55 crédits et d'infliger 45 dégâts."
     },
     "lore": "Le pays possédant la plus grande flotte marchande au monde."
@@ -1613,7 +2270,7 @@
     "rang": "Marginal",
     "type": "Économique",
     "cout": 150,
-    "etat": 300,
+    "etat": 270,
     "statistiques": {
       "puissance": 15,
       "economie": 35,
@@ -1623,10 +2280,19 @@
     },
     "special": {
       "nom": "Île aux Épices",
-      "cout": 35,
-      "cibles": ["creditA", "banc"],
-      "variables": [null, "etat"],
-      "valeurs": [-30, 25],
+      "cout": 40,
+      "cibles": [
+        "creditA",
+        "banc"
+      ],
+      "variables": [
+        "credit",
+        "etat"
+      ],
+      "valeurs": [
+        -30,
+        25
+      ],
       "description": "Son commerce de muscade vole 30 crédits et soigne une unité du banc de 25."
     },
     "lore": "État insulaire caribéen célèbre pour ses productions d'épices rares."
@@ -1637,7 +2303,7 @@
     "rang": "Marginal",
     "type": "Diplomatique",
     "cout": 150,
-    "etat": 400,
+    "etat": 330,
     "statistiques": {
       "puissance": 64,
       "economie": 45,
@@ -1648,9 +2314,18 @@
     "special": {
       "nom": "Cœur du Monde Maya",
       "cout": 45,
-      "cibles": ["jeu", "banc"],
-      "variables": ["etat", "etat"],
-      "valeurs": [35, 25],
+      "cibles": [
+        "jeu",
+        "banc"
+      ],
+      "variables": [
+        "etat",
+        "etat"
+      ],
+      "valeurs": [
+        35,
+        25
+      ],
       "description": "Son héritage ancestral soigne l'unité en jeu de 35 et une du banc de 25."
     },
     "lore": "Pays le plus peuplé d'Amérique centrale."
@@ -1661,7 +2336,7 @@
     "rang": "Marginal",
     "type": "Économique",
     "cout": 150,
-    "etat": 430,
+    "etat": 350,
     "statistiques": {
       "puissance": 68,
       "economie": 42,
@@ -1672,9 +2347,21 @@
     "special": {
       "nom": "Château d'Eau",
       "cout": 50,
-      "cibles": ["creditA", "deck"],
-      "variables": [null, "emplacement"],
-      "valeurs": [-40, [1, "main"]],
+      "cibles": [
+        "creditA",
+        "deck"
+      ],
+      "variables": [
+        "credit",
+        "emplacement"
+      ],
+      "valeurs": [
+        -40,
+        [
+          1,
+          "main"
+        ]
+      ],
       "description": "Utilise ses ressources hydrauliques pour voler 40 crédits et piocher 1 carte."
     },
     "lore": "Possède les plus grandes réserves mondiales de bauxite."
@@ -1685,7 +2372,7 @@
     "rang": "Marginal",
     "type": "Isolationniste",
     "cout": 150,
-    "etat": 350,
+    "etat": 300,
     "statistiques": {
       "puissance": 62,
       "economie": 30,
@@ -1696,9 +2383,18 @@
     "special": {
       "nom": "Archipel des Bijagós",
       "cout": 40,
-      "cibles": ["jeu", "banc"],
-      "variables": ["etat", "etat"],
-      "valeurs": [40, 20],
+      "cibles": [
+        "jeu",
+        "banc"
+      ],
+      "variables": [
+        "etat",
+        "etat"
+      ],
+      "valeurs": [
+        40,
+        20
+      ],
       "description": "Ses îles reculées offrent un soin de 40 en jeu et 20 sur le banc."
     },
     "lore": "Petit État ouest-africain doté d'un littoral sauvage et préservé."
@@ -1709,7 +2405,7 @@
     "rang": "Marginal",
     "type": "Économique",
     "cout": 150,
-    "etat": 480,
+    "etat": 380,
     "statistiques": {
       "puissance": 65,
       "economie": 55,
@@ -1719,10 +2415,22 @@
     },
     "special": {
       "nom": "Manne de l'Or Noir",
-      "cout": 60,
-      "cibles": ["creditA", "deck"],
-      "variables": [null, "emplacement"],
-      "valeurs": [-65, [1, "main"]],
+      "cout": 55,
+      "cibles": [
+        "creditA",
+        "deck"
+      ],
+      "variables": [
+        "credit",
+        "emplacement"
+      ],
+      "valeurs": [
+        -65,
+        [
+          1,
+          "main"
+        ]
+      ],
       "description": "Siphonne les richesses pétrolières pour voler 65 crédits et piocher 1 carte."
     },
     "lore": "L'un des plus grands producteurs de pétrole d'Afrique subsaharienne."
@@ -1733,7 +2441,7 @@
     "rang": "Marginal",
     "type": "Économique",
     "cout": 150,
-    "etat": 420,
+    "etat": 340,
     "statistiques": {
       "puissance": 50,
       "economie": 85,
@@ -1743,10 +2451,22 @@
     },
     "special": {
       "nom": "Boom Offshore",
-      "cout": 65,
-      "cibles": ["creditA", "deck"],
-      "variables": [null, "emplacement"],
-      "valeurs": [-70, [2, "main"]],
+      "cout": 60,
+      "cibles": [
+        "creditA",
+        "deck"
+      ],
+      "variables": [
+        "credit",
+        "emplacement"
+      ],
+      "valeurs": [
+        -70,
+        [
+          2,
+          "main"
+        ]
+      ],
       "description": "Exploite sa nouvelle richesse fulgurante pour voler 70 crédits et piocher 2 cartes."
     },
     "lore": "Nation connaissant la plus forte croissance économique au monde."
@@ -1757,7 +2477,7 @@
     "rang": "Marginal",
     "type": "Isolationniste",
     "cout": 150,
-    "etat": 250,
+    "etat": 240,
     "statistiques": {
       "puissance": 30,
       "economie": 20,
@@ -1768,9 +2488,15 @@
     "special": {
       "nom": "Esprit de Révolte",
       "cout": 45,
-      "cibles": ["jeuA"],
-      "variables": ["etat"],
-      "valeurs": [-85],
+      "cibles": [
+        "jeuA"
+      ],
+      "variables": [
+        "etat"
+      ],
+      "valeurs": [
+        -85
+      ],
       "description": "Sa force historique de résistance inflige 85 dégâts à l'unité en jeu adverse."
     },
     "lore": "Lourd passé colonial, à l'histoire héroïque."
@@ -1781,7 +2507,7 @@
     "rang": "Marginal",
     "type": "Économique",
     "cout": 150,
-    "etat": 380,
+    "etat": 320,
     "statistiques": {
       "puissance": 63,
       "economie": 38,
@@ -1792,9 +2518,21 @@
     "special": {
       "nom": "Enclave Bananière",
       "cout": 40,
-      "cibles": ["creditA", "deck"],
-      "variables": [null, "emplacement"],
-      "valeurs": [-35, [1, "main"]],
+      "cibles": [
+        "creditA",
+        "deck"
+      ],
+      "variables": [
+        "credit",
+        "emplacement"
+      ],
+      "valeurs": [
+        -35,
+        [
+          1,
+          "main"
+        ]
+      ],
       "description": "Utilise ses exportations agricoles pour voler 35 crédits et piocher 1 carte."
     },
     "lore": "Nation dotée d'importantes ressources minières."
@@ -1804,8 +2542,8 @@
     "nom": "Hongrie",
     "rang": "Établi",
     "type": "Diplomatique",
-    "cout": 450,
-    "etat": 520,
+    "cout": 550,
+    "etat": 540,
     "statistiques": {
       "puissance": 72,
       "economie": 65,
@@ -1815,10 +2553,19 @@
     },
     "special": {
       "nom": "Bastion de Visegrád",
-      "cout": 140,
-      "cibles": ["jeuA", "bancA"],
-      "variables": ["etat", "etat"],
-      "valeurs": [-85, -35],
+      "cout": 185,
+      "cibles": [
+        "jeuA",
+        "bancA"
+      ],
+      "variables": [
+        "etat",
+        "etat"
+      ],
+      "valeurs": [
+        -85,
+        -35
+      ],
       "description": "Prend une position diplomatique ferme infligeant 85 dégâts et 35 sur le banc."
     },
     "lore": "Pays d'Europe centrale doté d'une forte identité culturelle et politique."
@@ -1829,7 +2576,7 @@
     "rang": "Dominant",
     "type": "Économique",
     "cout": 750,
-    "etat": 680,
+    "etat": 700,
     "statistiques": {
       "puissance": 92,
       "economie": 90,
@@ -1839,10 +2586,19 @@
     },
     "special": {
       "nom": "Éveil du Géant",
-      "cout": 230,
-      "cibles": ["jeuA", "bancA"],
-      "variables": ["etat", "etat"],
-      "valeurs": [-140, -65],
+      "cout": 255,
+      "cibles": [
+        "jeuA",
+        "bancA"
+      ],
+      "variables": [
+        "etat",
+        "etat"
+      ],
+      "valeurs": [
+        -140,
+        -65
+      ],
       "description": "Mobilise sa masse démographique pour infliger 140 dégâts et 65 sur le banc."
     },
     "lore": "Pays le plus peuplé du monde, puissance nucléaire et spatiale."
@@ -1853,7 +2609,7 @@
     "rang": "Émergent",
     "type": "Économique",
     "cout": 350,
-    "etat": 540,
+    "etat": 510,
     "statistiques": {
       "puissance": 79,
       "economie": 75,
@@ -1864,9 +2620,21 @@
     "special": {
       "nom": "Archipel des Ressources",
       "cout": 120,
-      "cibles": ["creditA", "deck"],
-      "variables": [null, "emplacement"],
-      "valeurs": [-65, [2, "main"]],
+      "cibles": [
+        "creditA",
+        "deck"
+      ],
+      "variables": [
+        "credit",
+        "emplacement"
+      ],
+      "valeurs": [
+        -65,
+        [
+          2,
+          "main"
+        ]
+      ],
       "description": "Exploite ses milliers d'îles pour voler 65 crédits et piocher 2 cartes."
     },
     "lore": "Plus grand archipel du monde."
@@ -1877,7 +2645,7 @@
     "rang": "Émergent",
     "type": "Militaire",
     "cout": 350,
-    "etat": 460,
+    "etat": 450,
     "statistiques": {
       "puissance": 75,
       "economie": 50,
@@ -1888,9 +2656,18 @@
     "special": {
       "nom": "Berceau des Guerriers",
       "cout": 115,
-      "cibles": ["jeuA", "bancA"],
-      "variables": ["etat", "etat"],
-      "valeurs": [-80, -35],
+      "cibles": [
+        "jeuA",
+        "bancA"
+      ],
+      "variables": [
+        "etat",
+        "etat"
+      ],
+      "valeurs": [
+        -80,
+        -35
+      ],
       "description": "Lace une offensive tactique infligeant 80 dégâts en jeu et 35 sur le banc."
     },
     "lore": "Terre possédant d'immenses réserves d'hydrocarbures."
@@ -1900,8 +2677,8 @@
     "nom": "Iran",
     "rang": "Émergent",
     "type": "Militaire",
-    "cout": 450,
-    "etat": 550,
+    "cout": 350,
+    "etat": 510,
     "statistiques": {
       "puissance": 85,
       "economie": 62,
@@ -1911,10 +2688,19 @@
     },
     "special": {
       "nom": "Axe de Résistance",
-      "cout": 150,
-      "cibles": ["jeuA", "bancA"],
-      "variables": ["etat", "etat"],
-      "valeurs": [-110, -50],
+      "cout": 125,
+      "cibles": [
+        "jeuA",
+        "bancA"
+      ],
+      "variables": [
+        "etat",
+        "etat"
+      ],
+      "valeurs": [
+        -110,
+        -50
+      ],
       "description": "Projette sa force régionale infligeant 110 dégâts en jeu et 50 sur le banc."
     },
     "lore": "Puissance millénaire occupant une position charnière au Moyen-Orient."
@@ -1924,8 +2710,8 @@
     "nom": "Irlande",
     "rang": "Établi",
     "type": "Économique",
-    "cout": 450,
-    "etat": 500,
+    "cout": 550,
+    "etat": 530,
     "statistiques": {
       "puissance": 50,
       "economie": 90,
@@ -1935,10 +2721,22 @@
     },
     "special": {
       "nom": "Tigre Celtique",
-      "cout": 130,
-      "cibles": ["creditA", "deck"],
-      "variables": [null, "emplacement"],
-      "valeurs": [-75, [2, "main"]],
+      "cout": 180,
+      "cibles": [
+        "creditA",
+        "deck"
+      ],
+      "variables": [
+        "credit",
+        "emplacement"
+      ],
+      "valeurs": [
+        -75,
+        [
+          2,
+          "main"
+        ]
+      ],
       "description": "Attire les géants du tech pour voler 75 crédits et piocher 2 cartes."
     },
     "lore": "Hub européen pour les multinationales."
@@ -1948,8 +2746,8 @@
     "nom": "Islande",
     "rang": "Établi",
     "type": "Isolationniste",
-    "cout": 150,
-    "etat": 480,
+    "cout": 550,
+    "etat": 510,
     "statistiques": {
       "puissance": 15,
       "economie": 65,
@@ -1959,10 +2757,19 @@
     },
     "special": {
       "nom": "Énergie Géothermique",
-      "cout": 55,
-      "cibles": ["jeu", "banc"],
-      "variables": ["etat", "etat"],
-      "valeurs": [60, 40],
+      "cout": 160,
+      "cibles": [
+        "jeu",
+        "banc"
+      ],
+      "variables": [
+        "etat",
+        "etat"
+      ],
+      "valeurs": [
+        60,
+        40
+      ],
       "description": "Puise dans ses volcans pour soigner l'unité en jeu de 60 et une du banc de 40."
     },
     "lore": "Terre de feu et de glace pionnière dans les énergies renouvelables."
@@ -1972,8 +2779,8 @@
     "nom": "Israël",
     "rang": "Dominant",
     "type": "Militaire",
-    "cout": 500,
-    "etat": 510,
+    "cout": 750,
+    "etat": 600,
     "statistiques": {
       "puissance": 88,
       "economie": 80,
@@ -1983,10 +2790,19 @@
     },
     "special": {
       "nom": "Dôme de Fer",
-      "cout": 160,
-      "cibles": ["jeuA", "jeu"],
-      "variables": ["etat", "etat"],
-      "valeurs": [-90, 70],
+      "cout": 230,
+      "cibles": [
+        "jeuA",
+        "jeu"
+      ],
+      "variables": [
+        "etat",
+        "etat"
+      ],
+      "valeurs": [
+        -90,
+        70
+      ],
       "description": "Système de défense de pointe infligeant 90 dégâts et soignant votre unité de 70."
     },
     "lore": "Pays ayant l'un des armées les plus avancées au dérive génocidaire."
@@ -1996,8 +2812,8 @@
     "nom": "Italie",
     "rang": "Dominant",
     "type": "Diplomatique",
-    "cout": 720,
-    "etat": 580,
+    "cout": 750,
+    "etat": 640,
     "statistiques": {
       "puissance": 82,
       "economie": 80,
@@ -2007,10 +2823,19 @@
     },
     "special": {
       "nom": "Soft Power Romain",
-      "cout": 220,
-      "cibles": ["jeuA", "bancA"],
-      "variables": ["etat", "etat"],
-      "valeurs": [-115, -55],
+      "cout": 255,
+      "cibles": [
+        "jeuA",
+        "bancA"
+      ],
+      "variables": [
+        "etat",
+        "etat"
+      ],
+      "valeurs": [
+        -115,
+        -55
+      ],
       "description": "Son influence culturelle et industrielle inflige 115 dégâts en jeu et 55 sur le banc."
     },
     "lore": "Troisième économie de la zone euro et superpuissance culturelle."
@@ -2021,7 +2846,7 @@
     "rang": "Marginal",
     "type": "Diplomatique",
     "cout": 150,
-    "etat": 350,
+    "etat": 300,
     "statistiques": {
       "puissance": 30,
       "economie": 40,
@@ -2032,9 +2857,21 @@
     "special": {
       "nom": "Rythme Reggae",
       "cout": 45,
-      "cibles": ["deck", "banc"],
-      "variables": ["emplacement", "etat"],
-      "valeurs": [[2, "main"], 35],
+      "cibles": [
+        "deck",
+        "banc"
+      ],
+      "variables": [
+        "emplacement",
+        "etat"
+      ],
+      "valeurs": [
+        [
+          2,
+          "main"
+        ],
+        35
+      ],
       "description": "Son aura culturelle permet de piocher 2 cartes et de soigner le banc de 35."
     },
     "lore": "Île caribéenne au rayonnement mondial. "
@@ -2045,7 +2882,7 @@
     "rang": "Dominant",
     "type": "Économique",
     "cout": 750,
-    "etat": 650,
+    "etat": 680,
     "statistiques": {
       "puissance": 78,
       "economie": 92,
@@ -2055,10 +2892,19 @@
     },
     "special": {
       "nom": "Suprématie Robotique",
-      "cout": 230,
-      "cibles": ["jeuA", "bancA"],
-      "variables": ["etat", "etat"],
-      "valeurs": [-130, -60],
+      "cout": 255,
+      "cibles": [
+        "jeuA",
+        "bancA"
+      ],
+      "variables": [
+        "etat",
+        "etat"
+      ],
+      "valeurs": [
+        -130,
+        -60
+      ],
       "description": "Utilise sa technologie de pointe pour infliger 130 dégâts et 60 sur le banc."
     },
     "lore": "Archipel alliant traditions millénaires et futurisme technologique."
@@ -2069,7 +2915,7 @@
     "rang": "Marginal",
     "type": "Diplomatique",
     "cout": 150,
-    "etat": 410,
+    "etat": 340,
     "statistiques": {
       "puissance": 68,
       "economie": 40,
@@ -2080,9 +2926,18 @@
     "special": {
       "nom": "Médiateur du Désert",
       "cout": 45,
-      "cibles": ["jeu", "banc"],
-      "variables": ["etat", "etat"],
-      "valeurs": [45, 30],
+      "cibles": [
+        "jeu",
+        "banc"
+      ],
+      "variables": [
+        "etat",
+        "etat"
+      ],
+      "valeurs": [
+        45,
+        30
+      ],
       "description": "Son rôle de stabilisateur soigne l'unité en jeu de 45 et une du banc de 30."
     },
     "lore": "Havre de stabilité et pivot diplomatique."
@@ -2093,7 +2948,7 @@
     "rang": "Émergent",
     "type": "Économique",
     "cout": 350,
-    "etat": 500,
+    "etat": 480,
     "statistiques": {
       "puissance": 75,
       "economie": 68,
@@ -2104,9 +2959,21 @@
     "special": {
       "nom": "Steppe Energétique",
       "cout": 115,
-      "cibles": ["creditA", "deck"],
-      "variables": [null, "emplacement"],
-      "valeurs": [-60, [2, "main"]],
+      "cibles": [
+        "creditA",
+        "deck"
+      ],
+      "variables": [
+        "credit",
+        "emplacement"
+      ],
+      "valeurs": [
+        -60,
+        [
+          2,
+          "main"
+        ]
+      ],
       "description": "Exploite ses ressources naturelles pour voler 60 crédits et piocher 2 cartes."
     },
     "lore": "Plus grand pays enclavé au monde."
@@ -2117,7 +2984,7 @@
     "rang": "Émergent",
     "type": "Économique",
     "cout": 350,
-    "etat": 460,
+    "etat": 450,
     "statistiques": {
       "puissance": 64,
       "economie": 65,
@@ -2127,10 +2994,22 @@
     },
     "special": {
       "nom": "Silicon Savannah",
-      "cout": 110,
-      "cibles": ["creditA", "deck"],
-      "variables": [null, "emplacement"],
-      "valeurs": [-50, [2, "main"]],
+      "cout": 115,
+      "cibles": [
+        "creditA",
+        "deck"
+      ],
+      "variables": [
+        "credit",
+        "emplacement"
+      ],
+      "valeurs": [
+        -50,
+        [
+          2,
+          "main"
+        ]
+      ],
       "description": "Sa tech financière innovante lui permet de voler 50 crédits et de piocher 2 cartes."
     },
     "lore": "Hub technologique et économique majeur de l'Afrique de l'Est."
@@ -2141,7 +3020,7 @@
     "rang": "Marginal",
     "type": "Isolationniste",
     "cout": 150,
-    "etat": 340,
+    "etat": 300,
     "statistiques": {
       "puissance": 60,
       "economie": 35,
@@ -2152,9 +3031,18 @@
     "special": {
       "nom": "Forteresse Céleste",
       "cout": 40,
-      "cibles": ["jeuA", "banc"],
-      "variables": ["etat", "etat"],
-      "valeurs": [-25, 30],
+      "cibles": [
+        "jeuA",
+        "banc"
+      ],
+      "variables": [
+        "etat",
+        "etat"
+      ],
+      "valeurs": [
+        -25,
+        30
+      ],
       "description": "Utilise ses montagnes pour infliger 25 dégâts et soigner le banc de 30."
     },
     "lore": "Nation montagneuse d'Asie centrale à la culture nomade préservée."
@@ -2175,10 +3063,22 @@
     },
     "special": {
       "nom": "Première Lueur",
-      "cout": 35,
-      "cibles": ["deck", "banc"],
-      "variables": ["emplacement", "etat"],
-      "valeurs": [[1, "main"], 45],
+      "cout": 40,
+      "cibles": [
+        "deck",
+        "banc"
+      ],
+      "variables": [
+        "emplacement",
+        "etat"
+      ],
+      "valeurs": [
+        [
+          1,
+          "main"
+        ],
+        45
+      ],
       "description": "Sa position à la ligne de date soigne le banc de 45 et fait piocher 1 carte."
     },
     "lore": "Premier pays au monde à entrer dans la nouvelle journée."
@@ -2189,7 +3089,7 @@
     "rang": "Marginal",
     "type": "Diplomatique",
     "cout": 150,
-    "etat": 380,
+    "etat": 320,
     "statistiques": {
       "puissance": 64,
       "economie": 35,
@@ -2200,9 +3100,21 @@
     "special": {
       "nom": "Reconnaissance",
       "cout": 45,
-      "cibles": ["deck", "jeu"],
-      "variables": ["emplacement", "etat"],
-      "valeurs": [[2, "main"], 30],
+      "cibles": [
+        "deck",
+        "jeu"
+      ],
+      "variables": [
+        "emplacement",
+        "etat"
+      ],
+      "valeurs": [
+        [
+          2,
+          "main"
+        ],
+        30
+      ],
       "description": "Affirme sa souveraineté pour piocher 2 cartes et soigner l'unité en jeu de 30."
     },
     "lore": "Jeune État à l'histoire marquée par la quête d'indépendance."
@@ -2213,7 +3125,7 @@
     "rang": "Émergent",
     "type": "Économique",
     "cout": 350,
-    "etat": 520,
+    "etat": 490,
     "statistiques": {
       "puissance": 70,
       "economie": 85,
@@ -2224,9 +3136,21 @@
     "special": {
       "nom": "Fonds Souverain",
       "cout": 115,
-      "cibles": ["creditA", "deck"],
-      "variables": [null, "emplacement"],
-      "valeurs": [-70, [1, "main"]],
+      "cibles": [
+        "creditA",
+        "deck"
+      ],
+      "variables": [
+        "credit",
+        "emplacement"
+      ],
+      "valeurs": [
+        -70,
+        [
+          1,
+          "main"
+        ]
+      ],
       "description": "Utilise sa richesse financière pour voler 70 crédits et piocher 1 carte."
     },
     "lore": "Petit État du Golfe possédant une monnaie parmi les plus fortes."
@@ -2237,7 +3161,7 @@
     "rang": "Marginal",
     "type": "Isolationniste",
     "cout": 150,
-    "etat": 360,
+    "etat": 310,
     "statistiques": {
       "puissance": 60,
       "economie": 38,
@@ -2248,9 +3172,18 @@
     "special": {
       "nom": "Énergie du Mékong",
       "cout": 45,
-      "cibles": ["creditA", "jeu"],
-      "variables": [null, "etat"],
-      "valeurs": [-30, 35],
+      "cibles": [
+        "creditA",
+        "jeu"
+      ],
+      "variables": [
+        "credit",
+        "etat"
+      ],
+      "valeurs": [
+        -30,
+        35
+      ],
       "description": "Vend son hydroélectricité pour voler 30 crédits et soigner l'unité en jeu de 35."
     },
     "lore": "Seul pays enclavé d'Asie du Sud-Est, surnommé la 'batterie de l'Asie'."
@@ -2261,7 +3194,7 @@
     "rang": "Marginal",
     "type": "Isolationniste",
     "cout": 150,
-    "etat": 310,
+    "etat": 280,
     "statistiques": {
       "puissance": 25,
       "economie": 32,
@@ -2272,9 +3205,18 @@
     "special": {
       "nom": "Royaume dans le Ciel",
       "cout": 40,
-      "cibles": ["jeu", "banc"],
-      "variables": ["etat", "etat"],
-      "valeurs": [50, 25],
+      "cibles": [
+        "jeu",
+        "banc"
+      ],
+      "variables": [
+        "etat",
+        "etat"
+      ],
+      "valeurs": [
+        50,
+        25
+      ],
       "description": "Son altitude protectrice soigne l'unité en jeu de 50 et le banc de 25."
     },
     "lore": "Enclave montagneuse, située entièrement à plus de 1400m."
@@ -2285,7 +3227,7 @@
     "rang": "Marginal",
     "type": "Diplomatique",
     "cout": 150,
-    "etat": 430,
+    "etat": 350,
     "statistiques": {
       "puissance": 62,
       "economie": 55,
@@ -2296,9 +3238,21 @@
     "special": {
       "nom": "Sentinelle Balte",
       "cout": 45,
-      "cibles": ["jeuA", "deck"],
-      "variables": ["etat", "emplacement"],
-      "valeurs": [-30, [1, "main"]],
+      "cibles": [
+        "jeuA",
+        "deck"
+      ],
+      "variables": [
+        "etat",
+        "emplacement"
+      ],
+      "valeurs": [
+        -30,
+        [
+          1,
+          "main"
+        ]
+      ],
       "description": "Sa surveillance stratégique inflige 30 dégâts et fait piocher 1 carte."
     },
     "lore": "État balte dynamique membre de l'UE et de l'OTAN."
@@ -2309,7 +3263,7 @@
     "rang": "Marginal",
     "type": "Diplomatique",
     "cout": 150,
-    "etat": 320,
+    "etat": 280,
     "statistiques": {
       "puissance": 60,
       "economie": 25,
@@ -2320,9 +3274,18 @@
     "special": {
       "nom": "Résilience des Cèdres",
       "cout": 40,
-      "cibles": ["jeu", "banc"],
-      "variables": ["etat", "etat"],
-      "valeurs": [55, 30],
+      "cibles": [
+        "jeu",
+        "banc"
+      ],
+      "variables": [
+        "etat",
+        "etat"
+      ],
+      "valeurs": [
+        55,
+        30
+      ],
       "description": "Sa capacité de reconstruction soigne l'unité en jeu de 55 et le banc de 30."
     },
     "lore": "Carrefour culturel et financier historique de la Méditerranée."
@@ -2333,7 +3296,7 @@
     "rang": "Marginal",
     "type": "Économique",
     "cout": 150,
-    "etat": 340,
+    "etat": 300,
     "statistiques": {
       "puissance": 55,
       "economie": 32,
@@ -2344,9 +3307,21 @@
     "special": {
       "nom": "Flotte Pavillonnaire",
       "cout": 45,
-      "cibles": ["creditA", "deck"],
-      "variables": [null, "emplacement"],
-      "valeurs": [-40, [1, "main"]],
+      "cibles": [
+        "creditA",
+        "deck"
+      ],
+      "variables": [
+        "credit",
+        "emplacement"
+      ],
+      "valeurs": [
+        -40,
+        [
+          1,
+          "main"
+        ]
+      ],
       "description": "Enregistre les navires mondiaux pour voler 40 crédits et piocher 1 carte."
     },
     "lore": "Plus ancienne république d'Afrique."
@@ -2367,10 +3342,19 @@
     },
     "special": {
       "nom": "Offensive Saharienne",
-      "cout": 110,
-      "cibles": ["jeuA", "bancA"],
-      "variables": ["etat", "etat"],
-      "valeurs": [-75, -40],
+      "cout": 115,
+      "cibles": [
+        "jeuA",
+        "bancA"
+      ],
+      "variables": [
+        "etat",
+        "etat"
+      ],
+      "valeurs": [
+        -75,
+        -40
+      ],
       "description": "Mobilise ses ressources pour une frappe infligeant 75 dégâts et 40 sur le banc."
     },
     "lore": "Détenteur des plus grandes réserves de pétrole d'Afrique."
@@ -2381,7 +3365,7 @@
     "rang": "Marginal",
     "type": "Économique",
     "cout": 150,
-    "etat": 500,
+    "etat": 390,
     "statistiques": {
       "puissance": 10,
       "economie": 85,
@@ -2392,9 +3376,21 @@
     "special": {
       "nom": "Gestion de Fortune",
       "cout": 55,
-      "cibles": ["creditA", "deck"],
-      "variables": [null, "emplacement"],
-      "valeurs": [-65, [1, "main"]],
+      "cibles": [
+        "creditA",
+        "deck"
+      ],
+      "variables": [
+        "credit",
+        "emplacement"
+      ],
+      "valeurs": [
+        -65,
+        [
+          1,
+          "main"
+        ]
+      ],
       "description": "Manipule les actifs pour voler 65 crédits et piocher 1 carte."
     },
     "lore": "Parmi les pays les plus riches par habitant."
@@ -2405,7 +3401,7 @@
     "rang": "Marginal",
     "type": "Renseignement",
     "cout": 150,
-    "etat": 450,
+    "etat": 360,
     "statistiques": {
       "puissance": 68,
       "economie": 60,
@@ -2416,9 +3412,21 @@
     "special": {
       "nom": "Défense Cyber",
       "cout": 50,
-      "cibles": ["jeuA", "deck"],
-      "variables": ["etat", "emplacement"],
-      "valeurs": [-40, [1, "main"]],
+      "cibles": [
+        "jeuA",
+        "deck"
+      ],
+      "variables": [
+        "etat",
+        "emplacement"
+      ],
+      "valeurs": [
+        -40,
+        [
+          1,
+          "main"
+        ]
+      ],
       "description": "Neutralise les menaces numériques pour infliger 40 dégâts et piocher 1 carte."
     },
     "lore": "Leader balte de la fintech et de la sécurité informatique."
@@ -2428,8 +3436,8 @@
     "nom": "Luxembourg",
     "rang": "Établi",
     "type": "Économique",
-    "cout": 450,
-    "etat": 520,
+    "cout": 550,
+    "etat": 540,
     "statistiques": {
       "puissance": 20,
       "economie": 95,
@@ -2439,10 +3447,22 @@
     },
     "special": {
       "nom": "Place Financière",
-      "cout": 130,
-      "cibles": ["creditA", "deck"],
-      "variables": [null, "emplacement"],
-      "valeurs": [-80, [2, "main"]],
+      "cout": 180,
+      "cibles": [
+        "creditA",
+        "deck"
+      ],
+      "variables": [
+        "credit",
+        "emplacement"
+      ],
+      "valeurs": [
+        -80,
+        [
+          2,
+          "main"
+        ]
+      ],
       "description": "Sa puissance bancaire permet de voler 80 crédits et de piocher 2 cartes."
     },
     "lore": "Cœur financier de l'Europe et siège de nombreuses institutions."
@@ -2453,7 +3473,7 @@
     "rang": "Marginal",
     "type": "Diplomatique",
     "cout": 150,
-    "etat": 410,
+    "etat": 340,
     "statistiques": {
       "puissance": 64,
       "economie": 40,
@@ -2464,9 +3484,18 @@
     "special": {
       "nom": "Accord de Prespa",
       "cout": 45,
-      "cibles": ["jeu", "banc"],
-      "variables": ["etat", "etat"],
-      "valeurs": [40, 25],
+      "cibles": [
+        "jeu",
+        "banc"
+      ],
+      "variables": [
+        "etat",
+        "etat"
+      ],
+      "valeurs": [
+        40,
+        25
+      ],
       "description": "Son compromis historique soigne l'unité en jeu de 40 et le banc de 25."
     },
     "lore": "Jeune république balkanique ayant surmonté des défis diplomatiques majeurs."
@@ -2477,7 +3506,7 @@
     "rang": "Marginal",
     "type": "Isolationniste",
     "cout": 150,
-    "etat": 430,
+    "etat": 350,
     "statistiques": {
       "puissance": 60,
       "economie": 35,
@@ -2488,9 +3517,18 @@
     "special": {
       "nom": "Sanctuaire Endémique",
       "cout": 50,
-      "cibles": ["jeu", "banc"],
-      "variables": ["etat", "etat"],
-      "valeurs": [55, 35],
+      "cibles": [
+        "jeu",
+        "banc"
+      ],
+      "variables": [
+        "etat",
+        "etat"
+      ],
+      "valeurs": [
+        55,
+        35
+      ],
       "description": "Sa biodiversité unique soigne l'unité en jeu de 55 et une du banc de 35."
     },
     "lore": "Île-continent possédant une faune et une flore uniques au monde."
@@ -2501,7 +3539,7 @@
     "rang": "Émergent",
     "type": "Économique",
     "cout": 350,
-    "etat": 510,
+    "etat": 490,
     "statistiques": {
       "puissance": 72,
       "economie": 78,
@@ -2512,9 +3550,21 @@
     "special": {
       "nom": "Tigre d'Asie",
       "cout": 115,
-      "cibles": ["creditA", "deck"],
-      "variables": [null, "emplacement"],
-      "valeurs": [-55, [2, "main"]],
+      "cibles": [
+        "creditA",
+        "deck"
+      ],
+      "variables": [
+        "credit",
+        "emplacement"
+      ],
+      "valeurs": [
+        -55,
+        [
+          2,
+          "main"
+        ]
+      ],
       "description": "Son dynamisme commercial vole 55 crédits et fait piocher 2 cartes."
     },
     "lore": "Puissance leader dans l'électronique et l'huile de palme."
@@ -2525,7 +3575,7 @@
     "rang": "Marginal",
     "type": "Isolationniste",
     "cout": 150,
-    "etat": 350,
+    "etat": 300,
     "statistiques": {
       "puissance": 58,
       "economie": 30,
@@ -2536,9 +3586,18 @@
     "special": {
       "nom": "Cœur de l'Afrique",
       "cout": 40,
-      "cibles": ["jeu", "banc"],
-      "variables": ["etat", "etat"],
-      "valeurs": [45, 30],
+      "cibles": [
+        "jeu",
+        "banc"
+      ],
+      "variables": [
+        "etat",
+        "etat"
+      ],
+      "valeurs": [
+        45,
+        30
+      ],
       "description": "Sa population chaleureuse offre un soin de 45 en jeu et 30 sur le banc."
     },
     "lore": "Pays paisible bordé par l'immense lac Malawi."
@@ -2549,7 +3608,7 @@
     "rang": "Marginal",
     "type": "Diplomatique",
     "cout": 150,
-    "etat": 260,
+    "etat": 250,
     "statistiques": {
       "puissance": 10,
       "economie": 45,
@@ -2560,9 +3619,21 @@
     "special": {
       "nom": "Cri d'Alarme Climatique",
       "cout": 50,
-      "cibles": ["deck", "banc"],
-      "variables": ["emplacement", "etat"],
-      "valeurs": [[2, "main"], 40],
+      "cibles": [
+        "deck",
+        "banc"
+      ],
+      "variables": [
+        "emplacement",
+        "etat"
+      ],
+      "valeurs": [
+        [
+          2,
+          "main"
+        ],
+        40
+      ],
       "description": "Son plaidoyer mondial fait piocher 2 cartes et soigne le banc de 40."
     },
     "lore": "Pays paradisiaque en première ligne face au réchauffement climatique."
@@ -2573,7 +3644,7 @@
     "rang": "Marginal",
     "type": "Militaire",
     "cout": 150,
-    "etat": 380,
+    "etat": 320,
     "statistiques": {
       "puissance": 72,
       "economie": 40,
@@ -2584,9 +3655,18 @@
     "special": {
       "nom": "Empire de l'Or",
       "cout": 55,
-      "cibles": ["creditA", "jeuA"],
-      "variables": [null, "etat"],
-      "valeurs": [-50, -25],
+      "cibles": [
+        "creditA",
+        "jeuA"
+      ],
+      "variables": [
+        "credit",
+        "etat"
+      ],
+      "valeurs": [
+        -50,
+        -25
+      ],
       "description": "Utilise ses mines d'or pour voler 50 crédits et infliger 25 dégâts."
     },
     "lore": "Riche en ressources minières et éritier de grands empires médiévaux."
@@ -2597,7 +3677,7 @@
     "rang": "Marginal",
     "type": "Économique",
     "cout": 150,
-    "etat": 440,
+    "etat": 350,
     "statistiques": {
       "puissance": 50,
       "economie": 65,
@@ -2608,9 +3688,21 @@
     "special": {
       "nom": "Pavillon Méditerranéen",
       "cout": 50,
-      "cibles": ["creditA", "deck"],
-      "variables": [null, "emplacement"],
-      "valeurs": [-45, [1, "main"]],
+      "cibles": [
+        "creditA",
+        "deck"
+      ],
+      "variables": [
+        "credit",
+        "emplacement"
+      ],
+      "valeurs": [
+        -45,
+        [
+          1,
+          "main"
+        ]
+      ],
       "description": "Ses services maritimes captent 45 crédits et font piocher 1 carte."
     },
     "lore": "État insulaire stratégique et hub de services financiers au sein de l'UE."
@@ -2620,8 +3712,8 @@
     "nom": "Maroc",
     "rang": "Établi",
     "type": "Diplomatique",
-    "cout": 350,
-    "etat": 520,
+    "cout": 550,
+    "etat": 540,
     "statistiques": {
       "puissance": 75,
       "economie": 62,
@@ -2631,10 +3723,19 @@
     },
     "special": {
       "nom": "Diplomatie du Phosphate",
-      "cout": 110,
-      "cibles": ["creditA", "jeuA"],
-      "variables": [null, "etat"],
-      "valeurs": [-55, -35],
+      "cout": 175,
+      "cibles": [
+        "creditA",
+        "jeuA"
+      ],
+      "variables": [
+        "credit",
+        "etat"
+      ],
+      "valeurs": [
+        -55,
+        -35
+      ],
       "description": "Contrôle les engrais mondiaux pour voler 55 crédits et infliger 35 dégâts."
     },
     "lore": "Royaume stable, leader mondial des phosphates et pont vers l'Afrique."
@@ -2645,7 +3746,7 @@
     "rang": "Marginal",
     "type": "Économique",
     "cout": 150,
-    "etat": 470,
+    "etat": 370,
     "statistiques": {
       "puissance": 25,
       "economie": 68,
@@ -2656,9 +3757,21 @@
     "special": {
       "nom": "Hub de l'Océan Indien",
       "cout": 55,
-      "cibles": ["creditA", "deck"],
-      "variables": [null, "emplacement"],
-      "valeurs": [-50, [2, "main"]],
+      "cibles": [
+        "creditA",
+        "deck"
+      ],
+      "variables": [
+        "credit",
+        "emplacement"
+      ],
+      "valeurs": [
+        -50,
+        [
+          2,
+          "main"
+        ]
+      ],
       "description": "Sa finance offshore vole 50 crédits et fait piocher 2 cartes."
     },
     "lore": "Modèle de réussite économique et démocratique en Afrique."
@@ -2669,7 +3782,7 @@
     "rang": "Marginal",
     "type": "Économique",
     "cout": 150,
-    "etat": 390,
+    "etat": 320,
     "statistiques": {
       "puissance": 68,
       "economie": 45,
@@ -2680,9 +3793,21 @@
     "special": {
       "nom": "Train du Fer",
       "cout": 50,
-      "cibles": ["creditA", "deck"],
-      "variables": [null, "emplacement"],
-      "valeurs": [-40, [1, "main"]],
+      "cibles": [
+        "creditA",
+        "deck"
+      ],
+      "variables": [
+        "credit",
+        "emplacement"
+      ],
+      "valeurs": [
+        -40,
+        [
+          1,
+          "main"
+        ]
+      ],
       "description": "Exploite ses ressources minérales pour voler 40 crédits et piocher 1 carte."
     },
     "lore": "Vaste pays désertique riche en fer, en gaz et en poisson."
@@ -2693,7 +3818,7 @@
     "rang": "Établi",
     "type": "Économique",
     "cout": 550,
-    "etat": 540,
+    "etat": 550,
     "statistiques": {
       "puissance": 78,
       "economie": 82,
@@ -2703,10 +3828,22 @@
     },
     "special": {
       "nom": "Accord de Libre-Échange",
-      "cout": 160,
-      "cibles": ["creditA", "deck"],
-      "variables": [null, "emplacement"],
-      "valeurs": [-75, [2, "main"]],
+      "cout": 190,
+      "cibles": [
+        "creditA",
+        "deck"
+      ],
+      "variables": [
+        "credit",
+        "emplacement"
+      ],
+      "valeurs": [
+        -75,
+        [
+          2,
+          "main"
+        ]
+      ],
       "description": "Sa puissance manufacturière vole 75 crédits et fait piocher 2 cartes."
     },
     "lore": "Carrefour entre les Amériques."
@@ -2727,10 +3864,19 @@
     },
     "special": {
       "nom": "Libre Association",
-      "cout": 35,
-      "cibles": ["jeu", "banc"],
-      "variables": ["etat", "etat"],
-      "valeurs": [40, 20],
+      "cout": 40,
+      "cibles": [
+        "jeu",
+        "banc"
+      ],
+      "variables": [
+        "etat",
+        "etat"
+      ],
+      "valeurs": [
+        40,
+        20
+      ],
       "description": "Ses alliances pacifiques soignent l'unité en jeu de 40 et le banc de 20."
     },
     "lore": "État composé de centaines de petites îles dans le Pacifique."
@@ -2741,7 +3887,7 @@
     "rang": "Marginal",
     "type": "Diplomatique",
     "cout": 150,
-    "etat": 370,
+    "etat": 310,
     "statistiques": {
       "puissance": 60,
       "economie": 35,
@@ -2752,9 +3898,21 @@
     "special": {
       "nom": "Aspiration Européenne",
       "cout": 45,
-      "cibles": ["deck", "banc"],
-      "variables": ["emplacement", "etat"],
-      "valeurs": [[2, "main"], 30],
+      "cibles": [
+        "deck",
+        "banc"
+      ],
+      "variables": [
+        "emplacement",
+        "etat"
+      ],
+      "valeurs": [
+        [
+          2,
+          "main"
+        ],
+        30
+      ],
       "description": "Sa quête d'intégration fait piocher 2 cartes et soigne le banc de 30."
     },
     "lore": "Pays riche d'une tradition viticole."
@@ -2765,7 +3923,7 @@
     "rang": "Marginal",
     "type": "Économique",
     "cout": 150,
-    "etat": 500,
+    "etat": 390,
     "statistiques": {
       "puissance": 10,
       "economie": 90,
@@ -2775,10 +3933,22 @@
     },
     "special": {
       "nom": "Prestige de la Principauté",
-      "cout": 60,
-      "cibles": ["creditA", "deck"],
-      "variables": [null, "emplacement"],
-      "valeurs": [-85, [1, "main"]],
+      "cout": 55,
+      "cibles": [
+        "creditA",
+        "deck"
+      ],
+      "variables": [
+        "credit",
+        "emplacement"
+      ],
+      "valeurs": [
+        -85,
+        [
+          1,
+          "main"
+        ]
+      ],
       "description": "Attire les capitaux mondiaux pour voler 85 crédits et piocher 1 carte."
     },
     "lore": "Cité-État sur la Côte d'Azur, symbole de luxe et de finance."
@@ -2789,7 +3959,7 @@
     "rang": "Marginal",
     "type": "Isolationniste",
     "cout": 150,
-    "etat": 400,
+    "etat": 330,
     "statistiques": {
       "puissance": 65,
       "economie": 45,
@@ -2800,9 +3970,18 @@
     "special": {
       "nom": "Troisième Voisin",
       "cout": 50,
-      "cibles": ["jeuA", "banc"],
-      "variables": ["etat", "etat"],
-      "valeurs": [-30, 35],
+      "cibles": [
+        "jeuA",
+        "banc"
+      ],
+      "variables": [
+        "etat",
+        "etat"
+      ],
+      "valeurs": [
+        -30,
+        35
+      ],
       "description": "Sa stratégie d'équilibre inflige 30 dégâts et soigne le banc de 35."
     },
     "lore": "Nation des steppes aux ressources minières colossales."
@@ -2813,7 +3992,7 @@
     "rang": "Marginal",
     "type": "Diplomatique",
     "cout": 150,
-    "etat": 410,
+    "etat": 340,
     "statistiques": {
       "puissance": 62,
       "economie": 40,
@@ -2824,9 +4003,18 @@
     "special": {
       "nom": "Riviera Balkanique",
       "cout": 45,
-      "cibles": ["creditA", "banc"],
-      "variables": [null, "etat"],
-      "valeurs": [-35, 30],
+      "cibles": [
+        "creditA",
+        "banc"
+      ],
+      "variables": [
+        "credit",
+        "etat"
+      ],
+      "valeurs": [
+        -35,
+        30
+      ],
       "description": "Son attrait touristique vole 35 crédits et soigne une unité du banc de 30."
     },
     "lore": "Petit État montagneux de l'Adriatique, membre de l'OTAN."
@@ -2837,7 +4025,7 @@
     "rang": "Marginal",
     "type": "Économique",
     "cout": 150,
-    "etat": 420,
+    "etat": 340,
     "statistiques": {
       "puissance": 68,
       "economie": 48,
@@ -2848,9 +4036,21 @@
     "special": {
       "nom": "Corridor Logistique",
       "cout": 50,
-      "cibles": ["creditA", "deck"],
-      "variables": [null, "emplacement"],
-      "valeurs": [-45, [1, "main"]],
+      "cibles": [
+        "creditA",
+        "deck"
+      ],
+      "variables": [
+        "credit",
+        "emplacement"
+      ],
+      "valeurs": [
+        -45,
+        [
+          1,
+          "main"
+        ]
+      ],
       "description": "Ses infrastructures portuaires captent 45 crédits et font piocher 1 carte."
     },
     "lore": "Pays doté d'un immense littoral et de vastes réserves de gaz naturel."
@@ -2861,7 +4061,7 @@
     "rang": "Marginal",
     "type": "Isolationniste",
     "cout": 150,
-    "etat": 450,
+    "etat": 360,
     "statistiques": {
       "puissance": 66,
       "economie": 50,
@@ -2872,9 +4072,21 @@
     "special": {
       "nom": "Dunes de l'Uranium",
       "cout": 55,
-      "cibles": ["creditA", "deck"],
-      "variables": [null, "emplacement"],
-      "valeurs": [-50, [1, "main"]],
+      "cibles": [
+        "creditA",
+        "deck"
+      ],
+      "variables": [
+        "credit",
+        "emplacement"
+      ],
+      "valeurs": [
+        -50,
+        [
+          1,
+          "main"
+        ]
+      ],
       "description": "Exploite ses richesses radioactives pour voler 50 crédits et piocher 1 carte."
     },
     "lore": "Vaste pays, l'un des plus stables et des moins peuplés d'Afrique."
@@ -2885,7 +4097,7 @@
     "rang": "Marginal",
     "type": "Isolationniste",
     "cout": 150,
-    "etat": 200,
+    "etat": 210,
     "statistiques": {
       "puissance": 10,
       "economie": 30,
@@ -2896,9 +4108,18 @@
     "special": {
       "nom": "Ressources du Phosphate",
       "cout": 40,
-      "cibles": ["creditA", "banc"],
-      "variables": [null, "etat"],
-      "valeurs": [-40, 20],
+      "cibles": [
+        "creditA",
+        "banc"
+      ],
+      "variables": [
+        "credit",
+        "etat"
+      ],
+      "valeurs": [
+        -40,
+        20
+      ],
       "description": "Utilise ses derniers gisements pour voler 40 crédits et soigner le banc de 20."
     },
     "lore": "Plus petite république indépendante au monde, située en Océanie."
@@ -2909,7 +4130,7 @@
     "rang": "Marginal",
     "type": "Isolationniste",
     "cout": 150,
-    "etat": 340,
+    "etat": 300,
     "statistiques": {
       "puissance": 68,
       "economie": 35,
@@ -2920,9 +4141,15 @@
     "special": {
       "nom": "Guerriers Gurkhas",
       "cout": 50,
-      "cibles": ["jeuA"],
-      "variables": ["etat"],
-      "valeurs": [-95],
+      "cibles": [
+        "jeuA"
+      ],
+      "variables": [
+        "etat"
+      ],
+      "valeurs": [
+        -95
+      ],
       "description": "Déploie son élite légendaire pour infliger 95 dégâts à l'adversaire."
     },
     "lore": "Toit du monde situé dans l'Himalaya, patrie des célèbres Gurkhas."
@@ -2933,7 +4160,7 @@
     "rang": "Marginal",
     "type": "Isolationniste",
     "cout": 150,
-    "etat": 360,
+    "etat": 310,
     "statistiques": {
       "puissance": 64,
       "economie": 32,
@@ -2944,9 +4171,18 @@
     "special": {
       "nom": "Souveraineté Sandiniste",
       "cout": 45,
-      "cibles": ["jeuA", "banc"],
-      "variables": ["etat", "etat"],
-      "valeurs": [-25, 30],
+      "cibles": [
+        "jeuA",
+        "banc"
+      ],
+      "variables": [
+        "etat",
+        "etat"
+      ],
+      "valeurs": [
+        -25,
+        30
+      ],
       "description": "Sa résistance politique inflige 25 dégâts et soigne le banc de 30."
     },
     "lore": "Le plus vaste pays d'Amérique centrale, entre lacs et volcans."
@@ -2957,7 +4193,7 @@
     "rang": "Marginal",
     "type": "Militaire",
     "cout": 150,
-    "etat": 390,
+    "etat": 320,
     "statistiques": {
       "puissance": 71,
       "economie": 38,
@@ -2968,9 +4204,18 @@
     "special": {
       "nom": "Gisements d'Arlit",
       "cout": 55,
-      "cibles": ["creditA", "jeuA"],
-      "variables": [null, "etat"],
-      "valeurs": [-45, -30],
+      "cibles": [
+        "creditA",
+        "jeuA"
+      ],
+      "variables": [
+        "credit",
+        "etat"
+      ],
+      "valeurs": [
+        -45,
+        -30
+      ],
       "description": "Utilise ses mines d'uranium pour voler 45 crédits et infliger 30 dégâts."
     },
     "lore": "Pays sahélien fournisseur majeur d'uranium."
@@ -2981,7 +4226,7 @@
     "rang": "Émergent",
     "type": "Économique",
     "cout": 350,
-    "etat": 500,
+    "etat": 480,
     "statistiques": {
       "puissance": 79,
       "economie": 74,
@@ -2992,9 +4237,21 @@
     "special": {
       "nom": "Géant d'Afrique",
       "cout": 120,
-      "cibles": ["creditA", "deck"],
-      "variables": [null, "emplacement"],
-      "valeurs": [-70, [2, "main"]],
+      "cibles": [
+        "creditA",
+        "deck"
+      ],
+      "variables": [
+        "credit",
+        "emplacement"
+      ],
+      "valeurs": [
+        -70,
+        [
+          2,
+          "main"
+        ]
+      ],
       "description": "Sa puissance démographique et pétrolière vole 70 crédits et fait piocher 2 cartes."
     },
     "lore": "Pays le plus peuplé d'Afrique à la forte puissance économique."
@@ -3005,7 +4262,7 @@
     "rang": "Établi",
     "type": "Économique",
     "cout": 550,
-    "etat": 590,
+    "etat": 580,
     "statistiques": {
       "puissance": 72,
       "economie": 85,
@@ -3015,10 +4272,22 @@
     },
     "special": {
       "nom": "Fonds Souverain Géant",
-      "cout": 170,
-      "cibles": ["creditA", "deck"],
-      "variables": [null, "emplacement"],
-      "valeurs": [-90, [3, "main"]],
+      "cout": 190,
+      "cibles": [
+        "creditA",
+        "deck"
+      ],
+      "variables": [
+        "credit",
+        "emplacement"
+      ],
+      "valeurs": [
+        -90,
+        [
+          3,
+          "main"
+        ]
+      ],
       "description": "Mobilise sa richesse pétrolière pour voler 90 crédits et piocher 3 cartes."
     },
     "lore": "Monarchie scandinave possédant le plus gros fonds souverain au monde."
@@ -3028,8 +4297,8 @@
     "nom": "Nouvelle-Zélande",
     "rang": "Établi",
     "type": "Diplomatique",
-    "cout": 450,
-    "etat": 510,
+    "cout": 550,
+    "etat": 530,
     "statistiques": {
       "puissance": 68,
       "economie": 70,
@@ -3039,10 +4308,19 @@
     },
     "special": {
       "nom": "Sanctuaire du Pacifique",
-      "cout": 140,
-      "cibles": ["jeu", "banc"],
-      "variables": ["etat", "etat"],
-      "valeurs": [75, 50],
+      "cout": 185,
+      "cibles": [
+        "jeu",
+        "banc"
+      ],
+      "variables": [
+        "etat",
+        "etat"
+      ],
+      "valeurs": [
+        75,
+        50
+      ],
       "description": "Son isolement paisible soigne l'unité en jeu de 75 et le banc de 50."
     },
     "lore": "Nation insulaire pionnière en matière de droits sociaux et d'écologie."
@@ -3053,7 +4331,7 @@
     "rang": "Marginal",
     "type": "Diplomatique",
     "cout": 150,
-    "etat": 460,
+    "etat": 370,
     "statistiques": {
       "puissance": 70,
       "economie": 65,
@@ -3064,9 +4342,18 @@
     "special": {
       "nom": "Médiateur du Golfe",
       "cout": 50,
-      "cibles": ["jeu", "banc"],
-      "variables": ["etat", "etat"],
-      "valeurs": [45, 35],
+      "cibles": [
+        "jeu",
+        "banc"
+      ],
+      "variables": [
+        "etat",
+        "etat"
+      ],
+      "valeurs": [
+        45,
+        35
+      ],
       "description": "Sa neutralité active soigne l'unité en jeu de 45 et le banc de 35."
     },
     "lore": "Sultanat stratégique agissant comme la 'Suisse du Moyen-Orient'."
@@ -3077,7 +4364,7 @@
     "rang": "Marginal",
     "type": "Économique",
     "cout": 150,
-    "etat": 430,
+    "etat": 350,
     "statistiques": {
       "puissance": 72,
       "economie": 45,
@@ -3088,9 +4375,21 @@
     "special": {
       "nom": "Perle de l'Afrique",
       "cout": 50,
-      "cibles": ["creditA", "deck"],
-      "variables": [null, "emplacement"],
-      "valeurs": [-35, [1, "main"]],
+      "cibles": [
+        "creditA",
+        "deck"
+      ],
+      "variables": [
+        "credit",
+        "emplacement"
+      ],
+      "valeurs": [
+        -35,
+        [
+          1,
+          "main"
+        ]
+      ],
       "description": "Ses richesses agricoles volent 35 crédits et font piocher 1 carte."
     },
     "lore": "Nation fertile d'Afrique de l'Est bordant le lac Victoria."
@@ -3101,7 +4400,7 @@
     "rang": "Émergent",
     "type": "Économique",
     "cout": 350,
-    "etat": 480,
+    "etat": 470,
     "statistiques": {
       "puissance": 74,
       "economie": 55,
@@ -3111,10 +4410,22 @@
     },
     "special": {
       "nom": "Route de l'Or Blanc",
-      "cout": 105,
-      "cibles": ["creditA", "deck"],
-      "variables": [null, "emplacement"],
-      "valeurs": [-55, [2, "main"]],
+      "cout": 115,
+      "cibles": [
+        "creditA",
+        "deck"
+      ],
+      "variables": [
+        "credit",
+        "emplacement"
+      ],
+      "valeurs": [
+        -55,
+        [
+          2,
+          "main"
+        ]
+      ],
       "description": "Son commerce de coton et de gaz vole 55 crédits et fait piocher 2 cartes."
     },
     "lore": "Cœur historique de l'Asie centrale et producteur majeur de coton et d'or."
@@ -3124,8 +4435,8 @@
     "nom": "Pakistan",
     "rang": "Établi",
     "type": "Militaire",
-    "cout": 450,
-    "etat": 490,
+    "cout": 550,
+    "etat": 520,
     "statistiques": {
       "puissance": 88,
       "economie": 45,
@@ -3135,10 +4446,19 @@
     },
     "special": {
       "nom": "Force de Dissuasion",
-      "cout": 150,
-      "cibles": ["jeuA", "bancA"],
-      "variables": ["etat", "etat"],
-      "valeurs": [-100, -50],
+      "cout": 185,
+      "cibles": [
+        "jeuA",
+        "bancA"
+      ],
+      "variables": [
+        "etat",
+        "etat"
+      ],
+      "valeurs": [
+        -100,
+        -50
+      ],
       "description": "Sa puissance nucléaire inflige 100 dégâts en jeu et 50 sur le banc."
     },
     "lore": "Puissance nucléaire positionnée au carrefour de l'Asie."
@@ -3149,7 +4469,7 @@
     "rang": "Marginal",
     "type": "Isolationniste",
     "cout": 150,
-    "etat": 250,
+    "etat": 240,
     "statistiques": {
       "puissance": 10,
       "economie": 30,
@@ -3160,9 +4480,18 @@
     "special": {
       "nom": "Sanctuaire de Requins",
       "cout": 40,
-      "cibles": ["jeu", "banc"],
-      "variables": ["etat", "etat"],
-      "valeurs": [55, 35],
+      "cibles": [
+        "jeu",
+        "banc"
+      ],
+      "variables": [
+        "etat",
+        "etat"
+      ],
+      "valeurs": [
+        55,
+        35
+      ],
       "description": "Sa protection marine soigne l'unité en jeu de 55 et le banc de 35."
     },
     "lore": "Archipel pionnier de la protection de l'environnement marin."
@@ -3173,7 +4502,7 @@
     "rang": "Marginal",
     "type": "Diplomatique",
     "cout": 150,
-    "etat": 300,
+    "etat": 270,
     "statistiques": {
       "puissance": 45,
       "economie": 20,
@@ -3184,9 +4513,21 @@
     "special": {
       "nom": "Reconnaissance Mondiale",
       "cout": 45,
-      "cibles": ["deck", "banc"],
-      "variables": ["emplacement", "etat"],
-      "valeurs": [[2, "main"], 45],
+      "cibles": [
+        "deck",
+        "banc"
+      ],
+      "variables": [
+        "emplacement",
+        "etat"
+      ],
+      "valeurs": [
+        [
+          2,
+          "main"
+        ],
+        45
+      ],
       "description": "Son plaidoyer diplomatique fait piocher 2 cartes et soigne le banc de 45."
     },
     "lore": "Territoire détruit par la guerre en proie à la famine."
@@ -3197,7 +4538,7 @@
     "rang": "Marginal",
     "type": "Économique",
     "cout": 150,
-    "etat": 450,
+    "etat": 360,
     "statistiques": {
       "puissance": 35,
       "economie": 75,
@@ -3207,10 +4548,22 @@
     },
     "special": {
       "nom": "Verrou de l'Isthme",
-      "cout": 60,
-      "cibles": ["creditA", "deck"],
-      "variables": [null, "emplacement"],
-      "valeurs": [-65, [2, "main"]],
+      "cout": 55,
+      "cibles": [
+        "creditA",
+        "deck"
+      ],
+      "variables": [
+        "credit",
+        "emplacement"
+      ],
+      "valeurs": [
+        -65,
+        [
+          2,
+          "main"
+        ]
+      ],
       "description": "Le contrôle du canal vole 65 crédits et fait piocher 2 cartes."
     },
     "lore": "Carrefour du commerce mondial grâce à son célèbre canal."
@@ -3221,7 +4574,7 @@
     "rang": "Marginal",
     "type": "Isolationniste",
     "cout": 150,
-    "etat": 380,
+    "etat": 320,
     "statistiques": {
       "puissance": 62,
       "economie": 42,
@@ -3232,9 +4585,18 @@
     "special": {
       "nom": "Diversité Culturelle",
       "cout": 45,
-      "cibles": ["jeu", "banc"],
-      "variables": ["etat", "etat"],
-      "valeurs": [40, 25],
+      "cibles": [
+        "jeu",
+        "banc"
+      ],
+      "variables": [
+        "etat",
+        "etat"
+      ],
+      "valeurs": [
+        40,
+        25
+      ],
       "description": "Sa mosaïque de peuples offre un soin de 40 en jeu et 25 sur le banc."
     },
     "lore": "Nation d'Océanie à l'incroyable diversité linguistique et minière."
@@ -3245,7 +4607,7 @@
     "rang": "Marginal",
     "type": "Économique",
     "cout": 150,
-    "etat": 420,
+    "etat": 340,
     "statistiques": {
       "puissance": 64,
       "economie": 45,
@@ -3256,9 +4618,18 @@
     "special": {
       "nom": "Barrage d'Itaipu",
       "cout": 50,
-      "cibles": ["creditA", "jeu"],
-      "variables": [null, "etat"],
-      "valeurs": [-35, 45],
+      "cibles": [
+        "creditA",
+        "jeu"
+      ],
+      "variables": [
+        "credit",
+        "etat"
+      ],
+      "valeurs": [
+        -35,
+        45
+      ],
       "description": "Son export d'énergie vole 35 crédits et soigne l'unité en jeu de 45."
     },
     "lore": "Pays enclavé, géant de l'hydroélectricité et du soja."
@@ -3279,10 +4650,22 @@
     },
     "special": {
       "nom": "Port de Rotterdam",
-      "cout": 170,
-      "cibles": ["creditA", "deck"],
-      "variables": [null, "emplacement"],
-      "valeurs": [-95, [3, "main"]],
+      "cout": 190,
+      "cibles": [
+        "creditA",
+        "deck"
+      ],
+      "variables": [
+        "credit",
+        "emplacement"
+      ],
+      "valeurs": [
+        -95,
+        [
+          3,
+          "main"
+        ]
+      ],
       "description": "Le plus grand port d'Europe vole 95 crédits et fait piocher 3 cartes."
     },
     "lore": "Puissance commerciale et leader mondial de l'agro-technologie."
@@ -3293,7 +4676,7 @@
     "rang": "Émergent",
     "type": "Économique",
     "cout": 350,
-    "etat": 480,
+    "etat": 470,
     "statistiques": {
       "puissance": 72,
       "economie": 65,
@@ -3304,9 +4687,21 @@
     "special": {
       "nom": "Richesses des Andes",
       "cout": 115,
-      "cibles": ["creditA", "deck"],
-      "variables": [null, "emplacement"],
-      "valeurs": [-60, [2, "main"]],
+      "cibles": [
+        "creditA",
+        "deck"
+      ],
+      "variables": [
+        "credit",
+        "emplacement"
+      ],
+      "valeurs": [
+        -60,
+        [
+          2,
+          "main"
+        ]
+      ],
       "description": "Ses exportations minières volent 60 crédits et font piocher 2 cartes."
     },
     "lore": "Ancienne terre Inca, devenu un exportateur minier et agricole."
@@ -3317,7 +4712,7 @@
     "rang": "Émergent",
     "type": "Diplomatique",
     "cout": 350,
-    "etat": 490,
+    "etat": 470,
     "statistiques": {
       "puissance": 75,
       "economie": 68,
@@ -3327,10 +4722,19 @@
     },
     "special": {
       "nom": "Rempart de l'ASEAN",
-      "cout": 110,
-      "cibles": ["jeuA", "bancA"],
-      "variables": ["etat", "etat"],
-      "valeurs": [-65, -35],
+      "cout": 115,
+      "cibles": [
+        "jeuA",
+        "bancA"
+      ],
+      "variables": [
+        "etat",
+        "etat"
+      ],
+      "valeurs": [
+        -65,
+        -35
+      ],
       "description": "Sa position stratégique inflige 65 dégâts en jeu et 35 sur le banc."
     },
     "lore": "Archipel pivot de la sécurité maritime dans le Pacifique."
@@ -3341,7 +4745,7 @@
     "rang": "Établi",
     "type": "Militaire",
     "cout": 550,
-    "etat": 540,
+    "etat": 550,
     "statistiques": {
       "puissance": 85,
       "economie": 75,
@@ -3351,10 +4755,19 @@
     },
     "special": {
       "nom": "Bouclier de l'Est",
-      "cout": 160,
-      "cibles": ["jeuA", "jeu"],
-      "variables": ["etat", "etat"],
-      "valeurs": [-90, 60],
+      "cout": 190,
+      "cibles": [
+        "jeuA",
+        "jeu"
+      ],
+      "variables": [
+        "etat",
+        "etat"
+      ],
+      "valeurs": [
+        -90,
+        60
+      ],
       "description": "Son armement massif inflige 90 dégâts et soigne votre unité de 60."
     },
     "lore": "Puissance montante d'Europe centrale au rôle militaire croissant."
@@ -3364,8 +4777,8 @@
     "nom": "Portugal",
     "rang": "Établi",
     "type": "Diplomatique",
-    "cout": 450,
-    "etat": 490,
+    "cout": 550,
+    "etat": 520,
     "statistiques": {
       "puissance": 68,
       "economie": 65,
@@ -3375,10 +4788,22 @@
     },
     "special": {
       "nom": "Zone Économique Exclusive",
-      "cout": 135,
-      "cibles": ["creditA", "deck"],
-      "variables": [null, "emplacement"],
-      "valeurs": [-55, [2, "main"]],
+      "cout": 180,
+      "cibles": [
+        "creditA",
+        "deck"
+      ],
+      "variables": [
+        "credit",
+        "emplacement"
+      ],
+      "valeurs": [
+        -55,
+        [
+          2,
+          "main"
+        ]
+      ],
       "description": "Son immense domaine maritime vole 55 crédits et fait piocher 2 cartes."
     },
     "lore": "Ancienne puissance maritime, aujourd'hui hub touristique."
@@ -3388,8 +4813,8 @@
     "nom": "Qatar",
     "rang": "Établi",
     "type": "Économique",
-    "cout": 450,
-    "etat": 510,
+    "cout": 550,
+    "etat": 530,
     "statistiques": {
       "puissance": 65,
       "economie": 88,
@@ -3399,10 +4824,22 @@
     },
     "special": {
       "nom": "Diplomatie Sportive",
-      "cout": 150,
-      "cibles": ["creditA", "deck"],
-      "variables": [null, "emplacement"],
-      "valeurs": [-85, [2, "main"]],
+      "cout": 185,
+      "cibles": [
+        "creditA",
+        "deck"
+      ],
+      "variables": [
+        "credit",
+        "emplacement"
+      ],
+      "valeurs": [
+        -85,
+        [
+          2,
+          "main"
+        ]
+      ],
       "description": "Son soft power par les événements vole 85 crédits et fait piocher 2 cartes."
     },
     "lore": "Leader mondial du GNL et médiateur diplomatique influent."
@@ -3413,7 +4850,7 @@
     "rang": "Marginal",
     "type": "Militaire",
     "cout": 150,
-    "etat": 340,
+    "etat": 300,
     "statistiques": {
       "puissance": 68,
       "economie": 25,
@@ -3424,9 +4861,18 @@
     "special": {
       "nom": "Richesse du Sous-sol",
       "cout": 55,
-      "cibles": ["creditA", "jeuA"],
-      "variables": [null, "etat"],
-      "valeurs": [-40, -35],
+      "cibles": [
+        "creditA",
+        "jeuA"
+      ],
+      "variables": [
+        "credit",
+        "etat"
+      ],
+      "valeurs": [
+        -40,
+        -35
+      ],
       "description": "Ses diamants et son or volent 40 crédits et infligent 35 dégâts."
     },
     "lore": "Pays riche en ressources mais marqué par l'instabilité."
@@ -3448,9 +4894,18 @@
     "special": {
       "nom": "Minerais de Sang",
       "cout": 115,
-      "cibles": ["creditA", "jeuA"],
-      "variables": [null, "etat"],
-      "valeurs": [-80, -40],
+      "cibles": [
+        "creditA",
+        "jeuA"
+      ],
+      "variables": [
+        "credit",
+        "etat"
+      ],
+      "valeurs": [
+        -80,
+        -40
+      ],
       "description": "Son monopole sur le cobalt vole 80 crédits et inflige 40 dégâts."
     },
     "lore": "Pays possédant les plus grandes réserves de cobalt au monde."
@@ -3461,7 +4916,7 @@
     "rang": "Marginal",
     "type": "Économique",
     "cout": 150,
-    "etat": 410,
+    "etat": 340,
     "statistiques": {
       "puissance": 62,
       "economie": 55,
@@ -3472,9 +4927,18 @@
     "special": {
       "nom": "Tourisme de Masse",
       "cout": 50,
-      "cibles": ["creditA", "banc"],
-      "variables": [null, "etat"],
-      "valeurs": [-45, 30],
+      "cibles": [
+        "creditA",
+        "banc"
+      ],
+      "variables": [
+        "credit",
+        "etat"
+      ],
+      "valeurs": [
+        -45,
+        30
+      ],
       "description": "Son économie touristique vole 45 crédits et soigne le banc de 30."
     },
     "lore": "Pays partageant l'île d'Hispaniola avec Haïti."
@@ -3485,7 +4949,7 @@
     "rang": "Marginal",
     "type": "Économique",
     "cout": 150,
-    "etat": 400,
+    "etat": 330,
     "statistiques": {
       "puissance": 65,
       "economie": 48,
@@ -3496,9 +4960,21 @@
     "special": {
       "nom": "Manne Pétrolière",
       "cout": 50,
-      "cibles": ["creditA", "deck"],
-      "variables": [null, "emplacement"],
-      "valeurs": [-50, [1, "main"]],
+      "cibles": [
+        "creditA",
+        "deck"
+      ],
+      "variables": [
+        "credit",
+        "emplacement"
+      ],
+      "valeurs": [
+        -50,
+        [
+          1,
+          "main"
+        ]
+      ],
       "description": "Son exploitation offshore vole 50 crédits et fait piocher 1 carte."
     },
     "lore": "Pays producteur de pétrole et gardien de la forêt équatoriale."
@@ -3508,8 +4984,8 @@
     "nom": "République tchèque",
     "rang": "Établi",
     "type": "Économique",
-    "cout": 450,
-    "etat": 530,
+    "cout": 550,
+    "etat": 540,
     "statistiques": {
       "puissance": 70,
       "economie": 72,
@@ -3519,10 +4995,22 @@
     },
     "special": {
       "nom": "Cœur Industriel",
-      "cout": 135,
-      "cibles": ["creditA", "deck"],
-      "variables": [null, "emplacement"],
-      "valeurs": [-60, [2, "main"]],
+      "cout": 180,
+      "cibles": [
+        "creditA",
+        "deck"
+      ],
+      "variables": [
+        "credit",
+        "emplacement"
+      ],
+      "valeurs": [
+        -60,
+        [
+          2,
+          "main"
+        ]
+      ],
       "description": "Sa base manufacturière vole 60 crédits et fait piocher 2 cartes."
     },
     "lore": "Nation d'Europe centrale à forte tradition industrielle et automobile."
@@ -3533,7 +5021,7 @@
     "rang": "Émergent",
     "type": "Militaire",
     "cout": 350,
-    "etat": 490,
+    "etat": 470,
     "statistiques": {
       "puissance": 75,
       "economie": 65,
@@ -3543,10 +5031,19 @@
     },
     "special": {
       "nom": "Pivot de la Mer Noire",
-      "cout": 110,
-      "cibles": ["jeuA", "bancA"],
-      "variables": ["etat", "etat"],
-      "valeurs": [-70, -30],
+      "cout": 115,
+      "cibles": [
+        "jeuA",
+        "bancA"
+      ],
+      "variables": [
+        "etat",
+        "etat"
+      ],
+      "valeurs": [
+        -70,
+        -30
+      ],
       "description": "Sa défense côtière inflige 70 dégâts en jeu et 30 sur le banc."
     },
     "lore": "Membre clé de l'OTAN sur le flanc oriental."
@@ -3557,7 +5054,7 @@
     "rang": "Dominant",
     "type": "Diplomatique",
     "cout": 750,
-    "etat": 600,
+    "etat": 650,
     "statistiques": {
       "puissance": 87,
       "economie": 85,
@@ -3567,10 +5064,19 @@
     },
     "special": {
       "nom": "Global Britain",
-      "cout": 230,
-      "cibles": ["jeuA", "bancA"],
-      "variables": ["etat", "etat"],
-      "valeurs": [-120, -55],
+      "cout": 255,
+      "cibles": [
+        "jeuA",
+        "bancA"
+      ],
+      "variables": [
+        "etat",
+        "etat"
+      ],
+      "valeurs": [
+        -120,
+        -55
+      ],
       "description": "Sa projection navale et diplomatique inflige 120 dégâts en jeu et 55 sur le banc."
     },
     "lore": "Puissance nucléaire historique et centre financier mondial via la City."
@@ -3592,9 +5098,18 @@
     "special": {
       "nom": "Hiver Russe",
       "cout": 260,
-      "cibles": ["jeuA", "bancA"],
-      "variables": ["etat", "etat"],
-      "valeurs": [-150, -70],
+      "cibles": [
+        "jeuA",
+        "bancA"
+      ],
+      "variables": [
+        "etat",
+        "etat"
+      ],
+      "valeurs": [
+        -150,
+        -70
+      ],
       "description": "Une offensive d'usure totale infligeant 150 dégâts en jeu et 70 sur le banc."
     },
     "lore": "Plus grand pays du monde, puissance nucléaire et énergétique."
@@ -3605,7 +5120,7 @@
     "rang": "Marginal",
     "type": "Isolationniste",
     "cout": 150,
-    "etat": 440,
+    "etat": 350,
     "statistiques": {
       "puissance": 70,
       "economie": 55,
@@ -3615,10 +5130,22 @@
     },
     "special": {
       "nom": "Modèle de Renaissance",
-      "cout": 60,
-      "cibles": ["deck", "banc"],
-      "variables": ["emplacement", "etat"],
-      "valeurs": [[2, "main"], 45],
+      "cout": 55,
+      "cibles": [
+        "deck",
+        "banc"
+      ],
+      "variables": [
+        "emplacement",
+        "etat"
+      ],
+      "valeurs": [
+        [
+          2,
+          "main"
+        ],
+        45
+      ],
       "description": "Sa gestion rigoureuse fait piocher 2 cartes et soigne le banc de 45."
     },
     "lore": "Pays des mille collines, devenu un hub technologique en Afrique."
@@ -3629,7 +5156,7 @@
     "rang": "Marginal",
     "type": "Économique",
     "cout": 150,
-    "etat": 300,
+    "etat": 270,
     "statistiques": {
       "puissance": 10,
       "economie": 60,
@@ -3640,9 +5167,21 @@
     "special": {
       "nom": "Citoyenneté par Investissement",
       "cout": 40,
-      "cibles": ["creditA", "deck"],
-      "variables": [null, "emplacement"],
-      "valeurs": [-45, [1, "main"]],
+      "cibles": [
+        "creditA",
+        "deck"
+      ],
+      "variables": [
+        "credit",
+        "emplacement"
+      ],
+      "valeurs": [
+        -45,
+        [
+          1,
+          "main"
+        ]
+      ],
       "description": "Vend des passeports pour voler 45 crédits et piocher 1 carte."
     },
     "lore": "Le plus petit État des Amériques."
@@ -3653,7 +5192,7 @@
     "rang": "Marginal",
     "type": "Isolationniste",
     "cout": 150,
-    "etat": 480,
+    "etat": 380,
     "statistiques": {
       "puissance": 5,
       "economie": 65,
@@ -3663,10 +5202,19 @@
     },
     "special": {
       "nom": "Souveraineté Millénaire",
-      "cout": 35,
-      "cibles": ["jeu", "banc"],
-      "variables": ["etat", "etat"],
-      "valeurs": [60, 40],
+      "cout": 40,
+      "cibles": [
+        "jeu",
+        "banc"
+      ],
+      "variables": [
+        "etat",
+        "etat"
+      ],
+      "valeurs": [
+        60,
+        40
+      ],
       "description": "Sa neutralité historique soigne l'unité en jeu de 60 et le banc de 40."
     },
     "lore": "Plus ancienne république du monde, enclavée en Italie."
@@ -3677,7 +5225,7 @@
     "rang": "Marginal",
     "type": "Isolationniste",
     "cout": 150,
-    "etat": 280,
+    "etat": 260,
     "statistiques": {
       "puissance": 15,
       "economie": 35,
@@ -3688,9 +5236,15 @@
     "special": {
       "nom": "Éveil du Volcan",
       "cout": 45,
-      "cibles": ["jeuA"],
-      "variables": ["etat"],
-      "valeurs": [-80],
+      "cibles": [
+        "jeuA"
+      ],
+      "variables": [
+        "etat"
+      ],
+      "valeurs": [
+        -80
+      ],
       "description": "La Soufrière entre en éruption pour infliger 80 dégâts à l'adversaire."
     },
     "lore": "Archipel volcanique des Antilles au sud des Caraïbes."
@@ -3701,7 +5255,7 @@
     "rang": "Marginal",
     "type": "Diplomatique",
     "cout": 150,
-    "etat": 310,
+    "etat": 280,
     "statistiques": {
       "puissance": 12,
       "economie": 45,
@@ -3712,9 +5266,21 @@
     "special": {
       "nom": "Sommet des Pitons",
       "cout": 40,
-      "cibles": ["deck", "banc"],
-      "variables": ["emplacement", "etat"],
-      "valeurs": [[1, "main"], 40],
+      "cibles": [
+        "deck",
+        "banc"
+      ],
+      "variables": [
+        "emplacement",
+        "etat"
+      ],
+      "valeurs": [
+        [
+          1,
+          "main"
+        ],
+        40
+      ],
       "description": "Son prestige naturel fait piocher 1 carte et soigne le banc de 40."
     },
     "lore": "Île célèbre pour ses deux aiguilles volcaniques classées à l'UNESCO."
@@ -3725,7 +5291,7 @@
     "rang": "Marginal",
     "type": "Isolationniste",
     "cout": 150,
-    "etat": 330,
+    "etat": 290,
     "statistiques": {
       "puissance": 20,
       "economie": 30,
@@ -3735,10 +5301,19 @@
     },
     "special": {
       "nom": "Récifs de Corail",
-      "cout": 35,
-      "cibles": ["jeu", "banc"],
-      "variables": ["etat", "etat"],
-      "valeurs": [40, 30],
+      "cout": 40,
+      "cibles": [
+        "jeu",
+        "banc"
+      ],
+      "variables": [
+        "etat",
+        "etat"
+      ],
+      "valeurs": [
+        40,
+        30
+      ],
       "description": "Ses barrières naturelles soignent l'unité en jeu de 40 et le banc de 30."
     },
     "lore": "Vaste archipel mélanésien au centre d'enjeux géopolitiques."
@@ -3749,7 +5324,7 @@
     "rang": "Marginal",
     "type": "Économique",
     "cout": 150,
-    "etat": 390,
+    "etat": 320,
     "statistiques": {
       "puissance": 66,
       "economie": 40,
@@ -3760,9 +5335,21 @@
     "special": {
       "nom": "Bitcoin City",
       "cout": 55,
-      "cibles": ["creditA", "deck"],
-      "variables": [null, "emplacement"],
-      "valeurs": [-60, [1, "main"]],
+      "cibles": [
+        "creditA",
+        "deck"
+      ],
+      "variables": [
+        "credit",
+        "emplacement"
+      ],
+      "valeurs": [
+        -60,
+        [
+          1,
+          "main"
+        ]
+      ],
       "description": "Son pari crypto vole 60 crédits mais ne fait piocher qu'une carte."
     },
     "lore": "Premier pays au monde à avoir adopté le Bitcoin comme monnaie."
@@ -3773,7 +5360,7 @@
     "rang": "Marginal",
     "type": "Isolationniste",
     "cout": 150,
-    "etat": 270,
+    "etat": 250,
     "statistiques": {
       "puissance": 45,
       "economie": 25,
@@ -3784,9 +5371,18 @@
     "special": {
       "nom": "Code Fa'a Samoa",
       "cout": 40,
-      "cibles": ["jeu", "banc"],
-      "variables": ["etat", "etat"],
-      "valeurs": [50, 40],
+      "cibles": [
+        "jeu",
+        "banc"
+      ],
+      "variables": [
+        "etat",
+        "etat"
+      ],
+      "valeurs": [
+        50,
+        40
+      ],
       "description": "Ses traditions ancestrales soignent l'unité en jeu de 50 et le banc de 40."
     },
     "lore": "Berceau de la culture polynésienne, pays fier de ses racines."
@@ -3807,10 +5403,19 @@
     },
     "special": {
       "nom": "Cacao de Qualité",
-      "cout": 30,
-      "cibles": ["creditA", "banc"],
-      "variables": [null, "etat"],
-      "valeurs": [-30, 25],
+      "cout": 35,
+      "cibles": [
+        "creditA",
+        "banc"
+      ],
+      "variables": [
+        "credit",
+        "etat"
+      ],
+      "valeurs": [
+        -30,
+        25
+      ],
       "description": "Son chocolat raffiné vole 30 crédits et soigne le banc de 25."
     },
     "lore": "Petit État insulaire, ancien premier producteur mondial de cacao."
@@ -3821,7 +5426,7 @@
     "rang": "Émergent",
     "type": "Diplomatique",
     "cout": 350,
-    "etat": 480,
+    "etat": 470,
     "statistiques": {
       "puissance": 72,
       "economie": 55,
@@ -3831,10 +5436,22 @@
     },
     "special": {
       "nom": "Teranga Diplomatique",
-      "cout": 105,
-      "cibles": ["deck", "banc"],
-      "variables": ["emplacement", "etat"],
-      "valeurs": [[2, "main"], 50],
+      "cout": 115,
+      "cibles": [
+        "deck",
+        "banc"
+      ],
+      "variables": [
+        "emplacement",
+        "etat"
+      ],
+      "valeurs": [
+        [
+          2,
+          "main"
+        ],
+        50
+      ],
       "description": "Son hospitalité légendaire fait piocher 2 cartes et soigne le banc de 50."
     },
     "lore": "Modèle de stabilité démocratique en Afrique de l'Ouest."
@@ -3845,7 +5462,7 @@
     "rang": "Émergent",
     "type": "Militaire",
     "cout": 350,
-    "etat": 500,
+    "etat": 480,
     "statistiques": {
       "puissance": 78,
       "economie": 58,
@@ -3856,9 +5473,18 @@
     "special": {
       "nom": "Rempart Balkanique",
       "cout": 120,
-      "cibles": ["jeuA", "bancA"],
-      "variables": ["etat", "etat"],
-      "valeurs": [-85, -35],
+      "cibles": [
+        "jeuA",
+        "bancA"
+      ],
+      "variables": [
+        "etat",
+        "etat"
+      ],
+      "valeurs": [
+        -85,
+        -35
+      ],
       "description": "Sa force stratégique inflige 85 dégâts en jeu et 35 sur le banc."
     },
     "lore": "Pays pivot des Balkans à l'industrie de défense développée."
@@ -3869,7 +5495,7 @@
     "rang": "Marginal",
     "type": "Économique",
     "cout": 150,
-    "etat": 420,
+    "etat": 340,
     "statistiques": {
       "puissance": 15,
       "economie": 65,
@@ -3880,9 +5506,21 @@
     "special": {
       "nom": "Économie Bleue",
       "cout": 55,
-      "cibles": ["creditA", "deck"],
-      "variables": [null, "emplacement"],
-      "valeurs": [-55, [1, "main"]],
+      "cibles": [
+        "creditA",
+        "deck"
+      ],
+      "variables": [
+        "credit",
+        "emplacement"
+      ],
+      "valeurs": [
+        -55,
+        [
+          1,
+          "main"
+        ]
+      ],
       "description": "Sa gestion des océans vole 55 crédits et fait piocher 1 carte."
     },
     "lore": "Archipel au PIB par habitant le plus élevé d'Afrique."
@@ -3893,7 +5531,7 @@
     "rang": "Marginal",
     "type": "Économique",
     "cout": 150,
-    "etat": 350,
+    "etat": 300,
     "statistiques": {
       "puissance": 55,
       "economie": 30,
@@ -3904,9 +5542,18 @@
     "special": {
       "nom": "Diamants de Paix",
       "cout": 50,
-      "cibles": ["creditA", "jeu"],
-      "variables": [null, "etat"],
-      "valeurs": [-60, 30],
+      "cibles": [
+        "creditA",
+        "jeu"
+      ],
+      "variables": [
+        "credit",
+        "etat"
+      ],
+      "valeurs": [
+        -60,
+        30
+      ],
       "description": "Ses ressources minières volent 60 crédits et soignent l'unité en jeu de 30."
     },
     "lore": "Pays d'Afrique de l'Ouest riche en diamants, fer et bauxite."
@@ -3917,7 +5564,7 @@
     "rang": "Établi",
     "type": "Économique",
     "cout": 550,
-    "etat": 530,
+    "etat": 540,
     "statistiques": {
       "puissance": 70,
       "economie": 98,
@@ -3927,10 +5574,22 @@
     },
     "special": {
       "nom": "Hub de Malacca",
-      "cout": 160,
-      "cibles": ["creditA", "deck"],
-      "variables": [null, "emplacement"],
-      "valeurs": [-100, [3, "main"]],
+      "cout": 190,
+      "cibles": [
+        "creditA",
+        "deck"
+      ],
+      "variables": [
+        "credit",
+        "emplacement"
+      ],
+      "valeurs": [
+        -100,
+        [
+          3,
+          "main"
+        ]
+      ],
       "description": "Son contrôle du trafic maritime vole 100 crédits et fait piocher 3 cartes."
     },
     "lore": "Cité-État hyper-développée et plaque tournante de la finance."
@@ -3940,8 +5599,8 @@
     "nom": "Slovaquie",
     "rang": "Établi",
     "type": "Économique",
-    "cout": 450,
-    "etat": 510,
+    "cout": 550,
+    "etat": 530,
     "statistiques": {
       "puissance": 68,
       "economie": 70,
@@ -3951,10 +5610,22 @@
     },
     "special": {
       "nom": "Atelier Automobile",
-      "cout": 130,
-      "cibles": ["creditA", "deck"],
-      "variables": [null, "emplacement"],
-      "valeurs": [-65, [2, "main"]],
+      "cout": 180,
+      "cibles": [
+        "creditA",
+        "deck"
+      ],
+      "variables": [
+        "credit",
+        "emplacement"
+      ],
+      "valeurs": [
+        -65,
+        [
+          2,
+          "main"
+        ]
+      ],
       "description": "Son industrie de pointe vole 65 crédits et fait piocher 2 cartes."
     },
     "lore": "Premier producteur mondial de voitures par habitant."
@@ -3964,8 +5635,8 @@
     "nom": "Slovénie",
     "rang": "Établi",
     "type": "Diplomatique",
-    "cout": 450,
-    "etat": 520,
+    "cout": 550,
+    "etat": 540,
     "statistiques": {
       "puissance": 60,
       "economie": 75,
@@ -3975,10 +5646,19 @@
     },
     "special": {
       "nom": "Corridor Vert",
-      "cout": 125,
-      "cibles": ["jeu", "banc"],
-      "variables": ["etat", "etat"],
-      "valeurs": [70, 45],
+      "cout": 180,
+      "cibles": [
+        "jeu",
+        "banc"
+      ],
+      "variables": [
+        "etat",
+        "etat"
+      ],
+      "valeurs": [
+        70,
+        45
+      ],
       "description": "Son écologie avancée soigne l'unité en jeu de 70 et le banc de 45."
     },
     "lore": "Joyau vert de l'Europe centrale, membre de la zone euro."
@@ -3989,7 +5669,7 @@
     "rang": "Marginal",
     "type": "Militaire",
     "cout": 150,
-    "etat": 260,
+    "etat": 250,
     "statistiques": {
       "puissance": 65,
       "economie": 15,
@@ -4000,9 +5680,18 @@
     "special": {
       "nom": "Piraterie du Golfe",
       "cout": 55,
-      "cibles": ["creditA", "jeuA"],
-      "variables": [null, "etat"],
-      "valeurs": [-70, -30],
+      "cibles": [
+        "creditA",
+        "jeuA"
+      ],
+      "variables": [
+        "credit",
+        "etat"
+      ],
+      "valeurs": [
+        -70,
+        -30
+      ],
       "description": "Ses raids maritimes volent 70 crédits et infligent 30 dégâts."
     },
     "lore": "Nation de la Corne de l'Afrique dotée du plus long littoral du continent."
@@ -4013,7 +5702,7 @@
     "rang": "Émergent",
     "type": "Militaire",
     "cout": 350,
-    "etat": 380,
+    "etat": 400,
     "statistiques": {
       "puissance": 75,
       "economie": 35,
@@ -4023,10 +5712,19 @@
     },
     "special": {
       "nom": "Confluence des Nils",
-      "cout": 110,
-      "cibles": ["jeuA", "bancA"],
-      "variables": ["etat", "etat"],
-      "valeurs": [-80, -40],
+      "cout": 115,
+      "cibles": [
+        "jeuA",
+        "bancA"
+      ],
+      "variables": [
+        "etat",
+        "etat"
+      ],
+      "valeurs": [
+        -80,
+        -40
+      ],
       "description": "Sa position hydraulique stratégique inflige 80 dégâts en jeu et 40 sur le banc."
     },
     "lore": "Grand pays africain en pleine guerre civile."
@@ -4037,7 +5735,7 @@
     "rang": "Marginal",
     "type": "Militaire",
     "cout": 150,
-    "etat": 300,
+    "etat": 270,
     "statistiques": {
       "puissance": 68,
       "economie": 25,
@@ -4048,9 +5746,18 @@
     "special": {
       "nom": "Puits du Haut-Nil",
       "cout": 50,
-      "cibles": ["creditA", "jeuA"],
-      "variables": [null, "etat"],
-      "valeurs": [-65, -30],
+      "cibles": [
+        "creditA",
+        "jeuA"
+      ],
+      "variables": [
+        "credit",
+        "etat"
+      ],
+      "valeurs": [
+        -65,
+        -30
+      ],
       "description": "Son pétrole brut vole 65 crédits et inflige 30 dégâts d'usure."
     },
     "lore": "Le plus jeune pays du monde, né d'une longue lutte."
@@ -4061,7 +5768,7 @@
     "rang": "Émergent",
     "type": "Diplomatique",
     "cout": 350,
-    "etat": 410,
+    "etat": 420,
     "statistiques": {
       "puissance": 68,
       "economie": 45,
@@ -4071,10 +5778,22 @@
     },
     "special": {
       "nom": "Perle de l'Océan Indien",
-      "cout": 100,
-      "cibles": ["deck", "banc"],
-      "variables": ["emplacement", "etat"],
-      "valeurs": [[2, "main"], 40],
+      "cout": 115,
+      "cibles": [
+        "deck",
+        "banc"
+      ],
+      "variables": [
+        "emplacement",
+        "etat"
+      ],
+      "valeurs": [
+        [
+          2,
+          "main"
+        ],
+        40
+      ],
       "description": "Sa beauté naturelle fait piocher 2 cartes et soigne le banc de 40."
     },
     "lore": "Île stratégique célèbre pour son thé de Ceylan et ses ports profonds."
@@ -4095,10 +5814,19 @@
     },
     "special": {
       "nom": "Ingénierie de Défense",
-      "cout": 165,
-      "cibles": ["jeuA", "jeu"],
-      "variables": ["etat", "etat"],
-      "valeurs": [-95, 65],
+      "cout": 190,
+      "cibles": [
+        "jeuA",
+        "jeu"
+      ],
+      "variables": [
+        "etat",
+        "etat"
+      ],
+      "valeurs": [
+        -95,
+        65
+      ],
       "description": "Son armement high-tech inflige 95 dégâts et soigne votre unité de 65."
     },
     "lore": "Puissance technologique, leader mondial de l'innovation et du design."
@@ -4109,7 +5837,7 @@
     "rang": "Établi",
     "type": "Isolationniste",
     "cout": 550,
-    "etat": 600,
+    "etat": 590,
     "statistiques": {
       "puissance": 65,
       "economie": 96,
@@ -4119,10 +5847,19 @@
     },
     "special": {
       "nom": "Neutralité Armée",
-      "cout": 170,
-      "cibles": ["jeu", "banc"],
-      "variables": ["etat", "etat"],
-      "valeurs": [100, 70],
+      "cout": 190,
+      "cibles": [
+        "jeu",
+        "banc"
+      ],
+      "variables": [
+        "etat",
+        "etat"
+      ],
+      "valeurs": [
+        100,
+        70
+      ],
       "description": "Son inviolabilité soigne l'unité en jeu de 100 et le banc de 70."
     },
     "lore": "Havre de stabilité financière et siège de nombreuses organisations."
@@ -4133,7 +5870,7 @@
     "rang": "Marginal",
     "type": "Isolationniste",
     "cout": 150,
-    "etat": 360,
+    "etat": 310,
     "statistiques": {
       "puissance": 50,
       "economie": 40,
@@ -4144,9 +5881,18 @@
     "special": {
       "nom": "Forêt Amazonienne",
       "cout": 45,
-      "cibles": ["jeu", "banc"],
-      "variables": ["etat", "etat"],
-      "valeurs": [50, 35],
+      "cibles": [
+        "jeu",
+        "banc"
+      ],
+      "variables": [
+        "etat",
+        "etat"
+      ],
+      "valeurs": [
+        50,
+        35
+      ],
       "description": "Sa jungle impénétrable soigne l'unité en jeu de 50 et le banc de 35."
     },
     "lore": "Plus petit pays d'Amérique du Sud, recouvert à 90% par la forêt."
@@ -4157,7 +5903,7 @@
     "rang": "Marginal",
     "type": "Militaire",
     "cout": 150,
-    "etat": 280,
+    "etat": 260,
     "statistiques": {
       "puissance": 74,
       "economie": 15,
@@ -4167,10 +5913,19 @@
     },
     "special": {
       "nom": "Guerre d'Usure",
-      "cout": 60,
-      "cibles": ["jeuA", "bancA"],
-      "variables": ["etat", "etat"],
-      "valeurs": [-85, -35],
+      "cout": 55,
+      "cibles": [
+        "jeuA",
+        "bancA"
+      ],
+      "variables": [
+        "etat",
+        "etat"
+      ],
+      "valeurs": [
+        -85,
+        -35
+      ],
       "description": "Ses tactiques de guérilla infligent 85 dégâts en jeu et 35 sur le banc."
     },
     "lore": "Pays marqué par une décennie de conflits."
@@ -4181,7 +5936,7 @@
     "rang": "Marginal",
     "type": "Isolationniste",
     "cout": 150,
-    "etat": 350,
+    "etat": 300,
     "statistiques": {
       "puissance": 62,
       "economie": 32,
@@ -4192,9 +5947,18 @@
     "special": {
       "nom": "Glaciers du Pamir",
       "cout": 40,
-      "cibles": ["jeu", "banc"],
-      "variables": ["etat", "etat"],
-      "valeurs": [45, 30],
+      "cibles": [
+        "jeu",
+        "banc"
+      ],
+      "variables": [
+        "etat",
+        "etat"
+      ],
+      "valeurs": [
+        45,
+        30
+      ],
       "description": "Ses montagnes inaccessibles soignent l'unité en jeu de 45 et le banc de 30."
     },
     "lore": "Nation montagneuse d'Asie centrale, le 'Toit du Monde' post-soviétique."
@@ -4205,7 +5969,7 @@
     "rang": "Établi",
     "type": "Économique",
     "cout": 550,
-    "etat": 540,
+    "etat": 550,
     "statistiques": {
       "puissance": 78,
       "economie": 92,
@@ -4215,10 +5979,19 @@
     },
     "special": {
       "nom": "Bouclier de Silicium",
-      "cout": 170,
-      "cibles": ["jeuA", "creditA"],
-      "variables": ["etat", null],
-      "valeurs": [-90, -50],
+      "cout": 190,
+      "cibles": [
+        "jeuA",
+        "creditA"
+      ],
+      "variables": [
+        "etat",
+        "credit"
+      ],
+      "valeurs": [
+        -90,
+        -50
+      ],
       "description": "Son monopole sur les puces inflige 90 dégâts et vole 50 crédits."
     },
     "lore": "Leader des semi-conducteurs au enjeu géopolitique majeur."
@@ -4229,7 +6002,7 @@
     "rang": "Émergent",
     "type": "Économique",
     "cout": 350,
-    "etat": 470,
+    "etat": 460,
     "statistiques": {
       "puissance": 68,
       "economie": 55,
@@ -4239,10 +6012,22 @@
     },
     "special": {
       "nom": "Manne du Kilimandjaro",
-      "cout": 105,
-      "cibles": ["creditA", "deck"],
-      "variables": [null, "emplacement"],
-      "valeurs": [-55, [2, "main"]],
+      "cout": 115,
+      "cibles": [
+        "creditA",
+        "deck"
+      ],
+      "variables": [
+        "credit",
+        "emplacement"
+      ],
+      "valeurs": [
+        -55,
+        [
+          2,
+          "main"
+        ]
+      ],
       "description": "Son tourisme et ses minerais volent 55 crédits et font piocher 2 cartes."
     },
     "lore": "Pays d'Afrique de l'Est abritant le Serengeti."
@@ -4253,7 +6038,7 @@
     "rang": "Marginal",
     "type": "Militaire",
     "cout": 150,
-    "etat": 380,
+    "etat": 320,
     "statistiques": {
       "puissance": 76,
       "economie": 35,
@@ -4263,10 +6048,19 @@
     },
     "special": {
       "nom": "Gendarme du Sahel",
-      "cout": 60,
-      "cibles": ["jeuA", "bancA"],
-      "variables": ["etat", "etat"],
-      "valeurs": [-90, -40],
+      "cout": 55,
+      "cibles": [
+        "jeuA",
+        "bancA"
+      ],
+      "variables": [
+        "etat",
+        "etat"
+      ],
+      "valeurs": [
+        -90,
+        -40
+      ],
       "description": "Son armée endurcie inflige 90 dégâts en jeu et 40 sur le banc."
     },
     "lore": "Puissance militaire régionale, pivot de la sécurité en Afrique."
@@ -4277,7 +6071,7 @@
     "rang": "Émergent",
     "type": "Économique",
     "cout": 350,
-    "etat": 510,
+    "etat": 490,
     "statistiques": {
       "puissance": 74,
       "economie": 72,
@@ -4288,9 +6082,21 @@
     "special": {
       "nom": "Hub de l'Asie du Sud-Est",
       "cout": 115,
-      "cibles": ["creditA", "deck"],
-      "variables": [null, "emplacement"],
-      "valeurs": [-65, [2, "main"]],
+      "cibles": [
+        "creditA",
+        "deck"
+      ],
+      "variables": [
+        "credit",
+        "emplacement"
+      ],
+      "valeurs": [
+        -65,
+        [
+          2,
+          "main"
+        ]
+      ],
       "description": "Sa puissance industrielle vole 65 crédits et fait piocher 2 cartes."
     },
     "lore": "Deuxième économie d'Asie du Sud-Est, carrefour touristique."
@@ -4301,7 +6107,7 @@
     "rang": "Marginal",
     "type": "Isolationniste",
     "cout": 150,
-    "etat": 290,
+    "etat": 270,
     "statistiques": {
       "puissance": 25,
       "economie": 30,
@@ -4312,9 +6118,18 @@
     "special": {
       "nom": "Ressources Pétrolières",
       "cout": 45,
-      "cibles": ["creditA", "banc"],
-      "variables": [null, "etat"],
-      "valeurs": [-40, 30],
+      "cibles": [
+        "creditA",
+        "banc"
+      ],
+      "variables": [
+        "credit",
+        "etat"
+      ],
+      "valeurs": [
+        -40,
+        30
+      ],
       "description": "Ses gisements en mer volent 40 crédits et soignent le banc de 30."
     },
     "lore": "Jeune nation insulaire ayant lutté pour son indépendance."
@@ -4325,7 +6140,7 @@
     "rang": "Marginal",
     "type": "Économique",
     "cout": 150,
-    "etat": 370,
+    "etat": 310,
     "statistiques": {
       "puissance": 60,
       "economie": 45,
@@ -4336,9 +6151,21 @@
     "special": {
       "nom": "Port Autonome de Lomé",
       "cout": 50,
-      "cibles": ["creditA", "deck"],
-      "variables": [null, "emplacement"],
-      "valeurs": [-45, [1, "main"]],
+      "cibles": [
+        "creditA",
+        "deck"
+      ],
+      "variables": [
+        "credit",
+        "emplacement"
+      ],
+      "valeurs": [
+        -45,
+        [
+          1,
+          "main"
+        ]
+      ],
       "description": "Son port en eau profonde vole 45 crédits et fait piocher 1 carte."
     },
     "lore": "Corridor logistique majeur pour les pays enclavés d'Afrique de l'Ouest."
@@ -4349,7 +6176,7 @@
     "rang": "Marginal",
     "type": "Isolationniste",
     "cout": 150,
-    "etat": 250,
+    "etat": 240,
     "statistiques": {
       "puissance": 35,
       "economie": 25,
@@ -4359,10 +6186,19 @@
     },
     "special": {
       "nom": "Dynastie Insulaire",
-      "cout": 35,
-      "cibles": ["jeu", "banc"],
-      "variables": ["etat", "etat"],
-      "valeurs": [50, 35],
+      "cout": 40,
+      "cibles": [
+        "jeu",
+        "banc"
+      ],
+      "variables": [
+        "etat",
+        "etat"
+      ],
+      "valeurs": [
+        50,
+        35
+      ],
       "description": "Sa lignée royale millénaire soigne l'unité en jeu de 50 et le banc de 35."
     },
     "lore": "Seule monarchie du Pacifique."
@@ -4373,7 +6209,7 @@
     "rang": "Marginal",
     "type": "Économique",
     "cout": 150,
-    "etat": 440,
+    "etat": 350,
     "statistiques": {
       "puissance": 50,
       "economie": 68,
@@ -4384,9 +6220,21 @@
     "special": {
       "nom": "Pétro-Caraïbes",
       "cout": 55,
-      "cibles": ["creditA", "deck"],
-      "variables": [null, "emplacement"],
-      "valeurs": [-60, [1, "main"]],
+      "cibles": [
+        "creditA",
+        "deck"
+      ],
+      "variables": [
+        "credit",
+        "emplacement"
+      ],
+      "valeurs": [
+        -60,
+        [
+          1,
+          "main"
+        ]
+      ],
       "description": "Sa richesse gazière vole 60 crédits et fait piocher 1 carte."
     },
     "lore": "Nation caribéenne leader régional dans les hydrocarbures."
@@ -4407,10 +6255,22 @@
     },
     "special": {
       "nom": "Héritage de Carthage",
-      "cout": 100,
-      "cibles": ["deck", "banc"],
-      "variables": ["emplacement", "etat"],
-      "valeurs": [[2, "main"], 45],
+      "cout": 115,
+      "cibles": [
+        "deck",
+        "banc"
+      ],
+      "variables": [
+        "emplacement",
+        "etat"
+      ],
+      "valeurs": [
+        [
+          2,
+          "main"
+        ],
+        45
+      ],
       "description": "Son aura historique fait piocher 2 cartes et soigne le banc de 45."
     },
     "lore": "Nation méditerranéenne au riche passé culturel."
@@ -4431,10 +6291,19 @@
     },
     "special": {
       "nom": "Drones Bayraktar",
-      "cout": 165,
-      "cibles": ["jeuA", "bancA"],
-      "variables": ["etat", "etat"],
-      "valeurs": [-110, -50],
+      "cout": 190,
+      "cibles": [
+        "jeuA",
+        "bancA"
+      ],
+      "variables": [
+        "etat",
+        "etat"
+      ],
+      "valeurs": [
+        -110,
+        -50
+      ],
       "description": "Sa technologie de drones inflige 110 dégâts en jeu et 50 sur le banc."
     },
     "lore": "Puissance régionale émergente à cheval sur deux continents."
@@ -4445,7 +6314,7 @@
     "rang": "Marginal",
     "type": "Isolationniste",
     "cout": 150,
-    "etat": 460,
+    "etat": 370,
     "statistiques": {
       "puissance": 68,
       "economie": 65,
@@ -4455,10 +6324,19 @@
     },
     "special": {
       "nom": "Portes de l'Enfer",
-      "cout": 60,
-      "cibles": ["jeuA", "creditA"],
-      "variables": ["etat", null],
-      "valeurs": [-75, -45],
+      "cout": 55,
+      "cibles": [
+        "jeuA",
+        "creditA"
+      ],
+      "variables": [
+        "etat",
+        "credit"
+      ],
+      "valeurs": [
+        -75,
+        -45
+      ],
       "description": "Ses réserves de gaz massives infligent 75 dégâts et volent 45 crédits."
     },
     "lore": "L'un des pays les plus fermés au monde."
@@ -4469,7 +6347,7 @@
     "rang": "Marginal",
     "type": "Isolationniste",
     "cout": 150,
-    "etat": 180,
+    "etat": 200,
     "statistiques": {
       "puissance": 5,
       "economie": 35,
@@ -4480,9 +6358,21 @@
     "special": {
       "nom": "Domaine .tv",
       "cout": 40,
-      "cibles": ["creditA", "deck"],
-      "variables": [null, "emplacement"],
-      "valeurs": [-50, [2, "main"]],
+      "cibles": [
+        "creditA",
+        "deck"
+      ],
+      "variables": [
+        "credit",
+        "emplacement"
+      ],
+      "valeurs": [
+        -50,
+        [
+          2,
+          "main"
+        ]
+      ],
       "description": "Loue son extension internet pour voler 50 crédits et piocher 2 cartes."
     },
     "lore": "Micro-État, l'un des pays les plus menacés par la montée des eaux."
@@ -4493,7 +6383,7 @@
     "rang": "Émergent",
     "type": "Militaire",
     "cout": 350,
-    "etat": 420,
+    "etat": 430,
     "statistiques": {
       "puissance": 85,
       "economie": 45,
@@ -4504,9 +6394,18 @@
     "special": {
       "nom": "Grenier du Monde",
       "cout": 120,
-      "cibles": ["jeuA", "bancA"],
-      "variables": ["etat", "etat"],
-      "valeurs": [-95, -45],
+      "cibles": [
+        "jeuA",
+        "bancA"
+      ],
+      "variables": [
+        "etat",
+        "etat"
+      ],
+      "valeurs": [
+        -95,
+        -45
+      ],
       "description": "Son endurance militaire et agricole inflige 95 dégâts en jeu et 45 sur le banc."
     },
     "lore": "Vaste pays doté de terres fertiles et d'une force de résilience éprouvée."
@@ -4517,7 +6416,7 @@
     "rang": "Marginal",
     "type": "Diplomatique",
     "cout": 150,
-    "etat": 470,
+    "etat": 370,
     "statistiques": {
       "puissance": 55,
       "economie": 65,
@@ -4528,9 +6427,18 @@
     "special": {
       "nom": "Suisse de l'Amérique",
       "cout": 55,
-      "cibles": ["jeu", "banc"],
-      "variables": ["etat", "etat"],
-      "valeurs": [60, 45],
+      "cibles": [
+        "jeu",
+        "banc"
+      ],
+      "variables": [
+        "etat",
+        "etat"
+      ],
+      "valeurs": [
+        60,
+        45
+      ],
       "description": "Sa stabilité démocratique soigne l'unité en jeu de 60 et le banc de 45."
     },
     "lore": "Pays pionnier dans les droits sociaux et les énergies renouvelables."
@@ -4541,7 +6449,7 @@
     "rang": "Marginal",
     "type": "Isolationniste",
     "cout": 150,
-    "etat": 260,
+    "etat": 250,
     "statistiques": {
       "puissance": 10,
       "economie": 25,
@@ -4551,10 +6459,19 @@
     },
     "special": {
       "nom": "Échanges Coutumiers",
-      "cout": 30,
-      "cibles": ["jeu", "banc"],
-      "variables": ["etat", "etat"],
-      "valeurs": [40, 30],
+      "cout": 35,
+      "cibles": [
+        "jeu",
+        "banc"
+      ],
+      "variables": [
+        "etat",
+        "etat"
+      ],
+      "valeurs": [
+        40,
+        30
+      ],
       "description": "Sa culture de solidarité soigne l'unité en jeu de 40 et le banc de 30."
     },
     "lore": "Archipel mélanésien volcanique à la diversité linguistique exceptionnelle."
@@ -4565,7 +6482,7 @@
     "rang": "Marginal",
     "type": "Diplomatique",
     "cout": 150,
-    "etat": 500,
+    "etat": 390,
     "statistiques": {
       "puissance": 5,
       "economie": 60,
@@ -4575,10 +6492,19 @@
     },
     "special": {
       "nom": "Bénédiction Urbis",
-      "cout": 60,
-      "cibles": ["jeu", "banc"],
-      "variables": ["etat", "etat"],
-      "valeurs": [90, 60],
+      "cout": 55,
+      "cibles": [
+        "jeu",
+        "banc"
+      ],
+      "variables": [
+        "etat",
+        "etat"
+      ],
+      "valeurs": [
+        90,
+        60
+      ],
       "description": "Son autorité morale soigne l'unité en jeu de 90 et le banc de 60."
     },
     "lore": "Plus petit État au monde, centre spirituel de l'Église catholique."
@@ -4589,7 +6515,7 @@
     "rang": "Émergent",
     "type": "Économique",
     "cout": 350,
-    "etat": 400,
+    "etat": 410,
     "statistiques": {
       "puissance": 72,
       "economie": 35,
@@ -4600,9 +6526,18 @@
     "special": {
       "nom": "Or Noir Infini",
       "cout": 115,
-      "cibles": ["creditA", "jeuA"],
-      "variables": [null, "etat"],
-      "valeurs": [-85, -35],
+      "cibles": [
+        "creditA",
+        "jeuA"
+      ],
+      "variables": [
+        "credit",
+        "etat"
+      ],
+      "valeurs": [
+        -85,
+        -35
+      ],
       "description": "Ses réserves records de brut volent 85 crédits et infligent 35 dégâts."
     },
     "lore": "Pays possédant les plus grandes réserves de pétrole de la planète."
@@ -4613,7 +6548,7 @@
     "rang": "Émergent",
     "type": "Économique",
     "cout": 350,
-    "etat": 520,
+    "etat": 490,
     "statistiques": {
       "puissance": 82,
       "economie": 78,
@@ -4624,9 +6559,21 @@
     "special": {
       "nom": "Dragon de l'ASEAN",
       "cout": 120,
-      "cibles": ["creditA", "deck"],
-      "variables": [null, "emplacement"],
-      "valeurs": [-65, [2, "main"]],
+      "cibles": [
+        "creditA",
+        "deck"
+      ],
+      "variables": [
+        "credit",
+        "emplacement"
+      ],
+      "valeurs": [
+        -65,
+        [
+          2,
+          "main"
+        ]
+      ],
       "description": "Son essor manufacturier vole 65 crédits et fait piocher 2 cartes."
     },
     "lore": "Ancien pays agricole devenu un hub industriel mondial incontournable."
@@ -4637,7 +6584,7 @@
     "rang": "Marginal",
     "type": "Militaire",
     "cout": 150,
-    "etat": 250,
+    "etat": 240,
     "statistiques": {
       "puissance": 70,
       "economie": 15,
@@ -4648,9 +6595,18 @@
     "special": {
       "nom": "Verrou de Bab-el-Mandeb",
       "cout": 55,
-      "cibles": ["creditA", "jeuA"],
-      "variables": [null, "etat"],
-      "valeurs": [-60, -35],
+      "cibles": [
+        "creditA",
+        "jeuA"
+      ],
+      "variables": [
+        "credit",
+        "etat"
+      ],
+      "valeurs": [
+        -60,
+        -35
+      ],
       "description": "Son contrôle du détroit vole 60 crédits et inflige 35 dégâts."
     },
     "lore": "Pays à la position maritime stratégique."
@@ -4661,7 +6617,7 @@
     "rang": "Marginal",
     "type": "Économique",
     "cout": 150,
-    "etat": 430,
+    "etat": 350,
     "statistiques": {
       "puissance": 64,
       "economie": 45,
@@ -4672,9 +6628,21 @@
     "special": {
       "nom": "Ceinture de Cuivre",
       "cout": 50,
-      "cibles": ["creditA", "deck"],
-      "variables": [null, "emplacement"],
-      "valeurs": [-55, [1, "main"]],
+      "cibles": [
+        "creditA",
+        "deck"
+      ],
+      "variables": [
+        "credit",
+        "emplacement"
+      ],
+      "valeurs": [
+        -55,
+        [
+          1,
+          "main"
+        ]
+      ],
       "description": "Ses mines de cuivre volent 55 crédits et font piocher 1 carte."
     },
     "lore": "L'un des plus grands producteurs mondiaux de cuivre de qualité."
@@ -4685,7 +6653,7 @@
     "rang": "Marginal",
     "type": "Isolationniste",
     "cout": 150,
-    "etat": 360,
+    "etat": 310,
     "statistiques": {
       "puissance": 65,
       "economie": 25,
@@ -4696,9 +6664,18 @@
     "special": {
       "nom": "Ruines du Grand Zimbabwe",
       "cout": 45,
-      "cibles": ["jeu", "banc"],
-      "variables": ["etat", "etat"],
-      "valeurs": [55, 30],
+      "cibles": [
+        "jeu",
+        "banc"
+      ],
+      "variables": [
+        "etat",
+        "etat"
+      ],
+      "valeurs": [
+        55,
+        30
+      ],
       "description": "Son héritage de pierre prestigieux soigne l'unité en jeu de 55 et le banc de 30."
     },
     "lore": "Ancien grenier à blé d'Afrique australe, riche en or et en platine."

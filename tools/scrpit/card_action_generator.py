@@ -65,7 +65,7 @@ for p in action:
 
     desc_text = p["description"]
     lines = wrap_text(desc_text, font_italic, 240, draw)
-    y_offset = 320
+    y_offset = 308
     for line in lines:
         draw.text((40, y_offset), line, font=font_italic, fill=TEXT_COLOR)
         y_offset += 18
