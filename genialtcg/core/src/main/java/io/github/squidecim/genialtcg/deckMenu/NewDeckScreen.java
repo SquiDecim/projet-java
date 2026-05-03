@@ -41,19 +41,40 @@ public class NewDeckScreen implements Screen {
     private final int MAX_COUNTRY = 40;
     private final int MAX_ACTION = 10;
     private final int MAX_TOOL = 10;
+    private static final int MIN_CHEAP = 5;
+    private static final int MAX_CHEAP_COST = 200;
+
+    private int currentStep = 1;
 
     private Label counterLabel;
     private Label messageLabel;
-    private TextButton btnValidate;
+    private TextButton btnBack;
+    private TextButton btnNext;
+
+    private Table filterBar;
+    private Table gridTable;
 
     private TextField searchField;
     private SelectBox<String> typeSelect;
     private SelectBox<String> rankSelect;
     private SelectBox<String> categorySelect;
+    private SelectBox<String> sortSelect;
 
-    private final String[] categoryOptions = {
+    private final String[] sortOptionsStep1 = {
+        "Alphabétique",
+        "Coût croissant",
+        "Coût décroissant",
+        "État croissant",
+        "État décroissant",
+    };
+    private final String[] sortOptionsStep2 = {
         "Toutes",
-        "Pays",
+        "Avec condition",
+        "Sans condition",
+    };
+
+    private final String[] categoryOptionsStep2 = {
+        "Toutes",
         "Actions",
         "Outils",
     };
@@ -73,7 +94,7 @@ public class NewDeckScreen implements Screen {
         "Dominant",
         "Hégémonie",
     };
-    private Table gridTable;
+
     private Array<AtlasRegion> allCardsSorted;
     private Array<String> selectedCards;
 
@@ -127,19 +148,16 @@ public class NewDeckScreen implements Screen {
         setLinearFilter(atlas_actions);
         setLinearFilter(atlas_outils);
 
-        allCardsSorted = new Array<>();
         final Collator collator = Collator.getInstance(Locale.FRENCH);
         collator.setStrength(Collator.PRIMARY);
 
+        allCardsSorted = new Array<>();
         Array<AtlasRegion> countries = new Array<>(atlas.getRegions());
         countries.sort((r1, r2) -> collator.compare(r1.name, r2.name));
-
         Array<AtlasRegion> actions = new Array<>(atlas_actions.getRegions());
         actions.sort((r1, r2) -> collator.compare(r1.name, r2.name));
-
         Array<AtlasRegion> outils = new Array<>(atlas_outils.getRegions());
         outils.sort((r1, r2) -> collator.compare(r1.name, r2.name));
-
         allCardsSorted.addAll(countries);
         allCardsSorted.addAll(actions);
         allCardsSorted.addAll(outils);
@@ -165,13 +183,25 @@ public class NewDeckScreen implements Screen {
             }
         );
 
-        Table topBar = new Table();
-        TextButton btnBack = new TextButton("Retour", skin);
+        // --- Barre du haut ---
+        counterLabel = new Label("", skin);
+        messageLabel = new Label("", skin);
+        messageLabel.setColor(Color.ORANGE);
+
+        Table centerGroup = new Table();
+        centerGroup.add(counterLabel).row();
+        centerGroup.add(messageLabel).height(20);
+
+        btnBack = new TextButton("Retour", skin);
         btnBack.addListener(
             new ChangeListener() {
                 @Override
                 public void changed(ChangeEvent event, Actor actor) {
-                    game.setScreen(new DeckScreen(game));
+                    if (currentStep == 1) {
+                        game.setScreen(new DeckScreen(game));
+                    } else {
+                        switchStep(1);
+                    }
                 }
             }
         );
@@ -186,71 +216,108 @@ public class NewDeckScreen implements Screen {
             }
         );
 
-        counterLabel = new Label("", skin);
-        messageLabel = new Label("", skin);
-        messageLabel.setColor(Color.ORANGE);
-
-        Table centerGroup = new Table();
-        centerGroup.add(counterLabel).row();
-        centerGroup.add(messageLabel).height(20);
-
-        btnValidate = new TextButton("Valider", skin);
-        btnValidate.addListener(
+        btnNext = new TextButton("Suivant", skin);
+        btnNext.addListener(
             new ChangeListener() {
                 @Override
                 public void changed(ChangeEvent event, Actor actor) {
-                    showSaveDialog();
+                    if (currentStep == 1) {
+                        switchStep(2);
+                    } else {
+                        showSaveDialog();
+                    }
                 }
             }
         );
 
+        Table topBar = new Table();
         topBar.add(btnBack).width(200).height(50).pad(10);
         topBar.add(btnRandom).width(200).height(50).pad(10);
         topBar.add(centerGroup).expandX().center();
-        topBar.add(btnValidate).width(200).height(50).pad(10);
+        topBar.add(btnNext).width(200).height(50).pad(10);
         root.add(topBar).expandX().fillX().row();
 
-        searchField = new TextField("", skin);
-        searchField.setMessageText("Rechercher...");
-
-        categorySelect = new SelectBox<>(skin);
-        categorySelect.setItems(categoryOptions);
-
-        typeSelect = new SelectBox<>(skin);
-        typeSelect.setItems(types);
-
-        rankSelect = new SelectBox<>(skin);
-        rankSelect.setItems(ranks);
-
+        // --- Widgets de filtre (partagés entre les deux étapes) ---
         ChangeListener filterListener = new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 updateGrid(searchField.getText());
             }
         };
+
+        searchField = new TextField("", skin);
+        searchField.setMessageText("Rechercher...");
         searchField.addListener(filterListener);
-        categorySelect.addListener(filterListener);
+
+        typeSelect = new SelectBox<>(skin);
+        typeSelect.setItems(types);
         typeSelect.addListener(filterListener);
+
+        rankSelect = new SelectBox<>(skin);
+        rankSelect.setItems(ranks);
         rankSelect.addListener(filterListener);
 
-        Table searchBarTable = new Table();
-        searchBarTable.add(new Label("Recherche : ", skin)).padLeft(10);
-        searchBarTable.add(searchField).width(180).pad(10);
-        searchBarTable.add(new Label("Catégorie : ", skin)).padLeft(10);
-        searchBarTable.add(categorySelect).width(140).pad(10);
-        searchBarTable.add(new Label("Type : ", skin)).padLeft(10);
-        searchBarTable.add(typeSelect).width(140).pad(10);
-        searchBarTable.add(new Label("Rang : ", skin)).padLeft(10);
-        searchBarTable.add(rankSelect).width(120).pad(10);
-        root.add(searchBarTable).expandX().fillX().row();
+        categorySelect = new SelectBox<>(skin);
+        categorySelect.setItems(categoryOptionsStep2);
+        categorySelect.addListener(filterListener);
 
+        sortSelect = new SelectBox<>(skin);
+        sortSelect.setItems(sortOptionsStep1);
+        sortSelect.addListener(filterListener);
+
+        // --- Barre de filtre (reconstruite à chaque étape) ---
+        filterBar = new Table();
+        root.add(filterBar).expandX().fillX().row();
+
+        // --- Grille ---
         gridTable = new Table();
-        updateGrid("");
         ScrollPane scroll = new ScrollPane(gridTable, skin);
         root.add(scroll).expand().fill().pad(10);
         stage.setScrollFocus(scroll);
 
+        buildFilterBar();
+        updateGrid("");
         updateUI();
+    }
+
+    private void switchStep(int step) {
+        currentStep = step;
+        searchField.setText("");
+        if (step == 1) {
+            sortSelect.setItems(sortOptionsStep1);
+            typeSelect.setSelectedIndex(0);
+            rankSelect.setSelectedIndex(0);
+            btnBack.setText("Retour");
+            btnNext.setText("Suivant");
+        } else {
+            sortSelect.setItems(sortOptionsStep2);
+            categorySelect.setSelectedIndex(0);
+            btnBack.setText("Retour");
+            btnNext.setText("Valider");
+        }
+        buildFilterBar();
+        updateGrid("");
+        updateUI();
+    }
+
+    private void buildFilterBar() {
+        filterBar.clearChildren();
+        filterBar.add(new Label("Recherche : ", skin)).padLeft(10);
+        filterBar.add(searchField).width(180).pad(10);
+        if (currentStep == 1) {
+            filterBar.add(new Label("Type : ", skin)).padLeft(10);
+            filterBar.add(typeSelect).width(140).pad(10);
+            filterBar.add(new Label("Rang : ", skin)).padLeft(10);
+            filterBar.add(rankSelect).width(120).pad(10);
+        } else {
+            filterBar.add(new Label("Catégorie : ", skin)).padLeft(10);
+            filterBar.add(categorySelect).width(140).pad(10);
+            filterBar.add(new Label("Contrainte : ", skin)).padLeft(10);
+            filterBar.add(sortSelect).width(160).pad(10);
+            return;
+        }
+        filterBar.add(new Label("Tri : ", skin)).padLeft(10);
+        filterBar.add(sortSelect).width(160).pad(10);
     }
 
     private void setLinearFilter(TextureAtlas atlas) {
@@ -276,29 +343,85 @@ public class NewDeckScreen implements Screen {
         return count;
     }
 
-    private void selectRandomCards() {
-        selectedCards.clear();
-        Array<AtlasRegion> c = new Array<>(atlas.getRegions());
-        c.shuffle();
-        for (
-            int i = 0;
-            i < Math.min(MAX_COUNTRY, c.size);
-            i++
-        ) selectedCards.add(c.get(i).name);
+    private int countCheapCountryCards() {
+        int count = 0;
+        for (String name : selectedCards) {
+            if (!getCardCategory(name).equals("PAYS")) continue;
+            CardData data = game.allCardsMap.get(name);
+            if (data != null && data.cost < MAX_CHEAP_COST) count++;
+        }
+        return count;
+    }
 
-        Array<AtlasRegion> a = new Array<>(atlas_actions.getRegions());
-        a.shuffle();
-        for (
-            int i = 0;
-            i < Math.min(MAX_ACTION, a.size);
-            i++
-        ) selectedCards.add(a.get(i).name);
-
-        Array<AtlasRegion> o = new Array<>(atlas_outils.getRegions());
-        o.shuffle();
-        for (int i = 0; i < Math.min(MAX_TOOL, o.size); i++) selectedCards.add(
-            o.get(i).name
+    private boolean hasCond(CardData d) {
+        return (
+            d != null &&
+            d.cond != null &&
+            !d.cond.isEmpty() &&
+            !d.cond.equals("—")
         );
+    }
+
+    private void selectRandomCards() {
+        if (currentStep == 1) {
+            Array<String> toRemove = new Array<>();
+            for (String name : selectedCards) {
+                if (getCardCategory(name).equals("PAYS")) toRemove.add(name);
+            }
+            for (String name : toRemove) selectedCards.removeValue(name, false);
+
+            Array<AtlasRegion> cheap = new Array<>();
+            Array<AtlasRegion> expensive = new Array<>();
+            for (AtlasRegion r : atlas.getRegions()) {
+                CardData d = game.allCardsMap.get(r.name);
+                if (d != null && d.cost < MAX_CHEAP_COST) cheap.add(r);
+                else expensive.add(r);
+            }
+            cheap.shuffle();
+            expensive.shuffle();
+
+            int added = 0;
+            for (int i = 0; i < Math.min(MIN_CHEAP, cheap.size); i++) {
+                selectedCards.add(cheap.get(i).name);
+                added++;
+            }
+            Array<AtlasRegion> rest = new Array<>();
+            for (int i = MIN_CHEAP; i < cheap.size; i++) rest.add(cheap.get(i));
+            rest.addAll(expensive);
+            rest.shuffle();
+            for (
+                int i = 0;
+                added < MAX_COUNTRY && i < rest.size;
+                i++, added++
+            ) {
+                selectedCards.add(rest.get(i).name);
+            }
+        } else {
+            Array<String> toRemove = new Array<>();
+            for (String name : selectedCards) {
+                String cat = getCardCategory(name);
+                if (cat.equals("ACTION") || cat.equals("OUTIL")) toRemove.add(
+                    name
+                );
+            }
+            for (String name : toRemove) selectedCards.removeValue(name, false);
+
+            Array<AtlasRegion> a = new Array<>(atlas_actions.getRegions());
+            a.shuffle();
+            for (
+                int i = 0;
+                i < Math.min(MAX_ACTION, a.size);
+                i++
+            ) selectedCards.add(a.get(i).name);
+
+            Array<AtlasRegion> o = new Array<>(atlas_outils.getRegions());
+            o.shuffle();
+            for (
+                int i = 0;
+                i < Math.min(MAX_TOOL, o.size);
+                i++
+            ) selectedCards.add(o.get(i).name);
+        }
 
         updateUI();
         updateGrid(searchField.getText());
@@ -310,38 +433,68 @@ public class NewDeckScreen implements Screen {
         } else {
             String category = getCardCategory(cardName);
             int current = getCountInCategory(category);
-            if (
-                category.equals("PAYS") && current >= MAX_COUNTRY
-            ) showEphemeralMessage("Limite de 40 Pays atteinte !");
-            else if (
-                category.equals("ACTION") && current >= MAX_ACTION
-            ) showEphemeralMessage("Limite de 10 Actions atteinte !");
-            else if (
-                category.equals("OUTIL") && current >= MAX_TOOL
-            ) showEphemeralMessage("Limite de 10 Outils atteinte !");
-            else selectedCards.add(cardName);
+            if (category.equals("PAYS") && current >= MAX_COUNTRY) {
+                showEphemeralMessage("Limite de 40 Pays atteinte !");
+            } else if (category.equals("ACTION") && current >= MAX_ACTION) {
+                showEphemeralMessage("Limite de 10 Actions atteinte !");
+            } else if (category.equals("OUTIL") && current >= MAX_TOOL) {
+                showEphemeralMessage("Limite de 10 Outils atteinte !");
+            } else if (category.equals("PAYS")) {
+                CardData data = game.allCardsMap.get(cardName);
+                boolean isCheap = data == null || data.cost < MAX_CHEAP_COST;
+                if (!isCheap) {
+                    int cheap = countCheapCountryCards();
+                    int remainingAfterAdd = MAX_COUNTRY - current - 1;
+                    if (remainingAfterAdd < MIN_CHEAP - cheap) {
+                        showEphemeralMessage(
+                            "Votre deck doit contenir au minimum 5 cartes avec cout <200"
+                        );
+                    } else {
+                        selectedCards.add(cardName);
+                    }
+                } else {
+                    selectedCards.add(cardName);
+                }
+            } else {
+                selectedCards.add(cardName);
+            }
         }
         updateUI();
     }
 
     private void updateUI() {
-        int c = getCountInCategory("PAYS"),
-            a = getCountInCategory("ACTION"),
-            o = getCountInCategory("OUTIL");
-        counterLabel.setText(
-            String.format(
-                "Pays: %d/%d | Actions: %d/%d | Outils: %d/%d",
-                c,
-                MAX_COUNTRY,
-                a,
-                MAX_ACTION,
-                o,
-                MAX_TOOL
-            )
-        );
-        boolean isFull = (c == MAX_COUNTRY && a == MAX_ACTION && o == MAX_TOOL);
-        btnValidate.setDisabled(!isFull);
-        btnValidate.setColor(isFull ? Color.GREEN : Color.GRAY);
+        int c = getCountInCategory("PAYS");
+        int a = getCountInCategory("ACTION");
+        int o = getCountInCategory("OUTIL");
+        int cheap = countCheapCountryCards();
+
+        if (currentStep == 1) {
+            counterLabel.setText(
+                String.format(
+                    "Pays : %d/%d | Posables (<200c) : %d/%d",
+                    c,
+                    MAX_COUNTRY,
+                    cheap,
+                    MIN_CHEAP
+                )
+            );
+            boolean canAdvance = (c == MAX_COUNTRY && cheap >= MIN_CHEAP);
+            btnNext.setDisabled(!canAdvance);
+            btnNext.setColor(canAdvance ? Color.GREEN : Color.GRAY);
+        } else {
+            counterLabel.setText(
+                String.format(
+                    "Actions : %d/%d | Outils : %d/%d",
+                    a,
+                    MAX_ACTION,
+                    o,
+                    MAX_TOOL
+                )
+            );
+            boolean valid = (a == MAX_ACTION && o == MAX_TOOL);
+            btnNext.setDisabled(!valid);
+            btnNext.setColor(valid ? Color.GREEN : Color.GRAY);
+        }
     }
 
     private void updateGrid(String filter) {
@@ -349,47 +502,111 @@ public class NewDeckScreen implements Screen {
         float baseW = 320 * 0.85f,
             baseH = 448 * 0.85f;
         String query = filter.toLowerCase().trim();
-        String selType = typeSelect.getSelected();
-        String selRank = rankSelect.getSelected();
-        String selCat = categorySelect.getSelected();
+        String selSort = sortSelect.getSelected();
 
-        int visibleCount = 0;
-        for (final AtlasRegion region : allCardsSorted) {
-            // Filtrage Catégorie
+        Array<AtlasRegion> filtered = new Array<>();
+        for (AtlasRegion region : allCardsSorted) {
             String category = getCardCategory(region.name);
-            if (!selCat.equals("Toutes")) {
-                if (selCat.equals("Pays") && !category.equals("PAYS")) continue;
+
+            if (currentStep == 1 && !category.equals("PAYS")) continue;
+            if (currentStep == 2 && category.equals("PAYS")) continue;
+
+            if (currentStep == 2) {
+                String selCat = categorySelect.getSelected();
                 if (
                     selCat.equals("Actions") && !category.equals("ACTION")
                 ) continue;
                 if (
                     selCat.equals("Outils") && !category.equals("OUTIL")
                 ) continue;
+
+                String selCont = sortSelect.getSelected();
+                if (!selCont.equals("Toutes")) {
+                    CardData data = game.allCardsMap.get(region.name);
+                    if (
+                        selCont.equals("Avec condition") && !hasCond(data)
+                    ) continue;
+                    if (
+                        selCont.equals("Sans condition") && hasCond(data)
+                    ) continue;
+                }
             }
-
-            // Type et Rang sont exclusivement des attributs Pays
-            if (!selType.equals("Tous") && !category.equals("PAYS")) continue;
-            if (!selRank.equals("Tous") && !category.equals("PAYS")) continue;
-
-            // Filtrage Recherche & Type/Rang
-            CardData data = game.allCardsMap.get(region.name);
 
             if (
                 !query.isEmpty() && !region.name.toLowerCase().contains(query)
             ) continue;
-            if (data != null) {
-                if (
-                    !selType.equals("Tous") &&
-                    !data.type.equalsIgnoreCase(selType)
-                ) continue;
-                if (
-                    !selRank.equals("Tous") &&
-                    !data.rank.equalsIgnoreCase(selRank)
-                ) continue;
-            } else if (
-                !selType.equals("Tous") || !selRank.equals("Tous")
-            ) continue;
 
+            if (currentStep == 1) {
+                CardData data = game.allCardsMap.get(region.name);
+                String selType = typeSelect.getSelected();
+                String selRank = rankSelect.getSelected();
+                if (data != null) {
+                    if (
+                        !selType.equals("Tous") &&
+                        !data.type.equalsIgnoreCase(selType)
+                    ) continue;
+                    if (
+                        !selRank.equals("Tous") &&
+                        !data.rank.equalsIgnoreCase(selRank)
+                    ) continue;
+                } else if (
+                    !selType.equals("Tous") || !selRank.equals("Tous")
+                ) continue;
+            }
+
+            filtered.add(region);
+        }
+
+        if (currentStep == 2) {
+            final Collator col = Collator.getInstance(Locale.FRENCH);
+            col.setStrength(Collator.PRIMARY);
+            filtered.sort((r1, r2) -> {
+                CardData d1 = game.allCardsMap.get(r1.name);
+                CardData d2 = game.allCardsMap.get(r2.name);
+                String n1 = d1 != null ? d1.country : r1.name;
+                String n2 = d2 != null ? d2.country : r2.name;
+                return col.compare(n1, n2);
+            });
+        } else if (selSort.equals("Coût croissant")) {
+            filtered.sort((r1, r2) -> {
+                CardData d1 = game.allCardsMap.get(r1.name);
+                CardData d2 = game.allCardsMap.get(r2.name);
+                return Integer.compare(
+                    d1 != null ? d1.cost : 0,
+                    d2 != null ? d2.cost : 0
+                );
+            });
+        } else if (selSort.equals("Coût décroissant")) {
+            filtered.sort((r1, r2) -> {
+                CardData d1 = game.allCardsMap.get(r1.name);
+                CardData d2 = game.allCardsMap.get(r2.name);
+                return Integer.compare(
+                    d2 != null ? d2.cost : 0,
+                    d1 != null ? d1.cost : 0
+                );
+            });
+        } else if (selSort.equals("État croissant")) {
+            filtered.sort((r1, r2) -> {
+                CardData d1 = game.allCardsMap.get(r1.name);
+                CardData d2 = game.allCardsMap.get(r2.name);
+                return Integer.compare(
+                    d1 != null ? d1.pv : 0,
+                    d2 != null ? d2.pv : 0
+                );
+            });
+        } else if (selSort.equals("État décroissant")) {
+            filtered.sort((r1, r2) -> {
+                CardData d1 = game.allCardsMap.get(r1.name);
+                CardData d2 = game.allCardsMap.get(r2.name);
+                return Integer.compare(
+                    d2 != null ? d2.pv : 0,
+                    d1 != null ? d1.pv : 0
+                );
+            });
+        }
+
+        int visibleCount = 0;
+        for (final AtlasRegion region : filtered) {
             final boolean isSelected = selectedCards.contains(
                 region.name,
                 false

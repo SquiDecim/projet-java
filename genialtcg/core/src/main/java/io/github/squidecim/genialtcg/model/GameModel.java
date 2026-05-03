@@ -31,8 +31,8 @@ public class GameModel {
     public boolean myTurn = false;
     public boolean setupDone = false;
 
-    public int myCredits = 100;
-    public int opponentCredits = 100;
+    public int myCredits = 200;
+    public int opponentCredits = 200;
 
     public GameModel(GenialTCG game, CardsStackData deck) {
         this.game = game;

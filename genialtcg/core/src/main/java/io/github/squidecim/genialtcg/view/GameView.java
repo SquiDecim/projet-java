@@ -283,7 +283,7 @@ public class GameView implements Screen {
         myCreditsTable.setFillParent(true);
         myCreditsTable.bottom().left().pad(20);
 
-        Label myCreditsLabel = new Label("Crédits : 100", uiSkin);
+        Label myCreditsLabel = new Label("Crédits : 200", uiSkin);
 
         myCreditsTable.add(myCreditsLabel);
         uiStage.addActor(myCreditsTable);
@@ -300,7 +300,7 @@ public class GameView implements Screen {
         oppCreditsTable.setFillParent(true);
         oppCreditsTable.top().right().pad(20);
 
-        opponentCreditsLabel = new Label("Crédits : 100", uiSkin);
+        opponentCreditsLabel = new Label("Crédits : 200", uiSkin);
         opponentCreditsLabel.setFontScale(1.2f);
 
         oppCreditsTable.add(opponentCreditsLabel);
