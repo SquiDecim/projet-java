@@ -104,6 +104,13 @@ public class GameController implements InputProcessor, GameClient.NetworkListene
         Ray ray = view.getCam().getPickRay(x, y);
 
         CardSlot slot = view.getIntersectedSlot(ray);
+
+        if (draggedCard != null && slot == null) {
+            view.cancelDrag(draggedCard);
+            draggedCard = null;
+            return true;
+        }
+
         if (draggedCard.getData().id.startsWith("ACT-") || draggedCard.getData().id.startsWith("OUT-")) {
             view.cancelDrag(draggedCard);
             return true;
@@ -154,7 +161,7 @@ public class GameController implements InputProcessor, GameClient.NetworkListene
         }
 
         draggedCard = null;
-        return false;
+        return true;
     }
 
     @Override
@@ -307,6 +314,7 @@ public class GameController implements InputProcessor, GameClient.NetworkListene
     @Override
     public void onTurnChanged(NetworkMessages.TurnChanged msg) {
         boolean myTurn = msg.currentPlayerId.equals(myPlayerId);
+        model.phase = GameModel.Phase.PLAYING;
         model.myTurn = myTurn;
         if (myTurn) {
             view.showActionButton("Finir le tour", () -> {

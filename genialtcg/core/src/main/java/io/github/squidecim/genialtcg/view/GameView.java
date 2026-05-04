@@ -522,6 +522,7 @@ public class GameView implements Screen {
 
         for (int i = 0; i < n; i++) {
             CardDecal card = handCards.get(i);
+            System.out.println(card + " | data=" + card.getData());
             card.setHandIndex(i);
 
             float x = (i - center) * spacing;
