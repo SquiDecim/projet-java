@@ -36,6 +36,8 @@ public class CardData {
     public int condStatMinVal;       // seuil minimum de la stat
     public String condStatMaxKey;    // stat à vérifier (max), null = ignoré
     public int condStatMaxVal;       // seuil maximum de la stat
+    public String specialNom;
+    public String specialDescription;
 
     public Texture texture;
 
@@ -50,7 +52,9 @@ public class CardData {
         int specialCout,
         String[] specialCibles,
         String[] specialVariables,
-        Object[] specialValeurs
+        Object[] specialValeurs,
+        String specialNom,
+        String specialDescription
     ) {
         this.country = country;
         this.id = id;
@@ -63,6 +67,8 @@ public class CardData {
         this.specialCibles = specialCibles;
         this.specialVariables = specialVariables;
         this.specialValeurs = specialValeurs;
+        this.specialNom = specialNom;
+        this.specialDescription = specialDescription;
         this.revocation = cost/2;
     }
 
@@ -103,7 +109,9 @@ public class CardData {
             "\t\tcoût      : %d\n" +
             "\t\tcibles    : %s\n" +
             "\t\tvariables : %s\n" +
-            "\t\tvaleurs   : %s",
+            "\t\tvaleurs   : %s" +
+            "\tNom spécial : %s\n" +
+            "\tDescription : %s\n",
             country, rank, type, cost, pv,
             stats != null && stats.length > 0 ? stats[0] : 0,
             stats != null && stats.length > 1 ? stats[1] : 0,
@@ -113,7 +121,9 @@ public class CardData {
             specialCout,
             java.util.Arrays.toString(specialCibles),
             java.util.Arrays.toString(specialVariables),
-            formatValeurs(specialValeurs)
+            formatValeurs(specialValeurs),
+            specialNom,
+            specialDescription
         );
     }
 

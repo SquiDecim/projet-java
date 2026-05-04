@@ -93,6 +93,7 @@ public class GameView implements Screen {
     private boolean setupDone = false;
 
     private Runnable pendingActionListener;
+    private Table bannerRow;
 
     public GameView(GenialTCG game, GameModel model) {
         this.game = game;
@@ -293,12 +294,12 @@ public class GameView implements Screen {
         uiStage.addActor(myCreditsTable);
 
         actionButton = new TextButton("Commencer", uiSkin);
-        Table actionTable = new Table();
-        actionTable.setFillParent(true);
-        actionTable.right().center().pad(20);
-        actionTable.add(actionButton).width(180).height(50);
-
-        uiStage.addActor(actionTable);
+        actionButton.setSize(180, 50);
+        actionButton.setPosition(
+            Gdx.graphics.getWidth() * 0.875f,
+            Gdx.graphics.getHeight() / 2f - 25
+        );
+        uiStage.addActor(actionButton);
 
         Table oppCreditsTable = new Table();
         oppCreditsTable.setFillParent(true);
@@ -314,14 +315,20 @@ public class GameView implements Screen {
 
         setupBanner = new Label(
             "Veuillez poser une carte en Jeu pour commencer",
-            new Label.LabelStyle(game.uiFont, Color.ORANGE)
+            game.skin, "title"
         );
+        setupBanner.setFontScale(0.25f);
+        setupBanner.setColor(Color.ORANGE);
 
-        Table bannerTable = new Table();
-        bannerTable.setFillParent(true);
-        bannerTable.center().padBottom(100);
-        bannerTable.add(setupBanner);
-        uiStage.addActor(bannerTable);
+        bannerRow = new Table();
+        bannerRow.setBackground(uiSkin.newDrawable("white", new Color(0, 0, 0, 0.65f)));
+        bannerRow.add(setupBanner).expandX().center().pad(12);
+        bannerRow.setSize(Gdx.graphics.getWidth(), setupBanner.getPrefHeight() + 24);
+        bannerRow.setPosition(0, Gdx.graphics.getHeight() * 0.80f);
+        uiStage.addActor(bannerRow);
+
+        hideActionButton();
+        hideBanner();
 
         Gdx.input.setInputProcessor(multiplexer);
     }
@@ -437,6 +444,13 @@ public class GameView implements Screen {
         cam.viewportHeight = height;
         cam.update();
         uiStage.getViewport().update(width, height, true);
+        if (actionButton != null) {
+            actionButton.setPosition(width*0.875f, height / 2f - 25);
+        }
+        if (bannerRow != null) {
+            bannerRow.setSize(width, setupBanner.getPrefHeight() + 24);
+            bannerRow.setPosition(0, height * 0.80f);
+        }
     }
 
     @Override
@@ -954,7 +968,7 @@ public class GameView implements Screen {
         if (zoomGhost != null) {
             zoomGhost.dispose();
             zoomGhost = null;
-            if (model.phase == GameModel.Phase.DRAW) {
+            if (model.phase == GameModel.Phase.DRAW && !model.setupDone) {
                 setupBanner.setVisible(true);
                 actionButton.setVisible(true);
             } else if (model.myTurn) {
@@ -988,6 +1002,7 @@ public class GameView implements Screen {
     public void showActionButton(String text, Runnable action) {
         actionButton.setText(text);
         actionButton.setVisible(true);
+        showBanner();
         if (currentActionListener != null) {
             actionButton.removeListener(currentActionListener);
         }
@@ -1004,11 +1019,11 @@ public class GameView implements Screen {
         actionButton.setVisible(false);
     }
 
-    public void showBanner() {
-        setupBanner.setVisible(true);
+    public void hideBanner() {
+        if (bannerRow != null) bannerRow.setVisible(false);
     }
 
-    public void hideBanner() {
-        setupBanner.setVisible(false);
+    public void showBanner() {
+        if (bannerRow != null) bannerRow.setVisible(true);
     }
 }

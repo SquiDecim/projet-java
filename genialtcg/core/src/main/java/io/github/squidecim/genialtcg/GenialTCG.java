@@ -62,12 +62,12 @@ public class GenialTCG extends Game {
     }
 
     private void loadCardsFromJson() {
-        loadPaysJson();
+        loadCountryJson();
         loadSimpleCardsJson("JSON/actions.json");
         loadSimpleCardsJson("JSON/outils.json");
     }
 
-    private void loadPaysJson() {
+    private void loadCountryJson() {
         try {
             JsonReader reader = new JsonReader();
             JsonValue root = reader.parse(Gdx.files.internal("JSON/pays.json"));
@@ -89,9 +89,15 @@ public class GenialTCG extends Game {
                 String[] sCibles = new String[0];
                 String[] sVars = new String[0];
                 Object[] sVals = new Object[0];
+                String sNom = "";
+                String sDesc = "";
 
                 if (spec != null) {
                     sCout = spec.getInt("cout", 0);
+
+                    sNom = spec.getString("nom", "");
+                    sDesc = spec.getString("description", "");
+
                     if (spec.has("cibles")) sCibles = spec
                         .get("cibles")
                         .asStringArray();
@@ -121,7 +127,9 @@ public class GenialTCG extends Game {
                     sCout,
                     sCibles,
                     sVars,
-                    sVals
+                    sVals,
+                    sNom,
+                    sDesc
                 );
                 allCardsMap.put(card.getAtlasRegionName(), card);
             }
@@ -199,6 +207,8 @@ public class GenialTCG extends Game {
                 String[] cibles = new String[0];
                 String[] variables = new String[0];
                 Object[] valeurs = new Object[0];
+                String sNom = "";
+                String sDesc = "";
 
                 if (entry.has("cibles")) cibles = entry
                     .get("cibles")
@@ -237,7 +247,9 @@ public class GenialTCG extends Game {
                     0,
                     cibles,
                     variables,
-                    valeurs
+                    valeurs,
+                    sNom,
+                    sDesc
                 );
                 card.cond         = condStr;
                 card.condTypes    = condTypes;

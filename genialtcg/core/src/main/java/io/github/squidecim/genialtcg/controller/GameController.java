@@ -304,6 +304,7 @@ public class GameController implements InputProcessor, GameClient.NetworkListene
                         if (view.getMyTableCard() == null) return;
                         view.hideActionButton();
                         view.hideBanner();
+                        model.setupDone = true;
                         client.sendReady();
                     });
                 });

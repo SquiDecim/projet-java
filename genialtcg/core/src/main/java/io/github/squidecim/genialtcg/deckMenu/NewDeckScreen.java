@@ -774,7 +774,9 @@ public class NewDeckScreen implements Screen {
                                     0,
                                     new String[0],
                                     new String[0],
-                                    new Object[0]
+                                    new Object[0],
+                                    "N/A",
+                                    "N/A"
                                 );
                             }
                             list.add(d);
