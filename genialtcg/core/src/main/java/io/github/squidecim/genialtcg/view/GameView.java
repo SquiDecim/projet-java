@@ -90,7 +90,11 @@ public class GameView implements Screen {
     private Label opponentCreditsLabel;
     private Label setupBanner;
     private TextButton actionButton;
-    private boolean setupDone = false;
+    public boolean startClicked = false;
+
+    private Table attackMenu = null;
+    private boolean attackMenuVisible = false;
+
 
     private Runnable pendingActionListener;
     private Table bannerRow;
@@ -954,7 +958,7 @@ public class GameView implements Screen {
         float pitch = (float) Math.toDegrees(Math.asin(toCam.y));
         zoomGhost.setRotation(0, -pitch + 10, 0);
         hideActionButton();
-        setupBanner.setVisible(false);
+        hideBanner();
     }
 
     public void clearHover() {
@@ -968,9 +972,13 @@ public class GameView implements Screen {
         if (zoomGhost != null) {
             zoomGhost.dispose();
             zoomGhost = null;
-            if (model.phase == GameModel.Phase.DRAW && !model.setupDone) {
-                setupBanner.setVisible(true);
+            if (model.phase == GameModel.Phase.SETUP && startClicked) return;
+            if (model.phase == GameModel.Phase.SETUP && !model.setupDone) {
+                showBanner();
                 actionButton.setVisible(true);
+            } else if (model.phase == GameModel.Phase.SETUP) {
+                actionButton.setVisible(true);
+                hideBanner();
             } else if (model.myTurn) {
                 actionButton.setVisible(true);
             }
@@ -1002,7 +1010,6 @@ public class GameView implements Screen {
     public void showActionButton(String text, Runnable action) {
         actionButton.setText(text);
         actionButton.setVisible(true);
-        showBanner();
         if (currentActionListener != null) {
             actionButton.removeListener(currentActionListener);
         }
@@ -1026,4 +1033,105 @@ public class GameView implements Screen {
     public void showBanner() {
         if (bannerRow != null) bannerRow.setVisible(true);
     }
+
+    public void showAttackMenu(CardData myCard) {
+        if (attackMenu != null) attackMenu.remove();
+        attackMenuVisible = true;
+
+        attackMenu = new Table();
+        attackMenu.setFillParent(true);
+        attackMenu.center();
+        attackMenu.setBackground(uiSkin.newDrawable("white", new Color(0, 0, 0, 0.3f)));
+
+        Table content = new Table();
+
+        Label title = new Label("Choisissez une attaque", game.skin, "title");
+        title.setFontScale(0.5f);
+        content.add(title).padBottom(20).colspan(2).center().row();
+
+        // ── 4 attaques normales ──
+        String[] statNames = {"Puissance", "Ressources", "Technologie", "Stabilité"};
+
+        for (int i = 0; i < statNames.length; i++) {
+
+            TextButton btn = new TextButton(statNames[i], uiSkin);
+            btn.addListener(new ChangeListener() {
+                @Override
+                public void changed(ChangeEvent event, Actor actor) {
+                    hideAttackMenu();
+                }
+            });
+
+            content.add(btn).width(220).height(50).padTop(10).padBottom(10).padRight(10).padLeft(10);
+
+            if (i % 2 == 1) {
+                content.row();
+            }
+        }
+
+        content.add(new Label("──────────────", uiSkin)).padTop(10).padBottom(10).row();
+
+        String specialName = myCard.specialNom != null ? myCard.specialNom : "Spécial";
+        String specialDesc = myCard.specialDescription != null ? myCard.specialDescription : "";
+        int specialCost = myCard.specialCout;
+
+        Table specialBlock = new Table();
+        specialBlock.setBackground(uiSkin.newDrawable("white", new Color(0.1f, 0.1f, 0.3f, 1f)));
+        specialBlock.pad(10);
+
+        Label specialNameLabel = new Label(specialName + " (" + specialCost + " crédits)", uiSkin);
+        specialNameLabel.setColor(Color.CYAN);
+        Label specialDescLabel = new Label(specialDesc, uiSkin);
+        specialDescLabel.setWrap(true);
+        specialDescLabel.setColor(Color.LIGHT_GRAY);
+
+        TextButton specialBtn = new TextButton("Utiliser", uiSkin);
+        specialBtn.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                hideAttackMenu();
+            }
+        });
+
+        specialBlock.add(specialNameLabel).left().padBottom(5).row();
+        specialBlock.add(specialDescLabel).width(300).left().padBottom(10).row();
+        specialBlock.add(specialBtn).right();
+
+        content.add(specialBlock)
+            .colspan(2)
+            .center()
+            .expandX()
+            .padBottom(10)
+            .row();
+
+        TextButton closeBtn = new TextButton("Annuler", uiSkin);
+        closeBtn.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                hideAttackMenu();
+            }
+        });
+        content.add(closeBtn)
+            .width(220)
+            .height(50)
+            .colspan(2)
+            .center()
+            .padTop(10)
+            .row();
+
+        attackMenu.add(content).center();
+        uiStage.addActor(attackMenu);
+    }
+
+
+
+    public void hideAttackMenu() {
+        if (attackMenu != null) {
+            attackMenu.remove();
+            attackMenu = null;
+            attackMenuVisible = false;
+        }
+    }
+
+    public boolean isAttackMenuVisible() { return attackMenuVisible; }
 }

@@ -106,24 +106,25 @@ public class CardData {
             "\t\ttechnologie : %d\n" +
             "\t\tstabilité   : %d\n" +
             "\tSpécial :\n" +
+            "\tNom spécial : %s\n" +
+            "\tDescription : %s\n"+
             "\t\tcoût      : %d\n" +
             "\t\tcibles    : %s\n" +
             "\t\tvariables : %s\n" +
-            "\t\tvaleurs   : %s" +
-            "\tNom spécial : %s\n" +
-            "\tDescription : %s\n",
+            "\t\tvaleurs   : %s",
+
             country, rank, type, cost, pv,
             stats != null && stats.length > 0 ? stats[0] : 0,
             stats != null && stats.length > 1 ? stats[1] : 0,
             stats != null && stats.length > 2 ? stats[2] : 0,
             stats != null && stats.length > 3 ? stats[3] : 0,
             stats != null && stats.length > 4 ? stats[4] : 0,
+            specialNom,
+            specialDescription,
             specialCout,
             java.util.Arrays.toString(specialCibles),
             java.util.Arrays.toString(specialVariables),
-            formatValeurs(specialValeurs),
-            specialNom,
-            specialDescription
+            formatValeurs(specialValeurs)
         );
     }
 

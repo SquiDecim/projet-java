@@ -72,6 +72,14 @@ public class GameController implements InputProcessor, GameClient.NetworkListene
         Ray ray = view.getCam().getPickRay(x, y);
         CardDecal card = view.getHoveredCard(ray);
 
+        if (b == 0 && model.phase == GameModel.Phase.PLAYING && model.myTurn) {
+            CardDecal myTable = view.getMyTableCard();
+            if (myTable != null && myTable.intersects(ray)) {
+                view.showAttackMenu(myTable.getData());
+                return true;
+            }
+        }
+
         if (b == 1) {
             if (card != null) {
                 view.showZoom(card);
@@ -152,6 +160,7 @@ public class GameController implements InputProcessor, GameClient.NetworkListene
                 view.dropCardOnSlot(draggedCard, slot);
                 applyCardEffect(draggedCard.getData(), true);
                 client.sendPlayCard(draggedCard.getData().getAtlasRegionName(), "table", 0);
+                model.setupDone = true;
                 view.hideBanner();
             } else {
                 view.cancelDrag(draggedCard);
@@ -293,23 +302,26 @@ public class GameController implements InputProcessor, GameClient.NetworkListene
                 public void run() {
                     Gdx.app.postRunnable(() -> client.sendDrawCard());
                 }
-            }, i * drawCooldown);
+            }, (i + 2) * drawCooldown);
         }
         com.badlogic.gdx.utils.Timer.schedule(new com.badlogic.gdx.utils.Timer.Task() {
             @Override
             public void run() {
                 Gdx.app.postRunnable(() -> {
                     initialDrawDone = true;
+                    model.phase = GameModel.Phase.SETUP;
+                    view.showBanner();
                     view.showActionButton("Commencer", () -> {
                         if (view.getMyTableCard() == null) return;
                         view.hideActionButton();
                         view.hideBanner();
+                        view.startClicked = true;
                         model.setupDone = true;
                         client.sendReady();
                     });
                 });
             }
-        }, INITIAL_HAND_SIZE * drawCooldown + 0.5f);
+        }, (INITIAL_HAND_SIZE + 2) * drawCooldown);
     }
 
     @Override
