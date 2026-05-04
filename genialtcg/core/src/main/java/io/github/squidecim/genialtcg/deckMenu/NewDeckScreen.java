@@ -817,7 +817,7 @@ public class NewDeckScreen implements Screen {
             editingDeck != null ? editingDeck.name : "",
             skin
         );
-        nameInput.setMaxLength(20);
+        nameInput.setMaxLength(15);
         dialog
             .getContentTable()
             .add(new Label("Nom du deck :", skin))
