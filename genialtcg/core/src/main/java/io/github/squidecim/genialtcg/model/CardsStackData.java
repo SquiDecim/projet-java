@@ -10,6 +10,7 @@ public class CardsStackData {
 
     public String name;
     private Deque<CardData> stack;
+    private int startCredits = 200;
 
     public CardsStackData(String name, List<CardData> cards) {
         this.name = name;
@@ -28,9 +29,25 @@ public class CardsStackData {
     public void shuffle() {
         List<CardData> temp = new ArrayList<>(this.stack);
         Collections.shuffle(temp);
+
+        List<CardData> placeables = new ArrayList<>();
+        for (CardData card : temp) {
+            if (card.cost <= startCredits) {
+                placeables.add(card);
+            }
+        }
         this.stack.clear();
+
+        if (!placeables.isEmpty()) {
+            CardData chosen = placeables.get((int)(Math.random() * placeables.size()));
+            temp.remove(chosen);
+
+            this.stack.addFirst(chosen);
+        }
+
         this.stack.addAll(temp);
     }
+
 
     public CardData draw() {
         return this.stack.pollFirst();

@@ -55,6 +55,7 @@ public class GameController implements InputProcessor, GameClient.NetworkListene
     @Override
     public boolean mouseMoved(int screenX, int screenY) {
         if (view.isZooming()) return false;
+        if (view.isAttackMenuVisible()) return false;
         Ray ray = view.getCam().getPickRay(screenX, screenY);
         view.updateHover(ray);
         return false;
@@ -63,9 +64,17 @@ public class GameController implements InputProcessor, GameClient.NetworkListene
     @Override
     public boolean touchDown(int x, int y, int p, int b) {
 
+        if (model.phase == GameModel.Phase.DRAW) {
+            return false;
+        }
 
         if (view.isZooming()) {
             view.hideZoom();
+            return true;
+        }
+
+        if (view.isAttackMenuVisible()) {
+            view.hideAttackMenu();
             return true;
         }
 
@@ -75,7 +84,7 @@ public class GameController implements InputProcessor, GameClient.NetworkListene
         if (b == 0 && model.phase == GameModel.Phase.PLAYING && model.myTurn) {
             CardDecal myTable = view.getMyTableCard();
             if (myTable != null && myTable.intersects(ray)) {
-                view.showAttackMenu(myTable.getData());
+                view.showAttackMenu(myTable.getData(), client);
                 return true;
             }
         }
@@ -91,8 +100,10 @@ public class GameController implements InputProcessor, GameClient.NetworkListene
             return false;
         }
 
+
         if (card != null) {
             if (view.isOpponentCard(card)) return false;
+            if ("table".equals(card.emplacement)) return false;
             draggedCard = card;
             view.startDrag(draggedCard, ray);
             return true;
@@ -125,11 +136,10 @@ public class GameController implements InputProcessor, GameClient.NetworkListene
         }
         else if (slot != null) {
             boolean fromBench = draggedCard.emplacement.equals("bench");
-            boolean fromTable = draggedCard.emplacement.equals("table");
             boolean toBench = slot.type.equals("bench");
             boolean toTable = slot.type.equals("table");
 
-            if ((fromBench && toBench) || (fromTable && toTable)) {
+            if (fromBench && toBench){
                 view.cancelDrag(draggedCard);
                 draggedCard = null;
                 return true;
@@ -141,12 +151,7 @@ public class GameController implements InputProcessor, GameClient.NetworkListene
                 } else {
                     CardSlot firstSlot = view.getFirstEmptyBenchSlot();
                     if (firstSlot != null) {
-                        if (fromTable) {
-                            model.moveFromTableToBench(draggedCard.getData());
-                            if (model.phase == GameModel.Phase.DRAW) view.showBanner();
-                        } else {
-                            model.moveFromHandToBench(draggedCard.getData());
-                        }
+                        model.moveFromHandToBench(draggedCard.getData());
                         view.dropCardOnSlot(draggedCard, firstSlot);
                         int slotIdx = view.getBenchSlotIndex(firstSlot);
                         client.sendPlayCard(draggedCard.getData().getAtlasRegionName(), "bench", slotIdx);
@@ -158,7 +163,6 @@ public class GameController implements InputProcessor, GameClient.NetworkListene
                 if (fromBench) model.moveFromBenchToTable(draggedCard.getData());
                 else model.moveFromHandToTable(draggedCard.getData());
                 view.dropCardOnSlot(draggedCard, slot);
-                applyCardEffect(draggedCard.getData(), true);
                 client.sendPlayCard(draggedCard.getData().getAtlasRegionName(), "table", 0);
                 model.setupDone = true;
                 view.hideBanner();
@@ -196,95 +200,7 @@ public class GameController implements InputProcessor, GameClient.NetworkListene
     @Override public boolean touchCancelled(int x, int y, int p, int b) { return false; }
 
 
-    private void applyCardEffect(CardData card, boolean isMe) {
-        if (!checkCondition(card, isMe)) return;
-
-        for (int i = 0; i < card.specialCibles.length; i++) {
-
-            String cible    = card.specialCibles[i];
-            String variable = card.specialVariables[i];
-            Object valeur   = card.specialValeurs[i];
-
-            boolean targetIsMe = false;
-
-            if (!(valeur instanceof Integer)) continue;
-            int val = (int) valeur;
-
-            if (!"etat".equals(variable)) continue;
-
-            CardDecal target = null;
-
-            switch (cible) {
-                case "jeu":
-                    target = isMe ? view.getMyTableCard() : view.getOpponentTableCard();
-                    targetIsMe = isMe;
-                    break;
-                case "jeuA":
-                    target = isMe ? view.getOpponentTableCard() : view.getMyTableCard();
-                    targetIsMe = !isMe;
-                    break;
-            }
-
-            if (target != null) {
-                model.applyDamage(target, val);
-                if (target.getData().pv <= 0) {
-                    handleDeath(target, targetIsMe);
-                }
-            }
-        }
-    }
-
-    private boolean checkCondition(CardData card, boolean isMe) {
-        boolean hasAny = card.condTypes != null || card.condTerrains != null
-            || card.condRangs != null || card.condEtatMin != 0
-            || card.condEtatMax != 0 || card.condStatMinKey != null
-            || card.condStatMaxKey != null;
-        if (!hasAny) return true;
-
-        CardDecal activeDecal = isMe ? view.getMyTableCard() : view.getOpponentTableCard();
-        if (activeDecal == null) return false;
-        CardData active = activeDecal.getData();
-
-        // type
-        if (card.condTypes != null) {
-            boolean ok = false;
-            for (String t : card.condTypes) if (t.equals(active.type)) { ok = true; break; }
-            if (!ok) return false;
-        }
-
-        // rang
-        if (card.condRangs != null) {
-            boolean ok = false;
-            for (String r : card.condRangs) if (r.equals(active.rank)) { ok = true; break; }
-            if (!ok) return false;
-        }
-
-        // etatMin / etatMax
-        if (card.condEtatMin != 0 && active.pv < card.condEtatMin) return false;
-        if (card.condEtatMax != 0 && active.pv > card.condEtatMax) return false;
-
-        // statMin / statMax
-        if (card.condStatMinKey != null && getStat(active, card.condStatMinKey) < card.condStatMinVal) return false;
-        if (card.condStatMaxKey != null && getStat(active, card.condStatMaxKey) > card.condStatMaxVal) return false;
-
-        // terrain : nécessite que le GameModel expose le terrain actif (à implémenter)
-        // if (card.condTerrains != null) { ... model.getCurrentTerrain() ... }
-
-        return true;
-    }
-
-    private int getStat(CardData card, String statName) {
-        if (card.stats == null) return 0;
-        switch (statName) {
-            case "puissance":   return card.stats.length > 0 ? card.stats[0] : 0;
-            case "economie":    return card.stats.length > 1 ? card.stats[1] : 0;
-            case "ressources":  return card.stats.length > 2 ? card.stats[2] : 0;
-            case "technologie": return card.stats.length > 3 ? card.stats[3] : 0;
-            case "stabilite":   return card.stats.length > 4 ? card.stats[4] : 0;
-            default: return 0;
-        }
-    }
-
+    //Si un joueur meme, lui meme n'a pas d'animation jsp pq
     private void handleDeath(CardDecal card, boolean isMe) {
 
         Vector3 targetPos = isMe
@@ -383,7 +299,6 @@ public class GameController implements InputProcessor, GameClient.NetworkListene
             view.addOpponentCardToBench(card);
         } else if ("table".equals(msg.zone)) {
             view.addOpponentCardToTable(card);
-            applyCardEffect(card, isMe);
         }
     }
 
@@ -398,5 +313,29 @@ public class GameController implements InputProcessor, GameClient.NetworkListene
     @Override
     public void onCreditsUpdate(NetworkMessages.CreditsUpdate obj) {
 
+    }
+
+    @Override
+    public void onNormalAttack(NetworkMessages.NormalAttack msg) {
+        CardDecal myTable  = view.getMyTableCard();
+        CardDecal oppTable = view.getOpponentTableCard();
+        if (myTable == null || oppTable == null) return;
+
+        boolean iAmAttacker = model.myTurn;
+
+        if (msg.damage > 0) {
+            CardDecal target = iAmAttacker ? oppTable : myTable;
+            applyDamageAndFloat(target, -msg.damage);
+        } else if (msg.damage < 0) {
+            CardDecal target = iAmAttacker ? myTable : oppTable;
+            applyDamageAndFloat(target, msg.damage);
+        }
+    }
+
+    private void applyDamageAndFloat(CardDecal target, int damage) {
+        model.applyDamage(target, damage);
+        Vector3 pos = target.getPosition();
+        pos.y += 0.5f;
+        view.spawnFloatingText("-" + Math.abs(damage), pos);
     }
 }

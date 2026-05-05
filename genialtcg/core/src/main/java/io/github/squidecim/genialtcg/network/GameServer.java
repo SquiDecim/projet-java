@@ -114,7 +114,9 @@ public class GameServer {
                     NetworkMessages.TurnChanged turn = new NetworkMessages.TurnChanged();
                     turn.currentPlayerId = next;
                     server.sendToAllTCP(turn);
-                }
+                } else if (obj instanceof NetworkMessages.NormalAttack) {
+                    server.sendToAllTCP(obj);
+            }
             }
         });
 
@@ -146,5 +148,6 @@ public class GameServer {
         kryo.register(NetworkMessages.DeckSize.class);
         kryo.register(NetworkMessages.CreditsUpdate.class);
         kryo.register(NetworkMessages.ReadyToStart.class);
+        kryo.register(NetworkMessages.NormalAttack.class);
     }
 }

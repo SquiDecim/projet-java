@@ -53,6 +53,11 @@ public class CardDecal {
     private float animTimer = 0f;
     private float animDuration = 0f;
 
+    private boolean shaking = false;
+    private float shakeTimer = 0f;
+    private static final float SHAKE_DURATION = 0.5f;
+    private static final float SHAKE_INTENSITY = 0.1f;
+    private static final float SHAKE_FREQUENCY = 25f;
 
     private boolean sliding = false;
     private Vector3 slideTarget = new Vector3();
@@ -276,6 +281,27 @@ public class CardDecal {
 
     public void update(float delta) {
 
+        if (shaking) {
+            shakeTimer += delta;
+            if (shakeTimer >= SHAKE_DURATION) {
+                shaking = false;
+                shakeTimer = 0f;
+                applyTransform(position.x, currentY, position.z, yaw, pitch, roll);
+            }
+            float shake = MathUtils.sin(shakeTimer * SHAKE_FREQUENCY * MathUtils.PI2)
+                * SHAKE_INTENSITY
+                * (1f - shakeTimer / SHAKE_DURATION);
+            applyTransform(
+                position.x + shake,
+                currentY,
+                position.z,
+                yaw + shake * 5f,
+                pitch,
+                roll
+            );
+            return;
+        }
+
         if (dragging) {
             applyTransform(position.x, currentY, position.z, yaw, pitch, roll);
             return;
@@ -394,7 +420,7 @@ public class CardDecal {
     }
 
     public boolean isAnimating() {
-        return sliding || targetPos != null;
+        return sliding || targetPos != null || shaking;
     }
 
     public void render(ModelBatch batch, Environment environment) {
@@ -442,5 +468,10 @@ public class CardDecal {
 
     public int getHandIndex() {
         return handIndex;
+    }
+
+    public void shake() {
+        shaking = true;
+        shakeTimer = 0f;
     }
 }
