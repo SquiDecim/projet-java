@@ -36,11 +36,31 @@ public class RulesScreen implements Screen {
         Gdx.input.setInputProcessor(stage);
         skin = game.skin;
 
+        // creation du bouton retour
+        TextButton btnBack = new TextButton("Retour", skin);
+        btnBack.addListener(
+            new ChangeListener() {
+                @Override
+                public void changed(ChangeEvent event, Actor actor) {
+                    game.setScreen(new FirstScreen(game));
+                }
+            }
+        );
+
+        // table reservee uniquement au bouton exist
+        Table topBar = new Table();
+        topBar.setFillParent(true);
+        topBar.top().left();
+        topBar.add(btnBack).width(150).height(50).pad(20);
+        stage.addActor(topBar);
+
+        // table principale pour le titre et le texte
         Table mainTable = new Table();
         mainTable.setFillParent(true);
+        mainTable.top();
         stage.addActor(mainTable);
 
-        // 1. LE TEXTE DES RÈGLES
+        // le texte des regles
         String rulesText =
             "RÈGLES OFFICIELLES : GÉNIAL TCG\n\n" +
             "1. CRÉATION DE DECK\n" +
@@ -83,41 +103,30 @@ public class RulesScreen implements Screen {
         Label textLabel = new Label(rulesText, skin);
         textLabel.setWrap(true);
         textLabel.setAlignment(Align.topLeft);
+        textLabel.setFontScale(1.3f);
 
-        // zone de texte defillable
+        // creation de la boite noire
         Pixmap bgPixmap = new Pixmap(1, 1, Pixmap.Format.RGBA8888);
-        bgPixmap.setColor(new Color(0f, 0f, 0f, 0.85f)); // Noir avec 85% d'opacité
+        bgPixmap.setColor(new Color(0f, 0f, 0f, 0.85f));
         bgPixmap.fill();
         blackTexture = new Texture(bgPixmap);
         bgPixmap.dispose();
 
+        // table interne pour le texte et son fond
         Table innerTable = new Table();
         innerTable.setBackground(new TextureRegionDrawable(blackTexture));
-        // On ajoute le texte dans cette boîte avec des marges (pad) de 20 pixels
-        innerTable.add(textLabel).width(600).pad(20);
+        innerTable.add(textLabel).width(850).pad(30);
 
-        // 4. le scrollPane permettant de faire defiller
+        // le scrollpane pour faire defiler
         ScrollPane scrollPane = new ScrollPane(innerTable, skin);
         scrollPane.setScrollingDisabled(true, false);
         scrollPane.setFadeScrollBars(false);
 
-        // 5. bouton retour
-        TextButton btnBack = new TextButton("Retour", skin);
-        btnBack.addListener(
-            new ChangeListener() {
-                @Override
-                public void changed(ChangeEvent event, Actor actor) {
-                    game.setScreen(new FirstScreen(game));
-                }
-            }
-        );
-
-        // 6. mise en page
         Label title = new Label("REGLES DU JEU", skin, "title");
 
-        mainTable.add(title).padBottom(20).row();
-        mainTable.add(scrollPane).width(650).height(400).padBottom(20).row(); // Taille de la fenêtre déroulante
-        mainTable.add(btnBack).width(220).height(50);
+        // mise en page centrale
+        mainTable.add(title).padBottom(20).padTop(40).row();
+        mainTable.add(scrollPane).width(900).height(750).row();
     }
 
     @Override
