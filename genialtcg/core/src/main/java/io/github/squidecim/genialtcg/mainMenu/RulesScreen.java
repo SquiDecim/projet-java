@@ -126,7 +126,7 @@ public class RulesScreen implements Screen {
 
         // mise en page centrale
         mainTable.add(title).padBottom(20).padTop(40).row();
-        mainTable.add(scrollPane).width(900).height(750).row();
+        mainTable.add(scrollPane).width(900).height(850).row();
     }
 
     @Override
