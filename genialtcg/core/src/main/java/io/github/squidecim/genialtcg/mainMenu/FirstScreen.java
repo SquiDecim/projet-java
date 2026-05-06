@@ -3,6 +3,7 @@ package io.github.squidecim.genialtcg.mainMenu;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
@@ -26,6 +27,7 @@ public class FirstScreen implements Screen {
     private Skin skin;
     private Texture backgroundTexture;
     private SpriteBatch batch;
+    private Music backgroundMusic;
     private Label messageLabel;
     private String errorMessage = null;
 
@@ -50,6 +52,17 @@ public class FirstScreen implements Screen {
         stage = new Stage(new ScreenViewport());
         Gdx.input.setInputProcessor(stage);
         skin = game.skin;
+
+        try {
+            backgroundMusic = Gdx.audio.newMusic(
+                Gdx.files.internal("audio/music/menu_theme.mp3")
+            );
+            backgroundMusic.setLooping(true);
+            backgroundMusic.setVolume(0.3f);
+            backgroundMusic.play();
+        } catch (Exception e) {
+            Gdx.app.log("Audio", "Erreur lecture musique");
+        }
 
         backgroundTexture = new Texture(
             Gdx.files.internal("ui/fond/planete_menu.jpg")
@@ -204,7 +217,7 @@ public class FirstScreen implements Screen {
             }
         );
 
-        // --- ACTION : RÈGLES (BIEN PLACÉ ICI) ---
+        // --- ACTION : RÈGLES ---
         btnRules.addListener(
             new ChangeListener() {
                 @Override
@@ -229,7 +242,7 @@ public class FirstScreen implements Screen {
             new ChangeListener() {
                 @Override
                 public void changed(ChangeEvent event, Actor actor) {
-                    showEphemeralMessage("Paramètres — bientôt disponible");
+                    game.setScreen(new SettingsScreen(game));
                 }
             }
         );
@@ -336,5 +349,10 @@ public class FirstScreen implements Screen {
     public void resume() {}
 
     @Override
-    public void hide() {}
+    public void hide() {
+        if (backgroundMusic != null) {
+            backgroundMusic.stop();
+            backgroundMusic.dispose();
+        }
+    }
 }
