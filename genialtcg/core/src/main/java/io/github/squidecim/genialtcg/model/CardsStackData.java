@@ -32,20 +32,23 @@ public class CardsStackData {
 
         List<CardData> placeables = new ArrayList<>();
         for (CardData card : temp) {
-            if (card.cost <= startCredits) {
+            if (card.cost <= startCredits && !(card.id.startsWith("TER-") || card.id.startsWith("ACT-") || card.id.startsWith("OUT-"))) {
                 placeables.add(card);
             }
         }
         this.stack.clear();
 
+        CardData chosen = null;
         if (!placeables.isEmpty()) {
-            CardData chosen = placeables.get((int)(Math.random() * placeables.size()));
+            chosen = placeables.get((int)(Math.random() * placeables.size()));
             temp.remove(chosen);
 
             this.stack.addFirst(chosen);
         }
 
         this.stack.addAll(temp);
+        if (chosen != null) System.out.println("la première carte doit être " + chosen + " et le deck c'est : " + this.stack);
+        else System.out.println("bah chiant chosen est null");
     }
 
 

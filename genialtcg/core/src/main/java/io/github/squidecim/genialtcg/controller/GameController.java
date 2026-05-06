@@ -130,7 +130,7 @@ public class GameController implements InputProcessor, GameClient.NetworkListene
             return true;
         }
 
-        if (draggedCard.getData().id.startsWith("ACT-") || draggedCard.getData().id.startsWith("OUT-")) {
+        if (draggedCard.getData().id.startsWith("ACT-") || draggedCard.getData().id.startsWith("OUT-") || draggedCard.getData().id.startsWith("TER-")) {
             view.cancelDrag(draggedCard);
             return true;
         }
