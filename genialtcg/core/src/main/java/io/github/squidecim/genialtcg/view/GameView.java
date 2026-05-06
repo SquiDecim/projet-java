@@ -4,9 +4,9 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.*;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.g2d.*;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.graphics.g3d.*;
 import com.badlogic.gdx.graphics.g3d.attributes.ColorAttribute;
 import com.badlogic.gdx.graphics.g3d.attributes.IntAttribute;
@@ -31,18 +31,22 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
+import com.esotericsoftware.kryonet.Client;
 import io.github.squidecim.genialtcg.*;
 import io.github.squidecim.genialtcg.controller.GameController;
 import io.github.squidecim.genialtcg.mainMenu.LobbyScreen;
 import io.github.squidecim.genialtcg.model.CardData;
 import io.github.squidecim.genialtcg.model.GameModel;
+import io.github.squidecim.genialtcg.network.GameClient;
+import io.github.squidecim.genialtcg.network.NetworkMessages;
 
 public class GameView implements Screen {
 
     private GenialTCG game;
     private GameModel model;
-
     private GameController controller;
+
+    private GameClient client;
 
     private PerspectiveCamera cam;
     private Environment environment;
@@ -86,22 +90,29 @@ public class GameView implements Screen {
 
     private Stage uiStage;
     private Skin uiSkin;
+
     private Label myCreditsLabel;
     private Label opponentCreditsLabel;
+
     private Label setupBanner;
     private TextButton actionButton;
-    public boolean startClicked = false;
-
     private Table attackMenu = null;
+
+    private Array<FloatingText> floatingTexts = new Array<>();
+    private SpriteBatch floatBatch;
+    private BitmapFont floatFont;
+
+    public boolean startClicked = false;
     private boolean attackMenuVisible = false;
 
 
     private Runnable pendingActionListener;
     private Table bannerRow;
 
-    public GameView(GenialTCG game, GameModel model) {
+    public GameView(GenialTCG game, GameModel model, GameClient client) {
         this.game = game;
         this.model = model;
+        this.client = client;
     }
 
     @Override
@@ -334,6 +345,19 @@ public class GameView implements Screen {
         hideActionButton();
         hideBanner();
 
+        floatBatch = new SpriteBatch();
+        floatFont = new BitmapFont();
+
+        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(
+            Gdx.files.internal("ui/dejavu-sans/DejaVuSans-Bold.ttf")
+        );
+        FreeTypeFontGenerator.FreeTypeFontParameter params =
+            new FreeTypeFontGenerator.FreeTypeFontParameter();
+        params.size = 32;
+
+        floatFont = generator.generateFont(params);
+        generator.dispose();
+
         Gdx.input.setInputProcessor(multiplexer);
     }
 
@@ -431,6 +455,28 @@ public class GameView implements Screen {
 
         uiStage.act(delta);
         uiStage.draw();
+
+        if (floatingTexts.size > 0) {
+            GlyphLayout layout = new GlyphLayout();
+            floatBatch.begin();
+            for (int i = floatingTexts.size - 1; i >= 0; i--) {
+                FloatingText ft = floatingTexts.get(i);
+                ft.update(delta);
+                if (ft.isDead()) {
+                    floatingTexts.removeIndex(i);
+                    continue;
+                }
+                Vector3 screenPos = cam.project(ft.worldPos.cpy());
+                floatFont.getData().setScale(ft.scale);
+                floatFont.setColor(ft.color);
+                layout.setText(floatFont, ft.text);
+                floatFont.draw(floatBatch, ft.text,
+                    screenPos.x - layout.width / 2f,
+                    screenPos.y);
+            }
+            floatBatch.end();
+            floatFont.getData().setScale(1f);
+        }
     }
 
     @Override
@@ -474,6 +520,8 @@ public class GameView implements Screen {
         shapeRenderer.dispose();
         if (zoomGhost != null) zoomGhost.dispose();
         uiStage.dispose();
+        floatBatch.dispose();
+        if (floatFont != null) floatFont.dispose();
     }
 
     public void setController(GameController controller) {
@@ -1034,7 +1082,7 @@ public class GameView implements Screen {
         if (bannerRow != null) bannerRow.setVisible(true);
     }
 
-    public void showAttackMenu(CardData myCard) {
+    public void showAttackMenu(CardData myCard, GameClient client) {
         if (attackMenu != null) attackMenu.remove();
         attackMenuVisible = true;
 
@@ -1053,12 +1101,28 @@ public class GameView implements Screen {
         String[] statNames = {"Puissance", "Ressources", "Technologie", "Stabilité"};
 
         for (int i = 0; i < statNames.length; i++) {
-
+            final int index = i;
             TextButton btn = new TextButton(statNames[i], uiSkin);
             btn.addListener(new ChangeListener() {
                 @Override
                 public void changed(ChangeEvent event, Actor actor) {
                     hideAttackMenu();
+
+                    CardDecal myTable  = getMyTableCard();
+                    CardDecal oppTable = getOpponentTableCard();
+                    if (myTable == null || oppTable == null) return;
+
+                    int[] statMapping = {0, 2, 3, 4};
+                    int realIdx = statMapping[index];
+                    int myVal  = myTable.getData().stats[realIdx];
+                    int oppVal = oppTable.getData().stats[realIdx];
+                    int damage = myVal - oppVal;
+
+                    NetworkMessages.NormalAttack msg = new NetworkMessages.NormalAttack();
+                    msg.damage = damage;
+                    client.sendNormalAttack(damage);
+                    client.sendEndTurn();
+
                 }
             });
 
@@ -1074,6 +1138,7 @@ public class GameView implements Screen {
         String specialName = myCard.specialNom != null ? myCard.specialNom : "Spécial";
         String specialDesc = myCard.specialDescription != null ? myCard.specialDescription : "";
         int specialCost = myCard.specialCout;
+        int revocationCost = myCard.revocation;
 
         Table specialBlock = new Table();
         specialBlock.setBackground(uiSkin.newDrawable("white", new Color(0.1f, 0.1f, 0.3f, 1f)));
@@ -1111,13 +1176,17 @@ public class GameView implements Screen {
                 hideAttackMenu();
             }
         });
-        content.add(closeBtn)
-            .width(220)
-            .height(50)
-            .colspan(2)
-            .center()
-            .padTop(10)
-            .row();
+        content.add(closeBtn).width(220).height(50).padTop(10).padBottom(10).padRight(10).padLeft(10);
+
+        TextButton revocationBtn = new TextButton("Retrait (" + revocationCost + " crédits)", uiSkin);
+        revocationBtn.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                hideAttackMenu();
+            }
+        });
+        content.add(revocationBtn).width(220).height(50).padTop(10).padBottom(10).padRight(10).padLeft(10);
+
 
         attackMenu.add(content).center();
         uiStage.addActor(attackMenu);
@@ -1134,4 +1203,8 @@ public class GameView implements Screen {
     }
 
     public boolean isAttackMenuVisible() { return attackMenuVisible; }
+
+    public void spawnFloatingText(String text, Vector3 worldPos) {
+        floatingTexts.add(new FloatingText(text, worldPos, 1.2f));
+    }
 }

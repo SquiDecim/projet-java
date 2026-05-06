@@ -22,6 +22,7 @@ public class GameClient {
         void onPlayerJoined(NetworkMessages.PlayerJoined msg);
         void onLobbyInfo(NetworkMessages.LobbyInfo msg);
         void onCreditsUpdate(NetworkMessages.CreditsUpdate obj);
+        void onNormalAttack(NetworkMessages.NormalAttack msg);
     }
 
     public GameClient(String ip, NetworkListener listener) throws IOException {
@@ -51,6 +52,8 @@ public class GameClient {
                         current.onLobbyInfo((NetworkMessages.LobbyInfo) obj);
                     else if (obj instanceof NetworkMessages.CreditsUpdate)
                         current.onCreditsUpdate((NetworkMessages.CreditsUpdate) obj);
+                    else if (obj instanceof NetworkMessages.NormalAttack)
+                        current.onNormalAttack((NetworkMessages.NormalAttack) obj);
                 });
             }
 
@@ -111,6 +114,12 @@ public class GameClient {
 
     public void sendReady() {
         client.sendTCP(new NetworkMessages.ReadyToStart());
+    }
+
+    public void sendNormalAttack(int damage) {
+        NetworkMessages.NormalAttack msg = new NetworkMessages.NormalAttack();
+        msg.damage = damage;
+        client.sendTCP(msg);
     }
 
 }

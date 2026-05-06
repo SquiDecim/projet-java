@@ -100,6 +100,7 @@ public class GameModel {
     public void applyDamage(CardDecal card, int damage) {
         card.getData().pv = Math.max(card.getData().pv + damage, 0);
         card.refreshStats();
+        card.shake();
     }
 
     public void damageTableCard(int amount) {

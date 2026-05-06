@@ -68,4 +68,8 @@ public class NetworkMessages {
     public static class ReadyToStart {
         public String playerId;
     }
+
+    public static class NormalAttack {
+        public int damage;
+    }
 }
