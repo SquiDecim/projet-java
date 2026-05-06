@@ -72,4 +72,9 @@ public class NetworkMessages {
     public static class NormalAttack {
         public int damage;
     }
+
+    public static class Retreat {
+        public String playerId;
+        public String benchCardId;
+    }
 }

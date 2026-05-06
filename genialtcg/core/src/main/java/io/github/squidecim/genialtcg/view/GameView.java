@@ -23,6 +23,7 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
+import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
@@ -97,6 +98,9 @@ public class GameView implements Screen {
     private Label setupBanner;
     private TextButton actionButton;
     private Table attackMenu = null;
+
+    private Label ephemeralLabel;
+
 
     private Array<FloatingText> floatingTexts = new Array<>();
     private SpriteBatch floatBatch;
@@ -358,6 +362,10 @@ public class GameView implements Screen {
         floatFont = generator.generateFont(params);
         generator.dispose();
 
+        ephemeralLabel = new Label("", game.skin, "title");
+        ephemeralLabel.setFontScale(0.15f);
+        ephemeralLabel.setColor(Color.SALMON);
+
         Gdx.input.setInputProcessor(multiplexer);
     }
 
@@ -405,6 +413,7 @@ public class GameView implements Screen {
 
         for (CardSlot slot : benchBottomSlots) {
             slot.renderHighlight(modelBatch, environment);
+            slot.renderSelectable(modelBatch, environment);
             if (!slot.isEmpty()) {
                 CardDecal card = slot.getCard();
                 if (card.isAnimating()) card.update(delta);
@@ -588,7 +597,6 @@ public class GameView implements Screen {
 
         for (int i = 0; i < n; i++) {
             CardDecal card = handCards.get(i);
-            System.out.println(card + " | data=" + card.getData());
             card.setHandIndex(i);
 
             float x = (i - center) * spacing;
@@ -1082,8 +1090,11 @@ public class GameView implements Screen {
         if (bannerRow != null) bannerRow.setVisible(true);
     }
 
-    public void showAttackMenu(CardData myCard, GameClient client) {
+    public void showAttackMenu(CardData myCard, GameClient client, GameController controller) {
         if (attackMenu != null) attackMenu.remove();
+
+        actionButton.setTouchable(Touchable.disabled);
+
         attackMenuVisible = true;
 
         attackMenu = new Table();
@@ -1182,10 +1193,23 @@ public class GameView implements Screen {
         revocationBtn.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                hideAttackMenu();
+                controller.startRetreat(myCard);
             }
         });
-        content.add(revocationBtn).width(220).height(50).padTop(10).padBottom(10).padRight(10).padLeft(10);
+        content.add(revocationBtn)
+            .width(220)
+            .height(50)
+            .padTop(10)
+            .padBottom(10)
+            .padRight(10)
+            .padLeft(10)
+            .row();
+
+        content.add(ephemeralLabel)
+            .colspan(2)
+            .center()
+            .padTop(10)
+            .row();
 
 
         attackMenu.add(content).center();
@@ -1196,6 +1220,7 @@ public class GameView implements Screen {
 
     public void hideAttackMenu() {
         if (attackMenu != null) {
+            actionButton.setTouchable(Touchable.enabled);
             attackMenu.remove();
             attackMenu = null;
             attackMenuVisible = false;
@@ -1206,5 +1231,93 @@ public class GameView implements Screen {
 
     public void spawnFloatingText(String text, Vector3 worldPos) {
         floatingTexts.add(new FloatingText(text, worldPos, 1.2f));
+    }
+
+    public void showEphemeralMessage(String text) {
+        ephemeralLabel.setText(text);
+        ephemeralLabel.clearActions();
+        ephemeralLabel.addAction(Actions.sequence(
+            Actions.alpha(1f),
+            Actions.delay(2f),
+            Actions.fadeOut(0.5f),
+            Actions.run(() -> ephemeralLabel.setText(""))
+        ));
+    }
+
+    public void setSelectableBorder(boolean selectable) {
+        for (CardSlot slot : benchBottomSlots) {
+            if (!slot.isEmpty()) slot.setSelectable(selectable);
+        }
+    }
+
+    public CardDecal getBenchCardAt(Ray ray) {
+        for (CardSlot slot : benchBottomSlots) {
+            CardDecal card = slot.getCard();
+            if (card != null && card.intersects(ray)) return card;
+        }
+        return null;
+    }
+
+    public void swapTableAndBench(CardDecal benchCard) {
+        CardDecal tableCard = tableSlot.getCard();
+        CardSlot benchSlot = null;
+        for (CardSlot slot : benchBottomSlots) {
+            if (slot.getCard() == benchCard) { benchSlot = slot; break; }
+        }
+        if (tableCard == null || benchSlot == null) return;
+
+        Vector3 tablePos = tableSlot.getPosition().cpy();
+        Vector3 benchPos = benchSlot.getPosition().cpy();
+
+        tableSlot.removeCard();
+        benchSlot.removeCard();
+
+        tableSlot.setCardDirect(benchCard);
+        benchSlot.setCardDirect(tableCard);
+
+        benchCard.emplacement = "table";
+        tableCard.emplacement = "bench";
+
+        benchCard.buildModel(benchCard.frontRegion, benchCard.backRegion, TABLE_CARD_W, TABLE_CARD_H);
+        tableCard.buildModel(tableCard.frontRegion, tableCard.backRegion, BENCH_CARD_W, BENCH_CARD_H);
+
+        benchCard.animateTo(tablePos, 0, -90f, 0, 0.4f);
+        tableCard.animateTo(benchPos, 0, -90f, 0, 0.4f);
+    }
+
+    public CardDecal getOpponentBenchCardById(String cardId) {
+        for (CardSlot slot : benchTopSlots) {
+            CardDecal c = slot.getCard();
+            if (c != null && c.getData() != null
+                && c.getData().getAtlasRegionName().equals(cardId)) return c;
+        }
+        return null;
+    }
+
+    public void swapOpponentTableAndBench(CardDecal benchCard) {
+        CardDecal tableCard = opponentTableSlot.getCard();
+        CardSlot benchSlot = null;
+        for (CardSlot slot : benchTopSlots) {
+            if (slot.getCard() == benchCard) { benchSlot = slot; break; }
+        }
+        if (tableCard == null || benchSlot == null) return;
+
+        Vector3 tablePos = opponentTableSlot.getPosition().cpy();
+        Vector3 benchPos = benchSlot.getPosition().cpy();
+
+        opponentTableSlot.removeCard();
+        benchSlot.removeCard();
+
+        opponentTableSlot.setCardDirect(benchCard);
+        benchSlot.setCardDirect(tableCard);
+
+        benchCard.emplacement = "table";
+        tableCard.emplacement = "bench";
+
+        benchCard.buildModel(benchCard.frontRegion, benchCard.backRegion, TABLE_CARD_W, TABLE_CARD_H);
+        tableCard.buildModel(tableCard.frontRegion, tableCard.backRegion, BENCH_CARD_W, BENCH_CARD_H);
+
+        benchCard.animateTo(tablePos, 0, -90f, 0, 0.4f);
+        tableCard.animateTo(benchPos, 0, -90f, 0, 0.4f);
     }
 }

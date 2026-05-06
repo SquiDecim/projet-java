@@ -116,6 +116,14 @@ public class GameServer {
                     server.sendToAllTCP(turn);
                 } else if (obj instanceof NetworkMessages.NormalAttack) {
                     server.sendToAllTCP(obj);
+                } else if (obj instanceof NetworkMessages.Retreat) {
+                    NetworkMessages.Retreat r = (NetworkMessages.Retreat) obj;
+                    r.playerId = playerIds.get(conn);
+                    server.sendToAllTCP(r);
+                } else if (obj instanceof NetworkMessages.CreditsUpdate){
+                    NetworkMessages.CreditsUpdate c = (NetworkMessages.CreditsUpdate) obj;
+                    c.playerId = playerIds.get(conn);
+                    server.sendToAllTCP(c);
                 }
             }
         });
@@ -149,5 +157,6 @@ public class GameServer {
         kryo.register(NetworkMessages.CreditsUpdate.class);
         kryo.register(NetworkMessages.ReadyToStart.class);
         kryo.register(NetworkMessages.NormalAttack.class);
+        kryo.register(NetworkMessages.Retreat.class);
     }
 }

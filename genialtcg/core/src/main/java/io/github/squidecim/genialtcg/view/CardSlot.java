@@ -12,6 +12,7 @@ import com.badlogic.gdx.math.Plane;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.math.collision.Ray;
 
+
 import static io.github.squidecim.genialtcg.view.GameView.*;
 
 public class CardSlot {
@@ -28,6 +29,11 @@ public class CardSlot {
     private ModelInstance highlightInstance;
 
     public String type;
+    private boolean selectable = false;
+
+    private Model selectableModel;
+    private ModelInstance selectableInstance;
+
 
     public CardSlot(Vector3 position, float yaw, float pitch, float roll, String type) {
         this.position = position;
@@ -36,6 +42,7 @@ public class CardSlot {
         this.roll = roll;
         this.type = type;
         buildHighlight();
+        buildSelectable();
     }
 
     public boolean isEmpty() {
@@ -104,6 +111,12 @@ public class CardSlot {
         if (highlighted) batch.render(highlightInstance, env);
     }
 
+    public void renderSelectable(ModelBatch batch, Environment env) {
+        if (!selectable) return;
+
+        batch.render(selectableInstance, env);
+    }
+
     public boolean intersects(Ray ray) {
         Plane plane = new Plane(new Vector3(0, 1, 0), position);
         Vector3 intersection = new Vector3();
@@ -119,4 +132,74 @@ public class CardSlot {
     public void dispose() {
         highlightModel.dispose();
     }
+
+    public void setSelectable(boolean selectable) {
+        this.selectable = selectable;
+    }
+
+    private void buildSelectable() {
+        ModelBuilder builder = new ModelBuilder();
+
+        float w = type.equals("table") ? TABLE_CARD_W : BENCH_CARD_W;
+        float h = type.equals("table") ? TABLE_CARD_H : BENCH_CARD_H;
+
+        float t = 0.030f;
+        float y = 0.01f;
+
+        builder.begin();
+
+        Material mat = new Material(
+            ColorAttribute.createDiffuse(0.4f, 0.7f, 1f, 1f),
+            new BlendingAttribute(true, GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA, 1f),
+            IntAttribute.createCullFace(GL20.GL_NONE)
+        );
+
+        // TOP
+        builder.part("top", GL20.GL_TRIANGLES,
+            VertexAttributes.Usage.Position | VertexAttributes.Usage.Normal,
+            mat
+        ).box(
+            0, y, h / 2f,
+            w, t, t
+        );
+
+        // BOTTOM
+        builder.part("bottom", GL20.GL_TRIANGLES,
+            VertexAttributes.Usage.Position | VertexAttributes.Usage.Normal,
+            mat
+        ).box(
+            0, y, -h / 2f,
+            w, t, t
+        );
+
+        // LEFT
+        builder.part("left", GL20.GL_TRIANGLES,
+            VertexAttributes.Usage.Position | VertexAttributes.Usage.Normal,
+            mat
+        ).box(
+            -w / 2f, y, 0,
+            t, t, h
+        );
+
+        // RIGHT
+        builder.part("right", GL20.GL_TRIANGLES,
+            VertexAttributes.Usage.Position | VertexAttributes.Usage.Normal,
+            mat
+        ).box(
+            w / 2f, y, 0,
+            t, t, h
+        );
+
+
+        selectableModel = builder.end();
+        selectableInstance = new ModelInstance(selectableModel);
+        selectableInstance.transform.setToTranslation(
+            position.x,
+            position.y,
+            position.z
+        );
+
+    }
+
+
 }

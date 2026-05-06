@@ -472,4 +472,9 @@ public class LobbyScreen implements Screen, GameClient.NetworkListener {
 
     }
 
+    @Override
+    public void onRetreat(NetworkMessages.Retreat msg) {
+
+    }
+
 }

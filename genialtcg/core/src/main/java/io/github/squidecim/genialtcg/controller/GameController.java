@@ -29,6 +29,7 @@ public class GameController implements InputProcessor, GameClient.NetworkListene
     private float drawTimer = 0f;
 
     private CardDecal draggedCard = null;
+    private boolean selectingRetreat = false;
 
     private boolean initialDrawDone = false;
     private int initialDrawCount = 0;
@@ -64,14 +65,15 @@ public class GameController implements InputProcessor, GameClient.NetworkListene
     @Override
     public boolean touchDown(int x, int y, int p, int b) {
 
-        if (model.phase == GameModel.Phase.DRAW) {
-            return false;
-        }
-
         if (view.isZooming()) {
             view.hideZoom();
             return true;
         }
+
+        if (model.phase == GameModel.Phase.DRAW) {
+            return false;
+        }
+
 
         if (view.isAttackMenuVisible()) {
             view.hideAttackMenu();
@@ -81,10 +83,22 @@ public class GameController implements InputProcessor, GameClient.NetworkListene
         Ray ray = view.getCam().getPickRay(x, y);
         CardDecal card = view.getHoveredCard(ray);
 
+        if (selectingRetreat && b == 0) {
+            CardDecal benchCard = view.getBenchCardAt(ray);
+            if (benchCard != null) {
+                executeRetreat(benchCard);
+            } else {
+                selectingRetreat = false;
+                view.setSelectableBorder(false);
+            }
+            return true;
+        }
+
+
         if (b == 0 && model.phase == GameModel.Phase.PLAYING && model.myTurn) {
             CardDecal myTable = view.getMyTableCard();
             if (myTable != null && myTable.intersects(ray)) {
-                view.showAttackMenu(myTable.getData(), client);
+                view.showAttackMenu(myTable.getData(), client, this);
                 return true;
             }
         }
@@ -96,7 +110,7 @@ public class GameController implements InputProcessor, GameClient.NetworkListene
             }
         }
 
-        if (model.phase == GameModel.Phase.PLAYING && !model.myTurn && b == 0) {
+        if (model.phase == GameModel.Phase.PLAYING && !model.myTurn && (b == 0) || (b == 3)) {
             return false;
         }
 
@@ -120,6 +134,7 @@ public class GameController implements InputProcessor, GameClient.NetworkListene
     @Override
     public boolean touchUp(int x, int y, int p, int b) {
         if (draggedCard == null) return false;
+        draggedCard.setDragging(false);
         Ray ray = view.getCam().getPickRay(x, y);
 
         CardSlot slot = view.getIntersectedSlot(ray);
@@ -130,6 +145,7 @@ public class GameController implements InputProcessor, GameClient.NetworkListene
             return true;
         }
 
+        assert draggedCard != null;
         if (draggedCard.getData().id.startsWith("ACT-") || draggedCard.getData().id.startsWith("OUT-") || draggedCard.getData().id.startsWith("TER-")) {
             view.cancelDrag(draggedCard);
             return true;
@@ -218,7 +234,7 @@ public class GameController implements InputProcessor, GameClient.NetworkListene
                 public void run() {
                     Gdx.app.postRunnable(() -> client.sendDrawCard());
                 }
-            }, (i + 2) * drawCooldown);
+            }, (i + 2) * (drawCooldown + 0.01f));
         }
         com.badlogic.gdx.utils.Timer.schedule(new com.badlogic.gdx.utils.Timer.Task() {
             @Override
@@ -240,6 +256,36 @@ public class GameController implements InputProcessor, GameClient.NetworkListene
         }, (INITIAL_HAND_SIZE + 2) * drawCooldown);
     }
 
+    public void startRetreat(CardData tableCard) {
+        if (model.myCredits < tableCard.revocation) {
+            view.showEphemeralMessage("Pas assez de crédits ! (" + tableCard.revocation + " requis)");
+            return;
+        }
+        if (model.bench.isEmpty()) {
+            view.showEphemeralMessage("Votre banc est vide !");
+            return;
+        }
+        view.hideAttackMenu();
+        selectingRetreat = true;
+        view.setSelectableBorder(true);
+    }
+
+    private void executeRetreat(CardDecal benchCard) {
+        selectingRetreat = false;
+        view.setSelectableBorder(false);
+
+        CardData tableCardData = model.table;
+        model.spendCredits(tableCardData.revocation);
+
+        view.swapTableAndBench(benchCard);
+
+        model.moveFromTableToBench(tableCardData);
+        model.moveFromBenchToTable(benchCard.getData());
+
+        client.sendCreditsUpdate(model.myCredits);
+        client.sendRetreat(benchCard.getData().getAtlasRegionName());
+    }
+
     @Override
     public void onTurnChanged(NetworkMessages.TurnChanged msg) {
         boolean myTurn = msg.currentPlayerId.equals(myPlayerId);
@@ -250,6 +296,8 @@ public class GameController implements InputProcessor, GameClient.NetworkListene
                 view.hideActionButton();
                 model.myTurn = false;
                 client.sendEndTurn();
+                selectingRetreat = false;
+                view.setSelectableBorder(false);
             });
         } else {
             view.hideActionButton();
@@ -311,8 +359,15 @@ public class GameController implements InputProcessor, GameClient.NetworkListene
     public void onLobbyInfo(NetworkMessages.LobbyInfo msg) {}
 
     @Override
-    public void onCreditsUpdate(NetworkMessages.CreditsUpdate obj) {
-
+    public void onCreditsUpdate(NetworkMessages.CreditsUpdate msg) {
+        boolean isMe = msg.playerId.equals(myPlayerId);
+        if (isMe) {
+            model.myCredits = msg.credits;
+            view.updateMyCredits(model.myCredits);
+        } else {
+            model.opponentCredits = msg.credits;
+            view.updateOpponentCredits(model.opponentCredits);
+        }
     }
 
     @Override
@@ -329,6 +384,17 @@ public class GameController implements InputProcessor, GameClient.NetworkListene
         } else if (msg.damage < 0) {
             CardDecal target = iAmAttacker ? myTable : oppTable;
             applyDamageAndFloat(target, msg.damage);
+        }
+    }
+
+    @Override
+    public void onRetreat(NetworkMessages.Retreat msg) {
+        boolean isMe = msg.playerId.equals(myPlayerId);
+        if (isMe) return;
+
+        CardDecal oppBenchCard = view.getOpponentBenchCardById(msg.benchCardId);
+        if (oppBenchCard != null) {
+            view.swapOpponentTableAndBench(oppBenchCard);
         }
     }
 
