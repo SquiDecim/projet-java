@@ -2,8 +2,8 @@ package io.github.squidecim.genialtcg.mainMenu;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
@@ -27,7 +27,6 @@ public class FirstScreen implements Screen {
     private Skin skin;
     private Texture backgroundTexture;
     private SpriteBatch batch;
-    private Music backgroundMusic;
     private Label messageLabel;
     private String errorMessage = null;
 
@@ -53,15 +52,24 @@ public class FirstScreen implements Screen {
         Gdx.input.setInputProcessor(stage);
         skin = game.skin;
 
-        try {
-            backgroundMusic = Gdx.audio.newMusic(
-                Gdx.files.internal("audio/music/menu_theme.mp3")
-            );
-            backgroundMusic.setLooping(true);
-            backgroundMusic.setVolume(0.3f);
-            backgroundMusic.play();
-        } catch (Exception e) {
-            Gdx.app.log("Audio", "Erreur lecture musique");
+        // gestion de la musique
+        if (game.menuMusic == null) {
+            try {
+                game.menuMusic = Gdx.audio.newMusic(
+                    Gdx.files.internal("audio/music/menu_theme.mp3")
+                );
+                game.menuMusic.setLooping(true);
+                Preferences prefs = Gdx.app.getPreferences(
+                    "GenialTCG_Settings"
+                );
+                game.menuMusic.setVolume(prefs.getFloat("music_volume", 0.3f));
+            } catch (Exception e) {
+                Gdx.app.log("Audio", "Erreur lecture musique");
+            }
+        }
+        // joue la musique si elle n'est pas déjà en train de jouer
+        if (game.menuMusic != null && !game.menuMusic.isPlaying()) {
+            game.menuMusic.play();
         }
 
         backgroundTexture = new Texture(
@@ -73,7 +81,6 @@ public class FirstScreen implements Screen {
         stage.addActor(table);
 
         Label title = new Label("GénialTCG", skin, "title");
-
         messageLabel = new Label("", skin);
         messageLabel.setColor(Color.ORANGE);
 
@@ -90,6 +97,8 @@ public class FirstScreen implements Screen {
                 @Override
                 public void changed(ChangeEvent event, Actor actor) {
                     if (game.savedDecks.size > 0) {
+                        // ARRÊT DE LA MUSIQUE POUR LE LOBBY
+                        if (game.menuMusic != null) game.menuMusic.stop();
                         game.setScreen(new LobbyScreen(game, true));
                     } else {
                         showEphemeralMessage(
@@ -132,6 +141,8 @@ public class FirstScreen implements Screen {
                                 return;
                             }
                             joinPartyDialog.hide();
+                            // ARRÊT DE LA MUSIQUE POUR LE LOBBY
+                            if (game.menuMusic != null) game.menuMusic.stop();
                             game.setScreen(
                                 new LobbyScreen(game, false, ip, null)
                             );
@@ -252,6 +263,7 @@ public class FirstScreen implements Screen {
             new ChangeListener() {
                 @Override
                 public void changed(ChangeEvent event, Actor actor) {
+                    if (game.menuMusic != null) game.menuMusic.dispose();
                     Gdx.app.exit();
                 }
             }
@@ -349,10 +361,5 @@ public class FirstScreen implements Screen {
     public void resume() {}
 
     @Override
-    public void hide() {
-        if (backgroundMusic != null) {
-            backgroundMusic.stop();
-            backgroundMusic.dispose();
-        }
-    }
+    public void hide() {}
 }
