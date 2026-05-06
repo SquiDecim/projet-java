@@ -116,7 +116,7 @@ public class GameServer {
                     server.sendToAllTCP(turn);
                 } else if (obj instanceof NetworkMessages.NormalAttack) {
                     server.sendToAllTCP(obj);
-            }
+                }
             }
         });
 

@@ -782,25 +782,6 @@ public class NewDeckScreen implements Screen {
                             list.add(d);
                         }
 
-                        System.out.println(
-                            "============================================================"
-                        );
-                        System.out.println("DECK : " + name);
-                        System.out.println(
-                            "Nombre total de cartes : " + list.size()
-                        );
-                        System.out.println(
-                            "============================================================"
-                        );
-                        for (CardData d : list) {
-                            System.out.println(d.toString());
-                            System.out.println(
-                                "------------------------------------------------------------"
-                            );
-                        }
-                        System.out.println(
-                            "============================================================"
-                        );
 
                         if (editingDeck != null) {
                             editingDeck.name = name;
