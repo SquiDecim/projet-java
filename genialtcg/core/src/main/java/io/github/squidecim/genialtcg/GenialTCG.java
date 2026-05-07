@@ -2,9 +2,14 @@ package io.github.squidecim.genialtcg;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.Pixmap;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -20,7 +25,6 @@ import io.github.squidecim.genialtcg.model.CardData;
 import io.github.squidecim.genialtcg.model.CardsStackData;
 import java.util.HashMap;
 import java.util.Map;
-import com.badlogic.gdx.Preferences;
 
 public class GenialTCG extends Game {
 
@@ -36,47 +40,47 @@ public class GenialTCG extends Game {
     public Sound takingCardsSound;
     public Sound overpassCardsSound;
     public float uiSoundVolume = 0.5f;
+
+    public float globalBrightness = 1.0f;
+    public SpriteBatch overlayBatch;
+    public Texture blackOverlay;
+
     private boolean suppressClickSound = false;
 
     @Override
     public void create() {
-
         Preferences prefs = Gdx.app.getPreferences("GenialTCG_Settings");
 
-        String displayMode = prefs.getString(
-            "display_mode",
-            "Plein ecran"
-        );
+        String displayMode = prefs.getString("display_mode", "Plein ecran");
 
         if ("Plein ecran".equals(displayMode)) {
-
             Gdx.graphics.setUndecorated(false);
-
-            Gdx.graphics.setFullscreenMode(
-                Gdx.graphics.getDisplayMode()
-            );
-
+            Gdx.graphics.setFullscreenMode(Gdx.graphics.getDisplayMode());
         } else if ("Fenetre sans bordure".equals(displayMode)) {
-
             Gdx.graphics.setUndecorated(true);
-
             Gdx.graphics.setWindowedMode(
                 Gdx.graphics.getDisplayMode().width,
                 Gdx.graphics.getDisplayMode().height
             );
-
         } else {
-
             Gdx.graphics.setUndecorated(false);
-
             Gdx.graphics.setWindowedMode(1280, 720);
         }
 
         skin = buildSkin();
         loadCardsFromJson();
-        uiSoundVolume = Gdx.app
-            .getPreferences("GenialTCG_Settings")
-            .getFloat("ui_sound_volume", 0.5f);
+
+        uiSoundVolume = prefs.getFloat("ui_sound_volume", 0.5f);
+
+        globalBrightness = prefs.getFloat("brightness", 1.0f);
+
+        overlayBatch = new SpriteBatch();
+        Pixmap pixmap = new Pixmap(1, 1, Pixmap.Format.RGBA8888);
+        pixmap.setColor(Color.BLACK);
+        pixmap.fill();
+        blackOverlay = new Texture(pixmap);
+        pixmap.dispose();
+
         try {
             hoverSound = Gdx.audio.newSound(
                 Gdx.files.internal("audio/UI/overpass_button.mp3")
@@ -100,6 +104,30 @@ public class GenialTCG extends Game {
             Gdx.app.log("Audio", "Erreur chargement sons boutons");
         }
         setScreen(new FirstScreen(this));
+    }
+
+    @Override
+    public void render() {
+        super.render();
+
+        if (globalBrightness < 1.0f) {
+            Gdx.gl.glEnable(GL20.GL_BLEND);
+            Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
+
+            overlayBatch.begin();
+            float darkness = 1.0f - globalBrightness;
+            overlayBatch.setColor(0f, 0f, 0f, darkness);
+            overlayBatch.draw(
+                blackOverlay,
+                0,
+                0,
+                Gdx.graphics.getWidth(),
+                Gdx.graphics.getHeight()
+            );
+            overlayBatch.end();
+
+            Gdx.gl.glDisable(GL20.GL_BLEND);
+        }
     }
 
     public void playImpossibleSound() {
@@ -430,6 +458,10 @@ public class GenialTCG extends Game {
         if (posingCardsSound != null) posingCardsSound.dispose();
         if (takingCardsSound != null) takingCardsSound.dispose();
         if (overpassCardsSound != null) overpassCardsSound.dispose();
+
+        if (blackOverlay != null) blackOverlay.dispose();
+        if (overlayBatch != null) overlayBatch.dispose();
+
         super.dispose();
     }
 }
