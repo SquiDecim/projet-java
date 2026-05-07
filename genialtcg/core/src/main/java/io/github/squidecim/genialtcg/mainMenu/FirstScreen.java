@@ -6,6 +6,7 @@ import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.Pixmap; // Import ajouté
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
@@ -26,6 +27,7 @@ public class FirstScreen implements Screen {
     private Stage stage;
     private Skin skin;
     private Texture backgroundTexture;
+    private Texture darkOverlayTexture; // Nouvelle texture pour assombrir le fond
     private SpriteBatch batch;
     private Label messageLabel;
     private String errorMessage = null;
@@ -75,6 +77,14 @@ public class FirstScreen implements Screen {
         backgroundTexture = new Texture(
             Gdx.files.internal("ui/fond/planete_menu.jpg")
         );
+
+        // --- CREATION DU VOILE SOMBRE ---
+        Pixmap pixmap = new Pixmap(1, 1, Pixmap.Format.RGBA8888);
+        // La couleur est noire (0,0,0) avec 40% d'opacité (0.4f). Tu peux ajuster ce 0.4f !
+        pixmap.setColor(new Color(0f, 0f, 0f, 0.4f));
+        pixmap.fill();
+        darkOverlayTexture = new Texture(pixmap);
+        pixmap.dispose();
 
         Table table = new Table();
         table.setFillParent(true);
@@ -155,12 +165,16 @@ public class FirstScreen implements Screen {
                                 int keycode
                             ) {
                                 if (keycode == Input.Keys.ENTER) {
-                                    if (game.clickSound != null) game.clickSound.play(game.uiSoundVolume);
+                                    if (
+                                        game.clickSound != null
+                                    ) game.clickSound.play(game.uiSoundVolume);
                                     tryJoin.run();
                                     return true;
                                 }
                                 if (keycode == Input.Keys.ESCAPE) {
-                                    if (game.clickSound != null) game.clickSound.play(game.uiSoundVolume);
+                                    if (
+                                        game.clickSound != null
+                                    ) game.clickSound.play(game.uiSoundVolume);
                                     joinPartyDialog.hide();
                                     return true;
                                 }
@@ -337,8 +351,10 @@ public class FirstScreen implements Screen {
     public void render(float delta) {
         Gdx.gl.glClearColor(0.1f, 0.12f, 0.18f, 1f);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
         if (backgroundTexture != null) {
             batch.begin();
+            // 1. Dessine le fond d'écran
             batch.draw(
                 backgroundTexture,
                 0,
@@ -346,8 +362,19 @@ public class FirstScreen implements Screen {
                 Gdx.graphics.getWidth(),
                 Gdx.graphics.getHeight()
             );
+
+            if (darkOverlayTexture != null) {
+                batch.draw(
+                    darkOverlayTexture,
+                    0,
+                    0,
+                    Gdx.graphics.getWidth(),
+                    Gdx.graphics.getHeight()
+                );
+            }
             batch.end();
         }
+
         stage.act(delta);
         stage.draw();
     }
@@ -361,6 +388,7 @@ public class FirstScreen implements Screen {
     public void dispose() {
         stage.dispose();
         if (backgroundTexture != null) backgroundTexture.dispose();
+        if (darkOverlayTexture != null) darkOverlayTexture.dispose(); // Nettoyage
         if (batch != null) batch.dispose();
     }
 

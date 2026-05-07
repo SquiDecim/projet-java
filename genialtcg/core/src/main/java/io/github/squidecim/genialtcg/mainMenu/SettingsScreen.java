@@ -27,6 +27,20 @@ public class SettingsScreen implements Screen {
         this.game = game;
     }
 
+    // methode pour appliquer le mode d affichage sans repeter le code
+    private void applyDisplayMode(String mode) {
+        if ("Plein ecran".equals(mode)) {
+            Gdx.graphics.setUndecorated(false);
+            Gdx.graphics.setFullscreenMode(Gdx.graphics.getDisplayMode());
+        } else if ("Fenetre sans bordure".equals(mode)) {
+            Gdx.graphics.setUndecorated(true);
+            Gdx.graphics.setWindowedMode(Gdx.graphics.getDisplayMode().width, Gdx.graphics.getDisplayMode().height);
+        } else {
+            Gdx.graphics.setUndecorated(false);
+            Gdx.graphics.setWindowedMode(1280, 720);
+        }
+    }
+
     @Override
     public void show() {
         stage = new Stage(new ScreenViewport());
@@ -37,16 +51,13 @@ public class SettingsScreen implements Screen {
         table.setFillParent(true);
         stage.addActor(table);
 
-        // bouton retour en haut a gauche
         TextButton btnBack = new TextButton("Retour", skin);
-        btnBack.addListener(
-            new ChangeListener() {
-                @Override
-                public void changed(ChangeEvent event, Actor actor) {
-                    game.setScreen(new FirstScreen(game));
-                }
+        btnBack.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                game.setScreen(new FirstScreen(game));
             }
-        );
+        });
         game.soundifyButton(btnBack);
 
         Table topBar = new Table();
@@ -55,54 +66,42 @@ public class SettingsScreen implements Screen {
         topBar.add(btnBack).width(200).height(50).pad(10);
         stage.addActor(topBar);
 
-        // recuperation des parametres sauvegardes
         Preferences prefs = Gdx.app.getPreferences("GenialTCG_Settings");
-
-        String savedDisplayMode = prefs.getString(
-            "display_mode",
-            "Plein ecran"
-        );
+        String savedDisplayMode = prefs.getString("display_mode", "Plein ecran");
 
         // volume musique
         Label volumeLabel = new Label("Volume Musique", skin);
         volumeLabel.setColor(Color.WHITE);
-
         Slider volumeSlider = new Slider(0f, 1f, 0.05f, false, skin);
         volumeSlider.setValue(prefs.getFloat("music_volume", 0.3f));
         volumeSlider.setColor(Color.WHITE);
-        volumeSlider.addListener(
-            new ChangeListener() {
-                @Override
-                public void changed(ChangeEvent event, Actor actor) {
-                    float volume = volumeSlider.getValue();
-                    if (game.menuMusic != null) game.menuMusic.setVolume(
-                        volume
-                    );
-                    prefs.putFloat("music_volume", volume);
-                    prefs.flush();
-                }
+        volumeSlider.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                float volume = volumeSlider.getValue();
+                if (game.menuMusic != null) game.menuMusic.setVolume(volume);
+                prefs.putFloat("music_volume", volume);
+                prefs.flush();
             }
-        );
+        });
 
         // volume sons ui
         Label uiSoundLabel = new Label("Volume Sons UI", skin);
         uiSoundLabel.setColor(Color.WHITE);
-
         Slider uiSoundSlider = new Slider(0f, 1f, 0.05f, false, skin);
         uiSoundSlider.setValue(prefs.getFloat("ui_sound_volume", 0.5f));
         uiSoundSlider.setColor(Color.WHITE);
-        uiSoundSlider.addListener(
-            new ChangeListener() {
-                @Override
-                public void changed(ChangeEvent event, Actor actor) {
-                    float volume = uiSoundSlider.getValue();
-                    game.uiSoundVolume = volume;
-                    prefs.putFloat("ui_sound_volume", volume);
-                    prefs.flush();
-                }
+        uiSoundSlider.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                float volume = uiSoundSlider.getValue();
+                game.uiSoundVolume = volume;
+                prefs.putFloat("ui_sound_volume", volume);
+                prefs.flush();
             }
-        );
+        });
 
+        // mode d affichage
         Label displayLabel = new Label("Mode d'affichage", skin);
         displayLabel.setColor(Color.WHITE);
 
@@ -110,36 +109,18 @@ public class SettingsScreen implements Screen {
         displayBox.setItems("Plein ecran", "Fenetre sans bordure", "Fenetre");
         displayBox.setSelected(savedDisplayMode);
 
-        displayBox.addListener(
-            new ChangeListener() {
-                @Override
-                public void changed(ChangeEvent event, Actor actor) {
-                    String selected = displayBox.getSelected();
-                    if ("Plein ecran".equals(selected)) {
-                        Gdx.graphics.setUndecorated(false); // remet les bordures par securite pour la suite
-                        Gdx.graphics.setFullscreenMode(
-                            Gdx.graphics.getDisplayMode()
-                        );
-                    } else if ("Fenetre sans bordure".equals(selected)) {
-                        Gdx.graphics.setUndecorated(true); // enleve la bordure
-                        // on force la fenetre a prendre la taille de l ecran actuel
-                        Gdx.graphics.setWindowedMode(
-                            Gdx.graphics.getDisplayMode().width,
-                            Gdx.graphics.getDisplayMode().height
-                        );
-                    } else {
-                        Gdx.graphics.setUndecorated(false); // remet les bordures
-                        Gdx.graphics.setWindowedMode(1280, 720); // taille fenetre classique
-                    }
+        applyDisplayMode(savedDisplayMode);
 
-                    // on sauvegarde le nouveau choix
-                    prefs.putString("display_mode", selected);
-                    prefs.flush();
-                }
+        displayBox.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                String selected = displayBox.getSelected();
+                applyDisplayMode(selected);
+                prefs.putString("display_mode", selected);
+                prefs.flush();
             }
-        );
+        });
 
-        // mise en page
         table.add(volumeLabel).padBottom(10).row();
         table.add(volumeSlider).width(300).padBottom(40).row();
         table.add(uiSoundLabel).padBottom(10).row();
@@ -156,24 +137,9 @@ public class SettingsScreen implements Screen {
         stage.draw();
     }
 
-    @Override
-    public void resize(int width, int height) {
-        stage.getViewport().update(width, height, true);
-    }
-
-    @Override
-    public void dispose() {
-        stage.dispose();
-    }
-
-    @Override
-    public void hide() {
-        dispose();
-    }
-
-    @Override
-    public void pause() {}
-
-    @Override
-    public void resume() {}
+    @Override public void resize(int width, int height) { stage.getViewport().update(width, height, true); }
+    @Override public void dispose() { stage.dispose(); }
+    @Override public void hide() { dispose(); }
+    @Override public void pause() {}
+    @Override public void resume() {}
 }
