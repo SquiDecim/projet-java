@@ -122,7 +122,7 @@ public class RulesScreen implements Screen {
         scrollPane.setScrollingDisabled(true, false);
         scrollPane.setFadeScrollBars(false);
 
-        Label title = new Label("REGLES DU JEU", skin, "title");
+        Label title = new Label("RÈGLES DU JEU", skin, "title");
 
         // mise en page centrale
         mainTable.add(title).padBottom(20).padTop(40).row();
