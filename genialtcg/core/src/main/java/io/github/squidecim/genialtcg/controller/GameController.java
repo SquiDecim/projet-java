@@ -158,7 +158,7 @@ public class GameController implements InputProcessor, GameClient.NetworkListene
         }
 
         assert draggedCard != null;
-        if (draggedCard.getData().id.startsWith("ACT-") || draggedCard.getData().id.startsWith("OUT-") || draggedCard.getData().id.startsWith("TER-")) {
+        if (draggedCard.getData().id.startsWith("ACT-") || draggedCard.getData().id.startsWith("OUT-")) {
             view.cancelDrag(draggedCard);
             return true;
         }
@@ -474,5 +474,14 @@ public class GameController implements InputProcessor, GameClient.NetworkListene
         if (died && model.myTurn) {
             client.sendCardDied(target.getData().getAtlasRegionName(), target.emplacement, onOpponent);
         }
+    }
+
+    public void handleSpecialAttack(CardData card) {
+        int attackCost = card.specialCost;
+        if (model.myCredits < attackCost) {
+            view.showEphemeralMessage("Pas assez de crédits ! (" + attackCost + " requis)");
+            return;
+        }
+        view.hideAttackMenu();
     }
 }

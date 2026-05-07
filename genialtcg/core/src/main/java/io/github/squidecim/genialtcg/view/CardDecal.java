@@ -188,7 +188,7 @@ public class CardDecal {
             fb_font_stats.draw(fb_batch, Integer.toString(data.stats[1]), 325, cardPixelH / 2f - 188);
 
             fb_font_special_cost.setColor(Color.BLACK);
-            fb_font_special_cost.draw(fb_batch, Integer.toString(data.specialCout), 415, cardPixelH / 2f - 225);
+            fb_font_special_cost.draw(fb_batch, Integer.toString(data.specialCost), 415, cardPixelH / 2f - 225);
 
 
             fb_font_stats.setColor(Color.BLACK);

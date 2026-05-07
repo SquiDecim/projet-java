@@ -1216,9 +1216,9 @@ public class GameView implements Screen {
 
         content.add(new Label("──────────────", uiSkin)).padTop(10).padBottom(10).row();
 
-        String specialName = myCard.specialNom != null ? myCard.specialNom : "Spécial";
+        String specialName = myCard.specialName != null ? myCard.specialName : "Spécial";
         String specialDesc = myCard.specialDescription != null ? myCard.specialDescription : "";
-        int specialCost = myCard.specialCout;
+        int specialCost = myCard.specialCost;
         int revocationCost = myCard.revocation;
 
         Table specialBlock = new Table();
@@ -1235,7 +1235,7 @@ public class GameView implements Screen {
         specialBtn.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                hideAttackMenu();
+                controller.handleSpecialAttack(myCard);
             }
         });
 
