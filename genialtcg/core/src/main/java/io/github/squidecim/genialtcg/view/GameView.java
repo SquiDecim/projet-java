@@ -18,6 +18,8 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.*;
 import com.badlogic.gdx.math.collision.Ray;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
@@ -108,6 +110,8 @@ public class GameView implements Screen {
     private boolean attackMenuVisible = false;
 
     private Array<CardDecal> discardingCards = new Array<>();
+
+    private int cardsInFlight = 0;
 
     private Runnable pendingActionListener;
     private Table bannerRow;
@@ -621,10 +625,16 @@ public class GameView implements Screen {
             "deck"
         );
 
+        cardsInFlight++;
+        decal.setDeckLandCallback(() -> cardsInFlight--);
         decal.setRotation(180f, 90f, 0);
         handCards.add(decal);
         decal.generateDynamicTexture(512, 716);
         repositionHand();
+    }
+
+    public boolean isAnyCardBeingDrawn() {
+        return cardsInFlight > 0;
     }
 
     private void repositionHand() {
@@ -949,6 +959,13 @@ public class GameView implements Screen {
     }
 
     public void updateHover(Ray ray) {
+        if (cardsInFlight > 0) {
+            if (hoveredCard != null) {
+                hoveredCard.setHovered(false);
+                hoveredCard = null;
+            }
+            return;
+        }
         setHoveredCard(getHoveredCard(ray));
     }
 
@@ -1139,6 +1156,10 @@ public class GameView implements Screen {
         return zoomGhost != null;
     }
 
+    public boolean isZoomCardHit(Ray ray) {
+        return zoomGhost != null && zoomGhost.intersects(ray);
+    }
+
     public CardDecal getMyTableCard() {
         return tableSlot.getCard();
     }
@@ -1253,28 +1274,58 @@ public class GameView implements Screen {
         int specialCost = myCard.specialCost;
         int revocationCost = myCard.revocation;
 
+        Color typeColor;
+        switch (myCard.type != null ? myCard.type : "") {
+            case "Militaire":      typeColor = new Color(0.45f, 0.10f, 0.10f, 1f); break;
+            case "Diplomatique":   typeColor = new Color(0.10f, 0.20f, 0.50f, 1f); break;
+            case "Économique":     typeColor = new Color(0.35f, 0.28f, 0.05f, 1f); break;
+            case "Renseignement":  typeColor = new Color(0.10f, 0.30f, 0.15f, 1f); break;
+            case "Isolationniste": typeColor = new Color(0.28f, 0.20f, 0.15f, 1f); break;
+            default:               typeColor = new Color(0.10f, 0.10f, 0.30f, 1f); break;
+        }
+        Color typeColorHover = new Color(
+            Math.min(typeColor.r + 0.12f, 1f),
+            Math.min(typeColor.g + 0.12f, 1f),
+            Math.min(typeColor.b + 0.12f, 1f),
+            1f
+        );
+
         Table specialBlock = new Table();
-        specialBlock.setBackground(uiSkin.newDrawable("white", new Color(0.1f, 0.1f, 0.3f, 1f)));
+        specialBlock.setBackground(uiSkin.newDrawable("white", typeColor));
         specialBlock.pad(10);
+        specialBlock.setTouchable(Touchable.enabled);
 
         Label specialNameLabel = new Label(specialName + " (" + specialCost + " crédits)", uiSkin);
-        specialNameLabel.setColor(Color.CYAN);
+        specialNameLabel.setColor(Color.WHITE);
         Label specialDescLabel = new Label(specialDesc, uiSkin);
         specialDescLabel.setWrap(true);
         specialDescLabel.setColor(Color.LIGHT_GRAY);
 
-        TextButton specialBtn = new TextButton("Utiliser", uiSkin);
-        specialBtn.addListener(new ChangeListener() {
+        specialBlock.add(specialNameLabel).left().padBottom(5).row();
+        specialBlock.add(specialDescLabel).width(300).left();
+
+        specialBlock.addListener(new InputListener() {
             @Override
-            public void changed(ChangeEvent event, Actor actor) {
+            public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+                if (pointer == -1) {
+                    specialBlock.setBackground(uiSkin.newDrawable("white", typeColorHover));
+                    if (game.hoverSound != null) game.hoverSound.play(game.uiSoundVolume);
+                }
+            }
+            @Override
+            public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
+                if (pointer == -1) specialBlock.setBackground(uiSkin.newDrawable("white", typeColor));
+            }
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                return true;
+            }
+            @Override
+            public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+                if (game.clickSound != null) game.clickSound.play(game.uiSoundVolume);
                 controller.handleSpecialAttack(myCard);
             }
         });
-
-        game.soundifyButton(specialBtn);
-        specialBlock.add(specialNameLabel).left().padBottom(5).row();
-        specialBlock.add(specialDescLabel).width(300).left().padBottom(10).row();
-        specialBlock.add(specialBtn).right();
 
         content.add(specialBlock)
             .colspan(2)
@@ -1282,16 +1333,6 @@ public class GameView implements Screen {
             .expandX()
             .padBottom(10)
             .row();
-
-        TextButton closeBtn = new TextButton("Annuler", uiSkin);
-        closeBtn.addListener(new ChangeListener() {
-            @Override
-            public void changed(ChangeEvent event, Actor actor) {
-                hideAttackMenu();
-            }
-        });
-        game.soundifyButton(closeBtn);
-        content.add(closeBtn).width(220).height(50).padTop(10).padBottom(10).padRight(10).padLeft(10);
 
         TextButton revocationBtn = new TextButton("Retrait (" + revocationCost + " crédits)", uiSkin);
         revocationBtn.addListener(new ChangeListener() {
@@ -1302,6 +1343,8 @@ public class GameView implements Screen {
         });
         game.soundifyButton(revocationBtn);
         content.add(revocationBtn)
+            .colspan(2)
+            .center()
             .width(220)
             .height(50)
             .padTop(10)
@@ -1317,6 +1360,13 @@ public class GameView implements Screen {
             .row();
 
 
+        attackMenu.addListener(new InputListener() {
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                if (event.getTarget() == attackMenu) hideAttackMenu();
+                return false;
+            }
+        });
         attackMenu.add(content).center();
         uiStage.addActor(attackMenu);
     }

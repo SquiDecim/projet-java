@@ -69,6 +69,9 @@ public class CardDecal {
     private float[] pendingTargetRot = new float[3];
     private float pendingDuration = 0f;
 
+    private boolean isFromDeckAnim = false;
+    private Runnable deckLandCallback = null;
+
     private int handIndex = 0;
 
     public String emplacement;
@@ -372,6 +375,14 @@ public class CardDecal {
                 currentRoll  = roll;
                 targetPos = null;
                 applyTransform(position.x, currentY + yOffset, position.z, yaw, pitch, roll);
+                if (isFromDeckAnim) {
+                    isFromDeckAnim = false;
+                    if (deckLandCallback != null) {
+                        Runnable cb = deckLandCallback;
+                        deckLandCallback = null;
+                        cb.run();
+                    }
+                }
             }
 
             return;
@@ -398,12 +409,17 @@ public class CardDecal {
         slideTimer = 0f;
         slideDuration = 0.3f;
         sliding = true;
+        isFromDeckAnim = true;
 
         pendingTarget      = target.cpy();
         pendingTargetRot[0] = targetYaw;
         pendingTargetRot[1] = targetPitch;
         pendingTargetRot[2] = targetRoll;
         pendingDuration    = duration;
+    }
+
+    public void setDeckLandCallback(Runnable callback) {
+        this.deckLandCallback = callback;
     }
 
     public void animateTo(Vector3 target, float targetYaw, float targetPitch, float targetRoll, float duration) {

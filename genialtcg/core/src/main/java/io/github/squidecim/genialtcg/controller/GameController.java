@@ -58,6 +58,7 @@ public class GameController implements InputProcessor, GameClient.NetworkListene
     public boolean mouseMoved(int screenX, int screenY) {
         if (view.isZooming()) return false;
         if (view.isAttackMenuVisible()) return false;
+        if (model.phase == GameModel.Phase.DRAW || view.isAnyCardBeingDrawn()) return false;
         Ray ray = view.getCam().getPickRay(screenX, screenY);
         view.updateHover(ray);
         return false;
@@ -67,11 +68,12 @@ public class GameController implements InputProcessor, GameClient.NetworkListene
     public boolean touchDown(int x, int y, int p, int b) {
 
         if (view.isZooming()) {
-            view.hideZoom();
+            Ray ray = view.getCam().getPickRay(x, y);
+            if (!view.isZoomCardHit(ray)) view.hideZoom();
             return true;
         }
 
-        if (model.phase == GameModel.Phase.DRAW) {
+        if (model.phase == GameModel.Phase.DRAW || view.isAnyCardBeingDrawn()) {
             return false;
         }
 
@@ -232,13 +234,7 @@ public class GameController implements InputProcessor, GameClient.NetworkListene
     }
 
     @Override
-    public boolean keyDown(int k) {
-        if (k == Input.Keys.ESCAPE && view.isZooming()) {
-            view.hideZoom();
-            return true;
-        }
-        return false;
-    }
+    public boolean keyDown(int k) { return false; }
 
     @Override public boolean keyUp(int k) { return false; }
     @Override public boolean keyTyped(char c) { return false; }

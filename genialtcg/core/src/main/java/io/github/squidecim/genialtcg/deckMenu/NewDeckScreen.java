@@ -101,6 +101,7 @@ public class NewDeckScreen implements Screen {
     private CardsStackData editingDeck = null;
     private Container<Stack> zoomContainer;
     private Drawable silverBorder;
+    private ScrollPane scroll;
 
     private static final float EFFECT_SCALE = 1.05f;
     private static final float ANIM_DURATION = 0.1f;
@@ -275,7 +276,13 @@ public class NewDeckScreen implements Screen {
 
         // --- Grille ---
         gridTable = new Table();
-        ScrollPane scroll = new ScrollPane(gridTable, skin);
+        scroll = new ScrollPane(gridTable, skin);
+        ScrollPane.ScrollPaneStyle noBarStyle = new ScrollPane.ScrollPaneStyle(scroll.getStyle());
+        noBarStyle.hScroll = null;
+        noBarStyle.hScrollKnob = null;
+        noBarStyle.vScroll = null;
+        noBarStyle.vScrollKnob = null;
+        scroll.setStyle(noBarStyle);
         root.add(scroll).expand().fill().pad(10);
         stage.setScrollFocus(scroll);
 
@@ -708,24 +715,20 @@ public class NewDeckScreen implements Screen {
     private void showZoom(AtlasRegion region) {
         if (zoomContainer != null) return;
         boolean isSelected = selectedCards.contains(region.name, false);
-        float zoomHeight = stage.getHeight() * 0.85f;
-        float cardW =
-            zoomHeight *
-            (region.getRegionWidth() / (float) region.getRegionHeight());
+        final float zoomH = stage.getHeight() * 0.85f;
+        final float zoomW = zoomH * (region.getRegionWidth() / (float) region.getRegionHeight());
 
         Stack zoomStack = new Stack();
-        zoomStack.setTransform(true);
-        zoomStack.setScale(1f);
 
         if (isSelected) {
             Image border = new Image(silverBorder);
             Table borderWrapper = new Table();
-            borderWrapper.add(border).size(cardW + 10, zoomHeight + 10);
+            borderWrapper.add(border).size(zoomW + 10, zoomH + 10);
             zoomStack.add(borderWrapper);
         }
 
         Table imgWrapper = new Table();
-        imgWrapper.add(new Image(region)).size(cardW, zoomHeight);
+        imgWrapper.add(new Image(region)).size(zoomW, zoomH);
         zoomStack.add(imgWrapper);
 
         zoomContainer = new Container<>(zoomStack);
@@ -734,12 +737,20 @@ public class NewDeckScreen implements Screen {
             skin.newDrawable("white", new Color(0, 0, 0, 0.85f))
         );
         stage.addActor(zoomContainer);
+        stage.setScrollFocus(null);
 
         zoomContainer.addListener(
-            new ClickListener(-1) {
+            new InputListener() {
                 @Override
-                public void clicked(InputEvent event, float x, float y) {
-                    closeZoom();
+                public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                    float sw = stage.getWidth();
+                    float sh = stage.getHeight();
+                    float cardLeft   = (sw - zoomW) / 2f;
+                    float cardBottom = (sh - zoomH) / 2f;
+                    boolean onCard = x >= cardLeft && x <= cardLeft + zoomW
+                                  && y >= cardBottom && y <= cardBottom + zoomH;
+                    if (!onCard) closeZoom();
+                    return true;
                 }
             }
         );
@@ -749,6 +760,7 @@ public class NewDeckScreen implements Screen {
         if (zoomContainer != null) {
             zoomContainer.remove();
             zoomContainer = null;
+            stage.setScrollFocus(scroll);
         }
     }
 
@@ -822,7 +834,7 @@ public class NewDeckScreen implements Screen {
         nameInput.addListener(new InputListener() {
             @Override
             public boolean keyDown(InputEvent event, int keycode) {
-                if (keycode == Input.Keys.ENTER || keycode == Input.Keys.ESCAPE) {
+                if (keycode == Input.Keys.ENTER) {
                     if (game.clickSound != null) game.clickSound.play(game.uiSoundVolume);
                 }
                 return false;
@@ -836,7 +848,6 @@ public class NewDeckScreen implements Screen {
         dialog.getContentTable().add(nameInput).width(300).pad(10);
 
         dialog.getButtonTable().defaults().width(120).height(40).pad(10);
-        dialog.button("Annuler", false);
         dialog.button("Valider", true);
         for (Cell<?> cell : dialog.getButtonTable().getCells()) {
             if (cell.getActor() instanceof TextButton) {
@@ -845,8 +856,16 @@ public class NewDeckScreen implements Screen {
         }
 
         dialog.key(Input.Keys.ENTER, true);
-        dialog.key(Input.Keys.ESCAPE, false);
 
+        dialog.addListener(new InputListener() {
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                if (x < 0 || x > dialog.getWidth() || y < 0 || y > dialog.getHeight()) {
+                    dialog.hide();
+                }
+                return false;
+            }
+        });
         dialog.show(stage);
         stage.setKeyboardFocus(nameInput);
     }

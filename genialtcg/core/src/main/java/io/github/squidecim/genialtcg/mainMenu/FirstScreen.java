@@ -35,7 +35,6 @@ public class FirstScreen implements Screen {
     private Window errorDialog;
     private TextButton btnClose;
     private Dialog joinPartyDialog;
-    private TextButton btnCancelDialog;
     private TextButton btnJoinDialog;
 
     public FirstScreen(GenialTCG game) {
@@ -171,13 +170,6 @@ public class FirstScreen implements Screen {
                                     tryJoin.run();
                                     return true;
                                 }
-                                if (keycode == Input.Keys.ESCAPE) {
-                                    if (
-                                        game.clickSound != null
-                                    ) game.clickSound.play(game.uiSoundVolume);
-                                    joinPartyDialog.hide();
-                                    return true;
-                                }
                                 return false;
                             }
                         }
@@ -200,19 +192,6 @@ public class FirstScreen implements Screen {
                         .pad(5)
                         .row();
 
-                    btnCancelDialog = new TextButton("Annuler", skin);
-                    btnCancelDialog.addListener(
-                        new ChangeListener() {
-                            @Override
-                            public void changed(
-                                ChangeEvent event,
-                                Actor actor
-                            ) {
-                                joinPartyDialog.hide();
-                            }
-                        }
-                    );
-
                     btnJoinDialog = new TextButton("Rejoindre", skin);
                     btnJoinDialog.addListener(
                         new ChangeListener() {
@@ -226,7 +205,6 @@ public class FirstScreen implements Screen {
                         }
                     );
 
-                    game.soundifyButton(btnCancelDialog);
                     game.soundifyButton(btnJoinDialog);
 
                     joinPartyDialog
@@ -235,8 +213,16 @@ public class FirstScreen implements Screen {
                         .width(120)
                         .height(40)
                         .pad(10);
-                    joinPartyDialog.getButtonTable().add(btnCancelDialog);
                     joinPartyDialog.getButtonTable().add(btnJoinDialog);
+                    joinPartyDialog.addListener(new InputListener() {
+                        @Override
+                        public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                            if (x < 0 || x > joinPartyDialog.getWidth() || y < 0 || y > joinPartyDialog.getHeight()) {
+                                joinPartyDialog.hide();
+                            }
+                            return false;
+                        }
+                    });
                     joinPartyDialog.show(stage);
                     stage.setKeyboardFocus(codeField);
                 }
