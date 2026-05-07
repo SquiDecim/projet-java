@@ -432,12 +432,10 @@ public class GameController implements InputProcessor, GameClient.NetworkListene
 
         CardDecal deadCard;
         if (!iMustReplace) {
-            // carte adverse de MON point de vue
             deadCard = "table".equals(msg.zone)
                 ? view.getOpponentTableCard()
                 : view.getOpponentBenchCardById(msg.cardId);
         } else {
-            // ma carte
             deadCard = "table".equals(msg.zone)
                 ? view.getMyTableCard()
                 : view.getMyBenchCardById(msg.cardId);
@@ -446,20 +444,18 @@ public class GameController implements InputProcessor, GameClient.NetworkListene
 
         view.sendToDiscard(deadCard, iMustReplace);
 
+        if (msg.isOpponent == isMe) {
+            if ("table".equals(msg.zone)) view.clearTableSlot(false);
+            else view.clearOpponentBenchSlot(deadCard);
+        } else {
+            model.discardCard(deadCard.getData());
+            if ("table".equals(msg.zone)) view.clearTableSlot(true);
+            else view.clearBenchSlot(deadCard);
+        }
+
         com.badlogic.gdx.utils.Timer.schedule(new com.badlogic.gdx.utils.Timer.Task() {
             @Override public void run() {
                 Gdx.app.postRunnable(() -> {
-                    if (msg.isOpponent == isMe) {
-                        // carte adverse : juste nettoyer le slot
-                        if ("table".equals(msg.zone)) view.clearTableSlot(false);
-                        else view.clearOpponentBenchSlot(deadCard);
-                    } else {
-                        // ma carte
-                        model.discardCard(deadCard.getData());
-                        if ("table".equals(msg.zone)) view.clearTableSlot(true);
-                        else view.clearBenchSlot(deadCard);
-                    }
-
                     if (iMustReplace && "table".equals(msg.zone) && !model.bench.isEmpty()) {
                         view.showBanner("Choisissez une carte du banc à remettre en jeu");
                         view.setSelectableBorder(true);
@@ -467,7 +463,7 @@ public class GameController implements InputProcessor, GameClient.NetworkListene
                     }
                 });
             }
-        }, 0.55f);
+        }, 1.1f);
     }
 
     private void applyDamageAndFloat(CardDecal target, int damage, boolean onOpponent) {

@@ -27,7 +27,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.Array;
-import com.badlogic.gdx.utils.Timer;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import io.github.squidecim.genialtcg.*;
 import io.github.squidecim.genialtcg.controller.GameController;
@@ -268,7 +267,7 @@ public class GameView implements Screen {
             new TextureRegion(backTexture),
             BENCH_CARD_W,
             BENCH_CARD_H,
-            deckSize, //la je mets le meme nombre de carte que le joueur mais faudrait récup le nombre de carte adverse
+            deckSize, //la je mets le meme nombre de carte que me joueur mais faudrait récup le nombre de carte adverse
             -5.15f,
             0,
             -4.03f
@@ -280,7 +279,7 @@ public class GameView implements Screen {
             1,
             5.15f,
             0,
-            2.175f
+            2.16f
         );
         opponentDiscard = createCardsStacks(
             new TextureRegion(backTexture),
@@ -289,7 +288,7 @@ public class GameView implements Screen {
             0,
             -5.15f,
             0,
-            -2.175f
+            -2.16f
         );
 
         updateDeckVisual(model.deckSize());
@@ -435,15 +434,14 @@ public class GameView implements Screen {
         discard.render(modelBatch, environment);
         opponentDiscard.render(modelBatch, environment);
 
-        for (int i = discardingCards.size - 1; i >= 0; i--) {
-            CardDecal card = discardingCards.get(i);
-            card.update(delta);
-            card.render(modelBatch, environment);
-        }
-
         if (draggedCard != null) {
             draggedCard.update(delta);
             draggedCard.render(modelBatch, environment);
+        }
+
+        for (CardDecal card : discardingCards) {
+            card.update(delta);
+            card.render(modelBatch, environment);
         }
 
         modelBatch.end();
@@ -726,8 +724,8 @@ public class GameView implements Screen {
             Vector3 startPos =
                 opponentHandCards.size > 0
                     ? opponentHandCards
-                          .get(opponentHandCards.size - 1)
-                          .getPosition()
+                      .get(opponentHandCards.size - 1)
+                      .getPosition()
                     : opponentDeck.getPosition();
             decal = new CardDecal(
                 card,
@@ -772,8 +770,8 @@ public class GameView implements Screen {
             Vector3 startPos =
                 opponentHandCards.size > 0
                     ? opponentHandCards
-                          .get(opponentHandCards.size - 1)
-                          .getPosition()
+                      .get(opponentHandCards.size - 1)
+                      .getPosition()
                     : opponentDeck.getPosition();
             decal = new CardDecal(
                 card,
@@ -804,8 +802,8 @@ public class GameView implements Screen {
             CardDecal c = slot.getCard();
             if (
                 c != null &&
-                c.getData() != null &&
-                c.getData().getAtlasRegionName().equals(cardId)
+                    c.getData() != null &&
+                    c.getData().getAtlasRegionName().equals(cardId)
             ) {
                 slot.removeCard();
                 return c;
@@ -814,8 +812,8 @@ public class GameView implements Screen {
         CardDecal c = opponentTableSlot.getCard();
         if (
             c != null &&
-            c.getData() != null &&
-            c.getData().getAtlasRegionName().equals(cardId)
+                c.getData() != null &&
+                c.getData().getAtlasRegionName().equals(cardId)
         ) {
             opponentTableSlot.removeCard();
             return c;
@@ -877,8 +875,8 @@ public class GameView implements Screen {
     public CardDecal getHoveredCard(Ray ray) {
         if (
             hoveredCard != null &&
-            hoveredCard.intersects(ray) &&
-            !hoveredCard.isAnimating()
+                hoveredCard.intersects(ray) &&
+                !hoveredCard.isAnimating()
         ) return hoveredCard;
         for (int i = handCards.size - 1; i >= 0; i--) {
             CardDecal card = handCards.get(i);
@@ -1397,18 +1395,20 @@ public class GameView implements Screen {
         Vector3 discardPos = discardStack.getPosition().cpy();
         discardPos.y += discardStack.nbrCards * 0.007f + 0.007f;
 
-        discardingCards.add(card); // ← garder la référence
+        discardingCards.add(card);
+
         card.animateTo(discardPos, 0, -90f, 0, 0.6f);
 
-        Timer.schedule(new Timer.Task() {
+        com.badlogic.gdx.utils.Timer.schedule(new com.badlogic.gdx.utils.Timer.Task() {
             @Override public void run() {
                 Gdx.app.postRunnable(() -> {
-                    discardingCards.removeValue(card, true); // ← retirer après
                     discardStack.updateSize(discardStack.nbrCards + 1);
-                    if (card.getData() != null)
+                    if (card.getData() != null) {
                         discardStack.setTopTexture(card.getTopTextureRegion());
+                    }
+                    discardingCards.removeValue(card, true); // ← retire après l'anim
                 });
             }
-        }, 0.7f);
+        }, 1f);
     }
 }

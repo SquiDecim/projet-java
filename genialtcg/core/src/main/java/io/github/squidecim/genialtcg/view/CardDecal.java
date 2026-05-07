@@ -336,12 +336,14 @@ public class CardDecal {
                     pendingTarget = null;
                 }
             }
+
             return;
         }
 
         if (targetPos != null) {
             animTimer += delta;
             float t = Math.min(animTimer / animDuration, 1f);
+            System.out.println("valeur de t : " + t);
             t = t * t * (3f - 2f * t);
 
             float nx = startPos.x + (targetPos.x - startPos.x) * t;
@@ -360,6 +362,7 @@ public class CardDecal {
             applyTransform(nx, ny + yOffset, nz, cy, cp, cr);
 
             if (t >= 1f) {
+                System.out.println("ptn t est supérieur ou égale à 1");
                 position.set(targetPos);
                 baseY    = targetPos.y;
                 currentY = targetPos.y;
@@ -372,8 +375,11 @@ public class CardDecal {
                 targetPos = null;
                 applyTransform(position.x, currentY + yOffset, position.z, yaw, pitch, roll);
             }
+            System.out.println("bah la en avant finalement targetPos != null");
+
             return;
         }
+
 
         float yOffset = handIndex * 0.002f;
         float targetY = hovered && emplacement.equals("hand")? baseY + 0.75f : baseY;
