@@ -30,7 +30,12 @@ public class GenialTCG extends Game {
     public BitmapFont uiFont;
     public Sound hoverSound;
     public Sound clickSound;
+    public Sound impossibleSound;
+    public Sound posingCardsSound;
+    public Sound takingCardsSound;
+    public Sound overpassCardsSound;
     public float uiSoundVolume = 0.5f;
+    private boolean suppressClickSound = false;
 
     @Override
     public void create() {
@@ -38,12 +43,21 @@ public class GenialTCG extends Game {
         loadCardsFromJson();
         uiSoundVolume = Gdx.app.getPreferences("GenialTCG_Settings").getFloat("ui_sound_volume", 0.5f);
         try {
-            hoverSound = Gdx.audio.newSound(Gdx.files.internal("audio/overpass_button.mp3"));
-            clickSound = Gdx.audio.newSound(Gdx.files.internal("audio/pressed_button.mp3"));
+            hoverSound = Gdx.audio.newSound(Gdx.files.internal("audio/UI /overpass_button.mp3"));
+            clickSound = Gdx.audio.newSound(Gdx.files.internal("audio/UI /pressed_button.mp3"));
+            impossibleSound = Gdx.audio.newSound(Gdx.files.internal("audio/UI /impossible_action.mp3"));
+            posingCardsSound = Gdx.audio.newSound(Gdx.files.internal("audio/game effect/posing_cards.mp3"));
+            takingCardsSound = Gdx.audio.newSound(Gdx.files.internal("audio/game effect/taking_cards.mp3"));
+            overpassCardsSound = Gdx.audio.newSound(Gdx.files.internal("audio/game effect/overpasscards.mp3"));
         } catch (Exception e) {
             Gdx.app.log("Audio", "Erreur chargement sons boutons");
         }
         setScreen(new FirstScreen(this));
+    }
+
+    public void playImpossibleSound() {
+        suppressClickSound = true;
+        if (impossibleSound != null) impossibleSound.play(uiSoundVolume);
     }
 
     public void soundifyButton(TextButton btn) {
@@ -54,8 +68,12 @@ public class GenialTCG extends Game {
             }
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                if (clickSound != null) clickSound.play(uiSoundVolume);
-                return false;
+                return true;
+            }
+            @Override
+            public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+                if (!suppressClickSound && clickSound != null) clickSound.play(uiSoundVolume);
+                suppressClickSound = false;
             }
         });
     }
@@ -335,6 +353,10 @@ public class GenialTCG extends Game {
         if (skin != null) skin.dispose();
         if (hoverSound != null) hoverSound.dispose();
         if (clickSound != null) clickSound.dispose();
+        if (impossibleSound != null) impossibleSound.dispose();
+        if (posingCardsSound != null) posingCardsSound.dispose();
+        if (takingCardsSound != null) takingCardsSound.dispose();
+        if (overpassCardsSound != null) overpassCardsSound.dispose();
         super.dispose();
     }
 }

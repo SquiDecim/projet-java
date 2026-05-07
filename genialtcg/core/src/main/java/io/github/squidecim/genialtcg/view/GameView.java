@@ -851,6 +851,9 @@ public class GameView implements Screen {
         if (hoveredCard != null && hoveredCard != card) hoveredCard.setHovered(
             false
         );
+        if (card != null && card != hoveredCard && handCards.contains(card, true)) {
+            if (game.overpassCardsSound != null) game.overpassCardsSound.play(game.uiSoundVolume);
+        }
         hoveredCard = card;
         if (hoveredCard != null) hoveredCard.setHovered(true);
     }
@@ -1239,6 +1242,7 @@ public class GameView implements Screen {
     }
 
     public void showEphemeralMessage(String text) {
+        game.playImpossibleSound();
         ephemeralLabel.setText(text);
         ephemeralLabel.clearActions();
         ephemeralLabel.addAction(Actions.sequence(

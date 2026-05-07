@@ -273,8 +273,10 @@ public class LobbyScreen implements Screen, GameClient.NetworkListener {
 
                     @Override
                     public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
-                        if (pointer == -1 && !isSelected)
+                        if (pointer == -1 && !isSelected) {
+                            if (game.overpassCardsSound != null) game.overpassCardsSound.play(game.uiSoundVolume);
                             stack.addAction(Actions.scaleTo(1.05f, 1.05f, 0.1f));
+                        }
                     }
 
                     @Override

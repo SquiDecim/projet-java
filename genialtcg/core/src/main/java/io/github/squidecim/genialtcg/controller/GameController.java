@@ -169,6 +169,7 @@ public class GameController implements InputProcessor, GameClient.NetworkListene
                     if (firstSlot != null) {
                         model.moveFromHandToBench(draggedCard.getData());
                         view.dropCardOnSlot(draggedCard, firstSlot);
+                        if (game.posingCardsSound != null) game.posingCardsSound.play(game.uiSoundVolume);
                         int slotIdx = view.getBenchSlotIndex(firstSlot);
                         client.sendPlayCard(draggedCard.getData().getAtlasRegionName(), "bench", slotIdx);
                     } else {
@@ -179,6 +180,7 @@ public class GameController implements InputProcessor, GameClient.NetworkListene
                 if (fromBench) model.moveFromBenchToTable(draggedCard.getData());
                 else model.moveFromHandToTable(draggedCard.getData());
                 view.dropCardOnSlot(draggedCard, slot);
+                if (game.posingCardsSound != null) game.posingCardsSound.play(game.uiSoundVolume);
                 client.sendPlayCard(draggedCard.getData().getAtlasRegionName(), "table", 0);
                 model.setupDone = true;
                 view.hideBanner();
@@ -319,6 +321,7 @@ public class GameController implements InputProcessor, GameClient.NetworkListene
             if (drawn != null) {
                 view.addCardToHand(drawn);
                 view.updateDeckVisual(model.deckSize());
+                if (game.takingCardsSound != null) game.takingCardsSound.play(game.uiSoundVolume);
             }
             if (model.isDeckEmpty()) {
                 Gdx.app.postRunnable(() ->

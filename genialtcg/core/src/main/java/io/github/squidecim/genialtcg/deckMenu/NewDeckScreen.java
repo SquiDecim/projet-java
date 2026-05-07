@@ -653,13 +653,16 @@ public class NewDeckScreen implements Screen {
                             pointer == -1 &&
                             !isSelected &&
                             zoomContainer == null
-                        ) slot.addAction(
-                            Actions.scaleTo(
-                                EFFECT_SCALE,
-                                EFFECT_SCALE,
-                                ANIM_DURATION
-                            )
-                        );
+                        ) {
+                            if (game.overpassCardsSound != null) game.overpassCardsSound.play(game.uiSoundVolume);
+                            slot.addAction(
+                                Actions.scaleTo(
+                                    EFFECT_SCALE,
+                                    EFFECT_SCALE,
+                                    ANIM_DURATION
+                                )
+                            );
+                        }
                     }
 
                     @Override
@@ -740,6 +743,7 @@ public class NewDeckScreen implements Screen {
     }
 
     private void showEphemeralMessage(String text) {
+        game.playImpossibleSound();
         messageLabel.setText(text);
         messageLabel.clearActions();
         messageLabel.addAction(
@@ -805,6 +809,15 @@ public class NewDeckScreen implements Screen {
             skin
         );
         nameInput.setMaxLength(15);
+        nameInput.addListener(new InputListener() {
+            @Override
+            public boolean keyDown(InputEvent event, int keycode) {
+                if (keycode == Input.Keys.ENTER || keycode == Input.Keys.ESCAPE) {
+                    if (game.clickSound != null) game.clickSound.play(game.uiSoundVolume);
+                }
+                return false;
+            }
+        });
         dialog
             .getContentTable()
             .add(new Label("Nom du deck :", skin))

@@ -113,6 +113,7 @@ public class DeckScreen implements Screen {
                         Actor fromActor
                     ) {
                         if (pointer != -1) return;
+                        if (game.overpassCardsSound != null) game.overpassCardsSound.play(game.uiSoundVolume);
                         del.setVisible(true);
                         stack.addAction(Actions.scaleTo(1.05f, 1.05f, 0.1f));
                     }

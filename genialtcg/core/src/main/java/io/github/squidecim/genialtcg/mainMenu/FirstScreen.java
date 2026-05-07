@@ -155,10 +155,12 @@ public class FirstScreen implements Screen {
                                 int keycode
                             ) {
                                 if (keycode == Input.Keys.ENTER) {
+                                    if (game.clickSound != null) game.clickSound.play(game.uiSoundVolume);
                                     tryJoin.run();
                                     return true;
                                 }
                                 if (keycode == Input.Keys.ESCAPE) {
+                                    if (game.clickSound != null) game.clickSound.play(game.uiSoundVolume);
                                     joinPartyDialog.hide();
                                     return true;
                                 }
@@ -319,6 +321,7 @@ public class FirstScreen implements Screen {
     }
 
     private void showEphemeralMessage(String text) {
+        game.playImpossibleSound();
         messageLabel.setText(text);
         messageLabel.clearActions();
         messageLabel.addAction(
