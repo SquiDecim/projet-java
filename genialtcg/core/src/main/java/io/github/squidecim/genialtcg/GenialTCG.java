@@ -20,6 +20,7 @@ import io.github.squidecim.genialtcg.model.CardData;
 import io.github.squidecim.genialtcg.model.CardsStackData;
 import java.util.HashMap;
 import java.util.Map;
+import com.badlogic.gdx.Preferences;
 
 public class GenialTCG extends Game {
 
@@ -39,6 +40,38 @@ public class GenialTCG extends Game {
 
     @Override
     public void create() {
+
+        Preferences prefs = Gdx.app.getPreferences("GenialTCG_Settings");
+
+        String displayMode = prefs.getString(
+            "display_mode",
+            "Plein ecran"
+        );
+
+        if ("Plein ecran".equals(displayMode)) {
+
+            Gdx.graphics.setUndecorated(false);
+
+            Gdx.graphics.setFullscreenMode(
+                Gdx.graphics.getDisplayMode()
+            );
+
+        } else if ("Fenetre sans bordure".equals(displayMode)) {
+
+            Gdx.graphics.setUndecorated(true);
+
+            Gdx.graphics.setWindowedMode(
+                Gdx.graphics.getDisplayMode().width,
+                Gdx.graphics.getDisplayMode().height
+            );
+
+        } else {
+
+            Gdx.graphics.setUndecorated(false);
+
+            Gdx.graphics.setWindowedMode(1280, 720);
+        }
+
         skin = buildSkin();
         loadCardsFromJson();
         uiSoundVolume = Gdx.app.getPreferences("GenialTCG_Settings").getFloat("ui_sound_volume", 0.5f);
