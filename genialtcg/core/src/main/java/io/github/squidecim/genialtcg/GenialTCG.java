@@ -43,12 +43,12 @@ public class GenialTCG extends Game {
         loadCardsFromJson();
         uiSoundVolume = Gdx.app.getPreferences("GenialTCG_Settings").getFloat("ui_sound_volume", 0.5f);
         try {
-            hoverSound = Gdx.audio.newSound(Gdx.files.internal("audio/UI /overpass_button.mp3"));
-            clickSound = Gdx.audio.newSound(Gdx.files.internal("audio/UI /pressed_button.mp3"));
-            impossibleSound = Gdx.audio.newSound(Gdx.files.internal("audio/UI /impossible_action.mp3"));
-            posingCardsSound = Gdx.audio.newSound(Gdx.files.internal("audio/game effect/posing_cards.mp3"));
-            takingCardsSound = Gdx.audio.newSound(Gdx.files.internal("audio/game effect/taking_cards.mp3"));
-            overpassCardsSound = Gdx.audio.newSound(Gdx.files.internal("audio/game effect/overpasscards.mp3"));
+            hoverSound = Gdx.audio.newSound(Gdx.files.internal("audio/UI/overpass_button.mp3"));
+            clickSound = Gdx.audio.newSound(Gdx.files.internal("audio/UI/pressed_button.mp3"));
+            impossibleSound = Gdx.audio.newSound(Gdx.files.internal("audio/UI/impossible_action.mp3"));
+            posingCardsSound = Gdx.audio.newSound(Gdx.files.internal("audio/game_effect/posing_cards.mp3"));
+            takingCardsSound = Gdx.audio.newSound(Gdx.files.internal("audio/game_effect/taking_cards.mp3"));
+            overpassCardsSound = Gdx.audio.newSound(Gdx.files.internal("audio/game_effect/overpasscards.mp3"));
         } catch (Exception e) {
             Gdx.app.log("Audio", "Erreur chargement sons boutons");
         }
