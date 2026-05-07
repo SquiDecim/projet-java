@@ -60,6 +60,7 @@ public class GameModel {
     public void moveFromHandToTable(CardData card) {
         hand.remove(card);
         table = card;
+        spendCredits(card.cost);
     }
 
     public void moveFromBenchToTable(CardData card){

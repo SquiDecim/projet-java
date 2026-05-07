@@ -471,6 +471,7 @@ public class GameView implements Screen {
                     continue;
                 }
                 Vector3 screenPos = cam.project(ft.worldPos.cpy());
+                System.out.println("screenPos: " + screenPos + " screen: " + Gdx.graphics.getWidth() + "x" + Gdx.graphics.getHeight());
                 floatFont.getData().setScale(ft.scale);
                 floatFont.setColor(ft.color);
                 layout.setText(floatFont, ft.text);

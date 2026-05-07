@@ -186,9 +186,11 @@ public class GameController implements InputProcessor, GameClient.NetworkListene
                 }
             } else if (toTable && slot.isEmpty()) {
                 if (!fromBench) {
+                    System.out.println("déja ça vient pas du banc");
                     if (model.myCredits >= draggedCard.getData().cost){
                         model.moveFromHandToTable(draggedCard.getData());
                         client.sendCreditsUpdate(model.myCredits);
+                        System.out.println("bah " + model.myCredits);
                     } else {
                         view.cancelDrag(draggedCard);
                         draggedCard = null;
@@ -416,6 +418,7 @@ public class GameController implements InputProcessor, GameClient.NetworkListene
         model.applyDamage(target, damage);
         Vector3 pos = target.getPosition();
         pos.y += 0.5f;
+        System.out.println(pos);
         view.spawnFloatingText("-" + Math.abs(damage), pos);
     }
 }
