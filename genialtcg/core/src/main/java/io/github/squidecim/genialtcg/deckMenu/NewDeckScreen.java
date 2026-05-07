@@ -431,7 +431,7 @@ public class NewDeckScreen implements Screen {
         updateGrid(searchField.getText());
     }
 
-    private void toggleCardSelection(String cardName) {
+    private boolean toggleCardSelection(String cardName) {
         if (selectedCards.contains(cardName, false)) {
             selectedCards.removeValue(cardName, false);
         } else {
@@ -439,10 +439,16 @@ public class NewDeckScreen implements Screen {
             int current = getCountInCategory(category);
             if (category.equals("PAYS") && current >= MAX_COUNTRY) {
                 showEphemeralMessage("Limite de 40 Pays atteinte !");
+                updateUI();
+                return false;
             } else if (category.equals("ACTION") && current >= MAX_ACTION) {
                 showEphemeralMessage("Limite de 10 Actions atteinte !");
+                updateUI();
+                return false;
             } else if (category.equals("OUTIL") && current >= MAX_TOOL) {
                 showEphemeralMessage("Limite de 10 Outils atteinte !");
+                updateUI();
+                return false;
             } else if (category.equals("PAYS")) {
                 CardData data = game.allCardsMap.get(cardName);
                 boolean isCheap = data == null || data.cost < MAX_CHEAP_COST;
@@ -453,6 +459,8 @@ public class NewDeckScreen implements Screen {
                         showEphemeralMessage(
                             "Votre deck doit contenir au minimum 5 cartes avec cout <200"
                         );
+                        updateUI();
+                        return false;
                     } else {
                         selectedCards.add(cardName);
                     }
@@ -464,6 +472,7 @@ public class NewDeckScreen implements Screen {
             }
         }
         updateUI();
+        return true;
     }
 
     private void updateUI() {
@@ -637,8 +646,9 @@ public class NewDeckScreen implements Screen {
                     @Override
                     public void clicked(InputEvent event, float x, float y) {
                         if (zoomContainer != null) return;
-                        toggleCardSelection(region.name);
-                        updateGrid(searchField.getText());
+                        if (toggleCardSelection(region.name)) {
+                            updateGrid(searchField.getText());
+                        }
                     }
 
                     @Override

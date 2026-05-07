@@ -1,5 +1,6 @@
 cards_actions.png
 size:4096,4096
+filter:Linear,Linear
 repeat:none
 ACT-001_aide_humanitaire
 bounds:323,1801,320,448

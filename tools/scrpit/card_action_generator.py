@@ -9,6 +9,11 @@ JSON_PATH = (
 )
 OUTPUT_DIR = "tools/img/output_cards_actions"
 TEMPLATE_PATH = "tools/img/template/action.png"
+LOGO_PATH = "tools/img/template/action_logo.png"
+
+# Coordonnées du carré blanc dans le template
+WHITE_BOX = (40, 113, 285, 297)  # (left, top, right, bottom)
+LOGO_PADDING = 10
 
 if not os.path.exists(OUTPUT_DIR):
     os.makedirs(OUTPUT_DIR)
@@ -55,10 +60,19 @@ with open(JSON_PATH, "r", encoding="utf-8") as file:
 
 template_img = Image.open(TEMPLATE_PATH).convert("RGBA")
 
+# Préparer le logo centré dans le carré blanc
+box_w = WHITE_BOX[2] - WHITE_BOX[0] - LOGO_PADDING * 2
+box_h = WHITE_BOX[3] - WHITE_BOX[1] - LOGO_PADDING * 2
+logo_raw = Image.open(LOGO_PATH).convert("RGBA")
+logo_raw.thumbnail((box_w, box_h), Image.LANCZOS)
+logo_x = WHITE_BOX[0] + LOGO_PADDING + (box_w - logo_raw.width) // 2
+logo_y = WHITE_BOX[1] + LOGO_PADDING + (box_h - logo_raw.height) // 2
+
 print(f"Génération de {len(action)} cartes actions...")
 
 for p in action:
     card_img = template_img.copy()
+    card_img.paste(logo_raw, (logo_x, logo_y), logo_raw)
     draw = ImageDraw.Draw(card_img)
 
     draw.text((40, 75), p["nom"], font=font_bold, fill=TEXT_COLOR)
