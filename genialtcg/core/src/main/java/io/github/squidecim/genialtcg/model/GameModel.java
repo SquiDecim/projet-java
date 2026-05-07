@@ -99,14 +99,16 @@ public class GameModel {
         myCredits += amount;
     }
 
-    public void applyDamage(CardDecal card, int damage) {
+    public boolean applyDamage(CardDecal card, int damage) {
         card.getData().pv = Math.max(card.getData().pv + damage, 0);
         card.refreshStats();
         card.shake();
+        return card.getData().pv == 0;
     }
 
     public int getTableEconomy(){
-        return table.stats[1];
+        if (table != null) return table.stats[1];
+        return 0;
     }
 
     public int getBenchEconomy(){

@@ -19,13 +19,15 @@ public class CardsStackDecal {
     private Model model;
     private ModelInstance instance;
 
-    private float thickness = 0.007f;
+    public float thickness = 0.007f;
     private TextureRegion cardTexture;
     public int nbrCards;
 
     private float width;
     private float height;
     private Vector3 position = new Vector3();
+
+    private TextureRegion topTexture = null;
 
 
     public CardsStackDecal(TextureRegion cardTexture, float width, float height, int nbrCards) {
@@ -35,27 +37,28 @@ public class CardsStackDecal {
         this.cardTexture = cardTexture;
         this.thickness = 0.007f;
 
-        buildModel(cardTexture, width, height, nbrCards);
+        buildModel(width, height, nbrCards);
     }
 
-    private void buildModel(TextureRegion cardTexture, float width, float height, int nbrCards){
+    private void buildModel(float width, float height, int nbrCards) {
         if (model != null) model.dispose();
         ModelBuilder builder = new ModelBuilder();
         builder.begin();
 
         MeshPartBuilder mpb;
         if (nbrCards != 0) {
+            TextureRegion tex = (topTexture != null) ? topTexture : cardTexture;
 
             mpb = builder.part("top", GL20.GL_TRIANGLES,
                 VertexAttributes.Usage.Position | VertexAttributes.Usage.Normal | VertexAttributes.Usage.TextureCoordinates,
                 new Material(
-                    TextureAttribute.createDiffuse(cardTexture),
+                    TextureAttribute.createDiffuse(tex),
                     IntAttribute.createCullFace(GL20.GL_BACK)
                 ));
             mpb.rect(
                 -width / 2, thickness * nbrCards, height / 2,
-                width / 2, thickness * nbrCards, height / 2,
-                width / 2, thickness * nbrCards, -height / 2,
+                width / 2,  thickness * nbrCards, height / 2,
+                width / 2,  thickness * nbrCards, -height / 2,
                 -width / 2, thickness * nbrCards, -height / 2,
                 0, 1, 0
             );
@@ -117,10 +120,9 @@ public class CardsStackDecal {
     }
 
     public void updateSize(int newNbrCards) {
-
         this.nbrCards = newNbrCards;
         Vector3 pos = instance.transform.getTranslation(new Vector3());
-        buildModel(cardTexture, width, height, nbrCards);
+        buildModel(width, height, nbrCards);
         setPosition(pos.x, pos.y, pos.z);
     }
 
@@ -157,6 +159,13 @@ public class CardsStackDecal {
             }
         }
         return false;
+    }
+
+    public void setTopTexture(TextureRegion region) {
+        this.topTexture = region;
+        Vector3 pos = instance.transform.getTranslation(new Vector3());
+        buildModel(width, height, nbrCards);
+        setPosition(pos.x, pos.y, pos.z);
     }
 }
 

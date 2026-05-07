@@ -3,7 +3,6 @@ package io.github.squidecim.genialtcg.controller;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.math.collision.Ray;
 import io.github.squidecim.genialtcg.GenialTCG;
@@ -31,6 +30,7 @@ public class GameController implements InputProcessor, GameClient.NetworkListene
 
     private CardDecal draggedCard = null;
     private boolean selectingRetreat = false;
+    private boolean selectingReplacementAfterDeath = false;
 
     private boolean initialDrawDone = false;
     private int initialDrawCount = 0;
@@ -91,6 +91,19 @@ public class GameController implements InputProcessor, GameClient.NetworkListene
             } else {
                 selectingRetreat = false;
                 view.setSelectableBorder(false);
+            }
+            return true;
+        }
+
+        if (selectingReplacementAfterDeath && b == 0) {
+            CardDecal benchCard = view.getBenchCardAt(ray);
+            if (benchCard != null) {
+                selectingReplacementAfterDeath = false;
+                view.setSelectableBorder(false);
+                view.hideBanner();
+                model.moveFromBenchToTable(benchCard.getData());
+                view.promoteFromBenchToTable(benchCard);
+                client.sendPlayCard(benchCard.getData().getAtlasRegionName(), "table", 0);
             }
             return true;
         }
@@ -184,11 +197,9 @@ public class GameController implements InputProcessor, GameClient.NetworkListene
                 }
             } else if (toTable && slot.isEmpty()) {
                 if (!fromBench) {
-                    System.out.println("déja ça vient pas du banc");
                     if (model.myCredits >= draggedCard.getData().cost){
                         model.moveFromHandToTable(draggedCard.getData());
                         client.sendCreditsUpdate(model.myCredits);
-                        System.out.println("bah " + model.myCredits);
                     } else {
                         view.cancelDrag(draggedCard);
                         draggedCard = null;
@@ -396,10 +407,10 @@ public class GameController implements InputProcessor, GameClient.NetworkListene
 
         if (msg.damage > 0) {
             CardDecal target = iAmAttacker ? oppTable : myTable;
-            applyDamageAndFloat(target, -msg.damage);
+            applyDamageAndFloat(target, -msg.damage, true);
         } else if (msg.damage < 0) {
             CardDecal target = iAmAttacker ? myTable : oppTable;
-            applyDamageAndFloat(target, msg.damage);
+            applyDamageAndFloat(target, msg.damage, false);
         }
     }
 
@@ -414,11 +425,58 @@ public class GameController implements InputProcessor, GameClient.NetworkListene
         }
     }
 
-    private void applyDamageAndFloat(CardDecal target, int damage) {
-        model.applyDamage(target, damage);
-        Vector3 pos = target.getPosition();
+    @Override
+    public void onCardDied(NetworkMessages.CardDied msg) {
+        boolean isMe = msg.playerId.equals(myPlayerId);
+        boolean iMustReplace = (isMe && !msg.isOpponent) || (!isMe && msg.isOpponent);
+
+        CardDecal deadCard;
+        if (!iMustReplace) {
+            // carte adverse de MON point de vue
+            deadCard = "table".equals(msg.zone)
+                ? view.getOpponentTableCard()
+                : view.getOpponentBenchCardById(msg.cardId);
+        } else {
+            // ma carte
+            deadCard = "table".equals(msg.zone)
+                ? view.getMyTableCard()
+                : view.getMyBenchCardById(msg.cardId);
+        }
+        if (deadCard == null) return;
+
+        view.sendToDiscard(deadCard, iMustReplace);
+
+        com.badlogic.gdx.utils.Timer.schedule(new com.badlogic.gdx.utils.Timer.Task() {
+            @Override public void run() {
+                Gdx.app.postRunnable(() -> {
+                    if (msg.isOpponent == isMe) {
+                        // carte adverse : juste nettoyer le slot
+                        if ("table".equals(msg.zone)) view.clearTableSlot(false);
+                        else view.clearOpponentBenchSlot(deadCard);
+                    } else {
+                        // ma carte
+                        model.discardCard(deadCard.getData());
+                        if ("table".equals(msg.zone)) view.clearTableSlot(true);
+                        else view.clearBenchSlot(deadCard);
+                    }
+
+                    if (iMustReplace && "table".equals(msg.zone) && !model.bench.isEmpty()) {
+                        view.showBanner("Choisissez une carte du banc à remettre en jeu");
+                        view.setSelectableBorder(true);
+                        selectingReplacementAfterDeath = true;
+                    }
+                });
+            }
+        }, 0.55f);
+    }
+
+    private void applyDamageAndFloat(CardDecal target, int damage, boolean onOpponent) {
+        boolean died = model.applyDamage(target, damage);
+        Vector3 pos = target.getPosition().cpy();
         pos.y += 0.5f;
-        System.out.println(pos);
         view.spawnFloatingText("-" + Math.abs(damage), pos);
+        if (died && model.myTurn) {
+            client.sendCardDied(target.getData().getAtlasRegionName(), target.emplacement, onOpponent);
+        }
     }
 }

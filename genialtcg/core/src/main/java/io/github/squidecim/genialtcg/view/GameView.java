@@ -27,6 +27,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.Timer;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import io.github.squidecim.genialtcg.*;
 import io.github.squidecim.genialtcg.controller.GameController;
@@ -37,6 +38,7 @@ import io.github.squidecim.genialtcg.network.NetworkMessages;
 
 public class GameView implements Screen {
 
+    private final int deckSize;
     private GenialTCG game;
     private GameModel model;
     private GameController controller;
@@ -103,14 +105,16 @@ public class GameView implements Screen {
     public boolean startClicked = false;
     private boolean attackMenuVisible = false;
 
+    private Array<CardDecal> discardingCards = new Array<>();
 
     private Runnable pendingActionListener;
     private Table bannerRow;
 
-    public GameView(GenialTCG game, GameModel model, GameClient client) {
+    public GameView(GenialTCG game, GameModel model, GameClient client, int deckSize) {
         this.game = game;
         this.model = model;
         this.client = client;
+        this.deckSize = deckSize;
     }
 
     @Override
@@ -255,7 +259,7 @@ public class GameView implements Screen {
             new TextureRegion(backTexture),
             BENCH_CARD_W,
             BENCH_CARD_H,
-            40, //Passer le nombre réelle de cartes en paramètres bouffon
+            deckSize,
             5.15f,
             0,
             4.03f
@@ -264,7 +268,7 @@ public class GameView implements Screen {
             new TextureRegion(backTexture),
             BENCH_CARD_W,
             BENCH_CARD_H,
-            40,
+            deckSize, //la je mets le meme nombre de carte que le joueur mais faudrait récup le nombre de carte adverse
             -5.15f,
             0,
             -4.03f
@@ -273,19 +277,19 @@ public class GameView implements Screen {
             new TextureRegion(backTexture),
             BENCH_CARD_W,
             BENCH_CARD_H,
+            1,
+            5.15f,
             0,
-            4.75f,
-            0,
-            3.2f
+            2.175f
         );
         opponentDiscard = createCardsStacks(
             new TextureRegion(backTexture),
             BENCH_CARD_W,
             BENCH_CARD_H,
             0,
-            -4.75f,
+            -5.15f,
             0,
-            -3.2f
+            -2.175f
         );
 
         updateDeckVisual(model.deckSize());
@@ -431,6 +435,12 @@ public class GameView implements Screen {
         discard.render(modelBatch, environment);
         opponentDiscard.render(modelBatch, environment);
 
+        for (int i = discardingCards.size - 1; i >= 0; i--) {
+            CardDecal card = discardingCards.get(i);
+            card.update(delta);
+            card.render(modelBatch, environment);
+        }
+
         if (draggedCard != null) {
             draggedCard.update(delta);
             draggedCard.render(modelBatch, environment);
@@ -471,7 +481,6 @@ public class GameView implements Screen {
                     continue;
                 }
                 Vector3 screenPos = cam.project(ft.worldPos.cpy());
-                System.out.println("screenPos: " + screenPos + " screen: " + Gdx.graphics.getWidth() + "x" + Gdx.graphics.getHeight());
                 floatFont.getData().setScale(ft.scale);
                 floatFont.setColor(ft.color);
                 layout.setText(floatFont, ft.text);
@@ -818,6 +827,45 @@ public class GameView implements Screen {
         return benchBottomSlots.indexOf(slot, true);
     }
 
+    public CardDecal getMyBenchCardById(String cardId) {
+        for (CardSlot slot : benchBottomSlots) {
+            CardDecal c = slot.getCard();
+            if (c != null && c.getData() != null
+                && c.getData().getAtlasRegionName().equals(cardId)) return c;
+        }
+        return null;
+    }
+
+    public void clearTableSlot(boolean mine) {
+        if (mine) tableSlot.removeCard();
+        else opponentTableSlot.removeCard();
+    }
+
+    public void clearBenchSlot(CardDecal card) {
+        for (CardSlot slot : benchBottomSlots) {
+            if (slot.getCard() == card) { slot.removeCard(); return; }
+        }
+    }
+
+    public void clearOpponentBenchSlot(CardDecal card) {
+        for (CardSlot slot : benchTopSlots) {
+            if (slot.getCard() == card) { slot.removeCard(); return; }
+        }
+    }
+
+    public void promoteFromBenchToTable(CardDecal benchCard) {
+        CardSlot benchSlot = null;
+        for (CardSlot slot : benchBottomSlots) {
+            if (slot.getCard() == benchCard) { benchSlot = slot; break; }
+        }
+        if (benchSlot == null) return;
+        benchSlot.removeCard();
+        benchCard.rebuildWithDynamic(TABLE_CARD_W, TABLE_CARD_H);
+        benchCard.emplacement = "table";
+        tableSlot.setCardDirect(benchCard);
+        benchCard.animateTo(tableSlot.getPosition(), 0, -90f, 0, 0.4f);
+    }
+
     public void updateDeckVisual(int size) {
         deck.updateSize(size);
     }
@@ -1101,6 +1149,13 @@ public class GameView implements Screen {
         if (bannerRow != null) bannerRow.setVisible(true);
     }
 
+    public void showBanner(String text) {
+        if (bannerRow != null) {
+            setupBanner.setText(text);
+            bannerRow.setVisible(true);
+        }
+    }
+
     public void showAttackMenu(CardData myCard, GameClient client, GameController controller) {
         if (attackMenu != null) attackMenu.remove();
 
@@ -1246,7 +1301,6 @@ public class GameView implements Screen {
 
     public void spawnFloatingText(String text, Vector3 worldPos) {
         floatingTexts.add(new FloatingText(text, worldPos, 1.2f));
-        System.out.println("ça devrait marcher ptn");
     }
 
     public void showEphemeralMessage(String text) {
@@ -1295,8 +1349,8 @@ public class GameView implements Screen {
         benchCard.emplacement = "table";
         tableCard.emplacement = "bench";
 
-        benchCard.buildModel(benchCard.frontRegion, benchCard.backRegion, TABLE_CARD_W, TABLE_CARD_H);
-        tableCard.buildModel(tableCard.frontRegion, tableCard.backRegion, BENCH_CARD_W, BENCH_CARD_H);
+        benchCard.rebuildWithDynamic(TABLE_CARD_W, TABLE_CARD_H);
+        tableCard.rebuildWithDynamic(BENCH_CARD_W, BENCH_CARD_H);
 
         benchCard.animateTo(tablePos, 0, -90f, 0, 0.4f);
         tableCard.animateTo(benchPos, 0, -90f, 0, 0.4f);
@@ -1331,10 +1385,30 @@ public class GameView implements Screen {
         benchCard.emplacement = "table";
         tableCard.emplacement = "bench";
 
-        benchCard.buildModel(benchCard.frontRegion, benchCard.backRegion, TABLE_CARD_W, TABLE_CARD_H);
-        tableCard.buildModel(tableCard.frontRegion, tableCard.backRegion, BENCH_CARD_W, BENCH_CARD_H);
+        benchCard.rebuildWithDynamic(TABLE_CARD_W, TABLE_CARD_H);
+        tableCard.rebuildWithDynamic(BENCH_CARD_W, BENCH_CARD_H);
 
         benchCard.animateTo(tablePos, 0, -90f, 0, 0.4f);
         tableCard.animateTo(benchPos, 0, -90f, 0, 0.4f);
+    }
+
+    public void sendToDiscard(CardDecal card, boolean mine) {
+        CardsStackDecal discardStack = mine ? discard : opponentDiscard;
+        Vector3 discardPos = discardStack.getPosition().cpy();
+        discardPos.y += discardStack.nbrCards * 0.007f + 0.007f;
+
+        discardingCards.add(card); // ← garder la référence
+        card.animateTo(discardPos, 0, -90f, 0, 0.6f);
+
+        Timer.schedule(new Timer.Task() {
+            @Override public void run() {
+                Gdx.app.postRunnable(() -> {
+                    discardingCards.removeValue(card, true); // ← retirer après
+                    discardStack.updateSize(discardStack.nbrCards + 1);
+                    if (card.getData() != null)
+                        discardStack.setTopTexture(card.getTopTextureRegion());
+                });
+            }
+        }, 0.7f);
     }
 }

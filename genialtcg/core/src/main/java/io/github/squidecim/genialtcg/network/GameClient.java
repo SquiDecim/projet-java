@@ -24,6 +24,7 @@ public class GameClient {
         void onCreditsUpdate(NetworkMessages.CreditsUpdate obj);
         void onNormalAttack(NetworkMessages.NormalAttack msg);
         void onRetreat(NetworkMessages.Retreat msg);
+        void onCardDied(NetworkMessages.CardDied msg);
     }
 
     public GameClient(String ip, NetworkListener listener) throws IOException {
@@ -59,6 +60,8 @@ public class GameClient {
                         current.onRetreat((NetworkMessages.Retreat) obj);
                     else if (obj instanceof NetworkMessages.CreditsUpdate)
                         current.onCreditsUpdate((NetworkMessages.CreditsUpdate) obj);
+                    else if (obj instanceof NetworkMessages.CardDied)
+                        current.onCardDied((NetworkMessages.CardDied) obj);
                 });
             }
 
@@ -136,6 +139,14 @@ public class GameClient {
     public void sendCreditsUpdate(int credits){
         NetworkMessages.CreditsUpdate msg = new NetworkMessages.CreditsUpdate();
         msg.credits = credits;
+        client.sendTCP(msg);
+    }
+
+    public void sendCardDied(String region, String emplacement, boolean opponentDied) {
+        NetworkMessages.CardDied msg = new NetworkMessages.CardDied();
+        msg.cardId = region;
+        msg.zone = emplacement;
+        msg.isOpponent = opponentDied;
         client.sendTCP(msg);
     }
 

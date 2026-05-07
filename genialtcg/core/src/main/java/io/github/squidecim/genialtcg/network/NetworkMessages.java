@@ -77,4 +77,11 @@ public class NetworkMessages {
         public String playerId;
         public String benchCardId;
     }
+
+    public static class CardDied {
+        public String playerId;
+        public String cardId;
+        public String zone;
+        public boolean isOpponent;
+    }
 }

@@ -361,7 +361,7 @@ public class LobbyScreen implements Screen, GameClient.NetworkListener {
         if (chosenDeck == null) return;
 
         GameModel model = new GameModel(game, chosenDeck);
-        GameView view = new GameView(game, model, client);
+        GameView view = new GameView(game, model, client, chosenDeck.getSize());
         GameController controller = new GameController(view, model, client, myPlayerId, game);
         view.setController(controller);
         client.setListener(controller);
@@ -420,7 +420,7 @@ public class LobbyScreen implements Screen, GameClient.NetworkListener {
         if (chosenDeck == null) return;
 
         GameModel model = new GameModel(game, chosenDeck);
-        GameView view = new GameView(game, model, client);
+        GameView view = new GameView(game, model, client, chosenDeck.getSize());
         GameController controller = new GameController(view, model, client, myPlayerId, game);
         view.setController(controller);
         launching = true;
@@ -478,6 +478,11 @@ public class LobbyScreen implements Screen, GameClient.NetworkListener {
 
     @Override
     public void onRetreat(NetworkMessages.Retreat msg) {
+
+    }
+
+    @Override
+    public void onCardDied(NetworkMessages.CardDied msg) {
 
     }
 

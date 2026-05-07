@@ -208,6 +208,15 @@ public class CardDecal {
         hasDynamicTexture = true;
     }
 
+    public TextureRegion getTopTextureRegion() {
+        if (dynamicTexture != null) {
+            TextureRegion r = new TextureRegion(dynamicTexture);
+            r.flip(false, true);
+            return r;
+        }
+        return frontRegion;
+    }
+
     public void rebuildWithDynamic(float w, float h) {
         if (hasDynamicTexture) {
             this.width = w;
