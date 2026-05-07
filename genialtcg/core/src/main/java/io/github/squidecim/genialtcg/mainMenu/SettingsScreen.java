@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.SelectBox;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Slider;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
@@ -36,7 +37,7 @@ public class SettingsScreen implements Screen {
         table.setFillParent(true);
         stage.addActor(table);
 
-        //bouton retour en haut a gauche
+        // bouton retour en haut a gauche
         TextButton btnBack = new TextButton("Retour", skin);
         btnBack.addListener(
             new ChangeListener() {
@@ -54,10 +55,10 @@ public class SettingsScreen implements Screen {
         topBar.add(btnBack).width(200).height(50).pad(10);
         stage.addActor(topBar);
 
-        // Récupération des paramètres sauvegardés
         Preferences prefs = Gdx.app.getPreferences("GenialTCG_Settings");
+        boolean isFullscreen = prefs.getBoolean("fullscreen", true);
 
-        // --- Volume Musique ---
+        // volume musique
         Label volumeLabel = new Label("Volume Musique", skin);
         volumeLabel.setColor(Color.WHITE);
 
@@ -69,14 +70,16 @@ public class SettingsScreen implements Screen {
                 @Override
                 public void changed(ChangeEvent event, Actor actor) {
                     float volume = volumeSlider.getValue();
-                    if (game.menuMusic != null) game.menuMusic.setVolume(volume);
+                    if (game.menuMusic != null) game.menuMusic.setVolume(
+                        volume
+                    );
                     prefs.putFloat("music_volume", volume);
                     prefs.flush();
                 }
             }
         );
 
-        // --- Volume Sons UI ---
+        // volume sons ui
         Label uiSoundLabel = new Label("Volume Sons UI", skin);
         uiSoundLabel.setColor(Color.WHITE);
 
@@ -95,11 +98,39 @@ public class SettingsScreen implements Screen {
             }
         );
 
-        // --- MISE EN PAGE ---
+        // mode d affichage
+        Label displayLabel = new Label("Mode d'affichage", skin);
+        displayLabel.setColor(Color.WHITE);
+        SelectBox<String> displayBox = new SelectBox<>(skin);
+        displayBox.setItems("Plein ecran", "Fenetre");
+        displayBox.setSelected(isFullscreen ? "Plein ecran" : "Fenetre");
+
+        displayBox.addListener(
+            new ChangeListener() {
+                @Override
+                public void changed(ChangeEvent event, Actor actor) {
+                    String selected = displayBox.getSelected();
+                    if ("Plein ecran".equals(selected)) {
+                        Gdx.graphics.setFullscreenMode(
+                            Gdx.graphics.getDisplayMode()
+                        );
+                        prefs.putBoolean("fullscreen", true);
+                    } else {
+                        Gdx.graphics.setWindowedMode(1280, 720); // taille fenetre classique
+                        prefs.putBoolean("fullscreen", false);
+                    }
+                    prefs.flush();
+                }
+            }
+        );
+
+        // mise en page
         table.add(volumeLabel).padBottom(10).row();
         table.add(volumeSlider).width(300).padBottom(40).row();
         table.add(uiSoundLabel).padBottom(10).row();
         table.add(uiSoundSlider).width(300).padBottom(40).row();
+        table.add(displayLabel).padBottom(10).row();
+        table.add(displayBox).width(300).padBottom(40).row();
     }
 
     @Override
