@@ -210,6 +210,9 @@ public class FirstScreen implements Screen {
                         }
                     );
 
+                    game.soundifyButton(btnCancelDialog);
+                    game.soundifyButton(btnJoinDialog);
+
                     joinPartyDialog
                         .getButtonTable()
                         .defaults()
@@ -265,6 +268,13 @@ public class FirstScreen implements Screen {
             }
         );
 
+        game.soundifyButton(btnCreateParty);
+        game.soundifyButton(btnJoinParty);
+        game.soundifyButton(btnDeck);
+        game.soundifyButton(btnRules);
+        game.soundifyButton(btnSettings);
+        game.soundifyButton(btnQuit);
+
         // --- MISE EN PAGE ---
         table.add(title).padBottom(20).row();
         table.add(messageLabel).height(30).padBottom(10).row();
@@ -302,6 +312,7 @@ public class FirstScreen implements Screen {
                     }
                 }
             );
+            game.soundifyButton(btnClose);
             stage.addActor(errorDialog);
             stage.addActor(btnClose);
         }

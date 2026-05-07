@@ -312,6 +312,7 @@ public class GameView implements Screen {
             Gdx.graphics.getWidth() * 0.875f,
             Gdx.graphics.getHeight() / 2f - 25
         );
+        game.soundifyButton(actionButton);
         uiStage.addActor(actionButton);
 
         Table oppCreditsTable = new Table();
@@ -1143,6 +1144,7 @@ public class GameView implements Screen {
                 }
             });
 
+            game.soundifyButton(btn);
             content.add(btn).width(220).height(50).padTop(10).padBottom(10).padRight(10).padLeft(10);
 
             if (i % 2 == 1) {
@@ -1175,6 +1177,7 @@ public class GameView implements Screen {
             }
         });
 
+        game.soundifyButton(specialBtn);
         specialBlock.add(specialNameLabel).left().padBottom(5).row();
         specialBlock.add(specialDescLabel).width(300).left().padBottom(10).row();
         specialBlock.add(specialBtn).right();
@@ -1193,6 +1196,7 @@ public class GameView implements Screen {
                 hideAttackMenu();
             }
         });
+        game.soundifyButton(closeBtn);
         content.add(closeBtn).width(220).height(50).padTop(10).padBottom(10).padRight(10).padLeft(10);
 
         TextButton revocationBtn = new TextButton("Retrait (" + revocationCost + " crédits)", uiSkin);
@@ -1202,6 +1206,7 @@ public class GameView implements Screen {
                 controller.startRetreat(myCard);
             }
         });
+        game.soundifyButton(revocationBtn);
         content.add(revocationBtn)
             .width(220)
             .height(50)

@@ -57,6 +57,7 @@ public class DeckScreen implements Screen {
                 }
             }
         );
+        game.soundifyButton(btnBack);
         topTable.add(btnBack).width(200).height(50).pad(10).left().expandX();
         root.add(topTable).expandX().fillX().top().row();
 
@@ -131,6 +132,7 @@ public class DeckScreen implements Screen {
                 }
             );
 
+            game.soundifyButton(del);
             stack.add(cardImage);
             stack.add(nameOverlay);
             stack.add(new Container<>(del).size(40).top().right());
@@ -150,6 +152,7 @@ public class DeckScreen implements Screen {
                 }
             }
         );
+        game.soundifyButton(btnNew);
         listTable.add(btnNew).width(250).height(350).pad(10);
 
         ScrollPane scroll = new ScrollPane(listTable, skin);

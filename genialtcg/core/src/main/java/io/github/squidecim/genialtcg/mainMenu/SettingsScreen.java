@@ -46,6 +46,8 @@ public class SettingsScreen implements Screen {
                 }
             }
         );
+        game.soundifyButton(btnBack);
+
         Table topBar = new Table();
         topBar.setFillParent(true);
         topBar.top().left();
@@ -54,25 +56,40 @@ public class SettingsScreen implements Screen {
 
         // Récupération des paramètres sauvegardés
         Preferences prefs = Gdx.app.getPreferences("GenialTCG_Settings");
-        float savedVolume = prefs.getFloat("music_volume", 0.3f);
 
+        // --- Volume Musique ---
         Label volumeLabel = new Label("Volume Musique", skin);
         volumeLabel.setColor(Color.WHITE);
 
-        // la barre "volume"
         Slider volumeSlider = new Slider(0f, 1f, 0.05f, false, skin);
-        volumeSlider.setValue(savedVolume);
+        volumeSlider.setValue(prefs.getFloat("music_volume", 0.3f));
         volumeSlider.setColor(Color.WHITE);
-
         volumeSlider.addListener(
             new ChangeListener() {
                 @Override
                 public void changed(ChangeEvent event, Actor actor) {
                     float volume = volumeSlider.getValue();
-                    if (game.menuMusic != null) {
-                        game.menuMusic.setVolume(volume);
-                    }
+                    if (game.menuMusic != null) game.menuMusic.setVolume(volume);
                     prefs.putFloat("music_volume", volume);
+                    prefs.flush();
+                }
+            }
+        );
+
+        // --- Volume Sons UI ---
+        Label uiSoundLabel = new Label("Volume Sons UI", skin);
+        uiSoundLabel.setColor(Color.WHITE);
+
+        Slider uiSoundSlider = new Slider(0f, 1f, 0.05f, false, skin);
+        uiSoundSlider.setValue(prefs.getFloat("ui_sound_volume", 0.5f));
+        uiSoundSlider.setColor(Color.WHITE);
+        uiSoundSlider.addListener(
+            new ChangeListener() {
+                @Override
+                public void changed(ChangeEvent event, Actor actor) {
+                    float volume = uiSoundSlider.getValue();
+                    game.uiSoundVolume = volume;
+                    prefs.putFloat("ui_sound_volume", volume);
                     prefs.flush();
                 }
             }
@@ -81,6 +98,8 @@ public class SettingsScreen implements Screen {
         // --- MISE EN PAGE ---
         table.add(volumeLabel).padBottom(10).row();
         table.add(volumeSlider).width(300).padBottom(40).row();
+        table.add(uiSoundLabel).padBottom(10).row();
+        table.add(uiSoundSlider).width(300).padBottom(40).row();
     }
 
     @Override

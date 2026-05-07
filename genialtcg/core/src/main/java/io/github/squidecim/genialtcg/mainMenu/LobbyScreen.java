@@ -137,8 +137,10 @@ public class LobbyScreen implements Screen, GameClient.NetworkListener {
             }
         );
 
+        game.soundifyButton(btnBack);
         topTable.add(btnBack).width(200).height(50).pad(10).left();
         topTable.add(codeLabel).expandX().center();
+        game.soundifyButton(launchButton);
         if (isHost) {
             topTable.add(launchButton).width(200).height(50).pad(10).right();
         } else {

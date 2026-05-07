@@ -48,6 +48,8 @@ public class RulesScreen implements Screen {
             }
         );
 
+        game.soundifyButton(btnBack);
+
         // table reservee uniquement au bouton retour
         Table topBar = new Table();
         topBar.setFillParent(true);
