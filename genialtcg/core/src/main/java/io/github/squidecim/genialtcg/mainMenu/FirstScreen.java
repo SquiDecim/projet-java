@@ -353,14 +353,34 @@ public class FirstScreen implements Screen {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         if (backgroundTexture != null) {
+
+            batch.setProjectionMatrix(stage.getCamera().combined);
+
             batch.begin();
-            // 1. Dessine le fond d'écran
+
+            float screenWidth = stage.getViewport().getWorldWidth();
+            float screenHeight = stage.getViewport().getWorldHeight();
+
+            float textureWidth = backgroundTexture.getWidth();
+            float textureHeight = backgroundTexture.getHeight();
+
+            float scale = Math.max(
+                screenWidth / textureWidth,
+                screenHeight / textureHeight
+            );
+
+            float drawWidth = textureWidth * scale;
+            float drawHeight = textureHeight * scale;
+
+            float x = (screenWidth - drawWidth) / 2f;
+            float y = (screenHeight - drawHeight) / 2f;
+
             batch.draw(
                 backgroundTexture,
-                0,
-                0,
-                Gdx.graphics.getWidth(),
-                Gdx.graphics.getHeight()
+                x,
+                y,
+                drawWidth,
+                drawHeight
             );
 
             if (darkOverlayTexture != null) {
@@ -368,10 +388,11 @@ public class FirstScreen implements Screen {
                     darkOverlayTexture,
                     0,
                     0,
-                    Gdx.graphics.getWidth(),
-                    Gdx.graphics.getHeight()
+                    screenWidth,
+                    screenHeight
                 );
             }
+
             batch.end();
         }
 
