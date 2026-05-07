@@ -55,6 +55,8 @@ public class LobbyScreen implements Screen, GameClient.NetworkListener {
     private Drawable silverBorder;
     private Table deckGrid;
 
+    private boolean intentionalDisconnect = false;
+
 
     // données
     private Array<String> connectedPlayers = new Array<>();
@@ -220,9 +222,11 @@ public class LobbyScreen implements Screen, GameClient.NetworkListener {
         }
         if (client != null) {
             client.setOnDisconnected(() -> {
-                if (!isHost) {
-                    dispose();
-                    game.setScreen(new FirstScreen(game, "Connexion perdue !"));
+                if (!isHost && !intentionalDisconnect) {
+                    Gdx.app.postRunnable(() -> {
+                        dispose();
+                        game.setScreen(new FirstScreen(game, "Connexion perdue !"));
+                    });
                 }
             });
         }
@@ -384,6 +388,7 @@ public class LobbyScreen implements Screen, GameClient.NetworkListener {
 
     @Override
     public void hide() {
+        intentionalDisconnect = true;
         if (launching) return;
         if (client != null) client.disconnect();
         if (server != null) server.stop();
