@@ -55,8 +55,13 @@ public class SettingsScreen implements Screen {
         topBar.add(btnBack).width(200).height(50).pad(10);
         stage.addActor(topBar);
 
+        // recuperation des parametres sauvegardes
         Preferences prefs = Gdx.app.getPreferences("GenialTCG_Settings");
-        boolean isFullscreen = prefs.getBoolean("fullscreen", true);
+
+        String savedDisplayMode = prefs.getString(
+            "display_mode",
+            "Plein ecran"
+        );
 
         // volume musique
         Label volumeLabel = new Label("Volume Musique", skin);
@@ -98,12 +103,12 @@ public class SettingsScreen implements Screen {
             }
         );
 
-        // mode d affichage
         Label displayLabel = new Label("Mode d'affichage", skin);
         displayLabel.setColor(Color.WHITE);
+
         SelectBox<String> displayBox = new SelectBox<>(skin);
-        displayBox.setItems("Plein ecran", "Fenetre");
-        displayBox.setSelected(isFullscreen ? "Plein ecran" : "Fenetre");
+        displayBox.setItems("Plein ecran", "Fenetre sans bordure", "Fenetre");
+        displayBox.setSelected(savedDisplayMode);
 
         displayBox.addListener(
             new ChangeListener() {
@@ -111,14 +116,24 @@ public class SettingsScreen implements Screen {
                 public void changed(ChangeEvent event, Actor actor) {
                     String selected = displayBox.getSelected();
                     if ("Plein ecran".equals(selected)) {
+                        Gdx.graphics.setUndecorated(false); // remet les bordures par securite pour la suite
                         Gdx.graphics.setFullscreenMode(
                             Gdx.graphics.getDisplayMode()
                         );
-                        prefs.putBoolean("fullscreen", true);
+                    } else if ("Fenetre sans bordure".equals(selected)) {
+                        Gdx.graphics.setUndecorated(true); // enleve la bordure
+                        // on force la fenetre a prendre la taille de l ecran actuel
+                        Gdx.graphics.setWindowedMode(
+                            Gdx.graphics.getDisplayMode().width,
+                            Gdx.graphics.getDisplayMode().height
+                        );
                     } else {
+                        Gdx.graphics.setUndecorated(false); // remet les bordures
                         Gdx.graphics.setWindowedMode(1280, 720); // taille fenetre classique
-                        prefs.putBoolean("fullscreen", false);
                     }
+
+                    // on sauvegarde le nouveau choix
+                    prefs.putString("display_mode", selected);
                     prefs.flush();
                 }
             }
