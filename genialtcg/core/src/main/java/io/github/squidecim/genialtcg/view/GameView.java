@@ -279,7 +279,7 @@ public class GameView implements Screen {
             1,
             5.15f,
             0,
-            2.16f
+            2.125f
         );
         opponentDiscard = createCardsStacks(
             new TextureRegion(backTexture),
@@ -288,7 +288,7 @@ public class GameView implements Screen {
             0,
             -5.15f,
             0,
-            -2.16f
+            -2.125f
         );
 
         updateDeckVisual(model.deckSize());
@@ -349,6 +349,8 @@ public class GameView implements Screen {
 
         floatBatch = new SpriteBatch();
         floatFont = new BitmapFont();
+
+        floatBatch.setProjectionMatrix(uiStage.getCamera().combined);
 
         FreeTypeFontGenerator generator = new FreeTypeFontGenerator(
             Gdx.files.internal("ui/dejavu-sans/DejaVuSans-Bold.ttf")
@@ -506,6 +508,9 @@ public class GameView implements Screen {
         cam.viewportHeight = height;
         cam.update();
         uiStage.getViewport().update(width, height, true);
+
+        floatBatch.setProjectionMatrix(uiStage.getCamera().combined);
+
         if (actionButton != null) {
             actionButton.setPosition(width*0.875f, height / 2f - 25);
         }
