@@ -15,12 +15,9 @@ import com.badlogic.gdx.graphics.g3d.environment.DirectionalLight;
 import com.badlogic.gdx.graphics.g3d.utils.MeshPartBuilder;
 import com.badlogic.gdx.graphics.g3d.utils.ModelBuilder;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.math.Intersector;
-import com.badlogic.gdx.math.Plane;
-import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.math.*;
 import com.badlogic.gdx.math.collision.Ray;
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
@@ -29,13 +26,10 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
-import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
-import com.esotericsoftware.kryonet.Client;
 import io.github.squidecim.genialtcg.*;
 import io.github.squidecim.genialtcg.controller.GameController;
-import io.github.squidecim.genialtcg.mainMenu.LobbyScreen;
 import io.github.squidecim.genialtcg.model.CardData;
 import io.github.squidecim.genialtcg.model.GameModel;
 import io.github.squidecim.genialtcg.network.GameClient;
@@ -307,7 +301,7 @@ public class GameView implements Screen {
         myCreditsTable.setFillParent(true);
         myCreditsTable.bottom().left().pad(20);
 
-        myCreditsLabel = new Label("Crédits : 200", gameStyle);
+        myCreditsLabel = new Label("Vos crédits : " + model.myCredits, gameStyle);
 
         myCreditsTable.add(myCreditsLabel);
         uiStage.addActor(myCreditsTable);
@@ -325,7 +319,7 @@ public class GameView implements Screen {
         oppCreditsTable.setFillParent(true);
         oppCreditsTable.top().right().pad(20);
 
-        opponentCreditsLabel = new Label("Crédits : 200", gameStyle);
+        opponentCreditsLabel = new Label("Crédits adverses : " + model.opponentCredits, gameStyle);
 
         oppCreditsTable.add(opponentCreditsLabel);
         uiStage.addActor(oppCreditsTable);
@@ -477,6 +471,7 @@ public class GameView implements Screen {
                     continue;
                 }
                 Vector3 screenPos = cam.project(ft.worldPos.cpy());
+                System.out.println("screenPos: " + screenPos + " screen: " + Gdx.graphics.getWidth() + "x" + Gdx.graphics.getHeight());
                 floatFont.getData().setScale(ft.scale);
                 floatFont.setColor(ft.color);
                 layout.setText(floatFont, ft.text);
@@ -540,11 +535,23 @@ public class GameView implements Screen {
     }
 
     public void updateMyCredits(int credits) {
-        myCreditsLabel.setText("Crédits : " + credits);
+        myCreditsLabel.setText("Vos crédits : " + credits);
+    }
+
+    public Vector2 getMyCreditsLabelPos(){
+        return myCreditsLabel.localToScreenCoordinates(
+            new Vector2(myCreditsLabel.getWidth() * 0.5f, myCreditsLabel.getHeight() * 0.5f)
+        );
+    }
+
+    public Vector2 getOpponentCreditsLabelPos(){
+        return opponentCreditsLabel.localToScreenCoordinates(
+            new Vector2(opponentCreditsLabel.getWidth() * 0.5f, opponentCreditsLabel.getHeight() * 0.5f)
+        );
     }
 
     public void updateOpponentCredits(int credits) {
-        opponentCreditsLabel.setText("Crédits : " + credits);
+        opponentCreditsLabel.setText("Crédits adverses : " + credits);
     }
 
     public void addCardToHand(CardData data) {
@@ -1239,6 +1246,7 @@ public class GameView implements Screen {
 
     public void spawnFloatingText(String text, Vector3 worldPos) {
         floatingTexts.add(new FloatingText(text, worldPos, 1.2f));
+        System.out.println("ça devrait marcher ptn");
     }
 
     public void showEphemeralMessage(String text) {

@@ -3,6 +3,7 @@ package io.github.squidecim.genialtcg.controller;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.math.collision.Ray;
 import io.github.squidecim.genialtcg.GenialTCG;
@@ -94,7 +95,6 @@ public class GameController implements InputProcessor, GameClient.NetworkListene
             return true;
         }
 
-
         if (b == 0 && model.phase == GameModel.Phase.PLAYING && model.myTurn) {
             CardDecal myTable = view.getMyTableCard();
             if (myTable != null && myTable.intersects(ray)) {
@@ -113,7 +113,6 @@ public class GameController implements InputProcessor, GameClient.NetworkListene
         if (model.phase == GameModel.Phase.PLAYING && !model.myTurn && (b == 0) || (b == 3)) {
             return false;
         }
-
 
         if (card != null) {
             if (view.isOpponentCard(card)) return false;
@@ -167,18 +166,36 @@ public class GameController implements InputProcessor, GameClient.NetworkListene
                 } else {
                     CardSlot firstSlot = view.getFirstEmptyBenchSlot();
                     if (firstSlot != null) {
-                        model.moveFromHandToBench(draggedCard.getData());
-                        view.dropCardOnSlot(draggedCard, firstSlot);
-                        if (game.posingCardsSound != null) game.posingCardsSound.play(game.uiSoundVolume);
-                        int slotIdx = view.getBenchSlotIndex(firstSlot);
-                        client.sendPlayCard(draggedCard.getData().getAtlasRegionName(), "bench", slotIdx);
+                        if (model.myCredits >= draggedCard.getData().cost){
+                            model.moveFromHandToBench(draggedCard.getData());
+                            view.dropCardOnSlot(draggedCard, firstSlot);
+                            if (game.posingCardsSound != null) game.posingCardsSound.play(game.uiSoundVolume);
+                            int slotIdx = view.getBenchSlotIndex(firstSlot);
+                            client.sendPlayCard(draggedCard.getData().getAtlasRegionName(), "bench", slotIdx);
+                            client.sendCreditsUpdate(model.myCredits);
+                        } else {
+                            view.cancelDrag(draggedCard);
+                            draggedCard = null;
+                            return true;
+                        }
                     } else {
                         view.cancelDrag(draggedCard);
                     }
                 }
             } else if (toTable && slot.isEmpty()) {
-                if (fromBench) model.moveFromBenchToTable(draggedCard.getData());
-                else model.moveFromHandToTable(draggedCard.getData());
+                if (!fromBench) {
+                    System.out.println("déja ça vient pas du banc");
+                    if (model.myCredits >= draggedCard.getData().cost){
+                        model.moveFromHandToTable(draggedCard.getData());
+                        client.sendCreditsUpdate(model.myCredits);
+                        System.out.println("bah " + model.myCredits);
+                    } else {
+                        view.cancelDrag(draggedCard);
+                        draggedCard = null;
+                        return true;
+                    }
+                }
+                else model.moveFromBenchToTable(draggedCard.getData());
                 view.dropCardOnSlot(draggedCard, slot);
                 if (game.posingCardsSound != null) game.posingCardsSound.play(game.uiSoundVolume);
                 client.sendPlayCard(draggedCard.getData().getAtlasRegionName(), "table", 0);
@@ -203,7 +220,6 @@ public class GameController implements InputProcessor, GameClient.NetworkListene
         return true;
     }
 
-
     @Override
     public boolean keyDown(int k) {
         if (k == Input.Keys.ESCAPE && view.isZooming()) {
@@ -212,13 +228,12 @@ public class GameController implements InputProcessor, GameClient.NetworkListene
         }
         return false;
     }
+
     @Override public boolean keyUp(int k) { return false; }
     @Override public boolean keyTyped(char c) { return false; }
     @Override public boolean scrolled(float x, float y) { return false; }
     @Override public boolean touchCancelled(int x, int y, int p, int b) { return false; }
 
-
-    //Si un joueur meme, lui meme n'a pas d'animation jsp pq
     private void handleDeath(CardDecal card, boolean isMe) {
 
         Vector3 targetPos = isMe
@@ -236,7 +251,7 @@ public class GameController implements InputProcessor, GameClient.NetworkListene
                 public void run() {
                     Gdx.app.postRunnable(() -> client.sendDrawCard());
                 }
-            }, (i + 2) * (drawCooldown + 0.01f));
+            }, (i + 2) * drawCooldown);
         }
         com.badlogic.gdx.utils.Timer.schedule(new com.badlogic.gdx.utils.Timer.Task() {
             @Override
@@ -294,6 +309,8 @@ public class GameController implements InputProcessor, GameClient.NetworkListene
         model.phase = GameModel.Phase.PLAYING;
         model.myTurn = myTurn;
         if (myTurn) {
+            model.receiveCredits(model.getTotalEconomy());
+            client.sendCreditsUpdate(model.myCredits);
             view.showActionButton("Finir le tour", () -> {
                 view.hideActionButton();
                 model.myTurn = false;
@@ -305,7 +322,6 @@ public class GameController implements InputProcessor, GameClient.NetworkListene
             view.hideActionButton();
         }
     }
-
 
     @Override
     public void onAssignId(NetworkMessages.AssignId msg) {}
@@ -338,7 +354,6 @@ public class GameController implements InputProcessor, GameClient.NetworkListene
         }
     }
 
-
     @Override
     public void onCardPlayed(NetworkMessages.CardPlayed msg) {
 
@@ -352,8 +367,6 @@ public class GameController implements InputProcessor, GameClient.NetworkListene
             view.addOpponentCardToTable(card);
         }
     }
-
-
 
     @Override
     public void onPlayerJoined(NetworkMessages.PlayerJoined msg) {}
@@ -405,6 +418,7 @@ public class GameController implements InputProcessor, GameClient.NetworkListene
         model.applyDamage(target, damage);
         Vector3 pos = target.getPosition();
         pos.y += 0.5f;
+        System.out.println(pos);
         view.spawnFloatingText("-" + Math.abs(damage), pos);
     }
 }
