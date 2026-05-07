@@ -97,8 +97,6 @@ public class FirstScreen implements Screen {
                 @Override
                 public void changed(ChangeEvent event, Actor actor) {
                     if (game.savedDecks.size > 0) {
-                        // ARRÊT DE LA MUSIQUE POUR LE LOBBY
-                        if (game.menuMusic != null) game.menuMusic.stop();
                         game.setScreen(new LobbyScreen(game, true));
                     } else {
                         showEphemeralMessage(
@@ -141,8 +139,6 @@ public class FirstScreen implements Screen {
                                 return;
                             }
                             joinPartyDialog.hide();
-                            // ARRÊT DE LA MUSIQUE POUR LE LOBBY
-                            if (game.menuMusic != null) game.menuMusic.stop();
                             game.setScreen(
                                 new LobbyScreen(game, false, ip, null)
                             );

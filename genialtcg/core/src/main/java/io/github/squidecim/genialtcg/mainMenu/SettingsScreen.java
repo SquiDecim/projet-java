@@ -36,6 +36,22 @@ public class SettingsScreen implements Screen {
         table.setFillParent(true);
         stage.addActor(table);
 
+        //bouton retour en haut a gauche
+        TextButton btnBack = new TextButton("Retour", skin);
+        btnBack.addListener(
+            new ChangeListener() {
+                @Override
+                public void changed(ChangeEvent event, Actor actor) {
+                    game.setScreen(new FirstScreen(game));
+                }
+            }
+        );
+        Table topBar = new Table();
+        topBar.setFillParent(true);
+        topBar.top().left();
+        topBar.add(btnBack).width(200).height(50).pad(10);
+        stage.addActor(topBar);
+
         // Récupération des paramètres sauvegardés
         Preferences prefs = Gdx.app.getPreferences("GenialTCG_Settings");
         float savedVolume = prefs.getFloat("music_volume", 0.3f);
@@ -62,21 +78,9 @@ public class SettingsScreen implements Screen {
             }
         );
 
-        //bouton retour
-        TextButton btnBack = new TextButton("Retour", skin);
-        btnBack.addListener(
-            new ChangeListener() {
-                @Override
-                public void changed(ChangeEvent event, Actor actor) {
-                    game.setScreen(new FirstScreen(game));
-                }
-            }
-        );
-
         // --- MISE EN PAGE ---
         table.add(volumeLabel).padBottom(10).row();
         table.add(volumeSlider).width(300).padBottom(40).row();
-        table.add(btnBack).width(220).height(50);
     }
 
     @Override

@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
@@ -47,11 +48,11 @@ public class RulesScreen implements Screen {
             }
         );
 
-        // table reservee uniquement au bouton exist
+        // table reservee uniquement au bouton retour
         Table topBar = new Table();
         topBar.setFillParent(true);
         topBar.top().left();
-        topBar.add(btnBack).width(150).height(50).pad(20);
+        topBar.add(btnBack).width(200).height(50).pad(10);
         stage.addActor(topBar);
 
         // table principale pour le titre et le texte
@@ -100,33 +101,42 @@ public class RulesScreen implements Screen {
             "6. LE TERRAIN\n" +
             "Au début du jeu, le terrain est de type \"Tempéré\". Le terrain reste fixe pour toute la durée de la partie, sauf si un joueur utilise une carte Action de changement de terrain. Les terrains appliquent des effets spécifiques en fonction du type des nations en jeu.";
 
-        Label textLabel = new Label(rulesText, skin);
+        Label.LabelStyle rulesStyle = new Label.LabelStyle(
+            game.uiFont,
+            Color.WHITE
+        );
+        Label textLabel = new Label(rulesText, rulesStyle);
         textLabel.setWrap(true);
         textLabel.setAlignment(Align.topLeft);
-        textLabel.setFontScale(1.3f);
 
-        // creation de la boite noire
+        // creation de la boite noire rectangulaire
         Pixmap bgPixmap = new Pixmap(1, 1, Pixmap.Format.RGBA8888);
         bgPixmap.setColor(new Color(0f, 0f, 0f, 0.85f));
         bgPixmap.fill();
         blackTexture = new Texture(bgPixmap);
         bgPixmap.dispose();
 
-        // table interne pour le texte et son fond
+        // table interne avec fond noir et texte
         Table innerTable = new Table();
         innerTable.setBackground(new TextureRegionDrawable(blackTexture));
         innerTable.add(textLabel).width(850).pad(30);
 
-        // le scrollpane pour faire defiler
-        ScrollPane scrollPane = new ScrollPane(innerTable, skin);
+        // scrollpane sans barre de defilement visible
+        ScrollPane scrollPane = new ScrollPane(
+            innerTable,
+            new ScrollPane.ScrollPaneStyle()
+        );
         scrollPane.setScrollingDisabled(true, false);
-        scrollPane.setFadeScrollBars(false);
 
-        Label title = new Label("REGLES DU JEU", skin, "title");
+        Label title = new Label("RÈGLES DU JEU", skin, "title");
+        title.setFontScale(0.45f);
 
-        // mise en page centrale
+        // mise en page : titre puis boite noire centree
         mainTable.add(title).padBottom(20).padTop(40).row();
-        mainTable.add(scrollPane).width(900).height(850).row();
+        mainTable.add(scrollPane).width(900).height(950).row();
+
+        // focus molette/souris actif des le debut
+        stage.setScrollFocus(scrollPane);
     }
 
     @Override
