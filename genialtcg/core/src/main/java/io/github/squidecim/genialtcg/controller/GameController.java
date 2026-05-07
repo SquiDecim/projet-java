@@ -3,6 +3,7 @@ package io.github.squidecim.genialtcg.controller;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.math.collision.Ray;
 import io.github.squidecim.genialtcg.GenialTCG;
@@ -292,6 +293,8 @@ public class GameController implements InputProcessor, GameClient.NetworkListene
         model.phase = GameModel.Phase.PLAYING;
         model.myTurn = myTurn;
         if (myTurn) {
+            model.receiveCredits(model.getTotalEconomy());
+            client.sendCreditsUpdate(model.myCredits);
             view.showActionButton("Finir le tour", () -> {
                 view.hideActionButton();
                 model.myTurn = false;

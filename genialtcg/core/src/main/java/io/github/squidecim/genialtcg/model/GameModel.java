@@ -31,8 +31,8 @@ public class GameModel {
     public boolean myTurn = false;
     public boolean setupDone = false;
 
-    public int myCredits = 200;
-    public int opponentCredits = 200;
+    public int myCredits = 300;
+    public int opponentCredits = 300;
 
     public GameModel(GenialTCG game, CardsStackData deck) {
         this.game = game;
@@ -103,9 +103,18 @@ public class GameModel {
         card.shake();
     }
 
-    public void damageTableCard(int amount) {
-        if (table != null) {
-            table.pv += amount;
-        }
+    public int getTableEconomy(){
+        return table.stats[1];
     }
+
+    public int getBenchEconomy(){
+        int sum = 0;
+        for (CardData benchCard : bench) sum += benchCard.stats[1];
+        return Math.round(sum * 0.2f);
+    }
+
+    public int getTotalEconomy(){
+        return getBenchEconomy() + getTableEconomy();
+    }
+
 }
