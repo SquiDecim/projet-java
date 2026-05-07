@@ -2,11 +2,16 @@ package io.github.squidecim.genialtcg;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
+import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.JsonReader;
 import com.badlogic.gdx.utils.JsonValue;
@@ -23,12 +28,36 @@ public class GenialTCG extends Game {
     public Skin skin;
     public com.badlogic.gdx.audio.Music menuMusic;
     public BitmapFont uiFont;
+    public Sound hoverSound;
+    public Sound clickSound;
+    public float uiSoundVolume = 0.5f;
 
     @Override
     public void create() {
         skin = buildSkin();
         loadCardsFromJson();
+        uiSoundVolume = Gdx.app.getPreferences("GenialTCG_Settings").getFloat("ui_sound_volume", 0.5f);
+        try {
+            hoverSound = Gdx.audio.newSound(Gdx.files.internal("audio/overpass_button.mp3"));
+            clickSound = Gdx.audio.newSound(Gdx.files.internal("audio/pressed_button.mp3"));
+        } catch (Exception e) {
+            Gdx.app.log("Audio", "Erreur chargement sons boutons");
+        }
         setScreen(new FirstScreen(this));
+    }
+
+    public void soundifyButton(TextButton btn) {
+        btn.addListener(new InputListener() {
+            @Override
+            public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+                if (pointer == -1 && hoverSound != null) hoverSound.play(uiSoundVolume);
+            }
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                if (clickSound != null) clickSound.play(uiSoundVolume);
+                return false;
+            }
+        });
     }
 
     private Skin buildSkin() {
@@ -304,6 +333,8 @@ public class GenialTCG extends Game {
     public void dispose() {
         if (getScreen() != null) getScreen().dispose();
         if (skin != null) skin.dispose();
+        if (hoverSound != null) hoverSound.dispose();
+        if (clickSound != null) clickSound.dispose();
         super.dispose();
     }
 }

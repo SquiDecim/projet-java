@@ -230,6 +230,10 @@ public class NewDeckScreen implements Screen {
             }
         );
 
+        game.soundifyButton(btnBack);
+        game.soundifyButton(btnRandom);
+        game.soundifyButton(btnNext);
+
         Table topBar = new Table();
         topBar.add(btnBack).width(200).height(50).pad(10);
         topBar.add(btnRandom).width(200).height(50).pad(10);
@@ -811,6 +815,11 @@ public class NewDeckScreen implements Screen {
         dialog.getButtonTable().defaults().width(120).height(40).pad(10);
         dialog.button("Annuler", false);
         dialog.button("Valider", true);
+        for (Cell<?> cell : dialog.getButtonTable().getCells()) {
+            if (cell.getActor() instanceof TextButton) {
+                game.soundifyButton((TextButton) cell.getActor());
+            }
+        }
 
         dialog.key(Input.Keys.ENTER, true);
         dialog.key(Input.Keys.ESCAPE, false);
