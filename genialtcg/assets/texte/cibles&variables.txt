@@ -167,3 +167,44 @@ EFFETS SPÉCIAUX DE PAYS  (activés en dépensant des crédits)
   etat négatif  = dégâts sur la cible (valide sur jeuA et bancA)
   emplacement   = [N, "main"] pour piocher N cartes
   credit        = montant volé (cible creditA) ou gagné (cible credit)
+
+
+
+
+terrains :
+ Désertique :
+    "Economique": -1,
+    "Renseignement": 1,
+    "Isolationniste": 1,
+    "Militaire": 0,
+    "Diplomatique": 0
+ Glacial :
+    "Economique": -1,
+    "Renseignement": 0,
+    "Isolationniste": 1,
+    "Militaire": -1,
+    "Diplomatique": 0
+ Tropical :
+    "Economique": 0,
+    "Renseignement": -1,
+    "Isolationniste": 0,
+    "Militaire": 1,
+    "Diplomatique": 1
+ Tempéré :
+    "Economique": 0,
+    "Renseignement": 0,
+    "Isolationniste": 0,
+    "Militaire": 0,
+    "Diplomatique": 0
+ Océanique :
+    "Economique": 1,
+    "Renseignement": 0,
+    "Isolationniste": -1,
+    "Militaire": 1,
+    "Diplomatique": 0
+ Montagneux :
+    "Economique": 0,
+    "Renseignement": 1,
+    "Isolationniste": 0,
+    "Militaire": -1,
+    "Diplomatique": 1

@@ -89,6 +89,9 @@ public class GameView implements Screen {
 
     private Label myCreditsLabel;
     private Label opponentCreditsLabel;
+    private Label myPointsLabel;
+    private Label opponentPointsLabel;
+    private BitmapFont uiLabelFont;
 
     private Label setupBanner;
     private TextButton actionButton;
@@ -295,19 +298,37 @@ public class GameView implements Screen {
 
         uiStage = new Stage(new ScreenViewport());
         uiSkin = game.skin;
-        Label.LabelStyle gameStyle = new Label.LabelStyle(
-            game.uiFont,
-            Color.WHITE
+
+        FreeTypeFontGenerator uiGen = new FreeTypeFontGenerator(
+            Gdx.files.internal("ui/dejavu-sans/DejaVuSans-Bold.ttf")
         );
+        FreeTypeFontGenerator.FreeTypeFontParameter uiParams =
+            new FreeTypeFontGenerator.FreeTypeFontParameter();
+        uiParams.size = 18;
+        uiLabelFont = uiGen.generateFont(uiParams);
+        uiGen.dispose();
 
-        Table myCreditsTable = new Table();
-        myCreditsTable.setFillParent(true);
-        myCreditsTable.bottom().left().pad(20);
+        Label.LabelStyle uiStyle = new Label.LabelStyle(uiLabelFont, Color.WHITE);
+        Color boxBg = new Color(0f, 0f, 0f, 0.82f);
 
-        myCreditsLabel = new Label("Vos crédits : " + model.myCredits, gameStyle);
+        // Panneau bas-gauche (joueur) — remonté
+        Table myPanel = new Table();
+        myPanel.setFillParent(true);
+        myPanel.bottom().left().padLeft(20).padBottom(130);
 
-        myCreditsTable.add(myCreditsLabel);
-        uiStage.addActor(myCreditsTable);
+        Table myPointsBox = new Table();
+        myPointsBox.setBackground(uiSkin.newDrawable("white", boxBg));
+        myPointsLabel = new Label("Vos points : 0/6", uiStyle);
+        myPointsBox.add(myPointsLabel).pad(9, 18, 9, 18);
+
+        Table myCreditsBox = new Table();
+        myCreditsBox.setBackground(uiSkin.newDrawable("white", boxBg));
+        myCreditsLabel = new Label("Vos crédits : " + model.myCredits, uiStyle);
+        myCreditsBox.add(myCreditsLabel).pad(9, 18, 9, 18);
+
+        myPanel.add(myPointsBox).fillX().row();
+        myPanel.add(myCreditsBox).fillX().padTop(7);
+        uiStage.addActor(myPanel);
 
         actionButton = new TextButton("Commencer", uiSkin);
         actionButton.setSize(180, 50);
@@ -318,14 +339,24 @@ public class GameView implements Screen {
         game.soundifyButton(actionButton);
         uiStage.addActor(actionButton);
 
-        Table oppCreditsTable = new Table();
-        oppCreditsTable.setFillParent(true);
-        oppCreditsTable.top().right().pad(20);
+        // Panneau haut-droite (adversaire) — même taille
+        Table oppPanel = new Table();
+        oppPanel.setFillParent(true);
+        oppPanel.top().right().pad(20);
 
-        opponentCreditsLabel = new Label("Crédits adverses : " + model.opponentCredits, gameStyle);
+        Table oppPointsBox = new Table();
+        oppPointsBox.setBackground(uiSkin.newDrawable("white", boxBg));
+        opponentPointsLabel = new Label("Points adverses : 0/6", uiStyle);
+        oppPointsBox.add(opponentPointsLabel).pad(9, 18, 9, 18);
 
-        oppCreditsTable.add(opponentCreditsLabel);
-        uiStage.addActor(oppCreditsTable);
+        Table oppCreditsBox = new Table();
+        oppCreditsBox.setBackground(uiSkin.newDrawable("white", boxBg));
+        opponentCreditsLabel = new Label("Crédits adverses : " + model.opponentCredits, uiStyle);
+        oppCreditsBox.add(opponentCreditsLabel).pad(9, 18, 9, 18);
+
+        oppPanel.add(oppPointsBox).fillX().row();
+        oppPanel.add(oppCreditsBox).fillX().padTop(7);
+        uiStage.addActor(oppPanel);
         InputMultiplexer multiplexer = new InputMultiplexer();
         multiplexer.addProcessor(controller);
         multiplexer.addProcessor(0, uiStage);
@@ -539,6 +570,7 @@ public class GameView implements Screen {
         uiStage.dispose();
         floatBatch.dispose();
         if (floatFont != null) floatFont.dispose();
+        if (uiLabelFont != null) uiLabelFont.dispose();
     }
 
     public void setController(GameController controller) {
