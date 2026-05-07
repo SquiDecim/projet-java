@@ -18,10 +18,10 @@ public class CardData {
     public int[] stats;
 
     // Informations Spéciales
-    public int specialCout;
-    public String[] specialCibles;
+    public int specialCost;
+    public String[] specialTargets;
     public String[] specialVariables;
-    public Object[] specialValeurs; // Object[] car peut contenir des int ou des int[] (ex: [1, "main"])
+    public Object[] specialValues; // Object[] car peut contenir des int ou des int[] (ex: [1, "main"])
 
     // Condition d'activation (actions/outils uniquement) — affichage
     public String cond;
@@ -36,7 +36,7 @@ public class CardData {
     public int condStatMinVal;       // seuil minimum de la stat
     public String condStatMaxKey;    // stat à vérifier (max), null = ignoré
     public int condStatMaxVal;       // seuil maximum de la stat
-    public String specialNom;
+    public String specialName;
     public String specialDescription;
 
     public Texture texture;
@@ -63,11 +63,11 @@ public class CardData {
         this.cost = cost;
         this.pv = pv;
         this.stats = stats;
-        this.specialCout = specialCout;
-        this.specialCibles = specialCibles;
+        this.specialCost = specialCout;
+        this.specialTargets = specialCibles;
         this.specialVariables = specialVariables;
-        this.specialValeurs = specialValeurs;
-        this.specialNom = specialNom;
+        this.specialValues = specialValeurs;
+        this.specialName = specialNom;
         this.specialDescription = specialDescription;
         this.revocation = cost/2;
     }
@@ -90,9 +90,9 @@ public class CardData {
                 "\tValeurs   : %s",
                 country,
                 (cond != null && !cond.equals("—")) ? cond : "—",
-                java.util.Arrays.toString(specialCibles),
+                java.util.Arrays.toString(specialTargets),
                 java.util.Arrays.toString(specialVariables),
-                formatValeurs(specialValeurs)
+                formatValeurs(specialValues)
             );
         }
         return String.format(
@@ -119,12 +119,12 @@ public class CardData {
             stats != null && stats.length > 2 ? stats[2] : 0,
             stats != null && stats.length > 3 ? stats[3] : 0,
             stats != null && stats.length > 4 ? stats[4] : 0,
-            specialNom,
+            specialName,
             specialDescription,
-            specialCout,
-            java.util.Arrays.toString(specialCibles),
+            specialCost,
+            java.util.Arrays.toString(specialTargets),
             java.util.Arrays.toString(specialVariables),
-            formatValeurs(specialValeurs)
+            formatValeurs(specialValues)
         );
     }
 

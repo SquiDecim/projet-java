@@ -302,35 +302,21 @@ public class FirstScreen implements Screen {
         table.add(btnQuit).width(220).height(50).pad(10).row();
 
         if (errorMessage != null) {
-            errorDialog = new Window("", skin);
-            errorDialog.setModal(true);
-            errorDialog.setMovable(false);
-            float dw = 300,
-                dh = 150;
-            float dx = (stage.getWidth() - dw) / 2f;
-            float dy = (stage.getHeight() - dh) / 2f;
-            errorDialog.setSize(dw, dh);
-            errorDialog.setPosition(dx, dy);
-            errorDialog
-                .add(new Label(errorMessage, skin))
-                .expand()
-                .center()
-                .pad(20);
-            btnClose = new TextButton("X", skin);
-            btnClose.setSize(30, 30);
-            btnClose.setPosition(dx + dw - 30, dy + dh - 30);
-            btnClose.addListener(
-                new ChangeListener() {
-                    @Override
-                    public void changed(ChangeEvent event, Actor actor) {
-                        errorDialog.remove();
-                        btnClose.remove();
-                    }
+            Dialog dialog = new Dialog("Erreur", skin);
+            dialog.text(new Label(errorMessage, skin));
+            TextButton closeButton = new TextButton("Fermer", skin);
+            closeButton.addListener(new ChangeListener() {
+                @Override
+                public void changed(ChangeEvent event, Actor actor) {
+                    dialog.hide();
                 }
-            );
-            game.soundifyButton(btnClose);
-            stage.addActor(errorDialog);
-            stage.addActor(btnClose);
+            });
+            game.soundifyButton(closeButton);
+            dialog.button(closeButton);
+            dialog.setModal(true);
+            dialog.setMovable(false);
+            dialog.setResizable(false);
+            dialog.show(stage);
         }
     }
 
