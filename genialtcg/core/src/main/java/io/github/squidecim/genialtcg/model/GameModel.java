@@ -54,6 +54,7 @@ public class GameModel {
     public void moveFromHandToBench(CardData card) {
         hand.remove(card);
         bench.add(card);
+        spendCredits(card.cost);
     }
 
     public void moveFromHandToTable(CardData card) {

@@ -1242,6 +1242,7 @@ public class GameView implements Screen {
 
     public void spawnFloatingText(String text, Vector3 worldPos) {
         floatingTexts.add(new FloatingText(text, worldPos, 1.2f));
+        System.out.println("ça devrait marcher ptn");
     }
 
     public void showEphemeralMessage(String text) {
