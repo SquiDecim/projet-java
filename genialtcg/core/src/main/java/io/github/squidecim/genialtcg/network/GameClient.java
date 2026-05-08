@@ -152,14 +152,12 @@ public class GameClient {
         client.sendTCP(msg);
     }
 
-    public void sendSpecialAttack(String[] effectTypes, int[] effectValues,
-                                   int newAttackerCredits, int newDefenderCredits, int newDeckSize) {
+    public void sendSpecialAttack(String[] effectTypes, int[] effectValues, int newDeckSize, String targetBenchCardId) {
         NetworkMessages.SpecialAttack msg = new NetworkMessages.SpecialAttack();
-        msg.effectTypes         = effectTypes;
-        msg.effectValues        = effectValues;
-        msg.newAttackerCredits  = newAttackerCredits;
-        msg.newDefenderCredits  = newDefenderCredits;
-        msg.newDeckSize         = newDeckSize;
+        msg.effectTypes = effectTypes;
+        msg.effectValues = effectValues;
+        msg.newDeckSize = newDeckSize;
+        msg.targetBenchCardId = targetBenchCardId;
         client.sendTCP(msg);
     }
 

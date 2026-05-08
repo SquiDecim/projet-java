@@ -3,6 +3,7 @@ package io.github.squidecim.genialtcg.controller;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.math.collision.Ray;
 import io.github.squidecim.genialtcg.GenialTCG;
@@ -32,6 +33,10 @@ public class GameController implements InputProcessor, GameClient.NetworkListene
     private CardDecal draggedCard = null;
     private boolean selectingRetreat = false;
     private boolean selectingReplacementAfterDeath = false;
+
+    private boolean selectingBenchTarget = false;
+    private boolean benchTargetIsOpponent = false;
+    private java.util.function.Consumer<CardDecal> onBenchTargetSelected = null;
 
     private boolean initialDrawDone = false;
     private int initialDrawCount = 0;
@@ -89,6 +94,25 @@ public class GameController implements InputProcessor, GameClient.NetworkListene
 
         Ray ray = view.getCam().getPickRay(x, y);
         CardDecal card = view.getHoveredCard(ray);
+
+        if (selectingBenchTarget && b == 0) {
+            CardDecal benchCard = benchTargetIsOpponent
+                ? view.getOpponentBenchCardAt(ray)
+                : view.getBenchCardAt(ray);
+            if (benchCard != null) {
+                selectingBenchTarget = false;
+                benchTargetIsOpponent = false;
+                view.setSelectableBorder(false);
+                view.setSelectableBorderForBench(true); // reset les deux côtés
+                view.setSelectableBorderForBench(false);
+                view.hideBanner();
+                if (onBenchTargetSelected != null) {
+                    onBenchTargetSelected.accept(benchCard);
+                    onBenchTargetSelected = null;
+                }
+            }
+            return true;
+        }
 
         if (selectingRetreat && b == 0) {
             CardDecal benchCard = view.getBenchCardAt(ray);
@@ -500,7 +524,7 @@ public class GameController implements InputProcessor, GameClient.NetworkListene
         boolean died = model.applyDamage(target, damage);
         Vector3 pos = target.getPosition().cpy();
         pos.y += 0.5f;
-        view.spawnFloatingText("-" + Math.abs(damage), pos);
+        view.spawnFloatingText("-" + Math.abs(damage), pos, Color.RED);
         if (died && model.myTurn) {
             client.sendCardDied(target.getData().getAtlasRegionName(), target.emplacement, onOpponent);
         }
@@ -513,140 +537,131 @@ public class GameController implements InputProcessor, GameClient.NetworkListene
             return;
         }
 
-        String[] types  = card.specialEffectTypes;
-        int[]    values = card.specialEffectValues;
+        String[] types = card.specialEffectTypes;
+        int[] values = card.specialEffectValues;
         if (types == null || types.length == 0) {
             view.hideAttackMenu();
             return;
         }
 
         model.spendCredits(attackCost);
-
-        for (int i = 0; i < types.length; i++) {
-            applyLocalEffect(types[i], values[i]);
-        }
-
-        client.sendSpecialAttack(types, values,
-            model.myCredits, model.opponentCredits, model.deckSize());
-
         view.updateMyCredits(model.myCredits);
         view.hideAttackMenu();
 
-    }
-
-    private void applyLocalEffect(String type, int value) {
-        switch (type) {
-            case "degatAdverse": {
-                CardDecal oppTable = view.getOpponentTableCard();
-                if (oppTable != null) applyDamageAndFloat(oppTable, -value, true);
-                break;
-            }
-            case "degatBanc": {
-                CardDecal oppBench = view.getFirstOpponentBenchCard();
-                if (oppBench != null) applyDamageAndFloat(oppBench, -value, true);
-                break;
-            }
-            case "soinJeu": {
-                CardDecal myTable = view.getMyTableCard();
-                if (myTable != null) {
-                    model.applyDamage(myTable, value);
-                    Vector3 pos = myTable.getPosition().cpy();
-                    pos.y += 0.5f;
-                    view.spawnFloatingText("+" + value, pos);
-                }
-                break;
-            }
-            case "soinBanc": {
-                CardDecal myBench = view.getFirstMyBenchCard();
-                if (myBench != null) {
-                    model.applyDamage(myBench, value);
-                    Vector3 pos = myBench.getPosition().cpy();
-                    pos.y += 0.5f;
-                    view.spawnFloatingText("+" + value, pos);
-                }
-                break;
-            }
-            case "voleCredit": {
-                int stolen = Math.min(value, model.opponentCredits);
-                model.receiveCredits(stolen);
-                model.opponentCredits = Math.max(0, model.opponentCredits - value);
-                view.updateOpponentCredits(model.opponentCredits);
-                break;
-            }
-            case "pioche": {
-                for (int j = 0; j < value; j++) {
-                    CardData drawn = model.drawCard();
-                    if (drawn != null) {
-                        view.addCardToHand(drawn);
-                        view.updateDeckVisual(model.deckSize());
-                        if (game.takingCardsSound != null)
-                            game.takingCardsSound.play(game.uiSoundVolume);
-                    }
-                }
+        boolean needsBenchChoice = false;
+        for (String type : types) {
+            if ("degatBanc".equals(type) || "soinBanc".equals(type)) {
+                needsBenchChoice = true;
                 break;
             }
         }
+
+        if (needsBenchChoice) {
+            boolean targetingOwnBench = false;
+            for (String type : types) {
+                if ("soinBanc".equals(type)) { targetingOwnBench = true; break; }
+            }
+            benchTargetIsOpponent = !targetingOwnBench;
+            view.setSelectableBorderForBench(targetingOwnBench);
+            view.showBanner(targetingOwnBench
+                ? "Choisissez une carte de votre banc à soigner"
+                : "Choisissez une carte du banc adverse à attaquer");
+            selectingBenchTarget = true;
+            onBenchTargetSelected = (chosenCard) -> {
+                client.sendSpecialAttack(types, values, model.deckSize(), chosenCard.getData().getAtlasRegionName());
+            };
+        } else {
+            client.sendSpecialAttack(types, values, model.deckSize(), null);
+        }
     }
+
 
     @Override
     public void onSpecialAttack(NetworkMessages.SpecialAttack msg) {
         boolean iAmAttacker = model.myTurn;
 
+        CardDecal myTable  = view.getMyTableCard();
+        CardDecal oppTable = view.getOpponentTableCard();
+        CardDecal myBench  = view.getFirstMyBenchCard();
+        CardDecal oppBench = view.getFirstOpponentBenchCard();
+
         for (int i = 0; i < msg.effectTypes.length; i++) {
             String type  = msg.effectTypes[i];
             int    value = msg.effectValues[i];
             switch (type) {
-                case "degatAdverse":
-                    if (!iAmAttacker) {
-                        CardDecal myTable = view.getMyTableCard();
-                        if (myTable != null) applyDamageAndFloat(myTable, -value, false);
+                case "degatAdverse": {
+                    CardDecal target = iAmAttacker ? oppTable : myTable;
+                    if (target != null) applyDamageAndFloat(target, -value, iAmAttacker);
+                    break;
+                }
+                case "degatBanc": {
+                    CardDecal target;
+                    if (iAmAttacker) {
+                        target = msg.targetBenchCardId != null
+                            ? view.getOpponentBenchCardById(msg.targetBenchCardId)
+                            : view.getFirstOpponentBenchCard();
+                    } else {
+                        target = msg.targetBenchCardId != null
+                            ? view.getMyBenchCardById(msg.targetBenchCardId)
+                            : view.getFirstMyBenchCard();
+                    }
+                    if (target != null) applyDamageAndFloat(target, -value, iAmAttacker);
+                    break;
+                }
+                case "soinJeu": {
+                    CardDecal target = iAmAttacker ? myTable : oppTable;
+                    if (target != null) {
+                        model.applyDamage(target, value);
+                        Vector3 pos = target.getPosition().cpy();
+                        pos.y += 0.5f;
+                        view.spawnFloatingText("+" + value, pos, Color.GREEN);
                     }
                     break;
-                case "degatBanc":
-                    if (!iAmAttacker) {
-                        CardDecal myBench = view.getFirstMyBenchCard();
-                        if (myBench != null) applyDamageAndFloat(myBench, -value, false);
+                }
+                case "soinBanc": {
+                    CardDecal target;
+                    if (iAmAttacker) {
+                        target = msg.targetBenchCardId != null
+                            ? view.getMyBenchCardById(msg.targetBenchCardId)
+                            : view.getFirstMyBenchCard();
+                    } else {
+                        target = msg.targetBenchCardId != null
+                            ? view.getOpponentBenchCardById(msg.targetBenchCardId)
+                            : view.getFirstOpponentBenchCard();
+                    }
+                    if (target != null) {
+                        model.applyDamage(target, value);
+                        Vector3 pos = target.getPosition().cpy();
+                        pos.y += 0.5f;
+                        view.spawnFloatingText("+" + value, pos, Color.GREEN);
                     }
                     break;
-                case "soinJeu":
-                    if (!iAmAttacker) {
-                        CardDecal oppTable = view.getOpponentTableCard();
-                        if (oppTable != null) {
-                            model.applyDamage(oppTable, value);
-                            Vector3 pos = oppTable.getPosition().cpy();
-                            pos.y += 0.5f;
-                            view.spawnFloatingText("+" + value, pos);
+                }
+                case "voleCredit": {
+                    if (iAmAttacker) model.receiveCredits(value);
+                    else model.spendCredits(value);
+                    break;
+                }
+                case "pioche": {
+                    if (iAmAttacker) {
+                        for (int j = 0; j < value; j++) {
+                            CardData drawn = model.drawCard();
+                            if (drawn != null) {
+                                view.addCardToHand(drawn);
+                                view.updateDeckVisual(model.deckSize());
+                                if (game.takingCardsSound != null)
+                                    game.takingCardsSound.play(game.uiSoundVolume);
+                            }
                         }
-                    }
-                    break;
-                case "soinBanc":
-                    if (!iAmAttacker) {
-                        CardDecal oppBench = view.getFirstOpponentBenchCard();
-                        if (oppBench != null) {
-                            model.applyDamage(oppBench, value);
-                            Vector3 pos = oppBench.getPosition().cpy();
-                            pos.y += 0.5f;
-                            view.spawnFloatingText("+" + value, pos);
-                        }
-                    }
-                    break;
-                case "pioche":
-                    if (!iAmAttacker) {
+                    } else {
                         for (int j = 0; j < value; j++)
                             view.updateOpponentDeckVisual(msg.newDeckSize + value - 1 - j);
                     }
                     break;
+                }
             }
         }
 
-        // Sync des crédits depuis les valeurs autoritatives du message
-        if (iAmAttacker) {
-            model.myCredits       = msg.newAttackerCredits;
-            model.opponentCredits = msg.newDefenderCredits;
-        } else {
-            model.myCredits       = msg.newDefenderCredits;
-            model.opponentCredits = msg.newAttackerCredits;
-        }
         view.updateMyCredits(model.myCredits);
         view.updateOpponentCredits(model.opponentCredits);
     }

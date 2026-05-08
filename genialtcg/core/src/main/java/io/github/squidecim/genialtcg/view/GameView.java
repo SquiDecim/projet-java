@@ -1721,8 +1721,8 @@ public class GameView implements Screen {
         return attackMenuVisible;
     }
 
-    public void spawnFloatingText(String text, Vector3 worldPos) {
-        floatingTexts.add(new FloatingText(text, worldPos, 1.2f));
+    public void spawnFloatingText(String text, Vector3 worldPos, Color color) {
+        floatingTexts.add(new FloatingText(text, worldPos, 1.2f, color));
     }
 
     public void showEphemeralMessage(String text) {
@@ -1745,8 +1745,23 @@ public class GameView implements Screen {
         }
     }
 
+    public void setSelectableBorderForBench(boolean ownBench) {
+        Array<CardSlot> slots = ownBench ? benchBottomSlots : benchTopSlots;
+        for (CardSlot slot : slots) {
+            if (!slot.isEmpty()) slot.setSelectable(true);
+        }
+    }
+
     public CardDecal getBenchCardAt(Ray ray) {
         for (CardSlot slot : benchBottomSlots) {
+            CardDecal card = slot.getCard();
+            if (card != null && card.intersects(ray)) return card;
+        }
+        return null;
+    }
+
+    public CardDecal getOpponentBenchCardAt(Ray ray) {
+        for (CardSlot slot : benchTopSlots) {
             CardDecal card = slot.getCard();
             if (card != null && card.intersects(ray)) return card;
         }

@@ -96,6 +96,11 @@ public class GameModel {
         myCredits = Math.max(0, myCredits - amount);
     }
 
+    public void stoleCredits(int amount){
+        receiveCredits(amount);
+        opponentCredits -= amount;
+    }
+
     public void receiveCredits(int amount) {
         myCredits += amount;
     }
