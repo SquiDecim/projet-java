@@ -3,397 +3,280 @@
     "id": "OUT-001",
     "nom": "Effort de guerre",
     "cond": null,
-    "cibles": ["jeu"],
-    "variables": ["puissance"],
-    "valeurs": [12],
+    "effets": [["puissance", 12]],
     "description": "Usines reconverties et civils mobilisés soutiennent le front. +12 en puissance à votre pays actif."
   },
   {
     "id": "OUT-002",
     "nom": "Plan de relance",
     "cond": null,
-    "cibles": ["banc"],
-    "variables": ["economie"],
-    "valeurs": [10],
+    "effets": [["economieBanc", 10]],
     "description": "Les injections de capitaux maintiennent l'économie de vos réserves en bonne santé. +10 en économie à votre banc."
   },
   {
     "id": "OUT-003",
     "nom": "Pénurie de composants",
     "cond": null,
-    "cibles": ["jeuA"],
-    "variables": ["technologie"],
-    "valeurs": [-10],
+    "effets": [["technologieA", -10]],
     "description": "Les semi-conducteurs manquent à l'adversaire, freinant son avance technologique. -10 en technologie au pays adverse actif."
   },
   {
     "id": "OUT-004",
     "nom": "Gisement inexploité",
     "cond": null,
-    "cibles": ["jeu"],
-    "variables": ["ressources"],
-    "valeurs": [15],
+    "effets": [["ressources", 15]],
     "description": "De nouveaux gisements alimentent vos stocks en continu. +15 en ressources à votre pays actif."
   },
   {
     "id": "OUT-005",
     "nom": "Scandale d'État",
     "cond": null,
-    "cibles": ["jeuA"],
-    "variables": ["stabilite"],
-    "valeurs": [-12],
+    "effets": [["stabiliteA", -12]],
     "description": "Les révélations fragilisent la confiance populaire adverse. -12 en stabilité au pays adverse actif."
   },
   {
     "id": "OUT-006",
     "nom": "Subventions massives",
     "cond": null,
-    "cibles": ["banc"],
-    "variables": ["CoutP"],
-    "valeurs": [-10],
+    "effets": [["CoutPBanc", -10]],
     "description": "L'État prend en charge une partie des coûts de déploiement de vos réserves. -10 au coût de pose de votre banc."
   },
   {
     "id": "OUT-007",
     "nom": "Inflation galopante",
     "cond": null,
-    "cibles": ["bancA"],
-    "variables": ["CoutP"],
-    "valeurs": [12],
+    "effets": [["CoutPBancA", 12]],
     "description": "La monnaie adverse s'érode, renchérissant chaque déploiement de leurs réserves. +12 au coût de pose du banc adverse."
   },
   {
     "id": "OUT-008",
     "nom": "Formation d'élite",
     "cond": null,
-    "cibles": ["banc"],
-    "variables": ["puissance"],
-    "valeurs": [8],
+    "effets": [["puissanceBanc", 8]],
     "description": "Des programmes intensifs maintiennent vos réservistes au sommet de leur forme. +8 en puissance à votre banc."
   },
   {
     "id": "OUT-009",
     "nom": "Cyberattaque massive",
     "cond": null,
-    "cibles": ["jeuA"],
-    "variables": ["CoutES"],
-    "valeurs": [18],
+    "effets": [["CoutESA", 18]],
     "description": "Vos virus ralentissent les systèmes adverses, alourdissant le coût de leurs opérations spéciales. +18 au coût des effets spéciaux du pays adverse actif."
   },
   {
     "id": "OUT-010",
     "nom": "Innovation de rupture",
     "cond": null,
-    "cibles": ["jeu"],
-    "variables": ["CoutES"],
-    "valeurs": [-15],
+    "effets": [["CoutES", -15]],
     "description": "Vos nouvelles infrastructures rendent vos opérations spéciales bien moins onéreuses. -15 au coût de votre effets spéciaux en jeu."
   },
   {
     "id": "OUT-011",
     "nom": "Propagande efficace",
     "cond": null,
-    "cibles": ["banc"],
-    "variables": ["stabilite"],
-    "valeurs": [10],
+    "effets": [["stabiliteBanc", 10]],
     "description": "Le discours d'État entretient la cohésion de vos nations en réserve. +10 en stabilité à votre banc."
   },
   {
     "id": "OUT-012",
     "nom": "Fuite des cerveaux",
     "cond": null,
-    "cibles": ["bancA"],
-    "variables": ["technologie"],
-    "valeurs": [-12],
+    "effets": [["technologieBancA", -12]],
     "description": "Chercheurs et ingénieurs adverses continuent de fuir vers des horizons plus cléments. -12 en technologie au banc adverse."
   },
   {
     "id": "OUT-013",
     "nom": "Marché noir",
     "cond": null,
-    "cibles": ["jeuA"],
-    "variables": ["economie"],
-    "valeurs": [-10],
+    "effets": [["economieA", -10]],
     "description": "Des réseaux parallèles détournent les flux légaux adverses de l'intérieur. -10 en économie au pays adverse actif."
   },
   {
     "id": "OUT-014",
     "nom": "Accord commercial",
     "cond": null,
-    "cibles": ["jeu"],
-    "variables": ["economie"],
-    "valeurs": [12],
+    "effets": [["economie", 12]],
     "description": "Un traité d'échange ouvre des marchés supplémentaires à votre économie. +12 en économie à votre pays actif."
   },
   {
     "id": "OUT-015",
     "nom": "Sabotage logistique",
     "cond": null,
-    "cibles": ["bancA"],
-    "variables": ["ressources"],
-    "valeurs": [-10],
+    "effets": [["ressourcesBancA", -10]],
     "description": "Des saboteurs maintiennent la pression sur les stocks de réserve adverse. -10 en ressources au banc adverse."
   },
   {
     "id": "OUT-016",
     "nom": "Désertion en masse",
     "cond": null,
-    "cibles": ["bancA"],
-    "variables": ["puissance"],
-    "valeurs": [-12],
+    "effets": [["puissanceBancA", -12]],
     "description": "Le moral effondré des réservistes adverses réduit durablement leur capacité militaire. -12 en puissance au banc adverse."
   },
   {
     "id": "OUT-017",
     "nom": "Recyclage industriel",
     "cond": null,
-    "cibles": ["banc"],
-    "variables": ["ressources"],
-    "valeurs": [10],
+    "effets": [["ressourcesBanc", 10]],
     "description": "La valorisation des déchets alimente discrètement vos réserves en matières premières. +10 en ressources à votre banc."
   },
   {
     "id": "OUT-018",
     "nom": "Pôle de recherche",
     "cond": null,
-    "cibles": ["jeu"],
-    "variables": ["technologie"],
-    "valeurs": [15],
+    "effets": [["technologie", 15]],
     "description": "Votre complexe scientifique produit des avancées continues. +15 en technologie à votre pays actif."
   },
   {
     "id": "OUT-019",
     "nom": "Bureaucratie lourde",
     "cond": null,
-    "cibles": ["bancA"],
-    "variables": ["CoutP"],
-    "valeurs": [10],
+    "effets": [["CoutPBancA", 10]],
     "description": "Les lourdeurs administratives adverses entravent chaque nouveau déploiement. +10 au coût de pose du banc adverse."
   },
   {
     "id": "OUT-020",
     "nom": "Soutien logistique",
     "cond": null,
-    "cibles": ["banc"],
-    "variables": ["CoutP"],
-    "valeurs": [-8],
+    "effets": [["CoutPBanc", -8]],
     "description": "Votre chaîne d'approvisionnement optimisée allège la mise en place de vos réserves. -8 au coût de pose de votre banc."
   },
   {
     "id": "OUT-021",
     "nom": "Grève générale",
     "cond": null,
-    "cibles": ["jeuA", "jeuA"],
-    "variables": ["stabilite", "CoutES"],
-    "valeurs": [-12, 10],
+    "effets": [["stabiliteA", -12], ["CoutESA", 10]],
     "description": "Vous financez la grève des travailleurs adverse et paralysant leurs opérations. -12 en stabilité et +10 au coût des effets spéciaux du pays adverse actif."
   },
   {
     "id": "OUT-022",
     "nom": "Boom touristique",
     "cond": null,
-    "cibles": ["banc"],
-    "variables": ["economie"],
-    "valeurs": [8],
+    "effets": [["economieBanc", 8]],
     "description": "L'afflux de devises étrangères stimule discrètement les économies de vos nations en réserve. +8 en économie à votre banc."
   },
   {
     "id": "OUT-023",
     "nom": "Détournement de fonds",
     "cond": null,
-    "cibles": ["jeuA", "bancA"],
-    "variables": ["economie", "economie"],
-    "valeurs": [-10, -8],
+    "effets": [["economieA", -10], ["economieBancA", -8]],
     "description": "Un réseau de corruption saigne les finances adverses à tous les niveaux. -10 en économie au pays adverse actif et -8 en économie au banc adverse."
   },
   {
     "id": "OUT-024",
     "nom": "Pacification",
     "cond": null,
-    "cibles": ["jeu"],
-    "variables": ["stabilite"],
-    "valeurs": [12],
+    "effets": [["stabilite", 12]],
     "description": "Le retour de l'ordre permet à vos institutions de fonctionner sereinement. +12 en stabilité à votre pays actif."
   },
   {
     "id": "OUT-025",
     "nom": "Blocus naval",
     "cond": null,
-    "cibles": ["jeuA"],
-    "variables": ["ressources"],
-    "valeurs": [-15],
+    "effets": [["ressourcesA", -15]],
     "description": "Vos navires contrôlent les voies d'approvisionnement adverses. -15 en ressources au pays adverse actif."
   },
   {
     "id": "OUT-026",
     "nom": "Soutien d'alliés",
     "cond": null,
-    "cibles": ["jeu", "jeu"],
-    "variables": ["puissance", "stabilite"],
-    "valeurs": [8, 6],
+    "effets": [["puissance", 8], ["stabilite", 6]],
     "description": "Des contingents alliés renforcent votre nation sur tous les plans. +8 en puissance et +6 en stabilité à votre pays actif."
   },
   {
     "id": "OUT-027",
     "nom": "Piratage informatique",
     "cond": null,
-    "cibles": ["bancA"],
-    "variables": ["technologie"],
-    "valeurs": [-10],
+    "effets": [["technologieBancA", -10]],
     "description": "Du code malveillant continue de ronger les systèmes technologiques adverses en réserve. -10 en technologie au banc adverse."
   },
   {
     "id": "OUT-028",
     "nom": "Taxes douanières",
     "cond": null,
-    "cibles": ["bancA", "bancA"],
-    "variables": ["CoutES", "CoutP"],
-    "valeurs": [12, 8],
+    "effets": [["CoutESBancA", 12], ["CoutPBancA", 8]],
     "description": "Vos tarifs douaniers rendent chaque opération adverse plus coûteuse à tous les niveaux. +12 au coût des effets spéciaux et +8 au coût de pose du banc adverse."
   },
   {
     "id": "OUT-029",
     "nom": "Modernisation",
     "cond": null,
-    "cibles": ["jeu", "banc"],
-    "variables": ["CoutES", "CoutES"],
-    "valeurs": [-10, -8],
+    "effets": [["CoutES", -10], ["CoutESBanc", -8]],
     "description": "Vos infrastructures modernisées réduisent le coût de vos opérations à tous les niveaux. -10 au coût des effets spéciaux de votre pays actif et -8 pour votre banc."
   },
   {
     "id": "OUT-030",
     "nom": "Armement de pointe",
     "cond": null,
-    "cibles": ["jeu"],
-    "variables": ["puissance"],
-    "valeurs": [15],
+    "effets": [["puissance", 15]],
     "description": "Chars de nouvelle génération et drones furtifs maintiennent une supériorité militaire constante. +15 en puissance à votre pays actif."
   },
   {
     "id": "OUT-031",
     "nom": "Tempête de sable",
-    "cond": {
-      "terrain": ["Désertique"],
-      "statMin": {
-        "puissance": 50
-      }
-    },
-    "cibles": ["jeuA"],
-    "variables": ["puissance"],
-    "valeurs": [-20],
+    "cond": { "terrain": ["Désertique"], "statMin": { "puissance": 50 } },
+    "effets": [["puissanceA", -20]],
     "description": "En terrain Désertique, si votre puissance atteint 50, vos forces exploitent le simoun pour paralyser l'adversaire. -20 en puissance au pays adverse actif."
   },
   {
     "id": "OUT-032",
     "nom": "Réseau d'informateurs",
-    "cond": {
-      "type": ["Renseignement"],
-      "rang": ["Établi", "Dominant", "Hégémonie"]
-    },
-    "cibles": ["jeuA"],
-    "variables": ["CoutES"],
-    "valeurs": [25],
+    "cond": { "type": ["Renseignement"], "rang": ["Établi", "Dominant", "Hégémonie"] },
+    "effets": [["CoutESA", 25]],
     "description": "Pays Établis ou supérieurs de type Renseignement. Votre réseau mondial d'espions anticipe chaque mouvement. +25 au coût des effets spéciaux du pays adverse actif."
   },
   {
     "id": "OUT-033",
     "nom": "Brise-glace nucléaire",
-    "cond": {
-      "terrain": ["Glacial"],
-      "rang": ["Établi", "Dominant", "Hégémonie"]
-    },
-    "cibles": ["jeu", "jeu"],
-    "variables": ["technologie", "CoutES"],
-    "valeurs": [25, -15],
+    "cond": { "terrain": ["Glacial"], "rang": ["Établi", "Dominant", "Hégémonie"] },
+    "effets": [["technologie", 25], ["CoutES", -15]],
     "description": "En terrain Glacial, pays Établis ou supérieurs. La maîtrise du nucléaire civil impose une sèvere avance. +25 en technologie et -15 au coût des effets spéciaux."
   },
   {
     "id": "OUT-034",
     "nom": "Embargo total",
-    "cond": {
-      "type": ["Isolationniste"],
-      "rang": ["Émergent", "Établi", "Dominant", "Hégémonie"]
-    },
-    "cibles": ["bancA"],
-    "variables": ["economie"],
-    "valeurs": [-28],
+    "cond": { "type": ["Isolationniste"], "rang": ["Émergent", "Établi", "Dominant", "Hégémonie"] },
+    "effets": [["economieBancA", -28]],
     "description": "Pays Isolationnistes non Marginaux. Vos frontières verrouillées asphyxient les réserves économiques adverses. -28 en économie au banc adverse."
   },
   {
     "id": "OUT-035",
     "nom": "Fièvre tropicale",
-    "cond": {
-      "terrain": ["Tropical"],
-      "etatMin": 350
-    },
-    "cibles": ["jeuA"],
-    "variables": ["stabilite"],
-    "valeurs": [-25],
+    "cond": { "terrain": ["Tropical"], "etatMin": 350 },
+    "effets": [["stabiliteA", -25]],
     "description": "En terrain Tropical, si votre pays a au moins 350 PV. Vos forces présentes dans la jungle propagent les maladies. -25 en stabilité au pays adverse actif."
   },
   {
     "id": "OUT-036",
     "nom": "Frappe chirurgicale",
-    "cond": {
-      "rang": ["Dominant", "Hégémonie"]
-    },
-    "cibles": ["jeuA"],
-    "variables": ["CoutES"],
-    "valeurs": [35],
+    "cond": { "rang": ["Dominant", "Hégémonie"] },
+    "effets": [["CoutESA", 35]],
     "description": "Pays Dominants ou Hégémonie uniquement. Seules eux peuvent maintenir des frappes de précision. +35 au coût des effets spéciaux du pays adverse actif."
   },
   {
     "id": "OUT-037",
     "nom": "Sommet pour la paix",
-    "cond": {
-      "type": ["Diplomatique"],
-      "statMin": {
-        "stabilite": 60
-      }
-    },
-    "cibles": ["banc", "banc"],
-    "variables": ["stabilite", "CoutP"],
-    "valeurs": [20, -12],
+    "cond": { "type": ["Diplomatique"], "statMin": { "stabilite": 60 } },
+    "effets": [["stabiliteBanc", 20], ["CoutPBanc", -12]],
     "description": "Pays Diplomatiques avec une stabilité d'au moins 60. Votre crédibilité diplomatique vous protège. +20 en stabilité et -12 au coût de pose de votre banc."
   },
   {
     "id": "OUT-038",
     "nom": "Rendements agricoles",
-    "cond": {
-      "terrain": ["Tempéré"],
-      "statMin": {
-        "ressources": 25
-      }
-    },
-    "cibles": ["jeu", "jeu"],
-    "variables": ["ressources", "economie"],
-    "valeurs": [22, 10],
+    "cond": { "terrain": ["Tempéré"], "statMin": { "ressources": 25 } },
+    "effets": [["ressources", 22], ["economie", 10]],
     "description": "En terrain Tempéré, si vos ressources atteignent au moins 25. Les saisons généreuses gonflent vos stocks et vos revenus. +22 en ressources et +10 en économie."
   },
   {
     "id": "OUT-039",
     "nom": "Guerre d'usure",
-    "cond": {
-      "terrain": ["Montagneux"],
-      "statMin": {
-        "puissance": 50
-      }
-    },
-    "cibles": ["bancA"],
-    "variables": ["puissance"],
-    "valeurs": [-20],
+    "cond": { "terrain": ["Montagneux"], "statMin": { "puissance": 50 } },
+    "effets": [["puissanceBancA", -20]],
     "description": "En terrain Montagneux, si votre puissance est supérieur à 50. Vos forces épuisent les réserves militaires adverses. -20 en puissance au banc adverse."
   },
   {
     "id": "OUT-040",
     "nom": "Paradis fiscal",
-    "cond": {
-      "type": ["Économique"],
-      "rang": ["Établi", "Dominant", "Hégémonie"]
-    },
-    "cibles": ["jeu"],
-    "variables": ["CoutP"],
-    "valeurs": [-25],
+    "cond": { "type": ["Économique"], "rang": ["Établi", "Dominant", "Hégémonie"] },
+    "effets": [["CoutP", -25]],
     "description": "Pays Économiques Établis ou supérieurs. Votre influence économique attire les capitaux et réduit vos coûts de déploiement. -25 au coût de pose"
   }
 ]

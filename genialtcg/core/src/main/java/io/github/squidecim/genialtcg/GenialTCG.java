@@ -357,33 +357,17 @@ public class GenialTCG extends Game {
                 String condStr =
                     condBuf.length() > 0 ? condBuf.toString() : "—";
 
-                String[] cibles = new String[0];
-                String[] variables = new String[0];
-                Object[] valeurs = new Object[0];
-                String sNom = "";
-                String sDesc = "";
+                String[] effectTypes  = new String[0];
+                int[]    effectValues = new int[0];
 
-                if (entry.has("cibles")) cibles = entry.get("cibles").asStringArray();
-
-                if (entry.has("variables")) {
-                    JsonValue varsArr = entry.get("variables");
-                    variables = new String[varsArr.size];
-                    for (int i = 0; i < varsArr.size; i++) {
-                        JsonValue v = varsArr.get(i);
-                        variables[i] = (v == null || v.isNull())
-                            ? null
-                            : v.asString();
-                    }
-                }
-
-                if (entry.has("valeurs")) {
-                    JsonValue vArr = entry.get("valeurs");
-                    valeurs = new Object[vArr.size];
-                    for (int i = 0; i < vArr.size; i++) {
-                        JsonValue v = vArr.get(i);
-                        valeurs[i] = v.isArray()
-                            ? v.asStringArray()
-                            : v.asInt();
+                if (entry.has("effets")) {
+                    JsonValue effetsArr = entry.get("effets");
+                    effectTypes  = new String[effetsArr.size];
+                    effectValues = new int[effetsArr.size];
+                    for (int i = 0; i < effetsArr.size; i++) {
+                        JsonValue pair = effetsArr.get(i);
+                        effectTypes[i]  = pair.getString(0);
+                        effectValues[i] = pair.size > 1 ? pair.getInt(1) : 0;
                     }
                 }
 
@@ -396,12 +380,11 @@ public class GenialTCG extends Game {
                     0,
                     new int[5],
                     0,
-                    sNom,
-                    sDesc
+                    "",
+                    ""
                 );
-                card.specialTargets   = cibles;
-                card.specialVariables = variables;
-                card.specialValues    = valeurs;
+                card.specialEffectTypes  = effectTypes;
+                card.specialEffectValues = effectValues;
                 card.cond = condStr;
                 card.condTypes = condTypes;
                 card.condTerrains = condTerrains;

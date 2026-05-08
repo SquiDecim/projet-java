@@ -1,0 +1,131 @@
+RÉFÉRENTIEL DES CARTES — JSONS
+================================
+
+Ce document décrit la structure et les effets utilisables dans chaque JSON de carte.
+Les effets sont toujours des tableaux [typeEffet, paramètre(s)], groupés dans un tableau "effets".
+
+
+═══════════════════════════════════════════════════════════════════════
+1. PAYS — pays.json
+═══════════════════════════════════════════════════════════════════════
+
+Structure :
+  {
+    "id":    "CODE ISO",
+    "nom":   "Nom du pays",
+    "rang":  "Marginal | Émergent | Établi | Dominant | Hégémonie",
+    "type":  "Militaire | Économique | Diplomatique | Renseignement | Isolationniste | Technologique",
+    "cout":  N,
+    "etat":  N,
+    "statistiques": {
+      "puissance": N, "economie": N, "ressources": N,
+      "technologie": N, "stabilite": N
+    },
+    "special": {
+      "nom":         "Nom du coup spécial",
+      "cout":        N,
+      "description": "Texte affiché sur la carte.",
+      "effets":      [ ["typeEffet", valeur], ... ]
+    },
+    "lore": "Texte narratif."
+  }
+
+Effets disponibles (special) :
+  Type           | Paramètre | Cible                         | Effet
+  ---------------|-----------|-------------------------------|--------------------------------
+  degatAdverse   | N         | Pays adverse en jeu           | Inflige N PV de dégâts
+  degatBanc      | N         | 1re carte du banc adverse     | Inflige N PV de dégâts
+  soinJeu        | N         | Votre pays en jeu             | Restaure N PV
+  soinBanc       | N         | 1re carte de votre banc       | Restaure N PV
+  voleCredit     | N         | Crédits adverses              | Vole N crédits
+  pioche         | N         | Votre deck                    | Pioche N cartes
+
+Notes :
+- Les effets sont appliqués dans l'ordre du tableau.
+- "degatBanc" et "soinBanc" ciblent la première carte non-nulle du banc concerné.
+- "voleCredit" est limité au solde adverse disponible (pas de crédit négatif).
+- "pioche" s'arrête si le deck est vide.
+- Le coût est débité avant l'application des effets.
+
+
+═══════════════════════════════════════════════════════════════════════
+2. ACTIONS — actions.json
+═══════════════════════════════════════════════════════════════════════
+
+Structure :
+  {
+    "id":          "ACT-NNN",
+    "nom":         "...",
+    "cond":        null | { ... },
+    "effets":      [ ["typeEffet", paramètre?], ... ],
+    "description": "..."
+  }
+
+Conditions (cond) — filtres d'utilisation :
+  "type":    [...]    Votre pays doit être de l'un de ces types
+  "rang":    [...]    Votre pays doit être de l'un de ces rangs
+  "terrain": [...]    Le terrain actif doit être dans la liste
+  "etatMax": N        Votre pays doit avoir ≤ N PV
+  "etatMin": N        Votre pays doit avoir ≥ N PV
+  "statMin": {...}    Une ou plusieurs stats doivent atteindre le minimum
+
+Effets disponibles (actions) :
+  Type               | Paramètre | Effet
+  -------------------|-----------|-----------------------------------------------
+  soinJeu            | N         | Soigne votre pays actif de N PV
+  soinBanc           | N         | Soigne un pays de votre banc de N PV
+  pioche             | N         | Pioche N cartes
+  bloquerOutilA      | N         | Bloque la carte outil adverse N tours
+  echangeBanc        | —         | Échange votre pays actif avec un pays du banc (au choix)
+  echangeBancRandom  | —         | Échange votre pays actif avec un pays du banc (aléatoire)
+  soin               | N         | Soigne le pays entrant après un échange de N PV
+
+Notes :
+- Les effets sont appliqués dans l'ordre du tableau.
+- "soin" s'utilise toujours après "echangeBanc" ou "echangeBancRandom".
+- "echangeBanc" laisse le joueur choisir la carte du banc remplaçante.
+- "echangeBancRandom" tire une carte du banc au hasard.
+
+
+═══════════════════════════════════════════════════════════════════════
+3. OUTILS — outils.json
+═══════════════════════════════════════════════════════════════════════
+
+Structure :
+  {
+    "id":          "OUT-NNN",
+    "nom":         "...",
+    "cond":        null | { ... },
+    "effets":      [ ["typeEffet", valeur], ... ],
+    "description": "..."
+  }
+
+Conditions (cond) — mêmes règles que les actions.
+
+Effets disponibles (outils) — modifications permanentes appliquées chaque tour :
+  Les types sont construits à partir des noms de stat + suffixes de cible.
+
+  Stats disponibles :
+    puissance | economie | ressources | technologie | stabilite | CoutP | CoutES
+
+  Suffixes de cible :
+    (aucun)  → Votre pays actif
+    Banc     → Votre banc
+    A        → Pays adverse actif
+    BancA    → Banc adverse
+
+  Exemples de types complets :
+    ["puissance",       12]   → +12 en puissance à votre pays actif
+    ["economieBanc",    10]   → +10 en économie à votre banc
+    ["technologieA",   -10]   → -10 en technologie au pays adverse actif
+    ["puissanceBancA", -12]   → -12 en puissance au banc adverse
+    ["CoutP",          -25]   → -25 au coût de pose de votre pays actif
+    ["CoutESA",         18]   → +18 au coût des effets spéciaux du pays adverse actif
+    ["CoutPBanc",       -8]   → -8 au coût de pose de votre banc
+    ["CoutESBancA",     12]   → +12 au coût des effets spéciaux du banc adverse
+
+Notes :
+- Les effets d'un outil s'appliquent à chaque tour tant que la carte est active (non bloquée).
+- Une valeur négative est un malus, positive est un bonus.
+- CoutP  = coût de pose d'un pays depuis la main vers le jeu
+- CoutES = coût d'activation de l'effet spécial du pays
