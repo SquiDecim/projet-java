@@ -84,4 +84,6 @@ public class NetworkMessages {
         public String zone;
         public boolean isOpponent;
     }
+
+    public static class PlayerQuit {}
 }

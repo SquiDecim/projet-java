@@ -25,6 +25,7 @@ public class GameClient {
         void onNormalAttack(NetworkMessages.NormalAttack msg);
         void onRetreat(NetworkMessages.Retreat msg);
         void onCardDied(NetworkMessages.CardDied msg);
+        void onPlayerQuit();
     }
 
     public GameClient(String ip, NetworkListener listener) throws IOException {
@@ -62,6 +63,8 @@ public class GameClient {
                         current.onCreditsUpdate((NetworkMessages.CreditsUpdate) obj);
                     else if (obj instanceof NetworkMessages.CardDied)
                         current.onCardDied((NetworkMessages.CardDied) obj);
+                    else if (obj instanceof NetworkMessages.PlayerQuit)
+                        current.onPlayerQuit();
                 });
             }
 
@@ -95,6 +98,10 @@ public class GameClient {
 
     public void sendEndTurn() {
         client.sendTCP(new NetworkMessages.EndTurn());
+    }
+
+    public void sendPlayerQuit() {
+        client.sendTCP(new NetworkMessages.PlayerQuit());
     }
 
     public void disconnect() {

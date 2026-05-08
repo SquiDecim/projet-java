@@ -172,7 +172,7 @@ public class GenialTCG extends Game {
                 ) {
                     if (
                         !suppressClickSound && clickSound != null
-                    ) clickSound.play(uiSoundVolume);
+                    ) clickSound.play(uiSoundVolume * 0.15f);
                     suppressClickSound = false;
                 }
             }

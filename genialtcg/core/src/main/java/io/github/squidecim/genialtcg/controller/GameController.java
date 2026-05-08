@@ -56,6 +56,7 @@ public class GameController implements InputProcessor, GameClient.NetworkListene
 
     @Override
     public boolean mouseMoved(int screenX, int screenY) {
+        if (view.isPauseMenuVisible()) return false;
         if (view.isZooming()) return false;
         if (view.isAttackMenuVisible()) return false;
         if (model.phase == GameModel.Phase.DRAW || view.isAnyCardBeingDrawn()) return false;
@@ -66,6 +67,8 @@ public class GameController implements InputProcessor, GameClient.NetworkListene
 
     @Override
     public boolean touchDown(int x, int y, int p, int b) {
+
+        if (view.isPauseMenuVisible()) return false;
 
         if (view.isZooming()) {
             Ray ray = view.getCam().getPickRay(x, y);
@@ -234,7 +237,13 @@ public class GameController implements InputProcessor, GameClient.NetworkListene
     }
 
     @Override
-    public boolean keyDown(int k) { return false; }
+    public boolean keyDown(int k) {
+        if (k == Input.Keys.ESCAPE) {
+            view.togglePauseMenu();
+            return true;
+        }
+        return false;
+    }
 
     @Override public boolean keyUp(int k) { return false; }
     @Override public boolean keyTyped(char c) { return false; }
@@ -328,6 +337,12 @@ public class GameController implements InputProcessor, GameClient.NetworkListene
         } else {
             view.hideActionButton();
         }
+    }
+
+    @Override
+    public void onPlayerQuit() {
+        client.disconnect();
+        game.setScreen(new FirstScreen(game));
     }
 
     @Override

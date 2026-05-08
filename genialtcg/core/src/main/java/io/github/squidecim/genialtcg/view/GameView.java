@@ -2,6 +2,7 @@ package io.github.squidecim.genialtcg.view;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
+import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.*;
 import com.badlogic.gdx.graphics.g2d.*;
@@ -24,7 +25,9 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.SelectBox;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.Slider;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
@@ -32,6 +35,7 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import io.github.squidecim.genialtcg.*;
 import io.github.squidecim.genialtcg.controller.GameController;
+import io.github.squidecim.genialtcg.mainMenu.FirstScreen;
 import io.github.squidecim.genialtcg.model.CardData;
 import io.github.squidecim.genialtcg.model.GameModel;
 import io.github.squidecim.genialtcg.network.GameClient;
@@ -100,11 +104,12 @@ public class GameView implements Screen {
     private Table attackMenu = null;
 
     private Label ephemeralLabel;
-
+    private Table pauseOverlay;
 
     private Array<FloatingText> floatingTexts = new Array<>();
     private SpriteBatch floatBatch;
     private BitmapFont floatFont;
+    private BitmapFont specialDescFont;
 
     public boolean startClicked = false;
     private boolean attackMenuVisible = false;
@@ -116,7 +121,12 @@ public class GameView implements Screen {
     private Runnable pendingActionListener;
     private Table bannerRow;
 
-    public GameView(GenialTCG game, GameModel model, GameClient client, int deckSize) {
+    public GameView(
+        GenialTCG game,
+        GameModel model,
+        GameClient client,
+        int deckSize
+    ) {
         this.game = game;
         this.model = model;
         this.client = client;
@@ -312,7 +322,19 @@ public class GameView implements Screen {
         uiLabelFont = uiGen.generateFont(uiParams);
         uiGen.dispose();
 
-        Label.LabelStyle uiStyle = new Label.LabelStyle(uiLabelFont, Color.WHITE);
+        FreeTypeFontGenerator specialDescGen = new FreeTypeFontGenerator(
+            Gdx.files.internal("ui/dejavu-sans/DejaVuSans-Oblique.ttf")
+        );
+        FreeTypeFontGenerator.FreeTypeFontParameter specialDescParams =
+            new FreeTypeFontGenerator.FreeTypeFontParameter();
+        specialDescParams.size = 14;
+        specialDescFont = specialDescGen.generateFont(specialDescParams);
+        specialDescGen.dispose();
+
+        Label.LabelStyle uiStyle = new Label.LabelStyle(
+            uiLabelFont,
+            Color.WHITE
+        );
         Color boxBg = new Color(0f, 0f, 0f, 0.82f);
 
         // Panneau bas-gauche (joueur) — remonté
@@ -355,7 +377,10 @@ public class GameView implements Screen {
 
         Table oppCreditsBox = new Table();
         oppCreditsBox.setBackground(uiSkin.newDrawable("white", boxBg));
-        opponentCreditsLabel = new Label("Crédits adverses : " + model.opponentCredits, uiStyle);
+        opponentCreditsLabel = new Label(
+            "Crédits adverses : " + model.opponentCredits,
+            uiStyle
+        );
         oppCreditsBox.add(opponentCreditsLabel).pad(9, 18, 9, 18);
 
         oppPanel.add(oppPointsBox).fillX().row();
@@ -367,15 +392,21 @@ public class GameView implements Screen {
 
         setupBanner = new Label(
             "Veuillez poser une carte en Jeu pour commencer",
-            game.skin, "title"
+            game.skin,
+            "title"
         );
         setupBanner.setFontScale(0.25f);
         setupBanner.setColor(Color.ORANGE);
 
         bannerRow = new Table();
-        bannerRow.setBackground(uiSkin.newDrawable("white", new Color(0, 0, 0, 0.65f)));
+        bannerRow.setBackground(
+            uiSkin.newDrawable("white", new Color(0, 0, 0, 0.65f))
+        );
         bannerRow.add(setupBanner).expandX().center().pad(12);
-        bannerRow.setSize(Gdx.graphics.getWidth(), setupBanner.getPrefHeight() + 24);
+        bannerRow.setSize(
+            Gdx.graphics.getWidth(),
+            setupBanner.getPrefHeight() + 24
+        );
         bannerRow.setPosition(0, Gdx.graphics.getHeight() * 0.80f);
         uiStage.addActor(bannerRow);
 
@@ -519,9 +550,12 @@ public class GameView implements Screen {
                 floatFont.getData().setScale(ft.scale);
                 floatFont.setColor(ft.color);
                 layout.setText(floatFont, ft.text);
-                floatFont.draw(floatBatch, ft.text,
+                floatFont.draw(
+                    floatBatch,
+                    ft.text,
                     screenPos.x - layout.width / 2f,
-                    screenPos.y);
+                    screenPos.y
+                );
             }
             floatBatch.end();
             floatFont.getData().setScale(1f);
@@ -547,7 +581,7 @@ public class GameView implements Screen {
         floatBatch.setProjectionMatrix(uiStage.getCamera().combined);
 
         if (actionButton != null) {
-            actionButton.setPosition(width*0.875f, height / 2f - 25);
+            actionButton.setPosition(width * 0.875f, height / 2f - 25);
         }
         if (bannerRow != null) {
             bannerRow.setSize(width, setupBanner.getPrefHeight() + 24);
@@ -575,6 +609,159 @@ public class GameView implements Screen {
         floatBatch.dispose();
         if (floatFont != null) floatFont.dispose();
         if (uiLabelFont != null) uiLabelFont.dispose();
+        if (specialDescFont != null) specialDescFont.dispose();
+    }
+
+    public void togglePauseMenu() {
+        if (pauseOverlay != null) hidePauseMenu();
+        else showPauseMenu();
+    }
+
+    public boolean isPauseMenuVisible() {
+        return pauseOverlay != null;
+    }
+
+    private void showPauseMenu() {
+        if (pauseOverlay != null) return;
+        actionButton.setTouchable(Touchable.disabled);
+        Preferences prefs = Gdx.app.getPreferences("GenialTCG_Settings");
+
+        pauseOverlay = new Table();
+        pauseOverlay.setFillParent(true);
+        pauseOverlay.setBackground(
+            uiSkin.newDrawable("white", new Color(0, 0, 0, 0.35f))
+        );
+        pauseOverlay.addListener(
+            new InputListener() {
+                @Override
+                public boolean touchDown(
+                    InputEvent event,
+                    float x,
+                    float y,
+                    int pointer,
+                    int button
+                ) {
+                    return true;
+                }
+            }
+        );
+
+        Table panel = new Table();
+        panel.setBackground(
+            uiSkin.newDrawable("white", new Color(0.1f, 0.12f, 0.18f, 0.97f))
+        );
+        panel.pad(40);
+
+        Label title = new Label("Paramètres", uiSkin, "title");
+        title.setFontScale(0.35f);
+        panel.add(title).padBottom(30).row();
+
+        Label volLabel = new Label("Volume Musique", uiSkin);
+        Slider volSlider = new Slider(0f, 1f, 0.05f, false, uiSkin);
+        volSlider.setValue(prefs.getFloat("music_volume", 0.3f));
+        volSlider.addListener(
+            new ChangeListener() {
+                @Override
+                public void changed(ChangeEvent event, Actor actor) {
+                    float v = volSlider.getValue();
+                    if (game.menuMusic != null) game.menuMusic.setVolume(v);
+                    prefs.putFloat("music_volume", v);
+                    prefs.flush();
+                }
+            }
+        );
+        panel.add(volLabel).left().padBottom(5).row();
+        panel.add(volSlider).width(300).padBottom(20).row();
+
+        Label uiVolLabel = new Label("Volume Sons UI", uiSkin);
+        Slider uiVolSlider = new Slider(0f, 1f, 0.05f, false, uiSkin);
+        uiVolSlider.setValue(prefs.getFloat("ui_sound_volume", 0.5f));
+        uiVolSlider.addListener(
+            new ChangeListener() {
+                @Override
+                public void changed(ChangeEvent event, Actor actor) {
+                    float v = uiVolSlider.getValue();
+                    game.uiSoundVolume = v;
+                    prefs.putFloat("ui_sound_volume", v);
+                    prefs.flush();
+                }
+            }
+        );
+        panel.add(uiVolLabel).left().padBottom(5).row();
+        panel.add(uiVolSlider).width(300).padBottom(20).row();
+
+        Label brightLabel = new Label("Luminosité", uiSkin);
+        Slider brightSlider = new Slider(0.2f, 1.0f, 0.05f, false, uiSkin);
+        brightSlider.setValue(game.globalBrightness);
+        brightSlider.addListener(
+            new ChangeListener() {
+                @Override
+                public void changed(ChangeEvent event, Actor actor) {
+                    game.globalBrightness = brightSlider.getValue();
+                    prefs.putFloat("brightness", game.globalBrightness);
+                    prefs.flush();
+                }
+            }
+        );
+        panel.add(brightLabel).left().padBottom(5).row();
+        panel.add(brightSlider).width(300).padBottom(30).row();
+
+        Label displayLabel = new Label("Mode d'affichage", uiSkin);
+        SelectBox<String> displayBox = new SelectBox<>(uiSkin);
+        displayBox.setItems("Plein ecran", "Fenetre sans bordure", "Fenetre");
+        displayBox.setSelected(prefs.getString("display_mode", "Plein ecran"));
+        displayBox.addListener(
+            new ChangeListener() {
+                @Override
+                public void changed(ChangeEvent event, Actor actor) {
+                    String selected = displayBox.getSelected();
+                    applyDisplayMode(selected);
+                    prefs.putString("display_mode", selected);
+                    prefs.flush();
+                }
+            }
+        );
+        panel.add(displayLabel).left().padBottom(5).row();
+        panel.add(displayBox).width(300).padBottom(30).row();
+
+        TextButton btnQuit = new TextButton("Quitter la partie", uiSkin);
+        game.soundifyButton(btnQuit);
+        btnQuit.addListener(
+            new ChangeListener() {
+                @Override
+                public void changed(ChangeEvent event, Actor actor) {
+                    client.sendPlayerQuit();
+                }
+            }
+        );
+        panel.add(btnQuit).width(200).height(50);
+
+        pauseOverlay.add(panel).width(420);
+        uiStage.addActor(pauseOverlay);
+    }
+
+    private void hidePauseMenu() {
+        if (pauseOverlay != null) {
+            pauseOverlay.remove();
+            pauseOverlay = null;
+            actionButton.setTouchable(Touchable.enabled);
+        }
+    }
+
+    private void applyDisplayMode(String mode) {
+        if ("Plein ecran".equals(mode)) {
+            Gdx.graphics.setUndecorated(false);
+            Gdx.graphics.setFullscreenMode(Gdx.graphics.getDisplayMode());
+        } else if ("Fenetre sans bordure".equals(mode)) {
+            Gdx.graphics.setUndecorated(true);
+            Gdx.graphics.setWindowedMode(
+                Gdx.graphics.getDisplayMode().width,
+                Gdx.graphics.getDisplayMode().height
+            );
+        } else {
+            Gdx.graphics.setUndecorated(false);
+            Gdx.graphics.setWindowedMode(1280, 720);
+        }
     }
 
     public void setController(GameController controller) {
@@ -586,15 +773,21 @@ public class GameView implements Screen {
         myCreditsLabel.setText("Vos crédits : " + credits);
     }
 
-    public Vector2 getMyCreditsLabelPos(){
+    public Vector2 getMyCreditsLabelPos() {
         return myCreditsLabel.localToScreenCoordinates(
-            new Vector2(myCreditsLabel.getWidth() * 0.5f, myCreditsLabel.getHeight() * 0.5f)
+            new Vector2(
+                myCreditsLabel.getWidth() * 0.5f,
+                myCreditsLabel.getHeight() * 0.5f
+            )
         );
     }
 
-    public Vector2 getOpponentCreditsLabelPos(){
+    public Vector2 getOpponentCreditsLabelPos() {
         return opponentCreditsLabel.localToScreenCoordinates(
-            new Vector2(opponentCreditsLabel.getWidth() * 0.5f, opponentCreditsLabel.getHeight() * 0.5f)
+            new Vector2(
+                opponentCreditsLabel.getWidth() * 0.5f,
+                opponentCreditsLabel.getHeight() * 0.5f
+            )
         );
     }
 
@@ -771,8 +964,8 @@ public class GameView implements Screen {
             Vector3 startPos =
                 opponentHandCards.size > 0
                     ? opponentHandCards
-                      .get(opponentHandCards.size - 1)
-                      .getPosition()
+                          .get(opponentHandCards.size - 1)
+                          .getPosition()
                     : opponentDeck.getPosition();
             decal = new CardDecal(
                 card,
@@ -817,8 +1010,8 @@ public class GameView implements Screen {
             Vector3 startPos =
                 opponentHandCards.size > 0
                     ? opponentHandCards
-                      .get(opponentHandCards.size - 1)
-                      .getPosition()
+                          .get(opponentHandCards.size - 1)
+                          .getPosition()
                     : opponentDeck.getPosition();
             decal = new CardDecal(
                 card,
@@ -849,8 +1042,8 @@ public class GameView implements Screen {
             CardDecal c = slot.getCard();
             if (
                 c != null &&
-                    c.getData() != null &&
-                    c.getData().getAtlasRegionName().equals(cardId)
+                c.getData() != null &&
+                c.getData().getAtlasRegionName().equals(cardId)
             ) {
                 slot.removeCard();
                 return c;
@@ -859,8 +1052,8 @@ public class GameView implements Screen {
         CardDecal c = opponentTableSlot.getCard();
         if (
             c != null &&
-                c.getData() != null &&
-                c.getData().getAtlasRegionName().equals(cardId)
+            c.getData() != null &&
+            c.getData().getAtlasRegionName().equals(cardId)
         ) {
             opponentTableSlot.removeCard();
             return c;
@@ -875,8 +1068,11 @@ public class GameView implements Screen {
     public CardDecal getMyBenchCardById(String cardId) {
         for (CardSlot slot : benchBottomSlots) {
             CardDecal c = slot.getCard();
-            if (c != null && c.getData() != null
-                && c.getData().getAtlasRegionName().equals(cardId)) return c;
+            if (
+                c != null &&
+                c.getData() != null &&
+                c.getData().getAtlasRegionName().equals(cardId)
+            ) return c;
         }
         return null;
     }
@@ -888,20 +1084,29 @@ public class GameView implements Screen {
 
     public void clearBenchSlot(CardDecal card) {
         for (CardSlot slot : benchBottomSlots) {
-            if (slot.getCard() == card) { slot.removeCard(); return; }
+            if (slot.getCard() == card) {
+                slot.removeCard();
+                return;
+            }
         }
     }
 
     public void clearOpponentBenchSlot(CardDecal card) {
         for (CardSlot slot : benchTopSlots) {
-            if (slot.getCard() == card) { slot.removeCard(); return; }
+            if (slot.getCard() == card) {
+                slot.removeCard();
+                return;
+            }
         }
     }
 
     public void promoteFromBenchToTable(CardDecal benchCard) {
         CardSlot benchSlot = null;
         for (CardSlot slot : benchBottomSlots) {
-            if (slot.getCard() == benchCard) { benchSlot = slot; break; }
+            if (slot.getCard() == benchCard) {
+                benchSlot = slot;
+                break;
+            }
         }
         if (benchSlot == null) return;
         benchSlot.removeCard();
@@ -922,8 +1127,8 @@ public class GameView implements Screen {
     public CardDecal getHoveredCard(Ray ray) {
         if (
             hoveredCard != null &&
-                hoveredCard.intersects(ray) &&
-                !hoveredCard.isAnimating()
+            hoveredCard.intersects(ray) &&
+            !hoveredCard.isAnimating()
         ) return hoveredCard;
         for (int i = handCards.size - 1; i >= 0; i--) {
             CardDecal card = handCards.get(i);
@@ -951,8 +1156,14 @@ public class GameView implements Screen {
         if (hoveredCard != null && hoveredCard != card) hoveredCard.setHovered(
             false
         );
-        if (card != null && card != hoveredCard && handCards.contains(card, true)) {
-            if (game.overpassCardsSound != null) game.overpassCardsSound.play(game.uiSoundVolume);
+        if (
+            card != null &&
+            card != hoveredCard &&
+            handCards.contains(card, true)
+        ) {
+            if (game.overpassCardsSound != null) game.overpassCardsSound.play(
+                game.uiSoundVolume
+            );
         }
         hoveredCard = card;
         if (hoveredCard != null) hoveredCard.setHovered(true);
@@ -1212,7 +1423,11 @@ public class GameView implements Screen {
         }
     }
 
-    public void showAttackMenu(CardData myCard, GameClient client, GameController controller) {
+    public void showAttackMenu(
+        CardData myCard,
+        GameClient client,
+        GameController controller
+    ) {
         if (attackMenu != null) attackMenu.remove();
 
         actionButton.setTouchable(Touchable.disabled);
@@ -1222,7 +1437,9 @@ public class GameView implements Screen {
         attackMenu = new Table();
         attackMenu.setFillParent(true);
         attackMenu.center();
-        attackMenu.setBackground(uiSkin.newDrawable("white", new Color(0, 0, 0, 0.3f)));
+        attackMenu.setBackground(
+            uiSkin.newDrawable("white", new Color(0, 0, 0, 0.3f))
+        );
 
         Table content = new Table();
 
@@ -1231,57 +1448,89 @@ public class GameView implements Screen {
         content.add(title).padBottom(20).colspan(2).center().row();
 
         // ── 4 attaques normales ──
-        String[] statNames = {"Puissance", "Ressources", "Technologie", "Stabilité"};
+        String[] statNames = {
+            "Puissance",
+            "Ressources",
+            "Technologie",
+            "Stabilité",
+        };
 
         for (int i = 0; i < statNames.length; i++) {
             final int index = i;
             TextButton btn = new TextButton(statNames[i], uiSkin);
-            btn.addListener(new ChangeListener() {
-                @Override
-                public void changed(ChangeEvent event, Actor actor) {
-                    hideAttackMenu();
+            btn.addListener(
+                new ChangeListener() {
+                    @Override
+                    public void changed(ChangeEvent event, Actor actor) {
+                        hideAttackMenu();
 
-                    CardDecal myTable  = getMyTableCard();
-                    CardDecal oppTable = getOpponentTableCard();
-                    if (myTable == null || oppTable == null) return;
+                        CardDecal myTable = getMyTableCard();
+                        CardDecal oppTable = getOpponentTableCard();
+                        if (myTable == null || oppTable == null) return;
 
-                    int[] statMapping = {0, 2, 3, 4};
-                    int realIdx = statMapping[index];
-                    int myVal  = myTable.getData().stats[realIdx];
-                    int oppVal = oppTable.getData().stats[realIdx];
-                    int damage = myVal - oppVal;
+                        int[] statMapping = { 0, 2, 3, 4 };
+                        int realIdx = statMapping[index];
+                        int myVal = myTable.getData().stats[realIdx];
+                        int oppVal = oppTable.getData().stats[realIdx];
+                        int damage = myVal - oppVal;
 
-                    NetworkMessages.NormalAttack msg = new NetworkMessages.NormalAttack();
-                    msg.damage = damage;
-                    client.sendNormalAttack(damage);
-                    client.sendEndTurn();
-
+                        NetworkMessages.NormalAttack msg =
+                            new NetworkMessages.NormalAttack();
+                        msg.damage = damage;
+                        client.sendNormalAttack(damage);
+                        client.sendEndTurn();
+                    }
                 }
-            });
+            );
 
             game.soundifyButton(btn);
-            content.add(btn).width(220).height(50).padTop(10).padBottom(10).padRight(10).padLeft(10);
+            content
+                .add(btn)
+                .width(220)
+                .height(50)
+                .padTop(10)
+                .padBottom(10)
+                .padRight(10)
+                .padLeft(10);
 
             if (i % 2 == 1) {
                 content.row();
             }
         }
 
-        content.add(new Label("──────────────", uiSkin)).padTop(10).padBottom(10).row();
+        content
+            .add(new Label("──────────────", uiSkin))
+            .padTop(10)
+            .padBottom(10)
+            .row();
 
-        String specialName = myCard.specialName != null ? myCard.specialName : "Spécial";
-        String specialDesc = myCard.specialDescription != null ? myCard.specialDescription : "";
+        String specialName =
+            myCard.specialName != null ? myCard.specialName : "Spécial";
+        String specialDesc =
+            myCard.specialDescription != null ? myCard.specialDescription : "";
         int specialCost = myCard.specialCost;
         int revocationCost = myCard.revocation;
 
         Color typeColor;
         switch (myCard.type != null ? myCard.type : "") {
-            case "Militaire":      typeColor = new Color(0.45f, 0.10f, 0.10f, 1f); break;
-            case "Diplomatique":   typeColor = new Color(0.10f, 0.20f, 0.50f, 1f); break;
-            case "Économique":     typeColor = new Color(0.35f, 0.28f, 0.05f, 1f); break;
-            case "Renseignement":  typeColor = new Color(0.10f, 0.30f, 0.15f, 1f); break;
-            case "Isolationniste": typeColor = new Color(0.28f, 0.20f, 0.15f, 1f); break;
-            default:               typeColor = new Color(0.10f, 0.10f, 0.30f, 1f); break;
+            case "Militaire":
+                typeColor = new Color(0.51f, 0.40f, 0.11f, 1f);
+                break;
+            case "Diplomatique":
+                typeColor = new Color(0.04f, 0.35f, 0.70f, 1f);
+                break;
+            case "Économique":
+                typeColor = new Color(0.82f, 0.60f, 0.29f, 1f);
+                break;
+            case "Renseignement":
+                typeColor = new Color(0.47f, 0.47f, 0.47f, 1f);
+                break;
+            case "Isolationniste":
+                typeColor = new Color(0.44f, 0.15f, 0.04f, 1f);
+                break;
+            default:
+                typeColor = new Color(0.10f, 0.10f, 0.30f, 1f);
+                break;
         }
         Color typeColorHover = new Color(
             Math.min(typeColor.r + 0.12f, 1f),
@@ -1295,54 +1544,118 @@ public class GameView implements Screen {
         specialBlock.pad(10);
         specialBlock.setTouchable(Touchable.enabled);
 
-        Label specialNameLabel = new Label(specialName + " (" + specialCost + " crédits)", uiSkin);
-        specialNameLabel.setColor(Color.WHITE);
-        Label specialDescLabel = new Label(specialDesc, uiSkin);
+        Label.LabelStyle boldBlackStyle = new Label.LabelStyle(
+            uiLabelFont,
+            Color.BLACK
+        );
+        Label specialNameLabel = new Label(
+            specialName + " (" + specialCost + " crédits)",
+            boldBlackStyle
+        );
+        Label.LabelStyle italicBlackStyle = new Label.LabelStyle(
+            specialDescFont,
+            Color.BLACK
+        );
+        Label specialDescLabel = new Label(specialDesc, italicBlackStyle);
         specialDescLabel.setWrap(true);
-        specialDescLabel.setColor(Color.LIGHT_GRAY);
 
         specialBlock.add(specialNameLabel).left().padBottom(5).row();
         specialBlock.add(specialDescLabel).width(300).left();
 
-        specialBlock.addListener(new InputListener() {
-            @Override
-            public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
-                if (pointer == -1) {
-                    specialBlock.setBackground(uiSkin.newDrawable("white", typeColorHover));
-                    if (game.hoverSound != null) game.hoverSound.play(game.uiSoundVolume);
+        specialBlock.addListener(
+            new InputListener() {
+                @Override
+                public void enter(
+                    InputEvent event,
+                    float x,
+                    float y,
+                    int pointer,
+                    Actor fromActor
+                ) {
+                    if (pointer == -1) {
+                        specialBlock.setBackground(
+                            uiSkin.newDrawable("white", typeColorHover)
+                        );
+                        if (
+                            fromActor == null ||
+                            !fromActor.isDescendantOf(specialBlock)
+                        ) {
+                            if (game.hoverSound != null) game.hoverSound.play(
+                                game.uiSoundVolume
+                            );
+                        }
+                    }
+                }
+
+                @Override
+                public void exit(
+                    InputEvent event,
+                    float x,
+                    float y,
+                    int pointer,
+                    Actor toActor
+                ) {
+                    if (
+                        pointer == -1 &&
+                        (toActor == null ||
+                            !toActor.isDescendantOf(specialBlock))
+                    ) {
+                        specialBlock.setBackground(
+                            uiSkin.newDrawable("white", typeColor)
+                        );
+                    }
+                }
+
+                @Override
+                public boolean touchDown(
+                    InputEvent event,
+                    float x,
+                    float y,
+                    int pointer,
+                    int button
+                ) {
+                    return true;
+                }
+
+                @Override
+                public void touchUp(
+                    InputEvent event,
+                    float x,
+                    float y,
+                    int pointer,
+                    int button
+                ) {
+                    if (game.clickSound != null) game.clickSound.play(
+                        game.uiSoundVolume
+                    );
+                    controller.handleSpecialAttack(myCard);
                 }
             }
-            @Override
-            public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
-                if (pointer == -1) specialBlock.setBackground(uiSkin.newDrawable("white", typeColor));
-            }
-            @Override
-            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                return true;
-            }
-            @Override
-            public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
-                if (game.clickSound != null) game.clickSound.play(game.uiSoundVolume);
-                controller.handleSpecialAttack(myCard);
-            }
-        });
+        );
 
-        content.add(specialBlock)
+        content
+            .add(specialBlock)
             .colspan(2)
             .center()
             .expandX()
             .padBottom(10)
             .row();
 
-        TextButton revocationBtn = new TextButton("Retrait (" + revocationCost + " crédits)", uiSkin);
-        revocationBtn.addListener(new ChangeListener() {
-            @Override
-            public void changed(ChangeEvent event, Actor actor) {
-                controller.startRetreat(myCard);
+        TextButton revocationBtn = new TextButton(
+            "Retrait (" + revocationCost + " crédits)",
+            uiSkin
+        );
+        revocationBtn.addListener(
+            new ChangeListener() {
+                @Override
+                public void changed(ChangeEvent event, Actor actor) {
+                    controller.startRetreat(myCard);
+                }
             }
-        });
+        );
         game.soundifyButton(revocationBtn);
-        content.add(revocationBtn)
+        content
+            .add(revocationBtn)
             .colspan(2)
             .center()
             .width(220)
@@ -1353,25 +1666,26 @@ public class GameView implements Screen {
             .padLeft(10)
             .row();
 
-        content.add(ephemeralLabel)
-            .colspan(2)
-            .center()
-            .padTop(10)
-            .row();
+        content.add(ephemeralLabel).colspan(2).center().padTop(10).row();
 
-
-        attackMenu.addListener(new InputListener() {
-            @Override
-            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                if (event.getTarget() == attackMenu) hideAttackMenu();
-                return false;
+        attackMenu.addListener(
+            new InputListener() {
+                @Override
+                public boolean touchDown(
+                    InputEvent event,
+                    float x,
+                    float y,
+                    int pointer,
+                    int button
+                ) {
+                    if (event.getTarget() == attackMenu) hideAttackMenu();
+                    return false;
+                }
             }
-        });
+        );
         attackMenu.add(content).center();
         uiStage.addActor(attackMenu);
     }
-
-
 
     public void hideAttackMenu() {
         if (attackMenu != null) {
@@ -1382,7 +1696,9 @@ public class GameView implements Screen {
         }
     }
 
-    public boolean isAttackMenuVisible() { return attackMenuVisible; }
+    public boolean isAttackMenuVisible() {
+        return attackMenuVisible;
+    }
 
     public void spawnFloatingText(String text, Vector3 worldPos) {
         floatingTexts.add(new FloatingText(text, worldPos, 1.2f));
@@ -1392,12 +1708,14 @@ public class GameView implements Screen {
         game.playImpossibleSound();
         ephemeralLabel.setText(text);
         ephemeralLabel.clearActions();
-        ephemeralLabel.addAction(Actions.sequence(
-            Actions.alpha(1f),
-            Actions.delay(2f),
-            Actions.fadeOut(0.5f),
-            Actions.run(() -> ephemeralLabel.setText(""))
-        ));
+        ephemeralLabel.addAction(
+            Actions.sequence(
+                Actions.alpha(1f),
+                Actions.delay(2f),
+                Actions.fadeOut(0.5f),
+                Actions.run(() -> ephemeralLabel.setText(""))
+            )
+        );
     }
 
     public void setSelectableBorder(boolean selectable) {
@@ -1418,7 +1736,10 @@ public class GameView implements Screen {
         CardDecal tableCard = tableSlot.getCard();
         CardSlot benchSlot = null;
         for (CardSlot slot : benchBottomSlots) {
-            if (slot.getCard() == benchCard) { benchSlot = slot; break; }
+            if (slot.getCard() == benchCard) {
+                benchSlot = slot;
+                break;
+            }
         }
         if (tableCard == null || benchSlot == null) return;
 
@@ -1444,8 +1765,11 @@ public class GameView implements Screen {
     public CardDecal getOpponentBenchCardById(String cardId) {
         for (CardSlot slot : benchTopSlots) {
             CardDecal c = slot.getCard();
-            if (c != null && c.getData() != null
-                && c.getData().getAtlasRegionName().equals(cardId)) return c;
+            if (
+                c != null &&
+                c.getData() != null &&
+                c.getData().getAtlasRegionName().equals(cardId)
+            ) return c;
         }
         return null;
     }
@@ -1454,7 +1778,10 @@ public class GameView implements Screen {
         CardDecal tableCard = opponentTableSlot.getCard();
         CardSlot benchSlot = null;
         for (CardSlot slot : benchTopSlots) {
-            if (slot.getCard() == benchCard) { benchSlot = slot; break; }
+            if (slot.getCard() == benchCard) {
+                benchSlot = slot;
+                break;
+            }
         }
         if (tableCard == null || benchSlot == null) return;
 
@@ -1486,16 +1813,22 @@ public class GameView implements Screen {
 
         card.animateTo(discardPos, 0, -90f, 0, 0.6f);
 
-        com.badlogic.gdx.utils.Timer.schedule(new com.badlogic.gdx.utils.Timer.Task() {
-            @Override public void run() {
-                Gdx.app.postRunnable(() -> {
-                    discardStack.updateSize(discardStack.nbrCards + 1);
-                    if (card.getData() != null) {
-                        discardStack.setTopTexture(card.getTopTextureRegion());
-                    }
-                    discardingCards.removeValue(card, true); // ← retire après l'anim
-                });
-            }
-        }, 1f);
+        com.badlogic.gdx.utils.Timer.schedule(
+            new com.badlogic.gdx.utils.Timer.Task() {
+                @Override
+                public void run() {
+                    Gdx.app.postRunnable(() -> {
+                        discardStack.updateSize(discardStack.nbrCards + 1);
+                        if (card.getData() != null) {
+                            discardStack.setTopTexture(
+                                card.getTopTextureRegion()
+                            );
+                        }
+                        discardingCards.removeValue(card, true); // ← retire après l'anim
+                    });
+                }
+            },
+            1f
+        );
     }
 }

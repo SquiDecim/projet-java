@@ -102,6 +102,8 @@ public class NewDeckScreen implements Screen {
     private Container<Stack> zoomContainer;
     private Drawable silverBorder;
     private ScrollPane scroll;
+    private float zoomW, zoomH;
+    private InputListener zoomCloseListener;
 
     private static final float EFFECT_SCALE = 1.05f;
     private static final float ANIM_DURATION = 0.1f;
@@ -715,8 +717,8 @@ public class NewDeckScreen implements Screen {
     private void showZoom(AtlasRegion region) {
         if (zoomContainer != null) return;
         boolean isSelected = selectedCards.contains(region.name, false);
-        final float zoomH = stage.getHeight() * 0.85f;
-        final float zoomW = zoomH * (region.getRegionWidth() / (float) region.getRegionHeight());
+        zoomH = stage.getHeight() * 0.85f;
+        zoomW = zoomH * (region.getRegionWidth() / (float) region.getRegionHeight());
 
         Stack zoomStack = new Stack();
 
@@ -739,27 +741,33 @@ public class NewDeckScreen implements Screen {
         stage.addActor(zoomContainer);
         stage.setScrollFocus(null);
 
-        zoomContainer.addListener(
-            new InputListener() {
-                @Override
-                public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                    float sw = stage.getWidth();
-                    float sh = stage.getHeight();
-                    float cardLeft   = (sw - zoomW) / 2f;
-                    float cardBottom = (sh - zoomH) / 2f;
-                    boolean onCard = x >= cardLeft && x <= cardLeft + zoomW
-                                  && y >= cardBottom && y <= cardBottom + zoomH;
-                    if (!onCard) closeZoom();
-                    return true;
+        zoomCloseListener = new InputListener() {
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                float sw = stage.getWidth();
+                float sh = stage.getHeight();
+                float cardLeft   = (sw - zoomW) / 2f;
+                float cardBottom = (sh - zoomH) / 2f;
+                boolean onCard = x >= cardLeft && x <= cardLeft + zoomW
+                              && y >= cardBottom && y <= cardBottom + zoomH;
+                if (!onCard) {
+                    closeZoom();
+                    event.cancel();
                 }
+                return true;
             }
-        );
+        };
+        stage.addCaptureListener(zoomCloseListener);
     }
 
     private void closeZoom() {
         if (zoomContainer != null) {
             zoomContainer.remove();
             zoomContainer = null;
+            if (zoomCloseListener != null) {
+                stage.removeCaptureListener(zoomCloseListener);
+                zoomCloseListener = null;
+            }
             stage.setScrollFocus(scroll);
         }
     }
