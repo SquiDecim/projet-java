@@ -30,7 +30,7 @@ public class GameModel {
     public Phase phase = Phase.DRAW;
     public boolean myTurn = false;
     public boolean setupDone = false;
-    public int turnCount = 0;
+    public int turnCount = 1;
 
     public int myCredits = 300;
     public int opponentCredits = 300;

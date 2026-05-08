@@ -513,5 +513,6 @@ public class GameController implements InputProcessor, GameClient.NetworkListene
             return;
         }
         view.hideAttackMenu();
+
     }
 }
