@@ -682,14 +682,11 @@ public class GameView implements Screen {
 
     public void moveCamToOpponentBench(Runnable onDone) {
         savedCamPosition = cam.position.cpy();
-        // direction actuelle = lookAt - position, on la calcule depuis la matrice
         savedCamDirection = new Vector3(cam.direction).cpy();
 
         camStartPos = cam.position.cpy();
         camStartDir = cam.direction.cpy();
-        // position face au banc adverse (z négatif = côté adverse, y plus bas pour être ras du plateau)
         camTargetPos = new Vector3(0f, 3.5f, -0.8f);
-        // regarde vers z=-4 (là où sont les benchTopSlots)
         camTargetDir = new Vector3(0f, -3.5f, -3.25f).sub(camTargetPos).nor();
 
         camAnimTimer = 0f;
@@ -1588,7 +1585,6 @@ public class GameView implements Screen {
                             new NetworkMessages.NormalAttack();
                         msg.damage = damage;
                         client.sendNormalAttack(damage);
-                        client.sendEndTurn();
                     }
                 }
             );
