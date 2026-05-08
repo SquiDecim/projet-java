@@ -221,6 +221,7 @@ public class GameController implements InputProcessor, GameClient.NetworkListene
             boolean toBench = slot.type.equals("bench");
             boolean toTable = slot.type.equals("table");
 
+
             if (fromBench && toBench){
                 view.cancelDrag(draggedCard);
                 draggedCard = null;
@@ -382,6 +383,7 @@ public class GameController implements InputProcessor, GameClient.NetworkListene
         if (myTurn) {
             model.receiveCredits(model.getTotalEconomy());
             client.sendCreditsUpdate(model.myCredits);
+            client.sendDrawCard();
             view.showActionButton("Finir le tour", () -> {
                 view.hideActionButton();
                 model.myTurn = false;
@@ -707,6 +709,10 @@ public class GameController implements InputProcessor, GameClient.NetworkListene
         client.sendCreditsUpdate(model.myCredits);
         view.updateMyCredits(model.myCredits);
         view.updateOpponentCredits(model.opponentCredits);
+
+        if (iAmAttacker) {
+            resolveEndOfAttack();
+        }
     }
 
     public void resolveEndOfAttack() {

@@ -292,6 +292,14 @@ public class GameView implements Screen {
             );
         }
 
+        tableSlot = new CardSlot(
+            new Vector3(0, 0, TABLE_GAP / 2 + TABLE_CARD_H / 2),
+            0,
+            -90f,
+            0,
+            "action"
+        );
+
         deck = createCardsStacks(
             new TextureRegion(backTexture),
             BENCH_CARD_W,
@@ -1209,6 +1217,7 @@ public class GameView implements Screen {
                 TABLE_CARD_W,
                 TABLE_CARD_H
             );
+            decal.emplacement = "table";
         } else {
             Vector3 startPos =
                 opponentHandCards.size > 0
@@ -1225,6 +1234,7 @@ public class GameView implements Screen {
                 cam,
                 "table"
             );
+            decal.emplacement = "table"; //Normalementr déjà créé comme banc mais on sait jamais, shallah ça marche mtn
             decal.setPosition(startPos.x, startPos.y, startPos.z);
             decal.setRotation(0, -90f, 0);
             if (opponentHandCards.size > 0) {
