@@ -531,6 +531,7 @@ public class GameController implements InputProcessor, GameClient.NetworkListene
 
         view.updateMyCredits(model.myCredits);
         view.hideAttackMenu();
+
     }
 
     private void applyLocalEffect(String type, int value) {
