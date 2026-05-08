@@ -1679,7 +1679,6 @@ public class GameView implements Screen {
                             new NetworkMessages.NormalAttack();
                         msg.damage = damage;
                         client.sendNormalAttack(damage);
-                        client.sendEndTurn();
                     }
                 }
             );

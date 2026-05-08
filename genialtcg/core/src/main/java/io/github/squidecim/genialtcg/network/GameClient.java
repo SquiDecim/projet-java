@@ -164,6 +164,7 @@ public class GameClient {
     public void sendCardDied(String region, String emplacement, boolean opponentDied) {
         NetworkMessages.CardDied msg = new NetworkMessages.CardDied();
         msg.cardId = region;
+        System.out.println(emplacement);
         msg.zone = emplacement;
         msg.isOpponent = opponentDied;
         client.sendTCP(msg);

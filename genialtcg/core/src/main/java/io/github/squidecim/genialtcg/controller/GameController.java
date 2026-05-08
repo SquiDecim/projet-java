@@ -41,6 +41,7 @@ public class GameController implements InputProcessor, GameClient.NetworkListene
     private boolean initialDrawDone = false;
     private int initialDrawCount = 0;
     private static final int INITIAL_HAND_SIZE = 6;
+    private boolean startTurnWithDiedCard = false;
 
     public GameController(GameView view, GameModel model, GameClient client, String myPlayerId, GenialTCG game) {
         this.view = view;
@@ -134,6 +135,17 @@ public class GameController implements InputProcessor, GameClient.NetworkListene
                 model.moveFromBenchToTable(benchCard.getData());
                 view.promoteFromBenchToTable(benchCard);
                 client.sendPlayCard(benchCard.getData().getAtlasRegionName(), "table", 0);
+
+                if (!startTurnWithDiedCard) {
+                    client.sendEndTurn();
+                } else {
+                    view.showActionButton("Finir le tour", () -> {
+                        startTurnWithDiedCard = false;
+                        view.hideActionButton();
+                        model.myTurn = false;
+                        client.sendEndTurn();
+                    });
+                }
             }
             return true;
         }
@@ -458,13 +470,16 @@ public class GameController implements InputProcessor, GameClient.NetworkListene
         if (myTable == null || oppTable == null) return;
 
         boolean iAmAttacker = model.myTurn;
-
         if (msg.damage > 0) {
             CardDecal target = iAmAttacker ? oppTable : myTable;
-            applyDamageAndFloat(target, -msg.damage, true);
+            applyDamageAndFloat(target, -msg.damage, iAmAttacker);
         } else if (msg.damage < 0) {
             CardDecal target = iAmAttacker ? myTable : oppTable;
-            applyDamageAndFloat(target, msg.damage, false);
+            applyDamageAndFloat(target, msg.damage, !iAmAttacker);
+        }
+
+        if (iAmAttacker) {
+            resolveEndOfAttack();
         }
     }
 
@@ -484,16 +499,21 @@ public class GameController implements InputProcessor, GameClient.NetworkListene
         boolean isMe = msg.playerId.equals(myPlayerId);
         boolean iMustReplace = (isMe && !msg.isOpponent) || (!isMe && msg.isOpponent);
 
+         if (!model.myTurn && iMustReplace) startTurnWithDiedCard = true;
+
         CardDecal deadCard;
         if (!iMustReplace) {
             deadCard = "table".equals(msg.zone)
                 ? view.getOpponentTableCard()
                 : view.getOpponentBenchCardById(msg.cardId);
         } else {
+            System.out.println("moi je dois replace");
             deadCard = "table".equals(msg.zone)
                 ? view.getMyTableCard()
                 : view.getMyBenchCardById(msg.cardId);
+            System.out.println("zone du message envoyé : " + msg.zone);
         }
+        System.out.println("gros jsuis perdu je suis " + deadCard);
         if (deadCard == null) return;
 
         view.sendToDiscard(deadCard, iMustReplace);
@@ -684,7 +704,29 @@ public class GameController implements InputProcessor, GameClient.NetworkListene
             }
         }
 
+        client.sendCreditsUpdate(model.myCredits);
         view.updateMyCredits(model.myCredits);
         view.updateOpponentCredits(model.opponentCredits);
     }
+
+    public void resolveEndOfAttack() {
+        CardDecal myTable = view.getMyTableCard();
+        CardDecal opponentTable = view.getOpponentTableCard();
+        boolean myCardDead = myTable == null || myTable.getData().pv <= 0;
+        boolean opponentCardDead = opponentTable == null || opponentTable.getData().pv <= 0;
+
+
+        if (myCardDead && !model.bench.isEmpty()) {
+            view.hideActionButton();
+            view.showBanner("Choisissez une carte du banc à remettre en jeu");
+            view.setSelectableBorder(true);
+            selectingReplacementAfterDeath = true;
+        } else if (opponentCardDead){
+
+            client.sendEndTurn();
+        } else {
+            client.sendEndTurn();
+        }
+    }
+
 }
