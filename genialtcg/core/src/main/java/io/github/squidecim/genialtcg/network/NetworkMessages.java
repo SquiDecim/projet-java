@@ -86,4 +86,12 @@ public class NetworkMessages {
     }
 
     public static class PlayerQuit {}
+
+    public static class SpecialAttack {
+        public String[] effectTypes;
+        public int[]    effectValues;
+        public int      newAttackerCredits;
+        public int      newDefenderCredits;
+        public int      newDeckSize;
+    }
 }

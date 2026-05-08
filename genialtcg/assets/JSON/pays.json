@@ -16,16 +16,8 @@
     "special": {
       "nom": "Cimetière des Empires",
       "cout": 50,
-      "cibles": [
-        "jeuA"
-      ],
-      "variables": [
-        "etat"
-      ],
-      "valeurs": [
-        -100
-      ],
-      "description": "Exploite sa topographie montagneuse pour infliger 100 dégâts à l'unité adverse."
+      "description": "Exploite sa topographie montagneuse pour infliger 100 dégâts à l'unité adverse.",
+      "effets": [["degatAdverse", 100]]
     },
     "lore": "Nation reconnue pour sa résistance farouche aux invasions étrangères."
   },
@@ -46,22 +38,11 @@
     "special": {
       "nom": "Monopole Minier",
       "cout": 175,
-      "cibles": [
-        "deck",
-        "jeu"
-      ],
-      "variables": [
-        "emplacement",
-        "etat"
-      ],
-      "valeurs": [
-        [
-          3,
-          "main"
-        ],
-        50
-      ],
-      "description": "Exploite ses ressources et vous fait piocher 3 cartes et vous soigne de 50."
+      "description": "Exploite ses ressources et vous fait piocher 3 cartes et vous soigne de 50.",
+      "effets": [
+        ["pioche", 3],
+        ["soinJeu", 50]
+      ]
     },
     "lore": "Puissance clé africaine bâtie sur d'immenses richesses minières."
   },
@@ -82,19 +63,11 @@
     "special": {
       "nom": "Héritage des Bunkers",
       "cout": 100,
-      "cibles": [
-        "creditA",
-        "banc"
-      ],
-      "variables": [
-        "credit",
-        "etat"
-      ],
-      "valeurs": [
-        -20,
-        40
-      ],
-      "description": "Utilise son réseau de défense pour voler 20 crédits et soigner une unité du banc de 40."
+      "description": "Utilise son réseau de défense pour voler 20 crédits et soigner une unité du banc de 40.",
+      "effets": [
+        ["voleCredit", 20],
+        ["soinBanc", 40]
+      ]
     },
     "lore": "Petit pays des Balkans autrefois fermé, parsemé de bunkers."
   },
@@ -115,19 +88,11 @@
     "special": {
       "nom": "Pression Gazière",
       "cout": 120,
-      "cibles": [
-        "creditA",
-        "jeuA"
-      ],
-      "variables": [
-        "credit",
-        "etat"
-      ],
-      "valeurs": [
-        -45,
-        -30
-      ],
-      "description": "Utilise son influence énergétique pour voler 45 crédits et infliger 30 dégâts."
+      "description": "Utilise son influence énergétique pour voler 45 crédits et infliger 30 dégâts.",
+      "effets": [
+        ["voleCredit", 45],
+        ["degatAdverse", 30]
+      ]
     },
     "lore": "Le plus vaste pays d'Afrique, force régionale grâce à ses hydrocarbures."
   },
@@ -148,19 +113,11 @@
     "special": {
       "nom": "Moteur Européen",
       "cout": 265,
-      "cibles": [
-        "jeuA",
-        "bancA"
-      ],
-      "variables": [
-        "etat",
-        "etat"
-      ],
-      "valeurs": [
-        -110,
-        -50
-      ],
-      "description": "Déploie sa puissance industrielle et inflige 110 dégâts et 50 à une carte du banc."
+      "description": "Déploie sa puissance industrielle et inflige 110 dégâts et 50 à une carte du banc.",
+      "effets": [
+        ["degatAdverse", 110],
+        ["degatBanc", 50]
+      ]
     },
     "lore": "Cœur industriel de l'Europe, leader mondial de l'ingénierie."
   },
@@ -181,19 +138,11 @@
     "special": {
       "nom": "Secret Bancaire",
       "cout": 45,
-      "cibles": [
-        "creditA",
-        "jeu"
-      ],
-      "variables": [
-        "credit",
-        "etat"
-      ],
-      "valeurs": [
-        -50,
-        20
-      ],
-      "description": "Vole 50 crédits à l'adversaire et soigne votre unité en jeu de 20."
+      "description": "Vole 50 crédits à l'adversaire et soigne votre unité en jeu de 20.",
+      "effets": [
+        ["voleCredit", 50],
+        ["soinJeu", 20]
+      ]
     },
     "lore": "Principauté prospère grâce à son tourisme et sa fiscalité attractive."
   },
@@ -214,19 +163,11 @@
     "special": {
       "nom": "Pétro-diplomatie",
       "cout": 120,
-      "cibles": [
-        "jeu",
-        "banc"
-      ],
-      "variables": [
-        "etat",
-        "etat"
-      ],
-      "valeurs": [
-        40,
-        30
-      ],
-      "description": "Utilise ses revenus pétroliers pour vous soigner de 40 et une unité du banc de 30."
+      "description": "Utilise ses revenus pétroliers pour vous soigner de 40 et une unité du banc de 30.",
+      "effets": [
+        ["soinJeu", 40],
+        ["soinBanc", 30]
+      ]
     },
     "lore": "Puissance pétrolière africaine en reconstruction rapide."
   },
@@ -247,22 +188,11 @@
     "special": {
       "nom": "Pavillon de Complaisance",
       "cout": 45,
-      "cibles": [
-        "creditA",
-        "deck"
-      ],
-      "variables": [
-        "credit",
-        "emplacement"
-      ],
-      "valeurs": [
-        -30,
-        [
-          1,
-          "main"
-        ]
-      ],
-      "description": "Contourne les régulations pour voler 30 crédits et piocher 1 carte."
+      "description": "Contourne les régulations pour voler 30 crédits et piocher 1 carte.",
+      "effets": [
+        ["voleCredit", 30],
+        ["pioche", 1]
+      ]
     },
     "lore": "État insulaire misant sur les services maritimes."
   },
@@ -283,19 +213,11 @@
     "special": {
       "nom": "Guerre des Prix",
       "cout": 240,
-      "cibles": [
-        "jeuA",
-        "bancA"
-      ],
-      "variables": [
-        "etat",
-        "etat"
-      ],
-      "valeurs": [
-        -100,
-        -45
-      ],
-      "description": "Inonde le marché pour infliger 100 dégâts en jeu et 45 à une unité du banc."
+      "description": "Inonde le marché pour infliger 100 dégâts en jeu et 45 à une unité du banc.",
+      "effets": [
+        ["degatAdverse", 100],
+        ["degatBanc", 45]
+      ]
     },
     "lore": "Première puissance pétrolière au droit de l'homme vacillant."
   },
@@ -316,19 +238,11 @@
     "special": {
       "nom": "Inflation Exportée",
       "cout": 120,
-      "cibles": [
-        "creditA",
-        "jeuA"
-      ],
-      "variables": [
-        "credit",
-        "etat"
-      ],
-      "valeurs": [
-        -60,
-        -20
-      ],
-      "description": "Déstabilise l'adversaire en volant 60 crédits et infligeant 20 dégâts."
+      "description": "Déstabilise l'adversaire en volant 60 crédits et infligeant 20 dégâts.",
+      "effets": [
+        ["voleCredit", 60],
+        ["degatAdverse", 20]
+      ]
     },
     "lore": "Puissance riche en agriculture malgré ses défis économiques."
   },
@@ -349,22 +263,11 @@
     "special": {
       "nom": "Réseau de la Diaspora",
       "cout": 45,
-      "cibles": [
-        "jeuA",
-        "deck"
-      ],
-      "variables": [
-        "etat",
-        "emplacement"
-      ],
-      "valeurs": [
-        -30,
-        [
-          1,
-          "main"
-        ]
-      ],
-      "description": "Mobilise ses expatriés pour infliger 30 dégâts et piocher 1 carte."
+      "description": "Mobilise ses expatriés pour infliger 30 dégâts et piocher 1 carte.",
+      "effets": [
+        ["degatAdverse", 30],
+        ["pioche", 1]
+      ]
     },
     "lore": "Terre antique s'appuyant sur l'influence mondiale de sa diaspora."
   },
@@ -385,19 +288,11 @@
     "special": {
       "nom": "Isolement Stratégique",
       "cout": 240,
-      "cibles": [
-        "jeu",
-        "banc"
-      ],
-      "variables": [
-        "etat",
-        "etat"
-      ],
-      "valeurs": [
-        60,
-        40
-      ],
-      "description": "Offre une base sécurisée soignant l'unité en jeu de 60 et une unité du banc de 40."
+      "description": "Offre une base sécurisée soignant l'unité en jeu de 60 et une unité du banc de 40.",
+      "effets": [
+        ["soinJeu", 60],
+        ["soinBanc", 40]
+      ]
     },
     "lore": "Île-continent stable, pilier de la sécurité dans le Pacifique."
   },
@@ -418,19 +313,11 @@
     "special": {
       "nom": "Neutralité Perpétuelle",
       "cout": 195,
-      "cibles": [
-        "jeuA",
-        "bancA"
-      ],
-      "variables": [
-        "etat",
-        "etat"
-      ],
-      "valeurs": [
-        -90,
-        -40
-      ],
-      "description": "Utilise son statut neutre pour infliger 90 dégâts en jeu et 40 sur le banc."
+      "description": "Utilise son statut neutre pour infliger 90 dégâts en jeu et 40 sur le banc.",
+      "effets": [
+        ["degatAdverse", 90],
+        ["degatBanc", 40]
+      ]
     },
     "lore": "Carrefour diplomatique européen accueillant de nombreuses agences."
   },
@@ -451,19 +338,11 @@
     "special": {
       "nom": "Manne Pétrolière",
       "cout": 115,
-      "cibles": [
-        "jeuA",
-        "creditA"
-      ],
-      "variables": [
-        "etat",
-        "credit"
-      ],
-      "valeurs": [
-        -50,
-        -40
-      ],
-      "description": "Utilise ses revenus gaziers pour infliger 50 dégâts et voler 40 crédits."
+      "description": "Utilise ses revenus gaziers pour infliger 50 dégâts et voler 40 crédits.",
+      "effets": [
+        ["degatAdverse", 50],
+        ["voleCredit", 40]
+      ]
     },
     "lore": "Nation du Caucase affirmant sa supériorité régionale."
   },
@@ -484,22 +363,11 @@
     "special": {
       "nom": "Paradis Fiscal",
       "cout": 50,
-      "cibles": [
-        "creditA",
-        "deck"
-      ],
-      "variables": [
-        "credit",
-        "emplacement"
-      ],
-      "valeurs": [
-        -60,
-        [
-          1,
-          "main"
-        ]
-      ],
-      "description": "Attire les capitaux pour voler 60 crédits et piocher 1 carte."
+      "description": "Attire les capitaux pour voler 60 crédits et piocher 1 carte.",
+      "effets": [
+        ["voleCredit", 60],
+        ["pioche", 1]
+      ]
     },
     "lore": "Archipel dont l'économie repose sur le tourisme et la finance."
   },
@@ -520,19 +388,11 @@
     "special": {
       "nom": "Port d'Attache",
       "cout": 45,
-      "cibles": [
-        "jeu",
-        "banc"
-      ],
-      "variables": [
-        "etat",
-        "etat"
-      ],
-      "valeurs": [
-        35,
-        20
-      ],
-      "description": "Accueille les flottes pour soigner l'unité en jeu de 35 et une du banc de 20."
+      "description": "Accueille les flottes pour soigner l'unité en jeu de 35 et une du banc de 20.",
+      "effets": [
+        ["soinJeu", 35],
+        ["soinBanc", 20]
+      ]
     },
     "lore": "Royaume insulaire agissant comme plaque tournante stratégique."
   },
@@ -553,22 +413,11 @@
     "special": {
       "nom": "Atelier du Monde",
       "cout": 115,
-      "cibles": [
-        "creditA",
-        "deck"
-      ],
-      "variables": [
-        "credit",
-        "emplacement"
-      ],
-      "valeurs": [
-        -50,
-        [
-          2,
-          "main"
-        ]
-      ],
-      "description": "Grâce à son industrie massive, vole 50 crédits et fait piocher 2 cartes."
+      "description": "Grâce à son industrie massive, vole 50 crédits et fait piocher 2 cartes.",
+      "effets": [
+        ["voleCredit", 50],
+        ["pioche", 2]
+      ]
     },
     "lore": "Nation densément peuplée et moteur manufacturier mondial."
   },
@@ -589,22 +438,11 @@
     "special": {
       "nom": "Nouvelle République",
       "cout": 40,
-      "cibles": [
-        "deck",
-        "banc"
-      ],
-      "variables": [
-        "emplacement",
-        "etat"
-      ],
-      "valeurs": [
-        [
-          2,
-          "main"
-        ],
-        20
-      ],
-      "description": "Son émancipation permet de piocher 2 cartes."
+      "description": "Son émancipation permet de piocher 2 cartes.",
+      "effets": [
+        ["pioche", 2],
+        ["soinBanc", 20]
+      ]
     },
     "lore": "Jeune république caribéenne s'affirmant par son soft power."
   },
@@ -625,19 +463,11 @@
     "special": {
       "nom": "Cœur de l'Europe",
       "cout": 195,
-      "cibles": [
-        "jeu",
-        "banc"
-      ],
-      "variables": [
-        "etat",
-        "etat"
-      ],
-      "valeurs": [
-        55,
-        35
-      ],
-      "description": "Sa position centrale permet de soigner l'unité en jeu de 55 et une du banc de 35."
+      "description": "Sa position centrale permet de soigner l'unité en jeu de 55 et une du banc de 35.",
+      "effets": [
+        ["soinJeu", 55],
+        ["soinBanc", 35]
+      ]
     },
     "lore": "Siège des institutions de l'UE et de l'OTAN."
   },
@@ -658,19 +488,11 @@
     "special": {
       "nom": "Sanctuaire Tropical",
       "cout": 40,
-      "cibles": [
-        "jeu",
-        "banc"
-      ],
-      "variables": [
-        "etat",
-        "etat"
-      ],
-      "valeurs": [
-        45,
-        25
-      ],
-      "description": "Utilise sa barrière de corail pour soigner l'unité en jeu de 45 et une du banc de 25."
+      "description": "Utilise sa barrière de corail pour soigner l'unité en jeu de 45 et une du banc de 25.",
+      "effets": [
+        ["soinJeu", 45],
+        ["soinBanc", 25]
+      ]
     },
     "lore": "Petit État d'Amérique centrale protégé par sa géographie."
   },
@@ -691,19 +513,11 @@
     "special": {
       "nom": "Porte de l'Afrique",
       "cout": 45,
-      "cibles": [
-        "creditA",
-        "jeuA"
-      ],
-      "variables": [
-        "credit",
-        "etat"
-      ],
-      "valeurs": [
-        -40,
-        -15
-      ],
-      "description": "Taxe les flux portuaires pour voler 40 crédits et infliger 15 dégâts."
+      "description": "Taxe les flux portuaires pour voler 40 crédits et infliger 15 dégâts.",
+      "effets": [
+        ["voleCredit", 40],
+        ["degatAdverse", 15]
+      ]
     },
     "lore": "Nation reconnue pour sa stabilité démocratique historique."
   },
@@ -724,19 +538,11 @@
     "special": {
       "nom": "Bonheur National Brut",
       "cout": 40,
-      "cibles": [
-        "jeu",
-        "banc"
-      ],
-      "variables": [
-        "etat",
-        "etat"
-      ],
-      "valeurs": [
-        50,
-        30
-      ],
-      "description": "Sa stabilité spirituelle soigne l'unité en jeu de 50 et une du banc de 30."
+      "description": "Sa stabilité spirituelle soigne l'unité en jeu de 50 et une du banc de 30.",
+      "effets": [
+        ["soinJeu", 50],
+        ["soinBanc", 30]
+      ]
     },
     "lore": "Royaume privilégiant le bien-être à la croissance brute."
   },
@@ -757,19 +563,11 @@
     "special": {
       "nom": "Zone Tampon",
       "cout": 115,
-      "cibles": [
-        "jeuA",
-        "bancA"
-      ],
-      "variables": [
-        "etat",
-        "etat"
-      ],
-      "valeurs": [
-        -60,
-        -25
-      ],
-      "description": "Maintient ses frontières fermées pour infliger 60 dégâts en jeu et 25 sur le banc."
+      "description": "Maintient ses frontières fermées pour infliger 60 dégâts en jeu et 25 sur le banc.",
+      "effets": [
+        ["degatAdverse", 60],
+        ["degatBanc", 25]
+      ]
     },
     "lore": "État d'Europe de l'Est à l'économie très centralisée."
   },
@@ -790,16 +588,8 @@
     "special": {
       "nom": "Loi Martiale",
       "cout": 55,
-      "cibles": [
-        "jeuA"
-      ],
-      "variables": [
-        "etat"
-      ],
-      "valeurs": [
-        -95
-      ],
-      "description": "Déclenche une mobilisation totale infligeant 95 dégâts à l'unité en jeu."
+      "description": "Déclenche une mobilisation totale infligeant 95 dégâts à l'unité en jeu.",
+      "effets": [["degatAdverse", 95]]
     },
     "lore": "Nation riche en jade marquée par une gouvernance stricte."
   },
@@ -820,22 +610,11 @@
     "special": {
       "nom": "Triangle du Lithium",
       "cout": 115,
-      "cibles": [
-        "creditA",
-        "deck"
-      ],
-      "variables": [
-        "credit",
-        "emplacement"
-      ],
-      "valeurs": [
-        -55,
-        [
-          2,
-          "main"
-        ]
-      ],
-      "description": "Utilise ses ressources minérales pour voler 55 crédits et piocher 2 cartes."
+      "description": "Utilise ses ressources minérales pour voler 55 crédits et piocher 2 cartes.",
+      "effets": [
+        ["voleCredit", 55],
+        ["pioche", 2]
+      ]
     },
     "lore": "Pays possédant les plus grandes réserves mondiales de lithium."
   },
@@ -856,19 +635,11 @@
     "special": {
       "nom": "Équilibre Fragile",
       "cout": 45,
-      "cibles": [
-        "jeu",
-        "banc"
-      ],
-      "variables": [
-        "etat",
-        "etat"
-      ],
-      "valeurs": [
-        35,
-        25
-      ],
-      "description": "Sa diplomatie de consensus soigne l'unité en jeu de 35 et une du banc de 25."
+      "description": "Sa diplomatie de consensus soigne l'unité en jeu de 35 et une du banc de 25.",
+      "effets": [
+        ["soinJeu", 35],
+        ["soinBanc", 25]
+      ]
     },
     "lore": "Nation des Balkans pivot de la stabilité régionale."
   },
@@ -889,22 +660,11 @@
     "special": {
       "nom": "Diamants de la Paix",
       "cout": 45,
-      "cibles": [
-        "creditA",
-        "deck"
-      ],
-      "variables": [
-        "credit",
-        "emplacement"
-      ],
-      "valeurs": [
-        -40,
-        [
-          1,
-          "main"
-        ]
-      ],
-      "description": "Gère ses ressources pour voler 40 crédits et piocher 1 carte."
+      "description": "Gère ses ressources pour voler 40 crédits et piocher 1 carte.",
+      "effets": [
+        ["voleCredit", 40],
+        ["pioche", 1]
+      ]
     },
     "lore": "Modèle de stabilité africaine grâce à ses diamants."
   },
@@ -925,19 +685,11 @@
     "special": {
       "nom": "Géant des BRICS",
       "cout": 240,
-      "cibles": [
-        "jeuA",
-        "bancA"
-      ],
-      "variables": [
-        "etat",
-        "etat"
-      ],
-      "valeurs": [
-        -105,
-        -50
-      ],
-      "description": "Propulse son influence en infligeant 105 dégâts en jeu et 50 sur le banc."
+      "description": "Propulse son influence en infligeant 105 dégâts en jeu et 50 sur le banc.",
+      "effets": [
+        ["degatAdverse", 105],
+        ["degatBanc", 50]
+      ]
     },
     "lore": "Leader agro-industriel et voix majeure du Sud Global."
   },
@@ -958,22 +710,11 @@
     "special": {
       "nom": "Trésor du Sultan",
       "cout": 55,
-      "cibles": [
-        "creditA",
-        "deck"
-      ],
-      "variables": [
-        "credit",
-        "emplacement"
-      ],
-      "valeurs": [
-        -70,
-        [
-          1,
-          "main"
-        ]
-      ],
-      "description": "Manipule ses fonds souverains pour voler 70 crédits et piocher 1 carte."
+      "description": "Manipule ses fonds souverains pour voler 70 crédits et piocher 1 carte.",
+      "effets": [
+        ["voleCredit", 70],
+        ["pioche", 1]
+      ]
     },
     "lore": "Petit sultanat immensément riche grâce à son pétrole."
   },
@@ -994,22 +735,11 @@
     "special": {
       "nom": "Carrefour Balkanique",
       "cout": 45,
-      "cibles": [
-        "jeuA",
-        "deck"
-      ],
-      "variables": [
-        "etat",
-        "emplacement"
-      ],
-      "valeurs": [
-        -35,
-        [
-          1,
-          "main"
-        ]
-      ],
-      "description": "Intercepte les informations pour infliger 35 dégâts et piocher 1 carte."
+      "description": "Intercepte les informations pour infliger 35 dégâts et piocher 1 carte.",
+      "effets": [
+        ["degatAdverse", 35],
+        ["pioche", 1]
+      ]
     },
     "lore": "Ancien hub technologique devenu partenaire européen stratégique."
   },
@@ -1030,19 +760,11 @@
     "special": {
       "nom": "Résilience Populaire",
       "cout": 50,
-      "cibles": [
-        "jeu",
-        "banc"
-      ],
-      "variables": [
-        "etat",
-        "etat"
-      ],
-      "valeurs": [
-        55,
-        30
-      ],
-      "description": "Son esprit d'indépendance soigne l'unité en jeu de 55 et une du banc de 30."
+      "description": "Son esprit d'indépendance soigne l'unité en jeu de 55 et une du banc de 30.",
+      "effets": [
+        ["soinJeu", 55],
+        ["soinBanc", 30]
+      ]
     },
     "lore": "Pays sahélien marqué par un fort esprit souverainiste."
   },
@@ -1063,19 +785,11 @@
     "special": {
       "nom": "Enclavement Protecteur",
       "cout": 40,
-      "cibles": [
-        "jeuA",
-        "creditA"
-      ],
-      "variables": [
-        "etat",
-        "credit"
-      ],
-      "valeurs": [
-        -25,
-        -25
-      ],
-      "description": "Utilise son relief pour infliger 25 dégâts et voler 25 crédits."
+      "description": "Utilise son relief pour infliger 25 dégâts et voler 25 crédits.",
+      "effets": [
+        ["degatAdverse", 25],
+        ["voleCredit", 25]
+      ]
     },
     "lore": "Petit État dense confronté à des défis géopolitiques majeurs."
   },
@@ -1096,22 +810,11 @@
     "special": {
       "nom": "Essor Manufacturier",
       "cout": 50,
-      "cibles": [
-        "creditA",
-        "deck"
-      ],
-      "variables": [
-        "credit",
-        "emplacement"
-      ],
-      "valeurs": [
-        -45,
-        [
-          1,
-          "main"
-        ]
-      ],
-      "description": "Son industrie textile permet de voler 45 crédits et de piocher 1 carte."
+      "description": "Son industrie textile permet de voler 45 crédits et de piocher 1 carte.",
+      "effets": [
+        ["voleCredit", 45],
+        ["pioche", 1]
+      ]
     },
     "lore": "Ancien royaume khmer en plein rebond économique."
   },
@@ -1132,19 +835,11 @@
     "special": {
       "nom": "Afrique en Miniature",
       "cout": 50,
-      "cibles": [
-        "jeu",
-        "banc"
-      ],
-      "variables": [
-        "etat",
-        "etat"
-      ],
-      "valeurs": [
-        40,
-        30
-      ],
-      "description": "Sa diversité géographique soigne l'unité en jeu de 40 et une du banc de 30."
+      "description": "Sa diversité géographique soigne l'unité en jeu de 40 et une du banc de 30.",
+      "effets": [
+        ["soinJeu", 40],
+        ["soinBanc", 30]
+      ]
     },
     "lore": "Pivot central du continent à l'incroyable diversité."
   },
@@ -1165,19 +860,11 @@
     "special": {
       "nom": "Casques Bleus",
       "cout": 265,
-      "cibles": [
-        "jeu",
-        "banc"
-      ],
-      "variables": [
-        "etat",
-        "etat"
-      ],
-      "valeurs": [
-        90,
-        60
-      ],
-      "description": "Déploie une aide massive soignant l'unité en jeu de 90 et une du banc de 60."
+      "description": "Déploie une aide massive soignant l'unité en jeu de 90 et une du banc de 60.",
+      "effets": [
+        ["soinJeu", 90],
+        ["soinBanc", 60]
+      ]
     },
     "lore": "Géant nord-américain misant sur un soft power influent."
   },
@@ -1198,22 +885,11 @@
     "special": {
       "nom": "Carrefour Atlantique",
       "cout": 45,
-      "cibles": [
-        "deck",
-        "banc"
-      ],
-      "variables": [
-        "emplacement",
-        "etat"
-      ],
-      "valeurs": [
-        [
-          2,
-          "main"
-        ],
-        25
-      ],
-      "description": "Sa position permet de piocher 2 cartes et de soigner une unité du banc de 25."
+      "description": "Sa position permet de piocher 2 cartes et de soigner une unité du banc de 25.",
+      "effets": [
+        ["pioche", 2],
+        ["soinBanc", 25]
+      ]
     },
     "lore": "Archipel stable agissant comme un pont entre les continents."
   },
@@ -1234,22 +910,11 @@
     "special": {
       "nom": "Export de Cuivre",
       "cout": 115,
-      "cibles": [
-        "creditA",
-        "deck"
-      ],
-      "variables": [
-        "credit",
-        "emplacement"
-      ],
-      "valeurs": [
-        -65,
-        [
-          1,
-          "main"
-        ]
-      ],
-      "description": "Assure sa domination minière en volant 65 crédits et piochant 1 carte."
+      "description": "Assure sa domination minière en volant 65 crédits et piochant 1 carte.",
+      "effets": [
+        ["voleCredit", 65],
+        ["pioche", 1]
+      ]
     },
     "lore": "Économie ouverte et dynamique d'Amérique latine."
   },
@@ -1270,19 +935,11 @@
     "special": {
       "nom": "Le Dragon Éveillé",
       "cout": 260,
-      "cibles": [
-        "jeuA",
-        "bancA"
-      ],
-      "variables": [
-        "etat",
-        "etat"
-      ],
-      "valeurs": [
-        -160,
-        -75
-      ],
-      "description": "Sa démonstration de force infligeant 160 dégâts en jeu et 75 sur le banc."
+      "description": "Sa démonstration de force infligeant 160 dégâts en jeu et 75 sur le banc.",
+      "effets": [
+        ["degatAdverse", 160],
+        ["degatBanc", 75]
+      ]
     },
     "lore": "Géant asiatique en concurence directe avec les États-Unis."
   },
@@ -1303,22 +960,11 @@
     "special": {
       "nom": "Pivot Méditerranéen",
       "cout": 45,
-      "cibles": [
-        "creditA",
-        "deck"
-      ],
-      "variables": [
-        "credit",
-        "emplacement"
-      ],
-      "valeurs": [
-        -35,
-        [
-          1,
-          "main"
-        ]
-      ],
-      "description": "Utilise sa position pour voler 35 crédits et piocher 1 carte."
+      "description": "Utilise sa position pour voler 35 crédits et piocher 1 carte.",
+      "effets": [
+        ["voleCredit", 35],
+        ["pioche", 1]
+      ]
     },
     "lore": "Île stratégique au carrefour de trois continents."
   },
@@ -1339,19 +985,11 @@
     "special": {
       "nom": "Plan Colombie",
       "cout": 115,
-      "cibles": [
-        "jeuA",
-        "bancA"
-      ],
-      "variables": [
-        "etat",
-        "etat"
-      ],
-      "valeurs": [
-        -75,
-        -35
-      ],
-      "description": "Mobilise ses forces spéciales pour infliger 75 dégâts en jeu et 35 sur le banc."
+      "description": "Mobilise ses forces spéciales pour infliger 75 dégâts en jeu et 35 sur le banc.",
+      "effets": [
+        ["degatAdverse", 75],
+        ["degatBanc", 35]
+      ]
     },
     "lore": "Nation en pleine transformation disposant d'une armée forte."
   },
@@ -1372,19 +1010,11 @@
     "special": {
       "nom": "Parfum d'Ylang-Ylang",
       "cout": 40,
-      "cibles": [
-        "jeu",
-        "banc"
-      ],
-      "variables": [
-        "etat",
-        "etat"
-      ],
-      "valeurs": [
-        35,
-        20
-      ],
-      "description": "Ses essences naturelles soignent l'unité en jeu de 35 et une du banc de 20."
+      "description": "Ses essences naturelles soignent l'unité en jeu de 35 et une du banc de 20.",
+      "effets": [
+        ["soinJeu", 35],
+        ["soinBanc", 20]
+      ]
     },
     "lore": "Archipel volcanique réputé pour ses cultures de rente."
   },
@@ -1405,19 +1035,11 @@
     "special": {
       "nom": "Dissuasion Nucléaire",
       "cout": 185,
-      "cibles": [
-        "jeuA",
-        "bancA"
-      ],
-      "variables": [
-        "etat",
-        "etat"
-      ],
-      "valeurs": [
-        -120,
-        -60
-      ],
-      "description": "Exerce une pression atomique infligeant 120 dégâts en jeu et 60 sur le banc."
+      "description": "Exerce une pression atomique infligeant 120 dégâts en jeu et 60 sur le banc.",
+      "effets": [
+        ["degatAdverse", 120],
+        ["degatBanc", 60]
+      ]
     },
     "lore": "État secret doté d'une puissance militaire asymétrique."
   },
@@ -1438,19 +1060,11 @@
     "special": {
       "nom": "Offensive Numérique",
       "cout": 220,
-      "cibles": [
-        "jeuA",
-        "bancA"
-      ],
-      "variables": [
-        "etat",
-        "etat"
-      ],
-      "valeurs": [
-        -95,
-        -50
-      ],
-      "description": "Lance une cyber-attaque infligeant 95 dégâts en jeu et 50 sur le banc."
+      "description": "Lance une cyber-attaque infligeant 95 dégâts en jeu et 50 sur le banc.",
+      "effets": [
+        ["degatAdverse", 95],
+        ["degatBanc", 50]
+      ]
     },
     "lore": "Leader mondial de l'innovation technologique."
   },
@@ -1471,19 +1085,11 @@
     "special": {
       "nom": "Pays Sans Armée",
       "cout": 40,
-      "cibles": [
-        "jeu",
-        "banc"
-      ],
-      "variables": [
-        "etat",
-        "etat"
-      ],
-      "valeurs": [
-        65,
-        45
-      ],
-      "description": "Sa paix exemplaire soigne l'unité en jeu de 65 et une du banc de 45."
+      "description": "Sa paix exemplaire soigne l'unité en jeu de 65 et une du banc de 45.",
+      "effets": [
+        ["soinJeu", 65],
+        ["soinBanc", 45]
+      ]
     },
     "lore": "Modèle écologique ayant aboli son armée pour l'éducation."
   },
@@ -1504,22 +1110,11 @@
     "special": {
       "nom": "Manne Cacaoyère",
       "cout": 115,
-      "cibles": [
-        "creditA",
-        "deck"
-      ],
-      "variables": [
-        "credit",
-        "emplacement"
-      ],
-      "valeurs": [
-        -55,
-        [
-          2,
-          "main"
-        ]
-      ],
-      "description": "Domine le marché du cacao pour voler 55 crédits et piocher 2 cartes."
+      "description": "Domine le marché du cacao pour voler 55 crédits et piocher 2 cartes.",
+      "effets": [
+        ["voleCredit", 55],
+        ["pioche", 2]
+      ]
     },
     "lore": "Moteur économique de l'Afrique de l'Ouest francophone."
   },
@@ -1540,19 +1135,11 @@
     "special": {
       "nom": "Perle de l'Adriatique",
       "cout": 45,
-      "cibles": [
-        "creditA",
-        "banc"
-      ],
-      "variables": [
-        "credit",
-        "etat"
-      ],
-      "valeurs": [
-        -45,
-        25
-      ],
-      "description": "Son attrait touristique vole 45 crédits et soigne une unité du banc de 25."
+      "description": "Son attrait touristique vole 45 crédits et soigne une unité du banc de 25.",
+      "effets": [
+        ["voleCredit", 45],
+        ["soinBanc", 25]
+      ]
     },
     "lore": "Destination touristique majeure intégrée à l'Union Européenne."
   },
@@ -1573,19 +1160,11 @@
     "special": {
       "nom": "Diplomatie Médicale",
       "cout": 40,
-      "cibles": [
-        "jeu",
-        "banc"
-      ],
-      "variables": [
-        "etat",
-        "etat"
-      ],
-      "valeurs": [
-        70,
-        50
-      ],
-      "description": "Envoie ses brigades pour soigner l'unité en jeu de 70 et une du banc de 50."
+      "description": "Envoie ses brigades pour soigner l'unité en jeu de 70 et une du banc de 50.",
+      "effets": [
+        ["soinJeu", 70],
+        ["soinBanc", 50]
+      ]
     },
     "lore": "Île rebelle disposant d'un système de santé réputé mondialement."
   },
@@ -1606,19 +1185,11 @@
     "special": {
       "nom": "Modèle Nordique",
       "cout": 190,
-      "cibles": [
-        "jeu",
-        "banc"
-      ],
-      "variables": [
-        "etat",
-        "etat"
-      ],
-      "valeurs": [
-        80,
-        50
-      ],
-      "description": "Sa protection sociale soigne l'unité en jeu de 80 et une du banc de 50."
+      "description": "Sa protection sociale soigne l'unité en jeu de 80 et une du banc de 50.",
+      "effets": [
+        ["soinJeu", 80],
+        ["soinBanc", 50]
+      ]
     },
     "lore": "Nation prospère et stable, pionnière des énergies vertes."
   },
@@ -1639,19 +1210,11 @@
     "special": {
       "nom": "Verrou de la Mer Rouge",
       "cout": 45,
-      "cibles": [
-        "creditA",
-        "jeuA"
-      ],
-      "variables": [
-        "credit",
-        "etat"
-      ],
-      "valeurs": [
-        -40,
-        -25
-      ],
-      "description": "Contrôle le détroit pour voler 40 crédits et infliger 25 dégâts."
+      "description": "Contrôle le détroit pour voler 40 crédits et infliger 25 dégâts.",
+      "effets": [
+        ["voleCredit", 40],
+        ["degatAdverse", 25]
+      ]
     },
     "lore": "Petit État abritant des bases militaires de nombreuses États."
   },
@@ -1672,19 +1235,11 @@
     "special": {
       "nom": "Île Nature",
       "cout": 40,
-      "cibles": [
-        "jeu",
-        "banc"
-      ],
-      "variables": [
-        "etat",
-        "etat"
-      ],
-      "valeurs": [
-        45,
-        25
-      ],
-      "description": "Ses sources naturelles soignent l'unité en jeu de 45 et une du banc de 25."
+      "description": "Ses sources naturelles soignent l'unité en jeu de 45 et une du banc de 25.",
+      "effets": [
+        ["soinJeu", 45],
+        ["soinBanc", 25]
+      ]
     },
     "lore": "Île sauvage des Caraïbes préservée du tourisme de masse."
   },
@@ -1705,19 +1260,11 @@
     "special": {
       "nom": "Canal de Suez",
       "cout": 115,
-      "cibles": [
-        "creditA",
-        "jeuA"
-      ],
-      "variables": [
-        "credit",
-        "etat"
-      ],
-      "valeurs": [
-        -50,
-        -30
-      ],
-      "description": "Contrôle le transit maritime mondial pour voler 50 crédits et infliger 30 dégâts."
+      "description": "Contrôle le transit maritime mondial pour voler 50 crédits et infliger 30 dégâts.",
+      "effets": [
+        ["voleCredit", 50],
+        ["degatAdverse", 30]
+      ]
     },
     "lore": "Don du Nil et carrefour stratégique entre l'Afrique et l'Asie."
   },
@@ -1738,22 +1285,11 @@
     "special": {
       "nom": "Hub Mondial",
       "cout": 230,
-      "cibles": [
-        "creditA",
-        "deck"
-      ],
-      "variables": [
-        "credit",
-        "emplacement"
-      ],
-      "valeurs": [
-        -80,
-        [
-          2,
-          "main"
-        ]
-      ],
-      "description": "Utilise sa puissance financière pour capter 80 crédits et piocher 2 cartes."
+      "description": "Utilise sa puissance financière pour capter 80 crédits et piocher 2 cartes.",
+      "effets": [
+        ["voleCredit", 80],
+        ["pioche", 2]
+      ]
     },
     "lore": "Fédération de sept émirats devenue une plaque tournante de l'économie."
   },
@@ -1774,19 +1310,11 @@
     "special": {
       "nom": "Sanctuaire des Galápagos",
       "cout": 45,
-      "cibles": [
-        "jeu",
-        "banc"
-      ],
-      "variables": [
-        "etat",
-        "etat"
-      ],
-      "valeurs": [
-        40,
-        30
-      ],
-      "description": "Protège son écosystème pour soigner l'unité en jeu de 40 et une du banc de 30."
+      "description": "Protège son écosystème pour soigner l'unité en jeu de 40 et une du banc de 30.",
+      "effets": [
+        ["soinJeu", 40],
+        ["soinBanc", 30]
+      ]
     },
     "lore": "Pays riche en biodiversité et premier exportateur de bananes."
   },
@@ -1807,16 +1335,8 @@
     "special": {
       "nom": "Forteresse de la Mer Rouge",
       "cout": 50,
-      "cibles": [
-        "jeuA"
-      ],
-      "variables": [
-        "etat"
-      ],
-      "valeurs": [
-        -90
-      ],
-      "description": "Mise sur une défense hermétique pour infliger 90 dégâts à l'attaquant."
+      "description": "Mise sur une défense hermétique pour infliger 90 dégâts à l'attaquant.",
+      "effets": [["degatAdverse", 90]]
     },
     "lore": "État doté d'une organisation militaire très stricte."
   },
@@ -1837,19 +1357,11 @@
     "special": {
       "nom": "Héritage Hispanique",
       "cout": 185,
-      "cibles": [
-        "jeuA",
-        "bancA"
-      ],
-      "variables": [
-        "etat",
-        "etat"
-      ],
-      "valeurs": [
-        -80,
-        -40
-      ],
-      "description": "Projette son influence culturelle et politique pour infliger 80 dégâts et 40 sur le banc."
+      "description": "Projette son influence culturelle et politique pour infliger 80 dégâts et 40 sur le banc.",
+      "effets": [
+        ["degatAdverse", 80],
+        ["degatBanc", 40]
+      ]
     },
     "lore": "Grande nation européenne dotée d'un rayonnement mondial via sa langue."
   },
@@ -1870,22 +1382,11 @@
     "special": {
       "nom": "E-Citoyenneté",
       "cout": 55,
-      "cibles": [
-        "creditA",
-        "deck"
-      ],
-      "variables": [
-        "credit",
-        "emplacement"
-      ],
-      "valeurs": [
-        -40,
-        [
-          2,
-          "main"
-        ]
-      ],
-      "description": "Utilise son infrastructure numérique pour voler 40 crédits et piocher 2 cartes."
+      "description": "Utilise son infrastructure numérique pour voler 40 crédits et piocher 2 cartes.",
+      "effets": [
+        ["voleCredit", 40],
+        ["pioche", 2]
+      ]
     },
     "lore": "Pionnier mondial de la numérisation et de l'administration en ligne."
   },
@@ -1906,19 +1407,11 @@
     "special": {
       "nom": "Tradition Royale",
       "cout": 40,
-      "cibles": [
-        "jeu",
-        "banc"
-      ],
-      "variables": [
-        "etat",
-        "etat"
-      ],
-      "valeurs": [
-        35,
-        25
-      ],
-      "description": "Préserve ses coutumes pour soigner l'unité en jeu de 35 et une du banc de 25."
+      "description": "Préserve ses coutumes pour soigner l'unité en jeu de 35 et une du banc de 25.",
+      "effets": [
+        ["soinJeu", 35],
+        ["soinBanc", 25]
+      ]
     },
     "lore": "Dernière monarchie absolue d'Afrique, préservant ses racines."
   },
@@ -1939,19 +1432,11 @@
     "special": {
       "nom": "Force de Projection Mondiale",
       "cout": 260,
-      "cibles": [
-        "jeuA",
-        "bancA"
-      ],
-      "variables": [
-        "etat",
-        "etat"
-      ],
-      "valeurs": [
-        -155,
-        -75
-      ],
-      "description": "Déploie ses bases dans le monde entier pour infliger 155 dégâts et 75 au banc."
+      "description": "Déploie ses bases dans le monde entier pour infliger 155 dégâts et 75 au banc.",
+      "effets": [
+        ["degatAdverse", 155],
+        ["degatBanc", 75]
+      ]
     },
     "lore": "Première puissance militaire et économique mondiale de l'histoire."
   },
@@ -1972,19 +1457,11 @@
     "special": {
       "nom": "Barrage de la Renaissance",
       "cout": 115,
-      "cibles": [
-        "jeuA",
-        "creditA"
-      ],
-      "variables": [
-        "etat",
-        "credit"
-      ],
-      "valeurs": [
-        -65,
-        -30
-      ],
-      "description": "Contrôle le débit du Nil Bleu pour infliger 65 dégâts et capter 30 crédits."
+      "description": "Contrôle le débit du Nil Bleu pour infliger 65 dégâts et capter 30 crédits.",
+      "effets": [
+        ["degatAdverse", 65],
+        ["voleCredit", 30]
+      ]
     },
     "lore": "Seule nation africaine n'ayant jamais été colonisée, leader diplomatique."
   },
@@ -2005,22 +1482,11 @@
     "special": {
       "nom": "Diplomatie du Pacifique",
       "cout": 40,
-      "cibles": [
-        "deck",
-        "banc"
-      ],
-      "variables": [
-        "emplacement",
-        "etat"
-      ],
-      "valeurs": [
-        [
-          2,
-          "main"
-        ],
-        30
-      ],
-      "description": "Agit comme médiateur insulaire pour piocher 2 cartes et soigner le banc de 30."
+      "description": "Agit comme médiateur insulaire pour piocher 2 cartes et soigner le banc de 30.",
+      "effets": [
+        ["pioche", 2],
+        ["soinBanc", 30]
+      ]
     },
     "lore": "Archipel du Pacifique très actif dans les missions de paix de l'ONU."
   },
@@ -2041,19 +1507,11 @@
     "special": {
       "nom": "Ligne Mannerheim",
       "cout": 190,
-      "cibles": [
-        "jeuA",
-        "jeu"
-      ],
-      "variables": [
-        "etat",
-        "etat"
-      ],
-      "valeurs": [
-        -70,
-        60
-      ],
-      "description": "Une défense technologique qui inflige 70 dégâts et soigne votre unité de 60."
+      "description": "Une défense technologique qui inflige 70 dégâts et soigne votre unité de 60.",
+      "effets": [
+        ["degatAdverse", 70],
+        ["soinJeu", 60]
+      ]
     },
     "lore": "Nation exemplaire pour son système éducatif et sa haute technologie."
   },
@@ -2074,19 +1532,11 @@
     "special": {
       "nom": "Rayonnement Mondial",
       "cout": 260,
-      "cibles": [
-        "jeuA",
-        "bancA"
-      ],
-      "variables": [
-        "etat",
-        "etat"
-      ],
-      "valeurs": [
-        -125,
-        -60
-      ],
-      "description": "Projette sa puissance militaire pour infliger 125 dégâts en jeu et 60 sur le banc."
+      "description": "Projette sa puissance militaire pour infliger 125 dégâts en jeu et 60 sur le banc.",
+      "effets": [
+        ["degatAdverse", 125],
+        ["degatBanc", 60]
+      ]
     },
     "lore": "Puissance militaire et diplomatique a la révolution facile."
   },
@@ -2107,22 +1557,11 @@
     "special": {
       "nom": "Or Vert",
       "cout": 50,
-      "cibles": [
-        "creditA",
-        "deck"
-      ],
-      "variables": [
-        "credit",
-        "emplacement"
-      ],
-      "valeurs": [
-        -45,
-        [
-          1,
-          "main"
-        ]
-      ],
-      "description": "Exploite ses forêts et son pétrole pour voler 45 crédits et piocher 1 carte."
+      "description": "Exploite ses forêts et son pétrole pour voler 45 crédits et piocher 1 carte.",
+      "effets": [
+        ["voleCredit", 45],
+        ["pioche", 1]
+      ]
     },
     "lore": "Pays équatorial riche en ressources naturelles et en biodiversité."
   },
@@ -2143,19 +1582,11 @@
     "special": {
       "nom": "Sourire de l'Afrique",
       "cout": 40,
-      "cibles": [
-        "jeu",
-        "banc"
-      ],
-      "variables": [
-        "etat",
-        "etat"
-      ],
-      "valeurs": [
-        40,
-        25
-      ],
-      "description": "Son hospitalité légendaire soigne l'unité en jeu de 40 et une du banc de 25."
+      "description": "Son hospitalité légendaire soigne l'unité en jeu de 40 et une du banc de 25.",
+      "effets": [
+        ["soinJeu", 40],
+        ["soinBanc", 25]
+      ]
     },
     "lore": "Possède le statut du plus petit pays d'Afrique continentale."
   },
@@ -2176,22 +1607,11 @@
     "special": {
       "nom": "Route de la Soie",
       "cout": 45,
-      "cibles": [
-        "creditA",
-        "deck"
-      ],
-      "variables": [
-        "credit",
-        "emplacement"
-      ],
-      "valeurs": [
-        -35,
-        [
-          1,
-          "main"
-        ]
-      ],
-      "description": "Profite de sa position de transit pour voler 35 crédits et piocher 1 carte."
+      "description": "Profite de sa position de transit pour voler 35 crédits et piocher 1 carte.",
+      "effets": [
+        ["voleCredit", 35],
+        ["pioche", 1]
+      ]
     },
     "lore": "Ancienne république soviétique au carrefour de l'Europe et de l'Asie."
   },
@@ -2212,22 +1632,11 @@
     "special": {
       "nom": "Côte de l'Or",
       "cout": 115,
-      "cibles": [
-        "creditA",
-        "deck"
-      ],
-      "variables": [
-        "credit",
-        "emplacement"
-      ],
-      "valeurs": [
-        -60,
-        [
-          2,
-          "main"
-        ]
-      ],
-      "description": "Mobilise ses richesses minières pour voler 60 crédits et piocher 2 cartes."
+      "description": "Mobilise ses richesses minières pour voler 60 crédits et piocher 2 cartes.",
+      "effets": [
+        ["voleCredit", 60],
+        ["pioche", 2]
+      ]
     },
     "lore": "Phare de la démocratie en Afrique et grand producteur de cacao."
   },
@@ -2248,19 +1657,11 @@
     "special": {
       "nom": "Hégémonie Maritime",
       "cout": 185,
-      "cibles": [
-        "creditA",
-        "jeuA"
-      ],
-      "variables": [
-        "credit",
-        "etat"
-      ],
-      "valeurs": [
-        -55,
-        -45
-      ],
-      "description": "Sa flotte marchande mondiale lui permet de voler 55 crédits et d'infliger 45 dégâts."
+      "description": "Sa flotte marchande mondiale lui permet de voler 55 crédits et d'infliger 45 dégâts.",
+      "effets": [
+        ["voleCredit", 55],
+        ["degatAdverse", 45]
+      ]
     },
     "lore": "Le pays possédant la plus grande flotte marchande au monde."
   },
@@ -2281,19 +1682,11 @@
     "special": {
       "nom": "Île aux Épices",
       "cout": 40,
-      "cibles": [
-        "creditA",
-        "banc"
-      ],
-      "variables": [
-        "credit",
-        "etat"
-      ],
-      "valeurs": [
-        -30,
-        25
-      ],
-      "description": "Son commerce de muscade vole 30 crédits et soigne une unité du banc de 25."
+      "description": "Son commerce de muscade vole 30 crédits et soigne une unité du banc de 25.",
+      "effets": [
+        ["voleCredit", 30],
+        ["soinBanc", 25]
+      ]
     },
     "lore": "État insulaire caribéen célèbre pour ses productions d'épices rares."
   },
@@ -2314,19 +1707,11 @@
     "special": {
       "nom": "Cœur du Monde Maya",
       "cout": 45,
-      "cibles": [
-        "jeu",
-        "banc"
-      ],
-      "variables": [
-        "etat",
-        "etat"
-      ],
-      "valeurs": [
-        35,
-        25
-      ],
-      "description": "Son héritage ancestral soigne l'unité en jeu de 35 et une du banc de 25."
+      "description": "Son héritage ancestral soigne l'unité en jeu de 35 et une du banc de 25.",
+      "effets": [
+        ["soinJeu", 35],
+        ["soinBanc", 25]
+      ]
     },
     "lore": "Pays le plus peuplé d'Amérique centrale."
   },
@@ -2347,22 +1732,11 @@
     "special": {
       "nom": "Château d'Eau",
       "cout": 50,
-      "cibles": [
-        "creditA",
-        "deck"
-      ],
-      "variables": [
-        "credit",
-        "emplacement"
-      ],
-      "valeurs": [
-        -40,
-        [
-          1,
-          "main"
-        ]
-      ],
-      "description": "Utilise ses ressources hydrauliques pour voler 40 crédits et piocher 1 carte."
+      "description": "Utilise ses ressources hydrauliques pour voler 40 crédits et piocher 1 carte.",
+      "effets": [
+        ["voleCredit", 40],
+        ["pioche", 1]
+      ]
     },
     "lore": "Possède les plus grandes réserves mondiales de bauxite."
   },
@@ -2383,19 +1757,11 @@
     "special": {
       "nom": "Archipel des Bijagós",
       "cout": 40,
-      "cibles": [
-        "jeu",
-        "banc"
-      ],
-      "variables": [
-        "etat",
-        "etat"
-      ],
-      "valeurs": [
-        40,
-        20
-      ],
-      "description": "Ses îles reculées offrent un soin de 40 en jeu et 20 sur le banc."
+      "description": "Ses îles reculées offrent un soin de 40 en jeu et 20 sur le banc.",
+      "effets": [
+        ["soinJeu", 40],
+        ["soinBanc", 20]
+      ]
     },
     "lore": "Petit État ouest-africain doté d'un littoral sauvage et préservé."
   },
@@ -2416,22 +1782,11 @@
     "special": {
       "nom": "Manne de l'Or Noir",
       "cout": 55,
-      "cibles": [
-        "creditA",
-        "deck"
-      ],
-      "variables": [
-        "credit",
-        "emplacement"
-      ],
-      "valeurs": [
-        -65,
-        [
-          1,
-          "main"
-        ]
-      ],
-      "description": "Siphonne les richesses pétrolières pour voler 65 crédits et piocher 1 carte."
+      "description": "Siphonne les richesses pétrolières pour voler 65 crédits et piocher 1 carte.",
+      "effets": [
+        ["voleCredit", 65],
+        ["pioche", 1]
+      ]
     },
     "lore": "L'un des plus grands producteurs de pétrole d'Afrique subsaharienne."
   },
@@ -2452,22 +1807,11 @@
     "special": {
       "nom": "Boom Offshore",
       "cout": 60,
-      "cibles": [
-        "creditA",
-        "deck"
-      ],
-      "variables": [
-        "credit",
-        "emplacement"
-      ],
-      "valeurs": [
-        -70,
-        [
-          2,
-          "main"
-        ]
-      ],
-      "description": "Exploite sa nouvelle richesse fulgurante pour voler 70 crédits et piocher 2 cartes."
+      "description": "Exploite sa nouvelle richesse fulgurante pour voler 70 crédits et piocher 2 cartes.",
+      "effets": [
+        ["voleCredit", 70],
+        ["pioche", 2]
+      ]
     },
     "lore": "Nation connaissant la plus forte croissance économique au monde."
   },
@@ -2488,16 +1832,8 @@
     "special": {
       "nom": "Esprit de Révolte",
       "cout": 45,
-      "cibles": [
-        "jeuA"
-      ],
-      "variables": [
-        "etat"
-      ],
-      "valeurs": [
-        -85
-      ],
-      "description": "Sa force historique de résistance inflige 85 dégâts à l'unité en jeu adverse."
+      "description": "Sa force historique de résistance inflige 85 dégâts à l'unité en jeu adverse.",
+      "effets": [["degatAdverse", 85]]
     },
     "lore": "Lourd passé colonial, à l'histoire héroïque."
   },
@@ -2518,22 +1854,11 @@
     "special": {
       "nom": "Enclave Bananière",
       "cout": 40,
-      "cibles": [
-        "creditA",
-        "deck"
-      ],
-      "variables": [
-        "credit",
-        "emplacement"
-      ],
-      "valeurs": [
-        -35,
-        [
-          1,
-          "main"
-        ]
-      ],
-      "description": "Utilise ses exportations agricoles pour voler 35 crédits et piocher 1 carte."
+      "description": "Utilise ses exportations agricoles pour voler 35 crédits et piocher 1 carte.",
+      "effets": [
+        ["voleCredit", 35],
+        ["pioche", 1]
+      ]
     },
     "lore": "Nation dotée d'importantes ressources minières."
   },
@@ -2554,19 +1879,11 @@
     "special": {
       "nom": "Bastion de Visegrád",
       "cout": 185,
-      "cibles": [
-        "jeuA",
-        "bancA"
-      ],
-      "variables": [
-        "etat",
-        "etat"
-      ],
-      "valeurs": [
-        -85,
-        -35
-      ],
-      "description": "Prend une position diplomatique ferme infligeant 85 dégâts et 35 sur le banc."
+      "description": "Prend une position diplomatique ferme infligeant 85 dégâts et 35 sur le banc.",
+      "effets": [
+        ["degatAdverse", 85],
+        ["degatBanc", 35]
+      ]
     },
     "lore": "Pays d'Europe centrale doté d'une forte identité culturelle et politique."
   },
@@ -2587,19 +1904,11 @@
     "special": {
       "nom": "Éveil du Géant",
       "cout": 255,
-      "cibles": [
-        "jeuA",
-        "bancA"
-      ],
-      "variables": [
-        "etat",
-        "etat"
-      ],
-      "valeurs": [
-        -140,
-        -65
-      ],
-      "description": "Mobilise sa masse démographique pour infliger 140 dégâts et 65 sur le banc."
+      "description": "Mobilise sa masse démographique pour infliger 140 dégâts et 65 sur le banc.",
+      "effets": [
+        ["degatAdverse", 140],
+        ["degatBanc", 65]
+      ]
     },
     "lore": "Pays le plus peuplé du monde, puissance nucléaire et spatiale."
   },
@@ -2620,22 +1929,11 @@
     "special": {
       "nom": "Archipel des Ressources",
       "cout": 120,
-      "cibles": [
-        "creditA",
-        "deck"
-      ],
-      "variables": [
-        "credit",
-        "emplacement"
-      ],
-      "valeurs": [
-        -65,
-        [
-          2,
-          "main"
-        ]
-      ],
-      "description": "Exploite ses milliers d'îles pour voler 65 crédits et piocher 2 cartes."
+      "description": "Exploite ses milliers d'îles pour voler 65 crédits et piocher 2 cartes.",
+      "effets": [
+        ["voleCredit", 65],
+        ["pioche", 2]
+      ]
     },
     "lore": "Plus grand archipel du monde."
   },
@@ -2656,19 +1954,11 @@
     "special": {
       "nom": "Berceau des Guerriers",
       "cout": 115,
-      "cibles": [
-        "jeuA",
-        "bancA"
-      ],
-      "variables": [
-        "etat",
-        "etat"
-      ],
-      "valeurs": [
-        -80,
-        -35
-      ],
-      "description": "Lace une offensive tactique infligeant 80 dégâts en jeu et 35 sur le banc."
+      "description": "Lace une offensive tactique infligeant 80 dégâts en jeu et 35 sur le banc.",
+      "effets": [
+        ["degatAdverse", 80],
+        ["degatBanc", 35]
+      ]
     },
     "lore": "Terre possédant d'immenses réserves d'hydrocarbures."
   },
@@ -2689,19 +1979,11 @@
     "special": {
       "nom": "Axe de Résistance",
       "cout": 125,
-      "cibles": [
-        "jeuA",
-        "bancA"
-      ],
-      "variables": [
-        "etat",
-        "etat"
-      ],
-      "valeurs": [
-        -110,
-        -50
-      ],
-      "description": "Projette sa force régionale infligeant 110 dégâts en jeu et 50 sur le banc."
+      "description": "Projette sa force régionale infligeant 110 dégâts en jeu et 50 sur le banc.",
+      "effets": [
+        ["degatAdverse", 110],
+        ["degatBanc", 50]
+      ]
     },
     "lore": "Puissance millénaire occupant une position charnière au Moyen-Orient."
   },
@@ -2722,22 +2004,11 @@
     "special": {
       "nom": "Tigre Celtique",
       "cout": 180,
-      "cibles": [
-        "creditA",
-        "deck"
-      ],
-      "variables": [
-        "credit",
-        "emplacement"
-      ],
-      "valeurs": [
-        -75,
-        [
-          2,
-          "main"
-        ]
-      ],
-      "description": "Attire les géants du tech pour voler 75 crédits et piocher 2 cartes."
+      "description": "Attire les géants du tech pour voler 75 crédits et piocher 2 cartes.",
+      "effets": [
+        ["voleCredit", 75],
+        ["pioche", 2]
+      ]
     },
     "lore": "Hub européen pour les multinationales."
   },
@@ -2758,19 +2029,11 @@
     "special": {
       "nom": "Énergie Géothermique",
       "cout": 160,
-      "cibles": [
-        "jeu",
-        "banc"
-      ],
-      "variables": [
-        "etat",
-        "etat"
-      ],
-      "valeurs": [
-        60,
-        40
-      ],
-      "description": "Puise dans ses volcans pour soigner l'unité en jeu de 60 et une du banc de 40."
+      "description": "Puise dans ses volcans pour soigner l'unité en jeu de 60 et une du banc de 40.",
+      "effets": [
+        ["soinJeu", 60],
+        ["soinBanc", 40]
+      ]
     },
     "lore": "Terre de feu et de glace pionnière dans les énergies renouvelables."
   },
@@ -2791,19 +2054,11 @@
     "special": {
       "nom": "Dôme de Fer",
       "cout": 230,
-      "cibles": [
-        "jeuA",
-        "jeu"
-      ],
-      "variables": [
-        "etat",
-        "etat"
-      ],
-      "valeurs": [
-        -90,
-        70
-      ],
-      "description": "Système de défense de pointe infligeant 90 dégâts et soignant votre unité de 70."
+      "description": "Système de défense de pointe infligeant 90 dégâts et soignant votre unité de 70.",
+      "effets": [
+        ["degatAdverse", 90],
+        ["soinJeu", 70]
+      ]
     },
     "lore": "Pays ayant l'un des armées les plus avancées au dérive génocidaire."
   },
@@ -2824,19 +2079,11 @@
     "special": {
       "nom": "Soft Power Romain",
       "cout": 255,
-      "cibles": [
-        "jeuA",
-        "bancA"
-      ],
-      "variables": [
-        "etat",
-        "etat"
-      ],
-      "valeurs": [
-        -115,
-        -55
-      ],
-      "description": "Son influence culturelle et industrielle inflige 115 dégâts en jeu et 55 sur le banc."
+      "description": "Son influence culturelle et industrielle inflige 115 dégâts en jeu et 55 sur le banc.",
+      "effets": [
+        ["degatAdverse", 115],
+        ["degatBanc", 55]
+      ]
     },
     "lore": "Troisième économie de la zone euro et superpuissance culturelle."
   },
@@ -2857,22 +2104,11 @@
     "special": {
       "nom": "Rythme Reggae",
       "cout": 45,
-      "cibles": [
-        "deck",
-        "banc"
-      ],
-      "variables": [
-        "emplacement",
-        "etat"
-      ],
-      "valeurs": [
-        [
-          2,
-          "main"
-        ],
-        35
-      ],
-      "description": "Son aura culturelle permet de piocher 2 cartes et de soigner le banc de 35."
+      "description": "Son aura culturelle permet de piocher 2 cartes et de soigner le banc de 35.",
+      "effets": [
+        ["pioche", 2],
+        ["soinBanc", 35]
+      ]
     },
     "lore": "Île caribéenne au rayonnement mondial. "
   },
@@ -2893,19 +2129,11 @@
     "special": {
       "nom": "Suprématie Robotique",
       "cout": 255,
-      "cibles": [
-        "jeuA",
-        "bancA"
-      ],
-      "variables": [
-        "etat",
-        "etat"
-      ],
-      "valeurs": [
-        -130,
-        -60
-      ],
-      "description": "Utilise sa technologie de pointe pour infliger 130 dégâts et 60 sur le banc."
+      "description": "Utilise sa technologie de pointe pour infliger 130 dégâts et 60 sur le banc.",
+      "effets": [
+        ["degatAdverse", 130],
+        ["degatBanc", 60]
+      ]
     },
     "lore": "Archipel alliant traditions millénaires et futurisme technologique."
   },
@@ -2926,19 +2154,11 @@
     "special": {
       "nom": "Médiateur du Désert",
       "cout": 45,
-      "cibles": [
-        "jeu",
-        "banc"
-      ],
-      "variables": [
-        "etat",
-        "etat"
-      ],
-      "valeurs": [
-        45,
-        30
-      ],
-      "description": "Son rôle de stabilisateur soigne l'unité en jeu de 45 et une du banc de 30."
+      "description": "Son rôle de stabilisateur soigne l'unité en jeu de 45 et une du banc de 30.",
+      "effets": [
+        ["soinJeu", 45],
+        ["soinBanc", 30]
+      ]
     },
     "lore": "Havre de stabilité et pivot diplomatique."
   },
@@ -2959,22 +2179,11 @@
     "special": {
       "nom": "Steppe Energétique",
       "cout": 115,
-      "cibles": [
-        "creditA",
-        "deck"
-      ],
-      "variables": [
-        "credit",
-        "emplacement"
-      ],
-      "valeurs": [
-        -60,
-        [
-          2,
-          "main"
-        ]
-      ],
-      "description": "Exploite ses ressources naturelles pour voler 60 crédits et piocher 2 cartes."
+      "description": "Exploite ses ressources naturelles pour voler 60 crédits et piocher 2 cartes.",
+      "effets": [
+        ["voleCredit", 60],
+        ["pioche", 2]
+      ]
     },
     "lore": "Plus grand pays enclavé au monde."
   },
@@ -2995,22 +2204,11 @@
     "special": {
       "nom": "Silicon Savannah",
       "cout": 115,
-      "cibles": [
-        "creditA",
-        "deck"
-      ],
-      "variables": [
-        "credit",
-        "emplacement"
-      ],
-      "valeurs": [
-        -50,
-        [
-          2,
-          "main"
-        ]
-      ],
-      "description": "Sa tech financière innovante lui permet de voler 50 crédits et de piocher 2 cartes."
+      "description": "Sa tech financière innovante lui permet de voler 50 crédits et de piocher 2 cartes.",
+      "effets": [
+        ["voleCredit", 50],
+        ["pioche", 2]
+      ]
     },
     "lore": "Hub technologique et économique majeur de l'Afrique de l'Est."
   },
@@ -3031,19 +2229,11 @@
     "special": {
       "nom": "Forteresse Céleste",
       "cout": 40,
-      "cibles": [
-        "jeuA",
-        "banc"
-      ],
-      "variables": [
-        "etat",
-        "etat"
-      ],
-      "valeurs": [
-        -25,
-        30
-      ],
-      "description": "Utilise ses montagnes pour infliger 25 dégâts et soigner le banc de 30."
+      "description": "Utilise ses montagnes pour infliger 25 dégâts et soigner le banc de 30.",
+      "effets": [
+        ["degatAdverse", 25],
+        ["soinBanc", 30]
+      ]
     },
     "lore": "Nation montagneuse d'Asie centrale à la culture nomade préservée."
   },
@@ -3064,22 +2254,11 @@
     "special": {
       "nom": "Première Lueur",
       "cout": 40,
-      "cibles": [
-        "deck",
-        "banc"
-      ],
-      "variables": [
-        "emplacement",
-        "etat"
-      ],
-      "valeurs": [
-        [
-          1,
-          "main"
-        ],
-        45
-      ],
-      "description": "Sa position à la ligne de date soigne le banc de 45 et fait piocher 1 carte."
+      "description": "Sa position à la ligne de date soigne le banc de 45 et fait piocher 1 carte.",
+      "effets": [
+        ["pioche", 1],
+        ["soinBanc", 45]
+      ]
     },
     "lore": "Premier pays au monde à entrer dans la nouvelle journée."
   },
@@ -3100,22 +2279,11 @@
     "special": {
       "nom": "Reconnaissance",
       "cout": 45,
-      "cibles": [
-        "deck",
-        "jeu"
-      ],
-      "variables": [
-        "emplacement",
-        "etat"
-      ],
-      "valeurs": [
-        [
-          2,
-          "main"
-        ],
-        30
-      ],
-      "description": "Affirme sa souveraineté pour piocher 2 cartes et soigner l'unité en jeu de 30."
+      "description": "Affirme sa souveraineté pour piocher 2 cartes et soigner l'unité en jeu de 30.",
+      "effets": [
+        ["pioche", 2],
+        ["soinJeu", 30]
+      ]
     },
     "lore": "Jeune État à l'histoire marquée par la quête d'indépendance."
   },
@@ -3136,22 +2304,11 @@
     "special": {
       "nom": "Fonds Souverain",
       "cout": 115,
-      "cibles": [
-        "creditA",
-        "deck"
-      ],
-      "variables": [
-        "credit",
-        "emplacement"
-      ],
-      "valeurs": [
-        -70,
-        [
-          1,
-          "main"
-        ]
-      ],
-      "description": "Utilise sa richesse financière pour voler 70 crédits et piocher 1 carte."
+      "description": "Utilise sa richesse financière pour voler 70 crédits et piocher 1 carte.",
+      "effets": [
+        ["voleCredit", 70],
+        ["pioche", 1]
+      ]
     },
     "lore": "Petit État du Golfe possédant une monnaie parmi les plus fortes."
   },
@@ -3172,19 +2329,11 @@
     "special": {
       "nom": "Énergie du Mékong",
       "cout": 45,
-      "cibles": [
-        "creditA",
-        "jeu"
-      ],
-      "variables": [
-        "credit",
-        "etat"
-      ],
-      "valeurs": [
-        -30,
-        35
-      ],
-      "description": "Vend son hydroélectricité pour voler 30 crédits et soigner l'unité en jeu de 35."
+      "description": "Vend son hydroélectricité pour voler 30 crédits et soigner l'unité en jeu de 35.",
+      "effets": [
+        ["voleCredit", 30],
+        ["soinJeu", 35]
+      ]
     },
     "lore": "Seul pays enclavé d'Asie du Sud-Est, surnommé la 'batterie de l'Asie'."
   },
@@ -3205,19 +2354,11 @@
     "special": {
       "nom": "Royaume dans le Ciel",
       "cout": 40,
-      "cibles": [
-        "jeu",
-        "banc"
-      ],
-      "variables": [
-        "etat",
-        "etat"
-      ],
-      "valeurs": [
-        50,
-        25
-      ],
-      "description": "Son altitude protectrice soigne l'unité en jeu de 50 et le banc de 25."
+      "description": "Son altitude protectrice soigne l'unité en jeu de 50 et le banc de 25.",
+      "effets": [
+        ["soinJeu", 50],
+        ["soinBanc", 25]
+      ]
     },
     "lore": "Enclave montagneuse, située entièrement à plus de 1400m."
   },
@@ -3238,22 +2379,11 @@
     "special": {
       "nom": "Sentinelle Balte",
       "cout": 45,
-      "cibles": [
-        "jeuA",
-        "deck"
-      ],
-      "variables": [
-        "etat",
-        "emplacement"
-      ],
-      "valeurs": [
-        -30,
-        [
-          1,
-          "main"
-        ]
-      ],
-      "description": "Sa surveillance stratégique inflige 30 dégâts et fait piocher 1 carte."
+      "description": "Sa surveillance stratégique inflige 30 dégâts et fait piocher 1 carte.",
+      "effets": [
+        ["degatAdverse", 30],
+        ["pioche", 1]
+      ]
     },
     "lore": "État balte dynamique membre de l'UE et de l'OTAN."
   },
@@ -3274,19 +2404,11 @@
     "special": {
       "nom": "Résilience des Cèdres",
       "cout": 40,
-      "cibles": [
-        "jeu",
-        "banc"
-      ],
-      "variables": [
-        "etat",
-        "etat"
-      ],
-      "valeurs": [
-        55,
-        30
-      ],
-      "description": "Sa capacité de reconstruction soigne l'unité en jeu de 55 et le banc de 30."
+      "description": "Sa capacité de reconstruction soigne l'unité en jeu de 55 et le banc de 30.",
+      "effets": [
+        ["soinJeu", 55],
+        ["soinBanc", 30]
+      ]
     },
     "lore": "Carrefour culturel et financier historique de la Méditerranée."
   },
@@ -3307,22 +2429,11 @@
     "special": {
       "nom": "Flotte Pavillonnaire",
       "cout": 45,
-      "cibles": [
-        "creditA",
-        "deck"
-      ],
-      "variables": [
-        "credit",
-        "emplacement"
-      ],
-      "valeurs": [
-        -40,
-        [
-          1,
-          "main"
-        ]
-      ],
-      "description": "Enregistre les navires mondiaux pour voler 40 crédits et piocher 1 carte."
+      "description": "Enregistre les navires mondiaux pour voler 40 crédits et piocher 1 carte.",
+      "effets": [
+        ["voleCredit", 40],
+        ["pioche", 1]
+      ]
     },
     "lore": "Plus ancienne république d'Afrique."
   },
@@ -3343,19 +2454,11 @@
     "special": {
       "nom": "Offensive Saharienne",
       "cout": 115,
-      "cibles": [
-        "jeuA",
-        "bancA"
-      ],
-      "variables": [
-        "etat",
-        "etat"
-      ],
-      "valeurs": [
-        -75,
-        -40
-      ],
-      "description": "Mobilise ses ressources pour une frappe infligeant 75 dégâts et 40 sur le banc."
+      "description": "Mobilise ses ressources pour une frappe infligeant 75 dégâts et 40 sur le banc.",
+      "effets": [
+        ["degatAdverse", 75],
+        ["degatBanc", 40]
+      ]
     },
     "lore": "Détenteur des plus grandes réserves de pétrole d'Afrique."
   },
@@ -3376,22 +2479,11 @@
     "special": {
       "nom": "Gestion de Fortune",
       "cout": 55,
-      "cibles": [
-        "creditA",
-        "deck"
-      ],
-      "variables": [
-        "credit",
-        "emplacement"
-      ],
-      "valeurs": [
-        -65,
-        [
-          1,
-          "main"
-        ]
-      ],
-      "description": "Manipule les actifs pour voler 65 crédits et piocher 1 carte."
+      "description": "Manipule les actifs pour voler 65 crédits et piocher 1 carte.",
+      "effets": [
+        ["voleCredit", 65],
+        ["pioche", 1]
+      ]
     },
     "lore": "Parmi les pays les plus riches par habitant."
   },
@@ -3412,22 +2504,11 @@
     "special": {
       "nom": "Défense Cyber",
       "cout": 50,
-      "cibles": [
-        "jeuA",
-        "deck"
-      ],
-      "variables": [
-        "etat",
-        "emplacement"
-      ],
-      "valeurs": [
-        -40,
-        [
-          1,
-          "main"
-        ]
-      ],
-      "description": "Neutralise les menaces numériques pour infliger 40 dégâts et piocher 1 carte."
+      "description": "Neutralise les menaces numériques pour infliger 40 dégâts et piocher 1 carte.",
+      "effets": [
+        ["degatAdverse", 40],
+        ["pioche", 1]
+      ]
     },
     "lore": "Leader balte de la fintech et de la sécurité informatique."
   },
@@ -3448,22 +2529,11 @@
     "special": {
       "nom": "Place Financière",
       "cout": 180,
-      "cibles": [
-        "creditA",
-        "deck"
-      ],
-      "variables": [
-        "credit",
-        "emplacement"
-      ],
-      "valeurs": [
-        -80,
-        [
-          2,
-          "main"
-        ]
-      ],
-      "description": "Sa puissance bancaire permet de voler 80 crédits et de piocher 2 cartes."
+      "description": "Sa puissance bancaire permet de voler 80 crédits et de piocher 2 cartes.",
+      "effets": [
+        ["voleCredit", 80],
+        ["pioche", 2]
+      ]
     },
     "lore": "Cœur financier de l'Europe et siège de nombreuses institutions."
   },
@@ -3484,19 +2554,11 @@
     "special": {
       "nom": "Accord de Prespa",
       "cout": 45,
-      "cibles": [
-        "jeu",
-        "banc"
-      ],
-      "variables": [
-        "etat",
-        "etat"
-      ],
-      "valeurs": [
-        40,
-        25
-      ],
-      "description": "Son compromis historique soigne l'unité en jeu de 40 et le banc de 25."
+      "description": "Son compromis historique soigne l'unité en jeu de 40 et le banc de 25.",
+      "effets": [
+        ["soinJeu", 40],
+        ["soinBanc", 25]
+      ]
     },
     "lore": "Jeune république balkanique ayant surmonté des défis diplomatiques majeurs."
   },
@@ -3517,19 +2579,11 @@
     "special": {
       "nom": "Sanctuaire Endémique",
       "cout": 50,
-      "cibles": [
-        "jeu",
-        "banc"
-      ],
-      "variables": [
-        "etat",
-        "etat"
-      ],
-      "valeurs": [
-        55,
-        35
-      ],
-      "description": "Sa biodiversité unique soigne l'unité en jeu de 55 et une du banc de 35."
+      "description": "Sa biodiversité unique soigne l'unité en jeu de 55 et une du banc de 35.",
+      "effets": [
+        ["soinJeu", 55],
+        ["soinBanc", 35]
+      ]
     },
     "lore": "Île-continent possédant une faune et une flore uniques au monde."
   },
@@ -3550,22 +2604,11 @@
     "special": {
       "nom": "Tigre d'Asie",
       "cout": 115,
-      "cibles": [
-        "creditA",
-        "deck"
-      ],
-      "variables": [
-        "credit",
-        "emplacement"
-      ],
-      "valeurs": [
-        -55,
-        [
-          2,
-          "main"
-        ]
-      ],
-      "description": "Son dynamisme commercial vole 55 crédits et fait piocher 2 cartes."
+      "description": "Son dynamisme commercial vole 55 crédits et fait piocher 2 cartes.",
+      "effets": [
+        ["voleCredit", 55],
+        ["pioche", 2]
+      ]
     },
     "lore": "Puissance leader dans l'électronique et l'huile de palme."
   },
@@ -3586,19 +2629,11 @@
     "special": {
       "nom": "Cœur de l'Afrique",
       "cout": 40,
-      "cibles": [
-        "jeu",
-        "banc"
-      ],
-      "variables": [
-        "etat",
-        "etat"
-      ],
-      "valeurs": [
-        45,
-        30
-      ],
-      "description": "Sa population chaleureuse offre un soin de 45 en jeu et 30 sur le banc."
+      "description": "Sa population chaleureuse offre un soin de 45 en jeu et 30 sur le banc.",
+      "effets": [
+        ["soinJeu", 45],
+        ["soinBanc", 30]
+      ]
     },
     "lore": "Pays paisible bordé par l'immense lac Malawi."
   },
@@ -3619,22 +2654,11 @@
     "special": {
       "nom": "Cri d'Alarme Climatique",
       "cout": 50,
-      "cibles": [
-        "deck",
-        "banc"
-      ],
-      "variables": [
-        "emplacement",
-        "etat"
-      ],
-      "valeurs": [
-        [
-          2,
-          "main"
-        ],
-        40
-      ],
-      "description": "Son plaidoyer mondial fait piocher 2 cartes et soigne le banc de 40."
+      "description": "Son plaidoyer mondial fait piocher 2 cartes et soigne le banc de 40.",
+      "effets": [
+        ["pioche", 2],
+        ["soinBanc", 40]
+      ]
     },
     "lore": "Pays paradisiaque en première ligne face au réchauffement climatique."
   },
@@ -3655,19 +2679,11 @@
     "special": {
       "nom": "Empire de l'Or",
       "cout": 55,
-      "cibles": [
-        "creditA",
-        "jeuA"
-      ],
-      "variables": [
-        "credit",
-        "etat"
-      ],
-      "valeurs": [
-        -50,
-        -25
-      ],
-      "description": "Utilise ses mines d'or pour voler 50 crédits et infliger 25 dégâts."
+      "description": "Utilise ses mines d'or pour voler 50 crédits et infliger 25 dégâts.",
+      "effets": [
+        ["voleCredit", 50],
+        ["degatAdverse", 25]
+      ]
     },
     "lore": "Riche en ressources minières et éritier de grands empires médiévaux."
   },
@@ -3688,22 +2704,11 @@
     "special": {
       "nom": "Pavillon Méditerranéen",
       "cout": 50,
-      "cibles": [
-        "creditA",
-        "deck"
-      ],
-      "variables": [
-        "credit",
-        "emplacement"
-      ],
-      "valeurs": [
-        -45,
-        [
-          1,
-          "main"
-        ]
-      ],
-      "description": "Ses services maritimes captent 45 crédits et font piocher 1 carte."
+      "description": "Ses services maritimes captent 45 crédits et font piocher 1 carte.",
+      "effets": [
+        ["voleCredit", 45],
+        ["pioche", 1]
+      ]
     },
     "lore": "État insulaire stratégique et hub de services financiers au sein de l'UE."
   },
@@ -3724,19 +2729,11 @@
     "special": {
       "nom": "Diplomatie du Phosphate",
       "cout": 175,
-      "cibles": [
-        "creditA",
-        "jeuA"
-      ],
-      "variables": [
-        "credit",
-        "etat"
-      ],
-      "valeurs": [
-        -55,
-        -35
-      ],
-      "description": "Contrôle les engrais mondiaux pour voler 55 crédits et infliger 35 dégâts."
+      "description": "Contrôle les engrais mondiaux pour voler 55 crédits et infliger 35 dégâts.",
+      "effets": [
+        ["voleCredit", 55],
+        ["degatAdverse", 35]
+      ]
     },
     "lore": "Royaume stable, leader mondial des phosphates et pont vers l'Afrique."
   },
@@ -3757,22 +2754,11 @@
     "special": {
       "nom": "Hub de l'Océan Indien",
       "cout": 55,
-      "cibles": [
-        "creditA",
-        "deck"
-      ],
-      "variables": [
-        "credit",
-        "emplacement"
-      ],
-      "valeurs": [
-        -50,
-        [
-          2,
-          "main"
-        ]
-      ],
-      "description": "Sa finance offshore vole 50 crédits et fait piocher 2 cartes."
+      "description": "Sa finance offshore vole 50 crédits et fait piocher 2 cartes.",
+      "effets": [
+        ["voleCredit", 50],
+        ["pioche", 2]
+      ]
     },
     "lore": "Modèle de réussite économique et démocratique en Afrique."
   },
@@ -3793,22 +2779,11 @@
     "special": {
       "nom": "Train du Fer",
       "cout": 50,
-      "cibles": [
-        "creditA",
-        "deck"
-      ],
-      "variables": [
-        "credit",
-        "emplacement"
-      ],
-      "valeurs": [
-        -40,
-        [
-          1,
-          "main"
-        ]
-      ],
-      "description": "Exploite ses ressources minérales pour voler 40 crédits et piocher 1 carte."
+      "description": "Exploite ses ressources minérales pour voler 40 crédits et piocher 1 carte.",
+      "effets": [
+        ["voleCredit", 40],
+        ["pioche", 1]
+      ]
     },
     "lore": "Vaste pays désertique riche en fer, en gaz et en poisson."
   },
@@ -3829,22 +2804,11 @@
     "special": {
       "nom": "Accord de Libre-Échange",
       "cout": 190,
-      "cibles": [
-        "creditA",
-        "deck"
-      ],
-      "variables": [
-        "credit",
-        "emplacement"
-      ],
-      "valeurs": [
-        -75,
-        [
-          2,
-          "main"
-        ]
-      ],
-      "description": "Sa puissance manufacturière vole 75 crédits et fait piocher 2 cartes."
+      "description": "Sa puissance manufacturière vole 75 crédits et fait piocher 2 cartes.",
+      "effets": [
+        ["voleCredit", 75],
+        ["pioche", 2]
+      ]
     },
     "lore": "Carrefour entre les Amériques."
   },
@@ -3865,19 +2829,11 @@
     "special": {
       "nom": "Libre Association",
       "cout": 40,
-      "cibles": [
-        "jeu",
-        "banc"
-      ],
-      "variables": [
-        "etat",
-        "etat"
-      ],
-      "valeurs": [
-        40,
-        20
-      ],
-      "description": "Ses alliances pacifiques soignent l'unité en jeu de 40 et le banc de 20."
+      "description": "Ses alliances pacifiques soignent l'unité en jeu de 40 et le banc de 20.",
+      "effets": [
+        ["soinJeu", 40],
+        ["soinBanc", 20]
+      ]
     },
     "lore": "État composé de centaines de petites îles dans le Pacifique."
   },
@@ -3898,22 +2854,11 @@
     "special": {
       "nom": "Aspiration Européenne",
       "cout": 45,
-      "cibles": [
-        "deck",
-        "banc"
-      ],
-      "variables": [
-        "emplacement",
-        "etat"
-      ],
-      "valeurs": [
-        [
-          2,
-          "main"
-        ],
-        30
-      ],
-      "description": "Sa quête d'intégration fait piocher 2 cartes et soigne le banc de 30."
+      "description": "Sa quête d'intégration fait piocher 2 cartes et soigne le banc de 30.",
+      "effets": [
+        ["pioche", 2],
+        ["soinBanc", 30]
+      ]
     },
     "lore": "Pays riche d'une tradition viticole."
   },
@@ -3934,22 +2879,11 @@
     "special": {
       "nom": "Prestige de la Principauté",
       "cout": 55,
-      "cibles": [
-        "creditA",
-        "deck"
-      ],
-      "variables": [
-        "credit",
-        "emplacement"
-      ],
-      "valeurs": [
-        -85,
-        [
-          1,
-          "main"
-        ]
-      ],
-      "description": "Attire les capitaux mondiaux pour voler 85 crédits et piocher 1 carte."
+      "description": "Attire les capitaux mondiaux pour voler 85 crédits et piocher 1 carte.",
+      "effets": [
+        ["voleCredit", 85],
+        ["pioche", 1]
+      ]
     },
     "lore": "Cité-État sur la Côte d'Azur, symbole de luxe et de finance."
   },
@@ -3970,19 +2904,11 @@
     "special": {
       "nom": "Troisième Voisin",
       "cout": 50,
-      "cibles": [
-        "jeuA",
-        "banc"
-      ],
-      "variables": [
-        "etat",
-        "etat"
-      ],
-      "valeurs": [
-        -30,
-        35
-      ],
-      "description": "Sa stratégie d'équilibre inflige 30 dégâts et soigne le banc de 35."
+      "description": "Sa stratégie d'équilibre inflige 30 dégâts et soigne le banc de 35.",
+      "effets": [
+        ["degatAdverse", 30],
+        ["soinBanc", 35]
+      ]
     },
     "lore": "Nation des steppes aux ressources minières colossales."
   },
@@ -4003,19 +2929,11 @@
     "special": {
       "nom": "Riviera Balkanique",
       "cout": 45,
-      "cibles": [
-        "creditA",
-        "banc"
-      ],
-      "variables": [
-        "credit",
-        "etat"
-      ],
-      "valeurs": [
-        -35,
-        30
-      ],
-      "description": "Son attrait touristique vole 35 crédits et soigne une unité du banc de 30."
+      "description": "Son attrait touristique vole 35 crédits et soigne une unité du banc de 30.",
+      "effets": [
+        ["voleCredit", 35],
+        ["soinBanc", 30]
+      ]
     },
     "lore": "Petit État montagneux de l'Adriatique, membre de l'OTAN."
   },
@@ -4036,22 +2954,11 @@
     "special": {
       "nom": "Corridor Logistique",
       "cout": 50,
-      "cibles": [
-        "creditA",
-        "deck"
-      ],
-      "variables": [
-        "credit",
-        "emplacement"
-      ],
-      "valeurs": [
-        -45,
-        [
-          1,
-          "main"
-        ]
-      ],
-      "description": "Ses infrastructures portuaires captent 45 crédits et font piocher 1 carte."
+      "description": "Ses infrastructures portuaires captent 45 crédits et font piocher 1 carte.",
+      "effets": [
+        ["voleCredit", 45],
+        ["pioche", 1]
+      ]
     },
     "lore": "Pays doté d'un immense littoral et de vastes réserves de gaz naturel."
   },
@@ -4072,22 +2979,11 @@
     "special": {
       "nom": "Dunes de l'Uranium",
       "cout": 55,
-      "cibles": [
-        "creditA",
-        "deck"
-      ],
-      "variables": [
-        "credit",
-        "emplacement"
-      ],
-      "valeurs": [
-        -50,
-        [
-          1,
-          "main"
-        ]
-      ],
-      "description": "Exploite ses richesses radioactives pour voler 50 crédits et piocher 1 carte."
+      "description": "Exploite ses richesses radioactives pour voler 50 crédits et piocher 1 carte.",
+      "effets": [
+        ["voleCredit", 50],
+        ["pioche", 1]
+      ]
     },
     "lore": "Vaste pays, l'un des plus stables et des moins peuplés d'Afrique."
   },
@@ -4108,19 +3004,11 @@
     "special": {
       "nom": "Ressources du Phosphate",
       "cout": 40,
-      "cibles": [
-        "creditA",
-        "banc"
-      ],
-      "variables": [
-        "credit",
-        "etat"
-      ],
-      "valeurs": [
-        -40,
-        20
-      ],
-      "description": "Utilise ses derniers gisements pour voler 40 crédits et soigner le banc de 20."
+      "description": "Utilise ses derniers gisements pour voler 40 crédits et soigner le banc de 20.",
+      "effets": [
+        ["voleCredit", 40],
+        ["soinBanc", 20]
+      ]
     },
     "lore": "Plus petite république indépendante au monde, située en Océanie."
   },
@@ -4141,16 +3029,8 @@
     "special": {
       "nom": "Guerriers Gurkhas",
       "cout": 50,
-      "cibles": [
-        "jeuA"
-      ],
-      "variables": [
-        "etat"
-      ],
-      "valeurs": [
-        -95
-      ],
-      "description": "Déploie son élite légendaire pour infliger 95 dégâts à l'adversaire."
+      "description": "Déploie son élite légendaire pour infliger 95 dégâts à l'adversaire.",
+      "effets": [["degatAdverse", 95]]
     },
     "lore": "Toit du monde situé dans l'Himalaya, patrie des célèbres Gurkhas."
   },
@@ -4171,19 +3051,11 @@
     "special": {
       "nom": "Souveraineté Sandiniste",
       "cout": 45,
-      "cibles": [
-        "jeuA",
-        "banc"
-      ],
-      "variables": [
-        "etat",
-        "etat"
-      ],
-      "valeurs": [
-        -25,
-        30
-      ],
-      "description": "Sa résistance politique inflige 25 dégâts et soigne le banc de 30."
+      "description": "Sa résistance politique inflige 25 dégâts et soigne le banc de 30.",
+      "effets": [
+        ["degatAdverse", 25],
+        ["soinBanc", 30]
+      ]
     },
     "lore": "Le plus vaste pays d'Amérique centrale, entre lacs et volcans."
   },
@@ -4204,19 +3076,11 @@
     "special": {
       "nom": "Gisements d'Arlit",
       "cout": 55,
-      "cibles": [
-        "creditA",
-        "jeuA"
-      ],
-      "variables": [
-        "credit",
-        "etat"
-      ],
-      "valeurs": [
-        -45,
-        -30
-      ],
-      "description": "Utilise ses mines d'uranium pour voler 45 crédits et infliger 30 dégâts."
+      "description": "Utilise ses mines d'uranium pour voler 45 crédits et infliger 30 dégâts.",
+      "effets": [
+        ["voleCredit", 45],
+        ["degatAdverse", 30]
+      ]
     },
     "lore": "Pays sahélien fournisseur majeur d'uranium."
   },
@@ -4237,22 +3101,11 @@
     "special": {
       "nom": "Géant d'Afrique",
       "cout": 120,
-      "cibles": [
-        "creditA",
-        "deck"
-      ],
-      "variables": [
-        "credit",
-        "emplacement"
-      ],
-      "valeurs": [
-        -70,
-        [
-          2,
-          "main"
-        ]
-      ],
-      "description": "Sa puissance démographique et pétrolière vole 70 crédits et fait piocher 2 cartes."
+      "description": "Sa puissance démographique et pétrolière vole 70 crédits et fait piocher 2 cartes.",
+      "effets": [
+        ["voleCredit", 70],
+        ["pioche", 2]
+      ]
     },
     "lore": "Pays le plus peuplé d'Afrique à la forte puissance économique."
   },
@@ -4273,22 +3126,11 @@
     "special": {
       "nom": "Fonds Souverain Géant",
       "cout": 190,
-      "cibles": [
-        "creditA",
-        "deck"
-      ],
-      "variables": [
-        "credit",
-        "emplacement"
-      ],
-      "valeurs": [
-        -90,
-        [
-          3,
-          "main"
-        ]
-      ],
-      "description": "Mobilise sa richesse pétrolière pour voler 90 crédits et piocher 3 cartes."
+      "description": "Mobilise sa richesse pétrolière pour voler 90 crédits et piocher 3 cartes.",
+      "effets": [
+        ["voleCredit", 90],
+        ["pioche", 3]
+      ]
     },
     "lore": "Monarchie scandinave possédant le plus gros fonds souverain au monde."
   },
@@ -4309,19 +3151,11 @@
     "special": {
       "nom": "Sanctuaire du Pacifique",
       "cout": 185,
-      "cibles": [
-        "jeu",
-        "banc"
-      ],
-      "variables": [
-        "etat",
-        "etat"
-      ],
-      "valeurs": [
-        75,
-        50
-      ],
-      "description": "Son isolement paisible soigne l'unité en jeu de 75 et le banc de 50."
+      "description": "Son isolement paisible soigne l'unité en jeu de 75 et le banc de 50.",
+      "effets": [
+        ["soinJeu", 75],
+        ["soinBanc", 50]
+      ]
     },
     "lore": "Nation insulaire pionnière en matière de droits sociaux et d'écologie."
   },
@@ -4342,19 +3176,11 @@
     "special": {
       "nom": "Médiateur du Golfe",
       "cout": 50,
-      "cibles": [
-        "jeu",
-        "banc"
-      ],
-      "variables": [
-        "etat",
-        "etat"
-      ],
-      "valeurs": [
-        45,
-        35
-      ],
-      "description": "Sa neutralité active soigne l'unité en jeu de 45 et le banc de 35."
+      "description": "Sa neutralité active soigne l'unité en jeu de 45 et le banc de 35.",
+      "effets": [
+        ["soinJeu", 45],
+        ["soinBanc", 35]
+      ]
     },
     "lore": "Sultanat stratégique agissant comme la 'Suisse du Moyen-Orient'."
   },
@@ -4375,22 +3201,11 @@
     "special": {
       "nom": "Perle de l'Afrique",
       "cout": 50,
-      "cibles": [
-        "creditA",
-        "deck"
-      ],
-      "variables": [
-        "credit",
-        "emplacement"
-      ],
-      "valeurs": [
-        -35,
-        [
-          1,
-          "main"
-        ]
-      ],
-      "description": "Ses richesses agricoles volent 35 crédits et font piocher 1 carte."
+      "description": "Ses richesses agricoles volent 35 crédits et font piocher 1 carte.",
+      "effets": [
+        ["voleCredit", 35],
+        ["pioche", 1]
+      ]
     },
     "lore": "Nation fertile d'Afrique de l'Est bordant le lac Victoria."
   },
@@ -4411,22 +3226,11 @@
     "special": {
       "nom": "Route de l'Or Blanc",
       "cout": 115,
-      "cibles": [
-        "creditA",
-        "deck"
-      ],
-      "variables": [
-        "credit",
-        "emplacement"
-      ],
-      "valeurs": [
-        -55,
-        [
-          2,
-          "main"
-        ]
-      ],
-      "description": "Son commerce de coton et de gaz vole 55 crédits et fait piocher 2 cartes."
+      "description": "Son commerce de coton et de gaz vole 55 crédits et fait piocher 2 cartes.",
+      "effets": [
+        ["voleCredit", 55],
+        ["pioche", 2]
+      ]
     },
     "lore": "Cœur historique de l'Asie centrale et producteur majeur de coton et d'or."
   },
@@ -4447,19 +3251,11 @@
     "special": {
       "nom": "Force de Dissuasion",
       "cout": 185,
-      "cibles": [
-        "jeuA",
-        "bancA"
-      ],
-      "variables": [
-        "etat",
-        "etat"
-      ],
-      "valeurs": [
-        -100,
-        -50
-      ],
-      "description": "Sa puissance nucléaire inflige 100 dégâts en jeu et 50 sur le banc."
+      "description": "Sa puissance nucléaire inflige 100 dégâts en jeu et 50 sur le banc.",
+      "effets": [
+        ["degatAdverse", 100],
+        ["degatBanc", 50]
+      ]
     },
     "lore": "Puissance nucléaire positionnée au carrefour de l'Asie."
   },
@@ -4480,19 +3276,11 @@
     "special": {
       "nom": "Sanctuaire de Requins",
       "cout": 40,
-      "cibles": [
-        "jeu",
-        "banc"
-      ],
-      "variables": [
-        "etat",
-        "etat"
-      ],
-      "valeurs": [
-        55,
-        35
-      ],
-      "description": "Sa protection marine soigne l'unité en jeu de 55 et le banc de 35."
+      "description": "Sa protection marine soigne l'unité en jeu de 55 et le banc de 35.",
+      "effets": [
+        ["soinJeu", 55],
+        ["soinBanc", 35]
+      ]
     },
     "lore": "Archipel pionnier de la protection de l'environnement marin."
   },
@@ -4513,22 +3301,11 @@
     "special": {
       "nom": "Reconnaissance Mondiale",
       "cout": 45,
-      "cibles": [
-        "deck",
-        "banc"
-      ],
-      "variables": [
-        "emplacement",
-        "etat"
-      ],
-      "valeurs": [
-        [
-          2,
-          "main"
-        ],
-        45
-      ],
-      "description": "Son plaidoyer diplomatique fait piocher 2 cartes et soigne le banc de 45."
+      "description": "Son plaidoyer diplomatique fait piocher 2 cartes et soigne le banc de 45.",
+      "effets": [
+        ["pioche", 2],
+        ["soinBanc", 45]
+      ]
     },
     "lore": "Territoire détruit par la guerre en proie à la famine."
   },
@@ -4549,22 +3326,11 @@
     "special": {
       "nom": "Verrou de l'Isthme",
       "cout": 55,
-      "cibles": [
-        "creditA",
-        "deck"
-      ],
-      "variables": [
-        "credit",
-        "emplacement"
-      ],
-      "valeurs": [
-        -65,
-        [
-          2,
-          "main"
-        ]
-      ],
-      "description": "Le contrôle du canal vole 65 crédits et fait piocher 2 cartes."
+      "description": "Le contrôle du canal vole 65 crédits et fait piocher 2 cartes.",
+      "effets": [
+        ["voleCredit", 65],
+        ["pioche", 2]
+      ]
     },
     "lore": "Carrefour du commerce mondial grâce à son célèbre canal."
   },
@@ -4585,19 +3351,11 @@
     "special": {
       "nom": "Diversité Culturelle",
       "cout": 45,
-      "cibles": [
-        "jeu",
-        "banc"
-      ],
-      "variables": [
-        "etat",
-        "etat"
-      ],
-      "valeurs": [
-        40,
-        25
-      ],
-      "description": "Sa mosaïque de peuples offre un soin de 40 en jeu et 25 sur le banc."
+      "description": "Sa mosaïque de peuples offre un soin de 40 en jeu et 25 sur le banc.",
+      "effets": [
+        ["soinJeu", 40],
+        ["soinBanc", 25]
+      ]
     },
     "lore": "Nation d'Océanie à l'incroyable diversité linguistique et minière."
   },
@@ -4618,19 +3376,11 @@
     "special": {
       "nom": "Barrage d'Itaipu",
       "cout": 50,
-      "cibles": [
-        "creditA",
-        "jeu"
-      ],
-      "variables": [
-        "credit",
-        "etat"
-      ],
-      "valeurs": [
-        -35,
-        45
-      ],
-      "description": "Son export d'énergie vole 35 crédits et soigne l'unité en jeu de 45."
+      "description": "Son export d'énergie vole 35 crédits et soigne l'unité en jeu de 45.",
+      "effets": [
+        ["voleCredit", 35],
+        ["soinJeu", 45]
+      ]
     },
     "lore": "Pays enclavé, géant de l'hydroélectricité et du soja."
   },
@@ -4651,22 +3401,11 @@
     "special": {
       "nom": "Port de Rotterdam",
       "cout": 190,
-      "cibles": [
-        "creditA",
-        "deck"
-      ],
-      "variables": [
-        "credit",
-        "emplacement"
-      ],
-      "valeurs": [
-        -95,
-        [
-          3,
-          "main"
-        ]
-      ],
-      "description": "Le plus grand port d'Europe vole 95 crédits et fait piocher 3 cartes."
+      "description": "Le plus grand port d'Europe vole 95 crédits et fait piocher 3 cartes.",
+      "effets": [
+        ["voleCredit", 95],
+        ["pioche", 3]
+      ]
     },
     "lore": "Puissance commerciale et leader mondial de l'agro-technologie."
   },
@@ -4687,22 +3426,11 @@
     "special": {
       "nom": "Richesses des Andes",
       "cout": 115,
-      "cibles": [
-        "creditA",
-        "deck"
-      ],
-      "variables": [
-        "credit",
-        "emplacement"
-      ],
-      "valeurs": [
-        -60,
-        [
-          2,
-          "main"
-        ]
-      ],
-      "description": "Ses exportations minières volent 60 crédits et font piocher 2 cartes."
+      "description": "Ses exportations minières volent 60 crédits et font piocher 2 cartes.",
+      "effets": [
+        ["voleCredit", 60],
+        ["pioche", 2]
+      ]
     },
     "lore": "Ancienne terre Inca, devenu un exportateur minier et agricole."
   },
@@ -4723,19 +3451,11 @@
     "special": {
       "nom": "Rempart de l'ASEAN",
       "cout": 115,
-      "cibles": [
-        "jeuA",
-        "bancA"
-      ],
-      "variables": [
-        "etat",
-        "etat"
-      ],
-      "valeurs": [
-        -65,
-        -35
-      ],
-      "description": "Sa position stratégique inflige 65 dégâts en jeu et 35 sur le banc."
+      "description": "Sa position stratégique inflige 65 dégâts en jeu et 35 sur le banc.",
+      "effets": [
+        ["degatAdverse", 65],
+        ["degatBanc", 35]
+      ]
     },
     "lore": "Archipel pivot de la sécurité maritime dans le Pacifique."
   },
@@ -4756,19 +3476,11 @@
     "special": {
       "nom": "Bouclier de l'Est",
       "cout": 190,
-      "cibles": [
-        "jeuA",
-        "jeu"
-      ],
-      "variables": [
-        "etat",
-        "etat"
-      ],
-      "valeurs": [
-        -90,
-        60
-      ],
-      "description": "Son armement massif inflige 90 dégâts et soigne votre unité de 60."
+      "description": "Son armement massif inflige 90 dégâts et soigne votre unité de 60.",
+      "effets": [
+        ["degatAdverse", 90],
+        ["soinJeu", 60]
+      ]
     },
     "lore": "Puissance montante d'Europe centrale au rôle militaire croissant."
   },
@@ -4789,22 +3501,11 @@
     "special": {
       "nom": "Zone Économique Exclusive",
       "cout": 180,
-      "cibles": [
-        "creditA",
-        "deck"
-      ],
-      "variables": [
-        "credit",
-        "emplacement"
-      ],
-      "valeurs": [
-        -55,
-        [
-          2,
-          "main"
-        ]
-      ],
-      "description": "Son immense domaine maritime vole 55 crédits et fait piocher 2 cartes."
+      "description": "Son immense domaine maritime vole 55 crédits et fait piocher 2 cartes.",
+      "effets": [
+        ["voleCredit", 55],
+        ["pioche", 2]
+      ]
     },
     "lore": "Ancienne puissance maritime, aujourd'hui hub touristique."
   },
@@ -4825,22 +3526,11 @@
     "special": {
       "nom": "Diplomatie Sportive",
       "cout": 185,
-      "cibles": [
-        "creditA",
-        "deck"
-      ],
-      "variables": [
-        "credit",
-        "emplacement"
-      ],
-      "valeurs": [
-        -85,
-        [
-          2,
-          "main"
-        ]
-      ],
-      "description": "Son soft power par les événements vole 85 crédits et fait piocher 2 cartes."
+      "description": "Son soft power par les événements vole 85 crédits et fait piocher 2 cartes.",
+      "effets": [
+        ["voleCredit", 85],
+        ["pioche", 2]
+      ]
     },
     "lore": "Leader mondial du GNL et médiateur diplomatique influent."
   },
@@ -4861,19 +3551,11 @@
     "special": {
       "nom": "Richesse du Sous-sol",
       "cout": 55,
-      "cibles": [
-        "creditA",
-        "jeuA"
-      ],
-      "variables": [
-        "credit",
-        "etat"
-      ],
-      "valeurs": [
-        -40,
-        -35
-      ],
-      "description": "Ses diamants et son or volent 40 crédits et infligent 35 dégâts."
+      "description": "Ses diamants et son or volent 40 crédits et infligent 35 dégâts.",
+      "effets": [
+        ["voleCredit", 40],
+        ["degatAdverse", 35]
+      ]
     },
     "lore": "Pays riche en ressources mais marqué par l'instabilité."
   },
@@ -4894,19 +3576,11 @@
     "special": {
       "nom": "Minerais de Sang",
       "cout": 115,
-      "cibles": [
-        "creditA",
-        "jeuA"
-      ],
-      "variables": [
-        "credit",
-        "etat"
-      ],
-      "valeurs": [
-        -80,
-        -40
-      ],
-      "description": "Son monopole sur le cobalt vole 80 crédits et inflige 40 dégâts."
+      "description": "Son monopole sur le cobalt vole 80 crédits et inflige 40 dégâts.",
+      "effets": [
+        ["voleCredit", 80],
+        ["degatAdverse", 40]
+      ]
     },
     "lore": "Pays possédant les plus grandes réserves de cobalt au monde."
   },
@@ -4927,19 +3601,11 @@
     "special": {
       "nom": "Tourisme de Masse",
       "cout": 50,
-      "cibles": [
-        "creditA",
-        "banc"
-      ],
-      "variables": [
-        "credit",
-        "etat"
-      ],
-      "valeurs": [
-        -45,
-        30
-      ],
-      "description": "Son économie touristique vole 45 crédits et soigne le banc de 30."
+      "description": "Son économie touristique vole 45 crédits et soigne le banc de 30.",
+      "effets": [
+        ["voleCredit", 45],
+        ["soinBanc", 30]
+      ]
     },
     "lore": "Pays partageant l'île d'Hispaniola avec Haïti."
   },
@@ -4960,22 +3626,11 @@
     "special": {
       "nom": "Manne Pétrolière",
       "cout": 50,
-      "cibles": [
-        "creditA",
-        "deck"
-      ],
-      "variables": [
-        "credit",
-        "emplacement"
-      ],
-      "valeurs": [
-        -50,
-        [
-          1,
-          "main"
-        ]
-      ],
-      "description": "Son exploitation offshore vole 50 crédits et fait piocher 1 carte."
+      "description": "Son exploitation offshore vole 50 crédits et fait piocher 1 carte.",
+      "effets": [
+        ["voleCredit", 50],
+        ["pioche", 1]
+      ]
     },
     "lore": "Pays producteur de pétrole et gardien de la forêt équatoriale."
   },
@@ -4996,22 +3651,11 @@
     "special": {
       "nom": "Cœur Industriel",
       "cout": 180,
-      "cibles": [
-        "creditA",
-        "deck"
-      ],
-      "variables": [
-        "credit",
-        "emplacement"
-      ],
-      "valeurs": [
-        -60,
-        [
-          2,
-          "main"
-        ]
-      ],
-      "description": "Sa base manufacturière vole 60 crédits et fait piocher 2 cartes."
+      "description": "Sa base manufacturière vole 60 crédits et fait piocher 2 cartes.",
+      "effets": [
+        ["voleCredit", 60],
+        ["pioche", 2]
+      ]
     },
     "lore": "Nation d'Europe centrale à forte tradition industrielle et automobile."
   },
@@ -5032,19 +3676,11 @@
     "special": {
       "nom": "Pivot de la Mer Noire",
       "cout": 115,
-      "cibles": [
-        "jeuA",
-        "bancA"
-      ],
-      "variables": [
-        "etat",
-        "etat"
-      ],
-      "valeurs": [
-        -70,
-        -30
-      ],
-      "description": "Sa défense côtière inflige 70 dégâts en jeu et 30 sur le banc."
+      "description": "Sa défense côtière inflige 70 dégâts en jeu et 30 sur le banc.",
+      "effets": [
+        ["degatAdverse", 70],
+        ["degatBanc", 30]
+      ]
     },
     "lore": "Membre clé de l'OTAN sur le flanc oriental."
   },
@@ -5065,19 +3701,11 @@
     "special": {
       "nom": "Global Britain",
       "cout": 255,
-      "cibles": [
-        "jeuA",
-        "bancA"
-      ],
-      "variables": [
-        "etat",
-        "etat"
-      ],
-      "valeurs": [
-        -120,
-        -55
-      ],
-      "description": "Sa projection navale et diplomatique inflige 120 dégâts en jeu et 55 sur le banc."
+      "description": "Sa projection navale et diplomatique inflige 120 dégâts en jeu et 55 sur le banc.",
+      "effets": [
+        ["degatAdverse", 120],
+        ["degatBanc", 55]
+      ]
     },
     "lore": "Puissance nucléaire historique et centre financier mondial via la City."
   },
@@ -5098,19 +3726,11 @@
     "special": {
       "nom": "Hiver Russe",
       "cout": 260,
-      "cibles": [
-        "jeuA",
-        "bancA"
-      ],
-      "variables": [
-        "etat",
-        "etat"
-      ],
-      "valeurs": [
-        -150,
-        -70
-      ],
-      "description": "Une offensive d'usure totale infligeant 150 dégâts en jeu et 70 sur le banc."
+      "description": "Une offensive d'usure totale infligeant 150 dégâts en jeu et 70 sur le banc.",
+      "effets": [
+        ["degatAdverse", 150],
+        ["degatBanc", 70]
+      ]
     },
     "lore": "Plus grand pays du monde, puissance nucléaire et énergétique."
   },
@@ -5131,22 +3751,11 @@
     "special": {
       "nom": "Modèle de Renaissance",
       "cout": 55,
-      "cibles": [
-        "deck",
-        "banc"
-      ],
-      "variables": [
-        "emplacement",
-        "etat"
-      ],
-      "valeurs": [
-        [
-          2,
-          "main"
-        ],
-        45
-      ],
-      "description": "Sa gestion rigoureuse fait piocher 2 cartes et soigne le banc de 45."
+      "description": "Sa gestion rigoureuse fait piocher 2 cartes et soigne le banc de 45.",
+      "effets": [
+        ["pioche", 2],
+        ["soinBanc", 45]
+      ]
     },
     "lore": "Pays des mille collines, devenu un hub technologique en Afrique."
   },
@@ -5167,22 +3776,11 @@
     "special": {
       "nom": "Citoyenneté par Investissement",
       "cout": 40,
-      "cibles": [
-        "creditA",
-        "deck"
-      ],
-      "variables": [
-        "credit",
-        "emplacement"
-      ],
-      "valeurs": [
-        -45,
-        [
-          1,
-          "main"
-        ]
-      ],
-      "description": "Vend des passeports pour voler 45 crédits et piocher 1 carte."
+      "description": "Vend des passeports pour voler 45 crédits et piocher 1 carte.",
+      "effets": [
+        ["voleCredit", 45],
+        ["pioche", 1]
+      ]
     },
     "lore": "Le plus petit État des Amériques."
   },
@@ -5203,19 +3801,11 @@
     "special": {
       "nom": "Souveraineté Millénaire",
       "cout": 40,
-      "cibles": [
-        "jeu",
-        "banc"
-      ],
-      "variables": [
-        "etat",
-        "etat"
-      ],
-      "valeurs": [
-        60,
-        40
-      ],
-      "description": "Sa neutralité historique soigne l'unité en jeu de 60 et le banc de 40."
+      "description": "Sa neutralité historique soigne l'unité en jeu de 60 et le banc de 40.",
+      "effets": [
+        ["soinJeu", 60],
+        ["soinBanc", 40]
+      ]
     },
     "lore": "Plus ancienne république du monde, enclavée en Italie."
   },
@@ -5236,16 +3826,8 @@
     "special": {
       "nom": "Éveil du Volcan",
       "cout": 45,
-      "cibles": [
-        "jeuA"
-      ],
-      "variables": [
-        "etat"
-      ],
-      "valeurs": [
-        -80
-      ],
-      "description": "La Soufrière entre en éruption pour infliger 80 dégâts à l'adversaire."
+      "description": "La Soufrière entre en éruption pour infliger 80 dégâts à l'adversaire.",
+      "effets": [["degatAdverse", 80]]
     },
     "lore": "Archipel volcanique des Antilles au sud des Caraïbes."
   },
@@ -5266,22 +3848,11 @@
     "special": {
       "nom": "Sommet des Pitons",
       "cout": 40,
-      "cibles": [
-        "deck",
-        "banc"
-      ],
-      "variables": [
-        "emplacement",
-        "etat"
-      ],
-      "valeurs": [
-        [
-          1,
-          "main"
-        ],
-        40
-      ],
-      "description": "Son prestige naturel fait piocher 1 carte et soigne le banc de 40."
+      "description": "Son prestige naturel fait piocher 1 carte et soigne le banc de 40.",
+      "effets": [
+        ["pioche", 1],
+        ["soinBanc", 40]
+      ]
     },
     "lore": "Île célèbre pour ses deux aiguilles volcaniques classées à l'UNESCO."
   },
@@ -5302,19 +3873,11 @@
     "special": {
       "nom": "Récifs de Corail",
       "cout": 40,
-      "cibles": [
-        "jeu",
-        "banc"
-      ],
-      "variables": [
-        "etat",
-        "etat"
-      ],
-      "valeurs": [
-        40,
-        30
-      ],
-      "description": "Ses barrières naturelles soignent l'unité en jeu de 40 et le banc de 30."
+      "description": "Ses barrières naturelles soignent l'unité en jeu de 40 et le banc de 30.",
+      "effets": [
+        ["soinJeu", 40],
+        ["soinBanc", 30]
+      ]
     },
     "lore": "Vaste archipel mélanésien au centre d'enjeux géopolitiques."
   },
@@ -5335,22 +3898,11 @@
     "special": {
       "nom": "Bitcoin City",
       "cout": 55,
-      "cibles": [
-        "creditA",
-        "deck"
-      ],
-      "variables": [
-        "credit",
-        "emplacement"
-      ],
-      "valeurs": [
-        -60,
-        [
-          1,
-          "main"
-        ]
-      ],
-      "description": "Son pari crypto vole 60 crédits mais ne fait piocher qu'une carte."
+      "description": "Son pari crypto vole 60 crédits mais ne fait piocher qu'une carte.",
+      "effets": [
+        ["voleCredit", 60],
+        ["pioche", 1]
+      ]
     },
     "lore": "Premier pays au monde à avoir adopté le Bitcoin comme monnaie."
   },
@@ -5371,19 +3923,11 @@
     "special": {
       "nom": "Code Fa'a Samoa",
       "cout": 40,
-      "cibles": [
-        "jeu",
-        "banc"
-      ],
-      "variables": [
-        "etat",
-        "etat"
-      ],
-      "valeurs": [
-        50,
-        40
-      ],
-      "description": "Ses traditions ancestrales soignent l'unité en jeu de 50 et le banc de 40."
+      "description": "Ses traditions ancestrales soignent l'unité en jeu de 50 et le banc de 40.",
+      "effets": [
+        ["soinJeu", 50],
+        ["soinBanc", 40]
+      ]
     },
     "lore": "Berceau de la culture polynésienne, pays fier de ses racines."
   },
@@ -5404,19 +3948,11 @@
     "special": {
       "nom": "Cacao de Qualité",
       "cout": 35,
-      "cibles": [
-        "creditA",
-        "banc"
-      ],
-      "variables": [
-        "credit",
-        "etat"
-      ],
-      "valeurs": [
-        -30,
-        25
-      ],
-      "description": "Son chocolat raffiné vole 30 crédits et soigne le banc de 25."
+      "description": "Son chocolat raffiné vole 30 crédits et soigne le banc de 25.",
+      "effets": [
+        ["voleCredit", 30],
+        ["soinBanc", 25]
+      ]
     },
     "lore": "Petit État insulaire, ancien premier producteur mondial de cacao."
   },
@@ -5437,22 +3973,11 @@
     "special": {
       "nom": "Teranga Diplomatique",
       "cout": 115,
-      "cibles": [
-        "deck",
-        "banc"
-      ],
-      "variables": [
-        "emplacement",
-        "etat"
-      ],
-      "valeurs": [
-        [
-          2,
-          "main"
-        ],
-        50
-      ],
-      "description": "Son hospitalité légendaire fait piocher 2 cartes et soigne le banc de 50."
+      "description": "Son hospitalité légendaire fait piocher 2 cartes et soigne le banc de 50.",
+      "effets": [
+        ["pioche", 2],
+        ["soinBanc", 50]
+      ]
     },
     "lore": "Modèle de stabilité démocratique en Afrique de l'Ouest."
   },
@@ -5473,19 +3998,11 @@
     "special": {
       "nom": "Rempart Balkanique",
       "cout": 120,
-      "cibles": [
-        "jeuA",
-        "bancA"
-      ],
-      "variables": [
-        "etat",
-        "etat"
-      ],
-      "valeurs": [
-        -85,
-        -35
-      ],
-      "description": "Sa force stratégique inflige 85 dégâts en jeu et 35 sur le banc."
+      "description": "Sa force stratégique inflige 85 dégâts en jeu et 35 sur le banc.",
+      "effets": [
+        ["degatAdverse", 85],
+        ["degatBanc", 35]
+      ]
     },
     "lore": "Pays pivot des Balkans à l'industrie de défense développée."
   },
@@ -5506,22 +4023,11 @@
     "special": {
       "nom": "Économie Bleue",
       "cout": 55,
-      "cibles": [
-        "creditA",
-        "deck"
-      ],
-      "variables": [
-        "credit",
-        "emplacement"
-      ],
-      "valeurs": [
-        -55,
-        [
-          1,
-          "main"
-        ]
-      ],
-      "description": "Sa gestion des océans vole 55 crédits et fait piocher 1 carte."
+      "description": "Sa gestion des océans vole 55 crédits et fait piocher 1 carte.",
+      "effets": [
+        ["voleCredit", 55],
+        ["pioche", 1]
+      ]
     },
     "lore": "Archipel au PIB par habitant le plus élevé d'Afrique."
   },
@@ -5542,19 +4048,11 @@
     "special": {
       "nom": "Diamants de Paix",
       "cout": 50,
-      "cibles": [
-        "creditA",
-        "jeu"
-      ],
-      "variables": [
-        "credit",
-        "etat"
-      ],
-      "valeurs": [
-        -60,
-        30
-      ],
-      "description": "Ses ressources minières volent 60 crédits et soignent l'unité en jeu de 30."
+      "description": "Ses ressources minières volent 60 crédits et soignent l'unité en jeu de 30.",
+      "effets": [
+        ["voleCredit", 60],
+        ["soinJeu", 30]
+      ]
     },
     "lore": "Pays d'Afrique de l'Ouest riche en diamants, fer et bauxite."
   },
@@ -5575,22 +4073,11 @@
     "special": {
       "nom": "Hub de Malacca",
       "cout": 190,
-      "cibles": [
-        "creditA",
-        "deck"
-      ],
-      "variables": [
-        "credit",
-        "emplacement"
-      ],
-      "valeurs": [
-        -100,
-        [
-          3,
-          "main"
-        ]
-      ],
-      "description": "Son contrôle du trafic maritime vole 100 crédits et fait piocher 3 cartes."
+      "description": "Son contrôle du trafic maritime vole 100 crédits et fait piocher 3 cartes.",
+      "effets": [
+        ["voleCredit", 100],
+        ["pioche", 3]
+      ]
     },
     "lore": "Cité-État hyper-développée et plaque tournante de la finance."
   },
@@ -5611,22 +4098,11 @@
     "special": {
       "nom": "Atelier Automobile",
       "cout": 180,
-      "cibles": [
-        "creditA",
-        "deck"
-      ],
-      "variables": [
-        "credit",
-        "emplacement"
-      ],
-      "valeurs": [
-        -65,
-        [
-          2,
-          "main"
-        ]
-      ],
-      "description": "Son industrie de pointe vole 65 crédits et fait piocher 2 cartes."
+      "description": "Son industrie de pointe vole 65 crédits et fait piocher 2 cartes.",
+      "effets": [
+        ["voleCredit", 65],
+        ["pioche", 2]
+      ]
     },
     "lore": "Premier producteur mondial de voitures par habitant."
   },
@@ -5647,19 +4123,11 @@
     "special": {
       "nom": "Corridor Vert",
       "cout": 180,
-      "cibles": [
-        "jeu",
-        "banc"
-      ],
-      "variables": [
-        "etat",
-        "etat"
-      ],
-      "valeurs": [
-        70,
-        45
-      ],
-      "description": "Son écologie avancée soigne l'unité en jeu de 70 et le banc de 45."
+      "description": "Son écologie avancée soigne l'unité en jeu de 70 et le banc de 45.",
+      "effets": [
+        ["soinJeu", 70],
+        ["soinBanc", 45]
+      ]
     },
     "lore": "Joyau vert de l'Europe centrale, membre de la zone euro."
   },
@@ -5680,19 +4148,11 @@
     "special": {
       "nom": "Piraterie du Golfe",
       "cout": 55,
-      "cibles": [
-        "creditA",
-        "jeuA"
-      ],
-      "variables": [
-        "credit",
-        "etat"
-      ],
-      "valeurs": [
-        -70,
-        -30
-      ],
-      "description": "Ses raids maritimes volent 70 crédits et infligent 30 dégâts."
+      "description": "Ses raids maritimes volent 70 crédits et infligent 30 dégâts.",
+      "effets": [
+        ["voleCredit", 70],
+        ["degatAdverse", 30]
+      ]
     },
     "lore": "Nation de la Corne de l'Afrique dotée du plus long littoral du continent."
   },
@@ -5713,19 +4173,11 @@
     "special": {
       "nom": "Confluence des Nils",
       "cout": 115,
-      "cibles": [
-        "jeuA",
-        "bancA"
-      ],
-      "variables": [
-        "etat",
-        "etat"
-      ],
-      "valeurs": [
-        -80,
-        -40
-      ],
-      "description": "Sa position hydraulique stratégique inflige 80 dégâts en jeu et 40 sur le banc."
+      "description": "Sa position hydraulique stratégique inflige 80 dégâts en jeu et 40 sur le banc.",
+      "effets": [
+        ["degatAdverse", 80],
+        ["degatBanc", 40]
+      ]
     },
     "lore": "Grand pays africain en pleine guerre civile."
   },
@@ -5746,19 +4198,11 @@
     "special": {
       "nom": "Puits du Haut-Nil",
       "cout": 50,
-      "cibles": [
-        "creditA",
-        "jeuA"
-      ],
-      "variables": [
-        "credit",
-        "etat"
-      ],
-      "valeurs": [
-        -65,
-        -30
-      ],
-      "description": "Son pétrole brut vole 65 crédits et inflige 30 dégâts d'usure."
+      "description": "Son pétrole brut vole 65 crédits et inflige 30 dégâts d'usure.",
+      "effets": [
+        ["voleCredit", 65],
+        ["degatAdverse", 30]
+      ]
     },
     "lore": "Le plus jeune pays du monde, né d'une longue lutte."
   },
@@ -5779,22 +4223,11 @@
     "special": {
       "nom": "Perle de l'Océan Indien",
       "cout": 115,
-      "cibles": [
-        "deck",
-        "banc"
-      ],
-      "variables": [
-        "emplacement",
-        "etat"
-      ],
-      "valeurs": [
-        [
-          2,
-          "main"
-        ],
-        40
-      ],
-      "description": "Sa beauté naturelle fait piocher 2 cartes et soigne le banc de 40."
+      "description": "Sa beauté naturelle fait piocher 2 cartes et soigne le banc de 40.",
+      "effets": [
+        ["pioche", 2],
+        ["soinBanc", 40]
+      ]
     },
     "lore": "Île stratégique célèbre pour son thé de Ceylan et ses ports profonds."
   },
@@ -5815,19 +4248,11 @@
     "special": {
       "nom": "Ingénierie de Défense",
       "cout": 190,
-      "cibles": [
-        "jeuA",
-        "jeu"
-      ],
-      "variables": [
-        "etat",
-        "etat"
-      ],
-      "valeurs": [
-        -95,
-        65
-      ],
-      "description": "Son armement high-tech inflige 95 dégâts et soigne votre unité de 65."
+      "description": "Son armement high-tech inflige 95 dégâts et soigne votre unité de 65.",
+      "effets": [
+        ["degatAdverse", 95],
+        ["soinJeu", 65]
+      ]
     },
     "lore": "Puissance technologique, leader mondial de l'innovation et du design."
   },
@@ -5848,19 +4273,11 @@
     "special": {
       "nom": "Neutralité Armée",
       "cout": 190,
-      "cibles": [
-        "jeu",
-        "banc"
-      ],
-      "variables": [
-        "etat",
-        "etat"
-      ],
-      "valeurs": [
-        100,
-        70
-      ],
-      "description": "Son inviolabilité soigne l'unité en jeu de 100 et le banc de 70."
+      "description": "Son inviolabilité soigne l'unité en jeu de 100 et le banc de 70.",
+      "effets": [
+        ["soinJeu", 100],
+        ["soinBanc", 70]
+      ]
     },
     "lore": "Havre de stabilité financière et siège de nombreuses organisations."
   },
@@ -5881,19 +4298,11 @@
     "special": {
       "nom": "Forêt Amazonienne",
       "cout": 45,
-      "cibles": [
-        "jeu",
-        "banc"
-      ],
-      "variables": [
-        "etat",
-        "etat"
-      ],
-      "valeurs": [
-        50,
-        35
-      ],
-      "description": "Sa jungle impénétrable soigne l'unité en jeu de 50 et le banc de 35."
+      "description": "Sa jungle impénétrable soigne l'unité en jeu de 50 et le banc de 35.",
+      "effets": [
+        ["soinJeu", 50],
+        ["soinBanc", 35]
+      ]
     },
     "lore": "Plus petit pays d'Amérique du Sud, recouvert à 90% par la forêt."
   },
@@ -5914,19 +4323,11 @@
     "special": {
       "nom": "Guerre d'Usure",
       "cout": 55,
-      "cibles": [
-        "jeuA",
-        "bancA"
-      ],
-      "variables": [
-        "etat",
-        "etat"
-      ],
-      "valeurs": [
-        -85,
-        -35
-      ],
-      "description": "Ses tactiques de guérilla infligent 85 dégâts en jeu et 35 sur le banc."
+      "description": "Ses tactiques de guérilla infligent 85 dégâts en jeu et 35 sur le banc.",
+      "effets": [
+        ["degatAdverse", 85],
+        ["degatBanc", 35]
+      ]
     },
     "lore": "Pays marqué par une décennie de conflits."
   },
@@ -5947,19 +4348,11 @@
     "special": {
       "nom": "Glaciers du Pamir",
       "cout": 40,
-      "cibles": [
-        "jeu",
-        "banc"
-      ],
-      "variables": [
-        "etat",
-        "etat"
-      ],
-      "valeurs": [
-        45,
-        30
-      ],
-      "description": "Ses montagnes inaccessibles soignent l'unité en jeu de 45 et le banc de 30."
+      "description": "Ses montagnes inaccessibles soignent l'unité en jeu de 45 et le banc de 30.",
+      "effets": [
+        ["soinJeu", 45],
+        ["soinBanc", 30]
+      ]
     },
     "lore": "Nation montagneuse d'Asie centrale, le 'Toit du Monde' post-soviétique."
   },
@@ -5980,19 +4373,11 @@
     "special": {
       "nom": "Bouclier de Silicium",
       "cout": 190,
-      "cibles": [
-        "jeuA",
-        "creditA"
-      ],
-      "variables": [
-        "etat",
-        "credit"
-      ],
-      "valeurs": [
-        -90,
-        -50
-      ],
-      "description": "Son monopole sur les puces inflige 90 dégâts et vole 50 crédits."
+      "description": "Son monopole sur les puces inflige 90 dégâts et vole 50 crédits.",
+      "effets": [
+        ["degatAdverse", 90],
+        ["voleCredit", 50]
+      ]
     },
     "lore": "Leader des semi-conducteurs au enjeu géopolitique majeur."
   },
@@ -6013,22 +4398,11 @@
     "special": {
       "nom": "Manne du Kilimandjaro",
       "cout": 115,
-      "cibles": [
-        "creditA",
-        "deck"
-      ],
-      "variables": [
-        "credit",
-        "emplacement"
-      ],
-      "valeurs": [
-        -55,
-        [
-          2,
-          "main"
-        ]
-      ],
-      "description": "Son tourisme et ses minerais volent 55 crédits et font piocher 2 cartes."
+      "description": "Son tourisme et ses minerais volent 55 crédits et font piocher 2 cartes.",
+      "effets": [
+        ["voleCredit", 55],
+        ["pioche", 2]
+      ]
     },
     "lore": "Pays d'Afrique de l'Est abritant le Serengeti."
   },
@@ -6049,19 +4423,11 @@
     "special": {
       "nom": "Gendarme du Sahel",
       "cout": 55,
-      "cibles": [
-        "jeuA",
-        "bancA"
-      ],
-      "variables": [
-        "etat",
-        "etat"
-      ],
-      "valeurs": [
-        -90,
-        -40
-      ],
-      "description": "Son armée endurcie inflige 90 dégâts en jeu et 40 sur le banc."
+      "description": "Son armée endurcie inflige 90 dégâts en jeu et 40 sur le banc.",
+      "effets": [
+        ["degatAdverse", 90],
+        ["degatBanc", 40]
+      ]
     },
     "lore": "Puissance militaire régionale, pivot de la sécurité en Afrique."
   },
@@ -6082,22 +4448,11 @@
     "special": {
       "nom": "Hub de l'Asie du Sud-Est",
       "cout": 115,
-      "cibles": [
-        "creditA",
-        "deck"
-      ],
-      "variables": [
-        "credit",
-        "emplacement"
-      ],
-      "valeurs": [
-        -65,
-        [
-          2,
-          "main"
-        ]
-      ],
-      "description": "Sa puissance industrielle vole 65 crédits et fait piocher 2 cartes."
+      "description": "Sa puissance industrielle vole 65 crédits et fait piocher 2 cartes.",
+      "effets": [
+        ["voleCredit", 65],
+        ["pioche", 2]
+      ]
     },
     "lore": "Deuxième économie d'Asie du Sud-Est, carrefour touristique."
   },
@@ -6118,19 +4473,11 @@
     "special": {
       "nom": "Ressources Pétrolières",
       "cout": 45,
-      "cibles": [
-        "creditA",
-        "banc"
-      ],
-      "variables": [
-        "credit",
-        "etat"
-      ],
-      "valeurs": [
-        -40,
-        30
-      ],
-      "description": "Ses gisements en mer volent 40 crédits et soignent le banc de 30."
+      "description": "Ses gisements en mer volent 40 crédits et soignent le banc de 30.",
+      "effets": [
+        ["voleCredit", 40],
+        ["soinBanc", 30]
+      ]
     },
     "lore": "Jeune nation insulaire ayant lutté pour son indépendance."
   },
@@ -6151,22 +4498,11 @@
     "special": {
       "nom": "Port Autonome de Lomé",
       "cout": 50,
-      "cibles": [
-        "creditA",
-        "deck"
-      ],
-      "variables": [
-        "credit",
-        "emplacement"
-      ],
-      "valeurs": [
-        -45,
-        [
-          1,
-          "main"
-        ]
-      ],
-      "description": "Son port en eau profonde vole 45 crédits et fait piocher 1 carte."
+      "description": "Son port en eau profonde vole 45 crédits et fait piocher 1 carte.",
+      "effets": [
+        ["voleCredit", 45],
+        ["pioche", 1]
+      ]
     },
     "lore": "Corridor logistique majeur pour les pays enclavés d'Afrique de l'Ouest."
   },
@@ -6187,19 +4523,11 @@
     "special": {
       "nom": "Dynastie Insulaire",
       "cout": 40,
-      "cibles": [
-        "jeu",
-        "banc"
-      ],
-      "variables": [
-        "etat",
-        "etat"
-      ],
-      "valeurs": [
-        50,
-        35
-      ],
-      "description": "Sa lignée royale millénaire soigne l'unité en jeu de 50 et le banc de 35."
+      "description": "Sa lignée royale millénaire soigne l'unité en jeu de 50 et le banc de 35.",
+      "effets": [
+        ["soinJeu", 50],
+        ["soinBanc", 35]
+      ]
     },
     "lore": "Seule monarchie du Pacifique."
   },
@@ -6220,22 +4548,11 @@
     "special": {
       "nom": "Pétro-Caraïbes",
       "cout": 55,
-      "cibles": [
-        "creditA",
-        "deck"
-      ],
-      "variables": [
-        "credit",
-        "emplacement"
-      ],
-      "valeurs": [
-        -60,
-        [
-          1,
-          "main"
-        ]
-      ],
-      "description": "Sa richesse gazière vole 60 crédits et fait piocher 1 carte."
+      "description": "Sa richesse gazière vole 60 crédits et fait piocher 1 carte.",
+      "effets": [
+        ["voleCredit", 60],
+        ["pioche", 1]
+      ]
     },
     "lore": "Nation caribéenne leader régional dans les hydrocarbures."
   },
@@ -6256,22 +4573,11 @@
     "special": {
       "nom": "Héritage de Carthage",
       "cout": 115,
-      "cibles": [
-        "deck",
-        "banc"
-      ],
-      "variables": [
-        "emplacement",
-        "etat"
-      ],
-      "valeurs": [
-        [
-          2,
-          "main"
-        ],
-        45
-      ],
-      "description": "Son aura historique fait piocher 2 cartes et soigne le banc de 45."
+      "description": "Son aura historique fait piocher 2 cartes et soigne le banc de 45.",
+      "effets": [
+        ["pioche", 2],
+        ["soinBanc", 45]
+      ]
     },
     "lore": "Nation méditerranéenne au riche passé culturel."
   },
@@ -6292,19 +4598,11 @@
     "special": {
       "nom": "Drones Bayraktar",
       "cout": 190,
-      "cibles": [
-        "jeuA",
-        "bancA"
-      ],
-      "variables": [
-        "etat",
-        "etat"
-      ],
-      "valeurs": [
-        -110,
-        -50
-      ],
-      "description": "Sa technologie de drones inflige 110 dégâts en jeu et 50 sur le banc."
+      "description": "Sa technologie de drones inflige 110 dégâts en jeu et 50 sur le banc.",
+      "effets": [
+        ["degatAdverse", 110],
+        ["degatBanc", 50]
+      ]
     },
     "lore": "Puissance régionale émergente à cheval sur deux continents."
   },
@@ -6325,19 +4623,11 @@
     "special": {
       "nom": "Portes de l'Enfer",
       "cout": 55,
-      "cibles": [
-        "jeuA",
-        "creditA"
-      ],
-      "variables": [
-        "etat",
-        "credit"
-      ],
-      "valeurs": [
-        -75,
-        -45
-      ],
-      "description": "Ses réserves de gaz massives infligent 75 dégâts et volent 45 crédits."
+      "description": "Ses réserves de gaz massives infligent 75 dégâts et volent 45 crédits.",
+      "effets": [
+        ["degatAdverse", 75],
+        ["voleCredit", 45]
+      ]
     },
     "lore": "L'un des pays les plus fermés au monde."
   },
@@ -6358,22 +4648,11 @@
     "special": {
       "nom": "Domaine .tv",
       "cout": 40,
-      "cibles": [
-        "creditA",
-        "deck"
-      ],
-      "variables": [
-        "credit",
-        "emplacement"
-      ],
-      "valeurs": [
-        -50,
-        [
-          2,
-          "main"
-        ]
-      ],
-      "description": "Loue son extension internet pour voler 50 crédits et piocher 2 cartes."
+      "description": "Loue son extension internet pour voler 50 crédits et piocher 2 cartes.",
+      "effets": [
+        ["voleCredit", 50],
+        ["pioche", 2]
+      ]
     },
     "lore": "Micro-État, l'un des pays les plus menacés par la montée des eaux."
   },
@@ -6394,19 +4673,11 @@
     "special": {
       "nom": "Grenier du Monde",
       "cout": 120,
-      "cibles": [
-        "jeuA",
-        "bancA"
-      ],
-      "variables": [
-        "etat",
-        "etat"
-      ],
-      "valeurs": [
-        -95,
-        -45
-      ],
-      "description": "Son endurance militaire et agricole inflige 95 dégâts en jeu et 45 sur le banc."
+      "description": "Son endurance militaire et agricole inflige 95 dégâts en jeu et 45 sur le banc.",
+      "effets": [
+        ["degatAdverse", 95],
+        ["degatBanc", 45]
+      ]
     },
     "lore": "Vaste pays doté de terres fertiles et d'une force de résilience éprouvée."
   },
@@ -6427,19 +4698,11 @@
     "special": {
       "nom": "Suisse de l'Amérique",
       "cout": 55,
-      "cibles": [
-        "jeu",
-        "banc"
-      ],
-      "variables": [
-        "etat",
-        "etat"
-      ],
-      "valeurs": [
-        60,
-        45
-      ],
-      "description": "Sa stabilité démocratique soigne l'unité en jeu de 60 et le banc de 45."
+      "description": "Sa stabilité démocratique soigne l'unité en jeu de 60 et le banc de 45.",
+      "effets": [
+        ["soinJeu", 60],
+        ["soinBanc", 45]
+      ]
     },
     "lore": "Pays pionnier dans les droits sociaux et les énergies renouvelables."
   },
@@ -6460,19 +4723,11 @@
     "special": {
       "nom": "Échanges Coutumiers",
       "cout": 35,
-      "cibles": [
-        "jeu",
-        "banc"
-      ],
-      "variables": [
-        "etat",
-        "etat"
-      ],
-      "valeurs": [
-        40,
-        30
-      ],
-      "description": "Sa culture de solidarité soigne l'unité en jeu de 40 et le banc de 30."
+      "description": "Sa culture de solidarité soigne l'unité en jeu de 40 et le banc de 30.",
+      "effets": [
+        ["soinJeu", 40],
+        ["soinBanc", 30]
+      ]
     },
     "lore": "Archipel mélanésien volcanique à la diversité linguistique exceptionnelle."
   },
@@ -6493,19 +4748,11 @@
     "special": {
       "nom": "Bénédiction Urbis",
       "cout": 55,
-      "cibles": [
-        "jeu",
-        "banc"
-      ],
-      "variables": [
-        "etat",
-        "etat"
-      ],
-      "valeurs": [
-        90,
-        60
-      ],
-      "description": "Son autorité morale soigne l'unité en jeu de 90 et le banc de 60."
+      "description": "Son autorité morale soigne l'unité en jeu de 90 et le banc de 60.",
+      "effets": [
+        ["soinJeu", 90],
+        ["soinBanc", 60]
+      ]
     },
     "lore": "Plus petit État au monde, centre spirituel de l'Église catholique."
   },
@@ -6526,19 +4773,11 @@
     "special": {
       "nom": "Or Noir Infini",
       "cout": 115,
-      "cibles": [
-        "creditA",
-        "jeuA"
-      ],
-      "variables": [
-        "credit",
-        "etat"
-      ],
-      "valeurs": [
-        -85,
-        -35
-      ],
-      "description": "Ses réserves records de brut volent 85 crédits et infligent 35 dégâts."
+      "description": "Ses réserves records de brut volent 85 crédits et infligent 35 dégâts.",
+      "effets": [
+        ["voleCredit", 85],
+        ["degatAdverse", 35]
+      ]
     },
     "lore": "Pays possédant les plus grandes réserves de pétrole de la planète."
   },
@@ -6559,22 +4798,11 @@
     "special": {
       "nom": "Dragon de l'ASEAN",
       "cout": 120,
-      "cibles": [
-        "creditA",
-        "deck"
-      ],
-      "variables": [
-        "credit",
-        "emplacement"
-      ],
-      "valeurs": [
-        -65,
-        [
-          2,
-          "main"
-        ]
-      ],
-      "description": "Son essor manufacturier vole 65 crédits et fait piocher 2 cartes."
+      "description": "Son essor manufacturier vole 65 crédits et fait piocher 2 cartes.",
+      "effets": [
+        ["voleCredit", 65],
+        ["pioche", 2]
+      ]
     },
     "lore": "Ancien pays agricole devenu un hub industriel mondial incontournable."
   },
@@ -6595,19 +4823,11 @@
     "special": {
       "nom": "Verrou de Bab-el-Mandeb",
       "cout": 55,
-      "cibles": [
-        "creditA",
-        "jeuA"
-      ],
-      "variables": [
-        "credit",
-        "etat"
-      ],
-      "valeurs": [
-        -60,
-        -35
-      ],
-      "description": "Son contrôle du détroit vole 60 crédits et inflige 35 dégâts."
+      "description": "Son contrôle du détroit vole 60 crédits et inflige 35 dégâts.",
+      "effets": [
+        ["voleCredit", 60],
+        ["degatAdverse", 35]
+      ]
     },
     "lore": "Pays à la position maritime stratégique."
   },
@@ -6628,22 +4848,11 @@
     "special": {
       "nom": "Ceinture de Cuivre",
       "cout": 50,
-      "cibles": [
-        "creditA",
-        "deck"
-      ],
-      "variables": [
-        "credit",
-        "emplacement"
-      ],
-      "valeurs": [
-        -55,
-        [
-          1,
-          "main"
-        ]
-      ],
-      "description": "Ses mines de cuivre volent 55 crédits et font piocher 1 carte."
+      "description": "Ses mines de cuivre volent 55 crédits et font piocher 1 carte.",
+      "effets": [
+        ["voleCredit", 55],
+        ["pioche", 1]
+      ]
     },
     "lore": "L'un des plus grands producteurs mondiaux de cuivre de qualité."
   },
@@ -6664,19 +4873,11 @@
     "special": {
       "nom": "Ruines du Grand Zimbabwe",
       "cout": 45,
-      "cibles": [
-        "jeu",
-        "banc"
-      ],
-      "variables": [
-        "etat",
-        "etat"
-      ],
-      "valeurs": [
-        55,
-        30
-      ],
-      "description": "Son héritage de pierre prestigieux soigne l'unité en jeu de 55 et le banc de 30."
+      "description": "Son héritage de pierre prestigieux soigne l'unité en jeu de 55 et le banc de 30.",
+      "effets": [
+        ["soinJeu", 55],
+        ["soinBanc", 30]
+      ]
     },
     "lore": "Ancien grenier à blé d'Afrique australe, riche en or et en platine."
   }

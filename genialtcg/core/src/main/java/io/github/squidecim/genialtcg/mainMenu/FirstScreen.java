@@ -32,7 +32,7 @@ public class FirstScreen implements Screen {
     private Label messageLabel;
     private String errorMessage = null;
 
-    private Window errorDialog;
+    private Dialog errorDialog;
     private TextButton btnClose;
     private Dialog joinPartyDialog;
     private TextButton btnJoinDialog;
@@ -207,13 +207,26 @@ public class FirstScreen implements Screen {
 
                     game.soundifyButton(btnJoinDialog);
 
+                    TextButton btnCancelDialog = new TextButton("Annuler", skin);
+                    btnCancelDialog.addListener(
+                        new ChangeListener() {
+                            @Override
+                            public void changed(ChangeEvent event, Actor actor) {
+                                joinPartyDialog.hide();
+                            }
+                        }
+                    );
+                    game.soundifyButton(btnCancelDialog);
+
                     joinPartyDialog
                         .getButtonTable()
                         .defaults()
                         .width(120)
                         .height(40)
                         .pad(10);
+                    joinPartyDialog.getButtonTable().add(btnCancelDialog);
                     joinPartyDialog.getButtonTable().add(btnJoinDialog);
+                    joinPartyDialog.setResizable(true);
                     joinPartyDialog.addListener(new InputListener() {
                         @Override
                         public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
@@ -301,7 +314,8 @@ public class FirstScreen implements Screen {
             dialog.button(closeButton);
             dialog.setModal(true);
             dialog.setMovable(false);
-            dialog.setResizable(false);
+            dialog.setResizable(true);
+            errorDialog = dialog;
             dialog.show(stage);
         }
     }
@@ -375,6 +389,18 @@ public class FirstScreen implements Screen {
     @Override
     public void resize(int width, int height) {
         stage.getViewport().update(width, height, true);
+        if (joinPartyDialog != null && joinPartyDialog.hasParent()) {
+            joinPartyDialog.setPosition(
+                (stage.getWidth() - joinPartyDialog.getWidth()) / 2f,
+                (stage.getHeight() - joinPartyDialog.getHeight()) / 2f
+            );
+        }
+        if (errorDialog != null && errorDialog.hasParent()) {
+            errorDialog.setPosition(
+                (stage.getWidth() - errorDialog.getWidth()) / 2f,
+                (stage.getHeight() - errorDialog.getHeight()) / 2f
+            );
+        }
     }
 
     @Override

@@ -802,19 +802,8 @@ public class NewDeckScreen implements Screen {
                             CardData d = game.allCardsMap.get(s);
                             if (d == null) {
                                 d = new CardData(
-                                    s,
-                                    "N/A",
-                                    "N/A",
-                                    "N/A",
-                                    0,
-                                    0,
-                                    new int[5],
-                                    0,
-                                    new String[0],
-                                    new String[0],
-                                    new Object[0],
-                                    "N/A",
-                                    "N/A"
+                                    s, "N/A", "N/A", "N/A",
+                                    0, 0, new int[5], 0, "N/A", "N/A"
                                 );
                             }
                             list.add(d);
@@ -856,6 +845,7 @@ public class NewDeckScreen implements Screen {
         dialog.getContentTable().add(nameInput).width(300).pad(10);
 
         dialog.getButtonTable().defaults().width(120).height(40).pad(10);
+        dialog.button("Annuler", false);
         dialog.button("Valider", true);
         for (Cell<?> cell : dialog.getButtonTable().getCells()) {
             if (cell.getActor() instanceof TextButton) {
@@ -864,6 +854,8 @@ public class NewDeckScreen implements Screen {
         }
 
         dialog.key(Input.Keys.ENTER, true);
+        dialog.key(Input.Keys.ESCAPE, false);
+        dialog.setResizable(true);
 
         dialog.addListener(new InputListener() {
             @Override

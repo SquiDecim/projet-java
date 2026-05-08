@@ -512,6 +512,141 @@ public class GameController implements InputProcessor, GameClient.NetworkListene
             view.showEphemeralMessage("Pas assez de crédits ! (" + attackCost + " requis)");
             return;
         }
+
+        String[] types  = card.specialEffectTypes;
+        int[]    values = card.specialEffectValues;
+        if (types == null || types.length == 0) {
+            view.hideAttackMenu();
+            return;
+        }
+
+        model.spendCredits(attackCost);
+
+        for (int i = 0; i < types.length; i++) {
+            applyLocalEffect(types[i], values[i]);
+        }
+
+        client.sendSpecialAttack(types, values,
+            model.myCredits, model.opponentCredits, model.deckSize());
+
+        view.updateMyCredits(model.myCredits);
         view.hideAttackMenu();
+    }
+
+    private void applyLocalEffect(String type, int value) {
+        switch (type) {
+            case "degatAdverse": {
+                CardDecal oppTable = view.getOpponentTableCard();
+                if (oppTable != null) applyDamageAndFloat(oppTable, -value, true);
+                break;
+            }
+            case "degatBanc": {
+                CardDecal oppBench = view.getFirstOpponentBenchCard();
+                if (oppBench != null) applyDamageAndFloat(oppBench, -value, true);
+                break;
+            }
+            case "soinJeu": {
+                CardDecal myTable = view.getMyTableCard();
+                if (myTable != null) {
+                    model.applyDamage(myTable, value);
+                    Vector3 pos = myTable.getPosition().cpy();
+                    pos.y += 0.5f;
+                    view.spawnFloatingText("+" + value, pos);
+                }
+                break;
+            }
+            case "soinBanc": {
+                CardDecal myBench = view.getFirstMyBenchCard();
+                if (myBench != null) {
+                    model.applyDamage(myBench, value);
+                    Vector3 pos = myBench.getPosition().cpy();
+                    pos.y += 0.5f;
+                    view.spawnFloatingText("+" + value, pos);
+                }
+                break;
+            }
+            case "voleCredit": {
+                int stolen = Math.min(value, model.opponentCredits);
+                model.receiveCredits(stolen);
+                model.opponentCredits = Math.max(0, model.opponentCredits - value);
+                view.updateOpponentCredits(model.opponentCredits);
+                break;
+            }
+            case "pioche": {
+                for (int j = 0; j < value; j++) {
+                    CardData drawn = model.drawCard();
+                    if (drawn != null) {
+                        view.addCardToHand(drawn);
+                        view.updateDeckVisual(model.deckSize());
+                        if (game.takingCardsSound != null)
+                            game.takingCardsSound.play(game.uiSoundVolume);
+                    }
+                }
+                break;
+            }
+        }
+    }
+
+    @Override
+    public void onSpecialAttack(NetworkMessages.SpecialAttack msg) {
+        boolean iAmAttacker = model.myTurn;
+
+        for (int i = 0; i < msg.effectTypes.length; i++) {
+            String type  = msg.effectTypes[i];
+            int    value = msg.effectValues[i];
+            switch (type) {
+                case "degatAdverse":
+                    if (!iAmAttacker) {
+                        CardDecal myTable = view.getMyTableCard();
+                        if (myTable != null) applyDamageAndFloat(myTable, -value, false);
+                    }
+                    break;
+                case "degatBanc":
+                    if (!iAmAttacker) {
+                        CardDecal myBench = view.getFirstMyBenchCard();
+                        if (myBench != null) applyDamageAndFloat(myBench, -value, false);
+                    }
+                    break;
+                case "soinJeu":
+                    if (!iAmAttacker) {
+                        CardDecal oppTable = view.getOpponentTableCard();
+                        if (oppTable != null) {
+                            model.applyDamage(oppTable, value);
+                            Vector3 pos = oppTable.getPosition().cpy();
+                            pos.y += 0.5f;
+                            view.spawnFloatingText("+" + value, pos);
+                        }
+                    }
+                    break;
+                case "soinBanc":
+                    if (!iAmAttacker) {
+                        CardDecal oppBench = view.getFirstOpponentBenchCard();
+                        if (oppBench != null) {
+                            model.applyDamage(oppBench, value);
+                            Vector3 pos = oppBench.getPosition().cpy();
+                            pos.y += 0.5f;
+                            view.spawnFloatingText("+" + value, pos);
+                        }
+                    }
+                    break;
+                case "pioche":
+                    if (!iAmAttacker) {
+                        for (int j = 0; j < value; j++)
+                            view.updateOpponentDeckVisual(msg.newDeckSize + value - 1 - j);
+                    }
+                    break;
+            }
+        }
+
+        // Sync des crédits depuis les valeurs autoritatives du message
+        if (iAmAttacker) {
+            model.myCredits       = msg.newAttackerCredits;
+            model.opponentCredits = msg.newDefenderCredits;
+        } else {
+            model.myCredits       = msg.newDefenderCredits;
+            model.opponentCredits = msg.newAttackerCredits;
+        }
+        view.updateMyCredits(model.myCredits);
+        view.updateOpponentCredits(model.opponentCredits);
     }
 }

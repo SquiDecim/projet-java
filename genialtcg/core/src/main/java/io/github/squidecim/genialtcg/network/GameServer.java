@@ -129,6 +129,8 @@ public class GameServer {
                     String attackerId = playerIds.get(conn);
                     d.playerId = attackerId.equals("player1") ? "player1" : "player2";
                     server.sendToAllTCP(d);
+                } else if (obj instanceof NetworkMessages.SpecialAttack) {
+                    server.sendToAllTCP(obj);
                 } else if (obj instanceof NetworkMessages.PlayerQuit) {
                     server.sendToAllTCP(obj);
                 }
@@ -167,5 +169,8 @@ public class GameServer {
         kryo.register(NetworkMessages.Retreat.class);
         kryo.register(NetworkMessages.CardDied.class);
         kryo.register(NetworkMessages.PlayerQuit.class);
+        kryo.register(String[].class);
+        kryo.register(int[].class);
+        kryo.register(NetworkMessages.SpecialAttack.class);
     }
 }

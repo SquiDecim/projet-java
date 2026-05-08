@@ -25,6 +25,7 @@ public class GameClient {
         void onNormalAttack(NetworkMessages.NormalAttack msg);
         void onRetreat(NetworkMessages.Retreat msg);
         void onCardDied(NetworkMessages.CardDied msg);
+        void onSpecialAttack(NetworkMessages.SpecialAttack msg);
         void onPlayerQuit();
     }
 
@@ -63,6 +64,8 @@ public class GameClient {
                         current.onCreditsUpdate((NetworkMessages.CreditsUpdate) obj);
                     else if (obj instanceof NetworkMessages.CardDied)
                         current.onCardDied((NetworkMessages.CardDied) obj);
+                    else if (obj instanceof NetworkMessages.SpecialAttack)
+                        current.onSpecialAttack((NetworkMessages.SpecialAttack) obj);
                     else if (obj instanceof NetworkMessages.PlayerQuit)
                         current.onPlayerQuit();
                 });
@@ -146,6 +149,17 @@ public class GameClient {
     public void sendCreditsUpdate(int credits){
         NetworkMessages.CreditsUpdate msg = new NetworkMessages.CreditsUpdate();
         msg.credits = credits;
+        client.sendTCP(msg);
+    }
+
+    public void sendSpecialAttack(String[] effectTypes, int[] effectValues,
+                                   int newAttackerCredits, int newDefenderCredits, int newDeckSize) {
+        NetworkMessages.SpecialAttack msg = new NetworkMessages.SpecialAttack();
+        msg.effectTypes         = effectTypes;
+        msg.effectValues        = effectValues;
+        msg.newAttackerCredits  = newAttackerCredits;
+        msg.newDefenderCredits  = newDefenderCredits;
+        msg.newDeckSize         = newDeckSize;
         client.sendTCP(msg);
     }
 

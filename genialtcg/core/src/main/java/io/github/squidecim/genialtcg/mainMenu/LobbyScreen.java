@@ -490,6 +490,9 @@ public class LobbyScreen implements Screen, GameClient.NetworkListener {
     public void onCardDied(NetworkMessages.CardDied msg) {}
 
     @Override
+    public void onSpecialAttack(NetworkMessages.SpecialAttack msg) {}
+
+    @Override
     public void onPlayerQuit() {}
 
 }

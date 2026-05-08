@@ -1,0 +1,73 @@
+RÉFÉRENTIEL DES EFFETS SPÉCIAUX — PAYS
+=======================================
+
+Chaque pays possède un coup spécial défini dans pays.json sous la clé "special".
+
+STRUCTURE JSON
+--------------
+
+  "special": {
+    "nom":         "Nom du coup",
+    "cout":        50,
+    "description": "Texte affiché sur la carte.",
+    "effets":      [ ["typeEffet", valeur], ... ]
+  }
+
+Les effets sont une liste de paires [type, valeur].
+La valeur est toujours un entier positif — la direction est encodée dans le nom du type.
+Un coup peut avoir 1 ou 2 effets.
+
+
+TYPES D'EFFETS DISPONIBLES
+---------------------------
+
+  Type           | Cible                        | Effet
+  ---------------|------------------------------|-----------------------------------------------
+  degatAdverse   | Carte adverse en jeu         | Inflige <valeur> PV de dégâts
+  degatBanc      | 1re carte du banc adverse    | Inflige <valeur> PV de dégâts
+  soinJeu        | Votre carte en jeu           | Restaure <valeur> PV
+  soinBanc       | 1re carte de votre banc      | Restaure <valeur> PV
+  voleCredit     | Crédits de l'adversaire      | Vole <valeur> crédits
+  pioche         | Votre deck                   | Pioche <valeur> cartes
+
+
+EXEMPLES
+--------
+
+Afghanistan — "Cimetière des Empires"  (cout: 50)
+  "effets": [["degatAdverse", 100]]
+  → Inflige 100 PV de dégâts à la carte adverse en jeu.
+
+Allemagne — "Moteur Européen"  (cout: 265)
+  "effets": [["degatAdverse", 110], ["degatBanc", 50]]
+  → Inflige 110 dégâts à la carte en jeu et 50 à la première carte du banc adverse.
+
+Angola — "Pétro-diplomatie"  (cout: 120)
+  "effets": [["soinJeu", 40], ["soinBanc", 30]]
+  → Restaure 40 PV à votre carte en jeu et 30 PV à votre première carte du banc.
+
+Bolivie — "Triangle du Lithium"  (cout: 115)
+  "effets": [["voleCredit", 55], ["pioche", 2]]
+  → Vole 55 crédits à l'adversaire et pioche 2 cartes.
+
+Finlande — "Ligne Mannerheim"  (cout: 190)
+  "effets": [["degatAdverse", 70], ["soinJeu", 60]]
+  → Inflige 70 dégâts et soigne votre carte de 60 PV simultanément.
+
+Palestine — "Reconnaissance Mondiale"  (cout: 45)
+  "effets": [["pioche", 2], ["soinBanc", 45]]
+  → Pioche 2 cartes et soigne votre première carte du banc de 45 PV.
+
+Israël — "Dôme de Fer"  (cout: 200)
+  "effets": [["degatAdverse", 90], ["soinJeu", 70]]
+  → Intercepte et contre-attaque : 90 dégâts infligés, 70 PV récupérés.
+
+
+NOTES D'IMPLÉMENTATION
+-----------------------
+
+- Les effets sont appliqués dans l'ordre de la liste.
+- "degatBanc" et "soinBanc" ciblent toujours la première carte non-nulle du banc concerné.
+- "voleCredit" est limité au solde disponible de l'adversaire (pas de crédit négatif).
+- "pioche" s'arrête si le deck est vide (pas de perte par défaut).
+- Le coût du coup est débité avant que les effets soient appliqués.

@@ -1783,6 +1783,22 @@ public class GameView implements Screen {
         tableCard.animateTo(benchPos, 0, -90f, 0, 0.4f);
     }
 
+    public CardDecal getFirstOpponentBenchCard() {
+        for (CardSlot slot : benchTopSlots) {
+            CardDecal c = slot.getCard();
+            if (c != null) return c;
+        }
+        return null;
+    }
+
+    public CardDecal getFirstMyBenchCard() {
+        for (CardSlot slot : benchBottomSlots) {
+            CardDecal c = slot.getCard();
+            if (c != null) return c;
+        }
+        return null;
+    }
+
     public CardDecal getOpponentBenchCardById(String cardId) {
         for (CardSlot slot : benchTopSlots) {
             CardDecal c = slot.getCard();

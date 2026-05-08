@@ -234,33 +234,25 @@ public class GenialTCG extends Game {
                     : new int[5];
 
                 JsonValue spec = entry.get("special");
-                int sCout = 0;
-                String[] sCibles = new String[0];
-                String[] sVars = new String[0];
-                Object[] sVals = new Object[0];
-                String sNom = "";
-                String sDesc = "";
+                int      sCout  = 0;
+                String   sNom   = "";
+                String   sDesc  = "";
+                String[] effectTypes  = new String[0];
+                int[]    effectValues = new int[0];
 
                 if (spec != null) {
                     sCout = spec.getInt("cout", 0);
-
-                    sNom = spec.getString("nom", "");
+                    sNom  = spec.getString("nom", "");
                     sDesc = spec.getString("description", "");
 
-                    if (spec.has("cibles")) sCibles = spec
-                        .get("cibles")
-                        .asStringArray();
-                    if (spec.has("variables")) sVars = spec
-                        .get("variables")
-                        .asStringArray();
-                    if (spec.has("valeurs")) {
-                        JsonValue vArr = spec.get("valeurs");
-                        sVals = new Object[vArr.size];
-                        for (int i = 0; i < vArr.size; i++) {
-                            JsonValue v = vArr.get(i);
-                            sVals[i] = v.isArray()
-                                ? v.asStringArray()
-                                : v.asInt();
+                    if (spec.has("effets")) {
+                        JsonValue effetsArr = spec.get("effets");
+                        effectTypes  = new String[effetsArr.size];
+                        effectValues = new int[effetsArr.size];
+                        for (int i = 0; i < effetsArr.size; i++) {
+                            JsonValue pair = effetsArr.get(i);
+                            effectTypes[i]  = pair.getString(0);
+                            effectValues[i] = pair.getInt(1);
                         }
                     }
                 }
@@ -274,12 +266,11 @@ public class GenialTCG extends Game {
                     entry.getInt("etat", 0),
                     statsArray,
                     sCout,
-                    sCibles,
-                    sVars,
-                    sVals,
                     sNom,
                     sDesc
                 );
+                card.specialEffectTypes  = effectTypes;
+                card.specialEffectValues = effectValues;
                 allCardsMap.put(card.getAtlasRegionName(), card);
             }
         } catch (Exception e) {
@@ -372,9 +363,7 @@ public class GenialTCG extends Game {
                 String sNom = "";
                 String sDesc = "";
 
-                if (entry.has("cibles")) cibles = entry
-                    .get("cibles")
-                    .asStringArray();
+                if (entry.has("cibles")) cibles = entry.get("cibles").asStringArray();
 
                 if (entry.has("variables")) {
                     JsonValue varsArr = entry.get("variables");
@@ -407,12 +396,12 @@ public class GenialTCG extends Game {
                     0,
                     new int[5],
                     0,
-                    cibles,
-                    variables,
-                    valeurs,
                     sNom,
                     sDesc
                 );
+                card.specialTargets   = cibles;
+                card.specialVariables = variables;
+                card.specialValues    = valeurs;
                 card.cond = condStr;
                 card.condTypes = condTypes;
                 card.condTerrains = condTerrains;

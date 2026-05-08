@@ -17,11 +17,15 @@ public class CardData {
     // Ordre : [puissance, economie, ressources, technologie, stabilite]
     public int[] stats;
 
-    // Informations Spéciales
-    public int specialCost;
+    // Effets du coup spécial (pays uniquement — format [type, valeur])
+    public int      specialCost;
+    public String[] specialEffectTypes;
+    public int[]    specialEffectValues;
+
+    // Effets des cartes actions/outils (ancien format cibles/variables/valeurs)
     public String[] specialTargets;
     public String[] specialVariables;
-    public Object[] specialValues; // Object[] car peut contenir des int ou des int[] (ex: [1, "main"])
+    public Object[] specialValues;
 
     // Condition d'activation (actions/outils uniquement) — affichage
     public String cond;
@@ -50,9 +54,6 @@ public class CardData {
         int pv,
         int[] stats,
         int specialCout,
-        String[] specialCibles,
-        String[] specialVariables,
-        Object[] specialValeurs,
         String specialNom,
         String specialDescription
     ) {
@@ -64,9 +65,6 @@ public class CardData {
         this.pv = pv;
         this.stats = stats;
         this.specialCost = specialCout;
-        this.specialTargets = specialCibles;
-        this.specialVariables = specialVariables;
-        this.specialValues = specialValeurs;
         this.specialName = specialNom;
         this.specialDescription = specialDescription;
         this.revocation = cost/2;
@@ -107,11 +105,9 @@ public class CardData {
             "\t\tstabilité   : %d\n" +
             "\tSpécial :\n" +
             "\tNom spécial : %s\n" +
-            "\tDescription : %s\n"+
-            "\t\tcoût      : %d\n" +
-            "\t\tcibles    : %s\n" +
-            "\t\tvariables : %s\n" +
-            "\t\tvaleurs   : %s",
+            "\tDescription : %s\n" +
+            "\t\tcoût   : %d\n" +
+            "\t\teffets : %s",
 
             country, rank, type, cost, pv,
             stats != null && stats.length > 0 ? stats[0] : 0,
@@ -122,10 +118,19 @@ public class CardData {
             specialName,
             specialDescription,
             specialCost,
-            java.util.Arrays.toString(specialTargets),
-            java.util.Arrays.toString(specialVariables),
-            formatValeurs(specialValues)
+            formatEffets(specialEffectTypes, specialEffectValues)
         );
+    }
+
+    private static String formatEffets(String[] types, int[] values) {
+        if (types == null || types.length == 0) return "[]";
+        StringBuilder sb = new StringBuilder("[");
+        for (int i = 0; i < types.length; i++) {
+            if (i > 0) sb.append(", ");
+            sb.append("[").append(types[i]).append(", ").append(values[i]).append("]");
+        }
+        sb.append("]");
+        return sb.toString();
     }
 
     private static String formatValeurs(Object[] vals) {
