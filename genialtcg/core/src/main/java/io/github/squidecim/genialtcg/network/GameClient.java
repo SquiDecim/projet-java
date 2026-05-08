@@ -108,7 +108,17 @@ public class GameClient {
     }
 
     public void disconnect() {
-        client.stop();
+        try {
+            client.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        try {
+            client.stop();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public void setListener(NetworkListener listener) {

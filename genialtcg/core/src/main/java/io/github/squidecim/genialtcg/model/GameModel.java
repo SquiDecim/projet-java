@@ -3,6 +3,7 @@ package io.github.squidecim.genialtcg.model;
 import io.github.squidecim.genialtcg.GenialTCG;
 import io.github.squidecim.genialtcg.view.CardDecal;
 
+import javax.smartcardio.Card;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -72,6 +73,10 @@ public class GameModel {
     public void moveFromTableToBench(CardData card){
         table = null;
         bench.add(card);
+    }
+
+    public void useFromHand(CardData card){
+        hand.remove(card);
     }
 
     public boolean isBenchFull() {

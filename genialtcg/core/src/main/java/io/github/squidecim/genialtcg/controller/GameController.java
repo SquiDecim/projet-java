@@ -220,6 +220,7 @@ public class GameController implements InputProcessor, GameClient.NetworkListene
             boolean fromBench = draggedCard.emplacement.equals("bench");
             boolean toBench = slot.type.equals("bench");
             boolean toTable = slot.type.equals("table");
+            boolean toAction = slot.type.equals("action");
 
 
             if (fromBench && toBench){
@@ -228,7 +229,10 @@ public class GameController implements InputProcessor, GameClient.NetworkListene
                 return true;
             }
 
-            if (toBench) {
+            if (toAction && slot.isEmpty()){
+                model.useFromHand(draggedCard.getData());
+                //A continuer ça marche pas la
+            } else if (toBench) {
                 if (model.isBenchFull()) {
                     view.cancelDrag(draggedCard);
                 } else {
