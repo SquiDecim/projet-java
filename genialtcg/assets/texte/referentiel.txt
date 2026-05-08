@@ -62,12 +62,42 @@ Structure :
   }
 
 Conditions (cond) — filtres d'utilisation :
-  "type":    [...]    Votre pays doit être de l'un de ces types
-  "rang":    [...]    Votre pays doit être de l'un de ces rangs
-  "terrain": [...]    Le terrain actif doit être dans la liste
-  "etatMax": N        Votre pays doit avoir ≤ N PV
-  "etatMin": N        Votre pays doit avoir ≥ N PV
-  "statMin": {...}    Une ou plusieurs stats doivent atteindre le minimum
+  null                    Aucune condition, la carte est toujours jouable.
+  Plusieurs clés = toutes doivent être satisfaites simultanément (logique ET).
+
+  Clé        | Type de valeur | Description
+  -----------|----------------|--------------------------------------------------
+  "type"     | ["...", ...]   | Votre pays actif doit appartenir à l'un des types listés
+  "rang"     | ["...", ...]   | Votre pays actif doit avoir l'un des rangs listés
+  "terrain"  | ["...", ...]   | Le terrain de la partie doit être dans la liste
+  "etatMax"  | N              | Votre pays actif doit avoir ≤ N PV restants
+  "etatMin"  | N              | Votre pays actif doit avoir ≥ N PV restants
+  "statMin"  | {"stat": N}    | La stat indiquée de votre pays actif doit être ≥ N
+
+  Valeurs possibles — "type" :
+    Militaire | Économique | Diplomatique | Renseignement | Isolationniste | Technologique
+
+  Valeurs possibles — "rang" (ordre croissant) :
+    Marginal | Émergent | Établi | Dominant | Hégémonie
+
+  Valeurs possibles — "terrain" :
+    Tempéré | Désertique | Tropical | Montagneux | Glacial | Océanique
+
+  Valeurs possibles — "statMin" (clés) :
+    puissance | economie | ressources | technologie | stabilite
+
+  Exemples :
+    { "type": ["Diplomatique"] }
+      → Votre pays doit être Diplomatique.
+
+    { "terrain": ["Tropical"], "etatMax": 350 }
+      → Terrain Tropical ET votre pays doit avoir ≤ 350 PV.
+
+    { "type": ["Renseignement"], "statMin": { "technologie": 50 } }
+      → Pays Renseignement ET technologie ≥ 50.
+
+    { "rang": ["Émergent", "Établi", "Dominant", "Hégémonie"] }
+      → Votre pays ne doit pas être Marginal.
 
 Effets disponibles (actions) :
   Type               | Paramètre | Effet
@@ -100,7 +130,7 @@ Structure :
     "description": "..."
   }
 
-Conditions (cond) — mêmes règles que les actions.
+Conditions (cond) — mêmes règles que les actions (voir section 2).
 
 Effets disponibles (outils) — modifications permanentes appliquées chaque tour :
   Les types sont construits à partir des noms de stat + suffixes de cible.
