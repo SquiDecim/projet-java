@@ -50,9 +50,23 @@ public class GameView implements Screen {
 
     private GameClient client;
 
-    private PerspectiveCamera cam;
     private Environment environment;
     private ModelBatch modelBatch;
+    private PerspectiveCamera cam;
+
+    private Vector3 savedCamPosition = null;
+    private Vector3 savedCamDirection = null;
+    private Vector3 camTargetPos = null;
+    private Vector3 camTargetDir = null;
+
+    private boolean camAnimating = false;
+    private float camAnimTimer = 0f;
+    private float camAnimDuration = 0.6f;
+
+    private Runnable onCamAnimDone = null;
+
+    private Vector3 camStartPos = null;
+    private Vector3 camStartDir = null;
 
     private TextureAtlas cardAtlas;
     private TextureAtlas actionsAtlas;
@@ -294,7 +308,7 @@ public class GameView implements Screen {
             new TextureRegion(backTexture),
             BENCH_CARD_W,
             BENCH_CARD_H,
-            1,
+            0,
             5.15f,
             0,
             2.125f
@@ -458,6 +472,36 @@ public class GameView implements Screen {
     public void render(float delta) {
         if (controller != null) {
             controller.update(delta);
+
+            if (camAnimating) {
+                camAnimTimer += delta;
+                float t = Math.min(camAnimTimer / camAnimDuration, 1f);
+                // ease in-out
+                t = t * t * (3f - 2f * t);
+                cam.position.set(
+                    lerp(camStartPos.x, camTargetPos.x, t),
+                    lerp(camStartPos.y, camTargetPos.y, t),
+                    lerp(camStartPos.z, camTargetPos.z, t)
+                );
+                Vector3 dir = new Vector3(
+                    lerp(camStartDir.x, camTargetDir.x, t),
+                    lerp(camStartDir.y, camTargetDir.y, t),
+                    lerp(camStartDir.z, camTargetDir.z, t)
+                ).nor();
+                cam.lookAt(cam.position.cpy().add(dir));
+                cam.update();
+                if (camAnimTimer >= camAnimDuration) {
+                    camAnimating = false;
+                    cam.position.set(camTargetPos);
+                    cam.lookAt(cam.position.cpy().add(camTargetDir));
+                    cam.update();
+                    if (onCamAnimDone != null) {
+                        Runnable cb = onCamAnimDone;
+                        onCamAnimDone = null;
+                        cb.run();
+                    }
+                }
+            }
         }
 
         Gdx.gl.glViewport(
@@ -507,6 +551,7 @@ public class GameView implements Screen {
         }
 
         for (CardSlot slot : benchTopSlots) {
+            slot.renderSelectable(modelBatch, environment);
             if (!slot.isEmpty()) {
                 CardDecal card = slot.getCard();
                 if (card.isAnimating()) card.update(delta);
@@ -629,6 +674,48 @@ public class GameView implements Screen {
         if (floatFont != null) floatFont.dispose();
         if (uiLabelFont != null) uiLabelFont.dispose();
         if (specialDescFont != null) specialDescFont.dispose();
+    }
+
+    private float lerp(float a, float b, float t) {
+        return a + (b - a) * t;
+    }
+
+    public void moveCamToOpponentBench(Runnable onDone) {
+        savedCamPosition = cam.position.cpy();
+        // direction actuelle = lookAt - position, on la calcule depuis la matrice
+        savedCamDirection = new Vector3(cam.direction).cpy();
+
+        camStartPos = cam.position.cpy();
+        camStartDir = cam.direction.cpy();
+        // position face au banc adverse (z négatif = côté adverse, y plus bas pour être ras du plateau)
+        camTargetPos = new Vector3(0f, 3.5f, -0.8f);
+        // regarde vers z=-4 (là où sont les benchTopSlots)
+        camTargetDir = new Vector3(0f, -3.5f, -3.25f).sub(camTargetPos).nor();
+
+        camAnimTimer = 0f;
+        camAnimating = true;
+        onCamAnimDone = onDone;
+    }
+
+    public void restoreCam(Runnable onDone) {
+        if (savedCamPosition == null) {
+            if (onDone != null) onDone.run();
+            return;
+        }
+        camStartPos = cam.position.cpy();
+        camStartDir = cam.direction.cpy();
+        camTargetPos = savedCamPosition.cpy();
+        camTargetDir = savedCamDirection.cpy();
+        savedCamPosition = null;
+        savedCamDirection = null;
+
+        camAnimTimer = 0f;
+        camAnimating = true;
+        onCamAnimDone = onDone;
+    }
+
+    public boolean isCamAnimating() {
+        return camAnimating;
     }
 
     public void togglePauseMenu() {
@@ -1745,11 +1832,21 @@ public class GameView implements Screen {
         }
     }
 
-    public void setSelectableBorderForBench(boolean ownBench) {
-        Array<CardSlot> slots = ownBench ? benchBottomSlots : benchTopSlots;
-        for (CardSlot slot : slots) {
-            if (!slot.isEmpty()) slot.setSelectable(true);
+    public void setSelectableBorderForOwnBench(boolean selectable) {
+        for (CardSlot slot : benchBottomSlots) {
+            if (!slot.isEmpty()) slot.setSelectable(selectable);
         }
+    }
+
+    public void setSelectableBorderForOpponentBench(boolean selectable) {
+        for (CardSlot slot : benchTopSlots) {
+            if (!slot.isEmpty()) slot.setSelectable(selectable);
+        }
+    }
+
+    public void clearAllSelectableBorders() {
+        setSelectableBorder(false);           // benchBottomSlots via la méthode existante
+        setSelectableBorderForOpponentBench(false);
     }
 
     public CardDecal getBenchCardAt(Ray ray) {

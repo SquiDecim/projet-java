@@ -75,6 +75,7 @@ public class GameController implements InputProcessor, GameClient.NetworkListene
     public boolean touchDown(int x, int y, int p, int b) {
 
         if (view.isPauseMenuVisible()) return false;
+        if (view.isCamAnimating()) return false;
 
         if (view.isZooming()) {
             Ray ray = view.getCam().getPickRay(x, y);
@@ -95,6 +96,7 @@ public class GameController implements InputProcessor, GameClient.NetworkListene
         Ray ray = view.getCam().getPickRay(x, y);
         CardDecal card = view.getHoveredCard(ray);
 
+
         if (selectingBenchTarget && b == 0) {
             CardDecal benchCard = benchTargetIsOpponent
                 ? view.getOpponentBenchCardAt(ray)
@@ -102,9 +104,7 @@ public class GameController implements InputProcessor, GameClient.NetworkListene
             if (benchCard != null) {
                 selectingBenchTarget = false;
                 benchTargetIsOpponent = false;
-                view.setSelectableBorder(false);
-                view.setSelectableBorderForBench(true); // reset les deux côtés
-                view.setSelectableBorderForBench(false);
+                view.clearAllSelectableBorders();
                 view.hideBanner();
                 if (onBenchTargetSelected != null) {
                     onBenchTargetSelected.accept(benchCard);
@@ -538,7 +538,7 @@ public class GameController implements InputProcessor, GameClient.NetworkListene
         }
 
         String[] types = card.specialEffectTypes;
-        int[] values = card.specialEffectValues;
+        int[] values   = card.specialEffectValues;
         if (types == null || types.length == 0) {
             view.hideAttackMenu();
             return;
@@ -562,14 +562,36 @@ public class GameController implements InputProcessor, GameClient.NetworkListene
                 if ("soinBanc".equals(type)) { targetingOwnBench = true; break; }
             }
             benchTargetIsOpponent = !targetingOwnBench;
-            view.setSelectableBorderForBench(targetingOwnBench);
+
+            boolean benchIsEmpty = benchTargetIsOpponent
+                ? view.getFirstOpponentBenchCard() == null
+                : view.getFirstMyBenchCard() == null;
+
+            if (benchIsEmpty) {
+                client.sendSpecialAttack(types, values, model.deckSize(), null);
+                return;
+            }
+            if (targetingOwnBench) {
+                view.setSelectableBorderForOwnBench(true);
+            } else {
+                view.setSelectableBorderForOpponentBench(true);
+            }
+
             view.showBanner(targetingOwnBench
                 ? "Choisissez une carte de votre banc à soigner"
                 : "Choisissez une carte du banc adverse à attaquer");
             selectingBenchTarget = true;
+
             onBenchTargetSelected = (chosenCard) -> {
-                client.sendSpecialAttack(types, values, model.deckSize(), chosenCard.getData().getAtlasRegionName());
+                view.restoreCam(() ->
+                    client.sendSpecialAttack(types, values, model.deckSize(),
+                        chosenCard.getData().getAtlasRegionName())
+                );
             };
+
+            if (benchTargetIsOpponent) {
+                view.moveCamToOpponentBench(null);
+            }
         } else {
             client.sendSpecialAttack(types, values, model.deckSize(), null);
         }
