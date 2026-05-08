@@ -97,6 +97,7 @@ public class GameView implements Screen {
     private Label opponentCreditsLabel;
     private Label myPointsLabel;
     private Label opponentPointsLabel;
+    private Label turnCountLabel;
     private BitmapFont uiLabelFont;
 
     private Label setupBanner;
@@ -386,6 +387,18 @@ public class GameView implements Screen {
         oppPanel.add(oppPointsBox).fillX().row();
         oppPanel.add(oppCreditsBox).fillX().padTop(7);
         uiStage.addActor(oppPanel);
+
+        Table turnPanel = new Table();
+        turnPanel.setFillParent(true);
+        turnPanel.top().left().padLeft(20).padTop(20);
+
+        Table turnBox = new Table();
+        turnBox.setBackground(uiSkin.newDrawable("white", boxBg));
+        turnCountLabel = new Label("Nombre de tours : 0", uiStyle);
+        turnBox.add(turnCountLabel).pad(9, 18, 9, 18);
+
+        turnPanel.add(turnBox);
+        uiStage.addActor(turnPanel);
         InputMultiplexer multiplexer = new InputMultiplexer();
         multiplexer.addProcessor(controller);
         multiplexer.addProcessor(0, uiStage);
@@ -429,8 +442,14 @@ public class GameView implements Screen {
         generator.dispose();
 
         ephemeralLabel = new Label("", game.skin, "title");
-        ephemeralLabel.setFontScale(0.15f);
-        ephemeralLabel.setColor(Color.SALMON);
+        ephemeralLabel.setFontScale(0.25f);
+        ephemeralLabel.setColor(Color.ORANGE);
+
+        Table ephemeralTable = new Table();
+        ephemeralTable.setFillParent(true);
+        ephemeralTable.center();
+        ephemeralTable.add(ephemeralLabel);
+        uiStage.addActor(ephemeralTable);
 
         Gdx.input.setInputProcessor(multiplexer);
     }
@@ -793,6 +812,10 @@ public class GameView implements Screen {
 
     public void updateOpponentCredits(int credits) {
         opponentCreditsLabel.setText("Crédits adverses : " + credits);
+    }
+
+    public void updateTurnCount(int count) {
+        turnCountLabel.setText("Nombre de tours : " + count);
     }
 
     public void addCardToHand(CardData data) {
@@ -1666,8 +1689,6 @@ public class GameView implements Screen {
             .padLeft(10)
             .row();
 
-        content.add(ephemeralLabel).colspan(2).center().padTop(10).row();
-
         attackMenu.addListener(
             new InputListener() {
                 @Override
@@ -1711,8 +1732,8 @@ public class GameView implements Screen {
         ephemeralLabel.addAction(
             Actions.sequence(
                 Actions.alpha(1f),
-                Actions.delay(2f),
-                Actions.fadeOut(0.5f),
+                Actions.delay(1f),
+                Actions.fadeOut(0.3f),
                 Actions.run(() -> ephemeralLabel.setText(""))
             )
         );

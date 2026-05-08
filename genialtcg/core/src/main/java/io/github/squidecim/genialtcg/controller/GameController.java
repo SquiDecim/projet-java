@@ -23,6 +23,7 @@ public class GameController implements InputProcessor, GameClient.NetworkListene
     private GameClient client;
 
     private String myPlayerId;
+    private String firstPlayerId = null;
 
     private boolean canDraw = true;
     private float drawCooldown = 0.75f;
@@ -128,8 +129,12 @@ public class GameController implements InputProcessor, GameClient.NetworkListene
             }
         }
 
-        if (model.phase == GameModel.Phase.PLAYING && !model.myTurn && (b == 0) || (b == 3)) {
-            return false;
+        if (b == 3) return false;
+        if (model.phase == GameModel.Phase.PLAYING && !model.myTurn && b == 0) {
+            if (view.isDeckClicked(ray)) {
+                view.showEphemeralMessage("Ce n'est pas votre tour !");
+                return false;
+            }
         }
 
         if (card != null) {
@@ -152,6 +157,14 @@ public class GameController implements InputProcessor, GameClient.NetworkListene
     public boolean touchUp(int x, int y, int p, int b) {
         if (draggedCard == null) return false;
         draggedCard.setDragging(false);
+
+        if (model.phase == GameModel.Phase.PLAYING && !model.myTurn) {
+            view.cancelDrag(draggedCard);
+            view.showEphemeralMessage("Ce n'est pas votre tour !");
+            draggedCard = null;
+            return true;
+        }
+
         Ray ray = view.getCam().getPickRay(x, y);
 
         CardSlot slot = view.getIntersectedSlot(ray);
@@ -324,6 +337,12 @@ public class GameController implements InputProcessor, GameClient.NetworkListene
         boolean myTurn = msg.currentPlayerId.equals(myPlayerId);
         model.phase = GameModel.Phase.PLAYING;
         model.myTurn = myTurn;
+        if (firstPlayerId == null) {
+            firstPlayerId = msg.currentPlayerId;
+        } else if (msg.currentPlayerId.equals(firstPlayerId)) {
+            model.turnCount++;
+            view.updateTurnCount(model.turnCount);
+        }
         if (myTurn) {
             model.receiveCredits(model.getTotalEconomy());
             client.sendCreditsUpdate(model.myCredits);
