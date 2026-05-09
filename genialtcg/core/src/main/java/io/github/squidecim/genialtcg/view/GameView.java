@@ -1,7 +1,6 @@
 package io.github.squidecim.genialtcg.view;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.Screen;
@@ -294,7 +293,7 @@ public class GameView implements Screen {
         }
 
         actionSlot = new CardSlot(
-            new Vector3(4.5f, 0, 0),
+            new Vector3(3.91f, 0, 0),
             0,
             -90f,
             0,
@@ -1261,6 +1260,53 @@ public class GameView implements Screen {
         decal.animateTo(opponentTableSlot.getPosition(), 0, -90f, 0, 0.5f);
     }
 
+    public void addOpponentCardToAction(CardData card) {
+        AtlasRegion region = findRegionForCard(card);
+        if (region == null) return;
+
+        CardDecal decal = removeOpponentCardFromField(
+            card.getAtlasRegionName()
+        );
+
+        if (decal != null) {
+            decal.buildModel(
+                decal.frontRegion,
+                decal.backRegion,
+                BENCH_CARD_W,
+                BENCH_CARD_H
+            );
+            decal.emplacement = "action";
+        } else {
+            Vector3 startPos =
+                opponentHandCards.size > 0
+                    ? opponentHandCards
+                      .get(opponentHandCards.size - 1)
+                      .getPosition()
+                    : opponentDeck.getPosition();
+            decal = new CardDecal(
+                card,
+                new TextureRegion(region),
+                new TextureRegion(backTexture),
+                BENCH_CARD_W,
+                BENCH_CARD_H,
+                cam,
+                "action"
+            );
+            decal.setPosition(startPos.x, startPos.y, startPos.z);
+            decal.setRotation(0, -90f, 0);
+            if (opponentHandCards.size > 0) {
+                CardDecal ghost = opponentHandCards.removeIndex(
+                    opponentHandCards.size - 1
+                );
+                ghost.dispose();
+                repositionOpponentHand();
+            }
+        }
+        decal.generateDynamicTexture(512, 716);
+        actionSlot.setCardDirect(decal);
+        decal.animateTo(actionSlot.getPosition(), 0, -90f, 0, 0.5f);
+    }
+
     public CardDecal removeOpponentCardFromField(String cardId) {
         for (CardSlot slot : benchTopSlots) {
             CardDecal c = slot.getCard();
@@ -1405,6 +1451,22 @@ public class GameView implements Screen {
 
     public boolean isDeckClicked(Ray ray) {
         return deck.intersects(ray);
+    }
+
+    public boolean isDiscardClicked(Ray ray) {
+        return discard.intersects(ray);
+    }
+
+    public boolean isOpponentDiscardClicked(Ray ray) {
+        return opponentDiscard.intersects(ray);
+    }
+
+    public CardsStackDecal getMyDiscard(){
+        return discard;
+    }
+
+    public CardsStackDecal getOpponentDiscard(){
+        return opponentDiscard;
     }
 
     private CardsStackDecal createCardsStacks(
@@ -1572,6 +1634,30 @@ public class GameView implements Screen {
         hideBanner();
     }
 
+    public void showZoom(CardsStackDecal stack) {
+        clearHover();
+        CardDecal card = stack.getCardOnTop();
+        if (card == null) return;
+        if (zoomGhost != null) zoomGhost.dispose();
+        zoomGhost = new CardDecal(
+            card.getData(),
+            card.frontRegion,
+            card.backRegion,
+            BENCH_CARD_W * 2.5f,
+            BENCH_CARD_H * 2.5f,
+            cam,
+            "zoom"
+        );
+        if (card.getData() != null) zoomGhost.generateDynamicTexture(512, 716);
+        zoomGhost.setPosition(0, 2f, 3.5f);
+        Vector3 ghostPos = new Vector3(0, 1.75f, 4f);
+        Vector3 toCam = new Vector3(cam.position).sub(ghostPos).nor();
+        float pitch = (float) Math.toDegrees(Math.asin(toCam.y));
+        zoomGhost.setRotation(0, -pitch + 10, 0);
+        hideActionButton();
+        hideBanner();
+    }
+
     public void clearHover() {
         if (hoveredCard != null) {
             hoveredCard.setHovered(false);
@@ -1610,6 +1696,10 @@ public class GameView implements Screen {
 
     public CardDecal getOpponentTableCard() {
         return opponentTableSlot.getCard();
+    }
+
+    public CardDecal getActionCard(){
+        return actionSlot.getCard();
     }
 
     public Vector3 getMyDiscardPosition() {
@@ -2074,7 +2164,7 @@ public class GameView implements Screen {
         CardsStackDecal discardStack = mine ? discard : opponentDiscard;
         Vector3 discardPos = discardStack.getPosition().cpy();
         discardPos.y += discardStack.nbrCards * 0.007f + 0.007f;
-
+        discardStack.setCardOnTop(card);
         discardingCards.add(card);
 
         card.animateTo(discardPos, 0, -90f, 0, 0.6f);
@@ -2094,7 +2184,27 @@ public class GameView implements Screen {
                     });
                 }
             },
-            1f
-        );
+            1f);
+    }
+
+    public void showToCam(CardDecal cardAction, boolean isMyCard) {
+        Vector3 newPosition = new Vector3(0, 4.35f, 5f);
+        cardAction.animateTo(newPosition, 0, -55f, 0, 0.3f);
+
+        com.badlogic.gdx.utils.Timer.schedule(
+            new com.badlogic.gdx.utils.Timer.Task() {
+                @Override
+                public void run() {
+                    sendToDiscard(cardAction, isMyCard);
+                }
+            }, 1.3f);
+
+        com.badlogic.gdx.utils.Timer.schedule(
+            new com.badlogic.gdx.utils.Timer.Task() {
+                @Override
+                public void run() {
+                    controller.handleAction(cardAction, isMyCard);
+                }
+            }, 2f);
     }
 }

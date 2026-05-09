@@ -13,6 +13,7 @@ import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Plane;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.math.collision.Ray;
+import io.github.squidecim.genialtcg.model.CardData;
 
 public class CardsStackDecal {
 
@@ -28,6 +29,7 @@ public class CardsStackDecal {
     private Vector3 position = new Vector3();
 
     private TextureRegion topTexture = null;
+    private CardDecal topCard;
 
 
     public CardsStackDecal(TextureRegion cardTexture, float width, float height, int nbrCards) {
@@ -112,6 +114,14 @@ public class CardsStackDecal {
 
     public Vector3 getPosition() {
         return position.cpy();
+    }
+
+    public void setCardOnTop(CardDecal card){
+        this.topCard = card;
+    }
+
+    public CardDecal getCardOnTop(){
+        return this.topCard;
     }
 
     public void setPosition(float x, float y, float z) {
