@@ -94,6 +94,7 @@ public class GameServer {
                     played.cardId = ((NetworkMessages.PlayCard) obj).cardId;
                     played.zone = ((NetworkMessages.PlayCard) obj).zone;
                     played.slotIndex = ((NetworkMessages.PlayCard) obj).slotIndex;
+                    played.targetBenchCardId = ((NetworkMessages.PlayCard) obj).targetBenchCardId;
                     server.sendToAllTCP(played);
                 } else if (obj instanceof NetworkMessages.GameStart) {
                     server.sendToAllTCP(obj);
@@ -132,6 +133,8 @@ public class GameServer {
                 } else if (obj instanceof NetworkMessages.SpecialAttack) {
                     server.sendToAllTCP(obj);
                 } else if (obj instanceof NetworkMessages.PlayerQuit) {
+                    server.sendToAllTCP(obj);
+                } else if (obj instanceof NetworkMessages.Field) {
                     server.sendToAllTCP(obj);
                 }
             }
@@ -182,5 +185,6 @@ public class GameServer {
         kryo.register(String[].class);
         kryo.register(int[].class);
         kryo.register(NetworkMessages.SpecialAttack.class);
+        kryo.register(NetworkMessages.Field.class);
     }
 }

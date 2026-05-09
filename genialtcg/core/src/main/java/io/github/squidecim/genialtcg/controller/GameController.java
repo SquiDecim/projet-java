@@ -18,10 +18,9 @@ import io.github.squidecim.genialtcg.view.CardSlot;
 import io.github.squidecim.genialtcg.view.GameView;
 
 import java.util.Arrays;
+import java.util.Random;
 
-public class GameController
-    implements InputProcessor, GameClient.NetworkListener
-{
+public class GameController implements InputProcessor, GameClient.NetworkListener {
 
     private final GenialTCG game;
     private final GameView view;
@@ -255,18 +254,19 @@ public class GameController
                     if (conditionsRespected(draggedCard)){
                         model.useFromHand(draggedCard.getData());
                         view.dropCardOnSlot(draggedCard, slot);
-                        client.sendPlayCard(
-                            draggedCard.getData().getAtlasRegionName(),
-                            "action",
-                            0
-                        );
-                        com.badlogic.gdx.utils.Timer.schedule(
-                            new com.badlogic.gdx.utils.Timer.Task() {
-                                @Override
-                                public void run() {
-                                    executeAction(view.getActionCard(), true);
-                                }
-                            }, 0.5f);
+
+                        boolean hasSoinBanc = false;
+                        for (String t : draggedCard.getData().specialEffectTypes) {
+                            if ("soinBanc".equals(t)) { hasSoinBanc = true; break; }
+                        }
+                        if (!hasSoinBanc) {
+                            client.sendPlayCard(draggedCard.getData().getAtlasRegionName(), "action", 0);
+                        }
+
+                        final CardDecal played = draggedCard;
+                        com.badlogic.gdx.utils.Timer.schedule(new com.badlogic.gdx.utils.Timer.Task() {
+                            @Override public void run() { executeAction(view.getActionCard(), true); }
+                        }, 0.5f);
                     } else {
                         System.out.println("conditions non respectées");
                         view.cancelDrag(draggedCard);
@@ -445,7 +445,11 @@ public class GameController
     }
 
     private void executeAction(CardDecal cardAction, boolean isMyCard) {
-        view.showToCam(cardAction, isMyCard);
+        view.showToCam(cardAction, isMyCard, null);
+    }
+
+    private void executeAction(CardDecal cardAction, boolean isMyCard, String targetBenchCardId) {
+        view.showToCam(cardAction, isMyCard, targetBenchCardId);
     }
 
     @Override
@@ -479,6 +483,13 @@ public class GameController
     public void onPlayerQuit() {
         client.disconnect();
         game.setScreen(new FirstScreen(game));
+    }
+
+    @Override
+    public void onField(NetworkMessages.Field msg) {
+        String field = msg.field;
+        model.terrain = field;
+        view.changeField(field);
     }
 
     @Override
@@ -533,16 +544,14 @@ public class GameController
             view.addOpponentCardToBench(card);
         } else if ("table".equals(msg.zone)) {
             view.addOpponentCardToTable(card);
-        } else if ("action".equals(msg.zone)){
+        } else if ("action".equals(msg.zone)) {
             view.addOpponentCardToAction(card);
-            com.badlogic.gdx.utils.Timer.schedule(
-                new com.badlogic.gdx.utils.Timer.Task() {
-                    @Override
-                    public void run() {
-                        executeAction(view.getActionCard(), false);
-                    }
-                }, 0.5f);
-
+            final String targetId = msg.targetBenchCardId;
+            com.badlogic.gdx.utils.Timer.schedule(new com.badlogic.gdx.utils.Timer.Task() {
+                @Override public void run() {
+                    executeAction(view.getActionCard(), false, targetId);
+                }
+            }, 0.5f);
         }
     }
 
@@ -923,7 +932,124 @@ public class GameController
 
     }
 
-    public void handleAction(CardDecal cardAction, boolean isMyCard){
+    public void handleAction(CardDecal cardAction, boolean isMyCard, String targetBenchCardId) {
+        applyActionEffects(cardAction, isMyCard, targetBenchCardId, 0);
+    }
 
+    private void applyActionEffects(CardDecal cardAction, boolean isMyCard, String targetBenchCardId, int startIndex) {
+        String[] types = cardAction.getData().specialEffectTypes;
+        int[] values = cardAction.getData().specialEffectValues;
+
+        for (int i = startIndex; i < types.length; i++) {
+            String type = types[i];
+            int value = values[i];
+            final int nextIndex = i + 1;
+
+            switch (type) {
+                case "pioche": {
+                    if (isMyCard) {
+                        for (int j = 0; j < value; j++) {
+                            CardData drawn = model.drawCard();
+                            if (drawn != null) {
+                                view.addCardToHand(drawn);
+                                view.updateDeckVisual(model.deckSize());
+                                if (game.takingCardsSound != null)
+                                    game.takingCardsSound.play(game.uiSoundVolume);
+                            }
+                        }
+                    }
+                    break;
+                }
+                case "soinJeu": {
+                    CardDecal target = isMyCard ? view.getMyTableCard() : view.getOpponentTableCard();
+                    if (target != null) {
+                        model.applyDamage(target, value);
+                        Vector3 pos = target.getPosition().cpy();
+                        pos.y += 0.5f;
+                        view.spawnFloatingText("+" + value, pos, Color.GREEN);
+                    }
+                    break;
+                }
+                case "soinBanc": {
+                    if (!isMyCard) {
+                        CardDecal target = targetBenchCardId != null
+                            ? view.getMyBenchCardById(targetBenchCardId)
+                            : view.getFirstMyBenchCard();
+                        if (target != null) {
+                            model.applyDamage(target, value);
+                            Vector3 pos = target.getPosition().cpy();
+                            pos.y += 0.5f;
+                            view.spawnFloatingText("+" + value, pos, Color.GREEN);
+                        }
+                        break;
+                    }
+                    if (model.bench.isEmpty()) break;
+                    view.setSelectableBorderForOwnBench(true);
+                    view.showBanner("Choisissez une carte de votre banc à soigner");
+                    selectingBenchTarget = true;
+                    benchTargetIsOpponent = false;
+                    onBenchTargetSelected = chosenCard -> {
+                        model.applyDamage(chosenCard, value);
+                        Vector3 pos = chosenCard.getPosition().cpy();
+                        pos.y += 0.5f;
+                        view.spawnFloatingText("+" + value, pos, Color.GREEN);
+                        // On envoie ICI avec la cible connue
+                        client.sendPlayCardWithTarget(
+                            cardAction.getData().getAtlasRegionName(),
+                            "action", 0,
+                            chosenCard.getData().getAtlasRegionName()
+                        );
+                        applyActionEffects(cardAction, isMyCard, chosenCard.getData().getAtlasRegionName(), nextIndex);
+                    };
+                    return;
+                }
+                case "echangeBanc": {
+                    if (!isMyCard) break;
+                    if (model.bench.isEmpty()) {
+                        view.showEphemeralMessage("Votre banc est vide !");
+                        break;
+                    }
+                    view.setSelectableBorderForOwnBench(true);
+                    view.showBanner("Choisissez une carte du banc pour l'échanger");
+                    selectingBenchTarget = true;
+                    benchTargetIsOpponent = false;
+                    onBenchTargetSelected = chosenCard -> {
+                        view.setSelectableBorder(false);
+                        if (game.switchSound != null) game.switchSound.play(game.uiSoundVolume);
+                        CardData tableCardData = model.table;
+                        view.swapTableAndBench(chosenCard);
+                        model.moveFromTableToBench(tableCardData);
+                        model.moveFromBenchToTable(chosenCard.getData());
+                        client.sendRetreat(chosenCard.getData().getAtlasRegionName());
+                        applyActionEffects(cardAction, isMyCard, targetBenchCardId, nextIndex);
+                    };
+                    return;
+                }
+                case "echangeBancRandom": {
+                    if (!isMyCard) break;
+                    if (model.bench.isEmpty()) {
+                        view.showEphemeralMessage("Votre banc est vide !");
+                        break;
+                    }
+                    CardData randomBenchCard = model.bench.get(new Random().nextInt(model.bench.size()));
+                    CardData tableCardData = model.table;
+                    view.swapTableAndBench(view.getMyBenchCardById(randomBenchCard.getAtlasRegionName()));
+                    model.moveFromTableToBench(tableCardData);
+                    model.moveFromBenchToTable(randomBenchCard);
+                    client.sendRetreat(randomBenchCard.getAtlasRegionName());
+                    break;
+                }
+                case "ChangementT": {
+                    if (!isMyCard) break;
+                    String[] climats = {"Tempéré", "Désertique", "Océanique", "Montagneux", "Tropical", "Glacial"};
+                    String climatAction = climats[value];
+                    if (model.terrain == climatAction){
+                        view.showEphemeralMessage("Le terrain à déjà un climat " + climatAction);
+                        break;
+                    }
+                    client.sendField(climatAction);
+                }
+            }
+        }
     }
 }

@@ -107,8 +107,16 @@ public class GameView implements Screen {
     private CardDecal hoveredCard = null;
     private CardDecal draggedCard = null;
     private CardSlot originSlot = null;
+
     private ModelInstance boardInstance;
     private Model boardModel;
+    private Texture boardTexture;
+    private float flashAlpha = 0f;
+    private boolean flashingOut = false;
+    private boolean flashingIn = false;
+    private float flashSpeed = 2.5f;
+    private String pendingField = null;
+    private Material boardMaterial;
 
     private Stage uiStage;
     private Skin uiSkin;
@@ -178,9 +186,8 @@ public class GameView implements Screen {
 
         vignetteTexture = createVignetteTexture(512, 512);
 
-        Texture boardTexture = new Texture(
-            "ui/plateau/" + model.terrain + ".png"
-        );
+        boardTexture = new Texture("ui/plateau/" + model.terrain + ".png");
+
 
         ModelBuilder builder = new ModelBuilder();
         builder.begin();
@@ -217,6 +224,8 @@ public class GameView implements Screen {
 
         boardModel = builder.end();
         boardInstance = new ModelInstance(boardModel);
+
+        boardMaterial = boardInstance.materials.get(0);
 
         environment = new Environment();
         environment.set(
@@ -554,6 +563,32 @@ public class GameView implements Screen {
 
         Gdx.gl.glEnable(GL20.GL_DEPTH_TEST);
 
+        if (flashingOut) {
+            flashAlpha += delta * flashSpeed;
+            if (flashAlpha >= 1f) {
+                flashAlpha = 1f;
+                flashingOut = false;
+                Texture oldTex = boardTexture;
+                boardTexture = new Texture("ui/plateau/" + pendingField + ".png");
+                boardTexture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
+                boardMaterial.set(TextureAttribute.createDiffuse(boardTexture));
+                oldTex.dispose();
+                pendingField = null;
+                flashingIn = true;
+            }
+        } else if (flashingIn) {
+            flashAlpha -= delta * flashSpeed;
+            if (flashAlpha <= 0f) {
+                flashAlpha = 0f;
+                flashingIn = false;
+            }
+        }
+        if (flashAlpha > 0f) {
+            boardMaterial.set(ColorAttribute.createEmissive(flashAlpha, flashAlpha, flashAlpha, 1f));
+        } else {
+            boardMaterial.remove(ColorAttribute.Emissive);
+        }
+
         modelBatch.begin(cam);
         modelBatch.render(boardInstance, environment);
 
@@ -732,6 +767,7 @@ public class GameView implements Screen {
         if (specialDescFont != null) specialDescFont.dispose();
         if (backgroundTexture != null) backgroundTexture.dispose();
         if (vignetteTexture != null) vignetteTexture.dispose();
+        if (boardTexture != null) boardTexture.dispose();
     }
 
     private float lerp(float a, float b, float t) {
@@ -2251,29 +2287,29 @@ public class GameView implements Screen {
         );
     }
 
-    public void showToCam(CardDecal cardAction, boolean isMyCard) {
+    public void showToCam(CardDecal cardAction, boolean isMyCard, String targetBenchCardId) {
         Vector3 newPosition = new Vector3(0, 4.35f, 5f);
         cardAction.animateTo(newPosition, 0, -55f, 0, 0.3f);
 
-        com.badlogic.gdx.utils.Timer.schedule(
-            new com.badlogic.gdx.utils.Timer.Task() {
-                @Override
-                public void run() {
-                    sendToDiscard(cardAction, isMyCard);
-                }
-            },
-            1.3f
-        );
+        com.badlogic.gdx.utils.Timer.schedule(new com.badlogic.gdx.utils.Timer.Task() {
+            @Override public void run() { sendToDiscard(cardAction, isMyCard); }
+        }, 1.3f);
 
-        com.badlogic.gdx.utils.Timer.schedule(
-            new com.badlogic.gdx.utils.Timer.Task() {
-                @Override
-                public void run() {
-                    actionSlot.removeCard();
-                    controller.handleAction(cardAction, isMyCard);
-                }
-            },
-            2f
-        );
+        com.badlogic.gdx.utils.Timer.schedule(new com.badlogic.gdx.utils.Timer.Task() {
+            @Override public void run() {
+                actionSlot.removeCard();
+                controller.handleAction(cardAction, isMyCard, targetBenchCardId);
+            }
+        }, 2f);
+    }
+
+    public void showToCam(CardDecal cardAction, boolean isMyCard) {
+        showToCam(cardAction, isMyCard, null);
+    }
+
+    public void changeField(String field) {
+        if (flashingOut || flashingIn) return;
+        pendingField = field;
+        flashingOut = true;
     }
 }

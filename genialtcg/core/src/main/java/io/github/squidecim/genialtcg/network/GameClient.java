@@ -1,6 +1,7 @@
 package io.github.squidecim.genialtcg.network;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Net;
 import com.esotericsoftware.kryonet.Client;
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
@@ -27,6 +28,7 @@ public class GameClient {
         void onCardDied(NetworkMessages.CardDied msg);
         void onSpecialAttack(NetworkMessages.SpecialAttack msg);
         void onPlayerQuit();
+        void onField(NetworkMessages.Field msg);
     }
 
     public GameClient(String ip, NetworkListener listener) throws IOException {
@@ -68,6 +70,8 @@ public class GameClient {
                         current.onSpecialAttack((NetworkMessages.SpecialAttack) obj);
                     else if (obj instanceof NetworkMessages.PlayerQuit)
                         current.onPlayerQuit();
+                    else if (obj instanceof NetworkMessages.Field)
+                        current.onField((NetworkMessages.Field) obj);
                 });
             }
 
@@ -179,6 +183,21 @@ public class GameClient {
         msg.zone = emplacement;
         msg.isOpponent = opponentDied;
         client.sendTCP(msg);
+    }
+
+    public void sendPlayCardWithTarget(String cardId, String zone, int slotIndex, String targetBenchCardId) {
+        NetworkMessages.PlayCard msg = new NetworkMessages.PlayCard();
+        msg.cardId = cardId;
+        msg.zone = zone;
+        msg.slotIndex = slotIndex;
+        msg.targetBenchCardId = targetBenchCardId;
+        client.sendTCP(msg);
+    }
+
+    public void sendField(String climat){
+        NetworkMessages.Field f = new NetworkMessages.Field();
+        f.field = climat;
+        client.sendTCP(f);
     }
 
 }

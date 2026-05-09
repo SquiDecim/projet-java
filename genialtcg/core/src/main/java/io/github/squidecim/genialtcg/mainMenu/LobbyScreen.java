@@ -542,4 +542,9 @@ public class LobbyScreen implements Screen, GameClient.NetworkListener {
 
     @Override
     public void onPlayerQuit() {}
+
+    @Override
+    public void onField(NetworkMessages.Field msg) {
+
+    }
 }

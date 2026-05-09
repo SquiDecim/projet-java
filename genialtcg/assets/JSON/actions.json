@@ -459,35 +459,35 @@
     "id": "ACT-061",
     "nom": "Désertique",
     "cond": null,
-    "effets": [["ChangementT", "Désertique"]],
+    "effets": [["ChangementT", 1]],
     "description": "Le paysage se transforme en désert aride, où chaleur et sable dominent le terrain. Change le terrain en Désertique."
   },
   {
     "id": "ACT-062",
     "nom": "Océanique",
     "cond": null,
-    "effets": [["ChangementT", "Océanique"]],
+    "effets": [["ChangementT", 2]],
     "description": "Les terres sont submergées par les eaux, laissant place aux routes maritimes et aux flottes. Change le terrain en Océanique."
   },
   {
     "id": "ACT-063",
     "nom": "Montageux",
     "cond": null,
-    "effets": [["ChangementT", "Montageux"]],
+    "effets": [["ChangementT", 3]],
     "description": "Le sol se soulève en reliefs abrupts et chaînes montagneuses difficiles à franchir. Change le terrain en Montagneux."
   },
   {
     "id": "ACT-064",
     "nom": "Tropical",
     "cond": null,
-    "effets": [["ChangementT", "Tropical"]],
+    "effets": [["ChangementT", 4]],
     "description": "La jungle envahit le terrain, humide et dense, regorgeant de ressources naturelles. Change le terrain en Tropical."
   },
   {
     "id": "ACT-065",
     "nom": "Glacial",
     "cond": null,
-    "effets": [["ChangementT", "Glacial"]],
+    "effets": [["ChangementT", 5]],
     "description": "Le monde se fige sous une couche de glace et de froid extrême. Change le terrain en Glacial."
   }
 ]

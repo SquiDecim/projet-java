@@ -24,7 +24,7 @@ L’application gère les règles du jeu, les interactions complexes entre les c
         "nom":         "Nom du coup spécial",
         "cout":        N,
         "description": "Texte narratif expliquant l'effet spécial.",
-        "effets":      [ [degatAdverse, valeur], [degatBanc, valeur], [soinJeu, valeur], [soinJeu, valeur], [voleCredit, valeur], [pioche, valeur]]
+        "effets":      [ [degatAdverse, valeur], [degatBanc, valeur], [soinJeu, valeur], [soinBanc, valeur], [voleCredit, valeur], [pioche, valeur]]
         },
         "lore": "Texte narratif."
     }

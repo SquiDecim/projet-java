@@ -10,6 +10,7 @@ public class NetworkMessages {
         public String cardId;
         public String zone;     // "bench" ou "table"
         public int slotIndex;
+        public String targetBenchCardId;
     }
 
     // Client → Serveur : je finis mon tour
@@ -39,6 +40,7 @@ public class NetworkMessages {
         public String cardId;
         public String zone;
         public int slotIndex;
+        public String targetBenchCardId;
     }
 
     // Serveur → tous : changement de tour
@@ -93,5 +95,9 @@ public class NetworkMessages {
         public int[]    effectValues;
         public int      newDeckSize;
         public String targetBenchCardId;
+    }
+
+    public static class Field {
+        public String field;
     }
 }
