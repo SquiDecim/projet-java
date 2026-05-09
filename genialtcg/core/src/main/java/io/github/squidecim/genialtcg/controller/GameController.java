@@ -45,6 +45,7 @@ public class GameController
     private int initialDrawCount = 0;
     private static final int INITIAL_HAND_SIZE = 6;
     private boolean startTurnWithDiedCard = false;
+    public CardDecal actionCardPlayed;
 
     public GameController(
         GameView view,
@@ -177,6 +178,12 @@ public class GameController
             if (card != null) {
                 view.showZoom(card);
                 return true;
+            } else if (view.isDiscardClicked(ray)){
+                view.showZoom(view.getMyDiscard());
+                return true;
+            } else if (view.isOpponentDiscardClicked(ray)){
+                view.showZoom(view.getOpponentDiscard());
+                return true;
             }
         }
 
@@ -184,7 +191,7 @@ public class GameController
         if (model.phase == GameModel.Phase.PLAYING && !model.myTurn && b == 0) {
             if (view.isDeckClicked(ray)) {
                 view.showEphemeralMessage("Ce n'est pas votre tour !");
-                return false;
+                return true;
             }
         }
 
@@ -242,11 +249,21 @@ public class GameController
                 return true;
             }
             if (draggedCard.getData().id.startsWith("ACT-")){
-                System.out.println("C'est bien une carte action");
                 if (toAction && slot.isEmpty() && model.phase == GameModel.Phase.PLAYING) {
-                    System.out.println("slot vide et tout");
                     model.useFromHand(draggedCard.getData());
                     view.dropCardOnSlot(draggedCard, slot);
+                    client.sendPlayCard(
+                        draggedCard.getData().getAtlasRegionName(),
+                        "action",
+                        0
+                    );
+                    com.badlogic.gdx.utils.Timer.schedule(
+                        new com.badlogic.gdx.utils.Timer.Task() {
+                            @Override
+                            public void run() {
+                                executeAction(view.getActionCard(), true);
+                            }
+                        }, 0.5f);
                 } else {
                     view.cancelDrag(draggedCard);
                     draggedCard = null;
@@ -350,14 +367,6 @@ public class GameController
         return false;
     }
 
-    private void handleDeath(CardDecal card, boolean isMe) {
-        Vector3 targetPos = isMe
-            ? view.getMyDiscardPosition()
-            : view.getOpponentDiscardPosition();
-
-        card.animateTo(targetPos, 0, -90f, 0, 0.5f);
-    }
-
     public void startInitialDraw() {
         for (int i = 0; i < INITIAL_HAND_SIZE; i++) {
             com.badlogic.gdx.utils.Timer.schedule(
@@ -367,7 +376,7 @@ public class GameController
                         Gdx.app.postRunnable(() -> client.sendDrawCard());
                     }
                 },
-                (i + 2) * drawCooldown
+                (i + 2) * (drawCooldown + 0.1f)
             );
         }
         com.badlogic.gdx.utils.Timer.schedule(
@@ -389,7 +398,7 @@ public class GameController
                     });
                 }
             },
-            (INITIAL_HAND_SIZE + 2) * drawCooldown
+            (INITIAL_HAND_SIZE + 2) * (drawCooldown + 0.1f)
         );
     }
 
@@ -423,6 +432,10 @@ public class GameController
 
         client.sendCreditsUpdate(model.myCredits);
         client.sendRetreat(benchCard.getData().getAtlasRegionName());
+    }
+
+    private void executeAction(CardDecal cardAction, boolean isMyCard) {
+        view.showToCam(cardAction, isMyCard);
     }
 
     @Override
@@ -510,6 +523,16 @@ public class GameController
             view.addOpponentCardToBench(card);
         } else if ("table".equals(msg.zone)) {
             view.addOpponentCardToTable(card);
+        } else if ("action".equals(msg.zone)){
+            view.addOpponentCardToAction(card);
+            com.badlogic.gdx.utils.Timer.schedule(
+                new com.badlogic.gdx.utils.Timer.Task() {
+                    @Override
+                    public void run() {
+                        executeAction(view.getActionCard(), false);
+                    }
+                }, 0.5f);
+
         }
     }
 
@@ -736,8 +759,6 @@ public class GameController
 
         CardDecal myTable = view.getMyTableCard();
         CardDecal oppTable = view.getOpponentTableCard();
-        CardDecal myBench = view.getFirstMyBenchCard();
-        CardDecal oppBench = view.getFirstOpponentBenchCard();
 
         for (int i = 0; i < msg.effectTypes.length; i++) {
             String type = msg.effectTypes[i];
@@ -867,5 +888,9 @@ public class GameController
         } else {
             client.sendEndTurn();
         }
+    }
+
+    public void handleAction(CardDecal cardAction, boolean isMyCard){
+        
     }
 }
