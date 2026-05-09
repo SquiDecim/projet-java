@@ -3,14 +3,20 @@
     "id": "ACT-001",
     "nom": "Aide Humanitaire",
     "cond": { "type": ["Diplomatique"] },
-    "effets": [["soinJeu", 200], ["pioche", 1]],
+    "effets": [
+      ["soinJeu", 200],
+      ["pioche", 1]
+    ],
     "description": "Nations Diplomatiques. L'ONU mobilise ses convois médicaux sur le terrain. Soigne 200 PV et pioche 1 carte."
   },
   {
     "id": "ACT-002",
     "nom": "Ressources Médicales",
     "cond": { "terrain": ["Tropical"], "etatMax": 350 },
-    "effets": [["soinJeu", 180], ["soinBanc", 60]],
+    "effets": [
+      ["soinJeu", 180],
+      ["soinBanc", 60]
+    ],
     "description": "En terrain Tropical, si votre pays est ≤ 350 PV, la jungle révèle ses remèdes les plus puissants. Soigne 180 PV en jeu et 60 PV à une carte du banc."
   },
   {
@@ -87,21 +93,30 @@
     "id": "ACT-013",
     "nom": "Cyber-Attaque Étatique",
     "cond": { "type": ["Renseignement"], "statMin": { "technologie": 50 } },
-    "effets": [["bloquerOutilA", 2], ["pioche", 1]],
+    "effets": [
+      ["bloquerOutilA", 2],
+      ["pioche", 1]
+    ],
     "description": "Nations de Renseignement, si votre technologie atteint 50. Des hackers frappent les serveurs adverses. Bloque l'outil adverse 2 tours. Pioche 1 carte."
   },
   {
     "id": "ACT-014",
     "nom": "Tempête de Sable",
     "cond": { "terrain": ["Désertique"] },
-    "effets": [["bloquerOutilA", 2], ["soinJeu", 30]],
+    "effets": [
+      ["bloquerOutilA", 2],
+      ["soinJeu", 30]
+    ],
     "description": "En terrain Désertique, le vent avale radars et antennes sous des tonnes de sable. Bloque l'outil adverse 2 tours. Soigne 30 PV."
   },
   {
     "id": "ACT-015",
     "nom": "Sabotage Militaire",
     "cond": { "rang": ["Établi", "Dominant", "Hégémonie"] },
-    "effets": [["bloquerOutilA", 2], ["pioche", 1]],
+    "effets": [
+      ["bloquerOutilA", 2],
+      ["pioche", 1]
+    ],
     "description": "Pays Établis ou supérieurs. Seules les grandes puissances maîtrisent l'infiltration en territoire ennemi. Bloque l'outil adverse 2 tours. Pioche 1 carte."
   },
   {
@@ -129,21 +144,30 @@
     "id": "ACT-019",
     "nom": "Virus Informatique",
     "cond": null,
-    "effets": [["bloquerOutilA", 1], ["pioche", 1]],
+    "effets": [
+      ["bloquerOutilA", 1],
+      ["pioche", 1]
+    ],
     "description": "Le malware ouvre une porte dérobée avant de s'effacer — une fenêtre s'est ouverte. Bloque l'outil adverse 1 tour. Pioche 1 carte."
   },
   {
     "id": "ACT-020",
     "nom": "Panne de Secteur",
     "cond": null,
-    "effets": [["bloquerOutilA", 1], ["soinJeu", 50]],
+    "effets": [
+      ["bloquerOutilA", 1],
+      ["soinJeu", 50]
+    ],
     "description": "Un transformateur lâche, plongeant le quartier dans le noir — juste le temps de souffler. Bloque l'outil adverse 1 tour. Soigne 50 PV."
   },
   {
     "id": "ACT-021",
     "nom": "Dysfonctionnement",
     "cond": null,
-    "effets": [["bloquerOutilA", 1], ["soinJeu", 30]],
+    "effets": [
+      ["bloquerOutilA", 1],
+      ["soinJeu", 30]
+    ],
     "description": "Le système rend l'âme au pire moment — une brèche dans laquelle s'engouffrer. Bloque l'outil adverse 1 tour. Soigne 30 PV."
   },
   {
@@ -177,7 +201,10 @@
   {
     "id": "ACT-026",
     "nom": "Routes Maritimes",
-    "cond": { "terrain": ["Océanique"], "rang": ["Émergent", "Établi", "Dominant", "Hégémonie"] },
+    "cond": {
+      "terrain": ["Océanique"],
+      "rang": ["Émergent", "Établi", "Dominant", "Hégémonie"]
+    },
     "effets": [["pioche", 3]],
     "description": "En terrain Océanique, pays non Marginaux. Vos navires marchands drainent des informations sur chaque port du globe. Piochez 3 cartes."
   },
@@ -220,7 +247,10 @@
     "id": "ACT-032",
     "nom": "Téléchargement",
     "cond": null,
-    "effets": [["pioche", 1], ["soinJeu", 30]],
+    "effets": [
+      ["pioche", 1],
+      ["soinJeu", 30]
+    ],
     "description": "Des serveurs déclassifiés rouvrent l'accès à des ressources longtemps inaccessibles. Piochez 1 carte et soignez 30 PV."
   },
   {
@@ -241,7 +271,10 @@
     "id": "ACT-035",
     "nom": "Flux d'Informations",
     "cond": null,
-    "effets": [["pioche", 1], ["soinJeu", 20]],
+    "effets": [
+      ["pioche", 1],
+      ["soinJeu", 20]
+    ],
     "description": "Les données circulent plus vite que les lois, apportant des ressources inattendues. Piochez 1 carte et soignez 20 PV."
   },
   {
@@ -261,7 +294,10 @@
   {
     "id": "ACT-038",
     "nom": "Passage de Glace",
-    "cond": { "terrain": ["Glacial"], "rang": ["Émergent", "Établi", "Dominant", "Hégémonie"] },
+    "cond": {
+      "terrain": ["Glacial"],
+      "rang": ["Émergent", "Établi", "Dominant", "Hégémonie"]
+    },
     "effets": [["echangeBanc"], ["pioche", 1]],
     "description": "En terrain Glacial, pays non Marginaux. Seuls les pays aguerris connaissent les routes arctiques secrètes. Échange avec le banc. Pioche 1 carte."
   },
@@ -418,5 +454,40 @@
     "cond": null,
     "effets": [["echangeBancRandom"]],
     "description": "Quand plus rien ne tient, tout peut basculer. Un pays sort, un autre entre — sans crier gare. Échange aléatoire avec le banc."
+  },
+  {
+    "id": "ACT-061",
+    "nom": "Désertique",
+    "cond": null,
+    "effets": [["ChangementT", "Désertique"]],
+    "description": "Le paysage se transforme en désert aride, où chaleur et sable dominent le terrain. Change le terrain en Désertique."
+  },
+  {
+    "id": "ACT-062",
+    "nom": "Océanique",
+    "cond": null,
+    "effets": [["ChangementT", "Océanique"]],
+    "description": "Les terres sont submergées par les eaux, laissant place aux routes maritimes et aux flottes. Change le terrain en Océanique."
+  },
+  {
+    "id": "ACT-063",
+    "nom": "Montageux",
+    "cond": null,
+    "effets": [["ChangementT", "Montageux"]],
+    "description": "Le sol se soulève en reliefs abrupts et chaînes montagneuses difficiles à franchir. Change le terrain en Montagneux."
+  },
+  {
+    "id": "ACT-064",
+    "nom": "Tropical",
+    "cond": null,
+    "effets": [["ChangementT", "Tropical"]],
+    "description": "La jungle envahit le terrain, humide et dense, regorgeant de ressources naturelles. Change le terrain en Tropical."
+  },
+  {
+    "id": "ACT-065",
+    "nom": "Glacial",
+    "cond": null,
+    "effets": [["ChangementT", "Glacial"]],
+    "description": "Le monde se fige sous une couche de glace et de froid extrême. Change le terrain en Glacial."
   }
 ]

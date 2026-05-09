@@ -8,8 +8,19 @@ JSON_PATH = (
     "/home/user-x/Documents/GitHub/projet-java/genialtcg/assets/JSON/actions.json"
 )
 OUTPUT_DIR = "tools/img/output_cards_actions"
-TEMPLATE_PATH = "tools/img/template/action.png"
-LOGO_PATH = "tools/img/template/action_logo.png"
+
+TEMPLATE_DIR = "tools/img/template"
+TEMPLATE_PATH = os.path.join(TEMPLATE_DIR, "action.png")
+LOGO_PATH = os.path.join(TEMPLATE_DIR, "action_logo.png")
+
+# Templates spéciaux à partir de ACT-61
+TEMPLATES_ACT_61 = [
+    "désertique.png",
+    "océanique.png",
+    "montagneux.png",
+    "tropical.png",
+    "glacial.png",
+]
 
 # Coordonnées du carré blanc dans le template
 WHITE_BOX = (40, 113, 285, 297)  # (left, top, right, bottom)
@@ -55,28 +66,50 @@ def wrap_text(text, font, max_width, draw):
     return lines
 
 
+def get_act_number(act_id: str) -> int:
+    # "ACT-61" -> 61
+    return int(act_id.split("-")[1])
+
+
 with open(JSON_PATH, "r", encoding="utf-8") as file:
-    action = json.load(file)
+    actions = json.load(file)
 
-template_img = Image.open(TEMPLATE_PATH).convert("RGBA")
-
-# Préparer le logo centré dans le carré blanc
-box_w = WHITE_BOX[2] - WHITE_BOX[0] - LOGO_PADDING * 2
-box_h = WHITE_BOX[3] - WHITE_BOX[1] - LOGO_PADDING * 2
 logo_raw = Image.open(LOGO_PATH).convert("RGBA")
-logo_raw.thumbnail((box_w, box_h), Image.LANCZOS)
-logo_x = WHITE_BOX[0] + LOGO_PADDING + (box_w - logo_raw.width) // 2
-logo_y = WHITE_BOX[1] + LOGO_PADDING + (box_h - logo_raw.height) // 2
 
-print(f"Génération de {len(action)} cartes actions...")
+print(f"Génération de {len(actions)} cartes actions...")
 
-for p in action:
+for p in actions:
+    act_number = get_act_number(p["id"])
+
+    # --- CHOIX DU TEMPLATE ---
+    if act_number >= 61:
+        index = (act_number - 61) % len(TEMPLATES_ACT_61)
+        template_file = os.path.join(TEMPLATE_DIR, TEMPLATES_ACT_61[index])
+    else:
+        template_file = TEMPLATE_PATH
+
+    template_img = Image.open(template_file).convert("RGBA")
     card_img = template_img.copy()
-    card_img.paste(logo_raw, (logo_x, logo_y), logo_raw)
+
+    # --- LOGO CENTRÉ ---
+    box_w = WHITE_BOX[2] - WHITE_BOX[0] - LOGO_PADDING * 2
+    box_h = WHITE_BOX[3] - WHITE_BOX[1] - LOGO_PADDING * 2
+
+    logo_resized = logo_raw.copy()
+    logo_resized.thumbnail((box_w, box_h), Image.LANCZOS)
+
+    logo_x = WHITE_BOX[0] + LOGO_PADDING + (box_w - logo_resized.width) // 2
+    logo_y = WHITE_BOX[1] + LOGO_PADDING + (box_h - logo_resized.height) // 2
+
+    if act_number < 61:
+        card_img.paste(logo_resized, (logo_x, logo_y), logo_resized)
+
     draw = ImageDraw.Draw(card_img)
 
+    # --- TITRE ---
     draw.text((40, 75), p["nom"], font=font_bold, fill=TEXT_COLOR)
 
+    # --- DESCRIPTION ---
     desc_text = p["description"]
     lines = wrap_text(desc_text, font_italic, 240, draw)
     y_offset = 308
@@ -84,6 +117,7 @@ for p in action:
         draw.text((40, y_offset), line, font=font_italic, fill=TEXT_COLOR)
         y_offset += 18
 
+    # --- SAUVEGARDE ---
     clean_name = p["nom"].replace(" ", "_").lower()
     file_name = f"{p['id']}_{clean_name}.png"
     card_img.convert("RGB").save(os.path.join(OUTPUT_DIR, file_name))

@@ -340,8 +340,6 @@ public class GenialTCG extends Game {
                 int condEtatMax = 0;
                 String condStatMinKey = null;
                 int condStatMinVal = 0;
-                String condStatMaxKey = null;
-                int condStatMaxVal = 0;
                 StringBuilder condBuf = new StringBuilder();
 
                 JsonValue condEntry = entry.get("cond");
@@ -385,15 +383,6 @@ public class GenialTCG extends Game {
                             condStatMinKey + " ≥ " + condStatMinVal
                         );
                     }
-                    if (condEntry.has("statMax")) {
-                        JsonValue sm = condEntry.get("statMax").child();
-                        condStatMaxKey = sm.name();
-                        condStatMaxVal = sm.asInt();
-                        appendCond(
-                            condBuf,
-                            condStatMaxKey + " ≤ " + condStatMaxVal
-                        );
-                    }
                 }
                 String condStr =
                     condBuf.length() > 0 ? condBuf.toString() : "—";
@@ -408,7 +397,9 @@ public class GenialTCG extends Game {
                     for (int i = 0; i < effetsArr.size; i++) {
                         JsonValue pair = effetsArr.get(i);
                         effectTypes[i]  = pair.getString(0);
-                        effectValues[i] = pair.size > 1 ? pair.getInt(1) : 0;
+                        effectValues[i] = pair.size > 1 && pair.get(1).isNumber()
+                            ? pair.get(1).asInt()
+                            : 0;
                     }
                 }
 
@@ -434,8 +425,6 @@ public class GenialTCG extends Game {
                 card.condEtatMax = condEtatMax;
                 card.condStatMinKey = condStatMinKey;
                 card.condStatMinVal = condStatMinVal;
-                card.condStatMaxKey = condStatMaxKey;
-                card.condStatMaxVal = condStatMaxVal;
                 allCardsMap.put(card.getAtlasRegionName(), card);
             }
         } catch (Exception e) {

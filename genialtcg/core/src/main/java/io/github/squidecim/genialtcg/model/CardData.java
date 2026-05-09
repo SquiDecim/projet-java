@@ -18,23 +18,21 @@ public class CardData {
     public int[] stats;
 
     // Effets (pays : coup spécial — actions/outils : effets de la carte)
-    public int      specialCost;
+    public int specialCost;
     public String[] specialEffectTypes;
-    public int[]    specialEffectValues;
+    public int[] specialEffectValues;
 
     // Condition d'activation (actions/outils uniquement) — affichage
     public String cond;
 
     // Conditions structurées (évaluation en jeu)
-    public String[] condTypes;       // votre pays actif doit être de ce type
-    public String[] condTerrains;    // le terrain actif doit être ce terrain
-    public String[] condRangs;       // votre pays actif doit avoir ce rang
-    public int condEtatMin;          // PV minimum requis (0 = ignoré)
-    public int condEtatMax;          // PV maximum requis (0 = ignoré)
-    public String condStatMinKey;    // stat à vérifier (min), null = ignoré
-    public int condStatMinVal;       // seuil minimum de la stat
-    public String condStatMaxKey;    // stat à vérifier (max), null = ignoré
-    public int condStatMaxVal;       // seuil maximum de la stat
+    public String[] condTypes; // votre pays actif doit être de ce type
+    public String[] condTerrains; // le terrain actif doit être ce terrain
+    public String[] condRangs; // votre pays actif doit avoir ce rang
+    public int condEtatMin; // PV minimum requis (0 = ignoré)
+    public int condEtatMax; // PV maximum requis (0 = ignoré)
+    public String condStatMinKey; // stat à vérifier (min), null = ignoré
+    public int condStatMinVal; // seuil minimum de la stat
     public String specialName;
     public String specialDescription;
 
@@ -62,7 +60,7 @@ public class CardData {
         this.specialCost = specialCout;
         this.specialName = specialNom;
         this.specialDescription = specialDescription;
-        this.revocation = cost/2;
+        this.revocation = cost / 2;
     }
 
     public String getAtlasRegionName() {
@@ -72,7 +70,8 @@ public class CardData {
         return country.replace(" ", "_");
     }
 
-    private static final String SEP = "--------------------------------------------------";
+    private static final String SEP =
+        "--------------------------------------------------";
 
     @Override
     public String toString() {
@@ -80,26 +79,86 @@ public class CardData {
         sb.append(SEP).append("\n");
 
         if (id != null && (id.startsWith("ACT-") || id.startsWith("OUT-"))) {
-            sb.append(String.format("%-12s : %s\n", "ID",        id));
-            sb.append(String.format("%-12s : %s\n", "Nom",       country));
-            sb.append(String.format("%-12s : %s\n", "Condition", cond != null ? cond : "—"));
-            sb.append(String.format("%-12s : %s\n", "Effets",    formatEffets(specialEffectTypes, specialEffectValues)));
+            sb.append(String.format("%-12s : %s\n", "ID", id));
+            sb.append(String.format("%-12s : %s\n", "Nom", country));
+            sb.append(
+                String.format(
+                    "%-12s : %s\n",
+                    "Condition",
+                    cond != null ? cond : "—"
+                )
+            );
+            sb.append(
+                String.format(
+                    "%-12s : %s\n",
+                    "Effets",
+                    formatEffets(specialEffectTypes, specialEffectValues)
+                )
+            );
         } else {
-            sb.append(String.format("%-12s : %s\n",  "ID",          id));
-            sb.append(String.format("%-12s : %s\n",  "Nom",         country));
-            sb.append(String.format("%-12s : %s\n",  "Rang",        rank));
-            sb.append(String.format("%-12s : %s\n",  "Type",        type));
-            sb.append(String.format("%-12s : %d\n",  "Coût",        cost));
-            sb.append(String.format("%-12s : %d\n",  "État",        pv));
-            sb.append(String.format("%-12s : %d\n",  "Puissance",   stats != null && stats.length > 0 ? stats[0] : 0));
-            sb.append(String.format("%-12s : %d\n",  "Économie",    stats != null && stats.length > 1 ? stats[1] : 0));
-            sb.append(String.format("%-12s : %d\n",  "Ressources",  stats != null && stats.length > 2 ? stats[2] : 0));
-            sb.append(String.format("%-12s : %d\n",  "Technologie", stats != null && stats.length > 3 ? stats[3] : 0));
-            sb.append(String.format("%-12s : %d\n",  "Stabilité",   stats != null && stats.length > 4 ? stats[4] : 0));
-            sb.append(String.format("%-12s : %s\n",  "Spécial",     specialName != null ? specialName : "—"));
-            sb.append(String.format("%-12s : %s\n",  "Description", specialDescription != null ? specialDescription : "—"));
-            sb.append(String.format("%-12s : %d\n",  "Coût spéc.", specialCost));
-            sb.append(String.format("%-12s : %s\n",  "Effets",      formatEffets(specialEffectTypes, specialEffectValues)));
+            sb.append(String.format("%-12s : %s\n", "ID", id));
+            sb.append(String.format("%-12s : %s\n", "Nom", country));
+            sb.append(String.format("%-12s : %s\n", "Rang", rank));
+            sb.append(String.format("%-12s : %s\n", "Type", type));
+            sb.append(String.format("%-12s : %d\n", "Coût", cost));
+            sb.append(String.format("%-12s : %d\n", "État", pv));
+            sb.append(
+                String.format(
+                    "%-12s : %d\n",
+                    "Puissance",
+                    stats != null && stats.length > 0 ? stats[0] : 0
+                )
+            );
+            sb.append(
+                String.format(
+                    "%-12s : %d\n",
+                    "Économie",
+                    stats != null && stats.length > 1 ? stats[1] : 0
+                )
+            );
+            sb.append(
+                String.format(
+                    "%-12s : %d\n",
+                    "Ressources",
+                    stats != null && stats.length > 2 ? stats[2] : 0
+                )
+            );
+            sb.append(
+                String.format(
+                    "%-12s : %d\n",
+                    "Technologie",
+                    stats != null && stats.length > 3 ? stats[3] : 0
+                )
+            );
+            sb.append(
+                String.format(
+                    "%-12s : %d\n",
+                    "Stabilité",
+                    stats != null && stats.length > 4 ? stats[4] : 0
+                )
+            );
+            sb.append(
+                String.format(
+                    "%-12s : %s\n",
+                    "Spécial",
+                    specialName != null ? specialName : "—"
+                )
+            );
+            sb.append(
+                String.format(
+                    "%-12s : %s\n",
+                    "Description",
+                    specialDescription != null ? specialDescription : "—"
+                )
+            );
+            sb.append(String.format("%-12s : %d\n", "Coût spéc.", specialCost));
+            sb.append(
+                String.format(
+                    "%-12s : %s\n",
+                    "Effets",
+                    formatEffets(specialEffectTypes, specialEffectValues)
+                )
+            );
         }
 
         sb.append(SEP);
@@ -112,8 +171,9 @@ public class CardData {
         for (int i = 0; i < types.length; i++) {
             if (i > 0) sb.append(", ");
             sb.append("[").append(types[i]);
-            if (values != null && i < values.length && values[i] != 0)
-                sb.append(", ").append(values[i]);
+            if (values != null && i < values.length && values[i] != 0) sb
+                .append(", ")
+                .append(values[i]);
             sb.append("]");
         }
         sb.append("]");

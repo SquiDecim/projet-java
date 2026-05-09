@@ -47,7 +47,7 @@ L’application gère les règles du jeu, les interactions complexes entre les c
         "id":          "ACT-NNN",
         "nom":         "nom",
         "cond":        null | { ... },
-        "effets":      [ [soinJeu, valeur], [soinBanc, valeur], [pioche, valeur],[bloquerOutilA, nbrTour], [echangeBanc, -], [echangeBancRandom, -], [soin, valeur]  ],
+        "effets":      [ [soinJeu, valeur], [soinBanc, valeur],["ChangementT", "Tropical"], [pioche, valeur],[bloquerOutilA, nbrTour], [echangeBanc, -], [echangeBancRandom, -], [soin, valeur]  ],
         "description": "Texte narratif."
     }
 
@@ -61,6 +61,8 @@ L’application gère les règles du jeu, les interactions complexes entre les c
     echangeBanc        | —         | Échange votre pays actif avec un pays du banc (au choix)
     echangeBancRandom  | —         | Échange votre pays actif avec un pays du banc (aléatoire)
     soin               | N         | Soigne le pays entrant après un échange de N PV
+    ChangementT        | nomTerrain| Change le terrain actif
+    
 
     Notes :
     - "soin" s'utilise toujours après "echangeBanc" ou "echangeBancRandom".

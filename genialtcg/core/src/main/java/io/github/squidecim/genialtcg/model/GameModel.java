@@ -3,7 +3,6 @@ package io.github.squidecim.genialtcg.model;
 import io.github.squidecim.genialtcg.GenialTCG;
 import io.github.squidecim.genialtcg.view.CardDecal;
 
-import javax.smartcardio.Card;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,7 +19,9 @@ public class GameModel {
     };
 
     private final GenialTCG game;
-    public final String terrain;
+    public String terrain;
+    public int opponentToolBlockedTurns = 0;
+    public int myToolBlockedTurns = 0;
     public CardsStackData deck;
     public List<CardData> hand = new ArrayList<>();
     public List<CardData> bench = new ArrayList<>();
