@@ -201,6 +201,7 @@ public class GameController implements InputProcessor, GameClient.NetworkListene
                             model.moveFromHandToBench(draggedCard.getData());
                             view.dropCardOnSlot(draggedCard, firstSlot);
                             if (game.posingCardsSound != null) game.posingCardsSound.play(game.uiSoundVolume);
+                            if (game.loseCreditsSound != null) game.loseCreditsSound.play(game.uiSoundVolume);
                             int slotIdx = view.getBenchSlotIndex(firstSlot);
                             client.sendPlayCard(draggedCard.getData().getAtlasRegionName(), "bench", slotIdx);
                             client.sendCreditsUpdate(model.myCredits);
@@ -218,6 +219,7 @@ public class GameController implements InputProcessor, GameClient.NetworkListene
                     if (model.myCredits >= draggedCard.getData().cost){
                         model.moveFromHandToTable(draggedCard.getData());
                         client.sendCreditsUpdate(model.myCredits);
+                        if (game.loseCreditsSound != null) game.loseCreditsSound.play(game.uiSoundVolume);
                     } else {
                         view.cancelDrag(draggedCard);
                         draggedCard = null;
@@ -322,6 +324,7 @@ public class GameController implements InputProcessor, GameClient.NetworkListene
 
         CardData tableCardData = model.table;
         model.spendCredits(tableCardData.revocation);
+        if (game.loseCreditsSound != null) game.loseCreditsSound.play(game.uiSoundVolume);
 
         view.swapTableAndBench(benchCard);
 
@@ -345,6 +348,7 @@ public class GameController implements InputProcessor, GameClient.NetworkListene
         }
         if (myTurn) {
             model.receiveCredits(model.getTotalEconomy());
+            if (game.winCreditsSound != null) game.winCreditsSound.play(game.uiSoundVolume);
             client.sendCreditsUpdate(model.myCredits);
             view.showActionButton("Finir le tour", () -> {
                 view.hideActionButton();
@@ -521,6 +525,7 @@ public class GameController implements InputProcessor, GameClient.NetworkListene
         }
 
         model.spendCredits(attackCost);
+        if (game.loseCreditsSound != null) game.loseCreditsSound.play(game.uiSoundVolume);
 
         for (int i = 0; i < types.length; i++) {
             applyLocalEffect(types[i], values[i]);
@@ -569,6 +574,7 @@ public class GameController implements InputProcessor, GameClient.NetworkListene
             case "voleCredit": {
                 int stolen = Math.min(value, model.opponentCredits);
                 model.receiveCredits(stolen);
+                if (game.winCreditsSound != null) game.winCreditsSound.play(game.uiSoundVolume);
                 model.opponentCredits = Math.max(0, model.opponentCredits - value);
                 view.updateOpponentCredits(model.opponentCredits);
                 break;

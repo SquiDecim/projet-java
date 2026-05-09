@@ -39,6 +39,8 @@ public class GenialTCG extends Game {
     public Sound posingCardsSound;
     public Sound takingCardsSound;
     public Sound overpassCardsSound;
+    public Sound winCreditsSound;
+    public Sound loseCreditsSound;
     public float uiSoundVolume = 0.5f;
 
     public float globalBrightness = 1.0f;
@@ -99,6 +101,12 @@ public class GenialTCG extends Game {
             );
             overpassCardsSound = Gdx.audio.newSound(
                 Gdx.files.internal("audio/game_effect/overpasscards.mp3")
+            );
+            winCreditsSound = Gdx.audio.newSound(
+                Gdx.files.internal("audio/game_effect/win_crédits.mp3")
+            );
+            loseCreditsSound = Gdx.audio.newSound(
+                Gdx.files.internal("audio/game_effect/lose_crédits.mp3")
             );
         } catch (Exception e) {
             Gdx.app.log("Audio", "Erreur chargement sons boutons");
@@ -430,6 +438,8 @@ public class GenialTCG extends Game {
         if (posingCardsSound != null) posingCardsSound.dispose();
         if (takingCardsSound != null) takingCardsSound.dispose();
         if (overpassCardsSound != null) overpassCardsSound.dispose();
+        if (winCreditsSound != null) winCreditsSound.dispose();
+        if (loseCreditsSound != null) loseCreditsSound.dispose();
 
         if (blackOverlay != null) blackOverlay.dispose();
         if (overlayBatch != null) overlayBatch.dispose();

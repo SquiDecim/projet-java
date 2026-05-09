@@ -854,7 +854,6 @@ public class NewDeckScreen implements Screen {
         }
 
         dialog.key(Input.Keys.ENTER, true);
-        dialog.key(Input.Keys.ESCAPE, false);
         dialog.setResizable(true);
 
         dialog.addListener(new InputListener() {
