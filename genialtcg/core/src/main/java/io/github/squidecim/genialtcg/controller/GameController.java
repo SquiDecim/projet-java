@@ -2,8 +2,8 @@ package io.github.squidecim.genialtcg.controller;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.InputProcessor;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.math.collision.Ray;
@@ -17,7 +17,9 @@ import io.github.squidecim.genialtcg.view.CardDecal;
 import io.github.squidecim.genialtcg.view.CardSlot;
 import io.github.squidecim.genialtcg.view.GameView;
 
-public class GameController implements InputProcessor, GameClient.NetworkListener {
+public class GameController
+    implements InputProcessor, GameClient.NetworkListener
+{
 
     private final GenialTCG game;
     private final GameView view;
@@ -44,7 +46,13 @@ public class GameController implements InputProcessor, GameClient.NetworkListene
     private static final int INITIAL_HAND_SIZE = 6;
     private boolean startTurnWithDiedCard = false;
 
-    public GameController(GameView view, GameModel model, GameClient client, String myPlayerId, GenialTCG game) {
+    public GameController(
+        GameView view,
+        GameModel model,
+        GameClient client,
+        String myPlayerId,
+        GenialTCG game
+    ) {
         this.view = view;
         this.model = model;
         this.client = client;
@@ -67,7 +75,9 @@ public class GameController implements InputProcessor, GameClient.NetworkListene
         if (view.isPauseMenuVisible()) return false;
         if (view.isZooming()) return false;
         if (view.isAttackMenuVisible()) return false;
-        if (model.phase == GameModel.Phase.DRAW || view.isAnyCardBeingDrawn()) return false;
+        if (
+            model.phase == GameModel.Phase.DRAW || view.isAnyCardBeingDrawn()
+        ) return false;
         Ray ray = view.getCam().getPickRay(screenX, screenY);
         view.updateHover(ray);
         return false;
@@ -75,7 +85,6 @@ public class GameController implements InputProcessor, GameClient.NetworkListene
 
     @Override
     public boolean touchDown(int x, int y, int p, int b) {
-
         if (view.isPauseMenuVisible()) return false;
         if (view.isCamAnimating()) return false;
 
@@ -89,7 +98,6 @@ public class GameController implements InputProcessor, GameClient.NetworkListene
             return false;
         }
 
-
         if (view.isAttackMenuVisible()) {
             view.hideAttackMenu();
             return true;
@@ -97,7 +105,6 @@ public class GameController implements InputProcessor, GameClient.NetworkListene
 
         Ray ray = view.getCam().getPickRay(x, y);
         CardDecal card = view.getHoveredCard(ray);
-
 
         if (selectingBenchTarget && b == 0) {
             CardDecal benchCard = benchTargetIsOpponent
@@ -133,9 +140,16 @@ public class GameController implements InputProcessor, GameClient.NetworkListene
                 selectingReplacementAfterDeath = false;
                 view.setSelectableBorder(false);
                 view.hideBanner();
+                if (game.switchSound != null) game.switchSound.play(
+                    game.uiSoundVolume
+                );
                 model.moveFromBenchToTable(benchCard.getData());
                 view.promoteFromBenchToTable(benchCard);
-                client.sendPlayCard(benchCard.getData().getAtlasRegionName(), "table", 0);
+                client.sendPlayCard(
+                    benchCard.getData().getAtlasRegionName(),
+                    "table",
+                    0
+                );
 
                 if (!startTurnWithDiedCard) {
                     client.sendEndTurn();
@@ -216,20 +230,17 @@ public class GameController implements InputProcessor, GameClient.NetworkListene
         if (draggedCard.getData().id.startsWith("OUT-")) {
             view.cancelDrag(draggedCard);
             return true;
-        }
-        else if (slot != null) {
+        } else if (slot != null) {
             boolean fromBench = draggedCard.emplacement.equals("bench");
             boolean toBench = slot.type.equals("bench");
             boolean toTable = slot.type.equals("table");
             boolean toAction = slot.type.equals("action");
 
-
-            if (fromBench && toBench){
+            if (fromBench && toBench) {
                 view.cancelDrag(draggedCard);
                 draggedCard = null;
                 return true;
             }
-
             if (draggedCard.getData().id.startsWith("ACT-")){
                 System.out.println("C'est bien une carte action");
                 if (toAction && slot.isEmpty() && model.phase == GameModel.Phase.PLAYING) {
@@ -247,12 +258,18 @@ public class GameController implements InputProcessor, GameClient.NetworkListene
                 } else {
                     CardSlot firstSlot = view.getFirstEmptyBenchSlot();
                     if (firstSlot != null) {
-                        if (model.myCredits >= draggedCard.getData().cost){
+                        if (model.myCredits >= draggedCard.getData().cost) {
                             model.moveFromHandToBench(draggedCard.getData());
                             view.dropCardOnSlot(draggedCard, firstSlot);
-                            if (game.posingCardsSound != null) game.posingCardsSound.play(game.uiSoundVolume);
+                            if (
+                                game.posingCardsSound != null
+                            ) game.posingCardsSound.play(game.uiSoundVolume);
                             int slotIdx = view.getBenchSlotIndex(firstSlot);
-                            client.sendPlayCard(draggedCard.getData().getAtlasRegionName(), "bench", slotIdx);
+                            client.sendPlayCard(
+                                draggedCard.getData().getAtlasRegionName(),
+                                "bench",
+                                slotIdx
+                            );
                             client.sendCreditsUpdate(model.myCredits);
                         } else {
                             view.cancelDrag(draggedCard);
@@ -265,7 +282,7 @@ public class GameController implements InputProcessor, GameClient.NetworkListene
                 }
             } else if (toTable && slot.isEmpty()) {
                 if (!fromBench) {
-                    if (model.myCredits >= draggedCard.getData().cost){
+                    if (model.myCredits >= draggedCard.getData().cost) {
                         model.moveFromHandToTable(draggedCard.getData());
                         client.sendCreditsUpdate(model.myCredits);
                     } else {
@@ -273,11 +290,16 @@ public class GameController implements InputProcessor, GameClient.NetworkListene
                         draggedCard = null;
                         return true;
                     }
-                }
-                else model.moveFromBenchToTable(draggedCard.getData());
+                } else model.moveFromBenchToTable(draggedCard.getData());
                 view.dropCardOnSlot(draggedCard, slot);
-                if (game.posingCardsSound != null) game.posingCardsSound.play(game.uiSoundVolume);
-                client.sendPlayCard(draggedCard.getData().getAtlasRegionName(), "table", 0);
+                if (game.posingCardsSound != null) game.posingCardsSound.play(
+                    game.uiSoundVolume
+                );
+                client.sendPlayCard(
+                    draggedCard.getData().getAtlasRegionName(),
+                    "table",
+                    0
+                );
                 model.setupDone = true;
                 view.hideBanner();
             } else {
@@ -308,53 +330,74 @@ public class GameController implements InputProcessor, GameClient.NetworkListene
         return false;
     }
 
-    @Override public boolean keyUp(int k) { return false; }
-    @Override public boolean keyTyped(char c) { return false; }
-    @Override public boolean scrolled(float x, float y) { return false; }
-    @Override public boolean touchCancelled(int x, int y, int p, int b) { return false; }
+    @Override
+    public boolean keyUp(int k) {
+        return false;
+    }
+
+    @Override
+    public boolean keyTyped(char c) {
+        return false;
+    }
+
+    @Override
+    public boolean scrolled(float x, float y) {
+        return false;
+    }
+
+    @Override
+    public boolean touchCancelled(int x, int y, int p, int b) {
+        return false;
+    }
 
     private void handleDeath(CardDecal card, boolean isMe) {
-
         Vector3 targetPos = isMe
             ? view.getMyDiscardPosition()
             : view.getOpponentDiscardPosition();
 
         card.animateTo(targetPos, 0, -90f, 0, 0.5f);
-
     }
 
     public void startInitialDraw() {
         for (int i = 0; i < INITIAL_HAND_SIZE; i++) {
-            com.badlogic.gdx.utils.Timer.schedule(new com.badlogic.gdx.utils.Timer.Task() {
+            com.badlogic.gdx.utils.Timer.schedule(
+                new com.badlogic.gdx.utils.Timer.Task() {
+                    @Override
+                    public void run() {
+                        Gdx.app.postRunnable(() -> client.sendDrawCard());
+                    }
+                },
+                (i + 2) * drawCooldown
+            );
+        }
+        com.badlogic.gdx.utils.Timer.schedule(
+            new com.badlogic.gdx.utils.Timer.Task() {
                 @Override
                 public void run() {
-                    Gdx.app.postRunnable(() -> client.sendDrawCard());
-                }
-            }, (i + 2) * drawCooldown);
-        }
-        com.badlogic.gdx.utils.Timer.schedule(new com.badlogic.gdx.utils.Timer.Task() {
-            @Override
-            public void run() {
-                Gdx.app.postRunnable(() -> {
-                    initialDrawDone = true;
-                    model.phase = GameModel.Phase.SETUP;
-                    view.showBanner();
-                    view.showActionButton("Commencer", () -> {
-                        if (view.getMyTableCard() == null) return;
-                        view.hideActionButton();
-                        view.hideBanner();
-                        view.startClicked = true;
-                        model.setupDone = true;
-                        client.sendReady();
+                    Gdx.app.postRunnable(() -> {
+                        initialDrawDone = true;
+                        model.phase = GameModel.Phase.SETUP;
+                        view.showBanner();
+                        view.showActionButton("Commencer", () -> {
+                            if (view.getMyTableCard() == null) return;
+                            view.hideActionButton();
+                            view.hideBanner();
+                            view.startClicked = true;
+                            model.setupDone = true;
+                            client.sendReady();
+                        });
                     });
-                });
-            }
-        }, (INITIAL_HAND_SIZE + 2) * drawCooldown);
+                }
+            },
+            (INITIAL_HAND_SIZE + 2) * drawCooldown
+        );
     }
 
     public void startRetreat(CardData tableCard) {
         if (model.myCredits < tableCard.revocation) {
-            view.showEphemeralMessage("Pas assez de crédits ! (" + tableCard.revocation + " requis)");
+            view.showEphemeralMessage(
+                "Pas assez de crédits ! (" + tableCard.revocation + " requis)"
+            );
             return;
         }
         if (model.bench.isEmpty()) {
@@ -372,6 +415,7 @@ public class GameController implements InputProcessor, GameClient.NetworkListene
 
         CardData tableCardData = model.table;
         model.spendCredits(tableCardData.revocation);
+        if (game.switchSound != null) game.switchSound.play(game.uiSoundVolume);
         view.swapTableAndBench(benchCard);
 
         model.moveFromTableToBench(tableCardData);
@@ -422,24 +466,35 @@ public class GameController implements InputProcessor, GameClient.NetworkListene
 
     @Override
     public void onCardDrawn(NetworkMessages.CardDrawn msg) {
-
         if (msg.playerId.equals(myPlayerId)) {
             CardData drawn = model.drawCard();
             if (drawn != null) {
                 view.addCardToHand(drawn);
                 view.updateDeckVisual(model.deckSize());
-                if (game.takingCardsSound != null) game.takingCardsSound.play(game.uiSoundVolume);
+                if (game.takingCardsSound != null) game.takingCardsSound.play(
+                    game.uiSoundVolume
+                );
             }
             if (model.isDeckEmpty()) {
                 Gdx.app.postRunnable(() ->
-                    game.setScreen(new FirstScreen(game, "Votre deck est vide — vous avez perdu !"))
+                    game.setScreen(
+                        new FirstScreen(
+                            game,
+                            "Votre deck est vide — vous avez perdu !"
+                        )
+                    )
                 );
             }
         } else {
             view.updateOpponentDeckVisual(msg.newDeckSize);
             if (msg.newDeckSize == 0) {
                 Gdx.app.postRunnable(() ->
-                    game.setScreen(new FirstScreen(game, "Le deck adverse est vide — vous avez gagné !"))
+                    game.setScreen(
+                        new FirstScreen(
+                            game,
+                            "Le deck adverse est vide — vous avez gagné !"
+                        )
+                    )
                 );
             }
         }
@@ -447,7 +502,6 @@ public class GameController implements InputProcessor, GameClient.NetworkListene
 
     @Override
     public void onCardPlayed(NetworkMessages.CardPlayed msg) {
-
         boolean isMe = msg.playerId.equals(myPlayerId);
         if (isMe) return;
         CardData card = model.lookupCard(msg.cardId);
@@ -479,7 +533,7 @@ public class GameController implements InputProcessor, GameClient.NetworkListene
 
     @Override
     public void onNormalAttack(NetworkMessages.NormalAttack msg) {
-        CardDecal myTable  = view.getMyTableCard();
+        CardDecal myTable = view.getMyTableCard();
         CardDecal oppTable = view.getOpponentTableCard();
         if (myTable == null || oppTable == null) return;
 
@@ -487,7 +541,7 @@ public class GameController implements InputProcessor, GameClient.NetworkListene
             game.damagePuissanceSound,
             game.damageRessourceSound,
             game.damageTechnologieSound,
-            game.damageStabiliteSound
+            game.damageStabiliteSound,
         };
         if (msg.statIndex >= 0 && msg.statIndex < damageSounds.length) {
             Sound s = damageSounds[msg.statIndex];
@@ -522,9 +576,10 @@ public class GameController implements InputProcessor, GameClient.NetworkListene
     @Override
     public void onCardDied(NetworkMessages.CardDied msg) {
         boolean isMe = msg.playerId.equals(myPlayerId);
-        boolean iMustReplace = (isMe && !msg.isOpponent) || (!isMe && msg.isOpponent);
+        boolean iMustReplace =
+            (isMe && !msg.isOpponent) || (!isMe && msg.isOpponent);
 
-         if (!model.myTurn && iMustReplace) startTurnWithDiedCard = true;
+        if (!model.myTurn && iMustReplace) startTurnWithDiedCard = true;
 
         CardDecal deadCard;
         if (!iMustReplace) {
@@ -552,38 +607,58 @@ public class GameController implements InputProcessor, GameClient.NetworkListene
             else view.clearBenchSlot(deadCard);
         }
 
-        com.badlogic.gdx.utils.Timer.schedule(new com.badlogic.gdx.utils.Timer.Task() {
-            @Override public void run() {
-                Gdx.app.postRunnable(() -> {
-                    if (iMustReplace && "table".equals(msg.zone) && !model.bench.isEmpty()) {
-                        view.showBanner("Choisissez une carte du banc à remettre en jeu");
-                        view.setSelectableBorder(true);
-                        selectingReplacementAfterDeath = true;
-                    }
-                });
-            }
-        }, 1.1f);
+        com.badlogic.gdx.utils.Timer.schedule(
+            new com.badlogic.gdx.utils.Timer.Task() {
+                @Override
+                public void run() {
+                    Gdx.app.postRunnable(() -> {
+                        if (
+                            iMustReplace &&
+                            "table".equals(msg.zone) &&
+                            !model.bench.isEmpty()
+                        ) {
+                            view.showBanner(
+                                "Choisissez une carte du banc à remettre en jeu"
+                            );
+                            view.setSelectableBorder(true);
+                            selectingReplacementAfterDeath = true;
+                        }
+                    });
+                }
+            },
+            1.1f
+        );
     }
 
-    private void applyDamageAndFloat(CardDecal target, int damage, boolean onOpponent) {
+    private void applyDamageAndFloat(
+        CardDecal target,
+        int damage,
+        boolean onOpponent
+    ) {
         boolean died = model.applyDamage(target, damage);
         Vector3 pos = target.getPosition().cpy();
         pos.y += 0.5f;
         view.spawnFloatingText("-" + Math.abs(damage), pos, Color.RED);
         if (died && model.myTurn) {
-            client.sendCardDied(target.getData().getAtlasRegionName(), target.emplacement, onOpponent);
+            client.sendCardDied(
+                target.getData().getAtlasRegionName(),
+                target.emplacement,
+                onOpponent
+            );
         }
     }
 
     public void handleSpecialAttack(CardData card) {
         int attackCost = card.specialCost;
         if (model.myCredits < attackCost) {
-            view.showEphemeralMessage("Pas assez de crédits ! (" + attackCost + " requis)");
+            view.showEphemeralMessage(
+                "Pas assez de crédits ! (" + attackCost + " requis)"
+            );
             return;
         }
 
         String[] types = card.specialEffectTypes;
-        int[] values   = card.specialEffectValues;
+        int[] values = card.specialEffectValues;
         if (types == null || types.length == 0) {
             view.hideAttackMenu();
             return;
@@ -604,7 +679,10 @@ public class GameController implements InputProcessor, GameClient.NetworkListene
         if (needsBenchChoice) {
             boolean targetingOwnBench = false;
             for (String type : types) {
-                if ("soinBanc".equals(type)) { targetingOwnBench = true; break; }
+                if ("soinBanc".equals(type)) {
+                    targetingOwnBench = true;
+                    break;
+                }
             }
             benchTargetIsOpponent = !targetingOwnBench;
 
@@ -622,15 +700,21 @@ public class GameController implements InputProcessor, GameClient.NetworkListene
                 view.setSelectableBorderForOpponentBench(true);
             }
 
-            view.showBanner(targetingOwnBench
-                ? "Choisissez une carte de votre banc à soigner"
-                : "Choisissez une carte du banc adverse à attaquer");
+            view.showBanner(
+                targetingOwnBench
+                    ? "Choisissez une carte de votre banc à soigner"
+                    : "Choisissez une carte du banc adverse à attaquer"
+            );
             selectingBenchTarget = true;
 
-            onBenchTargetSelected = (chosenCard) -> {
+            onBenchTargetSelected = chosenCard -> {
                 view.restoreCam(() ->
-                    client.sendSpecialAttack(types, values, model.deckSize(),
-                        chosenCard.getData().getAtlasRegionName())
+                    client.sendSpecialAttack(
+                        types,
+                        values,
+                        model.deckSize(),
+                        chosenCard.getData().getAtlasRegionName()
+                    )
                 );
             };
 
@@ -642,39 +726,52 @@ public class GameController implements InputProcessor, GameClient.NetworkListene
         }
     }
 
-
     @Override
     public void onSpecialAttack(NetworkMessages.SpecialAttack msg) {
-        if (game.specialEffectSound != null) game.specialEffectSound.play(game.uiSoundVolume);
+        if (game.specialEffectSound != null) game.specialEffectSound.play(
+            game.uiSoundVolume
+        );
 
         boolean iAmAttacker = model.myTurn;
 
-        CardDecal myTable  = view.getMyTableCard();
+        CardDecal myTable = view.getMyTableCard();
         CardDecal oppTable = view.getOpponentTableCard();
-        CardDecal myBench  = view.getFirstMyBenchCard();
+        CardDecal myBench = view.getFirstMyBenchCard();
         CardDecal oppBench = view.getFirstOpponentBenchCard();
 
         for (int i = 0; i < msg.effectTypes.length; i++) {
-            String type  = msg.effectTypes[i];
-            int    value = msg.effectValues[i];
+            String type = msg.effectTypes[i];
+            int value = msg.effectValues[i];
             switch (type) {
                 case "degatAdverse": {
                     CardDecal target = iAmAttacker ? oppTable : myTable;
-                    if (target != null) applyDamageAndFloat(target, -value, iAmAttacker);
+                    if (target != null) applyDamageAndFloat(
+                        target,
+                        -value,
+                        iAmAttacker
+                    );
                     break;
                 }
                 case "degatBanc": {
                     CardDecal target;
                     if (iAmAttacker) {
-                        target = msg.targetBenchCardId != null
-                            ? view.getOpponentBenchCardById(msg.targetBenchCardId)
-                            : view.getFirstOpponentBenchCard();
+                        target =
+                            msg.targetBenchCardId != null
+                                ? view.getOpponentBenchCardById(
+                                      msg.targetBenchCardId
+                                  )
+                                : view.getFirstOpponentBenchCard();
                     } else {
-                        target = msg.targetBenchCardId != null
-                            ? view.getMyBenchCardById(msg.targetBenchCardId)
-                            : view.getFirstMyBenchCard();
+                        target =
+                            msg.targetBenchCardId != null
+                                ? view.getMyBenchCardById(msg.targetBenchCardId)
+                                : view.getFirstMyBenchCard();
                     }
-                    if (target != null) applyDamageAndFloat(target, -value, iAmAttacker);
+                    if (target != null) applyDamageAndFloat(
+                        target,
+                        -value,
+                        iAmAttacker
+                    );
                     break;
                 }
                 case "soinJeu": {
@@ -690,13 +787,17 @@ public class GameController implements InputProcessor, GameClient.NetworkListene
                 case "soinBanc": {
                     CardDecal target;
                     if (iAmAttacker) {
-                        target = msg.targetBenchCardId != null
-                            ? view.getMyBenchCardById(msg.targetBenchCardId)
-                            : view.getFirstMyBenchCard();
+                        target =
+                            msg.targetBenchCardId != null
+                                ? view.getMyBenchCardById(msg.targetBenchCardId)
+                                : view.getFirstMyBenchCard();
                     } else {
-                        target = msg.targetBenchCardId != null
-                            ? view.getOpponentBenchCardById(msg.targetBenchCardId)
-                            : view.getFirstOpponentBenchCard();
+                        target =
+                            msg.targetBenchCardId != null
+                                ? view.getOpponentBenchCardById(
+                                      msg.targetBenchCardId
+                                  )
+                                : view.getFirstOpponentBenchCard();
                     }
                     if (target != null) {
                         model.applyDamage(target, value);
@@ -719,13 +820,21 @@ public class GameController implements InputProcessor, GameClient.NetworkListene
                             if (drawn != null) {
                                 view.addCardToHand(drawn);
                                 view.updateDeckVisual(model.deckSize());
-                                if (game.takingCardsSound != null)
-                                    game.takingCardsSound.play(game.uiSoundVolume);
+                                if (
+                                    game.takingCardsSound != null
+                                ) game.takingCardsSound.play(
+                                    game.uiSoundVolume
+                                );
                             }
                         }
                     } else {
-                        for (int j = 0; j < value; j++)
-                            view.updateOpponentDeckVisual(msg.newDeckSize + value - 1 - j);
+                        for (
+                            int j = 0;
+                            j < value;
+                            j++
+                        ) view.updateOpponentDeckVisual(
+                            msg.newDeckSize + value - 1 - j
+                        );
                     }
                     break;
                 }
@@ -745,20 +854,18 @@ public class GameController implements InputProcessor, GameClient.NetworkListene
         CardDecal myTable = view.getMyTableCard();
         CardDecal opponentTable = view.getOpponentTableCard();
         boolean myCardDead = myTable == null || myTable.getData().pv <= 0;
-        boolean opponentCardDead = opponentTable == null || opponentTable.getData().pv <= 0;
-
+        boolean opponentCardDead =
+            opponentTable == null || opponentTable.getData().pv <= 0;
 
         if (myCardDead && !model.bench.isEmpty()) {
             view.hideActionButton();
             view.showBanner("Choisissez une carte du banc à remettre en jeu");
             view.setSelectableBorder(true);
             selectingReplacementAfterDeath = true;
-        } else if (opponentCardDead){
-
+        } else if (opponentCardDead) {
             client.sendEndTurn();
         } else {
             client.sendEndTurn();
         }
     }
-
 }
