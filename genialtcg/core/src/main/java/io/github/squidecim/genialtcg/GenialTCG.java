@@ -45,6 +45,7 @@ public class GenialTCG extends Game {
     public Sound posingCardsSound;
     public Sound takingCardsSound;
     public Sound overpassCardsSound;
+    public Sound switchSound;
     public Sound damagePuissanceSound;
     public Sound damageRessourceSound;
     public Sound damageTechnologieSound;
@@ -103,28 +104,31 @@ public class GenialTCG extends Game {
                 Gdx.files.internal("audio/UI/impossible_action.mp3")
             );
             posingCardsSound = Gdx.audio.newSound(
-                Gdx.files.internal("audio/game_effect/posing_cards.mp3")
+                Gdx.files.internal("audio/game_effect/cards/posing_cards.mp3")
             );
             takingCardsSound = Gdx.audio.newSound(
-                Gdx.files.internal("audio/game_effect/taking_cards.mp3")
+                Gdx.files.internal("audio/game_effect/cards/taking_cards.mp3")
             );
             overpassCardsSound = Gdx.audio.newSound(
-                Gdx.files.internal("audio/game_effect/overpasscards.mp3")
+                Gdx.files.internal("audio/game_effect/cards/overpasscards.mp3")
+            );
+            switchSound = Gdx.audio.newSound(
+                Gdx.files.internal("audio/game_effect/cards/switch.mp3")
             );
             damagePuissanceSound = Gdx.audio.newSound(
-                Gdx.files.internal("audio/game_effect/damage_puissance.mp3")
+                Gdx.files.internal("audio/game_effect/damage/damage_puissance.mp3")
             );
             damageRessourceSound = Gdx.audio.newSound(
-                Gdx.files.internal("audio/game_effect/damage_ressource.mp3")
+                Gdx.files.internal("audio/game_effect/damage/damage_ressource.mp3")
             );
             damageTechnologieSound = Gdx.audio.newSound(
-                Gdx.files.internal("audio/game_effect/damage_technologie.mp3")
+                Gdx.files.internal("audio/game_effect/damage/damage_technologie.mp3")
             );
             damageStabiliteSound = Gdx.audio.newSound(
-                Gdx.files.internal("audio/game_effect/damage_statbilite.mp3")
+                Gdx.files.internal("audio/game_effect/damage/damage_statbilite.mp3")
             );
             specialEffectSound = Gdx.audio.newSound(
-                Gdx.files.internal("audio/game_effect/special_effect.mp3")
+                Gdx.files.internal("audio/game_effect/damage/special_effect.mp3")
             );
         } catch (Exception e) {
             Gdx.app.log("Audio", "Erreur chargement sons boutons");
@@ -478,6 +482,7 @@ public class GenialTCG extends Game {
         if (posingCardsSound != null) posingCardsSound.dispose();
         if (takingCardsSound != null) takingCardsSound.dispose();
         if (overpassCardsSound != null) overpassCardsSound.dispose();
+        if (switchSound != null) switchSound.dispose();
         if (damagePuissanceSound != null) damagePuissanceSound.dispose();
         if (damageRessourceSound != null) damageRessourceSound.dispose();
         if (damageTechnologieSound != null) damageTechnologieSound.dispose();

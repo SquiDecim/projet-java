@@ -1706,7 +1706,6 @@ public class GameView implements Screen {
                 }
             );
 
-            game.soundifyButton(btn);
             content
                 .add(btn)
                 .width(220)
@@ -1848,9 +1847,6 @@ public class GameView implements Screen {
                     int pointer,
                     int button
                 ) {
-                    if (game.clickSound != null) game.clickSound.play(
-                        game.uiSoundVolume
-                    );
                     controller.handleSpecialAttack(myCard);
                 }
             }
