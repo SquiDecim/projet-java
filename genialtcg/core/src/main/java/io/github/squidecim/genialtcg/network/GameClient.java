@@ -144,9 +144,10 @@ public class GameClient {
         client.sendTCP(new NetworkMessages.ReadyToStart());
     }
 
-    public void sendNormalAttack(int damage) {
+    public void sendNormalAttack(int damage, int statIndex) {
         NetworkMessages.NormalAttack msg = new NetworkMessages.NormalAttack();
         msg.damage = damage;
+        msg.statIndex = statIndex;
         client.sendTCP(msg);
     }
 

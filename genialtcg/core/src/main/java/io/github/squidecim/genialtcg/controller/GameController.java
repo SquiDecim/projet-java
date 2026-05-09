@@ -2,6 +2,7 @@ package io.github.squidecim.genialtcg.controller;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector3;
@@ -242,7 +243,6 @@ public class GameController implements InputProcessor, GameClient.NetworkListene
                             model.moveFromHandToBench(draggedCard.getData());
                             view.dropCardOnSlot(draggedCard, firstSlot);
                             if (game.posingCardsSound != null) game.posingCardsSound.play(game.uiSoundVolume);
-                            if (game.loseCreditsSound != null) game.loseCreditsSound.play(game.uiSoundVolume);
                             int slotIdx = view.getBenchSlotIndex(firstSlot);
                             client.sendPlayCard(draggedCard.getData().getAtlasRegionName(), "bench", slotIdx);
                             client.sendCreditsUpdate(model.myCredits);
@@ -260,7 +260,6 @@ public class GameController implements InputProcessor, GameClient.NetworkListene
                     if (model.myCredits >= draggedCard.getData().cost){
                         model.moveFromHandToTable(draggedCard.getData());
                         client.sendCreditsUpdate(model.myCredits);
-                        if (game.loseCreditsSound != null) game.loseCreditsSound.play(game.uiSoundVolume);
                     } else {
                         view.cancelDrag(draggedCard);
                         draggedCard = null;
@@ -365,8 +364,6 @@ public class GameController implements InputProcessor, GameClient.NetworkListene
 
         CardData tableCardData = model.table;
         model.spendCredits(tableCardData.revocation);
-        if (game.loseCreditsSound != null) game.loseCreditsSound.play(game.uiSoundVolume);
-
         view.swapTableAndBench(benchCard);
 
         model.moveFromTableToBench(tableCardData);
@@ -389,7 +386,6 @@ public class GameController implements InputProcessor, GameClient.NetworkListene
         }
         if (myTurn) {
             model.receiveCredits(model.getTotalEconomy());
-            if (game.winCreditsSound != null) game.winCreditsSound.play(game.uiSoundVolume);
             client.sendCreditsUpdate(model.myCredits);
             client.sendDrawCard();
             view.showActionButton("Finir le tour", () -> {
@@ -478,6 +474,17 @@ public class GameController implements InputProcessor, GameClient.NetworkListene
         CardDecal myTable  = view.getMyTableCard();
         CardDecal oppTable = view.getOpponentTableCard();
         if (myTable == null || oppTable == null) return;
+
+        Sound[] damageSounds = {
+            game.damagePuissanceSound,
+            game.damageRessourceSound,
+            game.damageTechnologieSound,
+            game.damageStabiliteSound
+        };
+        if (msg.statIndex >= 0 && msg.statIndex < damageSounds.length) {
+            Sound s = damageSounds[msg.statIndex];
+            if (s != null) s.play(game.uiSoundVolume);
+        }
 
         boolean iAmAttacker = model.myTurn;
         if (msg.damage > 0) {
@@ -575,70 +582,6 @@ public class GameController implements InputProcessor, GameClient.NetworkListene
         }
 
         model.spendCredits(attackCost);
-        if (game.loseCreditsSound != null) game.loseCreditsSound.play(game.uiSoundVolume);
-
-        for (int i = 0; i < types.length; i++) {
-            applyLocalEffect(types[i], values[i]);
-        }
-
-        client.sendSpecialAttack(types, values,
-            model.myCredits, model.opponentCredits, model.deckSize());
-
-        view.updateMyCredits(model.myCredits);
-        view.hideAttackMenu();
-
-    }
-
-    private void applyLocalEffect(String type, int value) {
-        switch (type) {
-            case "degatAdverse": {
-                CardDecal oppTable = view.getOpponentTableCard();
-                if (oppTable != null) applyDamageAndFloat(oppTable, -value, true);
-                break;
-            }
-            case "degatBanc": {
-                CardDecal oppBench = view.getFirstOpponentBenchCard();
-                if (oppBench != null) applyDamageAndFloat(oppBench, -value, true);
-                break;
-            }
-            case "soinJeu": {
-                CardDecal myTable = view.getMyTableCard();
-                if (myTable != null) {
-                    model.applyDamage(myTable, value);
-                    Vector3 pos = myTable.getPosition().cpy();
-                    pos.y += 0.5f;
-                    view.spawnFloatingText("+" + value, pos);
-                }
-                break;
-            }
-            case "soinBanc": {
-                CardDecal myBench = view.getFirstMyBenchCard();
-                if (myBench != null) {
-                    model.applyDamage(myBench, value);
-                    Vector3 pos = myBench.getPosition().cpy();
-                    pos.y += 0.5f;
-                    view.spawnFloatingText("+" + value, pos);
-                }
-                break;
-            }
-            case "voleCredit": {
-                int stolen = Math.min(value, model.opponentCredits);
-                model.receiveCredits(stolen);
-                if (game.winCreditsSound != null) game.winCreditsSound.play(game.uiSoundVolume);
-                model.opponentCredits = Math.max(0, model.opponentCredits - value);
-                view.updateOpponentCredits(model.opponentCredits);
-                break;
-            }
-            case "pioche": {
-                for (int j = 0; j < value; j++) {
-                    CardData drawn = model.drawCard();
-                    if (drawn != null) {
-                        view.addCardToHand(drawn);
-                        view.updateDeckVisual(model.deckSize());
-                        if (game.takingCardsSound != null)
-                            game.takingCardsSound.play(game.uiSoundVolume);
-                    }
-                }
         view.updateMyCredits(model.myCredits);
         view.hideAttackMenu();
 
@@ -694,6 +637,8 @@ public class GameController implements InputProcessor, GameClient.NetworkListene
 
     @Override
     public void onSpecialAttack(NetworkMessages.SpecialAttack msg) {
+        if (game.specialEffectSound != null) game.specialEffectSound.play(game.uiSoundVolume);
+
         boolean iAmAttacker = model.myTurn;
 
         CardDecal myTable  = view.getMyTableCard();
@@ -754,8 +699,9 @@ public class GameController implements InputProcessor, GameClient.NetworkListene
                     break;
                 }
                 case "voleCredit": {
-                    if (iAmAttacker) model.receiveCredits(value);
-                    else model.spendCredits(value);
+                    if (iAmAttacker) {
+                        model.receiveCredits(value);
+                    } else model.spendCredits(value);
                     break;
                 }
                 case "pioche": {

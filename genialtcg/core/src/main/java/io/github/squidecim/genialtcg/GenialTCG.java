@@ -45,8 +45,11 @@ public class GenialTCG extends Game {
     public Sound posingCardsSound;
     public Sound takingCardsSound;
     public Sound overpassCardsSound;
-    public Sound winCreditsSound;
-    public Sound loseCreditsSound;
+    public Sound damagePuissanceSound;
+    public Sound damageRessourceSound;
+    public Sound damageTechnologieSound;
+    public Sound damageStabiliteSound;
+    public Sound specialEffectSound;
     public float uiSoundVolume = 0.5f;
 
     public float globalBrightness = 1.0f;
@@ -108,11 +111,20 @@ public class GenialTCG extends Game {
             overpassCardsSound = Gdx.audio.newSound(
                 Gdx.files.internal("audio/game_effect/overpasscards.mp3")
             );
-            winCreditsSound = Gdx.audio.newSound(
-                Gdx.files.internal("audio/game_effect/win_crédits.mp3")
+            damagePuissanceSound = Gdx.audio.newSound(
+                Gdx.files.internal("audio/game_effect/damage_puissance.mp3")
             );
-            loseCreditsSound = Gdx.audio.newSound(
-                Gdx.files.internal("audio/game_effect/lose_crédits.mp3")
+            damageRessourceSound = Gdx.audio.newSound(
+                Gdx.files.internal("audio/game_effect/damage_ressource.mp3")
+            );
+            damageTechnologieSound = Gdx.audio.newSound(
+                Gdx.files.internal("audio/game_effect/damage_technologie.mp3")
+            );
+            damageStabiliteSound = Gdx.audio.newSound(
+                Gdx.files.internal("audio/game_effect/damage_statbilite.mp3")
+            );
+            specialEffectSound = Gdx.audio.newSound(
+                Gdx.files.internal("audio/game_effect/special_effect.mp3")
             );
         } catch (Exception e) {
             Gdx.app.log("Audio", "Erreur chargement sons boutons");
@@ -466,8 +478,11 @@ public class GenialTCG extends Game {
         if (posingCardsSound != null) posingCardsSound.dispose();
         if (takingCardsSound != null) takingCardsSound.dispose();
         if (overpassCardsSound != null) overpassCardsSound.dispose();
-        if (winCreditsSound != null) winCreditsSound.dispose();
-        if (loseCreditsSound != null) loseCreditsSound.dispose();
+        if (damagePuissanceSound != null) damagePuissanceSound.dispose();
+        if (damageRessourceSound != null) damageRessourceSound.dispose();
+        if (damageTechnologieSound != null) damageTechnologieSound.dispose();
+        if (damageStabiliteSound != null) damageStabiliteSound.dispose();
+        if (specialEffectSound != null) specialEffectSound.dispose();
 
         if (blackOverlay != null) blackOverlay.dispose();
         if (overlayBatch != null) overlayBatch.dispose();

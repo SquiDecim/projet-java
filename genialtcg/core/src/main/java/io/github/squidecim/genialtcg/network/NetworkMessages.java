@@ -71,6 +71,7 @@ public class NetworkMessages {
 
     public static class NormalAttack {
         public int damage;
+        public int statIndex;
     }
 
     public static class Retreat {
