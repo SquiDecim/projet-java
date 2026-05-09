@@ -108,7 +108,17 @@ public class GameClient {
     }
 
     public void disconnect() {
-        client.stop();
+        try {
+            client.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        try {
+            client.stop();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public void setListener(NetworkListener listener) {
@@ -152,20 +162,19 @@ public class GameClient {
         client.sendTCP(msg);
     }
 
-    public void sendSpecialAttack(String[] effectTypes, int[] effectValues,
-                                   int newAttackerCredits, int newDefenderCredits, int newDeckSize) {
+    public void sendSpecialAttack(String[] effectTypes, int[] effectValues, int newDeckSize, String targetBenchCardId) {
         NetworkMessages.SpecialAttack msg = new NetworkMessages.SpecialAttack();
-        msg.effectTypes         = effectTypes;
-        msg.effectValues        = effectValues;
-        msg.newAttackerCredits  = newAttackerCredits;
-        msg.newDefenderCredits  = newDefenderCredits;
-        msg.newDeckSize         = newDeckSize;
+        msg.effectTypes = effectTypes;
+        msg.effectValues = effectValues;
+        msg.newDeckSize = newDeckSize;
+        msg.targetBenchCardId = targetBenchCardId;
         client.sendTCP(msg);
     }
 
     public void sendCardDied(String region, String emplacement, boolean opponentDied) {
         NetworkMessages.CardDied msg = new NetworkMessages.CardDied();
         msg.cardId = region;
+        System.out.println(emplacement);
         msg.zone = emplacement;
         msg.isOpponent = opponentDied;
         client.sendTCP(msg);

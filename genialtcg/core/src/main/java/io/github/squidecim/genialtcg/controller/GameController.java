@@ -3,6 +3,7 @@ package io.github.squidecim.genialtcg.controller;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.math.collision.Ray;
 import io.github.squidecim.genialtcg.GenialTCG;
@@ -33,9 +34,14 @@ public class GameController implements InputProcessor, GameClient.NetworkListene
     private boolean selectingRetreat = false;
     private boolean selectingReplacementAfterDeath = false;
 
+    private boolean selectingBenchTarget = false;
+    private boolean benchTargetIsOpponent = false;
+    private java.util.function.Consumer<CardDecal> onBenchTargetSelected = null;
+
     private boolean initialDrawDone = false;
     private int initialDrawCount = 0;
     private static final int INITIAL_HAND_SIZE = 6;
+    private boolean startTurnWithDiedCard = false;
 
     public GameController(GameView view, GameModel model, GameClient client, String myPlayerId, GenialTCG game) {
         this.view = view;
@@ -70,6 +76,7 @@ public class GameController implements InputProcessor, GameClient.NetworkListene
     public boolean touchDown(int x, int y, int p, int b) {
 
         if (view.isPauseMenuVisible()) return false;
+        if (view.isCamAnimating()) return false;
 
         if (view.isZooming()) {
             Ray ray = view.getCam().getPickRay(x, y);
@@ -89,6 +96,24 @@ public class GameController implements InputProcessor, GameClient.NetworkListene
 
         Ray ray = view.getCam().getPickRay(x, y);
         CardDecal card = view.getHoveredCard(ray);
+
+
+        if (selectingBenchTarget && b == 0) {
+            CardDecal benchCard = benchTargetIsOpponent
+                ? view.getOpponentBenchCardAt(ray)
+                : view.getBenchCardAt(ray);
+            if (benchCard != null) {
+                selectingBenchTarget = false;
+                benchTargetIsOpponent = false;
+                view.clearAllSelectableBorders();
+                view.hideBanner();
+                if (onBenchTargetSelected != null) {
+                    onBenchTargetSelected.accept(benchCard);
+                    onBenchTargetSelected = null;
+                }
+            }
+            return true;
+        }
 
         if (selectingRetreat && b == 0) {
             CardDecal benchCard = view.getBenchCardAt(ray);
@@ -110,6 +135,17 @@ public class GameController implements InputProcessor, GameClient.NetworkListene
                 model.moveFromBenchToTable(benchCard.getData());
                 view.promoteFromBenchToTable(benchCard);
                 client.sendPlayCard(benchCard.getData().getAtlasRegionName(), "table", 0);
+
+                if (!startTurnWithDiedCard) {
+                    client.sendEndTurn();
+                } else {
+                    view.showActionButton("Finir le tour", () -> {
+                        startTurnWithDiedCard = false;
+                        view.hideActionButton();
+                        model.myTurn = false;
+                        client.sendEndTurn();
+                    });
+                }
             }
             return true;
         }
@@ -184,6 +220,8 @@ public class GameController implements InputProcessor, GameClient.NetworkListene
             boolean fromBench = draggedCard.emplacement.equals("bench");
             boolean toBench = slot.type.equals("bench");
             boolean toTable = slot.type.equals("table");
+            boolean toAction = slot.type.equals("action");
+
 
             if (fromBench && toBench){
                 view.cancelDrag(draggedCard);
@@ -191,7 +229,10 @@ public class GameController implements InputProcessor, GameClient.NetworkListene
                 return true;
             }
 
-            if (toBench) {
+            if (toAction && slot.isEmpty()){
+                model.useFromHand(draggedCard.getData());
+                //A continuer ça marche pas la
+            } else if (toBench) {
                 if (model.isBenchFull()) {
                     view.cancelDrag(draggedCard);
                 } else {
@@ -350,6 +391,7 @@ public class GameController implements InputProcessor, GameClient.NetworkListene
             model.receiveCredits(model.getTotalEconomy());
             if (game.winCreditsSound != null) game.winCreditsSound.play(game.uiSoundVolume);
             client.sendCreditsUpdate(model.myCredits);
+            client.sendDrawCard();
             view.showActionButton("Finir le tour", () -> {
                 view.hideActionButton();
                 model.myTurn = false;
@@ -438,13 +480,16 @@ public class GameController implements InputProcessor, GameClient.NetworkListene
         if (myTable == null || oppTable == null) return;
 
         boolean iAmAttacker = model.myTurn;
-
         if (msg.damage > 0) {
             CardDecal target = iAmAttacker ? oppTable : myTable;
-            applyDamageAndFloat(target, -msg.damage, true);
+            applyDamageAndFloat(target, -msg.damage, iAmAttacker);
         } else if (msg.damage < 0) {
             CardDecal target = iAmAttacker ? myTable : oppTable;
-            applyDamageAndFloat(target, msg.damage, false);
+            applyDamageAndFloat(target, msg.damage, !iAmAttacker);
+        }
+
+        if (iAmAttacker) {
+            resolveEndOfAttack();
         }
     }
 
@@ -464,16 +509,21 @@ public class GameController implements InputProcessor, GameClient.NetworkListene
         boolean isMe = msg.playerId.equals(myPlayerId);
         boolean iMustReplace = (isMe && !msg.isOpponent) || (!isMe && msg.isOpponent);
 
+         if (!model.myTurn && iMustReplace) startTurnWithDiedCard = true;
+
         CardDecal deadCard;
         if (!iMustReplace) {
             deadCard = "table".equals(msg.zone)
                 ? view.getOpponentTableCard()
                 : view.getOpponentBenchCardById(msg.cardId);
         } else {
+            System.out.println("moi je dois replace");
             deadCard = "table".equals(msg.zone)
                 ? view.getMyTableCard()
                 : view.getMyBenchCardById(msg.cardId);
+            System.out.println("zone du message envoyé : " + msg.zone);
         }
+        System.out.println("gros jsuis perdu je suis " + deadCard);
         if (deadCard == null) return;
 
         view.sendToDiscard(deadCard, iMustReplace);
@@ -504,7 +554,7 @@ public class GameController implements InputProcessor, GameClient.NetworkListene
         boolean died = model.applyDamage(target, damage);
         Vector3 pos = target.getPosition().cpy();
         pos.y += 0.5f;
-        view.spawnFloatingText("-" + Math.abs(damage), pos);
+        view.spawnFloatingText("-" + Math.abs(damage), pos, Color.RED);
         if (died && model.myTurn) {
             client.sendCardDied(target.getData().getAtlasRegionName(), target.emplacement, onOpponent);
         }
@@ -517,8 +567,8 @@ public class GameController implements InputProcessor, GameClient.NetworkListene
             return;
         }
 
-        String[] types  = card.specialEffectTypes;
-        int[]    values = card.specialEffectValues;
+        String[] types = card.specialEffectTypes;
+        int[] values   = card.specialEffectValues;
         if (types == null || types.length == 0) {
             view.hideAttackMenu();
             return;
@@ -589,71 +639,172 @@ public class GameController implements InputProcessor, GameClient.NetworkListene
                             game.takingCardsSound.play(game.uiSoundVolume);
                     }
                 }
+        view.updateMyCredits(model.myCredits);
+        view.hideAttackMenu();
+
+        boolean needsBenchChoice = false;
+        for (String type : types) {
+            if ("degatBanc".equals(type) || "soinBanc".equals(type)) {
+                needsBenchChoice = true;
                 break;
             }
         }
+
+        if (needsBenchChoice) {
+            boolean targetingOwnBench = false;
+            for (String type : types) {
+                if ("soinBanc".equals(type)) { targetingOwnBench = true; break; }
+            }
+            benchTargetIsOpponent = !targetingOwnBench;
+
+            boolean benchIsEmpty = benchTargetIsOpponent
+                ? view.getFirstOpponentBenchCard() == null
+                : view.getFirstMyBenchCard() == null;
+
+            if (benchIsEmpty) {
+                client.sendSpecialAttack(types, values, model.deckSize(), null);
+                return;
+            }
+            if (targetingOwnBench) {
+                view.setSelectableBorderForOwnBench(true);
+            } else {
+                view.setSelectableBorderForOpponentBench(true);
+            }
+
+            view.showBanner(targetingOwnBench
+                ? "Choisissez une carte de votre banc à soigner"
+                : "Choisissez une carte du banc adverse à attaquer");
+            selectingBenchTarget = true;
+
+            onBenchTargetSelected = (chosenCard) -> {
+                view.restoreCam(() ->
+                    client.sendSpecialAttack(types, values, model.deckSize(),
+                        chosenCard.getData().getAtlasRegionName())
+                );
+            };
+
+            if (benchTargetIsOpponent) {
+                view.moveCamToOpponentBench(null);
+            }
+        } else {
+            client.sendSpecialAttack(types, values, model.deckSize(), null);
+        }
     }
+
 
     @Override
     public void onSpecialAttack(NetworkMessages.SpecialAttack msg) {
         boolean iAmAttacker = model.myTurn;
 
+        CardDecal myTable  = view.getMyTableCard();
+        CardDecal oppTable = view.getOpponentTableCard();
+        CardDecal myBench  = view.getFirstMyBenchCard();
+        CardDecal oppBench = view.getFirstOpponentBenchCard();
+
         for (int i = 0; i < msg.effectTypes.length; i++) {
             String type  = msg.effectTypes[i];
             int    value = msg.effectValues[i];
             switch (type) {
-                case "degatAdverse":
-                    if (!iAmAttacker) {
-                        CardDecal myTable = view.getMyTableCard();
-                        if (myTable != null) applyDamageAndFloat(myTable, -value, false);
+                case "degatAdverse": {
+                    CardDecal target = iAmAttacker ? oppTable : myTable;
+                    if (target != null) applyDamageAndFloat(target, -value, iAmAttacker);
+                    break;
+                }
+                case "degatBanc": {
+                    CardDecal target;
+                    if (iAmAttacker) {
+                        target = msg.targetBenchCardId != null
+                            ? view.getOpponentBenchCardById(msg.targetBenchCardId)
+                            : view.getFirstOpponentBenchCard();
+                    } else {
+                        target = msg.targetBenchCardId != null
+                            ? view.getMyBenchCardById(msg.targetBenchCardId)
+                            : view.getFirstMyBenchCard();
+                    }
+                    if (target != null) applyDamageAndFloat(target, -value, iAmAttacker);
+                    break;
+                }
+                case "soinJeu": {
+                    CardDecal target = iAmAttacker ? myTable : oppTable;
+                    if (target != null) {
+                        model.applyDamage(target, value);
+                        Vector3 pos = target.getPosition().cpy();
+                        pos.y += 0.5f;
+                        view.spawnFloatingText("+" + value, pos, Color.GREEN);
                     }
                     break;
-                case "degatBanc":
-                    if (!iAmAttacker) {
-                        CardDecal myBench = view.getFirstMyBenchCard();
-                        if (myBench != null) applyDamageAndFloat(myBench, -value, false);
+                }
+                case "soinBanc": {
+                    CardDecal target;
+                    if (iAmAttacker) {
+                        target = msg.targetBenchCardId != null
+                            ? view.getMyBenchCardById(msg.targetBenchCardId)
+                            : view.getFirstMyBenchCard();
+                    } else {
+                        target = msg.targetBenchCardId != null
+                            ? view.getOpponentBenchCardById(msg.targetBenchCardId)
+                            : view.getFirstOpponentBenchCard();
+                    }
+                    if (target != null) {
+                        model.applyDamage(target, value);
+                        Vector3 pos = target.getPosition().cpy();
+                        pos.y += 0.5f;
+                        view.spawnFloatingText("+" + value, pos, Color.GREEN);
                     }
                     break;
-                case "soinJeu":
-                    if (!iAmAttacker) {
-                        CardDecal oppTable = view.getOpponentTableCard();
-                        if (oppTable != null) {
-                            model.applyDamage(oppTable, value);
-                            Vector3 pos = oppTable.getPosition().cpy();
-                            pos.y += 0.5f;
-                            view.spawnFloatingText("+" + value, pos);
+                }
+                case "voleCredit": {
+                    if (iAmAttacker) model.receiveCredits(value);
+                    else model.spendCredits(value);
+                    break;
+                }
+                case "pioche": {
+                    if (iAmAttacker) {
+                        for (int j = 0; j < value; j++) {
+                            CardData drawn = model.drawCard();
+                            if (drawn != null) {
+                                view.addCardToHand(drawn);
+                                view.updateDeckVisual(model.deckSize());
+                                if (game.takingCardsSound != null)
+                                    game.takingCardsSound.play(game.uiSoundVolume);
+                            }
                         }
-                    }
-                    break;
-                case "soinBanc":
-                    if (!iAmAttacker) {
-                        CardDecal oppBench = view.getFirstOpponentBenchCard();
-                        if (oppBench != null) {
-                            model.applyDamage(oppBench, value);
-                            Vector3 pos = oppBench.getPosition().cpy();
-                            pos.y += 0.5f;
-                            view.spawnFloatingText("+" + value, pos);
-                        }
-                    }
-                    break;
-                case "pioche":
-                    if (!iAmAttacker) {
+                    } else {
                         for (int j = 0; j < value; j++)
                             view.updateOpponentDeckVisual(msg.newDeckSize + value - 1 - j);
                     }
                     break;
+                }
             }
         }
 
-        // Sync des crédits depuis les valeurs autoritatives du message
-        if (iAmAttacker) {
-            model.myCredits       = msg.newAttackerCredits;
-            model.opponentCredits = msg.newDefenderCredits;
-        } else {
-            model.myCredits       = msg.newDefenderCredits;
-            model.opponentCredits = msg.newAttackerCredits;
-        }
+        client.sendCreditsUpdate(model.myCredits);
         view.updateMyCredits(model.myCredits);
         view.updateOpponentCredits(model.opponentCredits);
+
+        if (iAmAttacker) {
+            resolveEndOfAttack();
+        }
     }
+
+    public void resolveEndOfAttack() {
+        CardDecal myTable = view.getMyTableCard();
+        CardDecal opponentTable = view.getOpponentTableCard();
+        boolean myCardDead = myTable == null || myTable.getData().pv <= 0;
+        boolean opponentCardDead = opponentTable == null || opponentTable.getData().pv <= 0;
+
+
+        if (myCardDead && !model.bench.isEmpty()) {
+            view.hideActionButton();
+            view.showBanner("Choisissez une carte du banc à remettre en jeu");
+            view.setSelectableBorder(true);
+            selectingReplacementAfterDeath = true;
+        } else if (opponentCardDead){
+
+            client.sendEndTurn();
+        } else {
+            client.sendEndTurn();
+        }
+    }
+
 }

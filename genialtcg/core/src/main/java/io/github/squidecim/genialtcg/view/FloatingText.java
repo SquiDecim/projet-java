@@ -11,13 +11,13 @@ public class FloatingText {
     public float scale;
     public Color color;
 
-    public FloatingText(String text, Vector3 worldPos, float lifetime) {
+    public FloatingText(String text, Vector3 worldPos, float lifetime, Color color) {
         this.text = text;
         this.worldPos = worldPos.cpy();
         this.lifetime = lifetime;
         this.maxLifetime = lifetime;
         this.scale = 1f;
-        this.color = new Color(1f, 0.2f, 0.2f, 1f);
+        this.color = color;
     }
 
     public boolean isDead() { return lifetime <= 0; }

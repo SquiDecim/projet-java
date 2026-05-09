@@ -203,8 +203,12 @@ public class LobbyScreen implements Screen, GameClient.NetworkListener {
         if (isHost) {
             try {
                 server = new GameServer(lobbyCode);
+                game.currentGameServer = server;
                 server.setOnBothConnected(() -> Gdx.app.postRunnable(this::updateLaunchButton));
-                if (client == null) client = new GameClient("localhost", this);
+                if (client == null) {
+                    client = new GameClient("localhost", this);
+                    game.currentGameClient = client;
+                }
             } catch (IOException e) {
                 statusLabel.setText("Erreur serveur : " + e.getMessage());
             }
@@ -212,6 +216,7 @@ public class LobbyScreen implements Screen, GameClient.NetworkListener {
             if (client == null) {
                 try {
                     client = new GameClient(hostIp, this);
+                    game.currentGameClient = client;
                 } catch (IOException e) {
                     statusLabel.setText("Ce code ne mène à aucun lobby");
                     statusLabel.setColor(Color.RED);

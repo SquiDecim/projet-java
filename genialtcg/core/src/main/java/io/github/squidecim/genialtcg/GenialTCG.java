@@ -23,10 +23,16 @@ import com.badlogic.gdx.utils.JsonValue;
 import io.github.squidecim.genialtcg.mainMenu.FirstScreen;
 import io.github.squidecim.genialtcg.model.CardData;
 import io.github.squidecim.genialtcg.model.CardsStackData;
+import io.github.squidecim.genialtcg.network.GameClient;
+import io.github.squidecim.genialtcg.network.GameServer;
+
 import java.util.HashMap;
 import java.util.Map;
 
 public class GenialTCG extends Game {
+
+    public GameServer currentGameServer;
+    public GameClient currentGameClient;
 
     public Array<CardsStackData> savedDecks = new Array<>();
     public Map<String, CardData> allCardsMap = new HashMap<>();
@@ -111,6 +117,17 @@ public class GenialTCG extends Game {
         } catch (Exception e) {
             Gdx.app.log("Audio", "Erreur chargement sons boutons");
         }
+
+        Runtime.getRuntime().addShutdownHook(new Thread(() -> {
+            if (currentGameClient != null) {
+                currentGameClient.disconnect();
+            }
+
+            if (currentGameServer != null) {
+                currentGameServer.stop();
+            }
+        }));
+
         setScreen(new FirstScreen(this));
     }
 
@@ -430,6 +447,17 @@ public class GenialTCG extends Game {
 
     @Override
     public void dispose() {
+
+        if (currentGameClient != null) {
+            currentGameClient.disconnect();
+            currentGameClient = null;
+        }
+
+        if (currentGameServer != null) {
+            currentGameServer.stop();
+            currentGameServer = null;
+        }
+
         if (getScreen() != null) getScreen().dispose();
         if (skin != null) skin.dispose();
         if (hoverSound != null) hoverSound.dispose();
@@ -446,4 +474,6 @@ public class GenialTCG extends Game {
 
         super.dispose();
     }
+
+
 }

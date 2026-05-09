@@ -146,7 +146,17 @@ public class GameServer {
     }
 
     public void stop() {
-        server.stop();
+        try {
+            server.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        try {
+            server.stop();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     // IMPORTANT : les deux côtés (serveur ET client) doivent

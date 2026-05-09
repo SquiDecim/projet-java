@@ -1,6 +1,7 @@
 package io.github.squidecim.genialtcg.view;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.Screen;
@@ -24,10 +25,12 @@ import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
+import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.SelectBox;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Slider;
+import com.badlogic.gdx.scenes.scene2d.ui.Stack;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
@@ -50,9 +53,23 @@ public class GameView implements Screen {
 
     private GameClient client;
 
-    private PerspectiveCamera cam;
     private Environment environment;
     private ModelBatch modelBatch;
+    private PerspectiveCamera cam;
+
+    private Vector3 savedCamPosition = null;
+    private Vector3 savedCamDirection = null;
+    private Vector3 camTargetPos = null;
+    private Vector3 camTargetDir = null;
+
+    private boolean camAnimating = false;
+    private float camAnimTimer = 0f;
+    private float camAnimDuration = 0.6f;
+
+    private Runnable onCamAnimDone = null;
+
+    private Vector3 camStartPos = null;
+    private Vector3 camStartDir = null;
 
     private TextureAtlas cardAtlas;
     private TextureAtlas actionsAtlas;
@@ -65,6 +82,7 @@ public class GameView implements Screen {
     private Array<CardSlot> benchBottomSlots = new Array<>();
     private Array<CardDecal> handCards = new Array<>();
     private Array<CardDecal> opponentHandCards = new Array<>();
+    private CardSlot actionSlot;
 
     private CardsStackDecal deck;
     private CardsStackDecal opponentDeck;
@@ -106,6 +124,9 @@ public class GameView implements Screen {
 
     private Label ephemeralLabel;
     private Table pauseOverlay;
+    private Table pauseMenuTable;
+    private Table settingsPanelTable;
+    private Dialog forfeitDialog;
 
     private Array<FloatingText> floatingTexts = new Array<>();
     private SpriteBatch floatBatch;
@@ -173,16 +194,16 @@ public class GameView implements Screen {
         mpb.rect(
             -7f,
             -0.0001f,
-            5.98f, //avant gauche
+            5.98f,
             7f,
             -0.0001f,
-            5.98f, //avant droit
+            5.98f,
             7f,
             -0.0001f,
-            -5.98f, //bas droit
+            -5.98f,
             -7f,
             -0.0001f,
-            -5.98f, //bas gauche
+            -5.98f,
             0,
             -1,
             0
@@ -272,6 +293,15 @@ public class GameView implements Screen {
             );
         }
 
+        actionSlot = new CardSlot(
+            new Vector3(4.5f, 0, 0),
+            0,
+            -90f,
+            0,
+            "action"
+        );
+
+
         deck = createCardsStacks(
             new TextureRegion(backTexture),
             BENCH_CARD_W,
@@ -285,7 +315,7 @@ public class GameView implements Screen {
             new TextureRegion(backTexture),
             BENCH_CARD_W,
             BENCH_CARD_H,
-            deckSize, //la je mets le meme nombre de carte que me joueur mais faudrait récup le nombre de carte adverse
+            deckSize,
             -5.15f,
             0,
             -4.03f
@@ -294,7 +324,7 @@ public class GameView implements Screen {
             new TextureRegion(backTexture),
             BENCH_CARD_W,
             BENCH_CARD_H,
-            1,
+            0,
             5.15f,
             0,
             2.125f
@@ -338,7 +368,6 @@ public class GameView implements Screen {
         );
         Color boxBg = new Color(0f, 0f, 0f, 0.82f);
 
-        // Panneau bas-gauche (joueur) — remonté
         Table myPanel = new Table();
         myPanel.setFillParent(true);
         myPanel.bottom().left().padLeft(20).padBottom(130);
@@ -366,7 +395,6 @@ public class GameView implements Screen {
         game.soundifyButton(actionButton);
         uiStage.addActor(actionButton);
 
-        // Panneau haut-droite (adversaire) — même taille
         Table oppPanel = new Table();
         oppPanel.setFillParent(true);
         oppPanel.top().right().pad(20);
@@ -458,6 +486,35 @@ public class GameView implements Screen {
     public void render(float delta) {
         if (controller != null) {
             controller.update(delta);
+
+            if (camAnimating) {
+                camAnimTimer += delta;
+                float t = Math.min(camAnimTimer / camAnimDuration, 1f);
+                t = t * t * (3f - 2f * t);
+                cam.position.set(
+                    lerp(camStartPos.x, camTargetPos.x, t),
+                    lerp(camStartPos.y, camTargetPos.y, t),
+                    lerp(camStartPos.z, camTargetPos.z, t)
+                );
+                Vector3 dir = new Vector3(
+                    lerp(camStartDir.x, camTargetDir.x, t),
+                    lerp(camStartDir.y, camTargetDir.y, t),
+                    lerp(camStartDir.z, camTargetDir.z, t)
+                ).nor();
+                cam.lookAt(cam.position.cpy().add(dir));
+                cam.update();
+                if (camAnimTimer >= camAnimDuration) {
+                    camAnimating = false;
+                    cam.position.set(camTargetPos);
+                    cam.lookAt(cam.position.cpy().add(camTargetDir));
+                    cam.update();
+                    if (onCamAnimDone != null) {
+                        Runnable cb = onCamAnimDone;
+                        onCamAnimDone = null;
+                        cb.run();
+                    }
+                }
+            }
         }
 
         Gdx.gl.glViewport(
@@ -507,6 +564,7 @@ public class GameView implements Screen {
         }
 
         for (CardSlot slot : benchTopSlots) {
+            slot.renderSelectable(modelBatch, environment);
             if (!slot.isEmpty()) {
                 CardDecal card = slot.getCard();
                 if (card.isAnimating()) card.update(delta);
@@ -515,6 +573,8 @@ public class GameView implements Screen {
         }
 
         tableSlot.renderHighlight(modelBatch, environment);
+
+        actionSlot.renderHighlight(modelBatch, environment);
 
         deck.render(modelBatch, environment);
         opponentDeck.render(modelBatch, environment);
@@ -620,6 +680,7 @@ public class GameView implements Screen {
         for (CardSlot slot : benchBottomSlots) slot.dispose();
         for (CardSlot slot : benchTopSlots) slot.dispose();
         tableSlot.dispose();
+        actionSlot.dispose();
         opponentTableSlot.dispose();
         boardModel.dispose();
         shapeRenderer.dispose();
@@ -631,9 +692,61 @@ public class GameView implements Screen {
         if (specialDescFont != null) specialDescFont.dispose();
     }
 
+    private float lerp(float a, float b, float t) {
+        return a + (b - a) * t;
+    }
+
+    public void moveCamToOpponentBench(Runnable onDone) {
+        savedCamPosition = cam.position.cpy();
+        savedCamDirection = new Vector3(cam.direction).cpy();
+
+        camStartPos = cam.position.cpy();
+        camStartDir = cam.direction.cpy();
+        camTargetPos = new Vector3(0f, 3.5f, -0.8f);
+        camTargetDir = new Vector3(0f, -3.5f, -3.25f).sub(camTargetPos).nor();
+
+        camAnimTimer = 0f;
+        camAnimating = true;
+        onCamAnimDone = onDone;
+    }
+
+    public void restoreCam(Runnable onDone) {
+        if (savedCamPosition == null) {
+            if (onDone != null) onDone.run();
+            return;
+        }
+        camStartPos = cam.position.cpy();
+        camStartDir = cam.direction.cpy();
+        camTargetPos = savedCamPosition.cpy();
+        camTargetDir = savedCamDirection.cpy();
+        savedCamPosition = null;
+        savedCamDirection = null;
+
+        camAnimTimer = 0f;
+        camAnimating = true;
+        onCamAnimDone = onDone;
+    }
+
+    public boolean isCamAnimating() {
+        return camAnimating;
+    }
+
     public void togglePauseMenu() {
-        if (pauseOverlay != null) hidePauseMenu();
-        else showPauseMenu();
+        if (pauseOverlay != null) {
+            if (settingsPanelTable != null && settingsPanelTable.isVisible()) {
+                settingsPanelTable.setVisible(false);
+                pauseMenuTable.setVisible(true);
+            } else if (
+                forfeitDialog != null && forfeitDialog.getParent() != null
+            ) {
+                forfeitDialog.hide();
+                pauseMenuTable.setVisible(true);
+            } else {
+                hidePauseMenu();
+            }
+        } else {
+            showPauseMenu();
+        }
     }
 
     public boolean isPauseMenuVisible() {
@@ -648,7 +761,7 @@ public class GameView implements Screen {
         pauseOverlay = new Table();
         pauseOverlay.setFillParent(true);
         pauseOverlay.setBackground(
-            uiSkin.newDrawable("white", new Color(0, 0, 0, 0.35f))
+            uiSkin.newDrawable("white", new Color(0, 0, 0, 0.45f))
         );
         pauseOverlay.addListener(
             new InputListener() {
@@ -665,15 +778,42 @@ public class GameView implements Screen {
             }
         );
 
-        Table panel = new Table();
-        panel.setBackground(
+        pauseMenuTable = new Table();
+        pauseMenuTable.setBackground(
             uiSkin.newDrawable("white", new Color(0.1f, 0.12f, 0.18f, 0.97f))
         );
-        panel.pad(40);
+        pauseMenuTable.pad(40);
+
+        Label pauseTitle = new Label("Pause", uiSkin, "title");
+        pauseTitle.setFontScale(0.35f);
+        pauseMenuTable.add(pauseTitle).padBottom(30).row();
+
+        TextButton btnResume = new TextButton("Reprendre", uiSkin);
+        TextButton btnSettingsMenu = new TextButton("Paramètres", uiSkin);
+        TextButton btnForfeit = new TextButton("Déclarer Forfait", uiSkin);
+
+        game.soundifyButton(btnResume);
+        game.soundifyButton(btnSettingsMenu);
+        game.soundifyButton(btnForfeit);
+
+        pauseMenuTable.add(btnResume).width(250).height(50).padBottom(15).row();
+        pauseMenuTable
+            .add(btnSettingsMenu)
+            .width(250)
+            .height(50)
+            .padBottom(15)
+            .row();
+        pauseMenuTable.add(btnForfeit).width(250).height(50).row();
+
+        settingsPanelTable = new Table();
+        settingsPanelTable.setBackground(
+            uiSkin.newDrawable("white", new Color(0.1f, 0.12f, 0.18f, 0.97f))
+        );
+        settingsPanelTable.pad(40);
 
         Label title = new Label("Paramètres", uiSkin, "title");
         title.setFontScale(0.35f);
-        panel.add(title).padBottom(30).row();
+        settingsPanelTable.add(title).padBottom(30).row();
 
         Label volLabel = new Label("Volume Musique", uiSkin);
         Slider volSlider = new Slider(0f, 1f, 0.05f, false, uiSkin);
@@ -689,8 +829,8 @@ public class GameView implements Screen {
                 }
             }
         );
-        panel.add(volLabel).left().padBottom(5).row();
-        panel.add(volSlider).width(300).padBottom(20).row();
+        settingsPanelTable.add(volLabel).left().padBottom(5).row();
+        settingsPanelTable.add(volSlider).width(300).padBottom(20).row();
 
         Label uiVolLabel = new Label("Volume Sons UI", uiSkin);
         Slider uiVolSlider = new Slider(0f, 1f, 0.05f, false, uiSkin);
@@ -706,8 +846,8 @@ public class GameView implements Screen {
                 }
             }
         );
-        panel.add(uiVolLabel).left().padBottom(5).row();
-        panel.add(uiVolSlider).width(300).padBottom(20).row();
+        settingsPanelTable.add(uiVolLabel).left().padBottom(5).row();
+        settingsPanelTable.add(uiVolSlider).width(300).padBottom(20).row();
 
         Label brightLabel = new Label("Luminosité", uiSkin);
         Slider brightSlider = new Slider(0.2f, 1.0f, 0.05f, false, uiSkin);
@@ -722,8 +862,8 @@ public class GameView implements Screen {
                 }
             }
         );
-        panel.add(brightLabel).left().padBottom(5).row();
-        panel.add(brightSlider).width(300).padBottom(30).row();
+        settingsPanelTable.add(brightLabel).left().padBottom(5).row();
+        settingsPanelTable.add(brightSlider).width(300).padBottom(30).row();
 
         Label displayLabel = new Label("Mode d'affichage", uiSkin);
         SelectBox<String> displayBox = new SelectBox<>(uiSkin);
@@ -740,22 +880,75 @@ public class GameView implements Screen {
                 }
             }
         );
-        panel.add(displayLabel).left().padBottom(5).row();
-        panel.add(displayBox).width(300).padBottom(30).row();
+        settingsPanelTable.add(displayLabel).left().padBottom(5).row();
+        settingsPanelTable.add(displayBox).width(300).padBottom(30).row();
 
-        TextButton btnQuit = new TextButton("Quitter la partie", uiSkin);
-        game.soundifyButton(btnQuit);
-        btnQuit.addListener(
+        TextButton btnBackToPause = new TextButton("Retour", uiSkin);
+        game.soundifyButton(btnBackToPause);
+        settingsPanelTable.add(btnBackToPause).width(200).height(50);
+
+        forfeitDialog = new Dialog("", uiSkin) {
+            @Override
+            protected void result(Object object) {
+                if (object.equals(true)) {
+                    client.sendPlayerQuit();
+                    game.setScreen(new FirstScreen(game));
+                } else {
+                    pauseMenuTable.setVisible(true);
+                }
+            }
+        };
+        forfeitDialog.text("Voulez-vous vraiment déclarer forfait ?");
+        forfeitDialog.button("Oui", true);
+        forfeitDialog.button("Non", false);
+
+        btnResume.addListener(
             new ChangeListener() {
                 @Override
                 public void changed(ChangeEvent event, Actor actor) {
-                    client.sendPlayerQuit();
+                    hidePauseMenu();
                 }
             }
         );
-        panel.add(btnQuit).width(200).height(50);
 
-        pauseOverlay.add(panel).width(420);
+        btnSettingsMenu.addListener(
+            new ChangeListener() {
+                @Override
+                public void changed(ChangeEvent event, Actor actor) {
+                    pauseMenuTable.setVisible(false);
+                    settingsPanelTable.setVisible(true);
+                }
+            }
+        );
+
+        btnBackToPause.addListener(
+            new ChangeListener() {
+                @Override
+                public void changed(ChangeEvent event, Actor actor) {
+                    settingsPanelTable.setVisible(false);
+                    pauseMenuTable.setVisible(true);
+                }
+            }
+        );
+
+        btnForfeit.addListener(
+            new ChangeListener() {
+                @Override
+                public void changed(ChangeEvent event, Actor actor) {
+                    pauseMenuTable.setVisible(false);
+                    forfeitDialog.show(uiStage);
+                }
+            }
+        );
+
+        Stack stack = new Stack();
+        stack.add(pauseMenuTable);
+        stack.add(settingsPanelTable);
+
+        pauseMenuTable.setVisible(true);
+        settingsPanelTable.setVisible(false);
+
+        pauseOverlay.add(stack).center();
         uiStage.addActor(pauseOverlay);
     }
 
@@ -891,7 +1084,7 @@ public class GameView implements Screen {
                     0f,
                     0.4f,
                     true
-                ); //true if deck is from player, false if deck is from opponent
+                );
                 card.emplacement = "hand";
             } else {
                 card.animateTo(dest, angleX, -50f, 0f, 0.4f);
@@ -1029,6 +1222,7 @@ public class GameView implements Screen {
                 TABLE_CARD_W,
                 TABLE_CARD_H
             );
+            decal.emplacement = "table";
         } else {
             Vector3 startPos =
                 opponentHandCards.size > 0
@@ -1045,6 +1239,7 @@ public class GameView implements Screen {
                 cam,
                 "table"
             );
+            decal.emplacement = "table"; //Normalementr déjà créé comme banc mais on sait jamais, shallah ça marche mtn
             decal.setPosition(startPos.x, startPos.y, startPos.z);
             decal.setRotation(0, -90f, 0);
             if (opponentHandCards.size > 0) {
@@ -1162,13 +1357,12 @@ public class GameView implements Screen {
             if (card != null && card.intersects(ray)) return card;
         }
         for (CardSlot slot : benchTopSlots) {
-            // ← ajout
             CardDecal card = slot.getCard();
             if (card != null && card.intersects(ray)) return card;
         }
         CardDecal slotCard = tableSlot.getCard();
         if (slotCard != null && slotCard.intersects(ray)) return slotCard;
-        CardDecal oppSlotCard = opponentTableSlot.getCard(); // ← ajout
+        CardDecal oppSlotCard = opponentTableSlot.getCard();
         if (
             oppSlotCard != null && oppSlotCard.intersects(ray)
         ) return oppSlotCard;
@@ -1250,14 +1444,17 @@ public class GameView implements Screen {
         Vector3 pos = card.getPosition();
         card.setDragPosition(pos.x, 0.5f, pos.z);
         card.setRotation(0, -90f, 0);
-        if (!card.emplacement.equals("bench")) {
-            for (CardSlot slot : benchBottomSlots) {
-                if (slot.isEmpty()) slot.setHighlighted(true);
+        if (card.getData().id.startsWith("ACT-")) actionSlot.setHighlighted(true);
+        else {
+            if (!card.emplacement.equals("bench")) {
+                for (CardSlot slot : benchBottomSlots) {
+                    if (slot.isEmpty()) slot.setHighlighted(true);
+                }
             }
+            if (
+                tableSlot.isEmpty() && !card.emplacement.equals("table")
+            ) tableSlot.setHighlighted(true);
         }
-        if (
-            tableSlot.isEmpty() && !card.emplacement.equals("table")
-        ) tableSlot.setHighlighted(true);
     }
 
     public void updateDragPosition(Ray ray) {
@@ -1270,14 +1467,17 @@ public class GameView implements Screen {
         if (Intersector.intersectRayPlane(ray, groundPlane, intersection)) {
             draggedCard.setDragPosition(intersection.x, 0.5f, intersection.z);
         }
-        if (!draggedCard.emplacement.equals("bench")) {
-            for (CardSlot slot : benchBottomSlots) {
-                if (slot.isEmpty()) slot.setHighlighted(true);
+        if (draggedCard.getData().id.startsWith("ACT-")) actionSlot.setHighlighted(true);
+        else {
+            if (!draggedCard.emplacement.equals("bench")) {
+                for (CardSlot slot : benchBottomSlots) {
+                    if (slot.isEmpty()) slot.setHighlighted(true);
+                }
             }
+            if (
+                tableSlot.isEmpty() && !draggedCard.emplacement.equals("table")
+            ) tableSlot.setHighlighted(true);
         }
-        if (
-            tableSlot.isEmpty() && !draggedCard.emplacement.equals("table")
-        ) tableSlot.setHighlighted(true);
     }
 
     public CardSlot getIntersectedSlot(Ray ray) {
@@ -1312,12 +1512,13 @@ public class GameView implements Screen {
         slot.setCard(card);
         if (slot.type.equals("bench")) {
             card.emplacement = "bench";
-        } else {
+        } else if (slot.type.equals("table")) {
             card.emplacement = "table";
         }
         card.animateTo(slot.getPosition(), 0, -90f, 0, 0.3f);
         for (CardSlot s : benchBottomSlots) s.setHighlighted(false);
         tableSlot.setHighlighted(false);
+        actionSlot.setHighlighted(false);
         draggedCard = null;
         originSlot = null;
     }
@@ -1336,6 +1537,7 @@ public class GameView implements Screen {
         }
         for (CardSlot s : benchBottomSlots) s.setHighlighted(false);
         tableSlot.setHighlighted(false);
+        actionSlot.setHighlighted(false);
         draggedCard = null;
         originSlot = null;
     }
@@ -1470,7 +1672,6 @@ public class GameView implements Screen {
         title.setFontScale(0.5f);
         content.add(title).padBottom(20).colspan(2).center().row();
 
-        // ── 4 attaques normales ──
         String[] statNames = {
             "Puissance",
             "Ressources",
@@ -1501,7 +1702,6 @@ public class GameView implements Screen {
                             new NetworkMessages.NormalAttack();
                         msg.damage = damage;
                         client.sendNormalAttack(damage);
-                        client.sendEndTurn();
                     }
                 }
             );
@@ -1721,8 +1921,8 @@ public class GameView implements Screen {
         return attackMenuVisible;
     }
 
-    public void spawnFloatingText(String text, Vector3 worldPos) {
-        floatingTexts.add(new FloatingText(text, worldPos, 1.2f));
+    public void spawnFloatingText(String text, Vector3 worldPos, Color color) {
+        floatingTexts.add(new FloatingText(text, worldPos, 1.2f, color));
     }
 
     public void showEphemeralMessage(String text) {
@@ -1745,8 +1945,33 @@ public class GameView implements Screen {
         }
     }
 
+    public void setSelectableBorderForOwnBench(boolean selectable) {
+        for (CardSlot slot : benchBottomSlots) {
+            if (!slot.isEmpty()) slot.setSelectable(selectable);
+        }
+    }
+
+    public void setSelectableBorderForOpponentBench(boolean selectable) {
+        for (CardSlot slot : benchTopSlots) {
+            if (!slot.isEmpty()) slot.setSelectable(selectable);
+        }
+    }
+
+    public void clearAllSelectableBorders() {
+        setSelectableBorder(false);
+        setSelectableBorderForOpponentBench(false);
+    }
+
     public CardDecal getBenchCardAt(Ray ray) {
         for (CardSlot slot : benchBottomSlots) {
+            CardDecal card = slot.getCard();
+            if (card != null && card.intersects(ray)) return card;
+        }
+        return null;
+    }
+
+    public CardDecal getOpponentBenchCardAt(Ray ray) {
+        for (CardSlot slot : benchTopSlots) {
             CardDecal card = slot.getCard();
             if (card != null && card.intersects(ray)) return card;
         }
@@ -1861,7 +2086,7 @@ public class GameView implements Screen {
                                 card.getTopTextureRegion()
                             );
                         }
-                        discardingCards.removeValue(card, true); // ← retire après l'anim
+                        discardingCards.removeValue(card, true);
                     });
                 }
             },
