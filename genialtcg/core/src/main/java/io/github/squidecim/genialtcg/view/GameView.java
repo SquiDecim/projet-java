@@ -572,6 +572,12 @@ public class GameView implements Screen {
             }
         }
 
+        if (!actionSlot.isEmpty()) {
+            CardDecal ac = actionSlot.getCard();
+            if (ac.isAnimating()) ac.update(delta);
+            ac.render(modelBatch, environment);
+        }
+
         tableSlot.renderHighlight(modelBatch, environment);
 
         actionSlot.renderHighlight(modelBatch, environment);
@@ -1444,7 +1450,7 @@ public class GameView implements Screen {
         Vector3 pos = card.getPosition();
         card.setDragPosition(pos.x, 0.5f, pos.z);
         card.setRotation(0, -90f, 0);
-        if (card.getData().id.startsWith("ACT-")) actionSlot.setHighlighted(true);
+        if (card.getData().id.startsWith("ACT-") && model.phase == GameModel.Phase.PLAYING) actionSlot.setHighlighted(true);
         else {
             if (!card.emplacement.equals("bench")) {
                 for (CardSlot slot : benchBottomSlots) {
@@ -1467,7 +1473,7 @@ public class GameView implements Screen {
         if (Intersector.intersectRayPlane(ray, groundPlane, intersection)) {
             draggedCard.setDragPosition(intersection.x, 0.5f, intersection.z);
         }
-        if (draggedCard.getData().id.startsWith("ACT-")) actionSlot.setHighlighted(true);
+        if (draggedCard.getData().id.startsWith("ACT-") && model.phase == GameModel.Phase.PLAYING) actionSlot.setHighlighted(true);
         else {
             if (!draggedCard.emplacement.equals("bench")) {
                 for (CardSlot slot : benchBottomSlots) {
@@ -1486,6 +1492,8 @@ public class GameView implements Screen {
         for (CardSlot slot : benchBottomSlots) {
             if (slot.intersects(ray)) return slot;
         }
+
+        if (actionSlot.intersects(ray)) return actionSlot;
 
         return null;
     }

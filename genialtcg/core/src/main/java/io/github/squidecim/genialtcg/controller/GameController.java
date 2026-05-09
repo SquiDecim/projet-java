@@ -213,7 +213,7 @@ public class GameController implements InputProcessor, GameClient.NetworkListene
         }
 
         assert draggedCard != null;
-        if (draggedCard.getData().id.startsWith("ACT-") || draggedCard.getData().id.startsWith("OUT-")) {
+        if (draggedCard.getData().id.startsWith("OUT-")) {
             view.cancelDrag(draggedCard);
             return true;
         }
@@ -230,9 +230,17 @@ public class GameController implements InputProcessor, GameClient.NetworkListene
                 return true;
             }
 
-            if (toAction && slot.isEmpty()){
-                model.useFromHand(draggedCard.getData());
-                //A continuer ça marche pas la
+            if (draggedCard.getData().id.startsWith("ACT-")){
+                System.out.println("C'est bien une carte action");
+                if (toAction && slot.isEmpty() && model.phase == GameModel.Phase.PLAYING) {
+                    System.out.println("slot vide et tout");
+                    model.useFromHand(draggedCard.getData());
+                    view.dropCardOnSlot(draggedCard, slot);
+                } else {
+                    view.cancelDrag(draggedCard);
+                    draggedCard = null;
+                    return true;
+                }
             } else if (toBench) {
                 if (model.isBenchFull()) {
                     view.cancelDrag(draggedCard);
