@@ -17,6 +17,8 @@ import io.github.squidecim.genialtcg.view.CardDecal;
 import io.github.squidecim.genialtcg.view.CardSlot;
 import io.github.squidecim.genialtcg.view.GameView;
 
+import java.util.Arrays;
+
 public class GameController
     implements InputProcessor, GameClient.NetworkListener
 {
@@ -250,20 +252,28 @@ public class GameController
             }
             if (draggedCard.getData().id.startsWith("ACT-")){
                 if (toAction && slot.isEmpty() && model.phase == GameModel.Phase.PLAYING) {
-                    model.useFromHand(draggedCard.getData());
-                    view.dropCardOnSlot(draggedCard, slot);
-                    client.sendPlayCard(
-                        draggedCard.getData().getAtlasRegionName(),
-                        "action",
-                        0
-                    );
-                    com.badlogic.gdx.utils.Timer.schedule(
-                        new com.badlogic.gdx.utils.Timer.Task() {
-                            @Override
-                            public void run() {
-                                executeAction(view.getActionCard(), true);
-                            }
-                        }, 0.5f);
+                    if (conditionsRespected(draggedCard)){
+                        model.useFromHand(draggedCard.getData());
+                        view.dropCardOnSlot(draggedCard, slot);
+                        client.sendPlayCard(
+                            draggedCard.getData().getAtlasRegionName(),
+                            "action",
+                            0
+                        );
+                        com.badlogic.gdx.utils.Timer.schedule(
+                            new com.badlogic.gdx.utils.Timer.Task() {
+                                @Override
+                                public void run() {
+                                    executeAction(view.getActionCard(), true);
+                                }
+                            }, 0.5f);
+                    } else {
+                        System.out.println("conditions non respectées");
+                        view.cancelDrag(draggedCard);
+                        draggedCard = null;
+                        view.showEphemeralMessage("Les conditions de la carte ne sont pas respectées");
+                        return true;
+                    }
                 } else {
                     view.cancelDrag(draggedCard);
                     draggedCard = null;
@@ -890,7 +900,35 @@ public class GameController
         }
     }
 
+    public boolean conditionsRespected(CardDecal card){
+        //Carte en jeu du joueur
+        CardData cardInTable = view.getMyTableCard().getData();
+
+        //Carte action utilisée
+        CardData cardData = card.getData();
+
+        String[] condTypes = cardData.condTypes;
+        String[] condTerrains = cardData.condTerrains;
+        String[] condRangs = cardData.condRangs;
+        int condEtatMin = cardData.condEtatMin;
+        int condEtatMax = cardData.condEtatMax;
+
+        if (condTerrains != null && !(Arrays.asList(condTerrains).contains(model.terrain))) return false;
+        System.out.println("condTerrains c'est ok");
+        if (condTypes != null && !(Arrays.asList(condTypes).contains(cardInTable.type))) return false;
+        System.out.println("condTypes c'est ok");
+        if (condRangs != null && !(Arrays.asList(condRangs).contains(cardInTable.rank))) return false;
+        System.out.println("condRangs c'est ok");
+        if (condEtatMax != 0 && !(cardInTable.pv <= condEtatMax)) return false;
+        System.out.println("condEtatMax c'est ok");
+        if (condEtatMin != 0 && !(cardInTable.pv >= condEtatMin)) return false;
+        System.out.println("condEtatMin c'est ok");
+
+        return true;
+
+    }
+
     public void handleAction(CardDecal cardAction, boolean isMyCard){
-        
+
     }
 }

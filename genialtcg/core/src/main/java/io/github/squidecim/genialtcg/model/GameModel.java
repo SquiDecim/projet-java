@@ -20,7 +20,7 @@ public class GameModel {
     };
 
     private final GenialTCG game;
-    public final String terrain;
+    public String terrain = "Tempéré";
     public CardsStackData deck;
     public List<CardData> hand = new ArrayList<>();
     public List<CardData> bench = new ArrayList<>();
@@ -32,6 +32,7 @@ public class GameModel {
     public boolean myTurn = false;
     public boolean setupDone = false;
     public int turnCount = 1;
+
 
     public int myCredits = 300;
     public int opponentCredits = 300;

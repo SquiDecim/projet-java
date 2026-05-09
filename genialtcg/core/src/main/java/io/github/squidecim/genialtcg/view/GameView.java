@@ -2237,6 +2237,7 @@ public class GameView implements Screen {
             new com.badlogic.gdx.utils.Timer.Task() {
                 @Override
                 public void run() {
+                    actionSlot.removeCard();
                     controller.handleAction(cardAction, isMyCard);
                 }
             },
