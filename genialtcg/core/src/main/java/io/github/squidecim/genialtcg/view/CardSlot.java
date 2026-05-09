@@ -49,11 +49,6 @@ public class CardSlot {
         return card == null;
     }
 
-    public void applyTo(CardDecal card) {
-        card.setPosition(this.position.x, this.position.y, this.position.z);
-        card.setRotation(this.yaw, this.pitch, this.roll);
-    }
-
     private void buildHighlight() {
         ModelBuilder builder = new ModelBuilder();
         float width = BENCH_CARD_W;

@@ -19,7 +19,7 @@ public class GameModel {
     };
 
     private final GenialTCG game;
-    public String terrain;
+    public String terrain = "Tempéré";
     public int opponentToolBlockedTurns = 0;
     public int myToolBlockedTurns = 0;
     public CardsStackData deck;
@@ -33,6 +33,7 @@ public class GameModel {
     public boolean myTurn = false;
     public boolean setupDone = false;
     public int turnCount = 1;
+
 
     public int myCredits = 300;
     public int opponentCredits = 300;

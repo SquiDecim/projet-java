@@ -75,6 +75,9 @@ public class GameView implements Screen {
     private TextureAtlas outilsAtlas;
     private Texture backTexture;
 
+    private Texture backgroundTexture;
+    private TextureRegion reversedBackgroundRegion;
+
     private CardSlot tableSlot;
     private CardSlot opponentTableSlot;
     private Array<CardSlot> benchTopSlots = new Array<>();
@@ -226,6 +229,16 @@ public class GameView implements Screen {
         );
         environment.add(new DirectionalLight().set(1f, 1f, 1f, 1f, 0.8f, 0.2f));
 
+        backgroundTexture = new Texture(Gdx.files.internal("ui/fond/bois.png"));
+        reversedBackgroundRegion = new TextureRegion(
+            backgroundTexture,
+            0,
+            0,
+            backgroundTexture.getWidth(),
+            backgroundTexture.getHeight()
+        );
+        reversedBackgroundRegion.flip(true, false);
+
         backTexture = new Texture("cards/backCardTexture.png");
         cardAtlas = new TextureAtlas(
             Gdx.files.internal("cards/dynamic/country_dynamic.atlas")
@@ -299,7 +312,6 @@ public class GameView implements Screen {
             0,
             "action"
         );
-
 
         deck = createCardsStacks(
             new TextureRegion(backTexture),
@@ -524,6 +536,18 @@ public class GameView implements Screen {
         );
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT);
+
+        Gdx.gl.glDisable(GL20.GL_DEPTH_TEST);
+        floatBatch.begin();
+        floatBatch.draw(
+            reversedBackgroundRegion,
+            0,
+            0,
+            Gdx.graphics.getWidth(),
+            Gdx.graphics.getHeight()
+        );
+        floatBatch.end();
+
         Gdx.gl.glEnable(GL20.GL_DEPTH_TEST);
 
         modelBatch.begin(cam);
@@ -695,6 +719,7 @@ public class GameView implements Screen {
         if (floatFont != null) floatFont.dispose();
         if (uiLabelFont != null) uiLabelFont.dispose();
         if (specialDescFont != null) specialDescFont.dispose();
+        if (backgroundTexture != null) backgroundTexture.dispose();
     }
 
     private float lerp(float a, float b, float t) {
@@ -1244,7 +1269,7 @@ public class GameView implements Screen {
                 cam,
                 "table"
             );
-            decal.emplacement = "table"; //Normalementr déjà créé comme banc mais on sait jamais, shallah ça marche mtn
+            decal.emplacement = "table";
             decal.setPosition(startPos.x, startPos.y, startPos.z);
             decal.setRotation(0, -90f, 0);
             if (opponentHandCards.size > 0) {
@@ -1280,8 +1305,8 @@ public class GameView implements Screen {
             Vector3 startPos =
                 opponentHandCards.size > 0
                     ? opponentHandCards
-                      .get(opponentHandCards.size - 1)
-                      .getPosition()
+                          .get(opponentHandCards.size - 1)
+                          .getPosition()
                     : opponentDeck.getPosition();
             decal = new CardDecal(
                 card,
@@ -1461,11 +1486,11 @@ public class GameView implements Screen {
         return opponentDiscard.intersects(ray);
     }
 
-    public CardsStackDecal getMyDiscard(){
+    public CardsStackDecal getMyDiscard() {
         return discard;
     }
 
-    public CardsStackDecal getOpponentDiscard(){
+    public CardsStackDecal getOpponentDiscard() {
         return opponentDiscard;
     }
 
@@ -1512,7 +1537,10 @@ public class GameView implements Screen {
         Vector3 pos = card.getPosition();
         card.setDragPosition(pos.x, 0.5f, pos.z);
         card.setRotation(0, -90f, 0);
-        if (card.getData().id.startsWith("ACT-") && model.phase == GameModel.Phase.PLAYING) actionSlot.setHighlighted(true);
+        if (
+            card.getData().id.startsWith("ACT-") &&
+            model.phase == GameModel.Phase.PLAYING
+        ) actionSlot.setHighlighted(true);
         else {
             if (!card.emplacement.equals("bench")) {
                 for (CardSlot slot : benchBottomSlots) {
@@ -1535,7 +1563,10 @@ public class GameView implements Screen {
         if (Intersector.intersectRayPlane(ray, groundPlane, intersection)) {
             draggedCard.setDragPosition(intersection.x, 0.5f, intersection.z);
         }
-        if (draggedCard.getData().id.startsWith("ACT-") && model.phase == GameModel.Phase.PLAYING) actionSlot.setHighlighted(true);
+        if (
+            draggedCard.getData().id.startsWith("ACT-") &&
+            model.phase == GameModel.Phase.PLAYING
+        ) actionSlot.setHighlighted(true);
         else {
             if (!draggedCard.emplacement.equals("bench")) {
                 for (CardSlot slot : benchBottomSlots) {
@@ -1698,7 +1729,7 @@ public class GameView implements Screen {
         return opponentTableSlot.getCard();
     }
 
-    public CardDecal getActionCard(){
+    public CardDecal getActionCard() {
         return actionSlot.getCard();
     }
 
@@ -2184,7 +2215,8 @@ public class GameView implements Screen {
                     });
                 }
             },
-            1f);
+            1f
+        );
     }
 
     public void showToCam(CardDecal cardAction, boolean isMyCard) {
@@ -2197,14 +2229,19 @@ public class GameView implements Screen {
                 public void run() {
                     sendToDiscard(cardAction, isMyCard);
                 }
-            }, 1.3f);
+            },
+            1.3f
+        );
 
         com.badlogic.gdx.utils.Timer.schedule(
             new com.badlogic.gdx.utils.Timer.Task() {
                 @Override
                 public void run() {
+                    actionSlot.removeCard();
                     controller.handleAction(cardAction, isMyCard);
                 }
-            }, 2f);
+            },
+            2f
+        );
     }
 }
