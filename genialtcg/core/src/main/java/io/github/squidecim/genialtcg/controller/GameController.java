@@ -914,15 +914,10 @@ public class GameController
         int condEtatMax = cardData.condEtatMax;
 
         if (condTerrains != null && !(Arrays.asList(condTerrains).contains(model.terrain))) return false;
-        System.out.println("condTerrains c'est ok");
         if (condTypes != null && !(Arrays.asList(condTypes).contains(cardInTable.type))) return false;
-        System.out.println("condTypes c'est ok");
         if (condRangs != null && !(Arrays.asList(condRangs).contains(cardInTable.rank))) return false;
-        System.out.println("condRangs c'est ok");
         if (condEtatMax != 0 && !(cardInTable.pv <= condEtatMax)) return false;
-        System.out.println("condEtatMax c'est ok");
         if (condEtatMin != 0 && !(cardInTable.pv >= condEtatMin)) return false;
-        System.out.println("condEtatMin c'est ok");
 
         return true;
 

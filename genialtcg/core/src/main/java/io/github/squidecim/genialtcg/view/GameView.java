@@ -120,6 +120,8 @@ public class GameView implements Screen {
     private Label turnCountLabel;
     private BitmapFont uiLabelFont;
 
+    private Texture vignetteTexture;
+
     private Label setupBanner;
     private TextButton actionButton;
     private Table attackMenu = null;
@@ -173,6 +175,8 @@ public class GameView implements Screen {
         modelBatch = new ModelBatch();
 
         shapeRenderer = new ShapeRenderer();
+
+        vignetteTexture = createVignetteTexture(512, 512);
 
         Texture boardTexture = new Texture(
             "ui/plateau/" + model.terrain + ".png"
@@ -641,6 +645,13 @@ public class GameView implements Screen {
             Gdx.gl.glEnable(GL20.GL_DEPTH_TEST);
         }
 
+        Gdx.gl.glEnable(GL20.GL_BLEND);
+        Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
+        floatBatch.begin();
+        floatBatch.setColor(1f, 1f, 1f, 1f);
+        floatBatch.draw(vignetteTexture, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        floatBatch.end();
+
         uiStage.act(delta);
         uiStage.draw();
 
@@ -720,6 +731,7 @@ public class GameView implements Screen {
         if (uiLabelFont != null) uiLabelFont.dispose();
         if (specialDescFont != null) specialDescFont.dispose();
         if (backgroundTexture != null) backgroundTexture.dispose();
+        if (vignetteTexture != null) vignetteTexture.dispose();
     }
 
     private float lerp(float a, float b, float t) {
@@ -781,6 +793,26 @@ public class GameView implements Screen {
 
     public boolean isPauseMenuVisible() {
         return pauseOverlay != null;
+    }
+
+    private Texture createVignetteTexture(int w, int h) {
+        Pixmap px = new Pixmap(w, h, Pixmap.Format.RGBA8888);
+        float cx = w / 2f, cy = h / 2f;
+        float maxDist = (float) Math.sqrt(cx * cx + cy * cy);
+        for (int y = 0; y < h; y++) {
+            for (int x = 0; x < w; x++) {
+                float dx = (x - cx) / cx;
+                float dy = (y - cy) / cy;
+                float dist = (float) Math.sqrt(dx * dx + dy * dy);
+                float alpha = Math.max(0f, Math.min(1f, (dist - 0.4f) * 1.25f));
+                alpha = alpha * alpha;
+                px.setColor(0f, 0f, 0f, alpha * 0.85f);
+                px.drawPixel(x, y);
+            }
+        }
+        Texture t = new Texture(px);
+        px.dispose();
+        return t;
     }
 
     private void showPauseMenu() {
