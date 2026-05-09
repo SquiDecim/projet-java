@@ -9,12 +9,12 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
-import com.badlogic.gdx.scenes.scene2d.actions.Actions;
-import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
@@ -26,7 +26,6 @@ import io.github.squidecim.genialtcg.network.GameClient;
 import io.github.squidecim.genialtcg.network.GameServer;
 import io.github.squidecim.genialtcg.network.NetworkMessages;
 import io.github.squidecim.genialtcg.view.GameView;
-
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.NetworkInterface;
@@ -57,7 +56,6 @@ public class LobbyScreen implements Screen, GameClient.NetworkListener {
 
     private boolean intentionalDisconnect = false;
 
-
     // données
     private Array<String> connectedPlayers = new Array<>();
     private String selectedDeck = null;
@@ -68,7 +66,12 @@ public class LobbyScreen implements Screen, GameClient.NetworkListener {
         this(game, isHost, "localhost", null);
     }
 
-    public LobbyScreen(GenialTCG game, boolean isHost, String hostIp, GameClient existingClient) {
+    public LobbyScreen(
+        GenialTCG game,
+        boolean isHost,
+        String hostIp,
+        GameClient existingClient
+    ) {
         this.game = game;
         this.isHost = isHost;
         this.hostIp = hostIp;
@@ -77,11 +80,12 @@ public class LobbyScreen implements Screen, GameClient.NetworkListener {
 
     @Override
     public void show() {
-
         stage = new Stage(new ScreenViewport());
         Gdx.input.setInputProcessor(stage);
         skin = game.skin;
-        backTexture = new Texture(Gdx.files.internal("cards/backCardTexture.png"));
+        backTexture = new Texture(
+            Gdx.files.internal("cards/backCardTexture.png")
+        );
 
         Pixmap pixmap = new Pixmap(1, 1, Pixmap.Format.RGBA8888);
         pixmap.setColor(new Color(0.9f, 0.9f, 0.9f, 1f));
@@ -96,7 +100,7 @@ public class LobbyScreen implements Screen, GameClient.NetworkListener {
         // ── BARRE DU HAUT (Identique à DeckScreen) ──
         Table topTable = new Table();
 
-        TextButton btnBack = new TextButton("Retour", skin);
+        TextButton btnBack = new TextButton("Quitter le salon", skin);
         btnBack.addListener(
             new ChangeListener() {
                 @Override
@@ -204,7 +208,9 @@ public class LobbyScreen implements Screen, GameClient.NetworkListener {
             try {
                 server = new GameServer(lobbyCode);
                 game.currentGameServer = server;
-                server.setOnBothConnected(() -> Gdx.app.postRunnable(this::updateLaunchButton));
+                server.setOnBothConnected(() ->
+                    Gdx.app.postRunnable(this::updateLaunchButton)
+                );
                 if (client == null) {
                     client = new GameClient("localhost", this);
                     game.currentGameClient = client;
@@ -230,17 +236,19 @@ public class LobbyScreen implements Screen, GameClient.NetworkListener {
                 if (!isHost && !intentionalDisconnect) {
                     Gdx.app.postRunnable(() -> {
                         dispose();
-                        game.setScreen(new FirstScreen(game, "Connexion perdue !"));
+                        game.setScreen(
+                            new FirstScreen(game, "Connexion perdue !")
+                        );
                     });
                 }
             });
         }
-
     }
 
     private void buildDeckGrid() {
         deckGrid.clearChildren();
-        final float W = 250, H = 350;
+        final float W = 250,
+            H = 350;
         if (selectedDeck == null && game.savedDecks.size > 0) {
             selectedDeck = game.savedDecks.get(0).name;
         }
@@ -272,34 +280,62 @@ public class LobbyScreen implements Screen, GameClient.NetworkListener {
 
                 stack.add(cardWrapper);
                 stack.add(nameOverlay);
-                stack.addListener(new ClickListener() {
-                    @Override
-                    public void clicked(InputEvent event, float x, float y) {
-                        selectedDeck = deck.name;
-                        buildDeckGrid();
-                        updateLaunchButton();
-                    }
+                stack.addListener(
+                    new ClickListener() {
+                        @Override
+                        public void clicked(
+                            InputEvent event,
+                            float x,
+                            float y
+                        ) {
+                            selectedDeck = deck.name;
+                            buildDeckGrid();
+                            updateLaunchButton();
+                        }
 
-                    @Override
-                    public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
-                        if (pointer == -1 && !isSelected) {
-                            if (game.overpassCardsSound != null) game.overpassCardsSound.play(game.uiSoundVolume);
-                            stack.addAction(Actions.scaleTo(1.05f, 1.05f, 0.1f));
+                        @Override
+                        public void enter(
+                            InputEvent event,
+                            float x,
+                            float y,
+                            int pointer,
+                            Actor fromActor
+                        ) {
+                            if (pointer == -1 && !isSelected) {
+                                if (
+                                    game.overpassCardsSound != null
+                                ) game.overpassCardsSound.play(
+                                    game.uiSoundVolume
+                                );
+                                stack.addAction(
+                                    Actions.scaleTo(1.05f, 1.05f, 0.1f)
+                                );
+                            }
+                        }
+
+                        @Override
+                        public void exit(
+                            InputEvent event,
+                            float x,
+                            float y,
+                            int pointer,
+                            Actor toActor
+                        ) {
+                            if (pointer == -1 && !isSelected) stack.addAction(
+                                Actions.scaleTo(1f, 1f, 0.1f)
+                            );
                         }
                     }
-
-                    @Override
-                    public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
-                        if (pointer == -1 && !isSelected)
-                            stack.addAction(Actions.scaleTo(1f, 1f, 0.1f));
-                    }
-                });
+                );
 
                 deckGrid.add(stack).size(W * 1.1f, H * 1.1f).pad(5);
             } else {
                 Table emptySlot = new Table();
                 emptySlot.setBackground(
-                    skin.newDrawable("white", new Color(0.12f, 0.15f, 0.22f, 1f))
+                    skin.newDrawable(
+                        "white",
+                        new Color(0.12f, 0.15f, 0.22f, 1f)
+                    )
                 );
                 deckGrid.add(emptySlot).size(W, H).pad(10);
             }
@@ -339,9 +375,10 @@ public class LobbyScreen implements Screen, GameClient.NetworkListener {
 
     private void updateLaunchButton() {
         if (!isHost) return;
-        boolean ready = connectedPlayers.size >= 2 &&
-                        selectedDeck != null &&
-                        !selectedDeck.equals("Aucun deck disponible");
+        boolean ready =
+            connectedPlayers.size >= 2 &&
+            selectedDeck != null &&
+            !selectedDeck.equals("Aucun deck disponible");
         launchButton.setDisabled(!ready);
         launchButton.getLabel().setColor(ready ? Color.WHITE : Color.GRAY);
     }
@@ -371,7 +408,13 @@ public class LobbyScreen implements Screen, GameClient.NetworkListener {
 
         GameModel model = new GameModel(game, chosenDeck);
         GameView view = new GameView(game, model, client, chosenDeck.getSize());
-        GameController controller = new GameController(view, model, client, myPlayerId, game);
+        GameController controller = new GameController(
+            view,
+            model,
+            client,
+            myPlayerId,
+            game
+        );
         view.setController(controller);
         client.setListener(controller);
         client.sendDeckSize(model.deckSize());
@@ -431,7 +474,13 @@ public class LobbyScreen implements Screen, GameClient.NetworkListener {
 
         GameModel model = new GameModel(game, chosenDeck);
         GameView view = new GameView(game, model, client, chosenDeck.getSize());
-        GameController controller = new GameController(view, model, client, myPlayerId, game);
+        GameController controller = new GameController(
+            view,
+            model,
+            client,
+            myPlayerId,
+            game
+        );
         view.setController(controller);
         launching = true;
         client.setListener(controller);
@@ -440,19 +489,13 @@ public class LobbyScreen implements Screen, GameClient.NetworkListener {
     }
 
     @Override
-    public void onCardDrawn(NetworkMessages.CardDrawn msg) {
-
-    }
+    public void onCardDrawn(NetworkMessages.CardDrawn msg) {}
 
     @Override
-    public void onCardPlayed(NetworkMessages.CardPlayed msg) {
-
-    }
+    public void onCardPlayed(NetworkMessages.CardPlayed msg) {}
 
     @Override
-    public void onTurnChanged(NetworkMessages.TurnChanged msg) {
-
-    }
+    public void onTurnChanged(NetworkMessages.TurnChanged msg) {}
 
     @Override
     public void onPlayerJoined(NetworkMessages.PlayerJoined msg) {
@@ -465,8 +508,14 @@ public class LobbyScreen implements Screen, GameClient.NetworkListener {
             connectedPlayers.add(name);
         }
         playerList.setItems(connectedPlayers);
-        statusLabel.setText(msg.playerCount < 2 ? "En attente d'un joueur..." : "Joueur connecté !");
-        statusLabel.setColor(msg.playerCount < 2 ? Color.LIGHT_GRAY : Color.GREEN);
+        statusLabel.setText(
+            msg.playerCount < 2
+                ? "En attente d'un joueur..."
+                : "Joueur connecté !"
+        );
+        statusLabel.setColor(
+            msg.playerCount < 2 ? Color.LIGHT_GRAY : Color.GREEN
+        );
         updateLaunchButton();
     }
 
@@ -477,19 +526,13 @@ public class LobbyScreen implements Screen, GameClient.NetworkListener {
     }
 
     @Override
-    public void onCreditsUpdate(NetworkMessages.CreditsUpdate obj) {
-
-    }
+    public void onCreditsUpdate(NetworkMessages.CreditsUpdate obj) {}
 
     @Override
-    public void onNormalAttack(NetworkMessages.NormalAttack msg) {
-
-    }
+    public void onNormalAttack(NetworkMessages.NormalAttack msg) {}
 
     @Override
-    public void onRetreat(NetworkMessages.Retreat msg) {
-
-    }
+    public void onRetreat(NetworkMessages.Retreat msg) {}
 
     @Override
     public void onCardDied(NetworkMessages.CardDied msg) {}
@@ -499,5 +542,4 @@ public class LobbyScreen implements Screen, GameClient.NetworkListener {
 
     @Override
     public void onPlayerQuit() {}
-
 }

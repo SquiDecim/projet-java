@@ -301,19 +301,18 @@ public class FirstScreen implements Screen {
         table.add(btnQuit).width(220).height(50).pad(10).row();
 
         if (errorMessage != null) {
-            Dialog dialog = new Dialog("Erreur", skin);
-            dialog.text(new Label(errorMessage, skin));
-            TextButton closeButton = new TextButton("Fermer", skin);
-            closeButton.addListener(new ChangeListener() {
+            Dialog dialog = new Dialog("", skin) {
                 @Override
-                public void changed(ChangeEvent event, Actor actor) {
-                    dialog.hide();
+                protected void result(Object object) {}
+            };
+            dialog.getContentTable().add(new Label(errorMessage, skin)).pad(10).row();
+            dialog.getButtonTable().defaults().width(120).height(40).pad(10);
+            dialog.button("Fermer", true);
+            for (Cell<?> cell : dialog.getButtonTable().getCells()) {
+                if (cell.getActor() instanceof TextButton) {
+                    game.soundifyButton((TextButton) cell.getActor());
                 }
-            });
-            game.soundifyButton(closeButton);
-            dialog.button(closeButton);
-            dialog.setModal(true);
-            dialog.setMovable(false);
+            }
             dialog.setResizable(true);
             errorDialog = dialog;
             dialog.show(stage);
