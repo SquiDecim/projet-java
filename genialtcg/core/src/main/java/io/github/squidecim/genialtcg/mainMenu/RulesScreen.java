@@ -64,44 +64,78 @@ public class RulesScreen implements Screen {
         stage.addActor(mainTable);
 
         // le texte des regles
+        // le texte des regles
         String rulesText =
             "RÈGLES OFFICIELLES : GÉNIAL TCG\n\n" +
-            "1. CRÉATION DE DECK\n" +
-            "Un deck doit comporter exactement 50 cartes. Il doit inclure :\n" +
-            "- Au moins 1 carte Pays dont le coût est inférieur à 200 crédits.\n" +
-            "- Au maximum 20 cartes Action ou Outil.\n\n" +
+            "1. CONSTRUCTION DU DECK\n" +
+            "Chaque joueur doit construire un deck contenant exactement 60 cartes.\n\n" +
+            "Le deck doit respecter les contraintes suivantes :\n" +
+            "- Il doit contenir au moins 5 cartes Pays dont le coût est inférieur à 200 crédits.\n" +
+            "- Il doit contenir exactement 10 cartes Outil.\n" +
+            "- Il doit contenir exactement 10 cartes Action.\n\n" +
             "2. CONDITIONS DE VICTOIRE\n" +
-            "Pour gagner une partie, il existe deux solutions :\n" +
-            "- Atteindre 6 points de victoire en éliminant les pays adverses.\n" +
-            "- Remporter la victoire par forfait si l'adversaire ne peut plus poser de carte Pays sur le poste actif.\n\n" +
-            "3. LES NATIONS ET LE COMBAT\n" +
-            "Il existe plusieurs manières d'éliminer un pays adverse :\n" +
-            "- Les attaques de base (Puissance, Technologie, Ressource, Stabilité) : Le jeu calcule la différence entre la statistique choisie de votre pays et celle du pays adverse. L'attaque inflige des dégâts équivalents à cette différence.\n" +
-            "- Les attaques spéciales : Elles sont propres à chaque pays et permettent d'infliger des dégâts et / ou donner des bonus ou des malus à l'adversaire.\n\n" +
-            "Rangs des nations :\n" +
-            "Chaque nation possède un rang qui détermine les points gagnés par l'adversaire en cas d'élimination :\n" +
+            "Il existe deux façons de gagner une partie :\n" +
+            "- Victoire aux points : atteindre 6 points de victoire en éliminant des pays adverses.\n" +
+            "- Victoire par forfait : gagner si l'adversaire ne peut plus placer de carte Pays en jeu.\n\n" +
+            "3. LES NATIONS ET LE SYSTÈME DE COMBAT\n" +
+            "Attaques de base :\n" +
+            "Chaque nation possède plusieurs statistiques offensives :\n" +
+            "- Puissance\n" +
+            "- Technologie\n" +
+            "- Ressource\n" +
+            "- Stabilité\n\n" +
+            "Lorsqu'une attaque de base est utilisée, le jeu compare la statistique choisie entre la nation attaquante et la nation adverse. Les dégâts infligés correspondent à la différence entre ces deux valeurs.\n\n" +
+            "Attaques spéciales :\n" +
+            "Chaque pays possède des attaques spéciales uniques permettant de :\n" +
+            "- Infliger des dégâts au pays adverse et/ou à une carte du banc.\n" +
+            "- Soigner le pays actif et/ou une carte du banc.\n" +
+            "- Voler des crédits au joueur adverse.\n" +
+            "- Piocher des cartes dans le deck.\n\n" +
+            "4. RANG DES NATIONS ET POINTS DE VICTOIRE\n" +
+            "Chaque nation possède un rang qui détermine le nombre de points accordés à l'adversaire lorsqu'elle est éliminée :\n" +
             "- Marginal : 1 point\n" +
             "- Émergent : 2 points\n" +
             "- Établi : 3 points\n" +
             "- Dominant : 4 points\n" +
-            "- Hégémonie : 5 points\n" +
-            "Généralement, plus le rang d'une carte est élevé, plus ses statistiques sont puissantes, mais plus la perte du pays rapportera de points à l'adversaire.\n\n" +
-            "Types de nations :\n" +
-            "Une nation appartient à l'un des types suivants : Économique | Renseignement | Isolationniste | Militaire | Diplomatique.\n\n" +
-            "4. SYSTÈME D'ARGENT ET D'ÉCONOMIE\n" +
-            "Chaque pays possède une statistique d'Économie qui rapporte des crédits à chaque début de tour, en fonction de sa position :\n" +
-            "- Dans la main : La carte ne rapporte rien (0 %).\n" +
-            "- Sur le banc : La carte rapporte 20 % de sa statistique d'Économie.\n" +
-            "- Sur le poste actif : La carte rapporte 100 % de sa statistique d'Économie.\n\n" +
-            "Plusieurs actions dans le jeu nécessitent de dépenser des crédits :\n" +
-            "- Poser des cartes : Payer le coût de pose pour placer une carte sur le banc ou sur le terrain.\n" +
-            "- Battre en retraite : Payer pour échanger la carte du poste actif avec une carte du banc.\n\n" +
-            "5. LES CARTES ACTION ET OUTIL\n" +
-            "En plus des cartes Pays, il existe deux autres types de cartes :\n" +
-            "- Les cartes Outil : Elles s'attachent à un pays positionné sur le poste actif ou sur le banc. Elles permettent d'augmenter une ou plusieurs statistiques de la nation à laquelle elles sont liées.\n" +
-            "- Les cartes Action : Ce sont des consommables offrant diverses possibilités, comme piocher de nouvelles cartes, soigner une ou plusieurs nations, ou changer le type de terrain.\n\n" +
-            "6. LE TERRAIN\n" +
-            "Au début du jeu, le terrain est de type \"Tempéré\". Le terrain reste fixe pour toute la durée de la partie, sauf si un joueur utilise une carte Action de changement de terrain. Les terrains appliquent des effets spécifiques en fonction du type des nations en jeu.";
+            "- Hégémonie : 5 points\n\n" +
+            "En règle générale, les nations de rang élevé possèdent de meilleures statistiques mais donnent davantage de points lorsqu'elles sont vaincues.\n\n" +
+            "5. TYPES DE NATIONS\n" +
+            "Chaque nation appartient à l'une des catégories suivantes :\n" +
+            "- Économique\n" +
+            "- Renseignement\n" +
+            "- Isolationniste\n" +
+            "- Militaire\n" +
+            "- Diplomatique\n\n" +
+            "Le type d'une nation peut interagir avec certains effets de cartes ou avec le terrain.\n\n" +
+            "6. SYSTÈME D'ÉCONOMIE ET CRÉDITS\n" +
+            "Chaque pays possède une statistique d'Économie qui génère des crédits au début de chaque tour.\n\n" +
+            "Le montant dépend de l'emplacement de la carte :\n" +
+            "- Dans la main : 0 %\n" +
+            "- Sur le banc : 20 % de la statistique d'Économie\n" +
+            "- Sur le poste actif : 100 % de la statistique d'Économie\n\n" +
+            "Les crédits servent notamment à :\n" +
+            "- Poser des cartes sur le terrain.\n" +
+            "- Placer des cartes sur le banc.\n" +
+            "- Effectuer une retraite.\n" +
+            "- Payer un effet spécial.\n\n" +
+            "Retraite :\n" +
+            "Battre en retraite consiste à échanger la nation située sur le poste actif avec une nation du banc en payant le coût requis.\n\n" +
+            "7. LES CARTES OUTIL ET ACTION\n" +
+            "Cartes Outil :\n" +
+            "Les cartes Outil peuvent être attachées à une nation sur le poste actif ou sur le banc.\n" +
+            "Elles permettent d'augmenter certaines statistiques du pays équipé ou d'appliquer des malus au pays adverse.\n" +
+            "Les cartes Outil n'activent leur effet qu'au moment où elles entrent en jeu.\n\n" +
+            "Cartes Action :\n" +
+            "Les cartes Action sont des consommables à effet immédiat permettant par exemple de :\n" +
+            "- Piocher des cartes.\n" +
+            "- Soigner des nations en jeu ou sur le banc.\n" +
+            "- Modifier le terrain.\n" +
+            "- Bloquer les outils adverses pendant plusieurs tours.\n" +
+            "- Effectuer des échanges gratuits, aléatoires ou ciblés selon la carte.\n\n" +
+            "8. LE TERRAIN\n" +
+            "Au début d'une partie, le terrain actif est de type \"Tempéré\".\n\n" +
+            "Le terrain reste identique pendant toute la partie sauf si une carte Action modifie son type.\n\n" +
+            "Chaque terrain applique des effets particuliers selon le type des nations présentes sur le terrain.";
 
         Label.LabelStyle rulesStyle = new Label.LabelStyle(
             game.uiFont,

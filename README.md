@@ -137,3 +137,143 @@ L’application gère les règles du jeu, les interactions complexes entre les c
 
 
     Diplomatique : 50  contre Renseignement, 25 contre Isolationniste, 0 contre lui-même, -15 contre Economique, -25 contre Militaire
+
+
+6. REGLES : 
+ 
+    ## 1. Construction du deck
+    
+    Chaque joueur doit construire un deck contenant exactement **60 cartes**.
+    
+    Le deck doit respecter les contraintes suivantes :
+    
+    * Il doit contenir **au moins 5 carte Pays** dont le coût est inférieur à **200 crédits**.
+    * Il doit contenir **10 carte Outil** et **10 carte Action**
+  
+    
+    ## 2. Conditions de victoire
+    
+    Il existe deux façons de gagner une partie :
+    
+    ### Victoire aux points
+    
+    Un joueur gagne immédiatement lorsqu’il atteint **6 points de victoire** en éliminant des pays adverses.
+    
+    ### Victoire par forfait
+    
+    Un joueur remporte aussi la partie si son adversaire n’est plus capable de placer une carte Pays en jeu.
+    
+    
+    ## 3. Les nations et le système de combat
+    
+    ### Attaques de base
+    
+    Chaque nation possède plusieurs statistiques offensives :
+    
+    * Puissance
+    * Technologie
+    * Ressource
+    * Stabilité
+    
+    Lorsqu’une attaque de base est utilisée, le jeu compare la statistique choisie entre la nation attaquante et la nation adverse.
+    Les dégâts infligés correspondent à la différence entre ces deux valeurs.
+    
+    ### Attaques spéciales
+
+    Chaque pays dispose également d’attaques spéciales uniques.
+
+    * infliger des dégâts au jeu et/ou à une carte du banc,
+    * soigner en jeu et/ou à une carte du banc,
+    * voler des crédits au joueur adverse 
+    * piocher des cartes dans ton deck
+    
+    
+    ## 4. Rang des nations et points de victoire
+    
+    Chaque nation possède un rang qui détermine le nombre de points accordés à l’adversaire lorsqu’elle est éliminée.
+    
+    ### Tableau des rangs
+    
+    * **Marginal** : rapporte 1 point
+    * **Émergent** : rapporte 2 points
+    * **Établi** : rapporte 3 points
+    * **Dominant** : rapporte 4 points
+    * **Hégémonie** : rapporte 5 points
+    
+    En règle générale :
+    
+    * les nations de rang élevé possèdent de meilleures statistiques,
+    * mais elles donnent davantage de points lorsqu’elles sont vaincues.
+    
+    ---
+    
+    ## 5. Types de nations
+    
+    Chaque nation appartient à une catégorie stratégique parmi les suivantes :
+    
+    * Économique
+    * Renseignement
+    * Isolationniste
+    * Militaire
+    * Diplomatique
+    
+    Le type d’une nation peut interagir avec certains effets de cartes ou avec le terrain.
+    
+    ---
+    
+    ## 6. Système d’économie et crédits
+    
+    Chaque pays possède une statistique d’**Économie** qui génère des crédits au début de chaque tour.
+    
+    Le montant obtenu dépend de l’emplacement de la carte :
+    
+    * **Dans la main** : aucun revenu (0 %)
+    * **Sur le banc** : 20 % de la statistique d’Économie
+    * **Sur le poste actif** : 100 % de la statistique d’Économie
+    
+    ### Utilisation des crédits
+    
+    Les crédits servent notamment à :
+    
+    * poser des cartes sur le terrain,
+    * placer des cartes sur le banc,
+    * effectuer une retraite,
+    * payer un effet spécial.
+    
+    ### Retraite
+    
+    Battre en retraite consiste à échanger la nation située sur le poste actif avec une nation du banc, en payant le coût requis.
+    
+    ---
+    
+    ## 7. Les cartes Outil et Action
+    
+    ### Cartes Outil
+    
+    Les cartes Outil peuvent être attachées à une nation :
+    
+    * sur le poste actif,
+    * ou sur le banc.
+    
+    Elles augmentent généralement une ou plusieurs statistiques du pays équipé ou débuff le pays adverse. Les cartes outils ne font effet que quand elle rentre en jeu.
+    
+    ### Cartes Action
+    
+    Les cartes Action sont des consommables à effet immédiat.
+    Elles permettent par exemple :
+    
+    * de piocher des cartes,
+    * de soigner des nations en jeu ou sur le banc,
+    * de modifier le terrain,
+    * de bloquer les outils adverse pendant X tours,
+    * de faire des echange gratuit, aléatoire ou pas en fonction de la carte.
+    
+    ---
+    
+    ## 8. Le terrain
+    
+    Au début d’une partie, le terrain actif est de type **Tempéré**.
+    
+    Le terrain reste identique pendant toute la partie sauf si une carte Action modifie son type.
+    
+    Chaque terrain applique des effets particuliers selon le type des nations présentes sur le terrain.
