@@ -265,6 +265,8 @@ public class GameController
                             );
                             return true;
                         }
+
+                        model.hasUseAction = true;
                         model.useFromHand(draggedCard.getData());
                         view.dropCardOnSlot(draggedCard, slot);
 
