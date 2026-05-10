@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.math.collision.Ray;
 import io.github.squidecim.genialtcg.GenialTCG;
+import io.github.squidecim.genialtcg.mainMenu.EndGameScreen;
 import io.github.squidecim.genialtcg.mainMenu.MainScreen;
 import io.github.squidecim.genialtcg.model.CardData;
 import io.github.squidecim.genialtcg.model.GameModel;
@@ -16,7 +17,6 @@ import io.github.squidecim.genialtcg.network.NetworkMessages;
 import io.github.squidecim.genialtcg.view.CardDecal;
 import io.github.squidecim.genialtcg.view.CardSlot;
 import io.github.squidecim.genialtcg.view.GameView;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -52,6 +52,8 @@ public class GameController
     private static final int INITIAL_HAND_SIZE = 4;
     private boolean startTurnWithDiedCard = false;
     public CardDecal actionCardPlayed;
+
+    private int opponentPoints = 0;
 
     public GameController(
         GameView view,
@@ -239,22 +241,37 @@ public class GameController
         if (draggedCard.getData().id.startsWith("OUT-")) {
             if (model.phase == GameModel.Phase.PLAYING && model.myTurn) {
                 CardDecal targetCountry = view.getCountryCardAt(ray);
-                if (targetCountry != null && targetCountry.getData().attachedTool == null
-                        && conditionsRespected(draggedCard)) {
-                    targetCountry.getData().attachedTool = draggedCard.getData();
+                if (
+                    targetCountry != null &&
+                    targetCountry.getData().attachedTool == null &&
+                    conditionsRespected(draggedCard)
+                ) {
+                    targetCountry.getData().attachedTool =
+                        draggedCard.getData();
                     model.useFromHand(draggedCard.getData());
                     view.attachToolToCountry(draggedCard, targetCountry);
-                    if (game.posingCardsSound != null) game.posingCardsSound.play(game.gameSoundVolume);
+                    if (
+                        game.posingCardsSound != null
+                    ) game.posingCardsSound.play(game.gameSoundVolume);
                     client.sendPlayCardWithTarget(
-                        draggedCard.getData().getAtlasRegionName(), "tool", 0,
+                        draggedCard.getData().getAtlasRegionName(),
+                        "tool",
+                        0,
                         targetCountry.getData().getAtlasRegionName()
                     );
                 } else {
                     view.cancelDrag(draggedCard);
-                    if (targetCountry != null && targetCountry.getData().attachedTool != null) {
-                        view.showEphemeralMessage("Cette nation a déjà un outil équipé !");
+                    if (
+                        targetCountry != null &&
+                        targetCountry.getData().attachedTool != null
+                    ) {
+                        view.showEphemeralMessage(
+                            "Cette nation a déjà un outil équipé !"
+                        );
                     } else if (!conditionsRespected(draggedCard)) {
-                        view.showEphemeralMessage("Les conditions de la carte ne sont pas respectées");
+                        view.showEphemeralMessage(
+                            "Les conditions de la carte ne sont pas respectées"
+                        );
                     }
                 }
             } else {
@@ -508,10 +525,15 @@ public class GameController
     }
 
     public void startRetreat(CardData tableCard) {
-        pendingRevocationCost = Math.max(0, tableCard.revocation + getToolCostModifier("CoutR"));
+        pendingRevocationCost = Math.max(
+            0,
+            tableCard.revocation + getToolCostModifier("CoutR")
+        );
         if (model.myCredits < pendingRevocationCost) {
             view.showAttackMenuError(
-                "Pas assez de crédits ! (il manque " + (pendingRevocationCost - model.myCredits) + " crédits)"
+                "Pas assez de crédits ! (il manque " +
+                    (pendingRevocationCost - model.myCredits) +
+                    " crédits)"
             );
             return;
         }
@@ -530,7 +552,9 @@ public class GameController
 
         CardData tableCardData = model.table;
         model.spendCredits(pendingRevocationCost);
-        if (game.switchSound != null) game.switchSound.play(game.gameSoundVolume);
+        if (game.switchSound != null) game.switchSound.play(
+            game.gameSoundVolume
+        );
         view.swapTableAndBench(benchCard);
 
         model.moveFromTableToBench(tableCardData);
@@ -569,10 +593,14 @@ public class GameController
         }
         if (myTurn) {
             CardDecal oppTableDecal = view.getOpponentTableCard();
-            CardData oppTool = (oppTableDecal != null && oppTableDecal.getData() != null)
-                ? oppTableDecal.getData().attachedTool : null;
+            CardData oppTool = (oppTableDecal != null &&
+                oppTableDecal.getData() != null)
+                ? oppTableDecal.getData().attachedTool
+                : null;
             int adverseEcoBonus = GameModel.getToolStatBonus(oppTool, false)[1];
-            model.receiveCredits(Math.max(0, model.getTotalEconomy() + adverseEcoBonus));
+            model.receiveCredits(
+                Math.max(0, model.getTotalEconomy() + adverseEcoBonus)
+            );
             client.sendCreditsUpdate(model.myCredits);
             client.sendDrawCard();
             model.hasUseAction = false;
@@ -622,32 +650,37 @@ public class GameController
     public void onPointsUpdate(NetworkMessages.PointsUpdate msg) {
         boolean isMe = msg.playerId != null && msg.playerId.equals(myPlayerId);
         if (isMe) {
+            model.points = msg.points;
             view.updateMyPoints(Math.min(msg.points, 6));
             if (msg.points >= 6) client.sendWin();
-        } else view.updateOpponentPoints(msg.points);
-
+        } else {
+            this.opponentPoints = msg.points;
+            view.updateOpponentPoints(msg.points);
+        }
     }
 
     @Override
     public void onWin(NetworkMessages.Win msg) {
-        if (msg.winner != null && msg.winner.equals(myPlayerId)) {
-            //écran de victoire à implémenter
-            System.out.println("T'as gagné gg gros");
-        } else {
-            //écran de défaite à implémenter
-            System.out.println("T'as loose sale nul");
-        }
+        Gdx.app.postRunnable(() -> {
+            boolean victory =
+                msg.winner != null && msg.winner.equals(myPlayerId);
+            game.cleanupCurrentGame();
+            game.setScreen(
+                new EndGameScreen(game, victory, model.points, opponentPoints)
+            );
+        });
     }
 
     @Override
     public void onLose(NetworkMessages.Lose msg) {
-        if (msg.loser != null && !(msg.loser.equals(myPlayerId))) {
-            //écran de victoire à implémenter
-            System.out.println("T'as gagné gg gros");
-        } else {
-            //écran de défaite à implémenter
-            System.out.println("T'as loose sale nul");
-        }
+        Gdx.app.postRunnable(() -> {
+            boolean victory =
+                msg.loser != null && !msg.loser.equals(myPlayerId);
+            game.cleanupCurrentGame();
+            game.setScreen(
+                new EndGameScreen(game, victory, model.points, opponentPoints)
+            );
+        });
     }
 
     @Override
@@ -783,7 +816,7 @@ public class GameController
 
         if (!model.myTurn && iMustReplace) startTurnWithDiedCard = true;
 
-        if (iMustReplace && model.bench.isEmpty()){
+        if (iMustReplace && model.bench.isEmpty()) {
             client.sendLose();
         }
 
@@ -799,8 +832,16 @@ public class GameController
         }
         if (deadCard == null) return;
 
-        if (!iMustReplace){
-            ArrayList<String> cardRanks = new ArrayList<>(Arrays.asList("Marginal", "Émergent", "Établi", "Dominant", "Hégémonie"));
+        if (!iMustReplace) {
+            ArrayList<String> cardRanks = new ArrayList<>(
+                Arrays.asList(
+                    "Marginal",
+                    "Émergent",
+                    "Établi",
+                    "Dominant",
+                    "Hégémonie"
+                )
+            );
             int pointsWin = cardRanks.indexOf(deadCard.getData().rank) + 1;
             model.points += pointsWin;
             client.sendPointsUpdate(model.points);
@@ -859,7 +900,10 @@ public class GameController
     }
 
     public void handleSpecialAttack(CardData card) {
-        int attackCost = Math.max(0, card.specialCost + getToolCostModifier("CoutES"));
+        int attackCost = Math.max(
+            0,
+            card.specialCost + getToolCostModifier("CoutES")
+        );
         if (model.myCredits < attackCost) {
             view.showAttackMenuError(
                 "Pas assez de crédits ! (il manque " +
@@ -1135,8 +1179,8 @@ public class GameController
             CardData tool = myTable.getData().attachedTool;
             if (tool.specialEffectTypes != null) {
                 for (int i = 0; i < tool.specialEffectTypes.length; i++) {
-                    if (costType.equals(tool.specialEffectTypes[i]))
-                        modifier += tool.specialEffectValues[i];
+                    if (costType.equals(tool.specialEffectTypes[i])) modifier +=
+                        tool.specialEffectValues[i];
                 }
             }
         }
@@ -1145,8 +1189,9 @@ public class GameController
             CardData oppTool = oppTable.getData().attachedTool;
             if (oppTool.specialEffectTypes != null) {
                 for (int i = 0; i < oppTool.specialEffectTypes.length; i++) {
-                    if ((costType + "A").equals(oppTool.specialEffectTypes[i]))
-                        modifier += oppTool.specialEffectValues[i];
+                    if (
+                        (costType + "A").equals(oppTool.specialEffectTypes[i])
+                    ) modifier += oppTool.specialEffectValues[i];
                 }
             }
         }

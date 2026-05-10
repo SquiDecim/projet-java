@@ -26,3 +26,94 @@
 [2026-05-10 20:31:12] l'adversaire a pioche une carte
 [2026-05-10 20:31:30] vous avez pose la carte : Tchad sur le terrain
 [2026-05-10 20:31:30] l'adversaire a pose la carte : Tchad sur table
+[2026-05-10 21:52:27] lancement du jeu et pioche initiale
+[2026-05-10 21:52:27] lancement du jeu et pioche initiale
+[2026-05-10 21:52:29] vous avez pioche une carte
+[2026-05-10 21:52:29] l'adversaire a pioche une carte
+[2026-05-10 21:52:29] vous avez pioche une carte
+[2026-05-10 21:52:29] l'adversaire a pioche une carte
+[2026-05-10 21:52:30] l'adversaire a pioche une carte
+[2026-05-10 21:52:30] vous avez pioche une carte
+[2026-05-10 21:52:30] l'adversaire a pioche une carte
+[2026-05-10 21:52:30] vous avez pioche une carte
+[2026-05-10 21:52:30] l'adversaire a pioche une carte
+[2026-05-10 21:52:30] vous avez pioche une carte
+[2026-05-10 21:52:30] vous avez pioche une carte
+[2026-05-10 21:52:30] l'adversaire a pioche une carte
+[2026-05-10 21:52:31] l'adversaire a pioche une carte
+[2026-05-10 21:52:31] vous avez pioche une carte
+[2026-05-10 21:52:31] l'adversaire a pioche une carte
+[2026-05-10 21:52:31] vous avez pioche une carte
+[2026-05-10 21:52:34] vous avez pose la carte : Bhoutan sur le terrain
+[2026-05-10 21:52:34] l'adversaire a pose la carte : Bhoutan sur table
+[2026-05-10 21:52:36] vous avez pose la carte : Saint-Marin sur le terrain
+[2026-05-10 21:52:37] l'adversaire a pose la carte : Saint-Marin sur table
+[2026-05-10 21:52:41] l'adversaire a pioche une carte
+[2026-05-10 21:52:41] vous avez pioche une carte
+[2026-05-10 21:52:46] l'adversaire a pose la carte : OUT-004_gisement_inexploité sur tool
+[2026-05-10 21:52:51] l'adversaire a fait une attaque normale (degats: 19)
+[2026-05-10 21:52:51] vous avez fait une attaque normale (degats: 19)
+[2026-05-10 21:52:51] l'adversaire a pioche une carte
+[2026-05-10 21:52:51] vous avez pioche une carte
+[2026-05-10 21:53:10] vous avez pioche une carte
+[2026-05-10 21:53:10] l'adversaire a pioche une carte
+[2026-05-10 21:53:12] l'adversaire a pioche une carte
+[2026-05-10 21:53:12] vous avez pioche une carte
+[2026-05-10 21:53:23] l'adversaire a pioche une carte
+[2026-05-10 21:53:23] vous avez pioche une carte
+[2026-05-10 21:53:25] l'adversaire a pioche une carte
+[2026-05-10 21:53:25] vous avez pioche une carte
+[2026-05-10 21:53:43] l'adversaire a pioche une carte
+[2026-05-10 21:53:43] vous avez pioche une carte
+[2026-05-10 21:53:44] vous avez pioche une carte
+[2026-05-10 21:53:44] l'adversaire a pioche une carte
+[2026-05-10 21:53:47] vous avez pioche une carte
+[2026-05-10 21:53:47] l'adversaire a pioche une carte
+[2026-05-10 21:53:48] l'adversaire a pioche une carte
+[2026-05-10 21:53:48] vous avez pioche une carte
+[2026-05-10 21:53:50] vous avez pioche une carte
+[2026-05-10 21:53:50] l'adversaire a pioche une carte
+[2026-05-10 21:53:51] l'adversaire a pioche une carte
+[2026-05-10 21:53:51] vous avez pioche une carte
+[2026-05-10 21:53:54] vous avez pose la carte : Mali sur le banc
+[2026-05-10 21:53:54] l'adversaire a pose la carte : Mali sur bench
+[2026-05-10 21:53:57] vous avez utilise la retraite pour la carte : Mali
+[2026-05-10 21:53:57] l'adversaire a utilise la retraite pour la carte : Mali
+[2026-05-10 21:54:00] vous avez fait une attaque normale (degats: 62)
+[2026-05-10 21:54:00] l'adversaire a fait une attaque normale (degats: 62)
+[2026-05-10 21:54:00] vous avez pioche une carte
+[2026-05-10 21:54:00] l'adversaire a pioche une carte
+[2026-05-10 21:54:04] vous avez fait une attaque normale (degats: 56)
+[2026-05-10 21:54:04] l'adversaire a fait une attaque normale (degats: 56)
+[2026-05-10 21:54:04] l'adversaire a pioche une carte
+[2026-05-10 21:54:04] vous avez pioche une carte
+[2026-05-10 21:54:07] vous avez fait une attaque normale (degats: 62)
+[2026-05-10 21:54:07] l'adversaire a fait une attaque normale (degats: 62)
+[2026-05-10 21:54:07] l'adversaire a pioche une carte
+[2026-05-10 21:54:07] vous avez pioche une carte
+[2026-05-10 21:54:09] l'adversaire a fait une attaque normale (degats: 56)
+[2026-05-10 21:54:09] vous avez fait une attaque normale (degats: 56)
+[2026-05-10 21:54:09] l'adversaire a pioche une carte
+[2026-05-10 21:54:09] vous avez pioche une carte
+[2026-05-10 21:54:10] vous avez fait une attaque normale (degats: 62)
+[2026-05-10 21:54:10] l'adversaire a fait une attaque normale (degats: 62)
+[2026-05-10 21:54:10] l'adversaire a pioche une carte
+[2026-05-10 21:54:10] vous avez pioche une carte
+[2026-05-10 21:54:11] vous avez fait une attaque normale (degats: 56)
+[2026-05-10 21:54:11] l'adversaire a fait une attaque normale (degats: 56)
+[2026-05-10 21:54:12] l'adversaire a pioche une carte
+[2026-05-10 21:54:12] vous avez pioche une carte
+[2026-05-10 21:54:13] vous avez fait une attaque normale (degats: 62)
+[2026-05-10 21:54:13] l'adversaire a fait une attaque normale (degats: 62)
+[2026-05-10 21:54:13] l'adversaire a pioche une carte
+[2026-05-10 21:54:13] vous avez pioche une carte
+[2026-05-10 21:54:15] vous avez fait une attaque normale (degats: 56)
+[2026-05-10 21:54:15] l'adversaire a fait une attaque normale (degats: 56)
+[2026-05-10 21:54:15] l'adversaire a pioche une carte
+[2026-05-10 21:54:15] vous avez pioche une carte
+[2026-05-10 21:54:17] vous avez fait une attaque normale (degats: 62)
+[2026-05-10 21:54:17] l'adversaire a fait une attaque normale (degats: 62)
+[2026-05-10 21:54:17] vous avez perdu une carte (Bhoutan)
+[2026-05-10 21:54:17] vous avez pioche une carte
+[2026-05-10 21:54:17] l'adversaire a perdu une carte (Bhoutan), vous gagnez un point
+[2026-05-10 21:54:17] l'adversaire a pioche une carte
