@@ -135,7 +135,43 @@ public class RulesScreen implements Screen {
             "8. LE TERRAIN\n" +
             "Au début d'une partie, le terrain actif est de type \"Tempéré\".\n\n" +
             "Le terrain reste identique pendant toute la partie sauf si une carte Action modifie son type.\n\n" +
-            "Chaque terrain applique des effets particuliers selon le type des nations présentes sur le terrain.";
+            "Chaque terrain applique des modificateurs de statistiques de combat selon le type de la nation présente.\n\n" +
+            "Tempéré : aucun modificateur.\n\n" +
+            "Désertique :\n" +
+            "  - Militaire : +10 puissance\n" +
+            "  - Économique : −10 ressources\n" +
+            "  - Diplomatique : −10 stabilité\n" +
+            "  - Renseignement : +10 technologie\n" +
+            "  - Isolationniste : +10 stabilité\n" +
+            "  - Technologique : −10 économie\n\n" +
+            "Tropical :\n" +
+            "  - Militaire : −10 puissance\n" +
+            "  - Économique : +15 ressources\n" +
+            "  - Diplomatique : +10 stabilité\n" +
+            "  - Renseignement : +10 puissance\n" +
+            "  - Isolationniste : +10 stabilité\n" +
+            "  - Technologique : −10 technologie\n\n" +
+            "Montagneux :\n" +
+            "  - Militaire : +15 puissance\n" +
+            "  - Économique : −10 économie\n" +
+            "  - Diplomatique : −10 économie\n" +
+            "  - Renseignement : +10 puissance\n" +
+            "  - Isolationniste : +15 stabilité\n" +
+            "  - Technologique : +10 technologie\n\n" +
+            "Glacial :\n" +
+            "  - Militaire : −10 stabilité\n" +
+            "  - Économique : −10 ressources\n" +
+            "  - Diplomatique : −15 économie\n" +
+            "  - Renseignement : −10 puissance\n" +
+            "  - Isolationniste : +15 stabilité\n" +
+            "  - Technologique : +15 technologie\n\n" +
+            "Océanique :\n" +
+            "  - Militaire : +10 puissance\n" +
+            "  - Économique : +15 économie\n" +
+            "  - Diplomatique : +10 économie\n" +
+            "  - Renseignement : +10 puissance\n" +
+            "  - Isolationniste : −15 stabilité\n" +
+            "  - Technologique : +10 technologie";
 
         Label.LabelStyle rulesStyle = new Label.LabelStyle(
             game.uiFont,

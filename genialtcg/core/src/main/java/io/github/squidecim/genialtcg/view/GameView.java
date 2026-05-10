@@ -119,6 +119,7 @@ public class GameView implements Screen {
     private float flashSpeed = 2.5f;
     private String pendingField = null;
     private Material boardMaterial;
+    private TerrainParticleSystem particleSystem;
 
     private Stage uiStage;
     private Skin uiSkin;
@@ -489,7 +490,8 @@ public class GameView implements Screen {
         hideBanner();
 
         floatBatch = new SpriteBatch();
-        floatFont = new BitmapFont();
+        particleSystem = new TerrainParticleSystem(model.terrain, floatBatch);
+
 
         floatBatch.setProjectionMatrix(uiStage.getCamera().combined);
 
@@ -543,6 +545,31 @@ public class GameView implements Screen {
         chatScroll.setScrollingDisabled(true, false);
         chatScroll.setOverscroll(false, false);
         chatScroll.setSmoothScrolling(false);
+        chatScroll.addListener(
+            new InputListener() {
+                @Override
+                public void enter(
+                    InputEvent event,
+                    float x,
+                    float y,
+                    int pointer,
+                    Actor fromActor
+                ) {
+                    uiStage.setScrollFocus(chatScroll);
+                }
+
+                @Override
+                public void exit(
+                    InputEvent event,
+                    float x,
+                    float y,
+                    int pointer,
+                    Actor toActor
+                ) {
+                    uiStage.setScrollFocus(null);
+                }
+            }
+        );
 
         chatInput = new TextField("", uiSkin);
         chatInput.setMessageText("Message...");
@@ -680,6 +707,8 @@ public class GameView implements Screen {
                 oldTex.dispose();
                 pendingField = null;
                 flashingIn = true;
+                refreshAllTerrainBonuses();
+                spawnTerrainBonusEffects();
             }
         } else if (flashingIn) {
             flashAlpha -= delta * flashSpeed;
@@ -805,8 +834,15 @@ public class GameView implements Screen {
         );
         floatBatch.end();
 
+        if (particleSystem != null) particleSystem.update(delta);
+
         uiStage.act(delta);
         uiStage.draw();
+
+        if (particleSystem != null) {
+            floatBatch.setProjectionMatrix(uiStage.getCamera().combined);
+            particleSystem.render();
+        }
 
         if (floatingTexts.size > 0) {
             GlyphLayout layout = new GlyphLayout();
@@ -892,6 +928,7 @@ public class GameView implements Screen {
         if (backgroundTexture != null) backgroundTexture.dispose();
         if (vignetteTexture != null) vignetteTexture.dispose();
         if (boardTexture != null) boardTexture.dispose();
+        if (particleSystem != null) particleSystem.dispose();
     }
 
     private float lerp(float a, float b, float t) {
@@ -1132,6 +1169,7 @@ public class GameView implements Screen {
             protected void result(Object object) {
                 if (object.equals(true)) {
                     client.sendPlayerQuit();
+                    game.cleanupCurrentGame();
                     game.setScreen(new MainScreen(game));
                 } else {
                     pauseMenuTable.setVisible(true);
@@ -1480,6 +1518,7 @@ public class GameView implements Screen {
         decal.generateDynamicTexture(512, 716);
         slot.setCardDirect(decal);
         decal.animateTo(slot.getPosition(), 0, -90f, 0, 0.5f);
+        refreshAllTerrainBonuses();
     }
 
     public void addOpponentCardToTable(CardData card) {
@@ -1528,6 +1567,7 @@ public class GameView implements Screen {
         decal.generateDynamicTexture(512, 716);
         opponentTableSlot.setCardDirect(decal);
         decal.animateTo(opponentTableSlot.getPosition(), 0, -90f, 0, 0.5f);
+        refreshAllTerrainBonuses();
     }
 
     public void addOpponentCardToAction(CardData card) {
@@ -1867,6 +1907,7 @@ public class GameView implements Screen {
         actionSlot.setHighlighted(false);
         draggedCard = null;
         originSlot = null;
+        refreshAllTerrainBonuses();
     }
 
     public void cancelDrag(CardDecal card) {
@@ -1900,6 +1941,10 @@ public class GameView implements Screen {
             cam,
             "zoom"
         );
+        zoomGhost.setTerrainBonus(
+            card.getTerrainBonus(),
+            card.getTerrainBonusColor()
+        );
         if (card.getData() != null) zoomGhost.generateDynamicTexture(512, 716);
         zoomGhost.setPosition(0, 2f, 3.5f);
         Vector3 ghostPos = new Vector3(0, 1.75f, 4f);
@@ -1923,6 +1968,10 @@ public class GameView implements Screen {
             BENCH_CARD_H * 2.5f,
             cam,
             "zoom"
+        );
+        zoomGhost.setTerrainBonus(
+            card.getTerrainBonus(),
+            card.getTerrainBonusColor()
         );
         if (card.getData() != null) zoomGhost.generateDynamicTexture(512, 716);
         zoomGhost.setPosition(0, 2f, 3.5f);
@@ -2077,8 +2126,19 @@ public class GameView implements Screen {
 
                         int[] statMapping = { 0, 2, 3, 4 };
                         int realIdx = statMapping[index];
-                        int myVal = myTable.getData().stats[realIdx];
-                        int oppVal = oppTable.getData().stats[realIdx];
+                        int[] myBonus = GameModel.getTerrainBonus(
+                            model.terrain,
+                            myTable.getData().type
+                        );
+                        int[] oppBonus = GameModel.getTerrainBonus(
+                            model.terrain,
+                            oppTable.getData().type
+                        );
+                        int myVal =
+                            myTable.getData().stats[realIdx] + myBonus[realIdx];
+                        int oppVal =
+                            oppTable.getData().stats[realIdx] +
+                            oppBonus[realIdx];
                         int damage = myVal - oppVal;
 
                         NetworkMessages.NormalAttack msg =
@@ -2447,6 +2507,7 @@ public class GameView implements Screen {
 
         benchCard.animateTo(tablePos, 0, -90f, 0, 0.4f);
         tableCard.animateTo(benchPos, 0, -90f, 0, 0.4f);
+        refreshAllTerrainBonuses();
     }
 
     public CardDecal getFirstOpponentBenchCard() {
@@ -2505,6 +2566,79 @@ public class GameView implements Screen {
 
         benchCard.animateTo(tablePos, 0, -90f, 0, 0.4f);
         tableCard.animateTo(benchPos, 0, -90f, 0, 0.4f);
+        refreshAllTerrainBonuses();
+    }
+
+    public void refreshAllTerrainBonuses() {
+        com.badlogic.gdx.graphics.Color color = GameModel.getTerrainColor(
+            model.terrain
+        );
+        CardDecal c;
+        c = tableSlot.getCard();
+        if (c != null && c.getData() != null) c.setTerrainBonus(
+            GameModel.getTerrainBonus(model.terrain, c.getData().type),
+            color
+        );
+        c = opponentTableSlot.getCard();
+        if (c != null && c.getData() != null) c.setTerrainBonus(
+            GameModel.getTerrainBonus(model.terrain, c.getData().type),
+            color
+        );
+        for (CardSlot slot : benchBottomSlots) {
+            c = slot.getCard();
+            if (c != null && c.getData() != null) c.setTerrainBonus(
+                GameModel.getTerrainBonus(model.terrain, c.getData().type),
+                color
+            );
+        }
+        for (CardSlot slot : benchTopSlots) {
+            c = slot.getCard();
+            if (c != null && c.getData() != null) c.setTerrainBonus(
+                GameModel.getTerrainBonus(model.terrain, c.getData().type),
+                color
+            );
+        }
+    }
+
+    public void spawnTerrainBonusEffects() {
+        com.badlogic.gdx.graphics.Color color = GameModel.getTerrainColor(
+            model.terrain
+        );
+        java.util.List<CardDecal> cards = new java.util.ArrayList<>();
+        CardDecal c;
+        c = tableSlot.getCard();
+        if (c != null && c.getData() != null) cards.add(c);
+        c = opponentTableSlot.getCard();
+        if (c != null && c.getData() != null) cards.add(c);
+        for (CardSlot slot : benchBottomSlots) {
+            c = slot.getCard();
+            if (c != null && c.getData() != null) cards.add(c);
+        }
+        for (CardSlot slot : benchTopSlots) {
+            c = slot.getCard();
+            if (c != null && c.getData() != null) cards.add(c);
+        }
+
+        for (CardDecal card : cards) {
+            int[] bonus = GameModel.getTerrainBonus(
+                model.terrain,
+                card.getData().type
+            );
+            for (int i = 0; i < bonus.length; i++) {
+                if (bonus[i] == 0) continue;
+                String sign = bonus[i] > 0 ? "+" : "";
+                String label = sign + bonus[i];
+                Vector3 pos = card.getPosition().cpy();
+                pos.y += 0.5f;
+                floatingTexts.add(new FloatingText(
+                    label,
+                    pos,
+                    1.2f,
+                    new com.badlogic.gdx.graphics.Color(color),
+                    0.45f
+                ));
+            }
+        }
     }
 
     public void sendToDiscard(CardDecal card, boolean mine) {
@@ -2577,5 +2711,8 @@ public class GameView implements Screen {
         if (flashingOut || flashingIn) return;
         pendingField = field;
         flashingOut = true;
+
+        if (particleSystem != null) particleSystem.dispose();
+        particleSystem = new TerrainParticleSystem(field, floatBatch);
     }
 }
