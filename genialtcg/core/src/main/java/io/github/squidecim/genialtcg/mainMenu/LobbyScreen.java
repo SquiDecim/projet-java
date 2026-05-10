@@ -628,4 +628,14 @@ public class LobbyScreen implements Screen, GameClient.NetworkListener {
         chatScroll.layout();
         chatScroll.setScrollPercentY(1f);
     }
+
+    @Override
+    public void onPointsUpdate(NetworkMessages.PointsUpdate msg) {
+
+    }
+
+    @Override
+    public void onWin(NetworkMessages.Win msg) {
+
+    }
 }

@@ -16,7 +16,10 @@ import io.github.squidecim.genialtcg.network.NetworkMessages;
 import io.github.squidecim.genialtcg.view.CardDecal;
 import io.github.squidecim.genialtcg.view.CardSlot;
 import io.github.squidecim.genialtcg.view.GameView;
+
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Random;
 
 public class GameController
@@ -45,7 +48,7 @@ public class GameController
 
     private boolean initialDrawDone = false;
     private int initialDrawCount = 0;
-    private static final int INITIAL_HAND_SIZE = 6;
+    private static final int INITIAL_HAND_SIZE = 4;
     private boolean startTurnWithDiedCard = false;
     public CardDecal actionCardPlayed;
 
@@ -549,6 +552,27 @@ public class GameController
     }
 
     @Override
+    public void onPointsUpdate(NetworkMessages.PointsUpdate msg) {
+        boolean isMe = msg.playerId != null && msg.playerId.equals(myPlayerId);
+        if (isMe) {
+            view.updateMyPoints(Math.min(msg.points, 6));
+            if (msg.points >= 6) client.sendWin();
+        } else view.updateOpponentPoints(msg.points);
+
+    }
+
+    @Override
+    public void onWin(NetworkMessages.Win msg) {
+        if (msg.winner != null && msg.winner.equals(myPlayerId)) {
+            //écran de victoire à implémenter
+            System.out.println("T'as gagné gg gros");
+        } else {
+            //écran de défaite à implémenter
+            System.out.println("T'as loose sale nul");
+        }
+    }
+
+    @Override
     public void onCardDrawn(NetworkMessages.CardDrawn msg) {
         if (msg.playerId.equals(myPlayerId)) {
             CardData drawn = model.drawCard();
@@ -559,28 +583,7 @@ public class GameController
                     game.gameSoundVolume
                 );
             }
-            if (model.isDeckEmpty()) {
-                Gdx.app.postRunnable(() ->
-                    game.setScreen(
-                        new MainScreen(
-                            game,
-                            "Votre deck est vide — vous avez perdu !"
-                        )
-                    )
-                );
-            }
-        } else {
             view.updateOpponentDeckVisual(msg.newDeckSize);
-            if (msg.newDeckSize == 0) {
-                Gdx.app.postRunnable(() ->
-                    game.setScreen(
-                        new MainScreen(
-                            game,
-                            "Le deck adverse est vide — vous avez gagné !"
-                        )
-                    )
-                );
-            }
         }
     }
 
@@ -668,22 +671,30 @@ public class GameController
 
         if (!model.myTurn && iMustReplace) startTurnWithDiedCard = true;
 
+        if (iMustReplace && model.bench.isEmpty()){
+            System.out.println("Gros ton banc il est vide la");
+        }
+
         CardDecal deadCard;
         if (!iMustReplace) {
             deadCard = "table".equals(msg.zone)
                 ? view.getOpponentTableCard()
                 : view.getOpponentBenchCardById(msg.cardId);
         } else {
-            Gdx.app.log(
-                "GameController",
-                "Remplacement requis — zone : " + msg.zone
-            );
             deadCard = "table".equals(msg.zone)
                 ? view.getMyTableCard()
                 : view.getMyBenchCardById(msg.cardId);
         }
-        Gdx.app.log("GameController", "Carte morte : " + deadCard);
         if (deadCard == null) return;
+
+        if (model.myTurn && !iMustReplace){
+            System.out.println("carte tuée et pas la mienne");
+            ArrayList<String> cardRanks = new ArrayList<>(Arrays.asList("Marginal", "Émergent", "Établi", "Dominant", "Hégémonie"));
+            int pointsWin = cardRanks.indexOf(deadCard.getData().rank) + 1;
+            System.out.println("je dois gagner " + pointsWin);
+            model.points += pointsWin;
+            client.sendPointsUpdate(model.points);
+        }
 
         view.sendToDiscard(deadCard, iMustReplace);
 
