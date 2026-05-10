@@ -27,9 +27,12 @@ import io.github.squidecim.genialtcg.model.CardsStackData;
 import io.github.squidecim.genialtcg.network.GameClient;
 import io.github.squidecim.genialtcg.network.GameServer;
 import java.io.File;
+import java.io.FileWriter;
 import java.nio.channels.FileChannel;
 import java.nio.channels.FileLock;
 import java.nio.file.StandardOpenOption;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -216,10 +219,7 @@ public class GenialTCG extends Game {
     }
 
     private static File getLockFile(String pseudo) {
-        File dir = new File(
-            System.getProperty("user.home"),
-            ".genialtcg/locks"
-        );
+        File dir = new File("../local/locks");
         dir.mkdirs();
         return new File(dir, "profile_" + pseudo + ".lock");
     }
@@ -311,7 +311,9 @@ public class GenialTCG extends Game {
         }
 
         uiSoundVolume = curveVolume(prefs.getFloat("ui_sound_volume", 0.5f));
-        gameSoundVolume = curveVolume(prefs.getFloat("game_sound_volume", 0.5f));
+        gameSoundVolume = curveVolume(
+            prefs.getFloat("game_sound_volume", 0.5f)
+        );
         globalBrightness = prefs.getFloat("brightness", 1.0f);
 
         String displayMode = prefs.getString("display_mode", "Plein ecran");
@@ -394,11 +396,23 @@ public class GenialTCG extends Game {
                 oldPrefs.getString("deck_" + i + "_cards", "")
             );
         }
-        newPrefs.putString("display_mode",       oldPrefs.getString("display_mode", "Plein ecran"));
-        newPrefs.putFloat("music_volume",        oldPrefs.getFloat("music_volume", 0.3f));
-        newPrefs.putFloat("ui_sound_volume",     oldPrefs.getFloat("ui_sound_volume", 0.5f));
-        newPrefs.putFloat("game_sound_volume",   oldPrefs.getFloat("game_sound_volume", 0.5f));
-        newPrefs.putFloat("brightness",          oldPrefs.getFloat("brightness", 1.0f));
+        newPrefs.putString(
+            "display_mode",
+            oldPrefs.getString("display_mode", "Plein ecran")
+        );
+        newPrefs.putFloat(
+            "music_volume",
+            oldPrefs.getFloat("music_volume", 0.3f)
+        );
+        newPrefs.putFloat(
+            "ui_sound_volume",
+            oldPrefs.getFloat("ui_sound_volume", 0.5f)
+        );
+        newPrefs.putFloat(
+            "game_sound_volume",
+            oldPrefs.getFloat("game_sound_volume", 0.5f)
+        );
+        newPrefs.putFloat("brightness", oldPrefs.getFloat("brightness", 1.0f));
         newPrefs.flush();
         oldPrefs.clear();
         oldPrefs.flush();
@@ -584,11 +598,11 @@ public class GenialTCG extends Game {
                             : new String[] { rv.asString() };
                         appendCond(condBuf, "rang : " + join(condRangs));
                     }
-                    if (condEntry.has("etatMin")) {
+                    if (condEtatMin != 0) {
                         condEtatMin = condEntry.getInt("etatMin");
                         appendCond(condBuf, "≥ " + condEtatMin + " PV");
                     }
-                    if (condEntry.has("etatMax")) {
+                    if (condEtatMax != 0) {
                         condEtatMax = condEntry.getInt("etatMax");
                         appendCond(condBuf, "≤ " + condEtatMax + " PV");
                     }
@@ -746,7 +760,9 @@ public class GenialTCG extends Game {
             return;
         }
         try {
-            Preferences prefs = Gdx.app.getPreferences("GenialTCG_Profile_" + playerPseudo);
+            Preferences prefs = Gdx.app.getPreferences(
+                "GenialTCG_Profile_" + playerPseudo
+            );
             gameMusic = Gdx.audio.newMusic(
                 Gdx.files.internal("audio/music/game_theme.mp3")
             );
@@ -777,6 +793,23 @@ public class GenialTCG extends Game {
         if (currentGameServer != null) {
             currentGameServer.stop();
             currentGameServer = null;
+        }
+    }
+
+    public void logGameAction(String action) {
+        try {
+            File logDir = new File("../local");
+            if (!logDir.exists()) logDir.mkdirs();
+            File logFile = new File(logDir, "game_log.txt");
+            try (FileWriter fw = new FileWriter(logFile, true)) {
+                LocalDateTime now = LocalDateTime.now();
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern(
+                    "yyyy-MM-dd HH:mm:ss"
+                );
+                fw.write("[" + now.format(formatter) + "] " + action + "\n");
+            }
+        } catch (Exception e) {
+            Gdx.app.log("Logger", "erreur log : " + e.getMessage());
         }
     }
 

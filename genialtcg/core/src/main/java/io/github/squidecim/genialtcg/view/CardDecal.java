@@ -452,7 +452,7 @@ public class CardDecal {
 
 
         float yOffset = handIndex * 0.002f;
-        float targetY = hovered && emplacement.equals("hand")? baseY + 0.75f : baseY;
+        float targetY = hovered && emplacement.equals("hand")? baseY + 0.20f : baseY;
         currentY += (targetY - currentY) * 8f * delta;
         applyTransform(position.x, currentY + yOffset, position.z, yaw, pitch, roll);
     }

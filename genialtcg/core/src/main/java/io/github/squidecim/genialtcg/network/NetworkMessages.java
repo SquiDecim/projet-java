@@ -113,4 +113,17 @@ public class NetworkMessages {
         public String senderName;
         public String text;
     }
+
+    public static class PointsUpdate {
+        public String playerId;
+        public int points;
+    }
+
+    public static class Win {
+        public String winner;
+    }
+
+    public static class Lose {
+        public String loser;
+    }
 }
