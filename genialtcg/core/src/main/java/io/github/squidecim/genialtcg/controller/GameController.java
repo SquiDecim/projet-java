@@ -631,16 +631,6 @@ public class GameController
                     game.gameSoundVolume
                 );
             }
-            if (model.isDeckEmpty()) {
-                Gdx.app.postRunnable(() ->
-                    game.setScreen(
-                        new MainScreen(
-                            game,
-                            "Votre deck est vide — vous avez perdu !"
-                        )
-                    )
-                );
-            }
         } else {
             game.logGameAction("l'adversaire a pioche une carte");
             view.updateOpponentDeckVisual(msg.newDeckSize);
