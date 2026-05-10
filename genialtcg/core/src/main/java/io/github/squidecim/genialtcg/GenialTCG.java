@@ -58,11 +58,12 @@ public class GenialTCG extends Game {
     public Sound damageStabiliteSound;
     public Sound specialEffectSound;
     public float uiSoundVolume = 0.5f;
+    public float gameSoundVolume = 0.5f;
 
     public String playerPseudo = "";
 
     private FileChannel profileLockChannel;
-    private FileLock    profileFileLock;
+    private FileLock profileFileLock;
 
     public float globalBrightness = 1.0f;
     public SpriteBatch overlayBatch;
@@ -93,10 +94,8 @@ public class GenialTCG extends Game {
         skin = buildSkin();
         loadCardsFromJson();
 
-        // Pas d'auto-chargement : FirstScreen présente toujours le sélecteur
-        // afin que deux instances sur la même machine puissent choisir des profils distincts.
-
         uiSoundVolume = prefs.getFloat("ui_sound_volume", 0.5f);
+        gameSoundVolume = prefs.getFloat("game_sound_volume", 0.5f);
 
         globalBrightness = prefs.getFloat("brightness", 1.0f);
 
@@ -246,10 +245,11 @@ public class GenialTCG extends Game {
         );
     }
 
-    // ── Gestion des profils ────────────────────────────────────────────────────
-
     private static File getLockFile(String pseudo) {
-        File dir = new File(System.getProperty("user.home"), ".genialtcg/locks");
+        File dir = new File(
+            System.getProperty("user.home"),
+            ".genialtcg/locks"
+        );
         dir.mkdirs();
         return new File(dir, "profile_" + pseudo + ".lock");
     }
@@ -259,12 +259,13 @@ public class GenialTCG extends Game {
         try {
             FileChannel ch = FileChannel.open(
                 getLockFile(pseudo).toPath(),
-                StandardOpenOption.CREATE, StandardOpenOption.WRITE
+                StandardOpenOption.CREATE,
+                StandardOpenOption.WRITE
             );
             FileLock fl = ch.tryLock();
             if (fl != null) {
                 profileLockChannel = ch;
-                profileFileLock    = fl;
+                profileFileLock = fl;
             } else {
                 ch.close();
             }
@@ -275,8 +276,14 @@ public class GenialTCG extends Game {
 
     public void unlockCurrentProfile() {
         try {
-            if (profileFileLock != null)    { profileFileLock.release();    profileFileLock    = null; }
-            if (profileLockChannel != null) { profileLockChannel.close();   profileLockChannel = null; }
+            if (profileFileLock != null) {
+                profileFileLock.release();
+                profileFileLock = null;
+            }
+            if (profileLockChannel != null) {
+                profileLockChannel.close();
+                profileLockChannel = null;
+            }
         } catch (Exception e) {
             Gdx.app.log("Lock", "Erreur libération verrou : " + e.getMessage());
         }
@@ -285,10 +292,15 @@ public class GenialTCG extends Game {
     public boolean isProfileLocked(String pseudo) {
         File f = getLockFile(pseudo);
         if (!f.exists()) return false;
-        try (FileChannel ch = FileChannel.open(f.toPath(),
-                StandardOpenOption.CREATE, StandardOpenOption.WRITE);
-             FileLock fl = ch.tryLock()) {
-            return fl == null; // null → un autre processus détient le verrou
+        try (
+            FileChannel ch = FileChannel.open(
+                f.toPath(),
+                StandardOpenOption.CREATE,
+                StandardOpenOption.WRITE
+            );
+            FileLock fl = ch.tryLock()
+        ) {
+            return fl == null;
         } catch (Exception e) {
             return false;
         }
@@ -371,14 +383,24 @@ public class GenialTCG extends Game {
     }
 
     public void renameProfile(String oldPseudo, String newPseudo) {
-        Preferences oldPrefs = Gdx.app.getPreferences("GenialTCG_Profile_" + oldPseudo);
-        Preferences newPrefs = Gdx.app.getPreferences("GenialTCG_Profile_" + newPseudo);
+        Preferences oldPrefs = Gdx.app.getPreferences(
+            "GenialTCG_Profile_" + oldPseudo
+        );
+        Preferences newPrefs = Gdx.app.getPreferences(
+            "GenialTCG_Profile_" + newPseudo
+        );
         int count = oldPrefs.getInteger("deck_count", 0);
         newPrefs.putString("pseudo", newPseudo);
         newPrefs.putInteger("deck_count", count);
         for (int i = 0; i < count; i++) {
-            newPrefs.putString("deck_" + i + "_name", oldPrefs.getString("deck_" + i + "_name", ""));
-            newPrefs.putString("deck_" + i + "_cards", oldPrefs.getString("deck_" + i + "_cards", ""));
+            newPrefs.putString(
+                "deck_" + i + "_name",
+                oldPrefs.getString("deck_" + i + "_name", "")
+            );
+            newPrefs.putString(
+                "deck_" + i + "_cards",
+                oldPrefs.getString("deck_" + i + "_cards", "")
+            );
         }
         newPrefs.flush();
         oldPrefs.clear();
@@ -412,12 +434,12 @@ public class GenialTCG extends Game {
         index.putString("profiles", sb.toString());
         index.flush();
 
-        Preferences prefs = Gdx.app.getPreferences("GenialTCG_Profile_" + pseudo);
+        Preferences prefs = Gdx.app.getPreferences(
+            "GenialTCG_Profile_" + pseudo
+        );
         prefs.clear();
         prefs.flush();
     }
-
-    // ──────────────────────────────────────────────────────────────────────────
 
     private Skin buildSkin() {
         Skin skin = new Skin(Gdx.files.internal("ui/uiskin.json"));
@@ -428,7 +450,6 @@ public class GenialTCG extends Game {
             FreeTypeFontGenerator.DEFAULT_CHARS +
             "àâäéèêëîïôùûüçœÀÂÄÉÈÊËÎÏÔÙÛÜÇŒæÆ«»€°";
 
-        // Font UI — DejaVuSans Regular 16pt (utilisée directement, sans passer par le skin)
         FreeTypeFontGenerator generatorRegular = new FreeTypeFontGenerator(
             Gdx.files.internal("ui/dejavu-sans/DejaVuSans.ttf")
         );
@@ -436,7 +457,6 @@ public class GenialTCG extends Game {
         uiFont = generatorRegular.generateFont(parameter);
         generatorRegular.dispose();
 
-        // Font titres — DejaVuSans Bold 100pt
         FreeTypeFontGenerator generatorBold = new FreeTypeFontGenerator(
             Gdx.files.internal("ui/dejavu-sans/DejaVuSans-Bold.ttf")
         );
@@ -533,7 +553,6 @@ public class GenialTCG extends Game {
                 String nom = entry.getString("nom", "Inconnu");
                 String id = entry.getString("id", "N/A");
 
-                // --- Parsing des conditions ---
                 String type = "N/A";
                 String[] condTypes = null;
                 String[] condTerrains = null;

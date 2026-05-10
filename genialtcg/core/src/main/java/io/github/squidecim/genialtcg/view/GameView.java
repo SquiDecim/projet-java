@@ -528,14 +528,17 @@ public class GameView implements Screen {
         float chatY = 8f;
 
         chatPanel = new Table();
-        chatPanel.setBackground(uiSkin.newDrawable("white", new Color(0f, 0f, 0f, 0.60f)));
+        chatPanel.setBackground(
+            uiSkin.newDrawable("white", new Color(0f, 0f, 0f, 0.60f))
+        );
         chatPanel.setSize(chatW, chatH);
         chatPanel.setPosition(chatX, chatY);
 
         chatMessages = new Table();
         chatMessages.top().left().padLeft(4).padRight(4);
 
-        ScrollPane.ScrollPaneStyle noBarStyle = new ScrollPane.ScrollPaneStyle();
+        ScrollPane.ScrollPaneStyle noBarStyle =
+            new ScrollPane.ScrollPaneStyle();
         chatScroll = new ScrollPane(chatMessages, noBarStyle);
         chatScroll.setScrollingDisabled(true, false);
         chatScroll.setOverscroll(false, false);
@@ -543,29 +546,33 @@ public class GameView implements Screen {
 
         chatInput = new TextField("", uiSkin);
         chatInput.setMessageText("Message...");
-        chatInput.addListener(new InputListener() {
-            @Override
-            public boolean keyDown(InputEvent event, int keycode) {
-                if (keycode == com.badlogic.gdx.Input.Keys.ENTER) {
-                    sendChatMessage();
-                    return true;
+        chatInput.addListener(
+            new InputListener() {
+                @Override
+                public boolean keyDown(InputEvent event, int keycode) {
+                    if (keycode == com.badlogic.gdx.Input.Keys.ENTER) {
+                        sendChatMessage();
+                        return true;
+                    }
+                    if (keycode == com.badlogic.gdx.Input.Keys.TAB) {
+                        toggleChatPanel();
+                        return true;
+                    }
+                    return false;
                 }
-                if (keycode == com.badlogic.gdx.Input.Keys.TAB) {
-                    toggleChatPanel();
-                    return true;
-                }
-                return false;
             }
-        });
+        );
 
         TextButton chatSendBtn = new TextButton("»", uiSkin);
         game.soundifyButton(chatSendBtn);
-        chatSendBtn.addListener(new ChangeListener() {
-            @Override
-            public void changed(ChangeEvent event, Actor actor) {
-                sendChatMessage();
+        chatSendBtn.addListener(
+            new ChangeListener() {
+                @Override
+                public void changed(ChangeEvent event, Actor actor) {
+                    sendChatMessage();
+                }
             }
-        });
+        );
 
         Table chatInputRow = new Table();
         chatInputRow.add(chatInput).expandX().fillX().height(34);
@@ -577,12 +584,22 @@ public class GameView implements Screen {
         chatPanel.setVisible(false);
         uiStage.addActor(chatPanel);
 
-        Label.LabelStyle notifStyle = new Label.LabelStyle(chatFont, new Color(0.65f, 0.85f, 1f, 1f));
+        Label.LabelStyle notifStyle = new Label.LabelStyle(
+            chatFont,
+            new Color(0.65f, 0.85f, 1f, 1f)
+        );
         chatNotifPanel = new Table();
-        chatNotifPanel.setBackground(uiSkin.newDrawable("white", new Color(0f, 0f, 0f, 0.72f)));
-        chatNotifPanel.add(new Label("Nouveau message", notifStyle)).pad(5, 10, 5, 10);
+        chatNotifPanel.setBackground(
+            uiSkin.newDrawable("white", new Color(0f, 0f, 0f, 0.72f))
+        );
+        chatNotifPanel
+            .add(new Label("Nouveau message", notifStyle))
+            .pad(5, 10, 5, 10);
         chatNotifPanel.pack();
-        chatNotifPanel.setPosition(Gdx.graphics.getWidth() - chatNotifPanel.getWidth() - 8f, 8f);
+        chatNotifPanel.setPosition(
+            Gdx.graphics.getWidth() - chatNotifPanel.getWidth() - 8f,
+            8f
+        );
         chatNotifPanel.setVisible(false);
         uiStage.addActor(chatNotifPanel);
 
@@ -1054,6 +1071,23 @@ public class GameView implements Screen {
         );
         settingsPanelTable.add(uiVolLabel).left().padBottom(5).row();
         settingsPanelTable.add(uiVolSlider).width(300).padBottom(20).row();
+
+        Label gameVolLabel = new Label("Game Sound", uiSkin);
+        Slider gameVolSlider = new Slider(0f, 1f, 0.05f, false, uiSkin);
+        gameVolSlider.setValue(prefs.getFloat("game_sound_volume", 0.5f));
+        gameVolSlider.addListener(
+            new ChangeListener() {
+                @Override
+                public void changed(ChangeEvent event, Actor actor) {
+                    float v = gameVolSlider.getValue();
+                    game.gameSoundVolume = v;
+                    prefs.putFloat("game_sound_volume", v);
+                    prefs.flush();
+                }
+            }
+        );
+        settingsPanelTable.add(gameVolLabel).left().padBottom(5).row();
+        settingsPanelTable.add(gameVolSlider).width(300).padBottom(20).row();
 
         Label brightLabel = new Label("Luminosité", uiSkin);
         Slider brightSlider = new Slider(0.2f, 1.0f, 0.05f, false, uiSkin);
@@ -2010,7 +2044,12 @@ public class GameView implements Screen {
 
         attackMenuErrorLabel = new Label("", uiSkin);
         attackMenuErrorLabel.setColor(Color.ORANGE);
-        content.add(attackMenuErrorLabel).colspan(2).center().padBottom(4).row();
+        content
+            .add(attackMenuErrorLabel)
+            .colspan(2)
+            .center()
+            .padBottom(4)
+            .row();
 
         Label title = new Label("Choisissez une attaque", game.skin, "title");
         title.setFontScale(0.5f);
@@ -2310,7 +2349,10 @@ public class GameView implements Screen {
 
     public void showChatMessage(String senderName, String text, boolean isMe) {
         if (chatMessages == null || chatScroll == null) return;
-        Label.LabelStyle msgStyle = new Label.LabelStyle(chatFont, isMe ? Color.WHITE : new Color(0.65f, 0.85f, 1f, 1f));
+        Label.LabelStyle msgStyle = new Label.LabelStyle(
+            chatFont,
+            isMe ? Color.WHITE : new Color(0.65f, 0.85f, 1f, 1f)
+        );
         Label msgLabel = new Label(senderName + " : " + text, msgStyle);
         msgLabel.setWrap(true);
         chatMessages.add(msgLabel).expandX().fillX().padBottom(2).row();
@@ -2320,11 +2362,13 @@ public class GameView implements Screen {
             chatNotifPanel.clearActions();
             chatNotifPanel.setVisible(true);
             chatNotifPanel.getColor().a = 1f;
-            chatNotifPanel.addAction(Actions.sequence(
-                Actions.delay(3.5f),
-                Actions.fadeOut(0.5f),
-                Actions.run(() -> chatNotifPanel.setVisible(false))
-            ));
+            chatNotifPanel.addAction(
+                Actions.sequence(
+                    Actions.delay(3.5f),
+                    Actions.fadeOut(0.5f),
+                    Actions.run(() -> chatNotifPanel.setVisible(false))
+                )
+            );
         }
     }
 
