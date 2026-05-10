@@ -2172,7 +2172,9 @@ public class GameView implements Screen {
                         int[] oppToolAdv = model.opponentToolBlockedTurns > 0 ? new int[5] : GameModel.getToolStatBonus(oppTable.getData().attachedTool, false);
                         int myVal = myTable.getData().stats[realIdx] + myBonus[realIdx] + myToolOwn[realIdx] + oppToolAdv[realIdx];
                         int oppVal = oppTable.getData().stats[realIdx] + oppBonus[realIdx] + oppToolOwn[realIdx] + myToolAdv[realIdx];
-                        int damage = myVal - oppVal;
+                        int rawDamage = myVal - oppVal;
+                        int typeMultiplier = GameModel.getTypeMultiplier(myTable.getData().type, oppTable.getData().type);
+                        int damage = (int) Math.ceil((double) rawDamage * typeMultiplier / 100.0);
 
                         NetworkMessages.NormalAttack msg =
                             new NetworkMessages.NormalAttack();

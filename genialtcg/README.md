@@ -158,19 +158,19 @@ L’application gère les règles du jeu, les interactions complexes entre les c
 
 5. TABLES DES TYPES :
 
-    Économique : 50  contre Militaire, 25 contre Diplomatie, 0 contre lui-même, -15 contre Renseignement, -25 contre Isolationniste
+    Économique : 1.2  contre Militaire, 1.1 contre Diplomatie, 1.0 contre lui-même, 0.9 contre Renseignement, 0.8 contre Isolationniste
 
 
-    Renseignement : 50  contre Isolationniste, 25 contre Economique, 0 contre lui-même, -15 contre Militaire, -25 contre Diplomatie
+    Renseignement : 1.2  contre Isolationniste, 1.1 contre Economique, 1.0 contre lui-même, 0.9 contre Militaire, 0.8 contre Diplomatie
 
 
-    Isolationniste : 50  contre Economique, 25 contre Militaire, 0 contre lui-même, -15 contre Diplomatie, -25 contre Renseignement
+    Isolationniste : 1.2  contre Economique, 1.1 contre Militaire, 1.0 contre lui-même, 0.9 contre Diplomatie, 0.8 contre Renseignement
 
 
-    Militaire : 50 contre Diplomatie, 25 contre Renseignement, 0 contre lui-même, -15 contre Isolationniste, -25 contre Economique
+    Militaire : 1.2 contre Diplomatie, 1.1 contre Renseignement, 1.0 contre lui-même, 0.9 contre Isolationniste, 0.8 contre Economique
 
 
-    Diplomatique : 50  contre Renseignement, 25 contre Isolationniste, 0 contre lui-même, -15 contre Economique, -25 contre Militaire
+    Diplomatique : 1.2  contre Renseignement, 1.1 contre Isolationniste, 1.0 contre lui-même, 0.9 contre Economique, 0.8 contre Militaire
 
 
 6. REGLES : 

@@ -247,4 +247,58 @@ public class GameModel {
         return bonus;
     }
 
+    // Retourne le multiplicateur de type (×100) : attaquant vs défenseur.
+    // Appliquer avec : ceil(damage * multiplier / 100.0)
+    public static int getTypeMultiplier(String attackerType, String defenderType) {
+        switch (attackerType) {
+            case "Économique":
+                switch (defenderType) {
+                    case "Militaire":      return 110;
+                    case "Diplomatique":   return 110;
+                    case "Économique":     return 100;
+                    case "Renseignement":  return  90;
+                    case "Isolationniste": return  80;
+                    default:               return 100;
+                }
+            case "Renseignement":
+                switch (defenderType) {
+                    case "Isolationniste": return 150;
+                    case "Économique":     return 125;
+                    case "Renseignement":  return 100;
+                    case "Militaire":      return  85;
+                    case "Diplomatique":   return  75;
+                    default:               return 100;
+                }
+            case "Isolationniste":
+                switch (defenderType) {
+                    case "Économique":     return 150;
+                    case "Militaire":      return 125;
+                    case "Isolationniste": return 100;
+                    case "Diplomatique":   return  85;
+                    case "Renseignement":  return  75;
+                    default:               return 100;
+                }
+            case "Militaire":
+                switch (defenderType) {
+                    case "Diplomatique":   return 150;
+                    case "Renseignement":  return 125;
+                    case "Militaire":      return 100;
+                    case "Isolationniste": return  85;
+                    case "Économique":     return  75;
+                    default:               return 100;
+                }
+            case "Diplomatique":
+                switch (defenderType) {
+                    case "Renseignement":  return 150;
+                    case "Isolationniste": return 125;
+                    case "Diplomatique":   return 100;
+                    case "Économique":     return  85;
+                    case "Militaire":      return  75;
+                    default:               return 100;
+                }
+            default:
+                return 100;
+        }
+    }
+
 }
