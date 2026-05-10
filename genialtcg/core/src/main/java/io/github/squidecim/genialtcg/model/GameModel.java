@@ -122,7 +122,44 @@ public class GameModel {
         if (table == null) return 0;
         int base = table.stats[1];
         int bonus = getTerrainBonus(terrain, table.type)[1];
-        return Math.max(0, base + bonus);
+        int toolBonus = getToolStatBonus(table.attachedTool, true)[1];
+        return Math.max(0, base + bonus + toolBonus);
+    }
+
+    public static int getToolCostEffect(CardData tool, String effectType) {
+        if (tool == null || tool.specialEffectTypes == null) return 0;
+        int total = 0;
+        for (int i = 0; i < tool.specialEffectTypes.length; i++) {
+            if (effectType.equals(tool.specialEffectTypes[i])) total += tool.specialEffectValues[i];
+        }
+        return total;
+    }
+
+    public static int[] getToolStatBonus(CardData tool, boolean forOwner) {
+        int[] bonus = new int[5];
+        if (tool == null || tool.specialEffectTypes == null) return bonus;
+        for (int i = 0; i < tool.specialEffectTypes.length; i++) {
+            String type = tool.specialEffectTypes[i];
+            int value = tool.specialEffectValues[i];
+            if (forOwner) {
+                switch (type) {
+                    case "puissance":   bonus[0] += value; break;
+                    case "economie":    bonus[1] += value; break;
+                    case "ressources":  bonus[2] += value; break;
+                    case "technologie": bonus[3] += value; break;
+                    case "stabilite":   bonus[4] += value; break;
+                }
+            } else {
+                switch (type) {
+                    case "puissanceA":   bonus[0] += value; break;
+                    case "economieA":    bonus[1] += value; break;
+                    case "ressourcesA":  bonus[2] += value; break;
+                    case "technologieA": bonus[3] += value; break;
+                    case "stabiliteA":   bonus[4] += value; break;
+                }
+            }
+        }
+        return bonus;
     }
 
     public int getBenchEconomy(){

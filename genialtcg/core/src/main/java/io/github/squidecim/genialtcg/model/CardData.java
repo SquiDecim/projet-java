@@ -38,6 +38,8 @@ public class CardData {
 
     public Texture texture;
 
+    public CardData attachedTool = null;
+
     public CardData(
         String country,
         String id,

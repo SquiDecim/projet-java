@@ -161,6 +161,7 @@ public class GameView implements Screen {
     private boolean attackMenuVisible = false;
 
     private Array<CardDecal> discardingCards = new Array<>();
+    private java.util.Map<CardDecal, CardDecal> toolDecals = new java.util.HashMap<>();
 
     private int cardsInFlight = 0;
 
@@ -778,6 +779,14 @@ public class GameView implements Screen {
             }
         }
 
+        for (java.util.Map.Entry<CardDecal, CardDecal> entry : toolDecals.entrySet()) {
+            CardDecal country = entry.getKey();
+            CardDecal tool = entry.getValue();
+            Vector3 p = country.getPosition();
+            tool.followPosition(p.x + BENCH_CARD_W * 0.3f, p.y + 0.02f, p.z + BENCH_CARD_H * 0.3f);
+            tool.render(modelBatch, environment);
+        }
+
         if (!actionSlot.isEmpty()) {
             CardDecal ac = actionSlot.getCard();
             if (ac.isAnimating()) ac.update(delta);
@@ -785,6 +794,7 @@ public class GameView implements Screen {
         }
 
         tableSlot.renderHighlight(modelBatch, environment);
+        tableSlot.renderSelectable(modelBatch, environment);
 
         actionSlot.renderHighlight(modelBatch, environment);
 
@@ -912,6 +922,8 @@ public class GameView implements Screen {
 
     @Override
     public void dispose() {
+        for (CardDecal tool : toolDecals.values()) tool.dispose();
+        toolDecals.clear();
         backTexture.dispose();
         modelBatch.dispose();
         cardAtlas.dispose();
@@ -1704,6 +1716,7 @@ public class GameView implements Screen {
         benchCard.emplacement = "table";
         tableSlot.setCardDirect(benchCard);
         benchCard.animateTo(tableSlot.getPosition(), 0, -90f, 0, 0.4f);
+        refreshAllTerrainBonuses();
     }
 
     public void updateDeckVisual(int size) {
@@ -1832,19 +1845,25 @@ public class GameView implements Screen {
         Vector3 pos = card.getPosition();
         card.setDragPosition(pos.x, 0.5f, pos.z);
         card.setRotation(0, -90f, 0);
-        if (
-            card.getData().id.startsWith("ACT-") &&
-            model.phase == GameModel.Phase.PLAYING
-        ) actionSlot.setHighlighted(true);
-        else {
+        if (card.getData().id.startsWith("ACT-")) {
+            if (model.phase == GameModel.Phase.PLAYING) actionSlot.setHighlighted(true);
+        } else if (card.getData().id.startsWith("OUT-")) {
+            if (model.phase == GameModel.Phase.PLAYING) {
+                if (!tableSlot.isEmpty() && tableSlot.getCard().getData().attachedTool == null)
+                    tableSlot.setSelectable(true);
+                for (CardSlot slot : benchBottomSlots) {
+                    if (!slot.isEmpty() && slot.getCard().getData().attachedTool == null)
+                        slot.setSelectable(true);
+                }
+            }
+        } else {
             if (!card.emplacement.equals("bench")) {
                 for (CardSlot slot : benchBottomSlots) {
                     if (slot.isEmpty()) slot.setHighlighted(true);
                 }
             }
-            if (
-                tableSlot.isEmpty() && !card.emplacement.equals("table")
-            ) tableSlot.setHighlighted(true);
+            if (tableSlot.isEmpty() && !card.emplacement.equals("table"))
+                tableSlot.setHighlighted(true);
         }
     }
 
@@ -1858,19 +1877,25 @@ public class GameView implements Screen {
         if (Intersector.intersectRayPlane(ray, groundPlane, intersection)) {
             draggedCard.setDragPosition(intersection.x, 0.5f, intersection.z);
         }
-        if (
-            draggedCard.getData().id.startsWith("ACT-") &&
-            model.phase == GameModel.Phase.PLAYING
-        ) actionSlot.setHighlighted(true);
-        else {
+        if (draggedCard.getData().id.startsWith("ACT-")) {
+            if (model.phase == GameModel.Phase.PLAYING) actionSlot.setHighlighted(true);
+        } else if (draggedCard.getData().id.startsWith("OUT-")) {
+            if (model.phase == GameModel.Phase.PLAYING) {
+                if (!tableSlot.isEmpty() && tableSlot.getCard().getData().attachedTool == null)
+                    tableSlot.setSelectable(true);
+                for (CardSlot slot : benchBottomSlots) {
+                    if (!slot.isEmpty() && slot.getCard().getData().attachedTool == null)
+                        slot.setSelectable(true);
+                }
+            }
+        } else {
             if (!draggedCard.emplacement.equals("bench")) {
                 for (CardSlot slot : benchBottomSlots) {
                     if (slot.isEmpty()) slot.setHighlighted(true);
                 }
             }
-            if (
-                tableSlot.isEmpty() && !draggedCard.emplacement.equals("table")
-            ) tableSlot.setHighlighted(true);
+            if (tableSlot.isEmpty() && !draggedCard.emplacement.equals("table"))
+                tableSlot.setHighlighted(true);
         }
     }
 
@@ -1912,8 +1937,9 @@ public class GameView implements Screen {
             card.emplacement = "table";
         }
         card.animateTo(slot.getPosition(), 0, -90f, 0, 0.3f);
-        for (CardSlot s : benchBottomSlots) s.setHighlighted(false);
+        for (CardSlot s : benchBottomSlots) { s.setHighlighted(false); s.setSelectable(false); }
         tableSlot.setHighlighted(false);
+        tableSlot.setSelectable(false);
         actionSlot.setHighlighted(false);
         draggedCard = null;
         originSlot = null;
@@ -1932,8 +1958,9 @@ public class GameView implements Screen {
             card.animateTo(originSlot.getPosition(), 0, -90f, 0, 0.25f);
             card.emplacement = originSlot.type;
         }
-        for (CardSlot s : benchBottomSlots) s.setHighlighted(false);
+        for (CardSlot s : benchBottomSlots) { s.setHighlighted(false); s.setSelectable(false); }
         tableSlot.setHighlighted(false);
+        tableSlot.setSelectable(false);
         actionSlot.setHighlighted(false);
         draggedCard = null;
         originSlot = null;
@@ -1951,9 +1978,9 @@ public class GameView implements Screen {
             cam,
             "zoom"
         );
-        zoomGhost.setTerrainBonus(
-            card.getTerrainBonus(),
-            card.getTerrainBonusColor()
+        zoomGhost.setDisplayBonuses(
+            card.getTerrainBonus(), card.getTerrainBonusColor(), card.getToolBonus(),
+            card.getSpecialCostBonus(), card.getRevocationBonus()
         );
         if (card.getData() != null) zoomGhost.generateDynamicTexture(512, 716);
         zoomGhost.setPosition(0, 2f, 3.5f);
@@ -1979,9 +2006,9 @@ public class GameView implements Screen {
             cam,
             "zoom"
         );
-        zoomGhost.setTerrainBonus(
-            card.getTerrainBonus(),
-            card.getTerrainBonusColor()
+        zoomGhost.setDisplayBonuses(
+            card.getTerrainBonus(), card.getTerrainBonusColor(), card.getToolBonus(),
+            card.getSpecialCostBonus(), card.getRevocationBonus()
         );
         if (card.getData() != null) zoomGhost.generateDynamicTexture(512, 716);
         zoomGhost.setPosition(0, 2f, 3.5f);
@@ -2082,10 +2109,11 @@ public class GameView implements Screen {
     }
 
     public void showAttackMenu(
-        CardData myCard,
+        CardDecal myDecal,
         GameClient client,
         GameController controller
     ) {
+        CardData myCard = myDecal.getData();
         if (attackMenu != null) attackMenu.remove();
 
         actionButton.setTouchable(Touchable.disabled);
@@ -2136,19 +2164,14 @@ public class GameView implements Screen {
 
                         int[] statMapping = { 0, 2, 3, 4 };
                         int realIdx = statMapping[index];
-                        int[] myBonus = GameModel.getTerrainBonus(
-                            model.terrain,
-                            myTable.getData().type
-                        );
-                        int[] oppBonus = GameModel.getTerrainBonus(
-                            model.terrain,
-                            oppTable.getData().type
-                        );
-                        int myVal =
-                            myTable.getData().stats[realIdx] + myBonus[realIdx];
-                        int oppVal =
-                            oppTable.getData().stats[realIdx] +
-                            oppBonus[realIdx];
+                        int[] myBonus = GameModel.getTerrainBonus(model.terrain, myTable.getData().type);
+                        int[] oppBonus = GameModel.getTerrainBonus(model.terrain, oppTable.getData().type);
+                        int[] myToolOwn = GameModel.getToolStatBonus(myTable.getData().attachedTool, true);
+                        int[] myToolAdv = GameModel.getToolStatBonus(myTable.getData().attachedTool, false);
+                        int[] oppToolOwn = GameModel.getToolStatBonus(oppTable.getData().attachedTool, true);
+                        int[] oppToolAdv = GameModel.getToolStatBonus(oppTable.getData().attachedTool, false);
+                        int myVal = myTable.getData().stats[realIdx] + myBonus[realIdx] + myToolOwn[realIdx] + oppToolAdv[realIdx];
+                        int oppVal = oppTable.getData().stats[realIdx] + oppBonus[realIdx] + oppToolOwn[realIdx] + myToolAdv[realIdx];
                         int damage = myVal - oppVal;
 
                         NetworkMessages.NormalAttack msg =
@@ -2183,8 +2206,8 @@ public class GameView implements Screen {
             myCard.specialName != null ? myCard.specialName : "Spécial";
         String specialDesc =
             myCard.specialDescription != null ? myCard.specialDescription : "";
-        int specialCost = myCard.specialCost;
-        int revocationCost = myCard.revocation;
+        int specialCost = Math.max(0, myCard.specialCost + myDecal.getSpecialCostBonus());
+        int revocationCost = Math.max(0, myCard.revocation + myDecal.getRevocationBonus());
 
         Color typeColor;
         switch (myCard.type != null ? myCard.type : "") {
@@ -2580,33 +2603,51 @@ public class GameView implements Screen {
     }
 
     public void refreshAllTerrainBonuses() {
-        com.badlogic.gdx.graphics.Color color = GameModel.getTerrainColor(
-            model.terrain
-        );
+        com.badlogic.gdx.graphics.Color color = GameModel.getTerrainColor(model.terrain);
         CardDecal c;
-        c = tableSlot.getCard();
-        if (c != null && c.getData() != null) c.setTerrainBonus(
-            GameModel.getTerrainBonus(model.terrain, c.getData().type),
-            color
-        );
-        c = opponentTableSlot.getCard();
-        if (c != null && c.getData() != null) c.setTerrainBonus(
-            GameModel.getTerrainBonus(model.terrain, c.getData().type),
-            color
-        );
+        CardDecal myTable = tableSlot.getCard();
+        CardDecal oppTable = opponentTableSlot.getCard();
+
+        CardData myTool  = (myTable  != null && myTable.getData()  != null) ? myTable.getData().attachedTool  : null;
+        CardData oppTool = (oppTable != null && oppTable.getData() != null) ? oppTable.getData().attachedTool : null;
+
+        // My table card: own stat bonus + opp adverse stat effects; own cost bonus + opp adverse cost effects
+        if (myTable != null && myTable.getData() != null) {
+            int[] terrain = GameModel.getTerrainBonus(model.terrain, myTable.getData().type);
+            int[] ownStat = GameModel.getToolStatBonus(myTool, true);
+            int[] advStat = GameModel.getToolStatBonus(oppTool, false);
+            int[] combined = new int[5];
+            for (int i = 0; i < 5; i++) combined[i] = ownStat[i] + advStat[i];
+            int spCost = GameModel.getToolCostEffect(myTool, "CoutES")
+                       + GameModel.getToolCostEffect(oppTool, "CoutESA");
+            int revCost = GameModel.getToolCostEffect(myTool, "CoutR")
+                        + GameModel.getToolCostEffect(oppTool, "CoutRA");
+            myTable.setDisplayBonuses(terrain, color, combined, spCost, revCost);
+        }
+
+        // Opponent's table card: own stat bonus + my adverse stat effects; own cost bonus + my adverse cost effects
+        if (oppTable != null && oppTable.getData() != null) {
+            int[] terrain = GameModel.getTerrainBonus(model.terrain, oppTable.getData().type);
+            int[] ownStat = GameModel.getToolStatBonus(oppTool, true);
+            int[] advStat = GameModel.getToolStatBonus(myTool, false);
+            int[] combined = new int[5];
+            for (int i = 0; i < 5; i++) combined[i] = ownStat[i] + advStat[i];
+            int spCost = GameModel.getToolCostEffect(oppTool, "CoutES")
+                       + GameModel.getToolCostEffect(myTool, "CoutESA");
+            int revCost = GameModel.getToolCostEffect(oppTool, "CoutR")
+                        + GameModel.getToolCostEffect(myTool, "CoutRA");
+            oppTable.setDisplayBonuses(terrain, color, combined, spCost, revCost);
+        }
+
         for (CardSlot slot : benchBottomSlots) {
             c = slot.getCard();
-            if (c != null && c.getData() != null) c.setTerrainBonus(
-                GameModel.getTerrainBonus(model.terrain, c.getData().type),
-                color
-            );
+            if (c != null && c.getData() != null)
+                c.setTerrainBonus(GameModel.getTerrainBonus(model.terrain, c.getData().type), color);
         }
         for (CardSlot slot : benchTopSlots) {
             c = slot.getCard();
-            if (c != null && c.getData() != null) c.setTerrainBonus(
-                GameModel.getTerrainBonus(model.terrain, c.getData().type),
-                color
-            );
+            if (c != null && c.getData() != null)
+                c.setTerrainBonus(GameModel.getTerrainBonus(model.terrain, c.getData().type), color);
         }
     }
 
@@ -2652,6 +2693,11 @@ public class GameView implements Screen {
     }
 
     public void sendToDiscard(CardDecal card, boolean mine) {
+        if (card.getData() != null && card.getData().attachedTool != null) {
+            card.getData().attachedTool = null;
+            CardDecal toolDecal = toolDecals.remove(card);
+            if (toolDecal != null) toolDecal.dispose();
+        }
         CardsStackDecal discardStack = mine ? discard : opponentDiscard;
         Vector3 discardPos = discardStack.getPosition().cpy();
         discardPos.y += discardStack.nbrCards * 0.007f + 0.007f;
@@ -2715,6 +2761,105 @@ public class GameView implements Screen {
 
     public void showToCam(CardDecal cardAction, boolean isMyCard) {
         showToCam(cardAction, isMyCard, null);
+    }
+
+    public CardDecal getHoveredToolDecal(Ray ray) {
+        for (CardDecal tool : toolDecals.values()) {
+            if (tool.intersects(ray)) return tool;
+        }
+        return null;
+    }
+
+    public CardDecal getCountryCardAt(Ray ray) {
+        CardDecal tc = tableSlot.getCard();
+        if (tc != null && tc.intersects(ray)) return tc;
+        for (CardSlot slot : benchBottomSlots) {
+            CardDecal c = slot.getCard();
+            if (c != null && c.intersects(ray)) return c;
+        }
+        return null;
+    }
+
+    public void attachToolToCountry(CardDecal toolCard, CardDecal countryCard) {
+        for (CardSlot slot : benchBottomSlots) { slot.setHighlighted(false); slot.setSelectable(false); }
+        tableSlot.setHighlighted(false);
+        tableSlot.setSelectable(false);
+        actionSlot.setHighlighted(false);
+
+        this.draggedCard = null;
+        this.originSlot = null;
+
+        discardingCards.add(toolCard);
+
+        Vector3 cp = countryCard.getPosition();
+        float tx = cp.x + BENCH_CARD_W * 0.3f;
+        float tz = cp.z + BENCH_CARD_H * 0.3f;
+        toolCard.animateTo(new Vector3(tx, cp.y + 0.01f, tz), 0, -90f, 0, 0.3f);
+
+        final CardDecal finalToolCard = toolCard;
+        com.badlogic.gdx.utils.Timer.schedule(new com.badlogic.gdx.utils.Timer.Task() {
+            @Override
+            public void run() {
+                Gdx.app.postRunnable(() -> {
+                    discardingCards.removeValue(finalToolCard, true);
+                    float toolW = BENCH_CARD_W * 0.38f;
+                    float toolH = BENCH_CARD_H * 0.38f;
+                    CardDecal smallTool = new CardDecal(
+                        finalToolCard.getData(), finalToolCard.frontRegion,
+                        finalToolCard.backRegion, toolW, toolH, cam, "tool"
+                    );
+                    Vector3 pos = countryCard.getPosition();
+                    smallTool.setPosition(pos.x + BENCH_CARD_W * 0.3f, pos.y + 0.02f, pos.z + BENCH_CARD_H * 0.3f);
+                    smallTool.setRotation(0, -90f, 0);
+                    toolDecals.put(countryCard, smallTool);
+                    finalToolCard.dispose();
+                    refreshAllTerrainBonuses();
+                });
+            }
+        }, 0.35f);
+    }
+
+    public void addOpponentToolToCountry(CardData toolData, String countryCardId) {
+        CardDecal countryDecal = null;
+        for (CardSlot slot : benchTopSlots) {
+            CardDecal c = slot.getCard();
+            if (c != null && c.getData() != null &&
+                c.getData().getAtlasRegionName().equals(countryCardId)) {
+                countryDecal = c;
+                break;
+            }
+        }
+        if (countryDecal == null) {
+            CardDecal tc = opponentTableSlot.getCard();
+            if (tc != null && tc.getData() != null &&
+                tc.getData().getAtlasRegionName().equals(countryCardId)) {
+                countryDecal = tc;
+            }
+        }
+        if (countryDecal == null) return;
+
+        countryDecal.getData().attachedTool = toolData;
+
+        if (opponentHandCards.size > 0) {
+            CardDecal ghost = opponentHandCards.removeIndex(opponentHandCards.size - 1);
+            ghost.dispose();
+            repositionOpponentHand();
+        }
+
+        AtlasRegion region = outilsAtlas.findRegion(toolData.getAtlasRegionName());
+        if (region != null) {
+            float toolW = BENCH_CARD_W * 0.38f;
+            float toolH = BENCH_CARD_H * 0.38f;
+            CardDecal smallTool = new CardDecal(
+                toolData, new TextureRegion(region), new TextureRegion(backTexture),
+                toolW, toolH, cam, "tool"
+            );
+            Vector3 pos = countryDecal.getPosition();
+            smallTool.setPosition(pos.x + BENCH_CARD_W * 0.3f, pos.y + 0.02f, pos.z + BENCH_CARD_H * 0.3f);
+            smallTool.setRotation(0, -90f, 0);
+            toolDecals.put(countryDecal, smallTool);
+        }
+        refreshAllTerrainBonuses();
     }
 
     public void changeField(String field) {

@@ -89,6 +89,9 @@ public class CardDecal {
 
     private int[] terrainBonus = new int[5];
     private Color terrainBonusColor = Color.BLACK;
+    private int[] toolBonus = new int[5];
+    private int specialCostBonus = 0;
+    private int revocationBonus = 0;
 
     public CardDecal(CardData data, TextureRegion frontRegion, TextureRegion backRegion, float width, float height, PerspectiveCamera cam, String emplacement) {
         this.data = data;
@@ -195,12 +198,25 @@ public class CardDecal {
             drawStat(fb_batch, 1, 325, cardPixelH / 2f - 188, cardPixelH);
 
             fb_font_special_cost.setColor(Color.BLACK);
-            fb_font_special_cost.draw(fb_batch, Integer.toString(data.specialCost), 415, cardPixelH / 2f - 225);
-
+            if (specialCostBonus != 0) {
+                int effCost = Math.max(0, data.specialCost + specialCostBonus);
+                BitmapFont.Glyph sg = fb_font_special_cost.getData().getGlyph('/');
+                float sw = sg != null ? sg.xadvance : 0;
+                fb_font_special_cost.draw(fb_batch, "/" + effCost + "/", 415 - sw, cardPixelH / 2f - 225);
+            } else {
+                fb_font_special_cost.draw(fb_batch, Integer.toString(data.specialCost), 415, cardPixelH / 2f - 225);
+            }
 
             fb_font_stats.setColor(Color.BLACK);
-            fb_font_stats.draw(fb_batch, Integer.toString(data.cost),75, 43);
-            fb_font_stats.draw(fb_batch, Integer.toString(data.revocation),110, 25);
+            fb_font_stats.draw(fb_batch, Integer.toString(data.cost), 75, 43);
+            if (revocationBonus != 0) {
+                int effRev = Math.max(0, data.revocation + revocationBonus);
+                BitmapFont.Glyph rg = fb_font_stats.getData().getGlyph('/');
+                float rw = rg != null ? rg.xadvance : 0;
+                fb_font_stats.draw(fb_batch, "/" + effRev + "/", 110 - rw, 25);
+            } else {
+                fb_font_stats.draw(fb_batch, Integer.toString(data.revocation), 110, 25);
+            }
         }
 
         fb_batch.end();
@@ -235,10 +251,15 @@ public class CardDecal {
     }
 
     private void drawStat(SpriteBatch batch, int statIdx, float x, float y, int cardH) {
-        int bonus = terrainBonus[statIdx];
-        int total = data.stats[statIdx] + bonus;
+        int terrain = terrainBonus[statIdx];
+        int tool = toolBonus[statIdx];
+        int total = data.stats[statIdx] + terrain + tool;
         fb_font_stats.setColor(Color.BLACK);
-        if (bonus != 0) {
+        if (tool != 0) {
+            BitmapFont.Glyph g = fb_font_stats.getData().getGlyph('/');
+            float gw = g != null ? g.xadvance : 0;
+            fb_font_stats.draw(batch, "/" + total + "/", x - gw, y);
+        } else if (terrain != 0) {
             BitmapFont.Glyph tilde = fb_font_stats.getData().getGlyph('~');
             float tildeWidth = tilde != null ? tilde.xadvance : 0;
             fb_font_stats.draw(batch, "~" + total + "~", x - tildeWidth, y);
@@ -250,11 +271,26 @@ public class CardDecal {
     public void setTerrainBonus(int[] bonus, Color color) {
         terrainBonus = bonus != null ? bonus : new int[5];
         terrainBonusColor = color != null ? color : Color.BLACK;
+        toolBonus = new int[5];
+        specialCostBonus = 0;
+        revocationBonus = 0;
+        refreshStats();
+    }
+
+    public void setDisplayBonuses(int[] terrain, Color color, int[] tool, int specialCostBon, int revocationBon) {
+        terrainBonus = terrain != null ? terrain : new int[5];
+        terrainBonusColor = color != null ? color : Color.BLACK;
+        toolBonus = tool != null ? tool : new int[5];
+        specialCostBonus = specialCostBon;
+        revocationBonus = revocationBon;
         refreshStats();
     }
 
     public int[] getTerrainBonus() { return terrainBonus; }
     public Color getTerrainBonusColor() { return terrainBonusColor; }
+    public int[] getToolBonus() { return toolBonus; }
+    public int getSpecialCostBonus() { return specialCostBonus; }
+    public int getRevocationBonus() { return revocationBonus; }
 
     public void refreshStats() {
 
@@ -524,6 +560,13 @@ public class CardDecal {
 
     public int getHandIndex() {
         return handIndex;
+    }
+
+    public void followPosition(float x, float y, float z) {
+        position.set(x, y, z);
+        baseY = y;
+        currentY = y;
+        applyTransform(x, y, z, currentYaw, currentPitch, currentRoll);
     }
 
     public void shake() {

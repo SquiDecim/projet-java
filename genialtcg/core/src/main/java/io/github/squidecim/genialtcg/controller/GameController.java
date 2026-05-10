@@ -40,6 +40,7 @@ public class GameController
     private boolean selectingReplacementAfterDeath = false;
 
     private boolean selectingBenchTarget = false;
+    private int pendingRevocationCost = 0;
     private boolean benchTargetIsOpponent = false;
     private java.util.function.Consumer<CardDecal> onBenchTargetSelected = null;
 
@@ -171,12 +172,17 @@ public class GameController
         if (b == 0 && model.phase == GameModel.Phase.PLAYING && model.myTurn) {
             CardDecal myTable = view.getMyTableCard();
             if (myTable != null && myTable.intersects(ray)) {
-                view.showAttackMenu(myTable.getData(), client, this);
+                view.showAttackMenu(myTable, client, this);
                 return true;
             }
         }
 
         if (b == 1) {
+            CardDecal toolDecal = view.getHoveredToolDecal(ray);
+            if (toolDecal != null) {
+                view.showZoom(toolDecal);
+                return true;
+            }
             if (card != null) {
                 view.showZoom(card);
                 return true;
@@ -227,6 +233,34 @@ public class GameController
 
         Ray ray = view.getCam().getPickRay(x, y);
 
+        if (draggedCard.getData().id.startsWith("OUT-")) {
+            if (model.phase == GameModel.Phase.PLAYING && model.myTurn) {
+                CardDecal targetCountry = view.getCountryCardAt(ray);
+                if (targetCountry != null && targetCountry.getData().attachedTool == null
+                        && conditionsRespected(draggedCard)) {
+                    targetCountry.getData().attachedTool = draggedCard.getData();
+                    model.useFromHand(draggedCard.getData());
+                    view.attachToolToCountry(draggedCard, targetCountry);
+                    if (game.posingCardsSound != null) game.posingCardsSound.play(game.gameSoundVolume);
+                    client.sendPlayCardWithTarget(
+                        draggedCard.getData().getAtlasRegionName(), "tool", 0,
+                        targetCountry.getData().getAtlasRegionName()
+                    );
+                } else {
+                    view.cancelDrag(draggedCard);
+                    if (targetCountry != null && targetCountry.getData().attachedTool != null) {
+                        view.showEphemeralMessage("Cette nation a déjà un outil équipé !");
+                    } else if (!conditionsRespected(draggedCard)) {
+                        view.showEphemeralMessage("Les conditions de la carte ne sont pas respectées");
+                    }
+                }
+            } else {
+                view.cancelDrag(draggedCard);
+            }
+            draggedCard = null;
+            return true;
+        }
+
         CardSlot slot = view.getIntersectedSlot(ray);
 
         if (draggedCard != null && slot == null) {
@@ -235,11 +269,7 @@ public class GameController
             return true;
         }
 
-        assert draggedCard != null;
-        if (draggedCard.getData().id.startsWith("OUT-")) {
-            view.cancelDrag(draggedCard);
-            return true;
-        } else if (slot != null) {
+        if (slot != null) {
             boolean fromBench = draggedCard.emplacement.equals("bench");
             boolean toBench = slot.type.equals("bench");
             boolean toTable = slot.type.equals("table");
@@ -448,9 +478,10 @@ public class GameController
     }
 
     public void startRetreat(CardData tableCard) {
-        if (model.myCredits < tableCard.revocation) {
+        pendingRevocationCost = Math.max(0, tableCard.revocation + getToolCostModifier("CoutR"));
+        if (model.myCredits < pendingRevocationCost) {
             view.showAttackMenuError(
-                "Pas assez de crédits ! (il manque " + (tableCard.revocation - model.myCredits) + " crédits)"
+                "Pas assez de crédits ! (il manque " + (pendingRevocationCost - model.myCredits) + " crédits)"
             );
             return;
         }
@@ -468,7 +499,7 @@ public class GameController
         view.setSelectableBorder(false);
 
         CardData tableCardData = model.table;
-        model.spendCredits(tableCardData.revocation);
+        model.spendCredits(pendingRevocationCost);
         if (game.switchSound != null) game.switchSound.play(game.gameSoundVolume);
         view.swapTableAndBench(benchCard);
 
@@ -503,7 +534,11 @@ public class GameController
             view.updateTurnCount(model.turnCount);
         }
         if (myTurn) {
-            model.receiveCredits(model.getTotalEconomy());
+            CardDecal oppTableDecal = view.getOpponentTableCard();
+            CardData oppTool = (oppTableDecal != null && oppTableDecal.getData() != null)
+                ? oppTableDecal.getData().attachedTool : null;
+            int adverseEcoBonus = GameModel.getToolStatBonus(oppTool, false)[1];
+            model.receiveCredits(Math.max(0, model.getTotalEconomy() + adverseEcoBonus));
             client.sendCreditsUpdate(model.myCredits);
             client.sendDrawCard();
             model.hasUseAction = false;
@@ -594,6 +629,10 @@ public class GameController
             view.addOpponentCardToBench(card);
         } else if ("table".equals(msg.zone)) {
             view.addOpponentCardToTable(card);
+        } else if ("tool".equals(msg.zone)) {
+            if (msg.targetBenchCardId != null) {
+                view.addOpponentToolToCountry(card, msg.targetBenchCardId);
+            }
         } else if ("action".equals(msg.zone)) {
             view.addOpponentCardToAction(card);
             final String targetId = msg.targetBenchCardId;
@@ -738,7 +777,7 @@ public class GameController
     }
 
     public void handleSpecialAttack(CardData card) {
-        int attackCost = card.specialCost;
+        int attackCost = Math.max(0, card.specialCost + getToolCostModifier("CoutES"));
         if (model.myCredits < attackCost) {
             view.showAttackMenuError(
                 "Pas assez de crédits ! (il manque " + (attackCost - model.myCredits) + " crédits)"
@@ -999,6 +1038,31 @@ public class GameController
         }
 
         return true;
+    }
+
+    private int getToolCostModifier(String costType) {
+        int modifier = 0;
+        CardDecal myTable = view.getMyTableCard();
+        if (myTable != null && myTable.getData().attachedTool != null) {
+            CardData tool = myTable.getData().attachedTool;
+            if (tool.specialEffectTypes != null) {
+                for (int i = 0; i < tool.specialEffectTypes.length; i++) {
+                    if (costType.equals(tool.specialEffectTypes[i]))
+                        modifier += tool.specialEffectValues[i];
+                }
+            }
+        }
+        CardDecal oppTable = view.getOpponentTableCard();
+        if (oppTable != null && oppTable.getData().attachedTool != null) {
+            CardData oppTool = oppTable.getData().attachedTool;
+            if (oppTool.specialEffectTypes != null) {
+                for (int i = 0; i < oppTool.specialEffectTypes.length; i++) {
+                    if ((costType + "A").equals(oppTool.specialEffectTypes[i]))
+                        modifier += oppTool.specialEffectValues[i];
+                }
+            }
+        }
+        return modifier;
     }
 
     private int getStatByKey(CardData card, String key) {
