@@ -288,7 +288,7 @@
     "id": "ACT-037",
     "nom": "Redéploiement Tactique",
     "cond": { "statMin": { "puissance": 65 } },
-    "effets": [["echangeBanc"], ["soin", 60]],
+    "effets": [["echangeBanc"], ["soinJeu", 60]],
     "description": "Si votre puissance atteint au moins 65, votre armée maîtrise la rotation au front à la perfection. Échange avec le banc. Soigne l'entrant de 60 PV."
   },
   {
@@ -305,21 +305,21 @@
     "id": "ACT-039",
     "nom": "Sommet International",
     "cond": { "type": ["Diplomatique"], "statMin": { "stabilite": 55 } },
-    "effets": [["echangeBanc"], ["soin", 50]],
+    "effets": [["echangeBanc"], ["soinJeu", 50]],
     "description": "Nations Diplomatiques avec une stabilité d'au moins 55. La crédibilité de votre nation donne du poids. Échange avec le banc. Soigne l'entrant de 50 PV."
   },
   {
     "id": "ACT-040",
     "nom": "Relève de la Garde",
     "cond": null,
-    "effets": [["echangeBanc"], ["soin", 40]],
+    "effets": [["echangeBanc"], ["soinJeu", 40]],
     "description": "La cérémonie est sobre — les nouveaux arrivants prennent position avec une froide détermination. Échange avec le banc. Soigne l'entrant de 40 PV."
   },
   {
     "id": "ACT-041",
     "nom": "Rotation de Troupes",
     "cond": null,
-    "effets": [["echangeBanc"], ["soin", 40]],
+    "effets": [["echangeBanc"], ["soinJeu", 40]],
     "description": "Les soldats épuisés cèdent la place à des renforts reposés, redonnant vigueur au front. Échange avec le banc. Soigne l'entrant de 40 PV."
   },
   {
@@ -382,7 +382,7 @@
     "id": "ACT-050",
     "nom": "Avalanche de Montagne",
     "cond": { "terrain": ["Montagneux"] },
-    "effets": [["echangeBancRandom"], ["soin", 50]],
+    "effets": [["echangeBancRandom"], ["soinJeu", 50]],
     "description": "En terrain Montagneux, la roche force tout le monde à reculer. Échange aléatoire avec le banc. Soigne l'entrant de 50 PV."
   },
   {
@@ -396,7 +396,7 @@
     "id": "ACT-052",
     "nom": "Chaleur de Désert",
     "cond": { "terrain": ["Désertique"] },
-    "effets": [["echangeBancRandom"], ["soin", 40]],
+    "effets": [["echangeBancRandom"], ["soinJeu", 40]],
     "description": "En terrain Désertique, la chaleur brouille les plans — la relève arrive avec un regain de vigueur. Échange aléatoire. Soigne l'entrant de 40 PV."
   },
   {
@@ -431,7 +431,7 @@
     "id": "ACT-057",
     "nom": "Manifestations",
     "cond": null,
-    "effets": [["echangeBancRandom"], ["soin", 30]],
+    "effets": [["echangeBancRandom"], ["soinJeu", 30]],
     "description": "La pression populaire force un changement de cap — la relève arrive portée par un élan collectif. Échange aléatoire. Soigne l'entrant de 30 PV."
   },
   {
