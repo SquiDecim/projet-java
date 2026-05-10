@@ -257,6 +257,16 @@ public class GameController
                     model.phase == GameModel.Phase.PLAYING
                 ) {
                     if (conditionsRespected(draggedCard)) {
+                        if (model.hasUseAction) {
+                            view.cancelDrag(draggedCard);
+                            draggedCard = null;
+                            view.showEphemeralMessage(
+                                "Vous ne pouvez jouer qu'une carte Action par tour !"
+                            );
+                            return true;
+                        }
+
+                        model.hasUseAction = true;
                         model.useFromHand(draggedCard.getData());
                         view.dropCardOnSlot(draggedCard, slot);
 
@@ -286,10 +296,6 @@ public class GameController
                             0.5f
                         );
                     } else {
-                        Gdx.app.log(
-                            "GameController",
-                            "Conditions de la carte action non respectées"
-                        );
                         view.cancelDrag(draggedCard);
                         draggedCard = null;
                         view.showEphemeralMessage(
@@ -500,6 +506,7 @@ public class GameController
             model.receiveCredits(model.getTotalEconomy());
             client.sendCreditsUpdate(model.myCredits);
             client.sendDrawCard();
+            model.hasUseAction = false;
             view.showActionButton("Finir le tour", () -> {
                 view.hideActionButton();
                 model.myTurn = false;

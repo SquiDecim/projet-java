@@ -119,6 +119,7 @@ public class GameView implements Screen {
     private float flashSpeed = 2.5f;
     private String pendingField = null;
     private Material boardMaterial;
+    private TerrainParticleSystem particleSystem;
 
     private Stage uiStage;
     private Skin uiSkin;
@@ -489,7 +490,8 @@ public class GameView implements Screen {
         hideBanner();
 
         floatBatch = new SpriteBatch();
-        floatFont = new BitmapFont();
+        particleSystem = new TerrainParticleSystem(model.terrain, floatBatch);
+
 
         floatBatch.setProjectionMatrix(uiStage.getCamera().combined);
 
@@ -832,8 +834,15 @@ public class GameView implements Screen {
         );
         floatBatch.end();
 
+        if (particleSystem != null) particleSystem.update(delta);
+
         uiStage.act(delta);
         uiStage.draw();
+
+        if (particleSystem != null) {
+            floatBatch.setProjectionMatrix(uiStage.getCamera().combined);
+            particleSystem.render();
+        }
 
         if (floatingTexts.size > 0) {
             GlyphLayout layout = new GlyphLayout();
@@ -919,6 +928,7 @@ public class GameView implements Screen {
         if (backgroundTexture != null) backgroundTexture.dispose();
         if (vignetteTexture != null) vignetteTexture.dispose();
         if (boardTexture != null) boardTexture.dispose();
+        if (particleSystem != null) particleSystem.dispose();
     }
 
     private float lerp(float a, float b, float t) {
@@ -2684,5 +2694,8 @@ public class GameView implements Screen {
         if (flashingOut || flashingIn) return;
         pendingField = field;
         flashingOut = true;
+
+        if (particleSystem != null) particleSystem.dispose();
+        particleSystem = new TerrainParticleSystem(field, floatBatch);
     }
 }
