@@ -144,7 +144,7 @@ public class GameController
                 view.setSelectableBorder(false);
                 view.hideBanner();
                 if (game.switchSound != null) game.switchSound.play(
-                    game.uiSoundVolume
+                    game.gameSoundVolume
                 );
                 model.moveFromBenchToTable(benchCard.getData());
                 view.promoteFromBenchToTable(benchCard);
@@ -319,7 +319,7 @@ public class GameController
                             view.dropCardOnSlot(draggedCard, firstSlot);
                             if (
                                 game.posingCardsSound != null
-                            ) game.posingCardsSound.play(game.uiSoundVolume);
+                            ) game.posingCardsSound.play(game.gameSoundVolume);
                             int slotIdx = view.getBenchSlotIndex(firstSlot);
                             client.sendPlayCard(
                                 draggedCard.getData().getAtlasRegionName(),
@@ -351,7 +351,7 @@ public class GameController
                 } else model.moveFromBenchToTable(draggedCard.getData());
                 view.dropCardOnSlot(draggedCard, slot);
                 if (game.posingCardsSound != null) game.posingCardsSound.play(
-                    game.uiSoundVolume
+                    game.gameSoundVolume
                 );
                 client.sendPlayCard(
                     draggedCard.getData().getAtlasRegionName(),
@@ -469,7 +469,7 @@ public class GameController
 
         CardData tableCardData = model.table;
         model.spendCredits(tableCardData.revocation);
-        if (game.switchSound != null) game.switchSound.play(game.uiSoundVolume);
+        if (game.switchSound != null) game.switchSound.play(game.gameSoundVolume);
         view.swapTableAndBench(benchCard);
 
         model.moveFromTableToBench(tableCardData);
@@ -556,7 +556,7 @@ public class GameController
                 view.addCardToHand(drawn);
                 view.updateDeckVisual(model.deckSize());
                 if (game.takingCardsSound != null) game.takingCardsSound.play(
-                    game.uiSoundVolume
+                    game.gameSoundVolume
                 );
             }
             if (model.isDeckEmpty()) {
@@ -633,16 +633,7 @@ public class GameController
         CardDecal oppTable = view.getOpponentTableCard();
         if (myTable == null || oppTable == null) return;
 
-        Sound[] damageSounds = {
-            game.damagePuissanceSound,
-            game.damageRessourceSound,
-            game.damageTechnologieSound,
-            game.damageStabiliteSound,
-        };
-        if (msg.statIndex >= 0 && msg.statIndex < damageSounds.length) {
-            Sound s = damageSounds[msg.statIndex];
-            if (s != null) s.play(game.uiSoundVolume);
-        }
+        if (game.damageSound != null) game.damageSound.play(game.gameSoundVolume);
 
         boolean iAmAttacker = model.myTurn;
         if (msg.damage > 0) {
@@ -827,7 +818,7 @@ public class GameController
     @Override
     public void onSpecialAttack(NetworkMessages.SpecialAttack msg) {
         if (game.specialEffectSound != null) game.specialEffectSound.play(
-            game.uiSoundVolume
+            game.gameSoundVolume
         );
 
         boolean iAmAttacker = model.myTurn;
@@ -919,7 +910,7 @@ public class GameController
                                 if (
                                     game.takingCardsSound != null
                                 ) game.takingCardsSound.play(
-                                    game.uiSoundVolume
+                                    game.gameSoundVolume
                                 );
                             }
                         }
@@ -1060,7 +1051,7 @@ public class GameController
                                 if (
                                     game.takingCardsSound != null
                                 ) game.takingCardsSound.play(
-                                    game.uiSoundVolume
+                                    game.gameSoundVolume
                                 );
                             }
                         }
@@ -1140,7 +1131,7 @@ public class GameController
                     onBenchTargetSelected = chosenCard -> {
                         view.setSelectableBorder(false);
                         if (game.switchSound != null) game.switchSound.play(
-                            game.uiSoundVolume
+                            game.gameSoundVolume
                         );
                         CardData tableCardData = model.table;
                         view.swapTableAndBench(chosenCard);

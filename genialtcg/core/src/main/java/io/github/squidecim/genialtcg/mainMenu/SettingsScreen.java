@@ -77,7 +77,7 @@ public class SettingsScreen implements Screen {
         topBar.add(btnBack).width(200).height(50).pad(10);
         stage.addActor(topBar);
 
-        Preferences prefs = Gdx.app.getPreferences("GenialTCG_Settings");
+        Preferences prefs = Gdx.app.getPreferences("GenialTCG_Profile_" + game.playerPseudo);
         String savedDisplayMode = prefs.getString(
             "display_mode",
             "Plein ecran"
@@ -95,7 +95,7 @@ public class SettingsScreen implements Screen {
                 public void changed(ChangeEvent event, Actor actor) {
                     float volume = volumeSlider.getValue();
                     if (game.menuMusic != null) game.menuMusic.setVolume(
-                        volume
+                        GenialTCG.curveVolume(volume)
                     );
                     prefs.putFloat("music_volume", volume);
                     prefs.flush();
@@ -114,7 +114,7 @@ public class SettingsScreen implements Screen {
                 @Override
                 public void changed(ChangeEvent event, Actor actor) {
                     float volume = uiSoundSlider.getValue();
-                    game.uiSoundVolume = volume;
+                    game.uiSoundVolume = GenialTCG.curveVolume(volume);
                     prefs.putFloat("ui_sound_volume", volume);
                     prefs.flush();
                 }
@@ -132,7 +132,8 @@ public class SettingsScreen implements Screen {
                 @Override
                 public void changed(ChangeEvent event, Actor actor) {
                     float volume = gameSoundSlider.getValue();
-                    game.gameSoundVolume = volume;
+                    game.gameSoundVolume = GenialTCG.curveVolume(volume);
+                    game.updateTerrainMusicVolume();
                     prefs.putFloat("game_sound_volume", volume);
                     prefs.flush();
                 }

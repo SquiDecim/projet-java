@@ -678,7 +678,7 @@ public class NewDeckScreen implements Screen {
                         ) {
                             if (
                                 game.overpassCardsSound != null
-                            ) game.overpassCardsSound.play(game.uiSoundVolume);
+                            ) game.overpassCardsSound.play(game.gameSoundVolume);
                             slot.addAction(
                                 Actions.scaleTo(
                                     EFFECT_SCALE,

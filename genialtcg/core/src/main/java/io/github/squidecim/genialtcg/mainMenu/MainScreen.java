@@ -61,10 +61,8 @@ public class MainScreen implements Screen {
                     Gdx.files.internal("audio/music/menu_theme.mp3")
                 );
                 game.menuMusic.setLooping(true);
-                Preferences prefs = Gdx.app.getPreferences(
-                    "GenialTCG_Settings"
-                );
-                game.menuMusic.setVolume(prefs.getFloat("music_volume", 0.3f));
+                Preferences prefs = Gdx.app.getPreferences("GenialTCG_Profile_" + game.playerPseudo);
+                game.menuMusic.setVolume(GenialTCG.curveVolume(prefs.getFloat("music_volume", 0.3f)));
             } catch (Exception e) {
                 Gdx.app.log("Audio", "Erreur lecture musique");
             }
