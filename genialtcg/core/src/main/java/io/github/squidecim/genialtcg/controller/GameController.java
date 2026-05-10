@@ -349,7 +349,7 @@ public class GameController
                     draggedCard = null;
                     return true;
                 }
-            } else if (toBench) {
+            } else if (toBench && view.getMyTableCard() != null) {
                 if (model.isBenchFull()) {
                     view.cancelDrag(draggedCard);
                 } else {
