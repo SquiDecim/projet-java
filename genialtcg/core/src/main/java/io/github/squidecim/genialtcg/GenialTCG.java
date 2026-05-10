@@ -653,18 +653,21 @@ public class GenialTCG extends Game {
         return sb.toString();
     }
 
-    @Override
-    public void dispose() {
-        unlockCurrentProfile();
+    public void cleanupCurrentGame() {
         if (currentGameClient != null) {
             currentGameClient.disconnect();
             currentGameClient = null;
         }
-
         if (currentGameServer != null) {
             currentGameServer.stop();
             currentGameServer = null;
         }
+    }
+
+    @Override
+    public void dispose() {
+        unlockCurrentProfile();
+        cleanupCurrentGame();
 
         if (getScreen() != null) getScreen().dispose();
         if (skin != null) skin.dispose();

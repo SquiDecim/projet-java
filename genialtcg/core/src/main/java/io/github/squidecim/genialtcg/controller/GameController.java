@@ -514,8 +514,10 @@ public class GameController
 
     @Override
     public void onPlayerQuit() {
-        client.disconnect();
-        game.setScreen(new MainScreen(game));
+        Gdx.app.postRunnable(() -> {
+            game.cleanupCurrentGame();
+            game.setScreen(new MainScreen(game));
+        });
     }
 
     @Override

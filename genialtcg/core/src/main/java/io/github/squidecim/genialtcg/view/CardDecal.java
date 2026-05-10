@@ -87,6 +87,9 @@ public class CardDecal {
     private static final int CARD_TEX_W = 512;
     private static final int CARD_TEX_H = 716;
 
+    private int[] terrainBonus = new int[5];
+    private Color terrainBonusColor = Color.BLACK;
+
     public CardDecal(CardData data, TextureRegion frontRegion, TextureRegion backRegion, float width, float height, PerspectiveCamera cam, String emplacement) {
         this.data = data;
         this.width = width;
@@ -185,12 +188,11 @@ public class CardDecal {
                 cardPixelW - 110, cardPixelH - 25);
 
 
-            fb_font_stats.setColor(Color.BLACK);
-            fb_font_stats.draw(fb_batch, Integer.toString(data.stats[0]), 210, cardPixelH / 2f - 99);
-            fb_font_stats.draw(fb_batch, Integer.toString(data.stats[2]), 423, cardPixelH / 2f - 99);
-            fb_font_stats.draw(fb_batch, Integer.toString(data.stats[3]), 210, cardPixelH / 2f - 144);
-            fb_font_stats.draw(fb_batch, Integer.toString(data.stats[4]), 423, cardPixelH / 2f - 144);
-            fb_font_stats.draw(fb_batch, Integer.toString(data.stats[1]), 325, cardPixelH / 2f - 188);
+            drawStat(fb_batch, 0, 210, cardPixelH / 2f - 99, cardPixelH);
+            drawStat(fb_batch, 2, 423, cardPixelH / 2f - 99, cardPixelH);
+            drawStat(fb_batch, 3, 210, cardPixelH / 2f - 144, cardPixelH);
+            drawStat(fb_batch, 4, 423, cardPixelH / 2f - 144, cardPixelH);
+            drawStat(fb_batch, 1, 325, cardPixelH / 2f - 188, cardPixelH);
 
             fb_font_special_cost.setColor(Color.BLACK);
             fb_font_special_cost.draw(fb_batch, Integer.toString(data.specialCost), 415, cardPixelH / 2f - 225);
@@ -231,6 +233,23 @@ public class CardDecal {
             buildModel(frontRegion, backRegion, w, h);
         }
     }
+
+    private void drawStat(SpriteBatch batch, int statIdx, float x, float y, int cardH) {
+        int bonus = terrainBonus[statIdx];
+        int total = data.stats[statIdx] + bonus;
+        fb_font_stats.setColor(bonus != 0 ? terrainBonusColor : Color.BLACK);
+        fb_font_stats.draw(batch, Integer.toString(total), x, y);
+        fb_font_stats.setColor(Color.BLACK);
+    }
+
+    public void setTerrainBonus(int[] bonus, Color color) {
+        terrainBonus = bonus != null ? bonus : new int[5];
+        terrainBonusColor = color != null ? color : Color.BLACK;
+        refreshStats();
+    }
+
+    public int[] getTerrainBonus() { return terrainBonus; }
+    public Color getTerrainBonusColor() { return terrainBonusColor; }
 
     public void refreshStats() {
 
