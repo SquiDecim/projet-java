@@ -27,6 +27,7 @@ public class GameModel {
     public List<CardData> bench = new ArrayList<>();
     public List<CardData> discardPile = new ArrayList<>();
     public CardData table;
+    public boolean hasUseAction = true;
 
     public enum Phase { DRAW, SETUP, PLAYING }
     public Phase phase = Phase.DRAW;
@@ -100,13 +101,9 @@ public class GameModel {
     }
 
     public void spendCredits(int amount) {
-        myCredits = Math.max(0, myCredits - amount);
+        myCredits = myCredits - amount;
     }
 
-    public void stoleCredits(int amount){
-        receiveCredits(amount);
-        opponentCredits -= amount;
-    }
 
     public void receiveCredits(int amount) {
         myCredits += amount;
