@@ -34,9 +34,7 @@ public class GameController
     private String myPlayerId;
     private String firstPlayerId = null;
 
-    private boolean canDraw = true;
-    private float drawCooldown = 0.75f;
-    private float drawTimer = 0f;
+    private float drawCooldown = 0.76f;
 
     private CardDecal draggedCard = null;
     private boolean selectingRetreat = false;
@@ -69,15 +67,6 @@ public class GameController
         this.game = game;
     }
 
-    public void update(float delta) {
-        if (!canDraw) {
-            drawTimer += delta;
-            if (drawTimer >= drawCooldown) {
-                canDraw = true;
-                drawTimer = 0f;
-            }
-        }
-    }
 
     @Override
     public boolean mouseMoved(int screenX, int screenY) {
@@ -216,11 +205,6 @@ public class GameController
             return true;
         }
 
-        if (view.isDeckClicked(ray)) {
-            if (!canDraw) return false;
-            client.sendDrawCard();
-            canDraw = false;
-        }
         return false;
     }
 
@@ -496,7 +480,7 @@ public class GameController
                         Gdx.app.postRunnable(() -> client.sendDrawCard());
                     }
                 },
-                (i + 2) * (drawCooldown + 0.1f)
+                (i + 2) * drawCooldown
             );
         }
         com.badlogic.gdx.utils.Timer.schedule(
