@@ -61,6 +61,8 @@ public class GenialTCG extends Game {
     public Sound damageSound;
     public Sound specialEffectSound;
     public Sound terrainChangeSound;
+    public Sound actionCardSound;
+    public Sound outilsSound;
     public float uiSoundVolume = 0.5f;
     public float gameSoundVolume = 0.5f;
 
@@ -121,6 +123,12 @@ public class GenialTCG extends Game {
                 Gdx.files.internal(
                     "audio/game_effect/terrains/terrain_change.mp3"
                 )
+            );
+            actionCardSound = Gdx.audio.newSound(
+                Gdx.files.internal("audio/game_effect/cards/action.mp3")
+            );
+            outilsSound = Gdx.audio.newSound(
+                Gdx.files.internal("audio/game_effect/cards/outils.mp3")
             );
         } catch (Exception e) {
             Gdx.app.log("Audio", "Erreur chargement sons boutons");
@@ -830,6 +838,8 @@ public class GenialTCG extends Game {
         if (damageSound != null) damageSound.dispose();
         if (specialEffectSound != null) specialEffectSound.dispose();
         if (terrainChangeSound != null) terrainChangeSound.dispose();
+        if (actionCardSound != null) actionCardSound.dispose();
+        if (outilsSound != null) outilsSound.dispose();
 
         if (blackOverlay != null) blackOverlay.dispose();
         if (overlayBatch != null) overlayBatch.dispose();

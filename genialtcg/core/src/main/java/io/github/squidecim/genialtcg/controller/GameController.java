@@ -250,9 +250,7 @@ public class GameController
                         draggedCard.getData();
                     model.useFromHand(draggedCard.getData());
                     view.attachToolToCountry(draggedCard, targetCountry);
-                    if (
-                        game.posingCardsSound != null
-                    ) game.posingCardsSound.play(game.gameSoundVolume);
+                    if (game.outilsSound != null) game.outilsSound.play(game.gameSoundVolume);
                     client.sendPlayCardWithTarget(
                         draggedCard.getData().getAtlasRegionName(),
                         "tool",
@@ -366,7 +364,7 @@ public class GameController
                     draggedCard = null;
                     return true;
                 }
-            } else if (toBench) {
+            } else if (toBench && view.getMyTableCard() != null) {
                 if (model.isBenchFull()) {
                     view.cancelDrag(draggedCard);
                 } else {
@@ -569,6 +567,7 @@ public class GameController
     }
 
     private void executeAction(CardDecal cardAction, boolean isMyCard) {
+        if (game.actionCardSound != null) game.actionCardSound.play(game.gameSoundVolume);
         view.showToCam(cardAction, isMyCard, null);
     }
 
@@ -577,6 +576,7 @@ public class GameController
         boolean isMyCard,
         String targetBenchCardId
     ) {
+        if (game.actionCardSound != null) game.actionCardSound.play(game.gameSoundVolume);
         view.showToCam(cardAction, isMyCard, targetBenchCardId);
     }
 

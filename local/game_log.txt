@@ -1,0 +1,28 @@
+[2026-05-10 21:38:43] lancement du jeu et pioche initiale
+[2026-05-10 21:38:43] lancement du jeu et pioche initiale
+[2026-05-10 21:38:45] l'adversaire a pioche une carte
+[2026-05-10 21:38:45] vous avez pioche une carte
+[2026-05-10 21:38:45] vous avez pioche une carte
+[2026-05-10 21:38:45] l'adversaire a pioche une carte
+[2026-05-10 21:38:46] l'adversaire a pioche une carte
+[2026-05-10 21:38:46] vous avez pioche une carte
+[2026-05-10 21:38:46] vous avez pioche une carte
+[2026-05-10 21:38:46] l'adversaire a pioche une carte
+[2026-05-10 21:38:47] vous avez pioche une carte
+[2026-05-10 21:38:47] l'adversaire a pioche une carte
+[2026-05-10 21:38:47] vous avez pioche une carte
+[2026-05-10 21:38:47] l'adversaire a pioche une carte
+[2026-05-10 21:38:47] l'adversaire a pioche une carte
+[2026-05-10 21:38:47] vous avez pioche une carte
+[2026-05-10 21:38:47] vous avez pioche une carte
+[2026-05-10 21:38:47] l'adversaire a pioche une carte
+[2026-05-10 21:38:52] vous avez pose la carte : Cameroun sur le terrain
+[2026-05-10 21:38:52] l'adversaire a pose la carte : Cameroun sur table
+[2026-05-10 21:38:54] vous avez pose la carte : Chypre sur le banc
+[2026-05-10 21:38:54] l'adversaire a pose la carte : Chypre sur bench
+[2026-05-10 21:38:57] vous avez pose la carte : Niger sur le terrain
+[2026-05-10 21:38:57] l'adversaire a pose la carte : Niger sur table
+[2026-05-10 21:39:00] vous avez pose la carte : Liberia sur le banc
+[2026-05-10 21:39:00] l'adversaire a pose la carte : Liberia sur bench
+[2026-05-10 21:39:05] vous avez pioche une carte
+[2026-05-10 21:39:05] l'adversaire a pioche une carte
