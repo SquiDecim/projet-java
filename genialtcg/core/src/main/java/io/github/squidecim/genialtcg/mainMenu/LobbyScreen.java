@@ -638,4 +638,9 @@ public class LobbyScreen implements Screen, GameClient.NetworkListener {
     public void onWin(NetworkMessages.Win msg) {
 
     }
+
+    @Override
+    public void onLose(NetworkMessages.Lose msg) {
+
+    }
 }

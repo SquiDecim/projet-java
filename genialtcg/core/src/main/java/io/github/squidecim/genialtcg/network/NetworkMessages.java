@@ -122,4 +122,8 @@ public class NetworkMessages {
     public static class Win {
         public String winner;
     }
+
+    public static class Lose {
+        public String loser;
+    }
 }

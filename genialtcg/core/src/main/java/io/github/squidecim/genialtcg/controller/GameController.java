@@ -573,6 +573,17 @@ public class GameController
     }
 
     @Override
+    public void onLose(NetworkMessages.Lose msg) {
+        if (msg.loser != null && !(msg.loser.equals(myPlayerId))) {
+            //écran de victoire à implémenter
+            System.out.println("T'as gagné gg gros");
+        } else {
+            //écran de défaite à implémenter
+            System.out.println("T'as loose sale nul");
+        }
+    }
+
+    @Override
     public void onCardDrawn(NetworkMessages.CardDrawn msg) {
         if (msg.playerId.equals(myPlayerId)) {
             CardData drawn = model.drawCard();
@@ -672,7 +683,7 @@ public class GameController
         if (!model.myTurn && iMustReplace) startTurnWithDiedCard = true;
 
         if (iMustReplace && model.bench.isEmpty()){
-            System.out.println("Gros ton banc il est vide la");
+            client.sendLose();
         }
 
         CardDecal deadCard;
@@ -687,11 +698,9 @@ public class GameController
         }
         if (deadCard == null) return;
 
-        if (model.myTurn && !iMustReplace){
-            System.out.println("carte tuée et pas la mienne");
+        if (!iMustReplace){
             ArrayList<String> cardRanks = new ArrayList<>(Arrays.asList("Marginal", "Émergent", "Établi", "Dominant", "Hégémonie"));
             int pointsWin = cardRanks.indexOf(deadCard.getData().rank) + 1;
-            System.out.println("je dois gagner " + pointsWin);
             model.points += pointsWin;
             client.sendPointsUpdate(model.points);
         }
