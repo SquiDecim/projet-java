@@ -1,0 +1,28 @@
+[2026-05-10 20:31:06] lancement du jeu et pioche initiale
+[2026-05-10 20:31:06] lancement du jeu et pioche initiale
+[2026-05-10 20:31:08] vous avez pioche une carte
+[2026-05-10 20:31:08] l'adversaire a pioche une carte
+[2026-05-10 20:31:08] vous avez pioche une carte
+[2026-05-10 20:31:08] l'adversaire a pioche une carte
+[2026-05-10 20:31:08] l'adversaire a pioche une carte
+[2026-05-10 20:31:08] vous avez pioche une carte
+[2026-05-10 20:31:08] vous avez pioche une carte
+[2026-05-10 20:31:08] l'adversaire a pioche une carte
+[2026-05-10 20:31:09] l'adversaire a pioche une carte
+[2026-05-10 20:31:09] vous avez pioche une carte
+[2026-05-10 20:31:09] vous avez pioche une carte
+[2026-05-10 20:31:09] l'adversaire a pioche une carte
+[2026-05-10 20:31:10] l'adversaire a pioche une carte
+[2026-05-10 20:31:10] vous avez pioche une carte
+[2026-05-10 20:31:10] vous avez pioche une carte
+[2026-05-10 20:31:10] l'adversaire a pioche une carte
+[2026-05-10 20:31:11] l'adversaire a pioche une carte
+[2026-05-10 20:31:11] vous avez pioche une carte
+[2026-05-10 20:31:11] vous avez pioche une carte
+[2026-05-10 20:31:11] l'adversaire a pioche une carte
+[2026-05-10 20:31:12] l'adversaire a pioche une carte
+[2026-05-10 20:31:12] vous avez pioche une carte
+[2026-05-10 20:31:12] vous avez pioche une carte
+[2026-05-10 20:31:12] l'adversaire a pioche une carte
+[2026-05-10 20:31:30] vous avez pose la carte : Tchad sur le terrain
+[2026-05-10 20:31:30] l'adversaire a pose la carte : Tchad sur table

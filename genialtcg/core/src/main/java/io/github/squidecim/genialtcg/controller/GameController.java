@@ -283,6 +283,10 @@ public class GameController
                                 "action",
                                 0
                             );
+                            game.logGameAction(
+                                "vous avez joue l'action : " +
+                                    draggedCard.getData().getAtlasRegionName()
+                            );
                         }
 
                         final CardDecal played = draggedCard;
@@ -296,6 +300,10 @@ public class GameController
                             0.5f
                         );
                     } else {
+                        Gdx.app.log(
+                            "GameController",
+                            "Conditions de la carte action non respectées"
+                        );
                         view.cancelDrag(draggedCard);
                         draggedCard = null;
                         view.showEphemeralMessage(
@@ -326,9 +334,18 @@ public class GameController
                                 "bench",
                                 slotIdx
                             );
+                            game.logGameAction(
+                                "vous avez pose la carte : " +
+                                    draggedCard.getData().getAtlasRegionName() +
+                                    " sur le banc"
+                            );
                             client.sendCreditsUpdate(model.myCredits);
                         } else {
-                            view.showEphemeralMessage("Pas assez de crédits ! (" + draggedCard.getData().cost + " requis)");
+                            view.showEphemeralMessage(
+                                "Pas assez de crédits ! (" +
+                                    draggedCard.getData().cost +
+                                    " requis)"
+                            );
                             view.cancelDrag(draggedCard);
                             draggedCard = null;
                             return true;
@@ -343,7 +360,11 @@ public class GameController
                         model.moveFromHandToTable(draggedCard.getData());
                         client.sendCreditsUpdate(model.myCredits);
                     } else {
-                        view.showEphemeralMessage("Pas assez de crédits ! (" + draggedCard.getData().cost + " requis)");
+                        view.showEphemeralMessage(
+                            "Pas assez de crédits ! (" +
+                                draggedCard.getData().cost +
+                                " requis)"
+                        );
                         view.cancelDrag(draggedCard);
                         draggedCard = null;
                         return true;
@@ -357,6 +378,11 @@ public class GameController
                     draggedCard.getData().getAtlasRegionName(),
                     "table",
                     0
+                );
+                game.logGameAction(
+                    "vous avez pose la carte : " +
+                        draggedCard.getData().getAtlasRegionName() +
+                        " sur le terrain"
                 );
                 model.setupDone = true;
                 view.hideBanner();
@@ -413,6 +439,7 @@ public class GameController
     }
 
     public void startInitialDraw() {
+        game.logGameAction("lancement du jeu et pioche initiale");
         for (int i = 0; i < INITIAL_HAND_SIZE; i++) {
             com.badlogic.gdx.utils.Timer.schedule(
                 new com.badlogic.gdx.utils.Timer.Task() {
@@ -450,7 +477,9 @@ public class GameController
     public void startRetreat(CardData tableCard) {
         if (model.myCredits < tableCard.revocation) {
             view.showAttackMenuError(
-                "Pas assez de crédits ! (il manque " + (tableCard.revocation - model.myCredits) + " crédits)"
+                "Pas assez de crédits ! (il manque " +
+                    (tableCard.revocation - model.myCredits) +
+                    " crédits)"
             );
             return;
         }
@@ -469,12 +498,18 @@ public class GameController
 
         CardData tableCardData = model.table;
         model.spendCredits(tableCardData.revocation);
-        if (game.switchSound != null) game.switchSound.play(game.gameSoundVolume);
+        if (game.switchSound != null) game.switchSound.play(
+            game.gameSoundVolume
+        );
         view.swapTableAndBench(benchCard);
 
         model.moveFromTableToBench(tableCardData);
         model.moveFromBenchToTable(benchCard.getData());
 
+        game.logGameAction(
+            "vous avez utilise la retraite pour la carte : " +
+                benchCard.getData().getAtlasRegionName()
+        );
         client.sendCreditsUpdate(model.myCredits);
         client.sendRetreat(benchCard.getData().getAtlasRegionName());
     }
@@ -532,6 +567,7 @@ public class GameController
         String field = msg.field;
         model.terrain = field;
         view.changeField(field);
+        game.logGameAction("changement de terrain pour : " + field);
     }
 
     @Override
@@ -551,6 +587,7 @@ public class GameController
     @Override
     public void onCardDrawn(NetworkMessages.CardDrawn msg) {
         if (msg.playerId.equals(myPlayerId)) {
+            game.logGameAction("vous avez pioche une carte");
             CardData drawn = model.drawCard();
             if (drawn != null) {
                 view.addCardToHand(drawn);
@@ -570,6 +607,7 @@ public class GameController
                 );
             }
         } else {
+            game.logGameAction("l'adversaire a pioche une carte");
             view.updateOpponentDeckVisual(msg.newDeckSize);
             if (msg.newDeckSize == 0) {
                 Gdx.app.postRunnable(() ->
@@ -588,6 +626,9 @@ public class GameController
     public void onCardPlayed(NetworkMessages.CardPlayed msg) {
         boolean isMe = msg.playerId.equals(myPlayerId);
         if (isMe) return;
+        game.logGameAction(
+            "l'adversaire a pose la carte : " + msg.cardId + " sur " + msg.zone
+        );
         CardData card = model.lookupCard(msg.cardId);
         if (card == null) return;
         if ("bench".equals(msg.zone)) {
@@ -633,9 +674,17 @@ public class GameController
         CardDecal oppTable = view.getOpponentTableCard();
         if (myTable == null || oppTable == null) return;
 
-        if (game.damageSound != null) game.damageSound.play(game.gameSoundVolume);
+        if (game.damageSound != null) game.damageSound.play(
+            game.gameSoundVolume
+        );
 
         boolean iAmAttacker = model.myTurn;
+        game.logGameAction(
+            (iAmAttacker ? "vous avez" : "l'adversaire a") +
+                " fait une attaque normale (degats: " +
+                Math.abs(msg.damage) +
+                ")"
+        );
         if (msg.damage > 0) {
             CardDecal target = iAmAttacker ? oppTable : myTable;
             applyDamageAndFloat(target, -msg.damage, iAmAttacker);
@@ -654,6 +703,10 @@ public class GameController
         boolean isMe = msg.playerId.equals(myPlayerId);
         if (isMe) return;
 
+        game.logGameAction(
+            "l'adversaire a utilise la retraite pour la carte : " +
+                msg.benchCardId
+        );
         CardDecal oppBenchCard = view.getOpponentBenchCardById(msg.benchCardId);
         if (oppBenchCard != null) {
             view.swapOpponentTableAndBench(oppBenchCard);
@@ -665,6 +718,18 @@ public class GameController
         boolean isMe = msg.playerId.equals(myPlayerId);
         boolean iMustReplace =
             (isMe && !msg.isOpponent) || (!isMe && msg.isOpponent);
+
+        if (iMustReplace) {
+            game.logGameAction(
+                "vous avez perdu une carte (" + msg.cardId + ")"
+            );
+        } else {
+            game.logGameAction(
+                "l'adversaire a perdu une carte (" +
+                    msg.cardId +
+                    "), vous gagnez un point"
+            );
+        }
 
         if (!model.myTurn && iMustReplace) startTurnWithDiedCard = true;
 
@@ -741,7 +806,9 @@ public class GameController
         int attackCost = card.specialCost;
         if (model.myCredits < attackCost) {
             view.showAttackMenuError(
-                "Pas assez de crédits ! (il manque " + (attackCost - model.myCredits) + " crédits)"
+                "Pas assez de crédits ! (il manque " +
+                    (attackCost - model.myCredits) +
+                    " crédits)"
             );
             return;
         }
@@ -817,11 +884,15 @@ public class GameController
 
     @Override
     public void onSpecialAttack(NetworkMessages.SpecialAttack msg) {
+        boolean iAmAttacker = model.myTurn;
+        game.logGameAction(
+            (iAmAttacker ? "vous avez" : "l'adversaire a") +
+                " fait une attaque speciale"
+        );
+
         if (game.specialEffectSound != null) game.specialEffectSound.play(
             game.gameSoundVolume
         );
-
-        boolean iAmAttacker = model.myTurn;
 
         CardDecal myTable = view.getMyTableCard();
         CardDecal oppTable = view.getOpponentTableCard();
