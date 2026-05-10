@@ -26,3 +26,64 @@
 [2026-05-10 20:31:12] l'adversaire a pioche une carte
 [2026-05-10 20:31:30] vous avez pose la carte : Tchad sur le terrain
 [2026-05-10 20:31:30] l'adversaire a pose la carte : Tchad sur table
+[2026-05-10 21:22:18] lancement du jeu et pioche initiale
+[2026-05-10 21:22:18] lancement du jeu et pioche initiale
+[2026-05-10 21:22:20] l'adversaire a pioche une carte
+[2026-05-10 21:22:20] vous avez pioche une carte
+[2026-05-10 21:22:21] l'adversaire a pioche une carte
+[2026-05-10 21:22:21] vous avez pioche une carte
+[2026-05-10 21:22:22] vous avez pioche une carte
+[2026-05-10 21:22:22] l'adversaire a pioche une carte
+[2026-05-10 21:22:23] vous avez pioche une carte
+[2026-05-10 21:22:23] l'adversaire a pioche une carte
+[2026-05-10 21:22:29] vous avez pose la carte : Somalie sur le banc
+[2026-05-10 21:22:29] l'adversaire a pose la carte : Somalie sur bench
+[2026-05-10 21:22:33] vous avez pose la carte : Gambie sur le terrain
+[2026-05-10 21:22:33] l'adversaire a pose la carte : Gambie sur table
+[2026-05-10 21:22:39] l'adversaire a pioche une carte
+[2026-05-10 21:22:39] vous avez pioche une carte
+[2026-05-10 21:22:39] l'adversaire a pioche une carte
+[2026-05-10 21:22:39] vous avez pioche une carte
+[2026-05-10 21:22:40] l'adversaire a pioche une carte
+[2026-05-10 21:22:40] vous avez pioche une carte
+[2026-05-10 21:22:41] vous avez pioche une carte
+[2026-05-10 21:22:41] l'adversaire a pioche une carte
+[2026-05-10 21:22:43] vous avez pose la carte : Érythrée sur le banc
+[2026-05-10 21:22:43] l'adversaire a pose la carte : Érythrée sur bench
+[2026-05-10 21:22:46] vous avez pose la carte : Micronésie sur le banc
+[2026-05-10 21:22:46] l'adversaire a pose la carte : Micronésie sur bench
+[2026-05-10 21:38:34] lancement du jeu et pioche initiale
+[2026-05-10 21:38:34] lancement du jeu et pioche initiale
+[2026-05-10 21:38:45] l'adversaire a pioche une carte
+[2026-05-10 21:38:45] vous avez pioche une carte
+[2026-05-10 21:38:45] l'adversaire a pioche une carte
+[2026-05-10 21:38:45] l'adversaire a pioche une carte
+[2026-05-10 21:38:45] l'adversaire a pioche une carte
+[2026-05-10 21:38:45] vous avez pioche une carte
+[2026-05-10 21:38:45] vous avez pioche une carte
+[2026-05-10 21:38:45] vous avez pioche une carte
+[2026-05-10 21:38:49] vous avez pose la carte : Estonie sur le terrain
+[2026-05-10 21:38:49] l'adversaire a pose la carte : Estonie sur table
+[2026-05-10 21:39:02] l'adversaire a pioche une carte
+[2026-05-10 21:39:02] vous avez pioche une carte
+[2026-05-10 21:39:03] l'adversaire a pioche une carte
+[2026-05-10 21:39:03] vous avez pioche une carte
+[2026-05-10 21:39:05] l'adversaire a pioche une carte
+[2026-05-10 21:39:05] vous avez pioche une carte
+[2026-05-10 21:39:05] l'adversaire a pioche une carte
+[2026-05-10 21:39:05] vous avez pioche une carte
+[2026-05-10 21:39:10] vous avez pose la carte : Érythrée sur le terrain
+[2026-05-10 21:39:10] l'adversaire a pose la carte : Érythrée sur table
+[2026-05-10 21:39:15] vous avez pioche une carte
+[2026-05-10 21:39:15] l'adversaire a pioche une carte
+[2026-05-10 21:39:21] vous avez joue l'action : ACT-063_montagneux
+[2026-05-10 21:39:21] l'adversaire a pose la carte : ACT-063_montagneux sur action
+[2026-05-10 21:39:24] changement de terrain pour : Montagneux
+[2026-05-10 21:39:24] changement de terrain pour : Montagneux
+[2026-05-10 21:39:39] l'adversaire a pose la carte : OUT-009_cyberattaque_massive sur tool
+[2026-05-10 21:39:51] l'adversaire a pioche une carte
+[2026-05-10 21:39:51] vous avez pioche une carte
+[2026-05-10 21:39:58] l'adversaire a fait une attaque speciale
+[2026-05-10 21:39:58] vous avez fait une attaque speciale
+[2026-05-10 21:39:58] vous avez pioche une carte
+[2026-05-10 21:39:58] l'adversaire a pioche une carte
