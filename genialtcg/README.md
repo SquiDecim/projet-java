@@ -262,7 +262,7 @@ L’application gère les règles du jeu, les interactions complexes entre les c
     Le montant obtenu dépend de l’emplacement de la carte :
     
     * **Dans la main** : aucun revenu (0 %)
-    * **Sur le banc** : 20 % de la statistique d’Économie
+    * **Sur le banc** : 40 % de la statistique d’Économie
     * **Sur le poste actif** : 100 % de la statistique d’Économie
     
     ### Utilisation des crédits

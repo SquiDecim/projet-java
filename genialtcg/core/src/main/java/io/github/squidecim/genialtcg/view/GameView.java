@@ -2166,10 +2166,10 @@ public class GameView implements Screen {
                         int realIdx = statMapping[index];
                         int[] myBonus = GameModel.getTerrainBonus(model.terrain, myTable.getData().type);
                         int[] oppBonus = GameModel.getTerrainBonus(model.terrain, oppTable.getData().type);
-                        int[] myToolOwn = GameModel.getToolStatBonus(myTable.getData().attachedTool, true);
-                        int[] myToolAdv = GameModel.getToolStatBonus(myTable.getData().attachedTool, false);
-                        int[] oppToolOwn = GameModel.getToolStatBonus(oppTable.getData().attachedTool, true);
-                        int[] oppToolAdv = GameModel.getToolStatBonus(oppTable.getData().attachedTool, false);
+                        int[] myToolOwn = model.myToolBlockedTurns > 0 ? new int[5] : GameModel.getToolStatBonus(myTable.getData().attachedTool, true);
+                        int[] myToolAdv = model.myToolBlockedTurns > 0 ? new int[5] : GameModel.getToolStatBonus(myTable.getData().attachedTool, false);
+                        int[] oppToolOwn = model.opponentToolBlockedTurns > 0 ? new int[5] : GameModel.getToolStatBonus(oppTable.getData().attachedTool, true);
+                        int[] oppToolAdv = model.opponentToolBlockedTurns > 0 ? new int[5] : GameModel.getToolStatBonus(oppTable.getData().attachedTool, false);
                         int myVal = myTable.getData().stats[realIdx] + myBonus[realIdx] + myToolOwn[realIdx] + oppToolAdv[realIdx];
                         int oppVal = oppTable.getData().stats[realIdx] + oppBonus[realIdx] + oppToolOwn[realIdx] + myToolAdv[realIdx];
                         int damage = myVal - oppVal;
@@ -2610,32 +2610,34 @@ public class GameView implements Screen {
 
         CardData myTool  = (myTable  != null && myTable.getData()  != null) ? myTable.getData().attachedTool  : null;
         CardData oppTool = (oppTable != null && oppTable.getData() != null) ? oppTable.getData().attachedTool : null;
+        CardData myToolEff  = model.myToolBlockedTurns  > 0 ? null : myTool;
+        CardData oppToolEff = model.opponentToolBlockedTurns > 0 ? null : oppTool;
 
         // My table card: own stat bonus + opp adverse stat effects; own cost bonus + opp adverse cost effects
         if (myTable != null && myTable.getData() != null) {
             int[] terrain = GameModel.getTerrainBonus(model.terrain, myTable.getData().type);
-            int[] ownStat = GameModel.getToolStatBonus(myTool, true);
-            int[] advStat = GameModel.getToolStatBonus(oppTool, false);
+            int[] ownStat = GameModel.getToolStatBonus(myToolEff, true);
+            int[] advStat = GameModel.getToolStatBonus(oppToolEff, false);
             int[] combined = new int[5];
             for (int i = 0; i < 5; i++) combined[i] = ownStat[i] + advStat[i];
-            int spCost = GameModel.getToolCostEffect(myTool, "CoutES")
-                       + GameModel.getToolCostEffect(oppTool, "CoutESA");
-            int revCost = GameModel.getToolCostEffect(myTool, "CoutR")
-                        + GameModel.getToolCostEffect(oppTool, "CoutRA");
+            int spCost = GameModel.getToolCostEffect(myToolEff, "CoutES")
+                       + GameModel.getToolCostEffect(oppToolEff, "CoutESA");
+            int revCost = GameModel.getToolCostEffect(myToolEff, "CoutR")
+                        + GameModel.getToolCostEffect(oppToolEff, "CoutRA");
             myTable.setDisplayBonuses(terrain, color, combined, spCost, revCost);
         }
 
         // Opponent's table card: own stat bonus + my adverse stat effects; own cost bonus + my adverse cost effects
         if (oppTable != null && oppTable.getData() != null) {
             int[] terrain = GameModel.getTerrainBonus(model.terrain, oppTable.getData().type);
-            int[] ownStat = GameModel.getToolStatBonus(oppTool, true);
-            int[] advStat = GameModel.getToolStatBonus(myTool, false);
+            int[] ownStat = GameModel.getToolStatBonus(oppToolEff, true);
+            int[] advStat = GameModel.getToolStatBonus(myToolEff, false);
             int[] combined = new int[5];
             for (int i = 0; i < 5; i++) combined[i] = ownStat[i] + advStat[i];
-            int spCost = GameModel.getToolCostEffect(oppTool, "CoutES")
-                       + GameModel.getToolCostEffect(myTool, "CoutESA");
-            int revCost = GameModel.getToolCostEffect(oppTool, "CoutR")
-                        + GameModel.getToolCostEffect(myTool, "CoutRA");
+            int spCost = GameModel.getToolCostEffect(oppToolEff, "CoutES")
+                       + GameModel.getToolCostEffect(myToolEff, "CoutESA");
+            int revCost = GameModel.getToolCostEffect(oppToolEff, "CoutR")
+                        + GameModel.getToolCostEffect(myToolEff, "CoutRA");
             oppTable.setDisplayBonuses(terrain, color, combined, spCost, revCost);
         }
 
@@ -2778,6 +2780,18 @@ public class GameView implements Screen {
             if (c != null && c.intersects(ray)) return c;
         }
         return null;
+    }
+
+    public void setMyToolGreyed(boolean greyed) {
+        for (java.util.Map.Entry<CardDecal, CardDecal> entry : toolDecals.entrySet()) {
+            if (!isOpponentCard(entry.getKey())) entry.getValue().setGreyed(greyed);
+        }
+    }
+
+    public void setOpponentToolGreyed(boolean greyed) {
+        for (java.util.Map.Entry<CardDecal, CardDecal> entry : toolDecals.entrySet()) {
+            if (isOpponentCard(entry.getKey())) entry.getValue().setGreyed(greyed);
+        }
     }
 
     public void attachToolToCountry(CardDecal toolCard, CardDecal countryCard) {

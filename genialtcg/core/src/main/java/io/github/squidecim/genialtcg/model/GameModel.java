@@ -122,7 +122,7 @@ public class GameModel {
         if (table == null) return 0;
         int base = table.stats[1];
         int bonus = getTerrainBonus(terrain, table.type)[1];
-        int toolBonus = getToolStatBonus(table.attachedTool, true)[1];
+        int toolBonus = myToolBlockedTurns > 0 ? 0 : getToolStatBonus(table.attachedTool, true)[1];
         return Math.max(0, base + bonus + toolBonus);
     }
 

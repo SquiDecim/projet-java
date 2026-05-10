@@ -87,3 +87,326 @@
 [2026-05-10 21:39:58] vous avez fait une attaque speciale
 [2026-05-10 21:39:58] vous avez pioche une carte
 [2026-05-10 21:39:58] l'adversaire a pioche une carte
+[2026-05-10 21:49:57] lancement du jeu et pioche initiale
+[2026-05-10 21:49:57] lancement du jeu et pioche initiale
+[2026-05-10 21:50:03] vous avez pioche une carte
+[2026-05-10 21:50:03] vous avez pioche une carte
+[2026-05-10 21:50:03] vous avez pioche une carte
+[2026-05-10 21:50:03] vous avez pioche une carte
+[2026-05-10 21:50:03] l'adversaire a pioche une carte
+[2026-05-10 21:50:03] l'adversaire a pioche une carte
+[2026-05-10 21:50:03] l'adversaire a pioche une carte
+[2026-05-10 21:50:03] l'adversaire a pioche une carte
+[2026-05-10 21:50:05] vous avez pose la carte : Madagascar sur le terrain
+[2026-05-10 21:50:05] l'adversaire a pose la carte : Madagascar sur table
+[2026-05-10 21:50:12] vous avez pioche une carte
+[2026-05-10 21:50:12] l'adversaire a pioche une carte
+[2026-05-10 21:50:13] l'adversaire a pioche une carte
+[2026-05-10 21:50:13] vous avez pioche une carte
+[2026-05-10 21:50:14] l'adversaire a pioche une carte
+[2026-05-10 21:50:14] vous avez pioche une carte
+[2026-05-10 21:50:15] l'adversaire a pioche une carte
+[2026-05-10 21:50:15] vous avez pioche une carte
+[2026-05-10 21:50:16] vous avez pose la carte : Cuba sur le terrain
+[2026-05-10 21:50:16] l'adversaire a pose la carte : Cuba sur table
+[2026-05-10 21:50:23] l'adversaire a pioche une carte
+[2026-05-10 21:50:23] vous avez pioche une carte
+[2026-05-10 21:51:00] l'adversaire a pose la carte : OUT-019_bureaucratie_lourde sur tool
+[2026-05-10 21:51:05] vous avez pioche une carte
+[2026-05-10 21:51:05] l'adversaire a pioche une carte
+[2026-05-10 21:51:06] vous avez pioche une carte
+[2026-05-10 21:51:06] l'adversaire a pioche une carte
+[2026-05-10 21:51:07] vous avez pioche une carte
+[2026-05-10 21:51:07] l'adversaire a pioche une carte
+[2026-05-10 21:51:09] vous avez joue l'action : ACT-063_montagneux
+[2026-05-10 21:51:09] l'adversaire a pose la carte : ACT-063_montagneux sur action
+[2026-05-10 21:51:11] changement de terrain pour : Montagneux
+[2026-05-10 21:51:11] changement de terrain pour : Montagneux
+[2026-05-10 21:51:26] l'adversaire a pioche une carte
+[2026-05-10 21:51:26] vous avez pioche une carte
+[2026-05-10 21:51:30] vous avez pioche une carte
+[2026-05-10 21:51:30] l'adversaire a pioche une carte
+[2026-05-10 21:51:48] vous avez joue l'action : ACT-010_assistance_médicale
+[2026-05-10 21:51:48] l'adversaire a pose la carte : ACT-010_assistance_médicale sur action
+[2026-05-10 21:52:05] vous avez pioche une carte
+[2026-05-10 21:52:05] l'adversaire a pioche une carte
+[2026-05-10 21:52:10] vous avez joue l'action : ACT-062_océanique
+[2026-05-10 21:52:10] l'adversaire a pose la carte : ACT-062_océanique sur action
+[2026-05-10 21:52:12] changement de terrain pour : Océanique
+[2026-05-10 21:52:12] changement de terrain pour : Océanique
+[2026-05-10 21:52:31] l'adversaire a pioche une carte
+[2026-05-10 21:52:31] vous avez pioche une carte
+[2026-05-10 21:52:32] vous avez pioche une carte
+[2026-05-10 21:52:32] l'adversaire a pioche une carte
+[2026-05-10 21:52:43] l'adversaire a pioche une carte
+[2026-05-10 21:52:43] vous avez pioche une carte
+[2026-05-10 21:52:45] l'adversaire a pioche une carte
+[2026-05-10 21:52:45] vous avez pioche une carte
+[2026-05-10 21:52:46] l'adversaire a pioche une carte
+[2026-05-10 21:52:46] vous avez pioche une carte
+[2026-05-10 21:52:47] l'adversaire a pioche une carte
+[2026-05-10 21:52:47] vous avez pioche une carte
+[2026-05-10 21:52:48] l'adversaire a pioche une carte
+[2026-05-10 21:52:48] vous avez pioche une carte
+[2026-05-10 21:52:49] l'adversaire a pioche une carte
+[2026-05-10 21:52:49] vous avez pioche une carte
+[2026-05-10 21:52:50] l'adversaire a pioche une carte
+[2026-05-10 21:52:50] vous avez pioche une carte
+[2026-05-10 21:52:51] l'adversaire a pioche une carte
+[2026-05-10 21:52:51] vous avez pioche une carte
+[2026-05-10 21:52:52] l'adversaire a pioche une carte
+[2026-05-10 21:52:52] vous avez pioche une carte
+[2026-05-10 21:52:53] vous avez pioche une carte
+[2026-05-10 21:52:53] l'adversaire a pioche une carte
+[2026-05-10 21:52:56] vous avez pioche une carte
+[2026-05-10 21:52:56] l'adversaire a pioche une carte
+[2026-05-10 21:52:57] l'adversaire a pioche une carte
+[2026-05-10 21:52:57] vous avez pioche une carte
+[2026-05-10 21:52:58] l'adversaire a pioche une carte
+[2026-05-10 21:52:58] vous avez pioche une carte
+[2026-05-10 21:52:58] l'adversaire a pioche une carte
+[2026-05-10 21:52:58] vous avez pioche une carte
+[2026-05-10 21:52:59] l'adversaire a pioche une carte
+[2026-05-10 21:52:59] vous avez pioche une carte
+[2026-05-10 21:53:00] l'adversaire a pioche une carte
+[2026-05-10 21:53:00] vous avez pioche une carte
+[2026-05-10 21:53:01] vous avez pioche une carte
+[2026-05-10 21:53:01] l'adversaire a pioche une carte
+[2026-05-10 21:53:02] l'adversaire a pioche une carte
+[2026-05-10 21:53:02] vous avez pioche une carte
+[2026-05-10 21:53:03] l'adversaire a pioche une carte
+[2026-05-10 21:53:03] vous avez pioche une carte
+[2026-05-10 21:53:13] l'adversaire a pioche une carte
+[2026-05-10 21:53:13] vous avez pioche une carte
+[2026-05-10 21:53:21] l'adversaire a pioche une carte
+[2026-05-10 21:53:21] vous avez pioche une carte
+[2026-05-10 21:53:27] l'adversaire a pioche une carte
+[2026-05-10 21:53:27] vous avez pioche une carte
+[2026-05-10 21:53:28] l'adversaire a pioche une carte
+[2026-05-10 21:53:28] vous avez pioche une carte
+[2026-05-10 21:53:30] l'adversaire a pioche une carte
+[2026-05-10 21:53:30] vous avez pioche une carte
+[2026-05-10 21:53:31] l'adversaire a pioche une carte
+[2026-05-10 21:53:31] vous avez pioche une carte
+[2026-05-10 21:53:32] vous avez pioche une carte
+[2026-05-10 21:53:32] l'adversaire a pioche une carte
+[2026-05-10 21:53:32] l'adversaire a pioche une carte
+[2026-05-10 21:53:32] vous avez pioche une carte
+[2026-05-10 21:53:33] l'adversaire a pioche une carte
+[2026-05-10 21:53:33] vous avez pioche une carte
+[2026-05-10 21:53:34] vous avez pioche une carte
+[2026-05-10 21:53:34] l'adversaire a pioche une carte
+[2026-05-10 21:53:35] l'adversaire a pioche une carte
+[2026-05-10 21:53:35] vous avez pioche une carte
+[2026-05-10 21:53:36] l'adversaire a pioche une carte
+[2026-05-10 21:53:36] vous avez pioche une carte
+[2026-05-10 21:53:37] l'adversaire a pioche une carte
+[2026-05-10 21:53:37] vous avez pioche une carte
+[2026-05-10 21:53:38] vous avez pioche une carte
+[2026-05-10 21:53:38] l'adversaire a pioche une carte
+[2026-05-10 21:53:39] l'adversaire a pioche une carte
+[2026-05-10 21:53:39] vous avez pioche une carte
+[2026-05-10 21:53:40] l'adversaire a pioche une carte
+[2026-05-10 21:53:40] vous avez pioche une carte
+[2026-05-10 21:54:02] l'adversaire a pioche une carte
+[2026-05-10 21:54:02] vous avez pioche une carte
+[2026-05-10 21:54:12] l'adversaire a pioche une carte
+[2026-05-10 21:54:12] vous avez pioche une carte
+[2026-05-10 21:54:14] l'adversaire a pioche une carte
+[2026-05-10 21:54:14] vous avez pioche une carte
+[2026-05-10 21:54:15] l'adversaire a pioche une carte
+[2026-05-10 21:54:15] vous avez pioche une carte
+[2026-05-10 21:54:15] l'adversaire a pioche une carte
+[2026-05-10 21:54:15] vous avez pioche une carte
+[2026-05-10 21:54:16] vous avez pioche une carte
+[2026-05-10 21:54:16] l'adversaire a pioche une carte
+[2026-05-10 21:54:17] vous avez pioche une carte
+[2026-05-10 21:54:17] l'adversaire a pioche une carte
+[2026-05-10 21:54:19] l'adversaire a pioche une carte
+[2026-05-10 21:54:19] vous avez pioche une carte
+[2026-05-10 21:54:24] l'adversaire a pioche une carte
+[2026-05-10 21:54:24] vous avez pioche une carte
+[2026-05-10 21:54:26] l'adversaire a pioche une carte
+[2026-05-10 21:54:26] vous avez pioche une carte
+[2026-05-10 21:54:29] l'adversaire a pioche une carte
+[2026-05-10 21:54:29] vous avez pioche une carte
+[2026-05-10 21:54:37] vous avez joue l'action : ACT-030_espionnage_léger
+[2026-05-10 21:54:37] l'adversaire a pose la carte : ACT-030_espionnage_léger sur action
+[2026-05-10 21:54:44] l'adversaire a pioche une carte
+[2026-05-10 21:54:44] vous avez pioche une carte
+[2026-05-10 21:54:46] l'adversaire a pioche une carte
+[2026-05-10 21:54:46] vous avez pioche une carte
+[2026-05-10 21:54:50] l'adversaire a pioche une carte
+[2026-05-10 21:54:50] vous avez pioche une carte
+[2026-05-10 21:54:51] l'adversaire a pioche une carte
+[2026-05-10 21:54:51] vous avez pioche une carte
+[2026-05-10 21:54:52] l'adversaire a pioche une carte
+[2026-05-10 21:54:52] vous avez pioche une carte
+[2026-05-10 21:54:53] l'adversaire a pioche une carte
+[2026-05-10 21:54:53] vous avez pioche une carte
+[2026-05-10 21:54:53] l'adversaire a pioche une carte
+[2026-05-10 21:54:53] vous avez pioche une carte
+[2026-05-10 21:54:54] l'adversaire a pioche une carte
+[2026-05-10 21:54:54] vous avez pioche une carte
+[2026-05-10 21:58:10] lancement du jeu et pioche initiale
+[2026-05-10 21:58:10] lancement du jeu et pioche initiale
+[2026-05-10 21:58:11] vous avez pioche une carte
+[2026-05-10 21:58:11] l'adversaire a pioche une carte
+[2026-05-10 21:58:12] l'adversaire a pioche une carte
+[2026-05-10 21:58:12] vous avez pioche une carte
+[2026-05-10 21:58:13] l'adversaire a pioche une carte
+[2026-05-10 21:58:13] vous avez pioche une carte
+[2026-05-10 21:58:14] vous avez pioche une carte
+[2026-05-10 21:58:14] l'adversaire a pioche une carte
+[2026-05-10 21:58:15] vous avez pose la carte : Honduras sur le terrain
+[2026-05-10 21:58:15] l'adversaire a pose la carte : Honduras sur table
+[2026-05-10 21:58:19] vous avez pioche une carte
+[2026-05-10 21:58:19] l'adversaire a pioche une carte
+[2026-05-10 21:58:20] l'adversaire a pioche une carte
+[2026-05-10 21:58:20] vous avez pioche une carte
+[2026-05-10 21:58:21] l'adversaire a pioche une carte
+[2026-05-10 21:58:21] vous avez pioche une carte
+[2026-05-10 21:58:22] l'adversaire a pioche une carte
+[2026-05-10 21:58:22] vous avez pioche une carte
+[2026-05-10 21:58:24] vous avez pose la carte : Lituanie sur le terrain
+[2026-05-10 21:58:24] l'adversaire a pose la carte : Lituanie sur table
+[2026-05-10 21:58:25] vous avez pioche une carte
+[2026-05-10 21:58:25] l'adversaire a pioche une carte
+[2026-05-10 21:58:28] l'adversaire a pioche une carte
+[2026-05-10 21:58:28] vous avez pioche une carte
+[2026-05-10 21:58:39] l'adversaire a pioche une carte
+[2026-05-10 21:58:39] vous avez pioche une carte
+[2026-05-10 21:58:42] vous avez pioche une carte
+[2026-05-10 21:58:42] l'adversaire a pioche une carte
+[2026-05-10 21:58:43] vous avez pioche une carte
+[2026-05-10 21:58:43] l'adversaire a pioche une carte
+[2026-05-10 21:58:44] vous avez pioche une carte
+[2026-05-10 21:58:44] l'adversaire a pioche une carte
+[2026-05-10 21:58:46] l'adversaire a pose la carte : OUT-016_désertion_en_masse sur tool
+[2026-05-10 21:58:48] l'adversaire a pioche une carte
+[2026-05-10 21:58:48] vous avez pioche une carte
+[2026-05-10 21:58:58] vous avez joue l'action : ACT-020_panne_de_secteur
+[2026-05-10 21:58:58] l'adversaire a pose la carte : ACT-020_panne_de_secteur sur action
+[2026-05-10 22:06:08] lancement du jeu et pioche initiale
+[2026-05-10 22:06:08] lancement du jeu et pioche initiale
+[2026-05-10 22:06:10] vous avez pioche une carte
+[2026-05-10 22:06:10] l'adversaire a pioche une carte
+[2026-05-10 22:06:11] l'adversaire a pioche une carte
+[2026-05-10 22:06:11] vous avez pioche une carte
+[2026-05-10 22:06:11] vous avez pioche une carte
+[2026-05-10 22:06:11] l'adversaire a pioche une carte
+[2026-05-10 22:06:12] l'adversaire a pioche une carte
+[2026-05-10 22:06:12] vous avez pioche une carte
+[2026-05-10 22:06:14] vous avez pose la carte : Arménie sur le terrain
+[2026-05-10 22:06:14] l'adversaire a pose la carte : Arménie sur table
+[2026-05-10 22:06:18] l'adversaire a pioche une carte
+[2026-05-10 22:06:18] vous avez pioche une carte
+[2026-05-10 22:06:19] l'adversaire a pioche une carte
+[2026-05-10 22:06:19] vous avez pioche une carte
+[2026-05-10 22:06:20] l'adversaire a pioche une carte
+[2026-05-10 22:06:20] vous avez pioche une carte
+[2026-05-10 22:06:21] l'adversaire a pioche une carte
+[2026-05-10 22:06:21] vous avez pioche une carte
+[2026-05-10 22:06:23] vous avez pose la carte : Tchad sur le terrain
+[2026-05-10 22:06:23] l'adversaire a pose la carte : Tchad sur table
+[2026-05-10 22:06:25] l'adversaire a pioche une carte
+[2026-05-10 22:06:25] vous avez pioche une carte
+[2026-05-10 22:06:25] l'adversaire a pioche une carte
+[2026-05-10 22:06:25] vous avez pioche une carte
+[2026-05-10 22:06:26] l'adversaire a pioche une carte
+[2026-05-10 22:06:26] vous avez pioche une carte
+[2026-05-10 22:06:27] vous avez pioche une carte
+[2026-05-10 22:06:27] l'adversaire a pioche une carte
+[2026-05-10 22:06:32] vous avez pioche une carte
+[2026-05-10 22:06:32] l'adversaire a pioche une carte
+[2026-05-10 22:06:36] vous avez pioche une carte
+[2026-05-10 22:06:36] l'adversaire a pioche une carte
+[2026-05-10 22:06:38] l'adversaire a pose la carte : OUT-004_gisement_inexploité sur tool
+[2026-05-10 22:06:48] l'adversaire a pioche une carte
+[2026-05-10 22:06:48] vous avez pioche une carte
+[2026-05-10 22:06:50] l'adversaire a pioche une carte
+[2026-05-10 22:06:50] vous avez pioche une carte
+[2026-05-10 22:06:53] vous avez joue l'action : ACT-033_nouveaux_contacts
+[2026-05-10 22:06:53] l'adversaire a pose la carte : ACT-033_nouveaux_contacts sur action
+[2026-05-10 22:07:06] vous avez pioche une carte
+[2026-05-10 22:07:06] l'adversaire a pioche une carte
+[2026-05-10 22:07:07] l'adversaire a pioche une carte
+[2026-05-10 22:07:07] vous avez pioche une carte
+[2026-05-10 22:07:08] l'adversaire a pioche une carte
+[2026-05-10 22:07:08] vous avez pioche une carte
+[2026-05-10 22:07:09] l'adversaire a pioche une carte
+[2026-05-10 22:07:09] vous avez pioche une carte
+[2026-05-10 22:07:10] vous avez pioche une carte
+[2026-05-10 22:07:10] l'adversaire a pioche une carte
+[2026-05-10 22:07:15] l'adversaire a pioche une carte
+[2026-05-10 22:07:15] vous avez pioche une carte
+[2026-05-10 22:07:16] l'adversaire a pioche une carte
+[2026-05-10 22:07:16] vous avez pioche une carte
+[2026-05-10 22:07:17] vous avez pioche une carte
+[2026-05-10 22:07:17] l'adversaire a pioche une carte
+[2026-05-10 22:07:18] vous avez pioche une carte
+[2026-05-10 22:07:18] l'adversaire a pioche une carte
+[2026-05-10 22:07:20] vous avez pioche une carte
+[2026-05-10 22:07:20] l'adversaire a pioche une carte
+[2026-05-10 22:07:21] l'adversaire a pioche une carte
+[2026-05-10 22:07:21] vous avez pioche une carte
+[2026-05-10 22:07:22] l'adversaire a pioche une carte
+[2026-05-10 22:07:22] vous avez pioche une carte
+[2026-05-10 22:07:22] l'adversaire a pioche une carte
+[2026-05-10 22:07:22] vous avez pioche une carte
+[2026-05-10 22:07:26] l'adversaire a pioche une carte
+[2026-05-10 22:07:26] vous avez pioche une carte
+[2026-05-10 22:07:27] l'adversaire a pioche une carte
+[2026-05-10 22:07:27] vous avez pioche une carte
+[2026-05-10 22:07:29] l'adversaire a pioche une carte
+[2026-05-10 22:07:29] vous avez pioche une carte
+[2026-05-10 22:07:30] l'adversaire a pioche une carte
+[2026-05-10 22:07:30] vous avez pioche une carte
+[2026-05-10 22:07:31] l'adversaire a pioche une carte
+[2026-05-10 22:07:31] vous avez pioche une carte
+[2026-05-10 22:07:32] l'adversaire a pioche une carte
+[2026-05-10 22:07:32] vous avez pioche une carte
+[2026-05-10 22:07:33] l'adversaire a pioche une carte
+[2026-05-10 22:07:33] vous avez pioche une carte
+[2026-05-10 22:07:39] l'adversaire a pioche une carte
+[2026-05-10 22:07:39] vous avez pioche une carte
+[2026-05-10 22:07:40] l'adversaire a pioche une carte
+[2026-05-10 22:07:40] vous avez pioche une carte
+[2026-05-10 22:07:41] l'adversaire a pioche une carte
+[2026-05-10 22:07:41] vous avez pioche une carte
+[2026-05-10 22:07:42] l'adversaire a pioche une carte
+[2026-05-10 22:07:42] vous avez pioche une carte
+[2026-05-10 22:07:43] vous avez pioche une carte
+[2026-05-10 22:07:43] l'adversaire a pioche une carte
+[2026-05-10 22:07:44] l'adversaire a pioche une carte
+[2026-05-10 22:07:44] vous avez pioche une carte
+[2026-05-10 22:07:44] l'adversaire a pioche une carte
+[2026-05-10 22:07:44] vous avez pioche une carte
+[2026-05-10 22:07:45] l'adversaire a pioche une carte
+[2026-05-10 22:07:45] vous avez pioche une carte
+[2026-05-10 22:07:46] l'adversaire a pioche une carte
+[2026-05-10 22:07:46] vous avez pioche une carte
+[2026-05-10 22:07:56] l'adversaire a pioche une carte
+[2026-05-10 22:07:56] vous avez pioche une carte
+[2026-05-10 22:08:01] l'adversaire a pioche une carte
+[2026-05-10 22:08:01] vous avez pioche une carte
+[2026-05-10 22:08:02] l'adversaire a pioche une carte
+[2026-05-10 22:08:02] vous avez pioche une carte
+[2026-05-10 22:08:03] l'adversaire a pioche une carte
+[2026-05-10 22:08:03] vous avez pioche une carte
+[2026-05-10 22:08:04] l'adversaire a pioche une carte
+[2026-05-10 22:08:04] vous avez pioche une carte
+[2026-05-10 22:08:05] l'adversaire a pioche une carte
+[2026-05-10 22:08:05] vous avez pioche une carte
+[2026-05-10 22:08:05] l'adversaire a pioche une carte
+[2026-05-10 22:08:05] vous avez pioche une carte
+[2026-05-10 22:08:06] l'adversaire a pioche une carte
+[2026-05-10 22:08:06] vous avez pioche une carte
+[2026-05-10 22:08:14] vous avez pioche une carte
+[2026-05-10 22:08:14] l'adversaire a pioche une carte
+[2026-05-10 22:08:16] l'adversaire a pioche une carte
+[2026-05-10 22:08:16] vous avez pioche une carte
+[2026-05-10 22:08:18] vous avez joue l'action : ACT-018_câbles_sectionnés
+[2026-05-10 22:08:18] l'adversaire a pose la carte : ACT-018_câbles_sectionnés sur action
+[2026-05-10 22:08:30] l'adversaire a pioche une carte
+[2026-05-10 22:08:30] vous avez pioche une carte

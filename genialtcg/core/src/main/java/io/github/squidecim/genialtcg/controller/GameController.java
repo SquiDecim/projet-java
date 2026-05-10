@@ -563,6 +563,20 @@ public class GameController
         boolean myTurn = msg.currentPlayerId.equals(myPlayerId);
         model.phase = GameModel.Phase.PLAYING;
         model.myTurn = myTurn;
+        if (model.opponentToolBlockedTurns > 0) {
+            model.opponentToolBlockedTurns--;
+            if (model.opponentToolBlockedTurns == 0) {
+                view.setOpponentToolGreyed(false);
+                view.refreshAllTerrainBonuses();
+            }
+        }
+        if (model.myToolBlockedTurns > 0) {
+            model.myToolBlockedTurns--;
+            if (model.myToolBlockedTurns == 0) {
+                view.setMyToolGreyed(false);
+                view.refreshAllTerrainBonuses();
+            }
+        }
         if (firstPlayerId == null) {
             firstPlayerId = msg.currentPlayerId;
         } else if (msg.currentPlayerId.equals(firstPlayerId)) {
@@ -573,7 +587,7 @@ public class GameController
             CardDecal oppTableDecal = view.getOpponentTableCard();
             CardData oppTool = (oppTableDecal != null && oppTableDecal.getData() != null)
                 ? oppTableDecal.getData().attachedTool : null;
-            int adverseEcoBonus = GameModel.getToolStatBonus(oppTool, false)[1];
+            int adverseEcoBonus = model.opponentToolBlockedTurns > 0 ? 0 : GameModel.getToolStatBonus(oppTool, false)[1];
             model.receiveCredits(Math.max(0, model.getTotalEconomy() + adverseEcoBonus));
             client.sendCreditsUpdate(model.myCredits);
             client.sendDrawCard();
@@ -1133,7 +1147,7 @@ public class GameController
     private int getToolCostModifier(String costType) {
         int modifier = 0;
         CardDecal myTable = view.getMyTableCard();
-        if (myTable != null && myTable.getData().attachedTool != null) {
+        if (myTable != null && myTable.getData().attachedTool != null && model.myToolBlockedTurns == 0) {
             CardData tool = myTable.getData().attachedTool;
             if (tool.specialEffectTypes != null) {
                 for (int i = 0; i < tool.specialEffectTypes.length; i++) {
@@ -1143,7 +1157,7 @@ public class GameController
             }
         }
         CardDecal oppTable = view.getOpponentTableCard();
-        if (oppTable != null && oppTable.getData().attachedTool != null) {
+        if (oppTable != null && oppTable.getData().attachedTool != null && model.opponentToolBlockedTurns == 0) {
             CardData oppTool = oppTable.getData().attachedTool;
             if (oppTool.specialEffectTypes != null) {
                 for (int i = 0; i < oppTool.specialEffectTypes.length; i++) {
@@ -1321,6 +1335,17 @@ public class GameController
                     model.moveFromTableToBench(tableCardData);
                     model.moveFromBenchToTable(randomBenchCard);
                     client.sendRetreat(randomBenchCard.getAtlasRegionName());
+                    break;
+                }
+                case "bloquerOutilA": {
+                    if (isMyCard) {
+                        model.opponentToolBlockedTurns = value;
+                        view.setOpponentToolGreyed(true);
+                    } else {
+                        model.myToolBlockedTurns = value;
+                        view.setMyToolGreyed(true);
+                    }
+                    view.refreshAllTerrainBonuses();
                     break;
                 }
                 case "ChangementT": {

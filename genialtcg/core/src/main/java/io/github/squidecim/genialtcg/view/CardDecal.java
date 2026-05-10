@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.graphics.g3d.*;
 import com.badlogic.gdx.graphics.g3d.attributes.BlendingAttribute;
+import com.badlogic.gdx.graphics.g3d.attributes.ColorAttribute;
 import com.badlogic.gdx.graphics.g3d.attributes.IntAttribute;
 import com.badlogic.gdx.graphics.g3d.attributes.TextureAttribute;
 import com.badlogic.gdx.graphics.g3d.utils.MeshPartBuilder;
@@ -539,6 +540,13 @@ public class CardDecal {
         Vector3 up    = normal.cpy().crs(right).nor();
 
         return Math.abs(diff.dot(right)) <= halfW && Math.abs(diff.dot(up)) <= halfH;
+    }
+
+    public void setGreyed(boolean greyed) {
+        Color tint = greyed ? new Color(0.4f, 0.4f, 0.4f, 1f) : Color.WHITE.cpy();
+        for (com.badlogic.gdx.graphics.g3d.Material mat : instance.materials) {
+            mat.set(ColorAttribute.createDiffuse(tint));
+        }
     }
 
     public void dispose() {
