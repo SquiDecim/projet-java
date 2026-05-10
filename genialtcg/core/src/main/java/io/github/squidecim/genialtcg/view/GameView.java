@@ -26,12 +26,14 @@ import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
 import com.badlogic.gdx.scenes.scene2d.ui.SelectBox;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Slider;
 import com.badlogic.gdx.scenes.scene2d.ui.Stack;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
@@ -145,6 +147,14 @@ public class GameView implements Screen {
     private SpriteBatch floatBatch;
     private BitmapFont floatFont;
     private BitmapFont specialDescFont;
+
+    private Table chatPanel;
+    private Table chatMessages;
+    private ScrollPane chatScroll;
+    private TextField chatInput;
+    private boolean chatVisible = false;
+    private BitmapFont chatFont;
+    private Table chatNotifPanel;
 
     public boolean startClicked = false;
     private boolean attackMenuVisible = false;
@@ -502,6 +512,79 @@ public class GameView implements Screen {
         ephemeralTable.center();
         ephemeralTable.add(ephemeralLabel);
         uiStage.addActor(ephemeralTable);
+
+        FreeTypeFontGenerator chatFontGen = new FreeTypeFontGenerator(
+            Gdx.files.internal("ui/dejavu-sans/DejaVuSans-Bold.ttf")
+        );
+        FreeTypeFontGenerator.FreeTypeFontParameter chatFontParams =
+            new FreeTypeFontGenerator.FreeTypeFontParameter();
+        chatFontParams.size = 12;
+        chatFont = chatFontGen.generateFont(chatFontParams);
+        chatFontGen.dispose();
+
+        float chatW = 320f;
+        float chatH = 210f;
+        float chatX = Gdx.graphics.getWidth() - chatW - 8f;
+        float chatY = 8f;
+
+        chatPanel = new Table();
+        chatPanel.setBackground(uiSkin.newDrawable("white", new Color(0f, 0f, 0f, 0.60f)));
+        chatPanel.setSize(chatW, chatH);
+        chatPanel.setPosition(chatX, chatY);
+
+        chatMessages = new Table();
+        chatMessages.top().left().padLeft(4).padRight(4);
+
+        ScrollPane.ScrollPaneStyle noBarStyle = new ScrollPane.ScrollPaneStyle();
+        chatScroll = new ScrollPane(chatMessages, noBarStyle);
+        chatScroll.setScrollingDisabled(true, false);
+        chatScroll.setOverscroll(false, false);
+        chatScroll.setSmoothScrolling(false);
+
+        chatInput = new TextField("", uiSkin);
+        chatInput.setMessageText("Message...");
+        chatInput.addListener(new InputListener() {
+            @Override
+            public boolean keyDown(InputEvent event, int keycode) {
+                if (keycode == com.badlogic.gdx.Input.Keys.ENTER) {
+                    sendChatMessage();
+                    return true;
+                }
+                if (keycode == com.badlogic.gdx.Input.Keys.TAB) {
+                    toggleChatPanel();
+                    return true;
+                }
+                return false;
+            }
+        });
+
+        TextButton chatSendBtn = new TextButton("»", uiSkin);
+        game.soundifyButton(chatSendBtn);
+        chatSendBtn.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                sendChatMessage();
+            }
+        });
+
+        Table chatInputRow = new Table();
+        chatInputRow.add(chatInput).expandX().fillX().height(34);
+        chatInputRow.add(chatSendBtn).width(40).height(34).padLeft(4);
+
+        chatPanel.add(chatScroll).expand().fill().padTop(4).padBottom(4).row();
+        chatPanel.add(chatInputRow).fillX().padBottom(4).padLeft(4).padRight(4);
+
+        chatPanel.setVisible(false);
+        uiStage.addActor(chatPanel);
+
+        Label.LabelStyle notifStyle = new Label.LabelStyle(chatFont, new Color(0.65f, 0.85f, 1f, 1f));
+        chatNotifPanel = new Table();
+        chatNotifPanel.setBackground(uiSkin.newDrawable("white", new Color(0f, 0f, 0f, 0.72f)));
+        chatNotifPanel.add(new Label("Nouveau message", notifStyle)).pad(5, 10, 5, 10);
+        chatNotifPanel.pack();
+        chatNotifPanel.setPosition(Gdx.graphics.getWidth() - chatNotifPanel.getWidth() - 8f, 8f);
+        chatNotifPanel.setVisible(false);
+        uiStage.addActor(chatNotifPanel);
 
         Gdx.input.setInputProcessor(multiplexer);
     }
@@ -2209,6 +2292,48 @@ public class GameView implements Screen {
                 Actions.run(() -> attackMenuErrorLabel.setText(""))
             )
         );
+    }
+
+    public void toggleChatPanel() {
+        chatVisible = !chatVisible;
+        chatPanel.setVisible(chatVisible);
+        if (chatVisible) {
+            chatNotifPanel.clearActions();
+            chatNotifPanel.setVisible(false);
+            uiStage.setKeyboardFocus(chatInput);
+            chatScroll.layout();
+            chatScroll.setScrollPercentY(1f);
+        } else {
+            uiStage.setKeyboardFocus(null);
+        }
+    }
+
+    public void showChatMessage(String senderName, String text, boolean isMe) {
+        if (chatMessages == null || chatScroll == null) return;
+        Label.LabelStyle msgStyle = new Label.LabelStyle(chatFont, isMe ? Color.WHITE : new Color(0.65f, 0.85f, 1f, 1f));
+        Label msgLabel = new Label(senderName + " : " + text, msgStyle);
+        msgLabel.setWrap(true);
+        chatMessages.add(msgLabel).expandX().fillX().padBottom(2).row();
+        chatScroll.layout();
+        chatScroll.setScrollPercentY(1f);
+        if (!chatVisible) {
+            chatNotifPanel.clearActions();
+            chatNotifPanel.setVisible(true);
+            chatNotifPanel.getColor().a = 1f;
+            chatNotifPanel.addAction(Actions.sequence(
+                Actions.delay(3.5f),
+                Actions.fadeOut(0.5f),
+                Actions.run(() -> chatNotifPanel.setVisible(false))
+            ));
+        }
+    }
+
+    private void sendChatMessage() {
+        if (chatInput == null || client == null) return;
+        String text = chatInput.getText().trim();
+        if (text.isEmpty()) return;
+        client.sendChatMessage(text);
+        chatInput.setText("");
     }
 
     public void setSelectableBorder(boolean selectable) {

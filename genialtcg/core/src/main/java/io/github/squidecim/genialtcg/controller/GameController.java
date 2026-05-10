@@ -379,6 +379,10 @@ public class GameController
             view.togglePauseMenu();
             return true;
         }
+        if (k == Input.Keys.TAB) {
+            view.toggleChatPanel();
+            return true;
+        }
         return false;
     }
 
@@ -528,7 +532,12 @@ public class GameController
     public void onGameStart(NetworkMessages.GameStart msg) {}
 
     @Override
-    public void onChatMessage(NetworkMessages.ChatMessage msg) {}
+    public void onChatMessage(NetworkMessages.ChatMessage msg) {
+        boolean isMe = msg.senderId != null && msg.senderId.equals(myPlayerId);
+        String name = msg.senderName != null ? msg.senderName : "?";
+        String text = msg.text != null ? msg.text : "";
+        view.showChatMessage(name, text, isMe);
+    }
 
     @Override
     public void onCardDrawn(NetworkMessages.CardDrawn msg) {
