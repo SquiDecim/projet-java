@@ -1460,9 +1460,9 @@ public class GameView implements Screen {
 
         for (int i = 0; i < n; i++) {
             CardDecal card = opponentHandCards.get(i);
-            float x = (i - center) * spacing;
-            float y = 0.75f + (i - center) * THICKNESS;
-            float z = (float) (-4.7f + ((i - center) * THICKNESS) / 1.5);
+            float x = -(i - center) * spacing;
+            float y = 0.8f;
+            float z = -4.7f + (i - center) * (THICKNESS+0.01f);
             Vector3 dest = new Vector3(x, y, z);
             if (card.emplacement.equals("deck")) {
                 card.animateFromDeck(deckTopPos, dest, 0, 25f, 0f, 0.4f, false);
