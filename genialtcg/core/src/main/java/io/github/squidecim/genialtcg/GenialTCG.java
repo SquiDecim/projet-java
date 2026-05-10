@@ -426,7 +426,7 @@ public class GenialTCG extends Game {
             new FreeTypeFontGenerator.FreeTypeFontParameter();
         parameter.characters =
             FreeTypeFontGenerator.DEFAULT_CHARS +
-            "àâäéèêëîïôùûüçœÀÂÄÉÈÊËÎÏÔÙÛÜÇŒæÆ«»€°";
+            "àâäéèêëîïôùûüçœÀÂÄÉÈÊËÎÏÔÙÛÜÇŒæÆ«»€°•";
 
         // Font UI — DejaVuSans Regular 16pt (utilisée directement, sans passer par le skin)
         FreeTypeFontGenerator generatorRegular = new FreeTypeFontGenerator(

@@ -70,54 +70,54 @@ public class RulesScreen implements Screen {
             "1. CONSTRUCTION DU DECK\n" +
             "Chaque joueur doit construire un deck contenant exactement 60 cartes.\n\n" +
             "Le deck doit respecter les contraintes suivantes :\n" +
-            "- Il doit contenir au moins 5 cartes Pays dont le coût est inférieur à 200 crédits.\n" +
-            "- Il doit contenir exactement 10 cartes Outil.\n" +
-            "- Il doit contenir exactement 10 cartes Action.\n\n" +
+            "• Il doit contenir au moins 5 cartes Pays dont le coût est inférieur à 200 crédits.\n" +
+            "• Il doit contenir exactement 10 cartes Outil.\n" +
+            "• Il doit contenir exactement 10 cartes Action.\n\n" +
             "2. CONDITIONS DE VICTOIRE\n" +
             "Il existe deux façons de gagner une partie :\n" +
-            "- Victoire aux points : atteindre 6 points de victoire en éliminant des pays adverses.\n" +
-            "- Victoire par forfait : gagner si l'adversaire ne peut plus placer de carte Pays en jeu.\n\n" +
+            "• Victoire aux points : atteindre 6 points de victoire en éliminant des pays adverses.\n" +
+            "• Victoire par forfait : gagner si l'adversaire ne peut plus placer de carte Pays en jeu.\n\n" +
             "3. LES NATIONS ET LE SYSTÈME DE COMBAT\n" +
             "Attaques de base :\n" +
             "Chaque nation possède plusieurs statistiques offensives :\n" +
-            "- Puissance\n" +
-            "- Technologie\n" +
-            "- Ressource\n" +
-            "- Stabilité\n\n" +
+            "• Puissance\n" +
+            "• Technologie\n" +
+            "• Ressource\n" +
+            "• Stabilité\n\n" +
             "Lorsqu'une attaque de base est utilisée, le jeu compare la statistique choisie entre la nation attaquante et la nation adverse. Les dégâts infligés correspondent à la différence entre ces deux valeurs.\n\n" +
             "Attaques spéciales :\n" +
             "Chaque pays possède des attaques spéciales uniques permettant de :\n" +
-            "- Infliger des dégâts au pays adverse et/ou à une carte du banc.\n" +
-            "- Soigner le pays actif et/ou une carte du banc.\n" +
-            "- Voler des crédits au joueur adverse.\n" +
-            "- Piocher des cartes dans le deck.\n\n" +
+            "• Infliger des dégâts au pays adverse et/ou à une carte du banc.\n" +
+            "• Soigner le pays actif et/ou une carte du banc.\n" +
+            "• Voler des crédits au joueur adverse.\n" +
+            "• Piocher des cartes dans le deck.\n\n" +
             "4. RANG DES NATIONS ET POINTS DE VICTOIRE\n" +
             "Chaque nation possède un rang qui détermine le nombre de points accordés à l'adversaire lorsqu'elle est éliminée :\n" +
-            "- Marginal : 1 point\n" +
-            "- Émergent : 2 points\n" +
-            "- Établi : 3 points\n" +
-            "- Dominant : 4 points\n" +
-            "- Hégémonie : 5 points\n\n" +
+            "• Marginal : 1 point\n" +
+            "• Émergent : 2 points\n" +
+            "• Établi : 3 points\n" +
+            "• Dominant : 4 points\n" +
+            "• Hégémonie : 5 points\n\n" +
             "En règle générale, les nations de rang élevé possèdent de meilleures statistiques mais donnent davantage de points lorsqu'elles sont vaincues.\n\n" +
             "5. TYPES DE NATIONS\n" +
             "Chaque nation appartient à l'une des catégories suivantes :\n" +
-            "- Économique\n" +
-            "- Renseignement\n" +
-            "- Isolationniste\n" +
-            "- Militaire\n" +
-            "- Diplomatique\n\n" +
+            "• Économique\n" +
+            "• Renseignement\n" +
+            "• Isolationniste\n" +
+            "• Militaire\n" +
+            "• Diplomatique\n\n" +
             "Le type d'une nation peut interagir avec certains effets de cartes ou avec le terrain.\n\n" +
             "6. SYSTÈME D'ÉCONOMIE ET CRÉDITS\n" +
             "Chaque pays possède une statistique d'Économie qui génère des crédits au début de chaque tour.\n\n" +
             "Le montant dépend de l'emplacement de la carte :\n" +
-            "- Dans la main : 0 %\n" +
-            "- Sur le banc : 20 % de la statistique d'Économie\n" +
-            "- Sur le poste actif : 100 % de la statistique d'Économie\n\n" +
+            "• Dans la main : 0 %\n" +
+            "• Sur le banc : 20 % de la statistique d'Économie\n" +
+            "• Sur le poste actif : 100 % de la statistique d'Économie\n\n" +
             "Les crédits servent notamment à :\n" +
-            "- Poser des cartes sur le terrain.\n" +
-            "- Placer des cartes sur le banc.\n" +
-            "- Effectuer une retraite.\n" +
-            "- Payer un effet spécial.\n\n" +
+            "• Poser des cartes sur le terrain.\n" +
+            "• Placer des cartes sur le banc.\n" +
+            "• Effectuer une retraite.\n" +
+            "• Payer un effet spécial.\n\n" +
             "Retraite :\n" +
             "Battre en retraite consiste à échanger la nation située sur le poste actif avec une nation du banc en payant le coût requis.\n\n" +
             "7. LES CARTES OUTIL ET ACTION\n" +
@@ -127,51 +127,51 @@ public class RulesScreen implements Screen {
             "Les cartes Outil n'activent leur effet qu'au moment où elles entrent en jeu.\n\n" +
             "Cartes Action :\n" +
             "Les cartes Action sont des consommables à effet immédiat permettant par exemple de :\n" +
-            "- Piocher des cartes.\n" +
-            "- Soigner des nations en jeu ou sur le banc.\n" +
-            "- Modifier le terrain.\n" +
-            "- Bloquer les outils adverses pendant plusieurs tours.\n" +
-            "- Effectuer des échanges gratuits, aléatoires ou ciblés selon la carte.\n\n" +
+            "• Piocher des cartes.\n" +
+            "• Soigner des nations en jeu ou sur le banc.\n" +
+            "• Modifier le terrain.\n" +
+            "• Bloquer les outils adverses pendant plusieurs tours.\n" +
+            "• Effectuer des échanges gratuits, aléatoires ou ciblés selon la carte.\n\n" +
             "8. LE TERRAIN\n" +
             "Au début d'une partie, le terrain actif est de type \"Tempéré\".\n\n" +
             "Le terrain reste identique pendant toute la partie sauf si une carte Action modifie son type.\n\n" +
             "Chaque terrain applique des modificateurs de statistiques de combat selon le type de la nation présente.\n\n" +
             "Tempéré : aucun modificateur.\n\n" +
             "Désertique :\n" +
-            "  - Militaire : +10 puissance\n" +
-            "  - Économique : −10 ressources\n" +
-            "  - Diplomatique : −10 stabilité\n" +
-            "  - Renseignement : +10 technologie\n" +
-            "  - Isolationniste : +10 stabilité\n" +
-            "  - Technologique : −10 économie\n\n" +
+            "  • Militaire : +10 puissance\n" +
+            "  • Économique : -10 ressources\n" +
+            "  • Diplomatique : -10 stabilité\n" +
+            "  • Renseignement : +10 technologie\n" +
+            "  • Isolationniste : +10 stabilité\n" +
+            "  • Technologique : -10 économie\n\n" +
             "Tropical :\n" +
-            "  - Militaire : −10 puissance\n" +
-            "  - Économique : +15 ressources\n" +
-            "  - Diplomatique : +10 stabilité\n" +
-            "  - Renseignement : +10 puissance\n" +
-            "  - Isolationniste : +10 stabilité\n" +
-            "  - Technologique : −10 technologie\n\n" +
+            "  • Militaire : -10 puissance\n" +
+            "  • Économique : +15 ressources\n" +
+            "  • Diplomatique : +10 stabilité\n" +
+            "  • Renseignement : +10 puissance\n" +
+            "  • Isolationniste : +10 stabilité\n" +
+            "  • Technologique : -10 technologie\n\n" +
             "Montagneux :\n" +
-            "  - Militaire : +15 puissance\n" +
-            "  - Économique : −10 économie\n" +
-            "  - Diplomatique : −10 économie\n" +
-            "  - Renseignement : +10 puissance\n" +
-            "  - Isolationniste : +15 stabilité\n" +
-            "  - Technologique : +10 technologie\n\n" +
+            "  • Militaire : +15 puissance\n" +
+            "  • Économique : -10 économie\n" +
+            "  • Diplomatique : -10 économie\n" +
+            "  • Renseignement : +10 puissance\n" +
+            "  • Isolationniste : +15 stabilité\n" +
+            "  • Technologique : +10 technologie\n\n" +
             "Glacial :\n" +
-            "  - Militaire : −10 stabilité\n" +
-            "  - Économique : −10 ressources\n" +
-            "  - Diplomatique : −15 économie\n" +
-            "  - Renseignement : −10 puissance\n" +
-            "  - Isolationniste : +15 stabilité\n" +
-            "  - Technologique : +15 technologie\n\n" +
+            "  • Militaire : -10 stabilité\n" +
+            "  • Économique : -10 ressources\n" +
+            "  • Diplomatique : -15 économie\n" +
+            "  • Renseignement : -10 puissance\n" +
+            "  • Isolationniste : +15 stabilité\n" +
+            "  • Technologique : +15 technologie\n\n" +
             "Océanique :\n" +
-            "  - Militaire : +10 puissance\n" +
-            "  - Économique : +15 économie\n" +
-            "  - Diplomatique : +10 économie\n" +
-            "  - Renseignement : +10 puissance\n" +
-            "  - Isolationniste : −15 stabilité\n" +
-            "  - Technologique : +10 technologie";
+            "  • Militaire : +10 puissance\n" +
+            "  • Économique : +15 économie\n" +
+            "  • Diplomatique : +10 économie\n" +
+            "  • Renseignement : +10 puissance\n" +
+            "  • Isolationniste : -15 stabilité\n" +
+            "  • Technologique : +10 technologie";
 
         Label.LabelStyle rulesStyle = new Label.LabelStyle(
             game.uiFont,
