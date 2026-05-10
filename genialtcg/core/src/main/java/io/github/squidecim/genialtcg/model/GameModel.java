@@ -36,6 +36,7 @@ public class GameModel {
     public boolean setupDone = false;
     public int turnCount = 1;
 
+    public int points = 0;
 
     public int myCredits = 300;
     public int opponentCredits = 300;
@@ -131,7 +132,7 @@ public class GameModel {
             int bonus = getTerrainBonus(terrain, benchCard.type)[1];
             sum += Math.max(0, base + bonus);
         }
-        return Math.round(sum * 0.2f);
+        return Math.round(sum * 0.4f);
     }
 
     public int getTotalEconomy(){
