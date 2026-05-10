@@ -238,8 +238,13 @@ public class CardDecal {
         int bonus = terrainBonus[statIdx];
         int total = data.stats[statIdx] + bonus;
         fb_font_stats.setColor(Color.BLACK);
-        String text = bonus != 0 ? "~" + total + "~" : Integer.toString(total);
-        fb_font_stats.draw(batch, text, x, y);
+        if (bonus != 0) {
+            BitmapFont.Glyph tilde = fb_font_stats.getData().getGlyph('~');
+            float tildeWidth = tilde != null ? tilde.xadvance : 0;
+            fb_font_stats.draw(batch, "~" + total + "~", x - tildeWidth, y);
+        } else {
+            fb_font_stats.draw(batch, Integer.toString(total), x, y);
+        }
     }
 
     public void setTerrainBonus(int[] bonus, Color color) {
@@ -411,7 +416,7 @@ public class CardDecal {
 
 
         float yOffset = handIndex * 0.002f;
-        float targetY = hovered && emplacement.equals("hand")? baseY + 0.75f : baseY;
+        float targetY = hovered && emplacement.equals("hand")? baseY + 0.20f : baseY;
         currentY += (targetY - currentY) * 8f * delta;
         applyTransform(position.x, currentY + yOffset, position.z, yaw, pitch, roll);
     }

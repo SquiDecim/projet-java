@@ -30,6 +30,9 @@ public class GameClient {
         void onPlayerQuit();
         void onField(NetworkMessages.Field msg);
         void onChatMessage(NetworkMessages.ChatMessage msg);
+        void onPointsUpdate(NetworkMessages.PointsUpdate msg);
+        void onWin(NetworkMessages.Win msg);
+        void onLose(NetworkMessages.Lose msg);
     }
 
     public GameClient(String ip, NetworkListener listener) throws IOException {
@@ -73,6 +76,12 @@ public class GameClient {
                         current.onField((NetworkMessages.Field) obj);
                     else if (obj instanceof NetworkMessages.ChatMessage)
                         current.onChatMessage((NetworkMessages.ChatMessage) obj);
+                    else if (obj instanceof NetworkMessages.PointsUpdate)
+                        current.onPointsUpdate((NetworkMessages.PointsUpdate) obj);
+                    else if (obj instanceof NetworkMessages.Win)
+                        current.onWin((NetworkMessages.Win) obj);
+                    else if (obj instanceof NetworkMessages.Lose)
+                        current.onLose((NetworkMessages.Lose) obj);
                 });
             }
 
@@ -209,6 +218,22 @@ public class GameClient {
     public void sendChatMessage(String text) {
         NetworkMessages.ChatMessage msg = new NetworkMessages.ChatMessage();
         msg.text = text;
+        client.sendTCP(msg);
+    }
+
+    public void sendPointsUpdate(int points){
+        NetworkMessages.PointsUpdate msg = new NetworkMessages.PointsUpdate();
+        msg.points = points;
+        client.sendTCP(msg);
+    }
+
+    public void sendWin() {
+        NetworkMessages.Win msg = new NetworkMessages.Win();
+        client.sendTCP(msg);
+    }
+
+    public void sendLose() {
+        NetworkMessages.Lose msg = new NetworkMessages.Lose();
         client.sendTCP(msg);
     }
 

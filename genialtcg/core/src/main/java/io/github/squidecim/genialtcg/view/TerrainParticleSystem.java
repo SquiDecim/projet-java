@@ -140,8 +140,8 @@ public class TerrainParticleSystem implements Disposable {
             case "Océanique": {
                 p.x = MathUtils.random(-sw * 0.1f, sw * 1.1f);
                 p.y = sh + 10f;
-                p.vx = -MathUtils.random(55f, 85f);
-                p.vy = -MathUtils.random(350f, 480f);
+                p.vx = -MathUtils.random(100f, 150f);
+                p.vy = -MathUtils.random(600f, 800f);
                 p.waveAmp  = 0f;
                 p.waveFreq = 0f;
                 p.wavePhase = 0f;

@@ -2729,4 +2729,12 @@ public class GameView implements Screen {
 
         game.playTerrainMusic(field);
     }
+
+    public void updateMyPoints(int points) {
+        myPointsLabel.setText("Vos points : " + points + "/6");
+    }
+
+    public void updateOpponentPoints(int points) {
+        opponentPointsLabel.setText("Points adverses : " + points + "/6");
+    }
 }
