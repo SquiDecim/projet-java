@@ -74,9 +74,6 @@ public class GenialTCG extends Game {
 
     @Override
     public void create() {
-        Gdx.graphics.setUndecorated(false);
-        Gdx.graphics.setFullscreenMode(Gdx.graphics.getDisplayMode());
-
         skin = buildSkin();
         loadCardsFromJson();
 
