@@ -1857,7 +1857,7 @@ public class GameView implements Screen {
                 }
             }
         } else {
-            if (!card.emplacement.equals("bench")) {
+            if (!card.emplacement.equals("bench") && !(tableSlot.isEmpty())) {
                 for (CardSlot slot : benchBottomSlots) {
                     if (slot.isEmpty()) slot.setHighlighted(true);
                 }
@@ -1889,7 +1889,7 @@ public class GameView implements Screen {
                 }
             }
         } else {
-            if (!draggedCard.emplacement.equals("bench")) {
+            if (!draggedCard.emplacement.equals("bench") && !(tableSlot.isEmpty())) {
                 for (CardSlot slot : benchBottomSlots) {
                     if (slot.isEmpty()) slot.setHighlighted(true);
                 }
