@@ -1109,6 +1109,23 @@ public class GameView implements Screen {
         settingsPanelTable.add(uiVolLabel).left().padBottom(5).row();
         settingsPanelTable.add(uiVolSlider).width(300).padBottom(20).row();
 
+        Label gameVolLabel = new Label("Game Sound", uiSkin);
+        Slider gameVolSlider = new Slider(0f, 1f, 0.05f, false, uiSkin);
+        gameVolSlider.setValue(prefs.getFloat("game_sound_volume", 0.5f));
+        gameVolSlider.addListener(
+            new ChangeListener() {
+                @Override
+                public void changed(ChangeEvent event, Actor actor) {
+                    float v = gameVolSlider.getValue();
+                    game.gameSoundVolume = v;
+                    prefs.putFloat("game_sound_volume", v);
+                    prefs.flush();
+                }
+            }
+        );
+        settingsPanelTable.add(gameVolLabel).left().padBottom(5).row();
+        settingsPanelTable.add(gameVolSlider).width(300).padBottom(20).row();
+
         Label brightLabel = new Label("Luminosité", uiSkin);
         Slider brightSlider = new Slider(0.2f, 1.0f, 0.05f, false, uiSkin);
         brightSlider.setValue(game.globalBrightness);

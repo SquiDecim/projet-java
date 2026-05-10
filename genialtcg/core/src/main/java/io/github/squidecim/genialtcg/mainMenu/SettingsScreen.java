@@ -21,7 +21,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import io.github.squidecim.genialtcg.GenialTCG;
-
 import java.util.List;
 
 public class SettingsScreen implements Screen {
@@ -122,18 +121,34 @@ public class SettingsScreen implements Screen {
             }
         );
 
+        Label gameSoundLabel = new Label("Game Sound", skin);
+        gameSoundLabel.setColor(Color.WHITE);
+
+        Slider gameSoundSlider = new Slider(0f, 1f, 0.05f, false, skin);
+        gameSoundSlider.setValue(prefs.getFloat("game_sound_volume", 0.5f));
+        gameSoundSlider.setColor(Color.WHITE);
+        gameSoundSlider.addListener(
+            new ChangeListener() {
+                @Override
+                public void changed(ChangeEvent event, Actor actor) {
+                    float volume = gameSoundSlider.getValue();
+                    game.gameSoundVolume = volume;
+                    prefs.putFloat("game_sound_volume", volume);
+                    prefs.flush();
+                }
+            }
+        );
+
         Label brightnessLabel = new Label("Luminosite", skin);
         brightnessLabel.setColor(Color.WHITE);
 
         Slider brightnessSlider = new Slider(0.2f, 1.0f, 0.05f, false, skin);
-        // on lit la variable globale du jeu
         brightnessSlider.setValue(game.globalBrightness);
         brightnessSlider.setColor(Color.WHITE);
         brightnessSlider.addListener(
             new ChangeListener() {
                 @Override
                 public void changed(ChangeEvent event, Actor actor) {
-                    // on met a jour la variable globale en direct
                     game.globalBrightness = brightnessSlider.getValue();
                     prefs.putFloat("brightness", game.globalBrightness);
                     prefs.flush();
@@ -164,28 +179,34 @@ public class SettingsScreen implements Screen {
 
         TextButton btnChangeProfil = new TextButton("Changer de profil", skin);
         game.soundifyButton(btnChangeProfil);
-        btnChangeProfil.addListener(new ChangeListener() {
-            @Override
-            public void changed(ChangeEvent event, Actor actor) {
-                game.playerPseudo = "";
-                game.savedDecks.clear();
-                game.setScreen(new ProfileSelectionScreen(game));
+        btnChangeProfil.addListener(
+            new ChangeListener() {
+                @Override
+                public void changed(ChangeEvent event, Actor actor) {
+                    game.playerPseudo = "";
+                    game.savedDecks.clear();
+                    game.setScreen(new ProfileSelectionScreen(game));
+                }
             }
-        });
+        );
 
         TextButton btnChangePseudo = new TextButton("Changer de pseudo", skin);
         game.soundifyButton(btnChangePseudo);
-        btnChangePseudo.addListener(new ChangeListener() {
-            @Override
-            public void changed(ChangeEvent event, Actor actor) {
-                showChangePseudoDialog();
+        btnChangePseudo.addListener(
+            new ChangeListener() {
+                @Override
+                public void changed(ChangeEvent event, Actor actor) {
+                    showChangePseudoDialog();
+                }
             }
-        });
+        );
 
         table.add(volumeLabel).padBottom(5).row();
         table.add(volumeSlider).width(300).padBottom(15).row();
         table.add(uiSoundLabel).padBottom(5).row();
         table.add(uiSoundSlider).width(300).padBottom(15).row();
+        table.add(gameSoundLabel).padBottom(5).row();
+        table.add(gameSoundSlider).width(300).padBottom(15).row();
         table.add(brightnessLabel).padBottom(5).row();
         table.add(brightnessSlider).width(300).padBottom(15).row();
         table.add(displayLabel).padBottom(5).row();
@@ -200,17 +221,32 @@ public class SettingsScreen implements Screen {
             protected void result(Object object) {}
         };
 
-        String current = game.playerPseudo.isEmpty() ? "(aucun)" : game.playerPseudo;
-        changePseudoDialog.getContentTable()
+        String current = game.playerPseudo.isEmpty()
+            ? "(aucun)"
+            : game.playerPseudo;
+        changePseudoDialog
+            .getContentTable()
             .add(new Label("Pseudo actuel : " + current, skin))
-            .width(320).pad(10).row();
-        changePseudoDialog.getContentTable()
+            .width(320)
+            .pad(10)
+            .row();
+        changePseudoDialog
+            .getContentTable()
             .add(new Label("Nouveau pseudo :", skin))
-            .width(320).padTop(5).padLeft(10).padRight(10).row();
+            .width(320)
+            .padTop(5)
+            .padLeft(10)
+            .padRight(10)
+            .row();
 
         TextField pseudoField = new TextField("", skin);
         pseudoField.setMaxLength(18);
-        changePseudoDialog.getContentTable().add(pseudoField).width(320).pad(10).row();
+        changePseudoDialog
+            .getContentTable()
+            .add(pseudoField)
+            .width(320)
+            .pad(10)
+            .row();
 
         Label errorLbl = new Label("", skin);
         errorLbl.setColor(Color.RED);
@@ -240,40 +276,63 @@ public class SettingsScreen implements Screen {
             changePseudoDialog.hide();
         };
 
-        btnValider.addListener(new ChangeListener() {
-            @Override
-            public void changed(ChangeEvent event, Actor actor) {
-                valider.run();
-            }
-        });
-        btnCancel.addListener(new ChangeListener() {
-            @Override
-            public void changed(ChangeEvent event, Actor actor) {
-                changePseudoDialog.hide();
-            }
-        });
-        pseudoField.addListener(new InputListener() {
-            @Override
-            public boolean keyDown(InputEvent event, int keycode) {
-                if (keycode == Input.Keys.ENTER) {
+        btnValider.addListener(
+            new ChangeListener() {
+                @Override
+                public void changed(ChangeEvent event, Actor actor) {
                     valider.run();
-                    return true;
                 }
-                return false;
             }
-        });
-        changePseudoDialog.addListener(new InputListener() {
-            @Override
-            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                if (x < 0 || x > changePseudoDialog.getWidth()
-                        || y < 0 || y > changePseudoDialog.getHeight()) {
+        );
+        btnCancel.addListener(
+            new ChangeListener() {
+                @Override
+                public void changed(ChangeEvent event, Actor actor) {
                     changePseudoDialog.hide();
                 }
-                return false;
             }
-        });
+        );
+        pseudoField.addListener(
+            new InputListener() {
+                @Override
+                public boolean keyDown(InputEvent event, int keycode) {
+                    if (keycode == Input.Keys.ENTER) {
+                        valider.run();
+                        return true;
+                    }
+                    return false;
+                }
+            }
+        );
+        changePseudoDialog.addListener(
+            new InputListener() {
+                @Override
+                public boolean touchDown(
+                    InputEvent event,
+                    float x,
+                    float y,
+                    int pointer,
+                    int button
+                ) {
+                    if (
+                        x < 0 ||
+                        x > changePseudoDialog.getWidth() ||
+                        y < 0 ||
+                        y > changePseudoDialog.getHeight()
+                    ) {
+                        changePseudoDialog.hide();
+                    }
+                    return false;
+                }
+            }
+        );
 
-        changePseudoDialog.getButtonTable().defaults().width(130).height(40).pad(10);
+        changePseudoDialog
+            .getButtonTable()
+            .defaults()
+            .width(130)
+            .height(40)
+            .pad(10);
         changePseudoDialog.getButtonTable().add(btnCancel);
         changePseudoDialog.getButtonTable().add(btnValider);
         changePseudoDialog.setResizable(true);
