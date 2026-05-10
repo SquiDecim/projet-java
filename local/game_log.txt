@@ -26,3 +26,43 @@
 [2026-05-10 21:39:00] l'adversaire a pose la carte : Liberia sur bench
 [2026-05-10 21:39:05] vous avez pioche une carte
 [2026-05-10 21:39:05] l'adversaire a pioche une carte
+[2026-05-10 22:58:25] lancement du jeu et pioche initiale
+[2026-05-10 22:58:25] lancement du jeu et pioche initiale
+[2026-05-10 22:58:27] vous avez pioche une carte
+[2026-05-10 22:58:27] l'adversaire a pioche une carte
+[2026-05-10 22:58:27] vous avez pioche une carte
+[2026-05-10 22:58:27] l'adversaire a pioche une carte
+[2026-05-10 22:58:27] vous avez pioche une carte
+[2026-05-10 22:58:27] l'adversaire a pioche une carte
+[2026-05-10 22:58:27] vous avez pioche une carte
+[2026-05-10 22:58:27] l'adversaire a pioche une carte
+[2026-05-10 22:58:28] l'adversaire a pioche une carte
+[2026-05-10 22:58:28] vous avez pioche une carte
+[2026-05-10 22:58:28] vous avez pioche une carte
+[2026-05-10 22:58:28] l'adversaire a pioche une carte
+[2026-05-10 22:58:29] vous avez pioche une carte
+[2026-05-10 22:58:29] l'adversaire a pioche une carte
+[2026-05-10 22:58:29] vous avez pioche une carte
+[2026-05-10 22:58:29] l'adversaire a pioche une carte
+[2026-05-10 22:58:32] vous avez pose la carte : Croatie sur le terrain
+[2026-05-10 22:58:32] l'adversaire a pose la carte : Croatie sur table
+[2026-05-10 22:58:34] vous avez pose la carte : Mongolie sur le banc
+[2026-05-10 22:58:34] l'adversaire a pose la carte : Mongolie sur bench
+[2026-05-10 22:58:36] vous avez pose la carte : Oman sur le terrain
+[2026-05-10 22:58:36] l'adversaire a pose la carte : Oman sur table
+[2026-05-10 22:58:37] vous avez pose la carte : République_dominic. sur le banc
+[2026-05-10 22:58:37] l'adversaire a pose la carte : République_dominic. sur bench
+[2026-05-10 22:58:37] vous avez pioche une carte
+[2026-05-10 22:58:37] l'adversaire a pioche une carte
+[2026-05-10 22:58:46] l'adversaire a fait une attaque normale (degats: 69)
+[2026-05-10 22:58:46] vous avez fait une attaque normale (degats: 69)
+[2026-05-10 22:58:46] vous avez pioche une carte
+[2026-05-10 22:58:46] l'adversaire a pioche une carte
+[2026-05-10 22:59:12] vous avez pioche une carte
+[2026-05-10 22:59:12] l'adversaire a pioche une carte
+[2026-05-10 22:59:14] vous avez pose la carte : Niger sur le banc
+[2026-05-10 22:59:14] l'adversaire a pose la carte : Niger sur bench
+[2026-05-10 22:59:17] l'adversaire a fait une attaque normale (degats: 69)
+[2026-05-10 22:59:17] vous avez fait une attaque normale (degats: 69)
+[2026-05-10 22:59:17] l'adversaire a pioche une carte
+[2026-05-10 22:59:17] vous avez pioche une carte

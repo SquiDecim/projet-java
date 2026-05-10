@@ -640,7 +640,6 @@ public class GameView implements Screen {
     @Override
     public void render(float delta) {
         if (controller != null) {
-            controller.update(delta);
 
             if (camAnimating) {
                 camAnimTimer += delta;
