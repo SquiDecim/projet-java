@@ -44,6 +44,9 @@ public class GenialTCG extends Game {
     public Map<String, CardData> allCardsMap = new HashMap<>();
     public Skin skin;
     public com.badlogic.gdx.audio.Music menuMusic;
+    public com.badlogic.gdx.audio.Music gameMusic;
+    public com.badlogic.gdx.audio.Music terrainMusic;
+    private String currentTerrain = null;
     public BitmapFont uiFont;
     public Sound hoverSound;
     public Sound clickSound;
@@ -52,11 +55,9 @@ public class GenialTCG extends Game {
     public Sound takingCardsSound;
     public Sound overpassCardsSound;
     public Sound switchSound;
-    public Sound damagePuissanceSound;
-    public Sound damageRessourceSound;
-    public Sound damageTechnologieSound;
-    public Sound damageStabiliteSound;
+    public Sound damageSound;
     public Sound specialEffectSound;
+    public Sound terrainChangeSound;
     public float uiSoundVolume = 0.5f;
     public float gameSoundVolume = 0.5f;
 
@@ -73,31 +74,11 @@ public class GenialTCG extends Game {
 
     @Override
     public void create() {
-        Preferences prefs = Gdx.app.getPreferences("GenialTCG_Settings");
-
-        String displayMode = prefs.getString("display_mode", "Plein ecran");
-
-        if ("Plein ecran".equals(displayMode)) {
-            Gdx.graphics.setUndecorated(false);
-            Gdx.graphics.setFullscreenMode(Gdx.graphics.getDisplayMode());
-        } else if ("Fenetre sans bordure".equals(displayMode)) {
-            Gdx.graphics.setUndecorated(true);
-            Gdx.graphics.setWindowedMode(
-                Gdx.graphics.getDisplayMode().width,
-                Gdx.graphics.getDisplayMode().height
-            );
-        } else {
-            Gdx.graphics.setUndecorated(false);
-            Gdx.graphics.setWindowedMode(1280, 720);
-        }
+        Gdx.graphics.setUndecorated(false);
+        Gdx.graphics.setFullscreenMode(Gdx.graphics.getDisplayMode());
 
         skin = buildSkin();
         loadCardsFromJson();
-
-        uiSoundVolume = prefs.getFloat("ui_sound_volume", 0.5f);
-        gameSoundVolume = prefs.getFloat("game_sound_volume", 0.5f);
-
-        globalBrightness = prefs.getFloat("brightness", 1.0f);
 
         overlayBatch = new SpriteBatch();
         Pixmap pixmap = new Pixmap(1, 1, Pixmap.Format.RGBA8888);
@@ -128,29 +109,17 @@ public class GenialTCG extends Game {
             switchSound = Gdx.audio.newSound(
                 Gdx.files.internal("audio/game_effect/cards/switch.mp3")
             );
-            damagePuissanceSound = Gdx.audio.newSound(
-                Gdx.files.internal(
-                    "audio/game_effect/damage/damage_puissance.mp3"
-                )
-            );
-            damageRessourceSound = Gdx.audio.newSound(
-                Gdx.files.internal(
-                    "audio/game_effect/damage/damage_ressource.mp3"
-                )
-            );
-            damageTechnologieSound = Gdx.audio.newSound(
-                Gdx.files.internal(
-                    "audio/game_effect/damage/damage_technologie.mp3"
-                )
-            );
-            damageStabiliteSound = Gdx.audio.newSound(
-                Gdx.files.internal(
-                    "audio/game_effect/damage/damage_statbilite.mp3"
-                )
+            damageSound = Gdx.audio.newSound(
+                Gdx.files.internal("audio/game_effect/damage/unique.mp3")
             );
             specialEffectSound = Gdx.audio.newSound(
                 Gdx.files.internal(
                     "audio/game_effect/damage/special_effect.mp3"
+                )
+            );
+            terrainChangeSound = Gdx.audio.newSound(
+                Gdx.files.internal(
+                    "audio/game_effect/terrains/terrain_change.mp3"
                 )
             );
         } catch (Exception e) {
@@ -194,6 +163,10 @@ public class GenialTCG extends Game {
 
             Gdx.gl.glDisable(GL20.GL_BLEND);
         }
+    }
+
+    public static float curveVolume(float v) {
+        return v * v;
     }
 
     public void playImpossibleSound() {
@@ -339,6 +312,28 @@ public class GenialTCG extends Game {
             }
             savedDecks.add(new CardsStackData(name, cards));
         }
+
+        uiSoundVolume = curveVolume(prefs.getFloat("ui_sound_volume", 0.5f));
+        gameSoundVolume = curveVolume(prefs.getFloat("game_sound_volume", 0.5f));
+        globalBrightness = prefs.getFloat("brightness", 1.0f);
+
+        String displayMode = prefs.getString("display_mode", "Plein ecran");
+        if ("Plein ecran".equals(displayMode)) {
+            Gdx.graphics.setUndecorated(false);
+            Gdx.graphics.setFullscreenMode(Gdx.graphics.getDisplayMode());
+        } else if ("Fenetre sans bordure".equals(displayMode)) {
+            Gdx.graphics.setUndecorated(true);
+            Gdx.graphics.setWindowedMode(
+                Gdx.graphics.getDisplayMode().width,
+                Gdx.graphics.getDisplayMode().height
+            );
+        } else {
+            Gdx.graphics.setUndecorated(false);
+            Gdx.graphics.setWindowedMode(1280, 720);
+        }
+
+        float musicVol = curveVolume(prefs.getFloat("music_volume", 0.3f));
+        if (menuMusic != null) menuMusic.setVolume(musicVol);
     }
 
     public void saveProfile() {
@@ -402,6 +397,11 @@ public class GenialTCG extends Game {
                 oldPrefs.getString("deck_" + i + "_cards", "")
             );
         }
+        newPrefs.putString("display_mode",       oldPrefs.getString("display_mode", "Plein ecran"));
+        newPrefs.putFloat("music_volume",        oldPrefs.getFloat("music_volume", 0.3f));
+        newPrefs.putFloat("ui_sound_volume",     oldPrefs.getFloat("ui_sound_volume", 0.5f));
+        newPrefs.putFloat("game_sound_volume",   oldPrefs.getFloat("game_sound_volume", 0.5f));
+        newPrefs.putFloat("brightness",          oldPrefs.getFloat("brightness", 1.0f));
         newPrefs.flush();
         oldPrefs.clear();
         oldPrefs.flush();
@@ -672,6 +672,106 @@ public class GenialTCG extends Game {
         return sb.toString();
     }
 
+    public static String getTerrainAudioPath(String terrain) {
+        if (terrain == null) return null;
+        switch (terrain) {
+            case "Désertique":
+                return "audio/game_effect/terrains/desertique.mp3";
+            case "Glacial":
+                return "audio/game_effect/terrains/glacial.mp3";
+            case "Montagneux":
+                return "audio/game_effect/terrains/montagneux.mp3";
+            case "Océanique":
+                return "audio/game_effect/terrains/oceanique.mp3";
+            case "Tropical":
+                return "audio/game_effect/terrains/tropical.mp3";
+            default:
+                return null;
+        }
+    }
+
+    public static float getTerrainVolumeScale(String terrain) {
+        if (terrain == null) return 1f;
+        switch (terrain) {
+            case "Désertique":
+                return 0.5f;
+            case "Glacial":
+                return 0.25f;
+            case "Montagneux":
+                return 0.7f;
+            case "Océanique":
+                return 0.12f;
+            case "Tropical":
+                return 0.1f;
+            default:
+                return 1.0f;
+        }
+    }
+
+    public void playTerrainMusic(String terrain) {
+        stopTerrainMusic();
+        String path = getTerrainAudioPath(terrain);
+        if (path == null) return;
+        try {
+            currentTerrain = terrain;
+            terrainMusic = Gdx.audio.newMusic(Gdx.files.internal(path));
+            terrainMusic.setLooping(true);
+            terrainMusic.setVolume(
+                gameSoundVolume * getTerrainVolumeScale(terrain)
+            );
+            terrainMusic.play();
+        } catch (Exception e) {
+            Gdx.app.log("Audio", "Erreur son terrain : " + terrain);
+        }
+    }
+
+    public void updateTerrainMusicVolume() {
+        if (
+            terrainMusic != null && currentTerrain != null
+        ) terrainMusic.setVolume(
+            gameSoundVolume * getTerrainVolumeScale(currentTerrain)
+        );
+    }
+
+    public void stopTerrainMusic() {
+        if (terrainMusic != null) {
+            terrainMusic.stop();
+            terrainMusic.dispose();
+            terrainMusic = null;
+        }
+        currentTerrain = null;
+    }
+
+    public void playGameMusic() {
+        if (menuMusic != null) menuMusic.pause();
+        if (gameMusic != null) {
+            if (!gameMusic.isPlaying()) gameMusic.play();
+            return;
+        }
+        try {
+            Preferences prefs = Gdx.app.getPreferences("GenialTCG_Profile_" + playerPseudo);
+            gameMusic = Gdx.audio.newMusic(
+                Gdx.files.internal("audio/music/game_theme.mp3")
+            );
+            gameMusic.setLooping(true);
+            gameMusic.setVolume(
+                curveVolume(prefs.getFloat("music_volume", 0.3f))
+            );
+            gameMusic.play();
+        } catch (Exception e) {
+            Gdx.app.log("Audio", "Erreur lecture game theme");
+        }
+    }
+
+    public void stopGameMusic() {
+        if (gameMusic != null) {
+            gameMusic.stop();
+            gameMusic.dispose();
+            gameMusic = null;
+        }
+        if (menuMusic != null && !menuMusic.isPlaying()) menuMusic.play();
+    }
+
     public void cleanupCurrentGame() {
         if (currentGameClient != null) {
             currentGameClient.disconnect();
@@ -697,16 +797,16 @@ public class GenialTCG extends Game {
         if (takingCardsSound != null) takingCardsSound.dispose();
         if (overpassCardsSound != null) overpassCardsSound.dispose();
         if (switchSound != null) switchSound.dispose();
-        if (damagePuissanceSound != null) damagePuissanceSound.dispose();
-        if (damageRessourceSound != null) damageRessourceSound.dispose();
-        if (damageTechnologieSound != null) damageTechnologieSound.dispose();
-        if (damageStabiliteSound != null) damageStabiliteSound.dispose();
+        if (damageSound != null) damageSound.dispose();
         if (specialEffectSound != null) specialEffectSound.dispose();
+        if (terrainChangeSound != null) terrainChangeSound.dispose();
 
         if (blackOverlay != null) blackOverlay.dispose();
         if (overlayBatch != null) overlayBatch.dispose();
         if (uiFont != null) uiFont.dispose();
         if (menuMusic != null) menuMusic.dispose();
+        if (gameMusic != null) gameMusic.dispose();
+        stopTerrainMusic();
 
         super.dispose();
     }

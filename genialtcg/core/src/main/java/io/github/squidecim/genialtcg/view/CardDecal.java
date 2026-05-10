@@ -237,9 +237,9 @@ public class CardDecal {
     private void drawStat(SpriteBatch batch, int statIdx, float x, float y, int cardH) {
         int bonus = terrainBonus[statIdx];
         int total = data.stats[statIdx] + bonus;
-        fb_font_stats.setColor(bonus != 0 ? terrainBonusColor : Color.BLACK);
-        fb_font_stats.draw(batch, Integer.toString(total), x, y);
         fb_font_stats.setColor(Color.BLACK);
+        String text = bonus != 0 ? "~" + total + "~" : Integer.toString(total);
+        fb_font_stats.draw(batch, text, x, y);
     }
 
     public void setTerrainBonus(int[] bonus, Color color) {

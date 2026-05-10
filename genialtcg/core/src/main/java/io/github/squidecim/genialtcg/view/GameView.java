@@ -198,6 +198,9 @@ public class GameView implements Screen {
 
         vignetteTexture = createVignetteTexture(512, 512);
 
+        game.playGameMusic();
+        game.playTerrainMusic(model.terrain);
+
         boardTexture = new Texture("ui/plateau/" + model.terrain + ".png");
 
         ModelBuilder builder = new ModelBuilder();
@@ -868,10 +871,14 @@ public class GameView implements Screen {
             floatBatch.end();
             floatFont.getData().setScale(1f);
         }
+
     }
 
     @Override
-    public void hide() {}
+    public void hide() {
+        game.stopGameMusic();
+        game.stopTerrainMusic();
+    }
 
     @Override
     public void pause() {}
@@ -1016,7 +1023,7 @@ public class GameView implements Screen {
     private void showPauseMenu() {
         if (pauseOverlay != null) return;
         actionButton.setTouchable(Touchable.disabled);
-        Preferences prefs = Gdx.app.getPreferences("GenialTCG_Settings");
+        Preferences prefs = Gdx.app.getPreferences("GenialTCG_Profile_" + game.playerPseudo);
 
         pauseOverlay = new Table();
         pauseOverlay.setFillParent(true);
@@ -1083,7 +1090,9 @@ public class GameView implements Screen {
                 @Override
                 public void changed(ChangeEvent event, Actor actor) {
                     float v = volSlider.getValue();
-                    if (game.menuMusic != null) game.menuMusic.setVolume(v);
+                    float curved = GenialTCG.curveVolume(v);
+                    if (game.menuMusic != null) game.menuMusic.setVolume(curved);
+                    if (game.gameMusic != null) game.gameMusic.setVolume(curved);
                     prefs.putFloat("music_volume", v);
                     prefs.flush();
                 }
@@ -1100,7 +1109,7 @@ public class GameView implements Screen {
                 @Override
                 public void changed(ChangeEvent event, Actor actor) {
                     float v = uiVolSlider.getValue();
-                    game.uiSoundVolume = v;
+                    game.uiSoundVolume = GenialTCG.curveVolume(v);
                     prefs.putFloat("ui_sound_volume", v);
                     prefs.flush();
                 }
@@ -1117,7 +1126,8 @@ public class GameView implements Screen {
                 @Override
                 public void changed(ChangeEvent event, Actor actor) {
                     float v = gameVolSlider.getValue();
-                    game.gameSoundVolume = v;
+                    game.gameSoundVolume = GenialTCG.curveVolume(v);
+                    game.updateTerrainMusicVolume();
                     prefs.putFloat("game_sound_volume", v);
                     prefs.flush();
                 }
@@ -1741,7 +1751,7 @@ public class GameView implements Screen {
             handCards.contains(card, true)
         ) {
             if (game.overpassCardsSound != null) game.overpassCardsSound.play(
-                game.uiSoundVolume
+                game.gameSoundVolume
             );
         }
         hoveredCard = card;
@@ -2712,7 +2722,11 @@ public class GameView implements Screen {
         pendingField = field;
         flashingOut = true;
 
+        if (game.terrainChangeSound != null) game.terrainChangeSound.play(game.gameSoundVolume);
+
         if (particleSystem != null) particleSystem.dispose();
         particleSystem = new TerrainParticleSystem(field, floatBatch);
+
+        game.playTerrainMusic(field);
     }
 }
