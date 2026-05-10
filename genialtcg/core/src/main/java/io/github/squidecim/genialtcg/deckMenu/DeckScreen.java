@@ -16,7 +16,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import io.github.squidecim.genialtcg.GenialTCG;
-import io.github.squidecim.genialtcg.mainMenu.FirstScreen;
+import io.github.squidecim.genialtcg.mainMenu.MainScreen;
 import io.github.squidecim.genialtcg.model.CardsStackData;
 
 public class DeckScreen implements Screen {
@@ -53,7 +53,7 @@ public class DeckScreen implements Screen {
             new ChangeListener() {
                 @Override
                 public void changed(ChangeEvent event, Actor actor) {
-                    game.setScreen(new FirstScreen(game));
+                    game.setScreen(new MainScreen(game));
                 }
             }
         );
@@ -97,6 +97,7 @@ public class DeckScreen implements Screen {
                     @Override
                     public void changed(ChangeEvent event, Actor actor) {
                         game.savedDecks.removeValue(deck, true);
+                        game.saveProfile();
                         game.setScreen(new DeckScreen(game));
                     }
                 }
@@ -113,7 +114,9 @@ public class DeckScreen implements Screen {
                         Actor fromActor
                     ) {
                         if (pointer != -1) return;
-                        if (game.overpassCardsSound != null) game.overpassCardsSound.play(game.uiSoundVolume);
+                        if (
+                            game.overpassCardsSound != null
+                        ) game.overpassCardsSound.play(game.uiSoundVolume);
                         del.setVisible(true);
                         stack.addAction(Actions.scaleTo(1.05f, 1.05f, 0.1f));
                     }
@@ -140,21 +143,19 @@ public class DeckScreen implements Screen {
             listTable.add(stack).width(250).height(350).pad(10);
         }
 
-        TextButton btnNew = new TextButton("+", skin);
-        btnNew.addListener(
-            new ChangeListener() {
-                @Override
-                public void changed(ChangeEvent event, Actor actor) {
-                    if (game.savedDecks.size < 4) {
+        if (game.savedDecks.size < 4) {
+            TextButton btnNew = new TextButton("+", skin);
+            btnNew.addListener(
+                new ChangeListener() {
+                    @Override
+                    public void changed(ChangeEvent event, Actor actor) {
                         game.setScreen(new NewDeckScreen(game));
-                    } else {
-                        showAlert("Vous ne pouvez avoir que 4 decks maximum");
                     }
                 }
-            }
-        );
-        game.soundifyButton(btnNew);
-        listTable.add(btnNew).width(250).height(350).pad(10);
+            );
+            game.soundifyButton(btnNew);
+            listTable.add(btnNew).width(250).height(350).pad(10);
+        }
 
         ScrollPane scroll = new ScrollPane(listTable, skin);
         root.add(scroll).center().expand();

@@ -37,7 +37,7 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import io.github.squidecim.genialtcg.*;
 import io.github.squidecim.genialtcg.controller.GameController;
-import io.github.squidecim.genialtcg.mainMenu.FirstScreen;
+import io.github.squidecim.genialtcg.mainMenu.MainScreen;
 import io.github.squidecim.genialtcg.model.CardData;
 import io.github.squidecim.genialtcg.model.GameModel;
 import io.github.squidecim.genialtcg.network.GameClient;
@@ -187,7 +187,6 @@ public class GameView implements Screen {
         vignetteTexture = createVignetteTexture(512, 512);
 
         boardTexture = new Texture("ui/plateau/" + model.terrain + ".png");
-
 
         ModelBuilder builder = new ModelBuilder();
         builder.begin();
@@ -569,8 +568,13 @@ public class GameView implements Screen {
                 flashAlpha = 1f;
                 flashingOut = false;
                 Texture oldTex = boardTexture;
-                boardTexture = new Texture("ui/plateau/" + pendingField + ".png");
-                boardTexture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
+                boardTexture = new Texture(
+                    "ui/plateau/" + pendingField + ".png"
+                );
+                boardTexture.setFilter(
+                    Texture.TextureFilter.Linear,
+                    Texture.TextureFilter.Linear
+                );
                 boardMaterial.set(TextureAttribute.createDiffuse(boardTexture));
                 oldTex.dispose();
                 pendingField = null;
@@ -584,7 +588,14 @@ public class GameView implements Screen {
             }
         }
         if (flashAlpha > 0f) {
-            boardMaterial.set(ColorAttribute.createEmissive(flashAlpha, flashAlpha, flashAlpha, 1f));
+            boardMaterial.set(
+                ColorAttribute.createEmissive(
+                    flashAlpha,
+                    flashAlpha,
+                    flashAlpha,
+                    1f
+                )
+            );
         } else {
             boardMaterial.remove(ColorAttribute.Emissive);
         }
@@ -684,7 +695,13 @@ public class GameView implements Screen {
         Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
         floatBatch.begin();
         floatBatch.setColor(1f, 1f, 1f, 1f);
-        floatBatch.draw(vignetteTexture, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        floatBatch.draw(
+            vignetteTexture,
+            0,
+            0,
+            Gdx.graphics.getWidth(),
+            Gdx.graphics.getHeight()
+        );
         floatBatch.end();
 
         uiStage.act(delta);
@@ -740,6 +757,12 @@ public class GameView implements Screen {
         if (bannerRow != null) {
             bannerRow.setSize(width, setupBanner.getPrefHeight() + 24);
             bannerRow.setPosition(0, height * 0.80f);
+        }
+        if (forfeitDialog != null && forfeitDialog.hasParent()) {
+            forfeitDialog.setPosition(
+                (uiStage.getWidth() - forfeitDialog.getWidth()) / 2f,
+                (uiStage.getHeight() - forfeitDialog.getHeight()) / 2f
+            );
         }
     }
 
@@ -833,7 +856,8 @@ public class GameView implements Screen {
 
     private Texture createVignetteTexture(int w, int h) {
         Pixmap px = new Pixmap(w, h, Pixmap.Format.RGBA8888);
-        float cx = w / 2f, cy = h / 2f;
+        float cx = w / 2f,
+            cy = h / 2f;
         float maxDist = (float) Math.sqrt(cx * cx + cy * cy);
         for (int y = 0; y < h; y++) {
             for (int x = 0; x < w; x++) {
@@ -990,15 +1014,50 @@ public class GameView implements Screen {
             protected void result(Object object) {
                 if (object.equals(true)) {
                     client.sendPlayerQuit();
-                    game.setScreen(new FirstScreen(game));
+                    game.setScreen(new MainScreen(game));
                 } else {
                     pauseMenuTable.setVisible(true);
                 }
             }
         };
-        forfeitDialog.text("Voulez-vous vraiment déclarer forfait ?");
-        forfeitDialog.button("Oui", true);
+        forfeitDialog
+            .getContentTable()
+            .add(new Label("Voulez-vous vraiment déclarer forfait ?", uiSkin))
+            .pad(10)
+            .row();
+        forfeitDialog.getButtonTable().defaults().width(120).height(40).pad(10);
         forfeitDialog.button("Non", false);
+        forfeitDialog.button("Oui", true);
+        for (com.badlogic.gdx.scenes.scene2d.ui.Cell<?> cell : forfeitDialog
+            .getButtonTable()
+            .getCells()) {
+            if (cell.getActor() instanceof TextButton) {
+                game.soundifyButton((TextButton) cell.getActor());
+            }
+        }
+        forfeitDialog.setResizable(true);
+        forfeitDialog.addListener(
+            new InputListener() {
+                @Override
+                public boolean touchDown(
+                    InputEvent event,
+                    float x,
+                    float y,
+                    int pointer,
+                    int button
+                ) {
+                    if (
+                        x < 0 ||
+                        x > forfeitDialog.getWidth() ||
+                        y < 0 ||
+                        y > forfeitDialog.getHeight()
+                    ) {
+                        forfeitDialog.hide();
+                    }
+                    return false;
+                }
+            }
+        );
 
         btnResume.addListener(
             new ChangeListener() {
@@ -2287,20 +2346,38 @@ public class GameView implements Screen {
         );
     }
 
-    public void showToCam(CardDecal cardAction, boolean isMyCard, String targetBenchCardId) {
+    public void showToCam(
+        CardDecal cardAction,
+        boolean isMyCard,
+        String targetBenchCardId
+    ) {
         Vector3 newPosition = new Vector3(0, 4.35f, 5f);
         cardAction.animateTo(newPosition, 0, -55f, 0, 0.3f);
 
-        com.badlogic.gdx.utils.Timer.schedule(new com.badlogic.gdx.utils.Timer.Task() {
-            @Override public void run() { sendToDiscard(cardAction, isMyCard); }
-        }, 1.3f);
+        com.badlogic.gdx.utils.Timer.schedule(
+            new com.badlogic.gdx.utils.Timer.Task() {
+                @Override
+                public void run() {
+                    sendToDiscard(cardAction, isMyCard);
+                }
+            },
+            1.3f
+        );
 
-        com.badlogic.gdx.utils.Timer.schedule(new com.badlogic.gdx.utils.Timer.Task() {
-            @Override public void run() {
-                actionSlot.removeCard();
-                controller.handleAction(cardAction, isMyCard, targetBenchCardId);
-            }
-        }, 2f);
+        com.badlogic.gdx.utils.Timer.schedule(
+            new com.badlogic.gdx.utils.Timer.Task() {
+                @Override
+                public void run() {
+                    actionSlot.removeCard();
+                    controller.handleAction(
+                        cardAction,
+                        isMyCard,
+                        targetBenchCardId
+                    );
+                }
+            },
+            2f
+        );
     }
 
     public void showToCam(CardDecal cardAction, boolean isMyCard) {

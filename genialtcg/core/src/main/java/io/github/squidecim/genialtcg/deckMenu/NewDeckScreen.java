@@ -23,6 +23,7 @@ import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import io.github.squidecim.genialtcg.GenialTCG;
+import io.github.squidecim.genialtcg.mainMenu.MainScreen;
 import io.github.squidecim.genialtcg.model.CardData;
 import io.github.squidecim.genialtcg.model.CardsStackData;
 import java.text.Collator;
@@ -279,7 +280,9 @@ public class NewDeckScreen implements Screen {
         // --- Grille ---
         gridTable = new Table();
         scroll = new ScrollPane(gridTable, skin);
-        ScrollPane.ScrollPaneStyle noBarStyle = new ScrollPane.ScrollPaneStyle(scroll.getStyle());
+        ScrollPane.ScrollPaneStyle noBarStyle = new ScrollPane.ScrollPaneStyle(
+            scroll.getStyle()
+        );
         noBarStyle.hScroll = null;
         noBarStyle.hScrollKnob = null;
         noBarStyle.vScroll = null;
@@ -673,7 +676,9 @@ public class NewDeckScreen implements Screen {
                             !isSelected &&
                             zoomContainer == null
                         ) {
-                            if (game.overpassCardsSound != null) game.overpassCardsSound.play(game.uiSoundVolume);
+                            if (
+                                game.overpassCardsSound != null
+                            ) game.overpassCardsSound.play(game.uiSoundVolume);
                             slot.addAction(
                                 Actions.scaleTo(
                                     EFFECT_SCALE,
@@ -718,7 +723,9 @@ public class NewDeckScreen implements Screen {
         if (zoomContainer != null) return;
         boolean isSelected = selectedCards.contains(region.name, false);
         zoomH = stage.getHeight() * 0.85f;
-        zoomW = zoomH * (region.getRegionWidth() / (float) region.getRegionHeight());
+        zoomW =
+            zoomH *
+            (region.getRegionWidth() / (float) region.getRegionHeight());
 
         Stack zoomStack = new Stack();
 
@@ -743,13 +750,22 @@ public class NewDeckScreen implements Screen {
 
         zoomCloseListener = new InputListener() {
             @Override
-            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+            public boolean touchDown(
+                InputEvent event,
+                float x,
+                float y,
+                int pointer,
+                int button
+            ) {
                 float sw = stage.getWidth();
                 float sh = stage.getHeight();
-                float cardLeft   = (sw - zoomW) / 2f;
+                float cardLeft = (sw - zoomW) / 2f;
                 float cardBottom = (sh - zoomH) / 2f;
-                boolean onCard = x >= cardLeft && x <= cardLeft + zoomW
-                              && y >= cardBottom && y <= cardBottom + zoomH;
+                boolean onCard =
+                    x >= cardLeft &&
+                    x <= cardLeft + zoomW &&
+                    y >= cardBottom &&
+                    y <= cardBottom + zoomH;
                 if (!onCard) {
                     closeZoom();
                     event.cancel();
@@ -802,14 +818,23 @@ public class NewDeckScreen implements Screen {
                             CardData d = game.allCardsMap.get(s);
                             if (d == null) {
                                 d = new CardData(
-                                    s, "N/A", "N/A", "N/A",
-                                    0, 0, new int[5], 0, "N/A", "N/A"
+                                    s,
+                                    "N/A",
+                                    "N/A",
+                                    "N/A",
+                                    0,
+                                    0,
+                                    new int[5],
+                                    0,
+                                    "N/A",
+                                    "N/A"
                                 );
                             }
                             list.add(d);
                         }
 
-
+                        boolean isFirstDeck =
+                            game.savedDecks.size == 0 && editingDeck == null;
                         if (editingDeck != null) {
                             editingDeck.name = name;
                             editingDeck.clearCards();
@@ -817,7 +842,12 @@ public class NewDeckScreen implements Screen {
                         } else {
                             game.savedDecks.add(new CardsStackData(name, list));
                         }
-                        game.setScreen(new DeckScreen(game));
+                        game.saveProfile();
+                        if (isFirstDeck) {
+                            game.setScreen(new MainScreen(game));
+                        } else {
+                            game.setScreen(new DeckScreen(game));
+                        }
                     }
                 }
             }
@@ -828,15 +858,19 @@ public class NewDeckScreen implements Screen {
             skin
         );
         nameInput.setMaxLength(15);
-        nameInput.addListener(new InputListener() {
-            @Override
-            public boolean keyDown(InputEvent event, int keycode) {
-                if (keycode == Input.Keys.ENTER) {
-                    if (game.clickSound != null) game.clickSound.play(game.uiSoundVolume);
+        nameInput.addListener(
+            new InputListener() {
+                @Override
+                public boolean keyDown(InputEvent event, int keycode) {
+                    if (keycode == Input.Keys.ENTER) {
+                        if (game.clickSound != null) game.clickSound.play(
+                            game.uiSoundVolume
+                        );
+                    }
+                    return false;
                 }
-                return false;
             }
-        });
+        );
         dialog
             .getContentTable()
             .add(new Label("Nom du deck :", skin))
@@ -856,15 +890,28 @@ public class NewDeckScreen implements Screen {
         dialog.key(Input.Keys.ENTER, true);
         dialog.setResizable(true);
 
-        dialog.addListener(new InputListener() {
-            @Override
-            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                if (x < 0 || x > dialog.getWidth() || y < 0 || y > dialog.getHeight()) {
-                    dialog.hide();
+        dialog.addListener(
+            new InputListener() {
+                @Override
+                public boolean touchDown(
+                    InputEvent event,
+                    float x,
+                    float y,
+                    int pointer,
+                    int button
+                ) {
+                    if (
+                        x < 0 ||
+                        x > dialog.getWidth() ||
+                        y < 0 ||
+                        y > dialog.getHeight()
+                    ) {
+                        dialog.hide();
+                    }
+                    return false;
                 }
-                return false;
             }
-        });
+        );
         dialog.show(stage);
         stage.setKeyboardFocus(nameInput);
     }

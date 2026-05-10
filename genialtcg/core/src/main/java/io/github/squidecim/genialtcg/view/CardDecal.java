@@ -148,19 +148,21 @@ public class CardDecal {
         if (data.id.startsWith("ACT-") || data.id.startsWith("OUT-")) return;
         if (fb_batch == null) {
             fb_batch = new SpriteBatch();
-            FreeTypeFontGenerator generator_bold = new FreeTypeFontGenerator(
+            FreeTypeFontGenerator generatorBold = new FreeTypeFontGenerator(
                 Gdx.files.internal("ui/dejavu-sans/DejaVuSans-Bold.ttf")
             );
-            FreeTypeFontGenerator generator_regular = new FreeTypeFontGenerator(
+            FreeTypeFontGenerator generatorRegular = new FreeTypeFontGenerator(
                 Gdx.files.internal("ui/dejavu-sans/DejaVuSans.ttf")
             );
             FreeTypeFontGenerator.FreeTypeFontParameter params =
                 new FreeTypeFontGenerator.FreeTypeFontParameter();
             params.size = 40;
-            fb_font_pv = generator_bold.generateFont(params);
+            fb_font_pv = generatorBold.generateFont(params);
             params.size = 20;
-            fb_font_special_cost = generator_bold.generateFont(params);
-            fb_font_stats = generator_regular.generateFont(params);
+            fb_font_special_cost = generatorBold.generateFont(params);
+            fb_font_stats = generatorRegular.generateFont(params);
+            generatorBold.dispose();
+            generatorRegular.dispose();
         }
         if (frameBuffer != null) frameBuffer.dispose();
 
@@ -484,6 +486,8 @@ public class CardDecal {
         if (frameBuffer != null) frameBuffer.dispose();
         if (fb_batch != null) fb_batch.dispose();
         if (fb_font_pv != null) fb_font_pv.dispose();
+        if (fb_font_stats != null) fb_font_stats.dispose();
+        if (fb_font_special_cost != null) fb_font_special_cost.dispose();
     }
 
     public CardData getData() {

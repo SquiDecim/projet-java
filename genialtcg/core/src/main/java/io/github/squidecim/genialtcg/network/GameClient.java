@@ -62,8 +62,6 @@ public class GameClient {
                         current.onNormalAttack((NetworkMessages.NormalAttack) obj);
                     else if (obj instanceof NetworkMessages.Retreat)
                         current.onRetreat((NetworkMessages.Retreat) obj);
-                    else if (obj instanceof NetworkMessages.CreditsUpdate)
-                        current.onCreditsUpdate((NetworkMessages.CreditsUpdate) obj);
                     else if (obj instanceof NetworkMessages.CardDied)
                         current.onCardDied((NetworkMessages.CardDied) obj);
                     else if (obj instanceof NetworkMessages.SpecialAttack)
@@ -89,7 +87,6 @@ public class GameClient {
         // 5000 = timeout en ms, si connexion échoue après 5s → exception
     }
 
-    // méthodes pour envoyer des messages au serveur
     // méthodes pour envoyer des messages au serveur
     public void sendDrawCard() {
         client.sendTCP(new NetworkMessages.DrawCard());
@@ -179,7 +176,7 @@ public class GameClient {
     public void sendCardDied(String region, String emplacement, boolean opponentDied) {
         NetworkMessages.CardDied msg = new NetworkMessages.CardDied();
         msg.cardId = region;
-        System.out.println(emplacement);
+        Gdx.app.log("GameClient", "sendCardDied — zone : " + emplacement);
         msg.zone = emplacement;
         msg.isOpponent = opponentDied;
         client.sendTCP(msg);
@@ -198,6 +195,12 @@ public class GameClient {
         NetworkMessages.Field f = new NetworkMessages.Field();
         f.field = climat;
         client.sendTCP(f);
+    }
+
+    public void sendPlayerName(String name) {
+        NetworkMessages.SetPlayerName msg = new NetworkMessages.SetPlayerName();
+        msg.name = name;
+        client.sendTCP(msg);
     }
 
 }

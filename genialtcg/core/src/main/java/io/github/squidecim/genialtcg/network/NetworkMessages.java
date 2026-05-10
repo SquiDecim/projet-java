@@ -52,6 +52,12 @@ public class NetworkMessages {
     public static class PlayerJoined {
         public String playerName;
         public int playerCount; // 1 ou 2
+        public String[] playerNames; // noms réels de tous les joueurs connectés
+    }
+
+    // Client → Serveur : voici mon pseudo
+    public static class SetPlayerName {
+        public String name;
     }
 
     public static class LobbyInfo {

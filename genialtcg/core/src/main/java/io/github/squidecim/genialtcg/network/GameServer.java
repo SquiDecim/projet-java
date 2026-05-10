@@ -17,6 +17,7 @@ public class GameServer {
     private final String lobbyCodeForClients;
     private Server server;
     private Map<Connection, String> playerIds = new HashMap<>();
+    private Map<String, String> idToName = new HashMap<>();
     private int connectedCount = 0;
     private Runnable onBothConnected;
     private Map<Connection, Integer> deckSizes = new HashMap<>();
@@ -37,7 +38,7 @@ public class GameServer {
                 connectedCount++;
                 String id = "player" + connectedCount;
                 playerIds.put(conn, id);
-
+                idToName.put(id, "Joueur " + connectedCount);
 
                 NetworkMessages.AssignId msg = new NetworkMessages.AssignId();
                 msg.playerId = id;
@@ -50,25 +51,26 @@ public class GameServer {
                 }
 
                 NetworkMessages.PlayerJoined joined = new NetworkMessages.PlayerJoined();
-                joined.playerName = "Joueur " + connectedCount;
+                joined.playerName = idToName.get(id);
                 joined.playerCount = connectedCount;
+                joined.playerNames = buildPlayerNamesArray();
                 server.sendToAllTCP(joined);
 
                 if (connectedCount == 2 && onBothConnected != null) {
                     onBothConnected.run();
                 }
-
-
             }
 
             @Override
             public void disconnected(Connection conn) {
                 String id = playerIds.remove(conn);
                 if (id != null) {
+                    idToName.remove(id);
                     connectedCount--;
                     NetworkMessages.PlayerJoined update = new NetworkMessages.PlayerJoined();
                     update.playerCount = connectedCount;
                     update.playerName = "";
+                    update.playerNames = buildPlayerNamesArray();
                     server.sendToAllTCP(update);
                 }
             }
@@ -128,7 +130,7 @@ public class GameServer {
                 } else if (obj instanceof NetworkMessages.CardDied) {
                     NetworkMessages.CardDied d = (NetworkMessages.CardDied) obj;
                     String attackerId = playerIds.get(conn);
-                    d.playerId = attackerId.equals("player1") ? "player1" : "player2";
+                    d.playerId = attackerId;
                     server.sendToAllTCP(d);
                 } else if (obj instanceof NetworkMessages.SpecialAttack) {
                     server.sendToAllTCP(obj);
@@ -136,12 +138,29 @@ public class GameServer {
                     server.sendToAllTCP(obj);
                 } else if (obj instanceof NetworkMessages.Field) {
                     server.sendToAllTCP(obj);
+                } else if (obj instanceof NetworkMessages.SetPlayerName) {
+                    String pid = playerIds.get(conn);
+                    if (pid != null) {
+                        idToName.put(pid, ((NetworkMessages.SetPlayerName) obj).name);
+                        NetworkMessages.PlayerJoined update = new NetworkMessages.PlayerJoined();
+                        update.playerCount = connectedCount;
+                        update.playerName = ((NetworkMessages.SetPlayerName) obj).name;
+                        update.playerNames = buildPlayerNamesArray();
+                        server.sendToAllTCP(update);
+                    }
                 }
             }
         });
 
         server.bind(54555, 54777);
         server.start();
+    }
+
+    private String[] buildPlayerNamesArray() {
+        String[] names = new String[2];
+        names[0] = idToName.getOrDefault("player1", "");
+        names[1] = idToName.getOrDefault("player2", "");
+        return names;
     }
 
     public void setOnBothConnected(Runnable r) {
@@ -186,5 +205,6 @@ public class GameServer {
         kryo.register(int[].class);
         kryo.register(NetworkMessages.SpecialAttack.class);
         kryo.register(NetworkMessages.Field.class);
+        kryo.register(NetworkMessages.SetPlayerName.class);
     }
 }

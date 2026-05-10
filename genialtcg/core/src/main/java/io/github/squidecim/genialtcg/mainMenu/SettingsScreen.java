@@ -1,27 +1,35 @@
 package io.github.squidecim.genialtcg.mainMenu;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.SelectBox;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Slider;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import io.github.squidecim.genialtcg.GenialTCG;
+
+import java.util.List;
 
 public class SettingsScreen implements Screen {
 
     private final GenialTCG game;
     private Stage stage;
     private Skin skin;
+    private Dialog changePseudoDialog;
 
     public SettingsScreen(GenialTCG game) {
         this.game = game;
@@ -58,7 +66,7 @@ public class SettingsScreen implements Screen {
             new ChangeListener() {
                 @Override
                 public void changed(ChangeEvent event, Actor actor) {
-                    game.setScreen(new FirstScreen(game));
+                    game.setScreen(new MainScreen(game));
                 }
             }
         );
@@ -154,6 +162,26 @@ public class SettingsScreen implements Screen {
             }
         );
 
+        TextButton btnChangeProfil = new TextButton("Changer de profil", skin);
+        game.soundifyButton(btnChangeProfil);
+        btnChangeProfil.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                game.playerPseudo = "";
+                game.savedDecks.clear();
+                game.setScreen(new ProfileSelectionScreen(game));
+            }
+        });
+
+        TextButton btnChangePseudo = new TextButton("Changer de pseudo", skin);
+        game.soundifyButton(btnChangePseudo);
+        btnChangePseudo.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                showChangePseudoDialog();
+            }
+        });
+
         table.add(volumeLabel).padBottom(5).row();
         table.add(volumeSlider).width(300).padBottom(15).row();
         table.add(uiSoundLabel).padBottom(5).row();
@@ -161,7 +189,96 @@ public class SettingsScreen implements Screen {
         table.add(brightnessLabel).padBottom(5).row();
         table.add(brightnessSlider).width(300).padBottom(15).row();
         table.add(displayLabel).padBottom(5).row();
-        table.add(displayBox).width(300).padBottom(15).row();
+        table.add(displayBox).width(300).padBottom(25).row();
+        table.add(btnChangePseudo).width(300).height(50).padBottom(10).row();
+        table.add(btnChangeProfil).width(300).height(50).padBottom(15).row();
+    }
+
+    private void showChangePseudoDialog() {
+        changePseudoDialog = new Dialog("", skin) {
+            @Override
+            protected void result(Object object) {}
+        };
+
+        String current = game.playerPseudo.isEmpty() ? "(aucun)" : game.playerPseudo;
+        changePseudoDialog.getContentTable()
+            .add(new Label("Pseudo actuel : " + current, skin))
+            .width(320).pad(10).row();
+        changePseudoDialog.getContentTable()
+            .add(new Label("Nouveau pseudo :", skin))
+            .width(320).padTop(5).padLeft(10).padRight(10).row();
+
+        TextField pseudoField = new TextField("", skin);
+        pseudoField.setMaxLength(18);
+        changePseudoDialog.getContentTable().add(pseudoField).width(320).pad(10).row();
+
+        Label errorLbl = new Label("", skin);
+        errorLbl.setColor(Color.RED);
+        changePseudoDialog.getContentTable().add(errorLbl).pad(5).row();
+
+        TextButton btnValider = new TextButton("Valider", skin);
+        game.soundifyButton(btnValider);
+        TextButton btnCancel = new TextButton("Annuler", skin);
+        game.soundifyButton(btnCancel);
+
+        Runnable valider = () -> {
+            String newPseudo = pseudoField.getText().trim();
+            if (newPseudo.isEmpty()) {
+                errorLbl.setText("Le pseudo ne peut pas etre vide.");
+                return;
+            }
+            if (newPseudo.equals(game.playerPseudo)) {
+                changePseudoDialog.hide();
+                return;
+            }
+            List<String> existing = game.getSavedProfiles();
+            if (existing.contains(newPseudo)) {
+                errorLbl.setText("Ce pseudo est deja utilise.");
+                return;
+            }
+            game.renameProfile(game.playerPseudo, newPseudo);
+            changePseudoDialog.hide();
+        };
+
+        btnValider.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                valider.run();
+            }
+        });
+        btnCancel.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                changePseudoDialog.hide();
+            }
+        });
+        pseudoField.addListener(new InputListener() {
+            @Override
+            public boolean keyDown(InputEvent event, int keycode) {
+                if (keycode == Input.Keys.ENTER) {
+                    valider.run();
+                    return true;
+                }
+                return false;
+            }
+        });
+        changePseudoDialog.addListener(new InputListener() {
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                if (x < 0 || x > changePseudoDialog.getWidth()
+                        || y < 0 || y > changePseudoDialog.getHeight()) {
+                    changePseudoDialog.hide();
+                }
+                return false;
+            }
+        });
+
+        changePseudoDialog.getButtonTable().defaults().width(130).height(40).pad(10);
+        changePseudoDialog.getButtonTable().add(btnCancel);
+        changePseudoDialog.getButtonTable().add(btnValider);
+        changePseudoDialog.setResizable(true);
+        changePseudoDialog.show(stage);
+        stage.setKeyboardFocus(pseudoField);
     }
 
     @Override

@@ -6,7 +6,7 @@ import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.Pixmap; // Import ajouté
+import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
@@ -21,7 +21,7 @@ import io.github.squidecim.genialtcg.GenialTCG;
 import io.github.squidecim.genialtcg.deckMenu.DeckScreen;
 import io.github.squidecim.genialtcg.network.LobbyCode;
 
-public class FirstScreen implements Screen {
+public class MainScreen implements Screen {
 
     private final GenialTCG game;
     private Stage stage;
@@ -33,15 +33,16 @@ public class FirstScreen implements Screen {
     private String errorMessage = null;
 
     private Dialog errorDialog;
-    private TextButton btnClose;
     private Dialog joinPartyDialog;
     private TextButton btnJoinDialog;
+    private Label pseudoLabel;
+    private Table pseudoBox;
 
-    public FirstScreen(GenialTCG game) {
+    public MainScreen(GenialTCG game) {
         this.game = game;
     }
 
-    public FirstScreen(GenialTCG game, String errorMessage) {
+    public MainScreen(GenialTCG game, String errorMessage) {
         this.game = game;
         this.errorMessage = errorMessage;
     }
@@ -84,6 +85,28 @@ public class FirstScreen implements Screen {
         pixmap.fill();
         darkOverlayTexture = new Texture(pixmap);
         pixmap.dispose();
+
+        // Boîte pseudo haut à gauche — style identique aux boîtes crédits in-game
+        pseudoLabel = new Label(
+            game.playerPseudo.isEmpty() ? "" : game.playerPseudo,
+            skin,
+            "title"
+        );
+        pseudoLabel.setFontScale(0.22f);
+        pseudoLabel.setColor(Color.WHITE);
+
+        pseudoBox = new Table();
+        pseudoBox.setBackground(
+            skin.newDrawable("white", new Color(0f, 0f, 0f, 0.78f))
+        );
+        pseudoBox.add(pseudoLabel).pad(9, 22, 9, 22);
+        pseudoBox.setVisible(!game.playerPseudo.isEmpty());
+
+        Table topLeft = new Table();
+        topLeft.setFillParent(true);
+        topLeft.top().left().pad(16);
+        topLeft.add(pseudoBox);
+        stage.addActor(topLeft);
 
         Table table = new Table();
         table.setFillParent(true);
@@ -207,11 +230,17 @@ public class FirstScreen implements Screen {
 
                     game.soundifyButton(btnJoinDialog);
 
-                    TextButton btnCancelDialog = new TextButton("Annuler", skin);
+                    TextButton btnCancelDialog = new TextButton(
+                        "Annuler",
+                        skin
+                    );
                     btnCancelDialog.addListener(
                         new ChangeListener() {
                             @Override
-                            public void changed(ChangeEvent event, Actor actor) {
+                            public void changed(
+                                ChangeEvent event,
+                                Actor actor
+                            ) {
                                 joinPartyDialog.hide();
                             }
                         }
@@ -227,15 +256,28 @@ public class FirstScreen implements Screen {
                     joinPartyDialog.getButtonTable().add(btnCancelDialog);
                     joinPartyDialog.getButtonTable().add(btnJoinDialog);
                     joinPartyDialog.setResizable(true);
-                    joinPartyDialog.addListener(new InputListener() {
-                        @Override
-                        public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                            if (x < 0 || x > joinPartyDialog.getWidth() || y < 0 || y > joinPartyDialog.getHeight()) {
-                                joinPartyDialog.hide();
+                    joinPartyDialog.addListener(
+                        new InputListener() {
+                            @Override
+                            public boolean touchDown(
+                                InputEvent event,
+                                float x,
+                                float y,
+                                int pointer,
+                                int button
+                            ) {
+                                if (
+                                    x < 0 ||
+                                    x > joinPartyDialog.getWidth() ||
+                                    y < 0 ||
+                                    y > joinPartyDialog.getHeight()
+                                ) {
+                                    joinPartyDialog.hide();
+                                }
+                                return false;
                             }
-                            return false;
                         }
-                    });
+                    );
                     joinPartyDialog.show(stage);
                     stage.setKeyboardFocus(codeField);
                 }
@@ -305,7 +347,11 @@ public class FirstScreen implements Screen {
                 @Override
                 protected void result(Object object) {}
             };
-            dialog.getContentTable().add(new Label(errorMessage, skin)).pad(10).row();
+            dialog
+                .getContentTable()
+                .add(new Label(errorMessage, skin))
+                .pad(10)
+                .row();
             dialog.getButtonTable().defaults().width(120).height(40).pad(10);
             dialog.button("Fermer", true);
             for (Cell<?> cell : dialog.getButtonTable().getCells()) {
@@ -314,6 +360,28 @@ public class FirstScreen implements Screen {
                 }
             }
             dialog.setResizable(true);
+            dialog.addListener(
+                new InputListener() {
+                    @Override
+                    public boolean touchDown(
+                        InputEvent event,
+                        float x,
+                        float y,
+                        int pointer,
+                        int button
+                    ) {
+                        if (
+                            x < 0 ||
+                            x > dialog.getWidth() ||
+                            y < 0 ||
+                            y > dialog.getHeight()
+                        ) {
+                            dialog.hide();
+                        }
+                        return false;
+                    }
+                }
+            );
             errorDialog = dialog;
             dialog.show(stage);
         }
@@ -338,7 +406,6 @@ public class FirstScreen implements Screen {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         if (backgroundTexture != null) {
-
             batch.setProjectionMatrix(stage.getCamera().combined);
 
             batch.begin();
@@ -360,22 +427,10 @@ public class FirstScreen implements Screen {
             float x = (screenWidth - drawWidth) / 2f;
             float y = (screenHeight - drawHeight) / 2f;
 
-            batch.draw(
-                backgroundTexture,
-                x,
-                y,
-                drawWidth,
-                drawHeight
-            );
+            batch.draw(backgroundTexture, x, y, drawWidth, drawHeight);
 
             if (darkOverlayTexture != null) {
-                batch.draw(
-                    darkOverlayTexture,
-                    0,
-                    0,
-                    screenWidth,
-                    screenHeight
-                );
+                batch.draw(darkOverlayTexture, 0, 0, screenWidth, screenHeight);
             }
 
             batch.end();

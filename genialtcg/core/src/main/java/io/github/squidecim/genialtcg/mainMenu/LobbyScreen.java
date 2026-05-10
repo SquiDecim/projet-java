@@ -105,7 +105,7 @@ public class LobbyScreen implements Screen, GameClient.NetworkListener {
             new ChangeListener() {
                 @Override
                 public void changed(ChangeEvent event, Actor actor) {
-                    game.setScreen(new FirstScreen(game));
+                    game.setScreen(new MainScreen(game));
                 }
             }
         );
@@ -172,7 +172,9 @@ public class LobbyScreen implements Screen, GameClient.NetworkListener {
         leftCol.add(joueursTitre).padBottom(10).row();
 
         playerList = new List<>(skin);
-        connectedPlayers.add("Joueur 1 (vous)");
+        connectedPlayers.add(
+            (game.playerPseudo.isEmpty() ? "Joueur 1" : game.playerPseudo)
+        );
         playerList.setItems(connectedPlayers);
 
         ScrollPane playerScroll = new ScrollPane(playerList, skin);
@@ -237,7 +239,7 @@ public class LobbyScreen implements Screen, GameClient.NetworkListener {
                     Gdx.app.postRunnable(() -> {
                         dispose();
                         game.setScreen(
-                            new FirstScreen(game, "Connexion perdue !")
+                            new MainScreen(game, "Connexion perdue !")
                         );
                     });
                 }
@@ -358,9 +360,12 @@ public class LobbyScreen implements Screen, GameClient.NetworkListener {
                 }
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            Gdx.app.error(
+                "LobbyScreen",
+                "Impossible de récupérer l'IP locale : " + e.getMessage()
+            );
         }
-        return "XXXXXX";
+        return ipToBase36("127.0.0.1");
     }
 
     private String ipToBase36(String ip) {
@@ -459,6 +464,10 @@ public class LobbyScreen implements Screen, GameClient.NetworkListener {
     @Override
     public void onAssignId(NetworkMessages.AssignId msg) {
         myPlayerId = msg.playerId;
+        String pseudo = game.playerPseudo.isEmpty()
+            ? "Joueur " + msg.playerId.replace("player", "")
+            : game.playerPseudo;
+        client.sendPlayerName(pseudo);
     }
 
     @Override
@@ -502,9 +511,12 @@ public class LobbyScreen implements Screen, GameClient.NetworkListener {
         connectedPlayers.clear();
         for (int i = 0; i < msg.playerCount; i++) {
             String pid = i == 0 ? "player1" : "player2";
-            String name = "Joueur " + (i + 1);
-            if (pid.equals(myPlayerId)) name += " (vous)";
-            else if (i == 0 && isHost) name += " (hôte)";
+            String name = (msg.playerNames != null &&
+                i < msg.playerNames.length &&
+                !msg.playerNames[i].isEmpty())
+                ? msg.playerNames[i]
+                : "Joueur " + (i + 1);
+            if (pid.equals(myPlayerId));
             connectedPlayers.add(name);
         }
         playerList.setItems(connectedPlayers);
@@ -544,7 +556,5 @@ public class LobbyScreen implements Screen, GameClient.NetworkListener {
     public void onPlayerQuit() {}
 
     @Override
-    public void onField(NetworkMessages.Field msg) {
-
-    }
+    public void onField(NetworkMessages.Field msg) {}
 }

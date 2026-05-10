@@ -20,13 +20,19 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.JsonReader;
 import com.badlogic.gdx.utils.JsonValue;
-import io.github.squidecim.genialtcg.mainMenu.FirstScreen;
+import io.github.squidecim.genialtcg.mainMenu.MainScreen;
+import io.github.squidecim.genialtcg.mainMenu.ProfileSelectionScreen;
 import io.github.squidecim.genialtcg.model.CardData;
 import io.github.squidecim.genialtcg.model.CardsStackData;
 import io.github.squidecim.genialtcg.network.GameClient;
 import io.github.squidecim.genialtcg.network.GameServer;
-
+import java.io.File;
+import java.nio.channels.FileChannel;
+import java.nio.channels.FileLock;
+import java.nio.file.StandardOpenOption;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class GenialTCG extends Game {
@@ -52,6 +58,11 @@ public class GenialTCG extends Game {
     public Sound damageStabiliteSound;
     public Sound specialEffectSound;
     public float uiSoundVolume = 0.5f;
+
+    public String playerPseudo = "";
+
+    private FileChannel profileLockChannel;
+    private FileLock    profileFileLock;
 
     public float globalBrightness = 1.0f;
     public SpriteBatch overlayBatch;
@@ -81,6 +92,9 @@ public class GenialTCG extends Game {
 
         skin = buildSkin();
         loadCardsFromJson();
+
+        // Pas d'auto-chargement : FirstScreen présente toujours le sélecteur
+        // afin que deux instances sur la même machine puissent choisir des profils distincts.
 
         uiSoundVolume = prefs.getFloat("ui_sound_volume", 0.5f);
 
@@ -116,35 +130,47 @@ public class GenialTCG extends Game {
                 Gdx.files.internal("audio/game_effect/cards/switch.mp3")
             );
             damagePuissanceSound = Gdx.audio.newSound(
-                Gdx.files.internal("audio/game_effect/damage/damage_puissance.mp3")
+                Gdx.files.internal(
+                    "audio/game_effect/damage/damage_puissance.mp3"
+                )
             );
             damageRessourceSound = Gdx.audio.newSound(
-                Gdx.files.internal("audio/game_effect/damage/damage_ressource.mp3")
+                Gdx.files.internal(
+                    "audio/game_effect/damage/damage_ressource.mp3"
+                )
             );
             damageTechnologieSound = Gdx.audio.newSound(
-                Gdx.files.internal("audio/game_effect/damage/damage_technologie.mp3")
+                Gdx.files.internal(
+                    "audio/game_effect/damage/damage_technologie.mp3"
+                )
             );
             damageStabiliteSound = Gdx.audio.newSound(
-                Gdx.files.internal("audio/game_effect/damage/damage_statbilite.mp3")
+                Gdx.files.internal(
+                    "audio/game_effect/damage/damage_statbilite.mp3"
+                )
             );
             specialEffectSound = Gdx.audio.newSound(
-                Gdx.files.internal("audio/game_effect/damage/special_effect.mp3")
+                Gdx.files.internal(
+                    "audio/game_effect/damage/special_effect.mp3"
+                )
             );
         } catch (Exception e) {
             Gdx.app.log("Audio", "Erreur chargement sons boutons");
         }
 
-        Runtime.getRuntime().addShutdownHook(new Thread(() -> {
-            if (currentGameClient != null) {
-                currentGameClient.disconnect();
-            }
+        Runtime.getRuntime().addShutdownHook(
+            new Thread(() -> {
+                unlockCurrentProfile();
+                if (currentGameClient != null) {
+                    currentGameClient.disconnect();
+                }
+                if (currentGameServer != null) {
+                    currentGameServer.stop();
+                }
+            })
+        );
 
-            if (currentGameServer != null) {
-                currentGameServer.stop();
-            }
-        }));
-
-        setScreen(new FirstScreen(this));
+        setScreen(new ProfileSelectionScreen(this));
     }
 
     @Override
@@ -220,11 +246,187 @@ public class GenialTCG extends Game {
         );
     }
 
+    // ── Gestion des profils ────────────────────────────────────────────────────
+
+    private static File getLockFile(String pseudo) {
+        File dir = new File(System.getProperty("user.home"), ".genialtcg/locks");
+        dir.mkdirs();
+        return new File(dir, "profile_" + pseudo + ".lock");
+    }
+
+    public void lockProfile(String pseudo) {
+        unlockCurrentProfile();
+        try {
+            FileChannel ch = FileChannel.open(
+                getLockFile(pseudo).toPath(),
+                StandardOpenOption.CREATE, StandardOpenOption.WRITE
+            );
+            FileLock fl = ch.tryLock();
+            if (fl != null) {
+                profileLockChannel = ch;
+                profileFileLock    = fl;
+            } else {
+                ch.close();
+            }
+        } catch (Exception e) {
+            Gdx.app.log("Lock", "Erreur verrou profil : " + e.getMessage());
+        }
+    }
+
+    public void unlockCurrentProfile() {
+        try {
+            if (profileFileLock != null)    { profileFileLock.release();    profileFileLock    = null; }
+            if (profileLockChannel != null) { profileLockChannel.close();   profileLockChannel = null; }
+        } catch (Exception e) {
+            Gdx.app.log("Lock", "Erreur libération verrou : " + e.getMessage());
+        }
+    }
+
+    public boolean isProfileLocked(String pseudo) {
+        File f = getLockFile(pseudo);
+        if (!f.exists()) return false;
+        try (FileChannel ch = FileChannel.open(f.toPath(),
+                StandardOpenOption.CREATE, StandardOpenOption.WRITE);
+             FileLock fl = ch.tryLock()) {
+            return fl == null; // null → un autre processus détient le verrou
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    public List<String> getSavedProfiles() {
+        Preferences index = Gdx.app.getPreferences("GenialTCG_Profiles");
+        String raw = index.getString("profiles", "");
+        List<String> list = new ArrayList<>();
+        if (!raw.isEmpty()) {
+            for (String p : raw.split(",")) {
+                if (!p.trim().isEmpty()) list.add(p.trim());
+            }
+        }
+        return list;
+    }
+
+    public void loadProfile(String pseudo) {
+        playerPseudo = pseudo;
+        lockProfile(pseudo);
+        savedDecks.clear();
+        Preferences prefs = Gdx.app.getPreferences(
+            "GenialTCG_Profile_" + pseudo
+        );
+        int count = prefs.getInteger("deck_count", 0);
+        for (int i = 0; i < count; i++) {
+            String name = prefs.getString("deck_" + i + "_name", "");
+            String cardsStr = prefs.getString("deck_" + i + "_cards", "");
+            if (name.isEmpty()) continue;
+            List<CardData> cards = new ArrayList<>();
+            if (!cardsStr.isEmpty()) {
+                for (String regionName : cardsStr.split(",")) {
+                    CardData card = allCardsMap.get(regionName.trim());
+                    if (card != null) cards.add(card);
+                }
+            }
+            savedDecks.add(new CardsStackData(name, cards));
+        }
+    }
+
+    public void saveProfile() {
+        if (playerPseudo.isEmpty()) return;
+
+        Preferences index = Gdx.app.getPreferences("GenialTCG_Profiles");
+        String raw = index.getString("profiles", "");
+        boolean found = false;
+        for (String p : raw.split(",")) {
+            if (p.trim().equals(playerPseudo)) {
+                found = true;
+                break;
+            }
+        }
+        if (!found) {
+            index.putString(
+                "profiles",
+                raw.isEmpty() ? playerPseudo : raw + "," + playerPseudo
+            );
+            index.flush();
+        }
+
+        Preferences prefs = Gdx.app.getPreferences(
+            "GenialTCG_Profile_" + playerPseudo
+        );
+        prefs.putString("pseudo", playerPseudo);
+        prefs.putInteger("deck_count", savedDecks.size);
+        for (int i = 0; i < savedDecks.size; i++) {
+            CardsStackData deck = savedDecks.get(i);
+            prefs.putString(
+                "deck_" + i + "_name",
+                deck.name != null ? deck.name : ""
+            );
+            StringBuilder sb = new StringBuilder();
+            for (CardData card : deck.getCards()) {
+                if (sb.length() > 0) sb.append(",");
+                sb.append(card.getAtlasRegionName());
+            }
+            prefs.putString("deck_" + i + "_cards", sb.toString());
+        }
+        prefs.flush();
+    }
+
+    public void renameProfile(String oldPseudo, String newPseudo) {
+        Preferences oldPrefs = Gdx.app.getPreferences("GenialTCG_Profile_" + oldPseudo);
+        Preferences newPrefs = Gdx.app.getPreferences("GenialTCG_Profile_" + newPseudo);
+        int count = oldPrefs.getInteger("deck_count", 0);
+        newPrefs.putString("pseudo", newPseudo);
+        newPrefs.putInteger("deck_count", count);
+        for (int i = 0; i < count; i++) {
+            newPrefs.putString("deck_" + i + "_name", oldPrefs.getString("deck_" + i + "_name", ""));
+            newPrefs.putString("deck_" + i + "_cards", oldPrefs.getString("deck_" + i + "_cards", ""));
+        }
+        newPrefs.flush();
+        oldPrefs.clear();
+        oldPrefs.flush();
+
+        Preferences index = Gdx.app.getPreferences("GenialTCG_Profiles");
+        String raw = index.getString("profiles", "");
+        StringBuilder sb = new StringBuilder();
+        for (String p : raw.split(",")) {
+            if (!p.trim().isEmpty()) {
+                if (sb.length() > 0) sb.append(",");
+                sb.append(p.trim().equals(oldPseudo) ? newPseudo : p.trim());
+            }
+        }
+        index.putString("profiles", sb.toString());
+        index.flush();
+
+        playerPseudo = newPseudo;
+    }
+
+    public void deleteProfile(String pseudo) {
+        Preferences index = Gdx.app.getPreferences("GenialTCG_Profiles");
+        String raw = index.getString("profiles", "");
+        StringBuilder sb = new StringBuilder();
+        for (String p : raw.split(",")) {
+            if (!p.trim().isEmpty() && !p.trim().equals(pseudo)) {
+                if (sb.length() > 0) sb.append(",");
+                sb.append(p.trim());
+            }
+        }
+        index.putString("profiles", sb.toString());
+        index.flush();
+
+        Preferences prefs = Gdx.app.getPreferences("GenialTCG_Profile_" + pseudo);
+        prefs.clear();
+        prefs.flush();
+    }
+
+    // ──────────────────────────────────────────────────────────────────────────
+
     private Skin buildSkin() {
         Skin skin = new Skin(Gdx.files.internal("ui/uiskin.json"));
 
         FreeTypeFontGenerator.FreeTypeFontParameter parameter =
             new FreeTypeFontGenerator.FreeTypeFontParameter();
+        parameter.characters =
+            FreeTypeFontGenerator.DEFAULT_CHARS +
+            "àâäéèêëîïôùûüçœÀÂÄÉÈÊËÎÏÔÙÛÜÇŒæÆ«»€°";
 
         // Font UI — DejaVuSans Regular 16pt (utilisée directement, sans passer par le skin)
         FreeTypeFontGenerator generatorRegular = new FreeTypeFontGenerator(
@@ -275,24 +477,24 @@ public class GenialTCG extends Game {
                     : new int[5];
 
                 JsonValue spec = entry.get("special");
-                int      sCout  = 0;
-                String   sNom   = "";
-                String   sDesc  = "";
-                String[] effectTypes  = new String[0];
-                int[]    effectValues = new int[0];
+                int sCout = 0;
+                String sNom = "";
+                String sDesc = "";
+                String[] effectTypes = new String[0];
+                int[] effectValues = new int[0];
 
                 if (spec != null) {
                     sCout = spec.getInt("cout", 0);
-                    sNom  = spec.getString("nom", "");
+                    sNom = spec.getString("nom", "");
                     sDesc = spec.getString("description", "");
 
                     if (spec.has("effets")) {
                         JsonValue effetsArr = spec.get("effets");
-                        effectTypes  = new String[effetsArr.size];
+                        effectTypes = new String[effetsArr.size];
                         effectValues = new int[effetsArr.size];
                         for (int i = 0; i < effetsArr.size; i++) {
                             JsonValue pair = effetsArr.get(i);
-                            effectTypes[i]  = pair.getString(0);
+                            effectTypes[i] = pair.getString(0);
                             effectValues[i] = pair.getInt(1);
                         }
                     }
@@ -310,7 +512,7 @@ public class GenialTCG extends Game {
                     sNom,
                     sDesc
                 );
-                card.specialEffectTypes  = effectTypes;
+                card.specialEffectTypes = effectTypes;
                 card.specialEffectValues = effectValues;
                 allCardsMap.put(card.getAtlasRegionName(), card);
             }
@@ -387,19 +589,20 @@ public class GenialTCG extends Game {
                 String condStr =
                     condBuf.length() > 0 ? condBuf.toString() : "—";
 
-                String[] effectTypes  = new String[0];
-                int[]    effectValues = new int[0];
+                String[] effectTypes = new String[0];
+                int[] effectValues = new int[0];
 
                 if (entry.has("effets")) {
                     JsonValue effetsArr = entry.get("effets");
-                    effectTypes  = new String[effetsArr.size];
+                    effectTypes = new String[effetsArr.size];
                     effectValues = new int[effetsArr.size];
                     for (int i = 0; i < effetsArr.size; i++) {
                         JsonValue pair = effetsArr.get(i);
-                        effectTypes[i]  = pair.getString(0);
-                        effectValues[i] = pair.size > 1 && pair.get(1).isNumber()
-                            ? pair.get(1).asInt()
-                            : 0;
+                        effectTypes[i] = pair.getString(0);
+                        effectValues[i] =
+                            pair.size > 1 && pair.get(1).isNumber()
+                                ? pair.get(1).asInt()
+                                : 0;
                     }
                 }
 
@@ -415,7 +618,7 @@ public class GenialTCG extends Game {
                     "",
                     ""
                 );
-                card.specialEffectTypes  = effectTypes;
+                card.specialEffectTypes = effectTypes;
                 card.specialEffectValues = effectValues;
                 card.cond = condStr;
                 card.condTypes = condTypes;
@@ -452,7 +655,7 @@ public class GenialTCG extends Game {
 
     @Override
     public void dispose() {
-
+        unlockCurrentProfile();
         if (currentGameClient != null) {
             currentGameClient.disconnect();
             currentGameClient = null;
@@ -480,9 +683,9 @@ public class GenialTCG extends Game {
 
         if (blackOverlay != null) blackOverlay.dispose();
         if (overlayBatch != null) overlayBatch.dispose();
+        if (uiFont != null) uiFont.dispose();
+        if (menuMusic != null) menuMusic.dispose();
 
         super.dispose();
     }
-
-
 }

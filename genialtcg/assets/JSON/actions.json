@@ -471,7 +471,7 @@
   },
   {
     "id": "ACT-063",
-    "nom": "Montageux",
+    "nom": "Montagneux",
     "cond": null,
     "effets": [["ChangementT", 3]],
     "description": "Le sol se soulève en reliefs abrupts et chaînes montagneuses difficiles à franchir. Change le terrain en Montagneux."

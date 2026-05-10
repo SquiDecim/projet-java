@@ -8,7 +8,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.math.collision.Ray;
 import io.github.squidecim.genialtcg.GenialTCG;
-import io.github.squidecim.genialtcg.mainMenu.FirstScreen;
+import io.github.squidecim.genialtcg.mainMenu.MainScreen;
 import io.github.squidecim.genialtcg.model.CardData;
 import io.github.squidecim.genialtcg.model.GameModel;
 import io.github.squidecim.genialtcg.network.GameClient;
@@ -16,11 +16,12 @@ import io.github.squidecim.genialtcg.network.NetworkMessages;
 import io.github.squidecim.genialtcg.view.CardDecal;
 import io.github.squidecim.genialtcg.view.CardSlot;
 import io.github.squidecim.genialtcg.view.GameView;
-
 import java.util.Arrays;
 import java.util.Random;
 
-public class GameController implements InputProcessor, GameClient.NetworkListener {
+public class GameController
+    implements InputProcessor, GameClient.NetworkListener
+{
 
     private final GenialTCG game;
     private final GameView view;
@@ -179,10 +180,10 @@ public class GameController implements InputProcessor, GameClient.NetworkListene
             if (card != null) {
                 view.showZoom(card);
                 return true;
-            } else if (view.isDiscardClicked(ray)){
+            } else if (view.isDiscardClicked(ray)) {
                 view.showZoom(view.getMyDiscard());
                 return true;
-            } else if (view.isOpponentDiscardClicked(ray)){
+            } else if (view.isOpponentDiscardClicked(ray)) {
                 view.showZoom(view.getOpponentDiscard());
                 return true;
             }
@@ -249,29 +250,51 @@ public class GameController implements InputProcessor, GameClient.NetworkListene
                 draggedCard = null;
                 return true;
             }
-            if (draggedCard.getData().id.startsWith("ACT-")){
-                if (toAction && slot.isEmpty() && model.phase == GameModel.Phase.PLAYING) {
-                    if (conditionsRespected(draggedCard)){
+            if (draggedCard.getData().id.startsWith("ACT-")) {
+                if (
+                    toAction &&
+                    slot.isEmpty() &&
+                    model.phase == GameModel.Phase.PLAYING
+                ) {
+                    if (conditionsRespected(draggedCard)) {
                         model.useFromHand(draggedCard.getData());
                         view.dropCardOnSlot(draggedCard, slot);
 
                         boolean hasSoinBanc = false;
                         for (String t : draggedCard.getData().specialEffectTypes) {
-                            if ("soinBanc".equals(t)) { hasSoinBanc = true; break; }
+                            if ("soinBanc".equals(t)) {
+                                hasSoinBanc = true;
+                                break;
+                            }
                         }
                         if (!hasSoinBanc) {
-                            client.sendPlayCard(draggedCard.getData().getAtlasRegionName(), "action", 0);
+                            client.sendPlayCard(
+                                draggedCard.getData().getAtlasRegionName(),
+                                "action",
+                                0
+                            );
                         }
 
                         final CardDecal played = draggedCard;
-                        com.badlogic.gdx.utils.Timer.schedule(new com.badlogic.gdx.utils.Timer.Task() {
-                            @Override public void run() { executeAction(view.getActionCard(), true); }
-                        }, 0.5f);
+                        com.badlogic.gdx.utils.Timer.schedule(
+                            new com.badlogic.gdx.utils.Timer.Task() {
+                                @Override
+                                public void run() {
+                                    executeAction(view.getActionCard(), true);
+                                }
+                            },
+                            0.5f
+                        );
                     } else {
-                        System.out.println("conditions non respectées");
+                        Gdx.app.log(
+                            "GameController",
+                            "Conditions de la carte action non respectées"
+                        );
                         view.cancelDrag(draggedCard);
                         draggedCard = null;
-                        view.showEphemeralMessage("Les conditions de la carte ne sont pas respectées");
+                        view.showEphemeralMessage(
+                            "Les conditions de la carte ne sont pas respectées"
+                        );
                         return true;
                     }
                 } else {
@@ -448,7 +471,11 @@ public class GameController implements InputProcessor, GameClient.NetworkListene
         view.showToCam(cardAction, isMyCard, null);
     }
 
-    private void executeAction(CardDecal cardAction, boolean isMyCard, String targetBenchCardId) {
+    private void executeAction(
+        CardDecal cardAction,
+        boolean isMyCard,
+        String targetBenchCardId
+    ) {
         view.showToCam(cardAction, isMyCard, targetBenchCardId);
     }
 
@@ -482,7 +509,7 @@ public class GameController implements InputProcessor, GameClient.NetworkListene
     @Override
     public void onPlayerQuit() {
         client.disconnect();
-        game.setScreen(new FirstScreen(game));
+        game.setScreen(new MainScreen(game));
     }
 
     @Override
@@ -512,7 +539,7 @@ public class GameController implements InputProcessor, GameClient.NetworkListene
             if (model.isDeckEmpty()) {
                 Gdx.app.postRunnable(() ->
                     game.setScreen(
-                        new FirstScreen(
+                        new MainScreen(
                             game,
                             "Votre deck est vide — vous avez perdu !"
                         )
@@ -524,7 +551,7 @@ public class GameController implements InputProcessor, GameClient.NetworkListene
             if (msg.newDeckSize == 0) {
                 Gdx.app.postRunnable(() ->
                     game.setScreen(
-                        new FirstScreen(
+                        new MainScreen(
                             game,
                             "Le deck adverse est vide — vous avez gagné !"
                         )
@@ -547,11 +574,15 @@ public class GameController implements InputProcessor, GameClient.NetworkListene
         } else if ("action".equals(msg.zone)) {
             view.addOpponentCardToAction(card);
             final String targetId = msg.targetBenchCardId;
-            com.badlogic.gdx.utils.Timer.schedule(new com.badlogic.gdx.utils.Timer.Task() {
-                @Override public void run() {
-                    executeAction(view.getActionCard(), false, targetId);
-                }
-            }, 0.5f);
+            com.badlogic.gdx.utils.Timer.schedule(
+                new com.badlogic.gdx.utils.Timer.Task() {
+                    @Override
+                    public void run() {
+                        executeAction(view.getActionCard(), false, targetId);
+                    }
+                },
+                0.5f
+            );
         }
     }
 
@@ -629,13 +660,15 @@ public class GameController implements InputProcessor, GameClient.NetworkListene
                 ? view.getOpponentTableCard()
                 : view.getOpponentBenchCardById(msg.cardId);
         } else {
-            System.out.println("moi je dois replace");
+            Gdx.app.log(
+                "GameController",
+                "Remplacement requis — zone : " + msg.zone
+            );
             deadCard = "table".equals(msg.zone)
                 ? view.getMyTableCard()
                 : view.getMyBenchCardById(msg.cardId);
-            System.out.println("zone du message envoyé : " + msg.zone);
         }
-        System.out.println("gros jsuis perdu je suis " + deadCard);
+        Gdx.app.log("GameController", "Carte morte : " + deadCard);
         if (deadCard == null) return;
 
         view.sendToDiscard(deadCard, iMustReplace);
@@ -902,18 +935,12 @@ public class GameController implements InputProcessor, GameClient.NetworkListene
             view.showBanner("Choisissez une carte du banc à remettre en jeu");
             view.setSelectableBorder(true);
             selectingReplacementAfterDeath = true;
-        } else if (opponentCardDead) {
-            client.sendEndTurn();
         } else {
             client.sendEndTurn();
         }
     }
 
-    public boolean conditionsRespected(CardDecal card){
-        //Carte en jeu du joueur
-        CardData cardInTable = view.getMyTableCard().getData();
-
-        //Carte action utilisée
+    public boolean conditionsRespected(CardDecal card) {
         CardData cardData = card.getData();
 
         String[] condTypes = cardData.condTypes;
@@ -921,22 +948,76 @@ public class GameController implements InputProcessor, GameClient.NetworkListene
         String[] condRangs = cardData.condRangs;
         int condEtatMin = cardData.condEtatMin;
         int condEtatMax = cardData.condEtatMax;
+        String condStatMinKey = cardData.condStatMinKey;
+        int condStatMinVal = cardData.condStatMinVal;
 
-        if (condTerrains != null && !(Arrays.asList(condTerrains).contains(model.terrain))) return false;
-        if (condTypes != null && !(Arrays.asList(condTypes).contains(cardInTable.type))) return false;
-        if (condRangs != null && !(Arrays.asList(condRangs).contains(cardInTable.rank))) return false;
-        if (condEtatMax != 0 && !(cardInTable.pv <= condEtatMax)) return false;
-        if (condEtatMin != 0 && !(cardInTable.pv >= condEtatMin)) return false;
+        if (
+            condTerrains != null &&
+            !Arrays.asList(condTerrains).contains(model.terrain)
+        ) return false;
+
+        CardDecal tableDecal = view.getMyTableCard();
+        if (tableDecal == null) {
+            return (
+                condTypes == null &&
+                condRangs == null &&
+                condEtatMin == 0 &&
+                condEtatMax == 0 &&
+                condStatMinKey == null
+            );
+        }
+        CardData cardInTable = tableDecal.getData();
+
+        if (
+            condTypes != null &&
+            !Arrays.asList(condTypes).contains(cardInTable.type)
+        ) return false;
+        if (
+            condRangs != null &&
+            !Arrays.asList(condRangs).contains(cardInTable.rank)
+        ) return false;
+        if (condEtatMax != 0 && cardInTable.pv > condEtatMax) return false;
+        if (condEtatMin != 0 && cardInTable.pv < condEtatMin) return false;
+
+        if (condStatMinKey != null) {
+            int statValue = getStatByKey(cardInTable, condStatMinKey);
+            if (statValue < condStatMinVal) return false;
+        }
 
         return true;
-
     }
 
-    public void handleAction(CardDecal cardAction, boolean isMyCard, String targetBenchCardId) {
+    private int getStatByKey(CardData card, String key) {
+        switch (key) {
+            case "puissance":
+                return card.stats[0];
+            case "economie":
+                return card.stats[1];
+            case "ressources":
+                return card.stats[2];
+            case "technologie":
+                return card.stats[3];
+            case "stabilite":
+                return card.stats[4];
+            default:
+                return 0;
+        }
+    }
+
+    public void handleAction(
+        CardDecal cardAction,
+        boolean isMyCard,
+        String targetBenchCardId
+    ) {
         applyActionEffects(cardAction, isMyCard, targetBenchCardId, 0);
     }
 
-    private void applyActionEffects(CardDecal cardAction, boolean isMyCard, String targetBenchCardId, int startIndex) {
+    private void applyActionEffects(
+        CardDecal cardAction,
+        boolean isMyCard,
+        String targetBenchCardId,
+        int startIndex
+    ) {
         String[] types = cardAction.getData().specialEffectTypes;
         int[] values = cardAction.getData().specialEffectValues;
 
@@ -953,15 +1034,20 @@ public class GameController implements InputProcessor, GameClient.NetworkListene
                             if (drawn != null) {
                                 view.addCardToHand(drawn);
                                 view.updateDeckVisual(model.deckSize());
-                                if (game.takingCardsSound != null)
-                                    game.takingCardsSound.play(game.uiSoundVolume);
+                                if (
+                                    game.takingCardsSound != null
+                                ) game.takingCardsSound.play(
+                                    game.uiSoundVolume
+                                );
                             }
                         }
                     }
                     break;
                 }
                 case "soinJeu": {
-                    CardDecal target = isMyCard ? view.getMyTableCard() : view.getOpponentTableCard();
+                    CardDecal target = isMyCard
+                        ? view.getMyTableCard()
+                        : view.getOpponentTableCard();
                     if (target != null) {
                         model.applyDamage(target, value);
                         Vector3 pos = target.getPosition().cpy();
@@ -972,20 +1058,27 @@ public class GameController implements InputProcessor, GameClient.NetworkListene
                 }
                 case "soinBanc": {
                     if (!isMyCard) {
-                        CardDecal target = targetBenchCardId != null
-                            ? view.getMyBenchCardById(targetBenchCardId)
-                            : view.getFirstMyBenchCard();
+                        CardDecal target =
+                            targetBenchCardId != null
+                                ? view.getMyBenchCardById(targetBenchCardId)
+                                : view.getFirstMyBenchCard();
                         if (target != null) {
                             model.applyDamage(target, value);
                             Vector3 pos = target.getPosition().cpy();
                             pos.y += 0.5f;
-                            view.spawnFloatingText("+" + value, pos, Color.GREEN);
+                            view.spawnFloatingText(
+                                "+" + value,
+                                pos,
+                                Color.GREEN
+                            );
                         }
                         break;
                     }
                     if (model.bench.isEmpty()) break;
                     view.setSelectableBorderForOwnBench(true);
-                    view.showBanner("Choisissez une carte de votre banc à soigner");
+                    view.showBanner(
+                        "Choisissez une carte de votre banc à soigner"
+                    );
                     selectingBenchTarget = true;
                     benchTargetIsOpponent = false;
                     onBenchTargetSelected = chosenCard -> {
@@ -996,10 +1089,16 @@ public class GameController implements InputProcessor, GameClient.NetworkListene
                         // On envoie ICI avec la cible connue
                         client.sendPlayCardWithTarget(
                             cardAction.getData().getAtlasRegionName(),
-                            "action", 0,
+                            "action",
+                            0,
                             chosenCard.getData().getAtlasRegionName()
                         );
-                        applyActionEffects(cardAction, isMyCard, chosenCard.getData().getAtlasRegionName(), nextIndex);
+                        applyActionEffects(
+                            cardAction,
+                            isMyCard,
+                            chosenCard.getData().getAtlasRegionName(),
+                            nextIndex
+                        );
                     };
                     return;
                 }
@@ -1010,18 +1109,29 @@ public class GameController implements InputProcessor, GameClient.NetworkListene
                         break;
                     }
                     view.setSelectableBorderForOwnBench(true);
-                    view.showBanner("Choisissez une carte du banc pour l'échanger");
+                    view.showBanner(
+                        "Choisissez une carte du banc pour l'échanger"
+                    );
                     selectingBenchTarget = true;
                     benchTargetIsOpponent = false;
                     onBenchTargetSelected = chosenCard -> {
                         view.setSelectableBorder(false);
-                        if (game.switchSound != null) game.switchSound.play(game.uiSoundVolume);
+                        if (game.switchSound != null) game.switchSound.play(
+                            game.uiSoundVolume
+                        );
                         CardData tableCardData = model.table;
                         view.swapTableAndBench(chosenCard);
                         model.moveFromTableToBench(tableCardData);
                         model.moveFromBenchToTable(chosenCard.getData());
-                        client.sendRetreat(chosenCard.getData().getAtlasRegionName());
-                        applyActionEffects(cardAction, isMyCard, targetBenchCardId, nextIndex);
+                        client.sendRetreat(
+                            chosenCard.getData().getAtlasRegionName()
+                        );
+                        applyActionEffects(
+                            cardAction,
+                            isMyCard,
+                            targetBenchCardId,
+                            nextIndex
+                        );
                     };
                     return;
                 }
@@ -1031,9 +1141,15 @@ public class GameController implements InputProcessor, GameClient.NetworkListene
                         view.showEphemeralMessage("Votre banc est vide !");
                         break;
                     }
-                    CardData randomBenchCard = model.bench.get(new Random().nextInt(model.bench.size()));
+                    CardData randomBenchCard = model.bench.get(
+                        new Random().nextInt(model.bench.size())
+                    );
                     CardData tableCardData = model.table;
-                    view.swapTableAndBench(view.getMyBenchCardById(randomBenchCard.getAtlasRegionName()));
+                    view.swapTableAndBench(
+                        view.getMyBenchCardById(
+                            randomBenchCard.getAtlasRegionName()
+                        )
+                    );
                     model.moveFromTableToBench(tableCardData);
                     model.moveFromBenchToTable(randomBenchCard);
                     client.sendRetreat(randomBenchCard.getAtlasRegionName());
@@ -1041,10 +1157,19 @@ public class GameController implements InputProcessor, GameClient.NetworkListene
                 }
                 case "ChangementT": {
                     if (!isMyCard) break;
-                    String[] climats = {"Tempéré", "Désertique", "Océanique", "Montagneux", "Tropical", "Glacial"};
+                    String[] climats = {
+                        "Tempéré",
+                        "Désertique",
+                        "Océanique",
+                        "Montagneux",
+                        "Tropical",
+                        "Glacial",
+                    };
                     String climatAction = climats[value];
-                    if (model.terrain == climatAction){
-                        view.showEphemeralMessage("Le terrain à déjà un climat " + climatAction);
+                    if (model.terrain.equals(climatAction)) {
+                        view.showEphemeralMessage(
+                            "Le terrain à déjà un climat " + climatAction
+                        );
                         break;
                     }
                     client.sendField(climatAction);

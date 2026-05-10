@@ -43,7 +43,7 @@ public class RulesScreen implements Screen {
             new ChangeListener() {
                 @Override
                 public void changed(ChangeEvent event, Actor actor) {
-                    game.setScreen(new FirstScreen(game));
+                    game.setScreen(new MainScreen(game));
                 }
             }
         );

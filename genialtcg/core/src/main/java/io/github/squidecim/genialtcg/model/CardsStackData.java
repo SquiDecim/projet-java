@@ -1,5 +1,6 @@
 package io.github.squidecim.genialtcg.model;
 
+import com.badlogic.gdx.Gdx;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -47,8 +48,8 @@ public class CardsStackData {
         }
 
         this.stack.addAll(temp);
-        if (chosen != null) System.out.println("la première carte doit être " + chosen + " et le deck c'est : " + this.stack);
-        else System.out.println("bah chiant chosen est null");
+        if (chosen != null) Gdx.app.log("CardsStackData", "Première carte garantie : " + chosen.id);
+        else Gdx.app.log("CardsStackData", "Aucune carte jouable en tête de deck");
     }
 
 
