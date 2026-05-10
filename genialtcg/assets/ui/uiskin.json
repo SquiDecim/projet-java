@@ -1,19 +1,19 @@
 {
 com.badlogic.gdx.graphics.g2d.BitmapFont: {
   default: {
-    file: font.fnt
+    file: dejavu-sans/font.fnt
   }
   font: {
-    file: font.fnt
+    file: dejavu-sans/font.fnt
   }
   list: {
-    file: font-list.fnt
+    file: dejavu-sans/font-list.fnt
   }
   subtitle: {
-    file: font-subtitle.fnt
+    file: dejavu-sans/font-subtitle.fnt
   }
   window: {
-    file: font-window.fnt
+    file: dejavu-sans/font-window.fnt
   }
 }
 com.badlogic.gdx.graphics.Color: {

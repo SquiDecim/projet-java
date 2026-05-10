@@ -29,6 +29,7 @@ public class GameClient {
         void onSpecialAttack(NetworkMessages.SpecialAttack msg);
         void onPlayerQuit();
         void onField(NetworkMessages.Field msg);
+        void onChatMessage(NetworkMessages.ChatMessage msg);
     }
 
     public GameClient(String ip, NetworkListener listener) throws IOException {
@@ -70,6 +71,8 @@ public class GameClient {
                         current.onPlayerQuit();
                     else if (obj instanceof NetworkMessages.Field)
                         current.onField((NetworkMessages.Field) obj);
+                    else if (obj instanceof NetworkMessages.ChatMessage)
+                        current.onChatMessage((NetworkMessages.ChatMessage) obj);
                 });
             }
 
@@ -200,6 +203,12 @@ public class GameClient {
     public void sendPlayerName(String name) {
         NetworkMessages.SetPlayerName msg = new NetworkMessages.SetPlayerName();
         msg.name = name;
+        client.sendTCP(msg);
+    }
+
+    public void sendChatMessage(String text) {
+        NetworkMessages.ChatMessage msg = new NetworkMessages.ChatMessage();
+        msg.text = text;
         client.sendTCP(msg);
     }
 

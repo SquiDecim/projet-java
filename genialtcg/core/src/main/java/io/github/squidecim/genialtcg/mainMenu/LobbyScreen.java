@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
@@ -49,6 +50,9 @@ public class LobbyScreen implements Screen, GameClient.NetworkListener {
     private TextButton launchButton;
     private Label statusLabel;
     private Texture backTexture;
+    private Table chatMessages;
+    private ScrollPane chatScroll;
+    private TextField chatInput;
 
     private boolean launching = false;
     private Drawable silverBorder;
@@ -161,7 +165,7 @@ public class LobbyScreen implements Screen, GameClient.NetworkListener {
 
         // ── CONTENU (Colonnes Joueurs et Decks) ──
 
-        // Colonne Gauche : Joueurs
+        // Colonne Gauche : Joueurs + Chat
         Table leftCol = new Table();
         leftCol.setBackground(
             skin.newDrawable("white", new Color(0.15f, 0.18f, 0.25f, 1f))
@@ -169,7 +173,7 @@ public class LobbyScreen implements Screen, GameClient.NetworkListener {
         leftCol.pad(15);
         Label joueursTitre = new Label("Joueurs", skin, "title");
         joueursTitre.setFontScale(0.35f);
-        leftCol.add(joueursTitre).padBottom(10).row();
+        leftCol.add(joueursTitre).padBottom(6).row();
 
         playerList = new List<>(skin);
         connectedPlayers.add(
@@ -178,14 +182,61 @@ public class LobbyScreen implements Screen, GameClient.NetworkListener {
         playerList.setItems(connectedPlayers);
 
         ScrollPane playerScroll = new ScrollPane(playerList, skin);
-        leftCol.add(playerScroll).expand().fill().row();
+        leftCol.add(playerScroll).expandX().fillX().height(72).row();
 
         statusLabel = new Label(
             isHost ? "En attente d'un joueur..." : "Connecté au salon",
             skin
         );
         statusLabel.setColor(Color.LIGHT_GRAY);
-        leftCol.add(statusLabel).padTop(10);
+        leftCol.add(statusLabel).padTop(4).padBottom(10).row();
+
+        // Séparateur visuel
+        Table separator = new Table();
+        separator.setBackground(
+            skin.newDrawable("white", new Color(0.35f, 0.40f, 0.55f, 1f))
+        );
+        leftCol.add(separator).expandX().fillX().height(1).padBottom(8).row();
+
+        // Titre chat
+        Label chatTitre = new Label("Chat", skin, "title");
+        chatTitre.setFontScale(0.28f);
+        chatTitre.setColor(Color.LIGHT_GRAY);
+        leftCol.add(chatTitre).padBottom(6).left().row();
+
+        // Zone de messages
+        chatMessages = new Table();
+        chatMessages.top().left().padLeft(4).padRight(4);
+        chatScroll = new ScrollPane(chatMessages, skin);
+        chatScroll.setScrollingDisabled(true, false);
+        chatScroll.setFadeScrollBars(false);
+        leftCol.add(chatScroll).expand().fill().padBottom(6).row();
+
+        // Ligne de saisie
+        Table inputRow = new Table();
+        chatInput = new TextField("", skin);
+        chatInput.setMessageText("Message...");
+        TextButton sendButton = new TextButton("Envoyer", skin);
+        game.soundifyButton(sendButton);
+        sendButton.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                sendChatMessage();
+            }
+        });
+        chatInput.addListener(new InputListener() {
+            @Override
+            public boolean keyDown(InputEvent event, int keycode) {
+                if (keycode == com.badlogic.gdx.Input.Keys.ENTER) {
+                    sendChatMessage();
+                    return true;
+                }
+                return false;
+            }
+        });
+        inputRow.add(chatInput).expandX().fillX().height(38);
+        inputRow.add(sendButton).width(90).height(38).padLeft(5);
+        leftCol.add(inputRow).expandX().fillX();
 
         // Colonne Droite : Decks
         Table rightCol = new Table();
@@ -245,6 +296,14 @@ public class LobbyScreen implements Screen, GameClient.NetworkListener {
                 }
             });
         }
+    }
+
+    private void sendChatMessage() {
+        if (chatInput == null || client == null) return;
+        String text = chatInput.getText().trim();
+        if (text.isEmpty()) return;
+        client.sendChatMessage(text);
+        chatInput.setText("");
     }
 
     private void buildDeckGrid() {
@@ -557,4 +616,16 @@ public class LobbyScreen implements Screen, GameClient.NetworkListener {
 
     @Override
     public void onField(NetworkMessages.Field msg) {}
+
+    @Override
+    public void onChatMessage(NetworkMessages.ChatMessage msg) {
+        if (chatMessages == null || chatScroll == null) return;
+        boolean isMe = msg.senderId != null && msg.senderId.equals(myPlayerId);
+        Label msgLabel = new Label(msg.senderName + " : " + msg.text, skin);
+        msgLabel.setWrap(true);
+        msgLabel.setColor(isMe ? Color.WHITE : new Color(0.65f, 0.85f, 1f, 1f));
+        chatMessages.add(msgLabel).expandX().fillX().padBottom(3).row();
+        chatScroll.layout();
+        chatScroll.setScrollPercentY(1f);
+    }
 }

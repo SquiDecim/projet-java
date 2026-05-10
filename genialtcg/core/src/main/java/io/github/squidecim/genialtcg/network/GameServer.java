@@ -148,6 +148,11 @@ public class GameServer {
                         update.playerNames = buildPlayerNamesArray();
                         server.sendToAllTCP(update);
                     }
+                } else if (obj instanceof NetworkMessages.ChatMessage) {
+                    NetworkMessages.ChatMessage chat = (NetworkMessages.ChatMessage) obj;
+                    chat.senderId = playerIds.get(conn);
+                    chat.senderName = idToName.getOrDefault(chat.senderId, "Joueur");
+                    server.sendToAllTCP(chat);
                 }
             }
         });
@@ -206,5 +211,6 @@ public class GameServer {
         kryo.register(NetworkMessages.SpecialAttack.class);
         kryo.register(NetworkMessages.Field.class);
         kryo.register(NetworkMessages.SetPlayerName.class);
+        kryo.register(NetworkMessages.ChatMessage.class);
     }
 }

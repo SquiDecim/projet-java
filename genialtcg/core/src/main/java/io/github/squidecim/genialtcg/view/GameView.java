@@ -133,6 +133,7 @@ public class GameView implements Screen {
     private Label setupBanner;
     private TextButton actionButton;
     private Table attackMenu = null;
+    private Label attackMenuErrorLabel;
 
     private Label ephemeralLabel;
     private Table pauseOverlay;
@@ -1924,6 +1925,10 @@ public class GameView implements Screen {
 
         Table content = new Table();
 
+        attackMenuErrorLabel = new Label("", uiSkin);
+        attackMenuErrorLabel.setColor(Color.ORANGE);
+        content.add(attackMenuErrorLabel).colspan(2).center().padBottom(4).row();
+
         Label title = new Label("Choisissez une attaque", game.skin, "title");
         title.setFontScale(0.5f);
         content.add(title).padBottom(20).colspan(2).center().row();
@@ -2187,6 +2192,21 @@ public class GameView implements Screen {
                 Actions.delay(1f),
                 Actions.fadeOut(0.3f),
                 Actions.run(() -> ephemeralLabel.setText(""))
+            )
+        );
+    }
+
+    public void showAttackMenuError(String text) {
+        if (attackMenuErrorLabel == null) return;
+        game.playImpossibleSound();
+        attackMenuErrorLabel.setText(text);
+        attackMenuErrorLabel.clearActions();
+        attackMenuErrorLabel.addAction(
+            Actions.sequence(
+                Actions.alpha(1f),
+                Actions.delay(2f),
+                Actions.fadeOut(0.4f),
+                Actions.run(() -> attackMenuErrorLabel.setText(""))
             )
         );
     }

@@ -106,4 +106,11 @@ public class NetworkMessages {
     public static class Field {
         public String field;
     }
+
+    // Client → Serveur : message de chat dans le lobby
+    public static class ChatMessage {
+        public String senderId;
+        public String senderName;
+        public String text;
+    }
 }

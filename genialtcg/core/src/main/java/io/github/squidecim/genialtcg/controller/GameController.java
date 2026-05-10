@@ -322,6 +322,7 @@ public class GameController
                             );
                             client.sendCreditsUpdate(model.myCredits);
                         } else {
+                            view.showEphemeralMessage("Pas assez de crédits ! (" + draggedCard.getData().cost + " requis)");
                             view.cancelDrag(draggedCard);
                             draggedCard = null;
                             return true;
@@ -336,6 +337,7 @@ public class GameController
                         model.moveFromHandToTable(draggedCard.getData());
                         client.sendCreditsUpdate(model.myCredits);
                     } else {
+                        view.showEphemeralMessage("Pas assez de crédits ! (" + draggedCard.getData().cost + " requis)");
                         view.cancelDrag(draggedCard);
                         draggedCard = null;
                         return true;
@@ -437,8 +439,8 @@ public class GameController
 
     public void startRetreat(CardData tableCard) {
         if (model.myCredits < tableCard.revocation) {
-            view.showEphemeralMessage(
-                "Pas assez de crédits ! (" + tableCard.revocation + " requis)"
+            view.showAttackMenuError(
+                "Pas assez de crédits ! (il manque " + (tableCard.revocation - model.myCredits) + " crédits)"
             );
             return;
         }
@@ -524,6 +526,9 @@ public class GameController
 
     @Override
     public void onGameStart(NetworkMessages.GameStart msg) {}
+
+    @Override
+    public void onChatMessage(NetworkMessages.ChatMessage msg) {}
 
     @Override
     public void onCardDrawn(NetworkMessages.CardDrawn msg) {
@@ -726,8 +731,8 @@ public class GameController
     public void handleSpecialAttack(CardData card) {
         int attackCost = card.specialCost;
         if (model.myCredits < attackCost) {
-            view.showEphemeralMessage(
-                "Pas assez de crédits ! (" + attackCost + " requis)"
+            view.showAttackMenuError(
+                "Pas assez de crédits ! (il manque " + (attackCost - model.myCredits) + " crédits)"
             );
             return;
         }
