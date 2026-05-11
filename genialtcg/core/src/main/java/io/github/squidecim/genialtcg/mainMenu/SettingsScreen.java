@@ -46,7 +46,9 @@ public class SettingsScreen implements Screen {
             );
         } else {
             Gdx.graphics.setUndecorated(false);
-            Gdx.graphics.setWindowedMode(1280, 720);
+            if (Gdx.graphics.isFullscreen()) {
+                Gdx.graphics.setWindowedMode(1280, 720);
+            }
         }
     }
 

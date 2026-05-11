@@ -3,7 +3,6 @@ package io.github.squidecim.genialtcg.controller;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
-import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.math.collision.Ray;
@@ -19,7 +18,6 @@ import io.github.squidecim.genialtcg.view.CardSlot;
 import io.github.squidecim.genialtcg.view.GameView;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 import java.util.Random;
 
 public class GameController
@@ -45,11 +43,8 @@ public class GameController
     private boolean benchTargetIsOpponent = false;
     private java.util.function.Consumer<CardDecal> onBenchTargetSelected = null;
 
-    private boolean initialDrawDone = false;
-    private int initialDrawCount = 0;
     private static final int INITIAL_HAND_SIZE = 4;
     private boolean startTurnWithDiedCard = false;
-    public CardDecal actionCardPlayed;
 
     private int opponentPoints = 0;
 
@@ -306,6 +301,7 @@ public class GameController
                         for (String t : draggedCard.getData().specialEffectTypes) {
                             if ("soinBanc".equals(t)) {
                                 hasSoinBanc = true;
+                                view.hideActionButton();
                                 break;
                             }
                         }
@@ -488,7 +484,6 @@ public class GameController
                 @Override
                 public void run() {
                     Gdx.app.postRunnable(() -> {
-                        initialDrawDone = true;
                         model.phase = GameModel.Phase.SETUP;
                         view.showBanner();
                         view.showActionButton("Commencer", () -> {
@@ -655,26 +650,44 @@ public class GameController
 
     @Override
     public void onWin(NetworkMessages.Win msg) {
-        Gdx.app.postRunnable(() -> {
-            boolean victory =
-                msg.winner != null && msg.winner.equals(myPlayerId);
-            game.cleanupCurrentGame();
-            game.setScreen(
-                new EndGameScreen(game, victory, model.points, opponentPoints)
-            );
-        });
+        com.badlogic.gdx.utils.Timer.schedule(
+            new com.badlogic.gdx.utils.Timer.Task() {
+                @Override
+                public void run() {
+                    Gdx.app.postRunnable(() -> {
+                        boolean victory =
+                            msg.winner != null && msg.winner.equals(myPlayerId);
+                        game.cleanupCurrentGame();
+                        game.setScreen(
+                            new EndGameScreen(game, victory, model.points, opponentPoints)
+                        );
+                    });
+                }
+            },
+            3f
+        );
+
+
     }
 
     @Override
     public void onLose(NetworkMessages.Lose msg) {
-        Gdx.app.postRunnable(() -> {
-            boolean victory =
-                msg.loser != null && !msg.loser.equals(myPlayerId);
-            game.cleanupCurrentGame();
-            game.setScreen(
-                new EndGameScreen(game, victory, model.points, opponentPoints)
-            );
-        });
+        com.badlogic.gdx.utils.Timer.schedule(
+            new com.badlogic.gdx.utils.Timer.Task() {
+                @Override
+                public void run() {
+                    Gdx.app.postRunnable(() -> {
+                        boolean victory =
+                            msg.loser != null && !msg.loser.equals(myPlayerId);
+                        game.cleanupCurrentGame();
+                        game.setScreen(
+                            new EndGameScreen(game, victory, model.points, opponentPoints)
+                        );
+                    });
+                }
+            },
+            3f
+        );
     }
 
     @Override
@@ -922,6 +935,7 @@ public class GameController
         model.spendCredits(attackCost);
         view.updateMyCredits(model.myCredits);
         view.hideAttackMenu();
+        view.hideActionButton();
 
         boolean needsBenchChoice = false;
         for (String type : types) {
@@ -992,6 +1006,8 @@ public class GameController
         if (game.specialEffectSound != null) game.specialEffectSound.play(
             game.gameSoundVolume
         );
+
+
 
         CardDecal myTable = view.getMyTableCard();
         CardDecal oppTable = view.getOpponentTableCard();
@@ -1067,7 +1083,11 @@ public class GameController
                 case "voleCredit": {
                     if (iAmAttacker) {
                         model.receiveCredits(value);
-                    } else model.spendCredits(value);
+                    } else {
+                        System.out.println("salut : " + value + " actuellement crédits : " + model.myCredits);
+                        model.spendCredits(value);
+                        System.out.println("salut : " + value + " maintenant crédits : " + model.myCredits);
+                    }
                     break;
                 }
                 case "pioche": {
@@ -1407,5 +1427,13 @@ public class GameController
                 }
             }
         }
+        selectingRetreat = false;
+        view.showActionButton("Finir le tour", () -> {
+            view.hideActionButton();
+            model.myTurn = false;
+            client.sendEndTurn();
+            selectingRetreat = false;
+            view.setSelectableBorder(false);
+        });
     }
 }

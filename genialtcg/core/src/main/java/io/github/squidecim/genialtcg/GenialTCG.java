@@ -336,7 +336,9 @@ public class GenialTCG extends Game {
             );
         } else {
             Gdx.graphics.setUndecorated(false);
-            Gdx.graphics.setWindowedMode(1280, 720);
+            if (Gdx.graphics.isFullscreen()) {
+                Gdx.graphics.setWindowedMode(1280, 720);
+            }
         }
 
         float musicVol = curveVolume(prefs.getFloat("music_volume", 0.3f));

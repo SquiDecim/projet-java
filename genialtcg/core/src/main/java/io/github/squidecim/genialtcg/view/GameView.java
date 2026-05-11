@@ -1972,8 +1972,8 @@ public class GameView implements Screen {
             card.getData(),
             card.frontRegion,
             card.backRegion,
-            BENCH_CARD_W * 2.5f,
-            BENCH_CARD_H * 2.5f,
+            BENCH_CARD_W * 1.75f,
+            BENCH_CARD_H * 1.75f,
             cam,
             "zoom"
         );
@@ -1982,7 +1982,7 @@ public class GameView implements Screen {
             card.getSpecialCostBonus(), card.getRevocationBonus()
         );
         if (card.getData() != null) zoomGhost.generateDynamicTexture(512, 716);
-        zoomGhost.setPosition(0, 2f, 3.5f);
+        zoomGhost.setPosition(0, 3.65f, 4.5f);
         Vector3 ghostPos = new Vector3(0, 1.75f, 4f);
         Vector3 toCam = new Vector3(cam.position).sub(ghostPos).nor();
         float pitch = (float) Math.toDegrees(Math.asin(toCam.y));
@@ -2000,8 +2000,8 @@ public class GameView implements Screen {
             card.getData(),
             card.frontRegion,
             card.backRegion,
-            BENCH_CARD_W * 2.5f,
-            BENCH_CARD_H * 2.5f,
+            BENCH_CARD_W * 1.75f,
+            BENCH_CARD_H * 1.75f,
             cam,
             "zoom"
         );
@@ -2010,7 +2010,7 @@ public class GameView implements Screen {
             card.getSpecialCostBonus(), card.getRevocationBonus()
         );
         if (card.getData() != null) zoomGhost.generateDynamicTexture(512, 716);
-        zoomGhost.setPosition(0, 2f, 3.5f);
+        zoomGhost.setPosition(0, 3.65f, 4.5f);
         Vector3 ghostPos = new Vector3(0, 1.75f, 4f);
         Vector3 toCam = new Vector3(cam.position).sub(ghostPos).nor();
         float pitch = (float) Math.toDegrees(Math.asin(toCam.y));

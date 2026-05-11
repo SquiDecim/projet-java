@@ -126,6 +126,20 @@ public class GameModel {
         return Math.max(0, base + bonus + toolBonus);
     }
 
+    public int getBenchEconomy(){
+        int sum = 0;
+        for (CardData benchCard : bench) {
+            int base = benchCard.stats[1];
+            int bonus = getTerrainBonus(terrain, benchCard.type)[1];
+            sum += Math.max(0, base + bonus);
+        }
+        return Math.round(sum * 0.6f);
+    }
+
+    public int getTotalEconomy(){
+        return getBenchEconomy() + getTableEconomy();
+    }
+
     public static int getToolCostEffect(CardData tool, String effectType) {
         if (tool == null || tool.specialEffectTypes == null) return 0;
         int total = 0;
@@ -143,158 +157,139 @@ public class GameModel {
             int value = tool.specialEffectValues[i];
             if (forOwner) {
                 switch (type) {
-                    case "puissance":   bonus[0] += value; break;
-                    case "economie":    bonus[1] += value; break;
-                    case "ressources":  bonus[2] += value; break;
+                    case "puissance": bonus[0] += value; break;
+                    case "economie": bonus[1] += value; break;
+                    case "ressources": bonus[2] += value; break;
                     case "technologie": bonus[3] += value; break;
-                    case "stabilite":   bonus[4] += value; break;
+                    case "stabilite": bonus[4] += value; break;
                 }
             } else {
                 switch (type) {
-                    case "puissanceA":   bonus[0] += value; break;
-                    case "economieA":    bonus[1] += value; break;
-                    case "ressourcesA":  bonus[2] += value; break;
+                    case "puissanceA": bonus[0] += value; break;
+                    case "economieA": bonus[1] += value; break;
+                    case "ressourcesA": bonus[2] += value; break;
                     case "technologieA": bonus[3] += value; break;
-                    case "stabiliteA":   bonus[4] += value; break;
+                    case "stabiliteA": bonus[4] += value; break;
                 }
             }
         }
         return bonus;
     }
 
-    public int getBenchEconomy(){
-        int sum = 0;
-        for (CardData benchCard : bench) {
-            int base = benchCard.stats[1];
-            int bonus = getTerrainBonus(terrain, benchCard.type)[1];
-            sum += Math.max(0, base + bonus);
-        }
-        return Math.round(sum * 0.4f);
-    }
-
-    public int getTotalEconomy(){
-        return getBenchEconomy() + getTableEconomy();
-    }
-
     public static Color getTerrainColor(String terrain) {
         switch (terrain) {
-            case "Désertique":  return new Color(0.90f, 0.58f, 0.12f, 1f);
-            case "Tropical":    return new Color(0.08f, 0.72f, 0.22f, 1f);
-            case "Montagneux":  return new Color(0.62f, 0.42f, 0.18f, 1f);
-            case "Glacial":     return new Color(0.25f, 0.72f, 0.95f, 1f);
-            case "Océanique":   return new Color(0.10f, 0.48f, 0.88f, 1f);
-            default:            return Color.BLACK;
+            case "Désertique": return new Color(0.90f, 0.58f, 0.12f, 1f);
+            case "Tropical": return new Color(0.08f, 0.72f, 0.22f, 1f);
+            case "Montagneux": return new Color(0.62f, 0.42f, 0.18f, 1f);
+            case "Glacial": return new Color(0.25f, 0.72f, 0.95f, 1f);
+            case "Océanique": return new Color(0.10f, 0.48f, 0.88f, 1f);
+            default: return Color.BLACK;
         }
     }
 
-    // Retourne les bonus de stats [puissance, economie, ressources, technologie, stabilite]
-    // appliqués à un type de nation selon le terrain actif.
     public static int[] getTerrainBonus(String terrain, String type) {
         int[] bonus = new int[5];
         switch (terrain) {
             case "Désertique":
                 switch (type) {
-                    case "Militaire":      bonus[0] = +10; break;
-                    case "Économique":     bonus[2] = -10; break;
-                    case "Diplomatique":   bonus[4] = -10; break;
-                    case "Renseignement":  bonus[3] = +10; break;
+                    case "Militaire": bonus[0] = +10; break;
+                    case "Économique": bonus[2] = -10; break;
+                    case "Diplomatique": bonus[4] = -10; break;
+                    case "Renseignement": bonus[3] = +10; break;
                     case "Isolationniste": bonus[4] = +10; break;
-                    case "Technologique":  bonus[1] = -10; break;
+                    case "Technologique": bonus[1] = -10; break;
                 }
                 break;
             case "Tropical":
                 switch (type) {
-                    case "Militaire":      bonus[0] = -10; break;
-                    case "Économique":     bonus[2] = +15; break;
-                    case "Diplomatique":   bonus[4] = +10; break;
-                    case "Renseignement":  bonus[0] = +10; break;
+                    case "Militaire": bonus[0] = -10; break;
+                    case "Économique": bonus[2] = +15; break;
+                    case "Diplomatique": bonus[4] = +10; break;
+                    case "Renseignement": bonus[0] = +10; break;
                     case "Isolationniste": bonus[4] = +10; break;
-                    case "Technologique":  bonus[3] = -10; break;
+                    case "Technologique": bonus[3] = -10; break;
                 }
                 break;
             case "Montagneux":
                 switch (type) {
-                    case "Militaire":      bonus[0] = +15; break;
-                    case "Économique":     bonus[1] = -10; break;
-                    case "Diplomatique":   bonus[1] = -10; break;
-                    case "Renseignement":  bonus[0] = +10; break;
+                    case "Militaire": bonus[0] = +15; break;
+                    case "Économique": bonus[1] = -10; break;
+                    case "Diplomatique": bonus[1] = -10; break;
+                    case "Renseignement": bonus[0] = +10; break;
                     case "Isolationniste": bonus[4] = +15; break;
-                    case "Technologique":  bonus[3] = +10; break;
+                    case "Technologique": bonus[3] = +10; break;
                 }
                 break;
             case "Glacial":
                 switch (type) {
-                    case "Militaire":      bonus[4] = -10; break;
-                    case "Économique":     bonus[2] = -10; break;
-                    case "Diplomatique":   bonus[1] = -15; break;
-                    case "Renseignement":  bonus[0] = -10; break;
+                    case "Militaire": bonus[4] = -10; break;
+                    case "Économique": bonus[2] = -10; break;
+                    case "Diplomatique": bonus[1] = -15; break;
+                    case "Renseignement": bonus[0] = -10; break;
                     case "Isolationniste": bonus[4] = +15; break;
-                    case "Technologique":  bonus[3] = +15; break;
+                    case "Technologique": bonus[3] = +15; break;
                 }
                 break;
             case "Océanique":
                 switch (type) {
-                    case "Militaire":      bonus[0] = +10; break;
-                    case "Économique":     bonus[1] = +15; break;
-                    case "Diplomatique":   bonus[1] = +10; break;
-                    case "Renseignement":  bonus[0] = +10; break;
+                    case "Militaire": bonus[0] = +10; break;
+                    case "Économique": bonus[1] = +15; break;
+                    case "Diplomatique": bonus[1] = +10; break;
+                    case "Renseignement": bonus[0] = +10; break;
                     case "Isolationniste": bonus[4] = -15; break;
-                    case "Technologique":  bonus[3] = +10; break;
+                    case "Technologique": bonus[3] = +10; break;
                 }
                 break;
-            // Tempéré : aucun modificateur
         }
         return bonus;
     }
 
-    // Retourne le multiplicateur de type (×100) : attaquant vs défenseur.
-    // Appliquer avec : ceil(damage * multiplier / 100.0)
     public static int getTypeMultiplier(String attackerType, String defenderType) {
         switch (attackerType) {
             case "Économique":
                 switch (defenderType) {
-                    case "Militaire":      return 110;
-                    case "Diplomatique":   return 110;
-                    case "Économique":     return 100;
-                    case "Renseignement":  return  90;
+                    case "Militaire": return 110;
+                    case "Diplomatique": return 110;
+                    case "Économique": return 100;
+                    case "Renseignement": return  90;
                     case "Isolationniste": return  80;
-                    default:               return 100;
+                    default: return 100;
                 }
             case "Renseignement":
                 switch (defenderType) {
                     case "Isolationniste": return 150;
-                    case "Économique":     return 125;
-                    case "Renseignement":  return 100;
-                    case "Militaire":      return  85;
-                    case "Diplomatique":   return  75;
-                    default:               return 100;
+                    case "Économique": return 125;
+                    case "Renseignement": return 100;
+                    case "Militaire": return  85;
+                    case "Diplomatique": return  75;
+                    default: return 100;
                 }
             case "Isolationniste":
                 switch (defenderType) {
-                    case "Économique":     return 150;
-                    case "Militaire":      return 125;
+                    case "Économique": return 150;
+                    case "Militaire": return 125;
                     case "Isolationniste": return 100;
-                    case "Diplomatique":   return  85;
-                    case "Renseignement":  return  75;
-                    default:               return 100;
+                    case "Diplomatique": return  85;
+                    case "Renseignement": return  75;
+                    default: return 100;
                 }
             case "Militaire":
                 switch (defenderType) {
-                    case "Diplomatique":   return 150;
-                    case "Renseignement":  return 125;
-                    case "Militaire":      return 100;
+                    case "Diplomatique": return 150;
+                    case "Renseignement": return 125;
+                    case "Militaire": return 100;
                     case "Isolationniste": return  85;
-                    case "Économique":     return  75;
-                    default:               return 100;
+                    case "Économique": return  75;
+                    default: return 100;
                 }
             case "Diplomatique":
                 switch (defenderType) {
-                    case "Renseignement":  return 150;
+                    case "Renseignement": return 150;
                     case "Isolationniste": return 125;
-                    case "Diplomatique":   return 100;
-                    case "Économique":     return  85;
-                    case "Militaire":      return  75;
-                    default:               return 100;
+                    case "Diplomatique": return 100;
+                    case "Économique": return  85;
+                    case "Militaire": return  75;
+                    default: return 100;
                 }
             default:
                 return 100;
