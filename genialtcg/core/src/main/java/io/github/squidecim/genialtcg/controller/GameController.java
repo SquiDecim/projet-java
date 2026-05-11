@@ -811,7 +811,12 @@ public class GameController
         if (!model.myTurn && iMustReplace) startTurnWithDiedCard = true;
 
         if (iMustReplace && model.bench.isEmpty()) {
-            client.sendLose();
+            CardDecal firstBench = view.getFirstMyBenchCard();
+            boolean benchTrulyEmpty = firstBench == null || firstBench.getData().pv <= 0;
+            if (benchTrulyEmpty) {
+                client.sendLose();
+                return;
+            }
         }
 
         CardDecal deadCard;
@@ -1109,7 +1114,17 @@ public class GameController
         boolean opponentCardDead =
             opponentTable == null || opponentTable.getData().pv <= 0;
 
-        if (myCardDead && !model.bench.isEmpty()) {
+        if (myCardDead) {
+            boolean hasBenchAlive = false;
+            CardDecal firstBench = view.getFirstMyBenchCard();
+            if (firstBench != null && firstBench.getData().pv > 0) {
+                hasBenchAlive = true;
+            }
+
+            if (!hasBenchAlive) {
+                client.sendLose();
+                return;
+            }
             view.hideActionButton();
             view.showBanner("Choisissez une carte du banc à remettre en jeu");
             view.setSelectableBorder(true);
